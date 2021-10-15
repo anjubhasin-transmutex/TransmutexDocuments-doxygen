@@ -1,0 +1,71 @@
+\hypertarget{xngetx_8_f_source}{}\doxysection{xngetx.\+F}
+\label{xngetx_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xngetx.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xngetx.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  12.15.41  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   18/01/94}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xngetx(IZAMAT,MFMT,E,SEC,HINFO,NINFO)}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00006}00006 \textcolor{comment}{*     Returns interpolated cross-\/section values and header             *}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00007}00007 \textcolor{comment}{*     information                                                      *}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00009}00009 \textcolor{comment}{*     IZAMAT    (input) isomer code                                    *}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00010}00010 \textcolor{comment}{*     MFMT      (input) 1000*(ENDF-\/6 file number)+(ENDF-\/6 reaction     *}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00011}00011 \textcolor{comment}{*               code). For information on reaction codes see arrays    *}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00012}00012 \textcolor{comment}{*               CHNAME and NBFMT below                                 *}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00013}00013 \textcolor{comment}{*     E         (input) incoming neutron energy in eV                  *}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00014}00014 \textcolor{comment}{*     SEC       (output) cross section in barns                        *}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00015}00015 \textcolor{comment}{*     HINFO     (output) array containing reaction header information  *}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00016}00016 \textcolor{comment}{*     NINFO     (output) number of words returned in HINFO             *}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00017}00017 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00018}00018 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00019}00019 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00020}00020 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00021}00021 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00022}00022 \textcolor{preprocessor}{}      dimension hinfo(*)}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00023}00023 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00024}00024 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00025}00025 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Prepare for failure}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00027}00027       sec = 0.}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00028}00028       ninfo = -\/1}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Check if material there}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00030}00030       \textcolor{keywordflow}{DO} 10 jmate=1,nmate}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00031}00031          \textcolor{keywordflow}{IF}(izamat.EQ.imtabl(1,jmate)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00032}00032             imate = jmate}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00033}00033             \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00034}00034 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00035}00035    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/> Material not there, print warning and exit}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00037}00037       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' *** XNGETX: Material '}\textcolor{stringliteral}{',I6,'}\textcolor{stringliteral}{' not in memory'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00038}00038      +        izamat}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00039}00039       \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00040}00040    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Check if reaction there, must be cross section, so ENDF-\/6}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00042}00042 \textcolor{comment}{*      file code is 3}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00043}00043       \textcolor{keywordflow}{DO} 30 jreac=1,mxreac}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00044}00044          \textcolor{keywordflow}{IF}(mfmt.EQ.3000+nbmft(jreac)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00045}00045             ireac=jreac}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00046}00046             \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00047}00047 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00048}00048    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Reaction not there, print warning and leave}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00050}00050       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' ** XNGETD: Reaction '}\textcolor{stringliteral}{',I5,'}\textcolor{stringliteral}{' not in memory'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00051}00051      +         mfmt}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00052}00052       \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00053}00053    40 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00054}00054 \textcolor{comment}{* -\/-\/-\/> Get start and length of section}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00055}00055       istart = imtabl(1+nreinf*(ireac-\/1)+1,imate)}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00056}00056       ilengt = imtabl(1+nreinf*(ireac-\/1)+2,imate)}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/> Binary search and interpolate}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00058}00058       \textcolor{keyword}{CALL }xnbint(istart,ilengt,e,sec)}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00059}00059 \textcolor{comment}{* -\/-\/-\/> Load header information}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00060}00060       \textcolor{keywordflow}{DO} 50 jinf=1,nadinf}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00061}00061          hinfo(jinf)=hmtabl(1+nreinf*(ireac-\/1)+2+jinf,imate)}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00062}00062    50 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00063}00063       ninfo = nadinf}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00064}00064 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xngetx_8_f_source_l00065}00065   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

@@ -1,0 +1,60 @@
+\hypertarget{spanish_8_f_source}{}\doxysection{spanish.\+F}
+\label{spanish_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/spanish/spanish.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/spanish/spanish.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  0.05/00 15/06/94  15.37.57  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   29/03/94}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00003}00003       \textcolor{keyword}{PROGRAM} spanish}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00004}00004 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00005}00005 \textcolor{comment}{* -\/-\/-\/ Geometry for the spanish reactor}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00006}00006 \textcolor{preprocessor}{\#include "{}xcsgeo.inc"{}}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00007}00007 \textcolor{preprocessor}{}      \textcolor{keyword}{COMMON} / pawc / h(1000000)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00008}00008       dimension vr(5),v(3),hinp(3),outp(3)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00009}00009 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00010}00010 \textcolor{comment}{* -\/-\/-\/ Load the nominal values for the spanish reactor}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00011}00011       \textcolor{keyword}{CALL }xnspin}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00012}00012       \textcolor{keyword}{CALL }hlimit(1000000)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00013}00013       nbin=2*(2*nbside-\/1)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00014}00014       \textcolor{keyword}{CALL }hbook2(123,\textcolor{stringliteral}{'Bar positions'},nbin,-\/0.7,0.7,nbin,-\/0.7,0.7,5.)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00015}00015       \textcolor{keyword}{CALL }hbook1(124,\textcolor{stringliteral}{'Dist hit bar centre'},80,}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00016}00016      + bardia*0.49999,bardia*0.50001,0.)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00017}00017       \textcolor{keywordflow}{DO} 10 jbar=1,nbars}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00018}00018          \textcolor{keyword}{CALL }hfill(123,xcbar(jbar),ycbar(jbar),1.)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00019}00019    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00020}00020 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00021}00021       \textcolor{keywordflow}{DO} 30 j=1,30000}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00022}00022          \textcolor{keywordflow}{IF}(mod(j,1000).EQ.1) \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Now at '}\textcolor{stringliteral}{',I10)'}) j}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00023}00023 \textcolor{comment}{C        CALL XNRAND(VR,2)}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00024}00024 \textcolor{comment}{C        VR(1) = (0.5-\/VR(1))*WATDIA}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00025}00025 \textcolor{comment}{C        VR(2) = (0.5-\/VR(2))*WATDIA}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00026}00026 \textcolor{comment}{C        VR(3) = 0}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00027}00027 \textcolor{comment}{C        CALL XNSPAM(VR,IMATE)}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00028}00028 \textcolor{comment}{C        IF(IMATE.GE.3) THEN}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00029}00029 \textcolor{comment}{C           WRITE(1,'(2(1X,E11.4))') VR(1),VR(2)}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00030}00030 \textcolor{comment}{C        ENDIF}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00031}00031    20    \textcolor{keyword}{CALL }xnrand(vr,5)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00032}00032          v(1) = 0.5-\/vr(1)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00033}00033          v(2) = 0.5-\/vr(2)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00034}00034          v(3) = 0.5*(0.5-\/vr(3))*sqrt(v(1)**2+v(2)**2)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00035}00035          hinp(1) = (0.5-\/vr(4))*watdia}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00036}00036          hinp(2) = (0.5-\/vr(5))*watdia}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00037}00037 \textcolor{comment}{*        HINP(1) = -\/30}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00038}00038 \textcolor{comment}{*        HINP(2) = 20}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00039}00039          hinp(3) = -\/.30}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00040}00040          \textcolor{keywordflow}{IF}(hinp(1)**2+hinp(2)**2.GT.watdia**2*0.25) \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00041}00041          \textcolor{keyword}{CALL }xnspag(hinp,v,outp,snext,safe,ihit)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00042}00042          \textcolor{keywordflow}{IF}(imahit.EQ.3) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00043}00043             \textcolor{keywordflow}{IF}(xhtbar.NE.-\/1..OR.yhtbar.NE.-\/1.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00044}00044                dist = sqrt((xhtbar-\/outp(1))**2+(yhtbar-\/outp(2))**2)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00045}00045                \textcolor{keyword}{CALL }hfill(124,dist,0.,1.)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00046}00046 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00047}00047 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00048}00048          \textcolor{keywordflow}{IF}(ihit.EQ.0) stop \textcolor{stringliteral}{'IHIT = 0'}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00049}00049          \textcolor{keyword}{WRITE}(1,\textcolor{stringliteral}{'(2(1X,E11.4))'}) outp(1),outp(2)}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00050}00050    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00051}00051 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00052}00052       \textcolor{keyword}{CALL }histdo}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00053}00053 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{spanish_8_f_source_l00054}00054       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

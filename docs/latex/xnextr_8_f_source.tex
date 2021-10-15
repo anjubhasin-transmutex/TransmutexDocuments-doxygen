@@ -1,0 +1,83 @@
+\hypertarget{xnextr_8_f_source}{}\doxysection{xnextr.\+F}
+\label{xnextr_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnextr/src/xnextr.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnextr/src/xnextr.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  11.39.23  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   14/02/95}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00003}00003       \textcolor{keyword}{PROGRAM} xnextr}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00006}00006 \textcolor{comment}{*     This program extracts all the data point for a reaction from     *}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00007}00007 \textcolor{comment}{*     a Cross Section database file and writes them onto a disk file   *}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00009}00009 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00010}00010 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00011}00011 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcutil.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00012}00012 \textcolor{preprocessor}{}      parameter(maxsto=1000000)}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00013}00013       \textcolor{keyword}{COMMON} / xcstor / nbsize,ihgwmk,xstore(maxsto)}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00014}00014 \textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00015}00015 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbas.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00016}00016 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00017}00017 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00018}00018 \textcolor{preprocessor}{}      \textcolor{keywordtype}{CHARACTER*2} CHELNA(100),CHNAML}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00019}00019       dimension hinfo(nadinf)}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00020}00020       \textcolor{keyword}{DATA} chelna / \textcolor{stringliteral}{'H '},\textcolor{stringliteral}{'He'},\textcolor{stringliteral}{'Li'},\textcolor{stringliteral}{'Be'},\textcolor{stringliteral}{'B '},\textcolor{stringliteral}{'C '},\textcolor{stringliteral}{'N '},\textcolor{stringliteral}{'O '},\textcolor{stringliteral}{'F '},\textcolor{stringliteral}{'Ne'},}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00021}00021      +    \textcolor{stringliteral}{'Na'},\textcolor{stringliteral}{'Mg'},\textcolor{stringliteral}{'Al'},\textcolor{stringliteral}{'Si'},\textcolor{stringliteral}{'P '},\textcolor{stringliteral}{'S '},\textcolor{stringliteral}{'Cl'},\textcolor{stringliteral}{'Ar'},\textcolor{stringliteral}{'K '},\textcolor{stringliteral}{'Ca'},\textcolor{stringliteral}{'Sc'},\textcolor{stringliteral}{'Ti'},}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00022}00022      +    \textcolor{stringliteral}{'V '},\textcolor{stringliteral}{'Cr'},\textcolor{stringliteral}{'Mn'},\textcolor{stringliteral}{'Fe'},\textcolor{stringliteral}{'Co'},\textcolor{stringliteral}{'Ni'},\textcolor{stringliteral}{'Cu'},\textcolor{stringliteral}{'Zn'},\textcolor{stringliteral}{'Ga'},\textcolor{stringliteral}{'Ge'},\textcolor{stringliteral}{'As'},\textcolor{stringliteral}{'Se'},}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00023}00023      +    \textcolor{stringliteral}{'Br'},\textcolor{stringliteral}{'Kr'},\textcolor{stringliteral}{'Rb'},\textcolor{stringliteral}{'Sr'},\textcolor{stringliteral}{'Y '},\textcolor{stringliteral}{'Zr'},\textcolor{stringliteral}{'Nb'},\textcolor{stringliteral}{'Mo'},\textcolor{stringliteral}{'Tc'},\textcolor{stringliteral}{'Ru'},\textcolor{stringliteral}{'Rh'},\textcolor{stringliteral}{'Pd'},}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00024}00024      +    \textcolor{stringliteral}{'Ag'},\textcolor{stringliteral}{'Cd'},\textcolor{stringliteral}{'In'},\textcolor{stringliteral}{'Sn'},\textcolor{stringliteral}{'Sb'},\textcolor{stringliteral}{'Te'},\textcolor{stringliteral}{'I '},\textcolor{stringliteral}{'Xe'},\textcolor{stringliteral}{'Cs'},\textcolor{stringliteral}{'Ba'},\textcolor{stringliteral}{'La'},\textcolor{stringliteral}{'Ce'},}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00025}00025      +    \textcolor{stringliteral}{'Pr'},\textcolor{stringliteral}{'Nd'},\textcolor{stringliteral}{'Pm'},\textcolor{stringliteral}{'Sm'},\textcolor{stringliteral}{'Eu'},\textcolor{stringliteral}{'Gd'},\textcolor{stringliteral}{'Tb'},\textcolor{stringliteral}{'Dy'},\textcolor{stringliteral}{'Ho'},\textcolor{stringliteral}{'Er'},\textcolor{stringliteral}{'Tm'},\textcolor{stringliteral}{'Yb'},}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00026}00026      +    \textcolor{stringliteral}{'Lu'},\textcolor{stringliteral}{'Hf'},\textcolor{stringliteral}{'Ta'},\textcolor{stringliteral}{'W '},\textcolor{stringliteral}{'Re'},\textcolor{stringliteral}{'Os'},\textcolor{stringliteral}{'Ir'},\textcolor{stringliteral}{'Pt'},\textcolor{stringliteral}{'Au'},\textcolor{stringliteral}{'Hg'},\textcolor{stringliteral}{'Tl'},\textcolor{stringliteral}{'Pb'},}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00027}00027      +    \textcolor{stringliteral}{'Bi'},\textcolor{stringliteral}{'Po'},\textcolor{stringliteral}{'At'},\textcolor{stringliteral}{'Rn'},\textcolor{stringliteral}{'Fr'},\textcolor{stringliteral}{'Ra'},\textcolor{stringliteral}{'Ac'},\textcolor{stringliteral}{'Th'},\textcolor{stringliteral}{'Pa'},\textcolor{stringliteral}{'U '},\textcolor{stringliteral}{'Np'},\textcolor{stringliteral}{'Pu'},}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00028}00028      +    \textcolor{stringliteral}{'Am'},\textcolor{stringliteral}{'Cm'},\textcolor{stringliteral}{'Bk'},\textcolor{stringliteral}{'Cf'},\textcolor{stringliteral}{'Es'},\textcolor{stringliteral}{'Fm'}/}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00029}00029 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00030}00030       \textcolor{keywordtype}{CHARACTER*231} CHFILE,CHTITL}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00031}00031       \textcolor{keywordtype}{LOGICAL} LALL}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00032}00032 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00033}00033 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00034}00034 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Initialise package}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00036}00036       \textcolor{keyword}{CALL }xninit(maxsto,\textcolor{stringliteral}{' '})}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Query database file}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00038}00038       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Enter database'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00039}00039       chfile=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00040}00040       \textcolor{keyword}{READ}(5,\textcolor{stringliteral}{'(A)'}) chfile}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00041}00041       \textcolor{keywordflow}{IF}(chfile.EQ.\textcolor{stringliteral}{' '}) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00042}00042 \textcolor{comment}{* -\/-\/-\/> If no filename, loop on all databases available}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00043}00043          lall=.true.}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00044}00044       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Open chosen database file}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00046}00046          lall=.false.}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00047}00047          \textcolor{keyword}{CALL }xnfile(chfile)}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00048}00048 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Query temperature}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00050}00050       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Enter temperature'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00051}00051       \textcolor{keyword}{READ}(5,*) itemp}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00052}00052 \textcolor{comment}{* -\/-\/-\/> Set default temperature}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00053}00053       \textcolor{keyword}{CALL }xntemp(itemp)}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00054}00054 \textcolor{comment}{* -\/-\/-\/> Query isomer}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00055}00055       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Enter material'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00056}00056       \textcolor{keyword}{READ}(5,*) izamat}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/> Load data into memory}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00058}00058       \textcolor{keywordflow}{IF}(lall) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00059}00059          \textcolor{keyword}{CALL }xntaba(izamat,0,imate)}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00060}00060       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00061}00061          \textcolor{keyword}{CALL }xntabl(izamat,0,imate)}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00062}00062 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00063}00063 \textcolor{comment}{* -\/-\/-\/> Anything loaded?}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00064}00064       \textcolor{keywordflow}{IF}(imate.LE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00065}00065          stop \textcolor{stringliteral}{'Material not in database'}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00066}00066 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00067}00067 \textcolor{comment}{* -\/-\/-\/> Get start and length of total x-\/sec}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00068}00068       istart = imtabl(1+nreinf*(6-\/1)+1,imate)}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00069}00069       ilengt = imtabl(1+nreinf*(6-\/1)+2,imate)}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00070}00070 \textcolor{comment}{* -\/-\/-\/> Write out onto unit 1}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00071}00071       \textcolor{keywordflow}{DO} 10 jen=1,ilengt}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00072}00072          ene = xstore(istart+2*jen-\/1)}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00073}00073          sec = xstore(istart+2*jen)}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00074}00074          \textcolor{keyword}{WRITE}(1,\textcolor{stringliteral}{'(1X,G14.7,A1,G14.7)'}) ene,char(9),sec}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00075}00075    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00076}00076 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnextr_8_f_source_l00077}00077       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

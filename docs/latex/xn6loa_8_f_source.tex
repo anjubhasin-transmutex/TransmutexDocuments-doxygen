@@ -1,0 +1,274 @@
+\hypertarget{xn6loa_8_f_source}{}\doxysection{xn6loa.\+F}
+\label{xn6loa_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6loa.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6loa.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/01 27/06/96  12.42.04  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xn6loa}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00006}00006 \textcolor{comment}{*     Load the information of a file 6 in memory.                      *}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00008}00008 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00009}00009 \textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00010}00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcmfh6.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00011}00011 \textcolor{preprocessor}{}\textcolor{comment}{* -\/-\/-\/> Law name}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00012}00012       \textcolor{keywordtype}{CHARACTER*45}  CHLNAM(0:7)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00013}00013 \textcolor{comment}{* -\/-\/-\/> Element name}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00014}00014       \textcolor{keywordtype}{CHARACTER*11} XNELNA, CHPROD}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00015}00015       \textcolor{keyword}{DATA} chlnam /}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00016}00016      +\textcolor{stringliteral}{'unknown distribution'},}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00017}00017      +\textcolor{stringliteral}{'continuum energy-\/angle distribution'},}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00018}00018      +\textcolor{stringliteral}{'two-\/body reaction angular distribution'},}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00019}00019      +\textcolor{stringliteral}{'isotropic two-\/body distribution'},}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00020}00020      +\textcolor{stringliteral}{'recoil distribution of a two-\/body reaction'},}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00021}00021      +\textcolor{stringliteral}{'charged particle elastic scattering'},}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00022}00022      +\textcolor{stringliteral}{'n-\/body phase-\/space distribution'},}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00023}00023      +\textcolor{stringliteral}{'laboratory angle-\/energy law'}/}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00024}00024 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00025}00025 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Zero number of sections}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00027}00027       nsect=0}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Zero HiGh Water MarK}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00029}00029       ihgwmk=0}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Loop on all the sections and get information on neutrons}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00031}00031       \textcolor{keywordflow}{DO} 160 jk=1,nk}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> Get yield table}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00033}00033          \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> This is the product IZA code}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00035}00035          izap=nint(c1*10)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/> If this is an isotope, add isomeric information}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00037}00037          \textcolor{keywordflow}{IF}(izap.GT.10000) izap=izap+l1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00038}00038          ioffs=0}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Print information on the current section}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00040}00040          chprod=xnelna(izap)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00041}00041          \textcolor{keyword}{WRITE}(6,10700) jk, chprod, c2, l1, chlnam(l2)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00042}00042          law=l2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> If product is not a neutron, skip subsection}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00044}00044          \textcolor{keywordflow}{IF}(izap.EQ.10) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Update section number and load yields table}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00046}00046             nsect=nsect+1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00047}00047             \textcolor{keywordflow}{IF}(nsect.GT.maxse6) stop \textcolor{stringliteral}{'Increase MAXSE6'}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00048}00048             isecpn(nsect)=ihgwmk}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Copy header information for the section}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00050}00050             i6stor(ihgwmk+1)=l2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00051}00051             i6stor(ihgwmk+2)=n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00052}00052             i6stor(ihgwmk+3)=n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00053}00053             ioffs=3}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00054}00054 \textcolor{comment}{* -\/-\/-\/> Load yield table interpolation laws}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00055}00055             \textcolor{keywordflow}{DO} 10 ir=1,n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00056}00056                i6stor(ihgwmk+ioffs+ ir)=nbt(ir)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00057}00057                i6stor(ihgwmk+ioffs+n1+ir)=int(ir)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00058}00058    10       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00059}00059             ioffs=ioffs+2*n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> Load yield tables}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00061}00061             \textcolor{keywordflow}{DO} 20 jr=1,2*n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00062}00062                r6stor(ihgwmk+ioffs+jr)=xnrval(jr)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00063}00063    20       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00064}00064             ioffs=ioffs+2*n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00065}00065 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00066}00066          \textcolor{keywordflow}{IF}(law.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00067}00067 \textcolor{comment}{* ========== Unknown law ==============================================}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00068}00068 \textcolor{comment}{* -\/-\/-\/> Do nothing, no distribution is present}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00069}00069             \textcolor{keyword}{WRITE}(6,10000) law}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00070}00070          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(law.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00071}00071 \textcolor{comment}{* ========== Continuum energy-\/angle distribution ======================}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00072}00072 \textcolor{comment}{* -\/-\/-\/> Read intepolation law for primary energies}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00073}00073             \textcolor{keyword}{CALL }xntab2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00074}00074             \textcolor{keyword}{WRITE}(6,10800) l1,l2,n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00075}00075             \textcolor{keywordflow}{IF}(izap.EQ.10) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00076}00076 \textcolor{comment}{* -\/-\/-\/> If product is a neutron, load data into memory}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00077}00077                i6stor(ihgwmk+ioffs+1)=l1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00078}00078                i6stor(ihgwmk+ioffs+2)=l2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00079}00079                i6stor(ihgwmk+ioffs+3)=n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00080}00080                i6stor(ihgwmk+ioffs+4)=n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00081}00081                ioffs=ioffs+4}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00082}00082 \textcolor{comment}{* -\/-\/-\/> Load interpolation law for primary energies}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00083}00083                \textcolor{keywordflow}{DO} 30 ir=1,n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00084}00084                   i6stor(ihgwmk+ioffs +ir)=nbt(ir)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00085}00085                   i6stor(ihgwmk+ioffs+n1+ir)=int(ir)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00086}00086                   \textcolor{keyword}{WRITE}(6,10100) ir, nbt(ir), int(ir)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00087}00087    30          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00088}00088                ioffs=ioffs+2*n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00089}00089                ipoene=ioffs}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00090}00090                ipoipo=ioffs+n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00091}00091                ioffs=ioffs+2*n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00092}00092 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00093}00093             ne=n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00094}00094 \textcolor{comment}{* -\/-\/-\/> Read one table for each primary energy}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00095}00095             \textcolor{keywordflow}{DO} 50 je=1,ne}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00096}00096                \textcolor{keyword}{CALL }xnlist}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00097}00097                \textcolor{keyword}{WRITE}(6,11000) c2, l1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00098}00098 \textcolor{comment}{* -\/-\/-\/> If product is a neutron, load data in memory}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00099}00099                \textcolor{keywordflow}{IF}(izap.EQ.10) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00100}00100 \textcolor{comment}{* -\/-\/-\/> Load primary energy and pointer}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00101}00101                   r6stor(ihgwmk+ipoene+je)=c2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00102}00102                   i6stor(ihgwmk+ipoipo+je)=ihgwmk+ioffs}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00103}00103 \textcolor{comment}{* -\/-\/-\/> Store NA, ND, NEP:}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00104}00104 \textcolor{comment}{* -\/-\/-\/> number of coefficient, of discrete lines and of secondary energies}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00105}00105                   i6stor(ihgwmk+ioffs+1)=l2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00106}00106                   i6stor(ihgwmk+ioffs+2)=l1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00107}00107                   i6stor(ihgwmk+ioffs+3)=n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00108}00108 \textcolor{comment}{* -\/-\/-\/> Check on total number of data}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00109}00109                   \textcolor{keywordflow}{IF}(n1.NE.(l2+2)*n2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00110}00110                      \textcolor{keyword}{WRITE}(6,10300) l2,n2,(l2+2)*n2,n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00111}00111 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00112}00112 \textcolor{comment}{* -\/-\/-\/> Store Energy angle distribution}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00113}00113                   \textcolor{keywordflow}{DO} 40 jl=1,n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00114}00114                      r6stor(ihgwmk+ioffs+3+jl)=xnrval(jl)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00115}00115    40             \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00116}00116                   ioffs=ioffs+3+n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00117}00117 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00118}00118    50       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00119}00119          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(law.EQ.2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00120}00120 \textcolor{comment}{* ========== Discrete two-\/body scattering law =========================}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00121}00121 \textcolor{comment}{* -\/-\/-\/> Only angular distributions given}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00122}00122 \textcolor{comment}{* -\/-\/-\/> Read intepolation law for primary energies}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00123}00123             \textcolor{keyword}{WRITE}(6,10000) law}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00124}00124             \textcolor{keyword}{CALL }xntab2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00125}00125             \textcolor{keyword}{WRITE}(6,10900) n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00126}00126 \textcolor{comment}{* -\/-\/-\/> Read one table for each primary energy}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00127}00127             \textcolor{keywordflow}{DO} 60 je=1,n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00128}00128                \textcolor{keyword}{CALL }xnlist}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00129}00129                \textcolor{keyword}{WRITE}(6,11100) c2,l1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00130}00130    60       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00131}00131          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(law.EQ.3) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00132}00132 \textcolor{comment}{* ========== Isotropic Discrete Emission ==============================}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00133}00133 \textcolor{comment}{* -\/-\/-\/> No more information is present}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00134}00134             \textcolor{keyword}{WRITE}(6,10000) law}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00135}00135          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(law.EQ.4) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00136}00136 \textcolor{comment}{* ========== Discrete two-\/body recoils ================================}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00137}00137 \textcolor{comment}{* -\/-\/-\/> No more information present}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00138}00138             \textcolor{keyword}{WRITE}(6,10000) law}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00139}00139          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(law.EQ.5) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00140}00140 \textcolor{comment}{* ========== Charged particle Elastic Scattering ======================}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00141}00141             \textcolor{keyword}{WRITE}(6,10000) law}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00142}00142 \textcolor{comment}{* -\/-\/-\/> Not interesting for us, just read to skip}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00143}00143             \textcolor{keyword}{CALL }xntab2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00144}00144 \textcolor{comment}{* -\/-\/-\/> Read one table for each primary energy}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00145}00145             \textcolor{keywordflow}{DO} 70 je=1,n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00146}00146                \textcolor{keyword}{CALL }xnlist}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00147}00147    70       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00148}00148          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(law.EQ.6) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00149}00149 \textcolor{comment}{* ========== N-\/body phase space distribution ==========================}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00150}00150 \textcolor{comment}{* -\/-\/-\/> Read the continuation record}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00151}00151             \textcolor{keyword}{READ}(12,11400) c1, c2, l1, l2, n1, n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00152}00152             \textcolor{keyword}{WRITE}(6,10400) c1, n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00153}00153             \textcolor{keywordflow}{IF}(izap.EQ.10) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00154}00154 \textcolor{comment}{* -\/-\/-\/> Load current value of QI}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00155}00155                \textcolor{keywordflow}{DO} 80 jqiv=1,nqiv}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00156}00156                   \textcolor{keywordflow}{IF}(mtqiv(jqiv).EQ.mth) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00157}00157                      qi=qiv(jqiv)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00158}00158                      \textcolor{keywordflow}{GOTO} 90}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00159}00159 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00160}00160    80          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00161}00161                stop \textcolor{stringliteral}{'Could not find QI'}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00162}00162    90          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00163}00163 \textcolor{comment}{* -\/-\/-\/> Store total mass of system and number of particles}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00164}00164                r6stor(ihgwmk+ioffs+1)=c1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00165}00165                i6stor(ihgwmk+ioffs+2)=n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00166}00166                ioffs=ioffs+2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00167}00167 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00168}00168          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(law.EQ.7) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00169}00169 \textcolor{comment}{* ========== Laboratory Angle-\/Energy law ==============================}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00170}00170 \textcolor{comment}{* -\/-\/-\/> Read Incoming Energy interpolation}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00171}00171             \textcolor{keyword}{CALL }xntab2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00172}00172             \textcolor{keywordflow}{IF}(izap.EQ.10) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00173}00173 \textcolor{comment}{* -\/-\/-\/> If product is a neutron, load data into memory}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00174}00174 \textcolor{comment}{* -\/-\/-\/> Number of primary energy ranges}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00175}00175                i6stor(ihgwmk+ioffs+1)=n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00176}00176 \textcolor{comment}{* -\/-\/-\/> Number of primary energies}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00177}00177                i6stor(ihgwmk+ioffs+2)=n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00178}00178                ioffs=ioffs+2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00179}00179 \textcolor{comment}{* -\/-\/-\/> Load interpolation law for primary energies}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00180}00180                \textcolor{keywordflow}{DO} 100 ir=1,n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00181}00181                   i6stor(ihgwmk+ioffs +ir)=nbt(ir)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00182}00182                   i6stor(ihgwmk+ioffs+n1+ir)=int(ir)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00183}00183                   \textcolor{keyword}{WRITE}(6,10100) ir, nbt(ir), int(ir)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00184}00184   100          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00185}00185                ioffs=ioffs+2*n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00186}00186                ipein=ioffs}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00187}00187                ioffs=ioffs+2*n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00188}00188 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00189}00189             ne=n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00190}00190 \textcolor{comment}{* -\/-\/-\/> For all primary energies}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00191}00191             \textcolor{keywordflow}{DO} 150 je=1,ne}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00192}00192 \textcolor{comment}{* -\/-\/-\/> Read angles interpolation}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00193}00193                \textcolor{keyword}{CALL }xntab2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00194}00194                \textcolor{keyword}{WRITE}(6,10500) c2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00195}00195 \textcolor{comment}{* -\/-\/-\/> If the product is a neutron store values in memory}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00196}00196                \textcolor{keywordflow}{IF}(izap.EQ.10) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00197}00197 \textcolor{comment}{* -\/-\/-\/> Store value of energy and pointer to section}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00198}00198                   r6stor(ihgwmk+ipein   +je)=c2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00199}00199                   i6stor(ihgwmk+ipein+ne+je)=ihgwmk+ioffs}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00200}00200 \textcolor{comment}{* -\/-\/-\/> Store information for this incoming energy}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00201}00201 \textcolor{comment}{* -\/-\/-\/> Number of cosinus ranges}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00202}00202                   i6stor(ihgwmk+ioffs+1)=n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00203}00203 \textcolor{comment}{* -\/-\/-\/> Number of cosines}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00204}00204                   i6stor(ihgwmk+ioffs+2)=n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00205}00205                   ioffs=ioffs+2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00206}00206 \textcolor{comment}{* -\/-\/-\/> Interpolation ranges for cosines}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00207}00207                   \textcolor{keywordflow}{DO} 110 jrm=1,n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00208}00208                      i6stor(ihgwmk+ioffs   +jrm)=nbt(jrm)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00209}00209                      i6stor(ihgwmk+ioffs+n1+jrm)=int(jrm)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00210}00210                      \textcolor{keyword}{WRITE}(6,10100) jrm, nbt(jrm), int(jrm)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00211}00211   110             \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00212}00212                   ioffs=ioffs+2*n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00213}00213 \textcolor{comment}{* -\/-\/-\/> Set up pointers for Secondary energy distributions}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00214}00214                   ipmuin=ioffs}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00215}00215                   ipipmu=ioffs+n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00216}00216                   ioffs=ioffs+2*n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00217}00217 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00218}00218                nmu=n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00219}00219                \textcolor{keywordflow}{DO} 140 jmu=1,nmu}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00220}00220 \textcolor{comment}{* -\/-\/-\/> Read interpolation table}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00221}00221                   \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00222}00222                   \textcolor{keyword}{WRITE}(6,10600) c2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00223}00223 \textcolor{comment}{* -\/-\/-\/> If this is a neutron, load the information}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00224}00224                   \textcolor{keywordflow}{IF}(izap.EQ.10) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00225}00225 \textcolor{comment}{* -\/-\/-\/> Store value of cosinus}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00226}00226                      r6stor(ihgwmk+ipmuin+jmu)=c2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00227}00227                      i6stor(ihgwmk+ipipmu+jmu)=ihgwmk+ioffs}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00228}00228                      i6stor(ihgwmk+ioffs+1)=n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00229}00229                      i6stor(ihgwmk+ioffs+2)=n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00230}00230                      ioffs=ioffs+2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00231}00231 \textcolor{comment}{* -\/-\/-\/> Store interpolation laws for secondary energies}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00232}00232                      \textcolor{keywordflow}{DO} 120 jrep=1,n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00233}00233                         i6stor(ihgwmk+ioffs   +jrep)=nbt(jrep)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00234}00234                         i6stor(ihgwmk+ioffs+n1+jrep)=int(jrep)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00235}00235   120                \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00236}00236                      ioffs=ioffs+2*n1}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00237}00237 \textcolor{comment}{* -\/-\/-\/> Store table secondary energy, probability}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00238}00238                      \textcolor{keywordflow}{DO} 130 jep=1,2*n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00239}00239                         r6stor(ihgwmk+ioffs+jep)=xnrval(jep)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00240}00240   130                \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00241}00241                      ioffs=ioffs+2*n2}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00242}00242 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00243}00243   140          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00244}00244   150       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00245}00245 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00246}00246          \textcolor{keyword}{WRITE}(6,10200) ioffs}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00247}00247 \textcolor{comment}{* -\/-\/-\/ Update High Water Mark}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00248}00248          ihgwmk=ihgwmk+ioffs}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00249}00249          \textcolor{keywordflow}{IF}(ihgwmk.GT.mxsto6) stop \textcolor{stringliteral}{'Increase MXSTO6'}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00250}00250   160 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00251}00251 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00252}00252 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** Unimplemented law '},i2)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00253}00253 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' TAB2 interpolation range '},i2,\textcolor{stringliteral}{' limit '},i3,\textcolor{stringliteral}{' law '},i2)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00254}00254 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Words for this section '},i5)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00255}00255 10300 \textcolor{keyword}{FORMAT}(20x,\textcolor{stringliteral}{'If NA='},i4,\textcolor{stringliteral}{' and NEP='},i4,\textcolor{stringliteral}{' NW should be '},i4,}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00256}00256      +            \textcolor{stringliteral}{' found '},i4)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00257}00257 10400 \textcolor{keyword}{FORMAT}(20x,\textcolor{stringliteral}{' Mass/Mn '},g10.3,i3,\textcolor{stringliteral}{' particles'})}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00258}00258 10500 \textcolor{keyword}{FORMAT}(20x,\textcolor{stringliteral}{'Energy '},g10.3)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00259}00259 10600 \textcolor{keyword}{FORMAT}(20x,\textcolor{stringliteral}{'Cos(TH) '},g10.3)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00260}00260 10700 \textcolor{keyword}{FORMAT}(1x,i2,\textcolor{stringliteral}{' '},a,\textcolor{stringliteral}{' M/Mn '},f6.2,\textcolor{stringliteral}{' LIP '},i2,1x,a)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00261}00261 10800 \textcolor{keyword}{FORMAT}(10x,\textcolor{stringliteral}{'LANG/LEP '},i2,\textcolor{stringliteral}{'/'},i2,\textcolor{stringliteral}{'-\/'},i3,\textcolor{stringliteral}{' energy ranges'})}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00262}00262 10900 \textcolor{keyword}{FORMAT}(10x,i3,\textcolor{stringliteral}{'energy ranges'})}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00263}00263 11000 \textcolor{keyword}{FORMAT}(20x,\textcolor{stringliteral}{'Incoming energy '},g10.3,\textcolor{stringliteral}{' discrete lines '},i3)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00264}00264 11100 \textcolor{keyword}{FORMAT}(20x,\textcolor{stringliteral}{'Incoming energy '},g10.3,\textcolor{stringliteral}{' LANG '},i2)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00265}00265 11200 \textcolor{keyword}{FORMAT}(a,\textcolor{stringliteral}{' MF=6 '},i3,\textcolor{stringliteral}{' sections '},a,\textcolor{stringliteral}{' system '})}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00266}00266 11300 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Now processing '},a,\textcolor{stringliteral}{' mate '},i4)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00267}00267 11400 \textcolor{keyword}{FORMAT}(2e11.4,4i11,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{xn6loa_8_f_source_l00268}00268       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

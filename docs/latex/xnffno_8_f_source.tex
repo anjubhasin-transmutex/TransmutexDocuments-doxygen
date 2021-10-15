@@ -1,0 +1,70 @@
+\hypertarget{xnffno_8_f_source}{}\doxysection{xnffno.\+F}
+\label{xnffno_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnevol/xnffno.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnevol/xnffno.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  0.05/00 09/05/94  17.24.30  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnffno(J,JA,JZ,ENE,FLX,NFX)}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00004}00004 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00005}00005 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcfyid.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00006}00006 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00007}00007       parameter(maxpoi=1000)}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00008}00008       dimension ene(nfx),flx(nfx),isopoi(maxpoi),hinf(nadinf)}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00009}00009 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00010}00010 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00011}00011       totwei = 0.}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00012}00012       nfrags = 0}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00013}00013       \textcolor{keywordflow}{DO} 40 jfis=1,numfis}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00014}00014          jiso=j*10}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00015}00015          \textcolor{keywordflow}{IF}(izapar(jfis).EQ.jiso) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00016}00016 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00017}00017 \textcolor{comment}{* -\/-\/-\/ Data for this isotope}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00018}00018             \textcolor{keywordflow}{IF}(nfrags.EQ.maxpoi) stop \textcolor{stringliteral}{'Increase MAXPOI'}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00019}00019             nfrags=nfrags+1}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00020}00020             isopoi(nfrags)=jfis}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00021}00021             brrfra(jfis)=0.}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00022}00022             \textcolor{keywordflow}{DO} 30 jen=1,maxenf}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00023}00023                enef = enefra(jfis,jen)}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00024}00024                \textcolor{keywordflow}{IF}(enef.GT.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00025}00025                   \textcolor{keyword}{CALL }xngetx(j,3018,enef,sec, hinf,ninfo)}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00026}00026                   \textcolor{keywordflow}{IF}(enef.LE.ene(1)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00027}00027                      hflux=flx(1)*(ene(2)-\/ene(1))}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00028}00028                   \textcolor{keywordflow}{ELSEIF}(enef.GE.ene(nfx)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00029}00029                      hflux=flx(nfx)*(ene(nfx)-\/ene(nfx-\/1))}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00030}00030                   \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00031}00031                      \textcolor{keywordflow}{DO} 10 jflx=2,nfx}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00032}00032                         \textcolor{keywordflow}{IF}(enef.LT.ene(jflx)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00033}00033                            xrat = (ene(jflx)-\/enef)/(ene(jflx)-\/}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00034}00034      +                     ene(jflx-\/1))}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00035}00035                            hflux=(xrat*flx(jflx-\/1)+(1-\/xrat)*flx(jfl x))}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00036}00036      +                           *(ene(jflx)-\/ene(jflx-\/1))}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00037}00037                            \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00038}00038 \textcolor{keywordflow}{                        ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00039}00039    10                \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00040}00040 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00041}00041    20             wei=hflux*sec}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00042}00042                   brrfra(jfis)=brrfra(jfis)+ xbrfra(jfis,jen)*wei}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00043}00043 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00044}00044    30       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00045}00045             totwei=totwei+brrfra(jfis)}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00046}00046 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00047}00047    40 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00048}00048 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/ This is not entirely precise. We suppose that the total}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00050}00050 \textcolor{comment}{* -\/-\/-\/ is 2, but we have performed a cut on the probabilities <1E-\/4}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/ in reading the file. The alternative would be rather painful.}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00052}00052       \textcolor{keywordflow}{IF}(totwei.GT.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00053}00053          brnorm=2/totwei}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00054}00054          \textcolor{keywordflow}{DO} 50 jfra=1,nfrags}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00055}00055             brrfra(isopoi(jfra))=brrfra(isopoi(jfra)) *brnorm}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00056}00056             \textcolor{keywordflow}{IF}(brrfra(isopoi(jfra)).LT.1e-\/4) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00057}00057 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00058}00058 \textcolor{comment}{* -\/-\/-\/ Kill branching ratios which have become too small}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00059}00059                izapar(isopoi(jfra))=0}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00060}00060 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00061}00061    50    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00062}00062 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00063}00063 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffno_8_f_source_l00064}00064       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

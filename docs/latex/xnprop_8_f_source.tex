@@ -1,0 +1,68 @@
+\hypertarget{xnprop_8_f_source}{}\doxysection{xnprop.\+F}
+\label{xnprop_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xngeom/xnprop.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xngeom/xnprop.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  09.38.14  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnprop(HINP,V,STEP,HOUP)}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00006}00006 \textcolor{comment}{*     Propagates a particle by a given distance                        *}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00008}00008 \textcolor{comment}{*     HINP      (input) array of 3 with original particle position     *}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00009}00009 \textcolor{comment}{*     V         (input) array of 3 with particl speed                  *}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00010}00010 \textcolor{comment}{*     STEP      (input) lenght to travel                               *}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00011}00011 \textcolor{comment}{*     OUTP      (output) array of 3 with final particle position       *}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00012}00012 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00013}00013 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00014}00014       dimension hinp(3),houp(3),v(3),vn(3)}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00015}00015       \textcolor{keywordtype}{DOUBLE PRECISION} V1,V2,V3,HNORM}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00016}00016       parameter(hmprec=5e-\/6)}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00017}00017 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00018}00018 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00019}00019 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/> Normalise particle speed}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00021}00021       v1 = v(1)}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00022}00022       v2 = v(2)}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00023}00023       v3 = v(3)}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00024}00024       hnorm=sqrt(1/(v1**2+v2**2+v3**2))}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00025}00025       vn(1) = v1*hnorm}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00026}00026       vn(2) = v2*hnorm}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00027}00027       vn(3) = v3*hnorm}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00028}00028       \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00029}00029 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00030}00030       entry xnpron(hinp,v,step,houp)}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00031}00031 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00032}00032 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00033}00033 \textcolor{comment}{*     Same as main entry, but here particle speed is normalised to 1   *}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00034}00034 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00035}00035 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00036}00036 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00038}00038 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00039}00039       vn(1) = v(1)}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00040}00040       vn(2) = v(2)}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00041}00041       vn(3) = v(3)}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00042}00042    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> Real work begins}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00044}00044       \textcolor{keywordflow}{DO} 20 i=1,3}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Original position}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00046}00046          tmp = hinp(i)}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> If direction cosine = 0, no propagation}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00048}00048          \textcolor{keywordflow}{IF}(vn(i).NE.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Find propagated coordinate}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00050}00050             tmp = tmp+vn(i)*step}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00051}00051             \textcolor{keywordflow}{IF}(tmp.EQ.hinp(i)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00052}00052 \textcolor{comment}{* -\/-\/-\/> If no difference with original, there is a precision}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00053}00053 \textcolor{comment}{*      problem: move coordinate by the minimum allowed by}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00054}00054 \textcolor{comment}{*      machine precision in the right direction}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00055}00055                tmp=tmp+sign(tmp*hmprec,vn(i))}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00056}00056 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00057}00057 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00058}00058 \textcolor{comment}{* -\/-\/-\/> Store end point}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00059}00059          houp(i)=tmp}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00060}00060    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00061}00061 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnprop_8_f_source_l00062}00062       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

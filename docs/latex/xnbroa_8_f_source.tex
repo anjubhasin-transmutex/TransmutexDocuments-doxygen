@@ -1,0 +1,231 @@
+\hypertarget{xnbroa_8_f_source}{}\doxysection{xnbroa.\+F}
+\label{xnbroa_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnbroa.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnbroa.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/05 18/07/96  18.44.08  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   16/07/96}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnbroa(XIN,NIN,XOU,NOU,TEMP1,TEMP2,AWR,HPERC)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00006}00006 \textcolor{comment}{*     "{}Broadens"{} an input cross section and returns in output          *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00007}00007 \textcolor{comment}{*     the result after thinning.                                       *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00009}00009 \textcolor{comment}{*     XIN       (input) array containing the tabulated cross section   *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00010}00010 \textcolor{comment}{*               in pairs (energy, cross section)                       *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00011}00011 \textcolor{comment}{*     NIN       (input) number of pairs in input                       *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00012}00012 \textcolor{comment}{*     XOU       (outout) array containing  the broadened and thinned   *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00013}00013 \textcolor{comment}{*               cross section                                          *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00014}00014 \textcolor{comment}{*     NOU       (output) number of pairs in output                     *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00015}00015 \textcolor{comment}{*     TEMP1     (input) temperature of the input cross section in      *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00016}00016 \textcolor{comment}{*               degree Kelvin                                          *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00017}00017 \textcolor{comment}{*     TEMP2     (input) temperature of the output cross section in     *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00018}00018 \textcolor{comment}{*               degree Kelvin                                          *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00019}00019 \textcolor{comment}{*     AWR       (input) mass of the isotope in neutron units           *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00020}00020 \textcolor{comment}{*     HPERC     (input) relative precision desired for the cross       *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00021}00021 \textcolor{comment}{*               section both in broadening and in thinning             *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00022}00022 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00023}00023 \textcolor{comment}{*     Please note the following:                                       *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00024}00024 \textcolor{comment}{*     There is very little chance to understand this routine from      *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00025}00025 \textcolor{comment}{*     the code or the comments. The interested user is suggested       *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00026}00026 \textcolor{comment}{*     to read the following publications:                              *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00027}00027 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00028}00028 \textcolor{comment}{*     D.E.Cullen and C.R.Weisbin, Exact Doppler Broadening of          *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00029}00029 \textcolor{comment}{*     Tabulated Cross Sections, Nuclear Science and Engineering        *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00030}00030 \textcolor{comment}{*     60, 199-\/229, (1976)                                              *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00031}00031 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00032}00032 \textcolor{comment}{*     D.E.Cullen, Program SIGMA1 (Version 79-\/1): Doppler broaden       *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00033}00033 \textcolor{comment}{*     evaluated cross sections in the evaluated nuclear data file/     *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00034}00034 \textcolor{comment}{*     version B (ENDF/B) format, UCRL 50400, Volume 17                 *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00035}00035 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00036}00036 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00037}00037       \textcolor{keywordtype}{IMPLICIT DOUBLE PRECISION} (a-\/h,o-\/z)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Arguments}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00039}00039 \textcolor{keywordtype}{      REAL} XIN(2*NIN), XOU(*), TEMP1, TEMP2, AWR, HPERC}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> Numerical Parameters}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00041}00041       parameter(one=1,two=2,thh=3/two,tw3=two/3,zero=0,half=one/two)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00042}00042       parameter(pi=3.14159265358979312,ovsqpi=0.564189583547756279)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00043}00043       parameter(zlimi=4)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00044}00044       parameter(boltz=8.617385e-\/5)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Internal functions:}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00046}00046 \textcolor{comment}{*                         maximum error for broadening}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00047}00047       xnepsm(s)=abs(one-\/tw3*sqrt(one/3)*(one+s*(one+s))**thh}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00048}00048      +          /(s*(one+s)))}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00049}00049 \textcolor{comment}{*                         Doppler integral with constant cross section}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00050}00050       ftail(x,y)=ovsqpi*((1+2*y**2)*sqrt(pi)*half*(derf(x-\/y)-\/derf(x+y))-\/}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00051}00051      +                 (x+y)*exp(-\/(x-\/y)**2)+(x-\/y)*exp(-\/(x+y)**2))}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00052}00052 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00054}00054 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/> If too few points copy from input to output}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00056}00056       \textcolor{keywordflow}{IF}(nin.LE.2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00057}00057          \textcolor{keyword}{WRITE}(6,10000) nin}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00058}00058          \textcolor{keywordflow}{DO} 10  jj=1,2*nin}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00059}00059             xou(jj)=xin(jj)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00060}00060    10    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00061}00061          nou=nin}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00062}00062          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00063}00063 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/> Can only broaden and not shrink, i.e. temperature must increase}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00065}00065       \textcolor{keywordflow}{IF}(temp2.LE.temp1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00066}00066          \textcolor{keyword}{WRITE}(6,10100) temp1, temp2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00067}00067 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00068}00068 \textcolor{comment}{* -\/-\/-\/> Find maximum ratio between two energies to obtain a precision}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00069}00069 \textcolor{comment}{*      of HPERC in broadening. The zero of a function is found via}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00070}00070 \textcolor{comment}{*      bisection}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00071}00071       ratlow=1}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00072}00072       rathig=2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00073}00073    20 \textcolor{keywordflow}{IF}(rathig-\/ratlow.GT.1d-\/7) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00074}00074          rathlf=half*(ratlow+rathig)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00075}00075          htest=xnepsm(rathlf)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00076}00076          \textcolor{keywordflow}{IF}(htest.LT.hperc) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00077}00077             ratlow=rathlf}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00078}00078          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00079}00079             rathig=rathlf}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00080}00080 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00081}00081          \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00082}00082 \textcolor{keywordflow}{      END IF}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00083}00083 \textcolor{comment}{* -\/-\/-\/> Find the ratio for energies from the one for speeds}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00084}00084       ratmax=ratlow**2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00085}00085       emax=xin(2*nin-\/1)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00086}00086       emin=xin(1)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00087}00087       \textcolor{keyword}{WRITE}(6,10200) ratmax,xnepsm(ratlow),}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00088}00088      +                  int(log(emax/emin)/log(ratmax)+1)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00089}00089 \textcolor{comment}{* -\/-\/-\/> Make sure that the output grid does not contain two energies}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00090}00090 \textcolor{comment}{*      with a ratio larger than RATMAX}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00091}00091       xou(1)=xin(1)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00092}00092       nouraw=1}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00093}00093       \textcolor{keywordflow}{DO} 40 jp=2,nin}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00094}00094    30    \textcolor{keywordflow}{IF}(xin(2*jp-\/1).GT.xou(2*nouraw-\/1)*ratmax) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00095}00095 \textcolor{comment}{* -\/-\/-\/> An additional point is needed}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00096}00096             nouraw=nouraw+1}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00097}00097             xou(2*nouraw-\/1)=xou(2*nouraw-\/3)*ratmax}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00098}00098             \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00099}00099 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00100}00100 \textcolor{comment}{* -\/-\/-\/> Copy over original points}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00101}00101          nouraw=nouraw+1}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00102}00102          xou(2*nouraw-\/1)=xin(2*jp-\/1)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00103}00103    40 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00104}00104       \textcolor{keyword}{WRITE}(6,10300) nin,nouraw}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00105}00105 \textcolor{comment}{* -\/-\/-\/> Now perform the integral}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00106}00106       temp=temp2-\/temp1}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00107}00107       alpha=awr/(boltz*temp)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00108}00108 \textcolor{comment}{* -\/-\/-\/> Pointer to beginning of integration region}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00109}00109       ipp=1}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00110}00110       \textcolor{keywordflow}{DO} jp=1,nouraw}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00111}00111 \textcolor{comment}{*        IF(MOD(JP,NOURAW/100).EQ.1) PRINT *,'Now at ',JP}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00112}00112 \textcolor{comment}{* -\/-\/-\/> Reduced integration variable}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00113}00113          y2=xou(2*jp-\/1)*alpha}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00114}00114          y=sqrt(y2)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00115}00115 \textcolor{comment}{* -\/-\/-\/> See whether we can move the beginning of the integration region}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00116}00116    50    zkt=sqrt(xin(ipp+2)*alpha)-\/y}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00117}00117          \textcolor{keywordflow}{IF}(zkt.LT.-\/zlimi) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00118}00118 \textcolor{comment}{* -\/-\/-\/> Move beginning of integration region by one}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00119}00119             ipp=ipp+2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00120}00120             \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00121}00121 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00122}00122 \textcolor{comment}{* -\/-\/-\/> Start integral}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00123}00123          xsum=0}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00124}00124          kpp=ipp}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00125}00125          e2=xin(kpp)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00126}00126          s2=xin(kpp+1)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00127}00127          zk2=sqrt(e2*alpha)-\/y}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00128}00128          zk22=zk2**2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00129}00129          expa=exp(-\/zk22)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00130}00130          f0k2=derf(zk2)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00131}00131          f1k2=ovsqpi*(one-\/expa)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00132}00132          f2k2=half*f0k2-\/ovsqpi*zk2*expa}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00133}00133          f3k2=ovsqpi*(one-\/(1+zk22)*expa)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00134}00134          f4k2=half*thh*f0k2-\/ovsqpi*zk2*(thh+zk22)*expa}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00135}00135 \textcolor{comment}{* -\/-\/-\/> See whether the second term of the integral has to be included}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00136}00136          \textcolor{keywordflow}{IF}(y.LT.zlimi) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00137}00137             zk2p=zk2+2*y}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00138}00138             zk22p=zk2p**2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00139}00139             expap=exp(-\/zk22p)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00140}00140             f0k2p=derf(zk2p)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00141}00141             f1k2p=ovsqpi*(one-\/expap)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00142}00142             f2k2p=half*f0k2p-\/ovsqpi*zk2p*expap}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00143}00143             f3k2p=ovsqpi*(one-\/(1+zk22p)*expap)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00144}00144             f4k2p=half*thh*f0k2p-\/ovsqpi*zk2p*(thh+zk22p)*expap}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00145}00145 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00146}00146    60    \textcolor{keywordflow}{IF}(zk2.LT.zlimi) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00147}00147 \textcolor{comment}{* -\/-\/-\/> Continue to sum terms till the second end of the region}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00148}00148 \textcolor{comment}{*      is within ZLIMI}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00149}00149             e1=e2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00150}00150             s1=s2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00151}00151             kpp=kpp+2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00152}00152             e2=xin(kpp)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00153}00153             s2=xin(kpp+1)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00154}00154 \textcolor{comment}{* -\/-\/-\/> Avoid two points with the same energy}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00155}00155             \textcolor{keywordflow}{IF}(e1.EQ.e2) \textcolor{keywordflow}{GOTO} 60}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00156}00156             zk1=zk2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00157}00157             f0k1=f0k2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00158}00158             f1k1=f1k2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00159}00159             f2k1=f2k2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00160}00160             f3k1=f3k2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00161}00161             f4k1=f4k2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00162}00162             zk2=sqrt(e2*alpha)-\/y}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00163}00163             zk22=zk2**2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00164}00164             expa=exp(-\/zk22)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00165}00165             f0k2=derf(zk2)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00166}00166             f1k2=ovsqpi*(one-\/expa)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00167}00167             f2k2=half*f0k2-\/ovsqpi*zk2*expa}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00168}00168             f3k2=ovsqpi*(one-\/(1+zk22)*expa)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00169}00169             f4k2=half*thh*f0k2-\/ovsqpi*zk2*(thh+zk22)*expa}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00170}00170             fact=one/(e2-\/e1)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00171}00171             ak=(e2*s1-\/e1*s2)*fact}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00172}00172             ck=(s2-\/s1)*fact/alpha}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00173}00173             cky=ck*y}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00174}00174             cky2=ck*y2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00175}00175 \textcolor{comment}{* -\/-\/-\/> Here perform the sum}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00176}00176             xsum=xsum+ck*(f4k2-\/f4k1)+4*cky*(f3k2-\/f3k1)+}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00177}00177      +           (ak+6*cky2)*(f2k2-\/f2k1)+2*y*(ak+2*cky2)*(f1k2-\/f1k1)+}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00178}00178      +           y2*(ak+cky2)*(f0k2-\/f0k1)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00179}00179             \textcolor{keywordflow}{IF}(y.LT.zlimi) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00180}00180 \textcolor{comment}{* -\/-\/-\/> If second part of the integral}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00181}00181                zk1p=zk2p}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00182}00182                f0k1p=f0k2p}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00183}00183                f1k1p=f1k2p}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00184}00184                f2k1p=f2k2p}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00185}00185                f3k1p=f3k2p}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00186}00186                f4k1p=f4k2p}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00187}00187                zk2p=zk2+2*y}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00188}00188                zk22p=zk2p**2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00189}00189                expap=exp(-\/zk22p)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00190}00190                f0k2p=derf(zk2p)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00191}00191                f1k2p=ovsqpi*(one-\/expap)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00192}00192                f2k2p=half*f0k2p-\/ovsqpi*zk2p*expap}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00193}00193                f3k2p=ovsqpi*(one-\/(1+zk22p)*expap)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00194}00194                f4k2p=half*thh*f0k2p-\/ovsqpi*zk2p*(thh+zk22p)*expap}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00195}00195 \textcolor{comment}{* -\/-\/-\/> Here perform the sum}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00196}00196                xsum=xsum-\/(ck*(f4k2p-\/f4k1p)-\/4*cky*(f3k2p-\/f3k1p)+}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00197}00197      +           (ak+6*cky2)*(f2k2p-\/f2k1p)-\/2*y*(ak+2*cky2)*}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00198}00198      +           (f1k2p-\/f1k1p)+y2*(ak+cky2)*(f0k2p-\/f0k1p))}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00199}00199 \textcolor{comment}{* -\/-\/-\/> Add integral from 0 to minimum energy with constant cross section}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00200}00200                ftail1=xin(2)*(ftail(sqrt(xin(1)*alpha),y)-\/ftail(zero,y))}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00201}00201                xsum=xsum+ftail1}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00202}00202 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00203}00203             \textcolor{keywordflow}{IF}(kpp.LT.2*nin-\/1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00204}00204 \textcolor{comment}{* -\/-\/-\/> If this is not the last point, continue to add the contributions}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00205}00205                \textcolor{keywordflow}{GOTO} 60}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00206}00206             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00207}00207 \textcolor{comment}{* -\/-\/-\/> Else add integral from 2E7 to infinity (actually 100MeV) and exit}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00208}00208                ftail2=xin(2*nin)*(ftail(sqrt(100d6*alpha),y)-\/}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00209}00209      +                ftail(sqrt(xin(2*nin-\/1)*alpha),y))}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00210}00210                xsum=xsum+ftail2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00211}00211 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00212}00212 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00213}00213 \textcolor{comment}{* -\/-\/-\/> Store result of integral}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00214}00214          xou(2*jp)=half*xsum/y2}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00215}00215 \textcolor{keywordflow}{      ENDDO}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00216}00216 \textcolor{comment}{* -\/-\/-\/> Thin result}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00217}00217       \textcolor{keyword}{CALL }xnthin(xou,nouraw,nou,hperc)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00218}00218 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00219}00219 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNBROA: Only '},i2,\textcolor{stringliteral}{' points, no broadening'})}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00220}00220 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNBROA: Cannot reduce temp from '},f10.2,}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00221}00221      +       \textcolor{stringliteral}{' to '},f10.2,\textcolor{stringliteral}{': nothing done'})}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00222}00222 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNBROA: Ratio '},g10.3,\textcolor{stringliteral}{' max er '},g10.3,\textcolor{stringliteral}{' points '},i5)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00223}00223 10300 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNBROA: Total points was '},i6,\textcolor{stringliteral}{' is now '},i6)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00224}00224 10400 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNBROA: Energy width of integration = '},g10.3)}
+\DoxyCodeLine{\Hypertarget{xnbroa_8_f_source_l00225}00225   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

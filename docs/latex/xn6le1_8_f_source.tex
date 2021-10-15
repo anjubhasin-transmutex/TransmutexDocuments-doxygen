@@ -1,0 +1,60 @@
+\hypertarget{xn6le1_8_f_source}{}\doxysection{xn6le1.\+F}
+\label{xn6le1_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6le1.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6le1.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 31/05/96  18.32.10  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xn6le1(KP,LANG,NA,EIN,EOU,COST,PROB)}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00006}00006 \textcolor{comment}{*     For a file6, LAW=1 find probability for a given incoming,        *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00007}00007 \textcolor{comment}{*     outgoing energy and cosinus                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00009}00009 \textcolor{comment}{*     KP     pointer to angular distribution data in R/I6STOR (input)  *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00010}00010 \textcolor{comment}{*     LANG   kind of angular distribution (1=Legendre, 2=Kalbach Mann, *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00011}00011 \textcolor{comment}{*            3=tabulated) (input)                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00012}00012 \textcolor{comment}{*     NA     number of words per angular distribution (input)          *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00013}00013 \textcolor{comment}{*     EIN    incoming neutron energy in eV (input)                     *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00014}00014 \textcolor{comment}{*     EOU    outgoing neutron energy in eV (input)                     *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00015}00015 \textcolor{comment}{*     COST   outgoing neutron cos (theta) (input)                      *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00016}00016 \textcolor{comment}{*     PROB    differential prob (d2Pb/dE dcost) (output)               *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00017}00017 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00018}00018 \textcolor{comment}{*     The incoming energy is in the LAB system                         *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00019}00019 \textcolor{comment}{*     The outgoing energy and angle are in the LAB or CMS system       *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00020}00020 \textcolor{comment}{*     depending on the evaluator choiche (LCT parameter)               *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00021}00021 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00022}00022 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00023}00023 \textcolor{preprocessor}{\#include "{}xcmfh6.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00024}00024 \textcolor{preprocessor}{}\textcolor{comment}{* -\/-\/-\/> Max number of Legendre coefficients}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00025}00025       parameter(maxna=20)}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00026}00026       \textcolor{keywordtype}{DOUBLE PRECISION} P(0:MAXNA), DPROB}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00027}00027 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00029}00029 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00030}00030       \textcolor{keywordflow}{IF}(lang.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Legendre polynomials}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00032}00032          \textcolor{keywordflow}{IF}(na.GT.maxna) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00033}00033             stop \textcolor{stringliteral}{'*** XN6LE1: Increase MAXNA'}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00034}00034 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Calculate Legendre polynomials}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00036}00036          \textcolor{keyword}{CALL }daslgf(1,dble(cost),0,na,p)}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00037}00037          dprob=0}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Calculate Legendre expansion}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00039}00039          \textcolor{keywordflow}{DO} 10 l=0,na}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00040}00040             dprob=dprob+0.5*(2*l+1)*p(l)*r6stor(kp+1+l)}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00041}00041   10     \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00042}00042          prob=dprob}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00043}00043       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lang.EQ.2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00044}00044 \textcolor{comment}{* -\/-\/-\/> Kalbach-\/Mann systematic}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00045}00045          \textcolor{keyword}{CALL }xnkama(awr,izamat,r6stor(kp+2),ein,eou,cost,prob)}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00046}00046          prob=prob*r6stor(kp+1)}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00047}00047       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lang.GT.10) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00048}00048 \textcolor{comment}{* -\/-\/-\/> Simple interpolation law}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00049}00049          intr=lang-\/10}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00050}00050          \textcolor{keyword}{CALL }xnterp(na/2,intr,1,r6stor(kp+2),na/2,cost,prob)}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00051}00051          prob=prob*r6stor(kp+1)}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00052}00052 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00053}00053 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6le1_8_f_source_l00054}00054       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

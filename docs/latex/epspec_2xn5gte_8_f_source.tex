@@ -1,0 +1,156 @@
+\hypertarget{epspec_2xn5gte_8_f_source}{}\doxysection{xn5gte.\+F}
+\label{epspec_2xn5gte_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/epspec/xn5gte.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/epspec/xn5gte.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  12.39.37  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xn5gte(EN, ENS, PB, NEN)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00006}00006 \textcolor{comment}{*     Calculates secondary neutron spectrum from ENDF-\/6 file 5         *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00007}00007 \textcolor{comment}{*     distribution                                                     *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00009}00009 \textcolor{comment}{*     EN        (input) incoming neutron energy in eV                  *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00010}00010 \textcolor{comment}{*     ENS       (input) array of outgoing neutron energies in eV       *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00011}00011 \textcolor{comment}{*               where the spectrum has to be calculated                *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00012}00012 \textcolor{comment}{*     PB        (output) array of spectrum probability values          *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00013}00013 \textcolor{comment}{*               corresponding to the secondary energies in ENS         *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00014}00014 \textcolor{comment}{*     NENS      (input) number of points in ENS                        *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00015}00015 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00016}00016 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00017}00017 \textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00018}00018 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00019}00019 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xc5dat.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00020}00020 \textcolor{preprocessor}{}      parameter(maxpb1=2000)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00021}00021       dimension ens(nen), pb(nen), pb1(maxpb1)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00023}00023 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00024}00024 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00025}00025 \textcolor{comment}{* -\/-\/-\/> Check that we have enough space in local variables}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00026}00026       \textcolor{keywordflow}{IF}(nen.GT.maxpb1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00027}00027          stop \textcolor{stringliteral}{'Increase MAXPB1'}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00028}00028 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Set everything to 0}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00030}00030       \textcolor{keywordflow}{DO} 10 je=1,nen}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00031}00031          pb(je)=0}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00032}00032          pb1(je)=0}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00033}00033    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> Loop on file 5 subsections}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00035}00035       \textcolor{keywordflow}{DO} 50  jsubs=1,nsubs}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/> Read weight of this section}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00037}00037          \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00038}00038 \textcolor{comment}{*        WRITE(6,10800) JSUBS, N1, NP}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Calculate weight for given input energy}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00040}00040          u = c1}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> If energy less than threshold, section is skipped}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00042}00042          \textcolor{keywordflow}{IF}(en.LT.u) \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> Save section content flag}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00044}00044          lf = l2}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Get interpolated weight}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00046}00046          \textcolor{keyword}{CALL }xnterp(nbt,int,n1,xnrval,n2,en,pe)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> If no weight, skip section}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00048}00048          \textcolor{keywordflow}{IF}(pe.LE.0) \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Now add section contribution}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00050}00050          \textcolor{keywordflow}{IF}(lf.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/> Arbitrary tabulated function}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00052}00052             \textcolor{keyword}{WRITE}(6,10000)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00053}00053 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Arbitrary tabulated function'})}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00054}00054 \textcolor{comment}{* -\/-\/-\/> Get incoming energy interpolation information}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00055}00055             \textcolor{keyword}{CALL }xntab2}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00056}00056 \textcolor{comment}{* -\/-\/-\/> Number of incoming energy distributions}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00057}00057             nep=n2}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00058}00058             eold=0}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00059}00059             \textcolor{keywordflow}{DO} 40 jsub=1,nep}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> Get secondary spectrum tabulation for this incoming energy}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00061}00061                \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> If incoming energy less than first, or exactly equal to current}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00063}00063 \textcolor{comment}{*      tabulation or greater than last, take current tabulation and}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00064}00064 \textcolor{comment}{*      leave}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00065}00065                \textcolor{keywordflow}{IF}(en.EQ.c2.OR.(en.LT.c2.AND.jsub.EQ.1)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00066}00066      +                    .OR.(en.GT.c2.AND.jsub.EQ.nep)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00067}00067                   \textcolor{keyword}{CALL }xnlf01(ens,pb,nen,pe)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00068}00068                   \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00069}00069 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00070}00070 \textcolor{comment}{* -\/-\/-\/> If incoming energy between this tabulation and previous one,}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00071}00071 \textcolor{comment}{*      interpolate and leave}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00072}00072                \textcolor{keywordflow}{IF}(en.LT.c2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00073}00073 \textcolor{comment}{* -\/-\/-\/> Find interpolation factor}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00074}00074                   xrat=(c2-\/en)/(c2-\/eold)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00075}00075 \textcolor{comment}{* -\/-\/-\/> Add previous weighted energy value}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00076}00076                   \textcolor{keywordflow}{DO} 20  je=1,nen}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00077}00077                      pb(je)=pb(je)+pb1(je)*xrat}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00078}00078                      pb1(je)=0}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00079}00079    20             \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00080}00080 \textcolor{comment}{* -\/-\/-\/> Add current weighted energy value}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00081}00081                   \textcolor{keyword}{CALL }xnlf01(ens,pb1,nen,pe)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00082}00082                   \textcolor{keywordflow}{DO} 30  je=1,nen}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00083}00083                      pb(je)=pb(je)+pb1(je)*(1-\/xrat)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00084}00084    30             \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00085}00085 \textcolor{comment}{* -\/-\/-\/> Exit, this subsection done}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00086}00086                   \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00087}00087 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00088}00088 \textcolor{comment}{* -\/-\/-\/> Calculate spectrum}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00089}00089                \textcolor{keyword}{CALL }xnlf01(ens,pb1,nen,pe)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00090}00090 \textcolor{comment}{* -\/-\/-\/> Save current incoming energy}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00091}00091                eold=c2}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00092}00092    40       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00093}00093          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.5) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00094}00094             \textcolor{keyword}{WRITE}(6,10100)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00095}00095 \textcolor{comment}{* -\/-\/-\/> General evaporation spectrum}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00096}00096 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' General evaporation spectrum'})}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00097}00097 \textcolor{comment}{* -\/-\/-\/> Read and interpolate nuclear temperature value}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00098}00098             \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00099}00099             \textcolor{keyword}{CALL }xnterp(nbt,int,n1,xnrval,n2,en,theta)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00100}00100 \textcolor{comment}{* -\/-\/-\/> Read tabulated function}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00101}00101             \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00102}00102 \textcolor{comment}{* -\/-\/-\/> Add probability to grid}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00103}00103             \textcolor{keyword}{CALL }xnlf05(ens,pb,nen,pe,theta)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00104}00104          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.7) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00105}00105 \textcolor{comment}{* -\/-\/-\/> Simple fission spectrum (Maxwellian)}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00106}00106             \textcolor{keyword}{WRITE}(6,10200)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00107}00107 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Simple fission spectrum (Maxwellian)'})}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00108}00108 \textcolor{comment}{* -\/-\/-\/> Read and interpolate nuclear temperature values}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00109}00109             \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00110}00110             \textcolor{keyword}{CALL }xnterp(nbt,int,n1,xnrval,n2,en,theta)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00111}00111 \textcolor{comment}{* -\/-\/-\/> Add probability to grid}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00112}00112             \textcolor{keyword}{CALL }xnlf07(ens,pb,nen,pe,theta,en,u)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00113}00113          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.9) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00114}00114 \textcolor{comment}{* -\/-\/-\/> Evaporation spectrum}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00115}00115             \textcolor{keyword}{WRITE}(6,10300)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00116}00116 10300 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Evaporation spectrum'})}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00117}00117 \textcolor{comment}{* -\/-\/-\/> Read and interpolate nuclear temperature values}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00118}00118             \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00119}00119             \textcolor{keyword}{CALL }xnterp(nbt,int,n1,xnrval,n2,en,theta)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00120}00120 \textcolor{comment}{* -\/-\/-\/> Add probability to grid}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00121}00121             \textcolor{keyword}{CALL }xnlf09(ens,pb,nen,pe,theta,en,u)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00122}00122          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.11) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00123}00123 \textcolor{comment}{* -\/-\/-\/> Energy dependent Watt spectrum}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00124}00124             \textcolor{keyword}{WRITE}(6,10400)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00125}00125 10400 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Energy dependent Watt spectrum'})}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00126}00126 \textcolor{comment}{* -\/-\/-\/> Read and interpolate values for a constant}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00127}00127             \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00128}00128             \textcolor{keyword}{CALL }xnterp(nbt,int,n1,xnrval,n2,en,aa)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00129}00129 \textcolor{comment}{* -\/-\/-\/> Read and interpolate values for b constant}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00130}00130             \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00131}00131             \textcolor{keyword}{CALL }xnterp(nbt,int,n1,xnrval,n2,en,bb)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00132}00132 \textcolor{comment}{* -\/-\/-\/> Add probability to grid}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00133}00133             \textcolor{keyword}{CALL }xnlf11(ens,pb,nen,pe,aa,bb,en,u)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00134}00134          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.12) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00135}00135 \textcolor{comment}{* -\/-\/-\/> Energy dependent fission neutron spectrum (Madland\&Nix)}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00136}00136             \textcolor{keyword}{WRITE}(6,10500)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00137}00137 10500 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Energy dependent fission neutron spectrum (Madland\&Nix)'})}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00138}00138 \textcolor{comment}{* -\/-\/-\/> Read and interpolate max nuclear temperature parameter}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00139}00139             \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00140}00140             \textcolor{keyword}{CALL }xnterp(nbt,int,n1,xnrval,n2,en,tm)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00141}00141 \textcolor{comment}{* -\/-\/-\/> Add probability to grid}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00142}00142             \textcolor{keyword}{CALL }xnlf12(ens,pb,nen,pe,c1,c2,tm)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00143}00143 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00144}00144    50 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00145}00145 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00146}00146 10600 \textcolor{keyword}{FORMAT}(1x,i3,\textcolor{stringliteral}{' Subsections found'})}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00147}00147 10700 \textcolor{keyword}{FORMAT}(1x,i5,\textcolor{stringliteral}{' Found energy distribution for '},i2,\textcolor{stringliteral}{'-\/'},i3)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00148}00148 10800 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Subsection '},i3,\textcolor{stringliteral}{' number of int ranges '},i3,}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00149}00149      +\textcolor{stringliteral}{' number of p(E) '},i3)}
+\DoxyCodeLine{\Hypertarget{epspec_2xn5gte_8_f_source_l00150}00150       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

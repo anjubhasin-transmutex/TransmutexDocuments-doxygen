@@ -1,0 +1,1118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e" xml:lang="en-US">
+
+<para>This is the code repository for Transmutex. This code is used to simulate an Accelerator Driven System (ADS). This code is the property of Transmutex SA. All rights reserved.</para>
+
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+</para>
+
+<para>In the root directory, you will find source files .cc and the header files .hh respectively in the following directories ./TMXElements/src/ and ./TMXElements/include/ These files constitutes general classes which are used to simulate specific features of a nuclear reactor (such as burn-up).</para>
+
+<para>In the root directory, you will find source files .cc and the header files .hh respectively in the following directories ./G4-NeutronTransport/src/ and ./G4-NeutronTransport/include/ These files constitutes a GEANT4 simulation which is used to design the Transmutex&apos;s ADS. The main file of this simulation is ./G4-NeutronTransport/ads_transmutex.cc</para>
+
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+</para>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md40">
+<title>Build and run the code</title>
+
+<para>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! !! HOW TO LAUNCH THE CALCULATION : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</para>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md41">
+<title>Make build directory</title>
+
+<para>If the directory ./build/ does not exist, make a directory named &quot;build&quot; with the following command: <literallayout><computeroutput>mkdir&#32;build
+</computeroutput></literallayout></para>
+
+<para>Go in the directory &quot;build&quot; with the following command: <literallayout><computeroutput>cd&#32;build
+</computeroutput></literallayout></para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md42">
+<title>Configure cmake files</title>
+
+<para>Configure CMake to build the application <literallayout><computeroutput>cmake&#32;..
+</computeroutput></literallayout></para>
+
+<para>If an error occur during the configuration, edit and correct the CMakeFile with <literallayout><computeroutput>ccmake&#32;..
+</computeroutput></literallayout> Then hit <computeroutput>c</computeroutput> and <computeroutput>g</computeroutput> to configure and generate the files</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md43">
+<title>Build the application</title>
+
+<para>Build the application with the following command: <literallayout><computeroutput>make&#32;-jN
+</computeroutput></literallayout> With N = number of available cores</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md44">
+<title>Launch the application</title>
+
+<para>Launch the application from the <computeroutput>build/</computeroutput> directory with the following command: <literallayout><computeroutput>./bin/ads_transmutex&#32;../G4-NeutronTransport/param.csv
+</computeroutput></literallayout></para>
+
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+</para>
+</section>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md45">
+<title>The parameter file</title>
+
+<para>The parameter file param.csv has to be configured by the user before each run. 
+<literallayout>&#160;&#xa;</literallayout>
+ This file defines the parameters of the simulation, it is located in <computeroutput>G4-NeutronTransport/</computeroutput> 
+<literallayout>&#160;&#xa;</literallayout>
+</para>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md46">
+<title>Description of the parameter file</title>
+
+<para>The parameter file can be visualized with MS Excel or a text file. 
+<literallayout>&#160;&#xa;</literallayout>
+ It consists in table organized as follows: 
+<literallayout>&#160;&#xa;</literallayout>
+ |Parameter name|Value|Units|Parameter description|</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md47">
+<title>Reading of the file</title>
+
+<para>The separators used to read the file are: 
+<literallayout>&#160;&#xa;</literallayout>
+<itemizedlist>
+<listitem>
+<para><computeroutput>,</computeroutput> to separate each element 
+<literallayout>&#160;&#xa;</literallayout>
+</para>
+</listitem><listitem>
+<para><computeroutput>\n</computeroutput>,<computeroutput>\r</computeroutput>,<computeroutput>\n\r</computeroutput> or empty string <computeroutput>&quot;&quot;</computeroutput> to detect the end of a line 
+<literallayout>&#160;&#xa;</literallayout>
+</para>
+</listitem></itemizedlist>
+</para>
+
+<para>One line corresponds to a single parameter except for the core configuration or a position vector (X,Y,Z) 
+<literallayout>&#160;&#xa;</literallayout>
+ To link a line to a specific parameter, the code reads the first element of each line which correspond to the parameter name. 
+<literallayout>&#160;&#xa;</literallayout>
+ The parameter name is hard-coded in the code <computeroutput><link linkend="__t_m_x_input_parameters_8cc_source">TMXInputParameters.cc</link></computeroutput> that can be found in <computeroutput>./TMXElements/src/</computeroutput>. 
+<literallayout>&#160;&#xa;</literallayout>
+ Thus, the parameter name in the parameter file must not be changed without changing its name in <computeroutput><link linkend="__t_m_x_input_parameters_8cc_source">TMXInputParameters.cc</link></computeroutput>.</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md48">
+<title>Parameters description</title>
+
+<para><informaltable frame="all">
+    <tgroup cols="5" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+      <colspec colname='c3'/>
+      <colspec colname='c4'/>
+      <colspec colname='c5'/>
+<thead>
+      <row  class='markdownTableHead'>
+<entry>
+<para>Parameter name   </para>
+</entry><entry align='center'>
+<para>Value   </para>
+</entry><entry align='center'>
+<para>Units   </para>
+</entry><entry>
+<para>Parameter description   </para>
+</entry><entry align='center'>
+<para>Always required    </para>
+</entry></row>
+</thead><tbody>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>boolVisualization   </para>
+</entry><entry align='center'>
+<para>boolean   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry><entry>
+<para>Activation of the visualization   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>nThreads   </para>
+</entry><entry align='center'>
+<para>integer   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry><entry>
+<para>Number of thread per run   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>isThreadMerging   </para>
+</entry><entry align='center'>
+<para>boolean   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry><entry>
+<para>(Default: true) Activation of merging of thread&apos;s ROOT file into master&apos;s ROOT file per run   </para>
+</entry><entry align='center'>
+<para>no    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>int_Option   </para>
+</entry><entry align='center'>
+<para>integer   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry><entry>
+<para>The code will run in different modes following this option:
+<literallayout>&#160;&#xa;</literallayout>
+   </para>
+</entry><entry align='center'>
+<para>yes   </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</informaltable>
+| | | | 0 = Simulate all the geometry,
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 1 = Target only,
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 2 = Target + Surroundings (no core),
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 3 = Homogenous geometry,
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 4 = keff calculation with dedicated method,
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 5 = Transmutation calculation,
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 6 = reflector skin w/o water (Troïtsk),
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 7 = the multiplication is killed,
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 8 = Calculation of ksource without (n,Xn)),
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 9 = Old version (Energy Amplifier) of k_source with E&lt;20MeV,
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 20 = Calculation of k with power iteration method | | | | 30 = Monte Carlo Volume Estimator | Verbose | 0 or 1 | no | Verbose of the code | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | BeamEnergy | double | [GeV, MeV, keV, eV] | Energy of source particles | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | Nparticles | integer | no | Number of events to simulate. In most of cases there is 1 source particle/event. In case of a k_{eff} calculation there are ~120 source particles/event. | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | Nrun | integer | no | Number of runs to consider for burn-up calculations | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | TimeOfRun | double | [ns, um, ms, s, mn, h, d, m, y] | Real time of 1 run to consider for burn-up calculations | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | P_beam | double | [mW, W, kW, MW, GW, TW] | Beam power | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | Geometry | integer | no | Geometry to be used in the calculation | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 0 = Troïtsk
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 1 = CVR Rez
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 2 = Test
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 4 = EAP80 Simplified
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 5 = Sandbox (burnup tests, LBE test, criticality benchmarks, ...)
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 6 = KIPT
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 7 = EAP80 Subcritical
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 8 = EAP80 Critical
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 9 = Rez2011 Subcritical
+<literallayout>&#160;&#xa;</literallayout>
+ | | | | 10 = SVBR100 + <link linkend="_class_t_m_x_target">TMXTarget</link>
+<literallayout>&#160;&#xa;</literallayout>
+ | str_ROOTFileName | string | no | Name of the output ROOT files (ex: <computeroutput>myfile.root</computeroutput>). This name will be used to produce any other output files with the appropriate extension. | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | physName | string | no | Name of the physical model to use (QGSP_BIC_HP, FTFP_BERT_HP, etc.) | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | isAbla | boolean | no | Use of ABLA v3 model | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | PrintModulo | integer | no | Print the calculation status every PrintModulo events | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | TemperatureWorld | double | <computeroutput>K</computeroutput> | Temperature of every material except the fuel (20°C = 293.15 K) | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | TemperatureFuel | double | <computeroutput>K</computeroutput> | Temperature of the fuel (20°C = 293.15 K) | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | NbDiscardCycle | integer | no | Number of cycle to discard from the keff calculation with <emphasis role="bold">option 20</emphasis> | ErrorLimitMCCubicVolume | double | no | Error (%) upper limit on the estimation of the volume with the Monte Carlo method with <emphasis role="bold">option 30</emphasis> | | MCCubicVolumeLVname | string | no | (Optional, not use if no string provided) Logical Volume cubic volume estimation by slice along Z axis using parallelWorld definition <emphasis role="bold">option 30</emphasis> with a logical volume name | no | | ExtSourcePath | string | no | Path to an external source file (example: ./EAP80_TMXSource.txt ) | no | | worldR | double | [nm, um, mm, cm, dm, m] | Radius of the world volume | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | worldZ | double | [nm, um, mm, cm, dm, m] | Half height of the world volume | yes | 
+<literallayout>&#160;&#xa;</literallayout>
+ | h0 | double | [nm, um, mm, cm, dm, m] | Height between the bottom of the pit and the center of the world volume (concrete) in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | XtargetPosition | double | [nm, um, mm, cm, dm, m] | Position of the target along the beam axis (0 = center of the driver fuel) in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | CheckGap | double | [nm, um, mm, cm, dm, m] | Target tube thickness | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | check1r | double | [nm, um, mm, cm, dm, m] | Tube internal radius | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | xTarget | double | [nm, um, mm, cm, dm, m] | half Target thickness in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | yTarget | double | [nm, um, mm, cm, dm, m] | half Target width in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | zTargetHeight | double | [nm, um, mm, cm, dm, m] | half Target height (Oz) in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | nT | integer | no | nT+1 = number of the target placing in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | xVariable | double | [nm, um, mm, cm, dm, m] | Distance between 2 target plates in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | Target_Al_Xgap | double | [nm, um, mm, cm, dm, m] | Gap between target plates and Aluminium parts along X-axis in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | Target_Al_Ygap | double | [nm, um, mm, cm, dm, m] | Gap between target plates and Aluminium parts along Y-axis in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | Al_thickness | double | [nm, um, mm, cm, dm, m] | Thickness of Aluminium part (empty structure) in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | Al_Tube_gap | double | [nm, um, mm, cm, dm, m] | Gap between Aluminium parts and the tube containing the target (fLogicCheck1U) in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | airtopR | double | [nm, um, mm, cm, dm, m] | Radius of the air cylinder in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | AirTopZdistanceFromBottomtoTop | double | [nm, um, mm, cm, dm, m] | Distance between the bottom of the pit and the top of the air cylinder in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | reflectorZdistanceFromBottomtoTop | double | [nm, um, mm, cm, dm, m] | Distance between the bottom of the pit and the top of the water-cooled heat shield (reflector) in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | fetopZ | double | [nm, um, mm, cm, dm, m] | Half Height (thickness) of the iron part on the top of the water-cooled heat shield (reflector) in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | Cool10ZdistanceFromBottomtoBottom | double | [nm, um, mm, cm, dm, m] | Distance between the bottom of the pit and the bottom of the experimental area (~reflector bottom thickness) | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | cool10R | double | [nm, um, mm, cm, dm, m] | Radius of the experimental area in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | cool10BottomGap | double | [nm, um, mm, cm, dm, m] | Air gap at the bottom between the water-cooled heat shield (reflector) and the lead volume in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | CoreShape | string | Hexagonal or Cylindrical | Shape of sub-critical core (Hexagonal or Cylindrical) in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | FuelPlacement | string | Hexagonal or Cylindrical | placement of the fuel in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | Rpos_fuel | double | [nm, um, mm, cm, dm, m] | Radial position of the first rod in the fuel assembly (from 0 to external rod side) in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | FuelName | string | [VVR-M5, VVR-M2-20p, VVR-M2-36p, IBR-2M] | Name of the fuel rods in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | int_Nreplicate | integer | no | Number of fuel elements per layer in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | int_Nlayer | double | no | Number of layers for fuel assembly (double because 1.5 layer is ok) in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | dbl_rRodsGap | double | [nm, um, mm, cm, dm, m] | Gap between 2 fuel rods in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | GraphiteThickness | double | [nm, um, mm, cm, dm, m] | Thickness of the graphite reflector by the lead in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | AbsorberThickness | double | [nm, um, mm, cm, dm, m] | Thickness of the neutron absorber between the lead and the Fuel driver in Troïtsk | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | PathToCoreLatticeFile | string | no | Path to the lattice configuration of the Core | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | PathToAssemblyLatticeFile | string | no | Path to the lattice configuration of the Assembly | no | 
+<literallayout>&#160;&#xa;</literallayout>
+</para>
+</section>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md49">
+<title>Scoring</title>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md50">
+<title>Scoring Parallel World</title>
+
+<para><informaltable frame="all">
+    <tgroup cols="5" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+      <colspec colname='c3'/>
+      <colspec colname='c4'/>
+      <colspec colname='c5'/>
+<thead>
+      <row  class='markdownTableHead'>
+<entry>
+<para>Parameter name   </para>
+</entry><entry align='center'>
+<para>Value   </para>
+</entry><entry align='center'>
+<para>Units   </para>
+</entry><entry>
+<para>Parameter description   </para>
+</entry><entry align='center'>
+<para>Always required    </para>
+</entry></row>
+</thead><tbody>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>TypeOfMesh   </para>
+</entry><entry align='center'>
+<para>string   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry><entry>
+<para>polar or cartesian   </para>
+</entry><entry align='center'>
+<para>no    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>polarAxis   </para>
+</entry><entry align='center'>
+<para>string   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry><entry>
+<para>X or Y or Z   </para>
+</entry><entry align='center'>
+<para>no    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>origin_PolarMesh   </para>
+</entry><entry align='center'>
+<para>0,0,0   </para>
+</entry><entry align='center'>
+<para>mm   </para>
+</entry><entry>
+<para>origin of the scoring mesh (X;Y;Z)   </para>
+</entry><entry align='center'>
+<para>no    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>nbinsR   </para>
+</entry><entry align='center'>
+<para>integer   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry><entry>
+<para>number of bins in the Radial direction   </para>
+</entry><entry align='center'>
+<para>no    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>minR   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[nm, um, mm, cm, dm, m]   </para>
+</entry><entry>
+<para>Minimum value along R-axis   </para>
+</entry><entry align='center'>
+<para>no    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>maxR   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[nm, um, mm, cm, dm, m]   </para>
+</entry><entry>
+<para>Maximum value along R-axis   </para>
+</entry><entry align='center'>
+<para>no    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>nbinsTheta   </para>
+</entry><entry align='center'>
+<para>integer   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry><entry>
+<para>number of bins in the Theta-axis   </para>
+</entry><entry align='center'>
+<para>no    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>minTheta   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[nm, um, mm, cm, dm, m]   </para>
+</entry><entry>
+<para>Minimum value along Theta-axis   </para>
+</entry><entry align='center'>
+<para>no    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>maxTheta   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[nm, um, mm, cm, dm, m]   </para>
+</entry><entry>
+<para>Maximum value along Theta-axis   </para>
+</entry><entry align='center'>
+<para>no    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>nbinsX   </para>
+</entry><entry align='center'>
+<para>integer   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry><entry>
+<para>number of bins in the X-axis   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>minX   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[nm, um, mm, cm, dm, m]   </para>
+</entry><entry>
+<para>Minimum value along X-axis   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>maxX   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[nm, um, mm, cm, dm, m]   </para>
+</entry><entry>
+<para>Maximum value along X-axis   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>nbinsY   </para>
+</entry><entry align='center'>
+<para>integer   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry><entry>
+<para>number of bins in the Y-axis   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>minY   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[nm, um, mm, cm, dm, m]   </para>
+</entry><entry>
+<para>Minimum value along Y-axis   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>maxY   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[nm, um, mm, cm, dm, m]   </para>
+</entry><entry>
+<para>Maximum value along Y-axis   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>nbinsZ   </para>
+</entry><entry align='center'>
+<para>integer   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry><entry>
+<para>number of bins in the Z-axis   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>minZ   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[nm, um, mm, cm, dm, m]   </para>
+</entry><entry>
+<para>Minimum value along Z-axis   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>maxZ   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[nm, um, mm, cm, dm, m]   </para>
+</entry><entry>
+<para>Maximum value along Z-axis   </para>
+</entry><entry align='center'>
+<para>yes   </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</informaltable>
+</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md51">
+<title>Scoring Scalar</title>
+
+<para><informaltable frame="all">
+    <tgroup cols="5" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+      <colspec colname='c3'/>
+      <colspec colname='c4'/>
+      <colspec colname='c5'/>
+<thead>
+      <row  class='markdownTableHead'>
+<entry align='center'>
+<para>Parameter Name   </para>
+</entry><entry align='center'>
+<para>ParticleNameToScore   </para>
+</entry><entry align='center'>
+<para></para>
+</entry><entry>
+<para>Parameter description   </para>
+</entry><entry align='center'>
+<para>Always required    </para>
+</entry></row>
+</thead><tbody>
+      <row  class='markdownTableRowOdd'>
+<entry align='center'>
+<para><computeroutput>EnergyDeposited</computeroutput>   </para>
+</entry><entry align='center'>
+<para>&quot;&quot;, Geant4 syntax   </para>
+</entry><entry align='center'>
+<para>PhysicalVolumeName or PVname+   </para>
+</entry><entry>
+<para>Score the energy deposit in eV in the PV&apos;s volume   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</informaltable>
+</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md52">
+<title>Scoring Spectrum</title>
+
+<para><informaltable frame="all">
+    <tgroup cols="5" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+      <colspec colname='c3'/>
+      <colspec colname='c4'/>
+      <colspec colname='c5'/>
+<thead>
+      <row  class='markdownTableHead'>
+<entry align='center'>
+<para>Parameter Name   </para>
+</entry><entry align='center'>
+<para>ParticleNameToScore   </para>
+</entry><entry align='center'>
+<para></para>
+</entry><entry>
+<para>Parameter description   </para>
+</entry><entry align='center'>
+<para>Always required    </para>
+</entry></row>
+</thead><tbody>
+      <row  class='markdownTableRowOdd'>
+<entry align='center'>
+<para><computeroutput>SurfaceCurrentSpectrum</computeroutput>   </para>
+</entry><entry align='center'>
+<para>&quot;&quot;, Geant4 syntax   </para>
+</entry><entry align='center'>
+<para>PhysicalVolumeName   </para>
+</entry><entry>
+<para>Score the surface current of the PV&apos; surface   </para>
+</entry><entry align='center'>
+<para>no    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry align='center'>
+<para><computeroutput>SurfaceFluenceSpectrum</computeroutput>   </para>
+</entry><entry align='center'>
+<para>&quot;&quot;, Geant4 syntax   </para>
+</entry><entry align='center'>
+<para>PhysicalVolumeName   </para>
+</entry><entry>
+<para>Score the surface fluence of the PV&apos; surface in particle/cm2   </para>
+</entry><entry align='center'>
+<para>no    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry align='center'>
+<para><computeroutput>VolumeFluenceSpectrum</computeroutput>   </para>
+</entry><entry align='center'>
+<para>&quot;&quot;, Geant4 syntax   </para>
+</entry><entry align='center'>
+<para>PhysicalVolumeName or PVname+   </para>
+</entry><entry>
+<para>Score the volume fluence in the PV&apos;s volume in particle/cm2   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</informaltable>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>ParticleName</computeroutput> must be in G4 syntax (ex: neutron, proton, Pb208, ...), empty = score all particles 
+<literallayout>&#160;&#xa;</literallayout>
+</para>
+</listitem><listitem>
+<para><computeroutput>ParticleNameToScore</computeroutput> can be an union of Physical Volumes. Place a <computeroutput>+</computeroutput> between each PV (ex: <computeroutput>PV1+PV2</computeroutput>)</para>
+</listitem><listitem>
+<para><computeroutput>PVname+</computeroutput> score in PVname and all the volumes inside of PVname. It is recommended to set one PVname (ex: <computeroutput>PV1+</computeroutput>)</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md53">
+<title>Scoring Spatial Distribution</title>
+
+<para><informaltable frame="all">
+    <tgroup cols="7" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+      <colspec colname='c3'/>
+      <colspec colname='c4'/>
+      <colspec colname='c5'/>
+      <colspec colname='c6'/>
+      <colspec colname='c7'/>
+<thead>
+      <row  class='markdownTableHead'>
+<entry align='center'>
+<para>Parameter Name   </para>
+</entry><entry align='center'>
+<para>ParticleNameToScore   </para>
+</entry><entry align='center'>
+<para>Distribution Type   </para>
+</entry><entry align='center'>
+<para>Binning   </para>
+</entry><entry align='center'>
+<para>Binning Unit   </para>
+</entry><entry align='center'>
+<para>Parameter description   </para>
+</entry><entry align='center'>
+<para>Always required    </para>
+</entry></row>
+</thead><tbody>
+      <row  class='markdownTableRowOdd'>
+<entry align='center'>
+<para><computeroutput>PowerDensityMap</computeroutput>   </para>
+</entry><entry align='center'>
+<para>&quot;&quot;, Geant4 syntax   </para>
+</entry><entry align='center'>
+<para>[RZ]   </para>
+</entry><entry align='center'>
+<para>bin1, min1, max1, bin2, min2, max2   </para>
+</entry><entry align='center'>
+<para>[mm]   </para>
+</entry><entry align='center'>
+<para>Score the energy deposition per volume unit in eV/cm3   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</informaltable>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para>The user can add numbers to the distribution type (for example <computeroutput>RZ8</computeroutput>) to differentiate the spatial scoring with different binning.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md54">
+<title>Example of Scoring</title>
+
+<para>Suppose a Sphere 1 named S1 which contains two smaller spheres S2:1 and S2:2. Each of these spheres contains a single sphere S3:1 and S3:2 respectively. Structure:<itemizedlist>
+<listitem>
+<para>S1<itemizedlist>
+<listitem>
+<para>S2:1<itemizedlist>
+<listitem>
+<para>S3:1</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para>S2:2<itemizedlist>
+<listitem>
+<para>S3:2</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para>Scoring<itemizedlist>
+<listitem>
+<para>Overall volume fluence spectrum of neutron: <computeroutput>VolumeFluenceSpectrum,neutron,S1+,</computeroutput></para>
+</listitem><listitem>
+<para>Overall volume fluence spectrum in S2:1: <computeroutput>VolumeFluenceSpectrum,,S2:1+S3:1,</computeroutput> or <computeroutput>VolumeFluenceSpectrum,,S2:1+,</computeroutput></para>
+</listitem><listitem>
+<para>Overall volume fluence spectrum in S2:1 and S2:2: <computeroutput>VolumeFluenceSpectrum,,S2:1+S3:1+S2:2+S3:2,</computeroutput> or <computeroutput>VolumeFluenceSpectrum,,S2:1+S2:2+,</computeroutput></para>
+</listitem><listitem>
+<para>Volume fluence spectrum in S2:1 only (without S3:1): <computeroutput>VolumeFluenceSpectrum,,S2:1,</computeroutput></para>
+</listitem><listitem>
+<para>Surface fluence spectrum of neutrons across S2:1 and S2:2: <computeroutput>SurfaceFluenceSpectrum,neutron,S2:1+S2:2</computeroutput></para>
+</listitem><listitem>
+<para>If S2:1 and S2:2 are copies, it is possible to score S3 (S3:1 and S3:2 if PVname is S3) in one score: <computeroutput>VolumeFluenceSpectrum,,S3,</computeroutput><itemizedlist>
+<listitem>
+<para>In this case, the user has to be very careful on the volume calculation and on the volumes scored.</para>
+</listitem><listitem>
+<para>In this case, it is not possible to score only the S3 contained in S2:1 for example.</para>
+</listitem><listitem>
+<para>It is recommended to avoid copy when each copy needs to be scored individually.</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md55">
+<title>Ntuple</title>
+
+<para><informaltable frame="all">
+    <tgroup cols="5" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+      <colspec colname='c3'/>
+      <colspec colname='c4'/>
+      <colspec colname='c5'/>
+<thead>
+      <row  class='markdownTableHead'>
+<entry>
+<para>Parameter name   </para>
+</entry><entry align='center'>
+<para>Value   </para>
+</entry><entry align='center'>
+<para>Units   </para>
+</entry><entry>
+<para>Parameter description   </para>
+</entry><entry align='center'>
+<para>Always required    </para>
+</entry></row>
+</thead><tbody>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>isEverythingNtuple   </para>
+</entry><entry align='center'>
+<para>true of false   </para>
+</entry><entry align='center'>
+<para>-   </para>
+</entry><entry>
+<para>Score information of neutrons into an ntuple   </para>
+</entry><entry align='center'>
+<para>No   </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</informaltable>
+</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md56">
+<title>keff Mesh Dimensions</title>
+
+<para><informaltable frame="all">
+    <tgroup cols="5" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+      <colspec colname='c3'/>
+      <colspec colname='c4'/>
+      <colspec colname='c5'/>
+<thead>
+      <row  class='markdownTableHead'>
+<entry>
+<para>Parameter name   </para>
+</entry><entry align='center'>
+<para>Value   </para>
+</entry><entry align='center'>
+<para>Units   </para>
+</entry><entry>
+<para>Parameter description   </para>
+</entry><entry align='center'>
+<para>Always required    </para>
+</entry></row>
+</thead><tbody>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>originKeff   </para>
+</entry><entry align='center'>
+<para>0,0,0   </para>
+</entry><entry align='center'>
+<para>[nm, um, mm, cm, dm, m]   </para>
+</entry><entry>
+<para>Origin of keff source   </para>
+</entry><entry align='center'>
+<para>no (set to 0,0,0 if not provided)    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>keff_nbinsR2   </para>
+</entry><entry align='center'>
+<para>integer   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry><entry>
+<para>number of bins in the X or R dimension   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>keff_nbinsTheta   </para>
+</entry><entry align='center'>
+<para>integer   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry><entry>
+<para>number of bins in the Y or Theta dimension   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>keff_nbinsZ   </para>
+</entry><entry align='center'>
+<para>integer   </para>
+</entry><entry align='center'>
+<para>no   </para>
+</entry><entry>
+<para>number of bins in the Z-axis   </para>
+</entry><entry align='center'>
+<para>yes   </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</informaltable>
+</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md57">
+<title>Energy Cutoff Definition</title>
+
+<para><informaltable frame="all">
+    <tgroup cols="5" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+      <colspec colname='c3'/>
+      <colspec colname='c4'/>
+      <colspec colname='c5'/>
+<thead>
+      <row  class='markdownTableHead'>
+<entry>
+<para>Parameter name   </para>
+</entry><entry align='center'>
+<para>Value   </para>
+</entry><entry align='center'>
+<para>Units   </para>
+</entry><entry>
+<para>Parameter description   </para>
+</entry><entry align='center'>
+<para>Always required    </para>
+</entry></row>
+</thead><tbody>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>Ecutp_target   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[eV, keV, MeV, GeV]   </para>
+</entry><entry>
+<para>Proton energy cutoff in target region   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>Ecutg_target   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[eV, keV, MeV, GeV]   </para>
+</entry><entry>
+<para>Gamma energy cutoff in target region   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>Ecute_target   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[eV, keV, MeV, GeV]   </para>
+</entry><entry>
+<para>e-/e+ energy cutoff in target region   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>Ecutp_lead   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[eV, keV, MeV, GeV]   </para>
+</entry><entry>
+<para>Proton energy cutoff in lead region   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>Ecutg_lead   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[eV, keV, MeV, GeV]   </para>
+</entry><entry>
+<para>Gamma energy cutoff in lead region   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>Ecute_lead   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[eV, keV, MeV, GeV]   </para>
+</entry><entry>
+<para>e-/e+ energy cutoff in lead region   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>Ecutp_fuel   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[eV, keV, MeV, GeV]   </para>
+</entry><entry>
+<para>Proton energy cutoff in fuel region   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>Ecutg_fuel   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[eV, keV, MeV, GeV]   </para>
+</entry><entry>
+<para>Gamma energy cutoff in fuel region   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>Ecute_fuel   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[eV, keV, MeV, GeV]   </para>
+</entry><entry>
+<para>e-/e+ energy cutoff in fuel region   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>Ecutp_world   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[eV, keV, MeV, GeV]   </para>
+</entry><entry>
+<para>Proton energy cutoff in world region   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>Ecutg_world   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[eV, keV, MeV, GeV]   </para>
+</entry><entry>
+<para>Gamma energy cutoff in world region   </para>
+</entry><entry align='center'>
+<para>yes    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>Ecute_world   </para>
+</entry><entry align='center'>
+<para>double   </para>
+</entry><entry align='center'>
+<para>[eV, keV, MeV, GeV]   </para>
+</entry><entry>
+<para>e-/e+ energy cutoff in world region   </para>
+</entry><entry align='center'>
+<para>yes   </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</informaltable>
+</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md58">
+<title>Source definition</title>
+
+<para>| SourceType | string | no | Type of source : which reactor (e.g. KIPT, Rez), which generation of neutrons (e.g. ADS, Rad), which variant (e.g. 1, 2), what place in the reactor (e.g. center, channel). All attached, not ordered. Only the type of reactor and the type of neutron generation are necessary. | no | | SourceNumber | integer | no | number of sources followed by the vectors of direction and position in mm | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | src_XYZdirection | double | (X1,Y1,Z1),(X2,Y2,Z2),etc. in mm | Direction vector of the source and beam pipe | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | src_XYZdirection | double | (X1,Y1,Z1),(X2,Y2,Z2),etc. in mm | Position vector of the center of the spallation target | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | src_slabThicknesses | double | e1, e2, etc. in mm | Thickness if each slab | no |</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md59">
+<title>Detection chamber definition</title>
+
+<para>Geometrical definition and scoring of the neutron flux are separate : The scoring has to be added to the parameters on top of the geometry. For Detectors having a detection media (e.g. fissile coating for fission chambers) </para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_1autotoc_md60">
+<title>Core definition (WDISPL, REFL, IRT4M6T, IRT4M8T, LEAD, VOID)</title>
+
+<para>| PathToBurnupFile | string | no | Path to the file containing fuel composition related to its burnup | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | CoreConfig,A,B,C,D,E,F,G,H | | | | | 
+<literallayout>&#160;&#xa;</literallayout>
+ | CoreConfig | string | A,B,C,D,E,F,G,H | | | 
+<literallayout>&#160;&#xa;</literallayout>
+ | CoreConfig_Raw10 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines ; _14.5 search the closest fuel burnup composition in a file given by CVR ; _CR0.65 add a control rod in the middle;EREFL/EWDISPL are analog to REFL/WDISPL but with an empty cylinder in the middle; to place detection chamber inside _DCTYP0 add a detection chamber of type TYP at height 0 in cm in the assembly; | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | CoreConfig_Raw9 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | CoreConfig_Raw8 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | CoreConfig_Raw7 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | CoreConfig_Raw6 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | CoreConfig_Raw5 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | CoreConfig_Raw4 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | CoreConfig_Raw3 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | CoreConfig_Raw2 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ | CoreConfig_Raw1 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+<literallayout>&#160;&#xa;</literallayout>
+ </para>
+</section>
+</section>
+</section>

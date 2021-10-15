@@ -1,0 +1,408 @@
+\hypertarget{_t_m_x_neutronic_param_8cc_source}{}\doxysection{TMXNeutronic\+Param.\+cc}
+\label{_t_m_x_neutronic_param_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/TMXElements/src/TMXNeutronicParam.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/TMXElements/src/TMXNeutronicParam.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00005}00005 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00006}00006 \textcolor{comment}{// TMXNeutronicParam}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00007}00007 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00008}00008 \textcolor{comment}{// Donovan Maire, Transmutex, 01/09/2020}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00009}00009 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00011}00011 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00013}00013 \textcolor{preprocessor}{\#include "{}TMXNeutronicParam.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00014}00014 \textcolor{preprocessor}{\#include "{}TMXOption.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00016}00016 \textcolor{preprocessor}{\#include <chrono>}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00017}00017 \textcolor{preprocessor}{\#include <ctime>}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00019}\mbox{\hyperlink{class_t_m_x_neutronic_param_a837f7bf4b87e49723b855ae9e7e50794}{00019}} \mbox{\hyperlink{class_t_m_x_neutronic_param_a837f7bf4b87e49723b855ae9e7e50794}{TMXNeutronicParam::TMXNeutronicParam}}(\textcolor{keywordtype}{int} RunNumber, \mbox{\hyperlink{class_t_m_x_merge_threads_results}{TMXMergeThreadsResults}}\& mergedOutput, \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* parameter, \textcolor{keywordtype}{int} threadID) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00020}00020     Initialize(RunNumber, mergedOutput, parameter, threadID);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00021}00021 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00023}00023 TMXNeutronicParam::\string~TMXNeutronicParam() \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00024}00024 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00026}00026 \textcolor{keywordtype}{void} TMXNeutronicParam::Initialize(\textcolor{keywordtype}{int} RunNumber, \mbox{\hyperlink{class_t_m_x_merge_threads_results}{TMXMergeThreadsResults}}\& mergedOutput, \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* parameter, \textcolor{keywordtype}{int} threadID) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00027}00027 \textcolor{comment}{//   std::cout << "{}TMXNeutronicParam Initialization"{} << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00029}00029   fInputParam = parameter;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00030}00030   fnEvt = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00031}00031   fthreadID = threadID;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00033}00033   fTotNbNeutrons = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00034}00034   fNbNperGeneration.clear();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00035}00035   fErrorCap\_abs.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00036}00036   fErrorEta.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00037}00037   fErrorFissionByN0.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00038}00038   fErrorN\_AbsU5.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00039}00039   fErrorN\_CapU8.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00040}00040   fErrorEperFission\_withEdepMinusEbeam.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00041}00041   fErrorEperFission.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00042}00042   fErrorEdep.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00043}00043   fErrorKeff\_collision.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00044}00044   fErrorKeff\_analogAbs.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00045}00045   fErrorKeff\_implicitAbs.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00046}00046   fErrorKeff\_trackLength.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00047}00047   fRunNumber = RunNumber;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00048}00048     fkeff = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00049}00049     fsigma\_mean\_keff = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00050}00050     ferror\_mean\_keff = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00051}00051     fEtot\_deposit = 0.;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00053}00053 \textcolor{comment}{//   // Define the name of the file to record physical parameters of this thread}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00054}00054 \textcolor{comment}{//   if(fInputParam-\/>str\_ROOTFileName != "{}"{}) \{}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00055}00055 \textcolor{comment}{//     std::size\_t pos = fInputParam-\/>str\_ROOTFileName.find("{}.root"{});}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00056}00056 \textcolor{comment}{//     if (pos != std::string::npos)}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00057}00057 \textcolor{comment}{//         fLogFile = fInputParam-\/>str\_ROOTFileName.substr(0,pos) + "{}\_log"{};}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00058}00058 \textcolor{comment}{//   \}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00059}00059 \textcolor{comment}{// }}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00060}00060 \textcolor{comment}{//   // Log file is used to record each following parameters every fInputParam-\/>PrintModulo events}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00061}00061 \textcolor{comment}{//   std::ofstream LogFile;}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00062}00062 \textcolor{comment}{//   LogFile.open((fLogFile + std::to\_string(fthreadID) + "{}\_"{} + std::to\_string(fRunNumber) + (std::string)"{}.txt"{}).c\_str(),std::ios::out);}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00063}00063 \textcolor{comment}{//   if(!TMXOption::IsKeffCalculation(fInputParam-\/>int\_Option))}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00064}00064 \textcolor{comment}{//     LogFile << "{}Events\(\backslash\)tN0\(\backslash\)tNtot\(\backslash\)tFissionByN0\(\backslash\)terrFissionByN0\(\backslash\)tNeutronFromFission\(\backslash\)tnbNeutronFromInelastic\(\backslash\)tAbsorptionInU235\(\backslash\)terr\_AbsorptionInU235\(\backslash\)tCaptureInU238\(\backslash\)terr\_CaptureInU238\(\backslash\)tk\_src\(\backslash\)terrk\_src\(\backslash\)tk\_eff\(\backslash\)terrk\_eff\(\backslash\)tnu\(\backslash\)teta\(\backslash\)terr\_eta\(\backslash\)tepsilon\(\backslash\)terr\_epsilon\(\backslash\)tcap(U-\/238)/abs(U-\/235)\(\backslash\)terr\_cap(U-\/238)/abs(U-\/235)\(\backslash\)tEtot-\/Ebeam\_perFission\(\backslash\)terr\_Etot-\/Ebeam\_perFission\(\backslash\)tEdep\_perFission\(\backslash\)terr\_Edep\_perFission\(\backslash\)tG0\(\backslash\)terr\_G0\(\backslash\)tG\_G0k\(\backslash\)terr\_G\_G0k\(\backslash\)tG\_Pth\(\backslash\)terr\_G\_Pth\(\backslash\)n"{};}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00065}00065 \textcolor{comment}{//   else}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00066}00066 \textcolor{comment}{//     LogFile << "{}Chi2\(\backslash\)terr\_Chi2\(\backslash\)tEvents\(\backslash\)tN0\(\backslash\)tNtot\(\backslash\)tFissionByN0\(\backslash\)terrFissionByN0\(\backslash\)tNeutronFromFission\(\backslash\)tnbNeutronFromInelastic\(\backslash\)tAbsorptionInU235\(\backslash\)terr\_AbsorptionInU235\(\backslash\)tCaptureInU238\(\backslash\)terr\_CaptureInU238\(\backslash\)tk\_eff\(\backslash\)terrk\_eff\(\backslash\)tk\_eff\_direct\(\backslash\)terrk\_eff\_direct\(\backslash\)tnu\(\backslash\)teta\(\backslash\)terr\_eta\(\backslash\)tcap(U-\/238)/abs(U-\/235)\(\backslash\)terr\_cap(U-\/238)/abs(U-\/235)\(\backslash\)tEtot-\/Ebeam\_perFission\(\backslash\)terr\_Etot-\/Ebeam\_perFission\(\backslash\)tEdep\_perFission\(\backslash\)terr\_Edep\_perFission\(\backslash\)n"{};}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00067}00067 \textcolor{comment}{//   LogFile.close();}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00069}00069   \textcolor{comment}{// Random sampling of source neutron position for keff Calculation (fint\_Option = 4)}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00070}00070   fmergedOutput = \&mergedOutput;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00072}00072   fPrevious\_weights.clear();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00073}00073 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00075}00075 \textcolor{keywordtype}{void} TMXNeutronicParam::UpdateValues(\textcolor{keywordtype}{int} nEvt, std::vector<long int>\& NbNperGeneration, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} TotNbNeutrons) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00076}00076     fnEvt = nEvt;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00077}00077     fNbNperGeneration = NbNperGeneration;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00078}00078     fTotNbNeutrons = TotNbNeutrons;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00079}00079 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00081}00081 \textcolor{keywordtype}{void} TMXNeutronicParam::DoCalculationAndPrintValues(\textcolor{keywordtype}{int} N0abs, \textcolor{keywordtype}{double} NeutronFromFission, \textcolor{keywordtype}{double} NeutronFromInelastic, \textcolor{keywordtype}{double}\& N\_AbsU5, \textcolor{keywordtype}{double} RelativeAbundanceU235, \textcolor{keywordtype}{double}\& N\_CapU8, \textcolor{keywordtype}{double}\& N\_absTot, \textcolor{keywordtype}{double} RelativeAbundanceU238, \textcolor{keywordtype}{double} Edep, \textcolor{keywordtype}{double} Ebeam, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} NbFission, \textcolor{keywordtype}{double} EperFission, \textcolor{keywordtype}{int} Nb\_EperFission, \textcolor{keywordtype}{double} nu, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int}\& FissionByN0, \mbox{\hyperlink{class_t_m_x_random_distribution3_d}{TMXRandomDistribution3D}}\& RadiusAnglesHeight, \textcolor{keywordtype}{int} nEvt, std::vector<long int>\& NbNperGeneration, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} TotNbNeutrons) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00082}00082     UpdateValues(nEvt, NbNperGeneration, TotNbNeutrons);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00083}00083     DoCalculationAndPrintValues(N0abs, NeutronFromFission, NeutronFromInelastic, N\_AbsU5, RelativeAbundanceU235, N\_CapU8, N\_absTot, RelativeAbundanceU238, Edep, Ebeam, NbFission, EperFission, Nb\_EperFission, nu, FissionByN0, RadiusAnglesHeight);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00084}00084 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00086}00086 \textcolor{keywordtype}{void} TMXNeutronicParam::DoCalculationAndPrintValues(\textcolor{keywordtype}{int} N0abs, \textcolor{keywordtype}{double} NeutronFromFission, \textcolor{keywordtype}{double} NeutronFromInelastic, \textcolor{keywordtype}{double}\& N\_AbsU5, \textcolor{keywordtype}{double} RelativeAbundanceU235, \textcolor{keywordtype}{double}\& N\_CapU8, \textcolor{keywordtype}{double}\& \textcolor{comment}{/*N\_absTot*/}, \textcolor{keywordtype}{double} RelativeAbundanceU238, \textcolor{keywordtype}{double} Edep, \textcolor{keywordtype}{double} Ebeam, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} NbFission, \textcolor{keywordtype}{double} EperFission, \textcolor{keywordtype}{int} Nb\_EperFission, \textcolor{keywordtype}{double} nu, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int}\& FissionByN0, \mbox{\hyperlink{class_t_m_x_random_distribution3_d}{TMXRandomDistribution3D}}\& RadiusAnglesHeight) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00088}00088     fEtot\_deposit += Edep;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00089}00089 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00090}00090   \textcolor{comment}{// Accumulate data of E\_per\_fission for every events}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00091}00091   \textcolor{keywordflow}{if}(NbFission != 0) \{ fErrorEperFission\_withEdepMinusEbeam.StatErrorCalc((Edep-\/Ebeam)/(\textcolor{keywordtype}{double})NbFission);\}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00092}00092   \textcolor{keywordflow}{if}(Nb\_EperFission != 0) \{ fErrorEperFission.StatErrorCalc(EperFission/(\textcolor{keywordtype}{double})Nb\_EperFission); \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00093}00093   fErrorEdep.StatErrorCalc( Edep );}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00095}00095 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00096}00096   \textcolor{keywordflow}{if}( fTotNbNeutrons != 0 ) \{   \textcolor{comment}{// If some neutrons are produced}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00097}00097       \textcolor{keywordflow}{if} ( (fnEvt\%fInputParam-\/>PrintModulo == 0 || 0.8*fInputParam-\/>Nparticles/fInputParam-\/>nThreads < fnEvt) \&\& fInputParam-\/>int\_Option != 20) \textcolor{comment}{// every fInputParam-\/>PrintModulo events}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00098}00098       \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00100}00100         \textcolor{comment}{// Definition of Capture/absorption ratio to estimate the spectrum quality (fast neutrons VS thermal neutrons)}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00101}00101         \textcolor{comment}{// Definition of capture and absorption rates in U-\/238 or U-\/235}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00102}00102         CapAbsRatioCalculation(N\_AbsU5, RelativeAbundanceU235, N\_CapU8, RelativeAbundanceU238);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00103}00103 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00104}00104         \textcolor{comment}{// Calculation of k as a function of neutron generation and its statistical error (1 sigma)}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00105}00105         std::vector<double> error\_k;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00106}00106         std::vector <double> k = k\_Calculation(error\_k);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00108}00108         \textcolor{comment}{// Calculation of k\_eff +-\/ sigma\_keff (statistical error)}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00109}00109         keffCalculation(k);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00111}00111         \textcolor{comment}{// Calculation of k\_source +-\/ sigma\_k\_source (statistical error)}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00112}00112         ksrcCalculation();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00114}00114         \textcolor{comment}{// Definition of characteristic parameters of an ADS}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00115}00115 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00116}00116         EpsilonCalculation();                                  \textcolor{comment}{// Coupling constant}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00117}00117         EtaCalculation(NeutronFromFission, NeutronFromInelastic);                  \textcolor{comment}{// Efficiency to produce fissions}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00118}00118         EFissionCalculation(Edep, Ebeam, NbFission);           \textcolor{comment}{// Average energy released per fission [MeV] -\/> Total Energy deposited minus the beam energy divided by the number of fission = the mean energy released by each fission}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00119}00119         EperFissionCalculation(EperFission, Nb\_EperFission);   \textcolor{comment}{// Average energy released per fission [MeV] -\/> Total Energy released by fission and secondaries due to fission = the mean energy released by each fission}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00120}00120         G0calculation(nu);                                     \textcolor{comment}{// Definition of the ADS gain G0 = intrisic gain of the ADS}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00121}00121         G\_G0k\_calculation();                                        \textcolor{comment}{// Definition of the ADS gain G = G0 * ksrc/1-\/ksrc}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00122}00122         G\_Pth\_calculation();                                   \textcolor{comment}{// Definition of the ADS gain G = P\_tot / P\_beam -\/1}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00123}00123         FissionByN0Calculation(FissionByN0);                       \textcolor{comment}{// Number of fissions due to N0}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00124}00124         Chi2Calculation(RadiusAnglesHeight);                   \textcolor{comment}{// Chi square calculation of the fission spatial distribution between to step of a keff calculation}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00126}00126         \textcolor{comment}{// Gives the information to the class which merges the results of every threads}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00127}00127         fmergedOutput-\/>AddNewValues(fthreadID, fNbNperGeneration[0], fTotNbNeutrons, fsumFissionByN0, fsigma\_FissionByN0, NeutronFromFission, NeutronFromInelastic,}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00128}00128                                     fErrorN\_AbsU5.GetSum()/(\textcolor{keywordtype}{double})fnEvt, fsigma\_N\_AbsU5, fErrorN\_CapU8.GetSum()/(\textcolor{keywordtype}{double})fnEvt, fsigma\_N\_CapU8,}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00129}00129                                     fksrc, fsigma\_ksrc, fkeff, fsigma\_mean\_keff, nu, feta, fsigma\_eta, fepsilon, fsigma\_eps, fCap\_abs, fsigma\_Cap\_Abs,}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00130}00130                                     fEtotEbeam\_perFission, fsigma\_EtotEbeam\_perFission, fmeanEperFission, fsigma\_EperFission, fG0, fsigma\_G0, fG\_G0k, fsigma\_G\_G0k, fG\_Pth, fsigma\_G\_Pth, fSum2, fSum4);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00131}00131 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00132}00132         fmergedOutput-\/>AddNew\_k\_values(fthreadID, k, error\_k);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00134}00134 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00135}00135 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00136}00136 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00137}00137         \textcolor{comment}{// Print values in the terminal}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00138}00138         PrintValues(NeutronFromFission, NeutronFromInelastic, nu, N0abs);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00139}00139 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00140}00140         \textcolor{comment}{// Write values in a file}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00141}00141 \textcolor{comment}{//        WriteValues(NeutronFromFission, NeutronFromInelastic, nu);}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00142}00142 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00143}00143         PrintTimer();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00144}00144     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00145}00145   \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00146}00146 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00147}00147 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00148}00148 \textcolor{keywordtype}{void} TMXNeutronicParam::PrintTimer() \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00149}00149     \textcolor{keywordflow}{if}(fnEvt < 10 * fInputParam-\/>PrintModulo  \&\& fnEvt > 0 \&\& fthreadID == 0) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00150}00150         \textcolor{keyword}{auto} timenow = std::chrono::system\_clock::to\_time\_t(std::chrono::system\_clock::now());}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00151}00151         std::cout << ctime(\&timenow) << \textcolor{stringliteral}{"{} "{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00152}00152 \textcolor{comment}{//         std::cout << "{}it tooks "{} << difftime(time(NULL), fTimer) << "{} seconds for last "{} << fInputParam-\/>PrintModulo << "{} events.\(\backslash\)n"{} << G4endl;}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00153}00153     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00154}00154 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00157}00157 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00158}00158 \textcolor{comment}{// Calculation of k and error\_k for each neutron generation}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00159}00159 \textcolor{comment}{// k is the ratio between the number of neutrons in two consecutive generations}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00160}00160 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00161}00161 std::vector<double> TMXNeutronicParam::k\_Calculation(std::vector<double>\& error\_k) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00162}00162     std::vector<double> k;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00163}00163     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{long} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<fNbNperGeneration.size()-\/1; ++i) \{   \textcolor{comment}{// Calculation of k for each neutron generation}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00164}00164         \textcolor{keywordflow}{if}(fNbNperGeneration[i] > 0)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00165}00165             k.push\_back(fNbNperGeneration[i+1]/(\textcolor{keywordtype}{double})fNbNperGeneration[i]);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00166}00166         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00167}00167             k.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00169}00169         \textcolor{keywordflow}{if}(fNbNperGeneration[i+1] > 0 \&\& fNbNperGeneration[i] > 0) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00170}00170             error\_k.push\_back( k[i] * std::sqrt( 1./fNbNperGeneration[i+1] + 1./fNbNperGeneration[i] ) );}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00171}00171         \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00172}00172         \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00173}00173             error\_k.push\_back( 0 );}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00174}00174         \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00175}00175     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00176}00176 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00177}00177     \textcolor{keywordflow}{return} k;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00178}00178 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00179}00179 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00181}00181 \textcolor{comment}{// Calculation of k\_source}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00182}00182 \textcolor{comment}{// ksrc = 1 -\/ Nb source neutrons / Total number of neutrons}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00183}00183 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00184}00184 \textcolor{keywordtype}{void} TMXNeutronicParam::ksrcCalculation() \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00185}00185     \textcolor{keywordflow}{if}(fTotNbNeutrons > 0)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00186}00186         fksrc = 1 -\/ fNbNperGeneration[0]/(double)fTotNbNeutrons;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00187}00187     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00188}00188         fksrc = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00190}00190     \textcolor{keywordflow}{if}(fTotNbNeutrons > 0 \&\& fNbNperGeneration[0])}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00191}00191         fsigma\_ksrc = fksrc * std::sqrt( 1./fNbNperGeneration[0] + 1./fTotNbNeutrons );}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00192}00192     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00193}00193         fsigma\_ksrc = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00194}00194 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00195}00195 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00197}00197 \textcolor{comment}{// Calculation of k\_eff (direct estimation)  (WARNING neutron generation range is hard coded)}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00198}00198 \textcolor{comment}{// direct keff = average value of k from generation 10 to 60}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00199}00199 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00200}00200 \textcolor{keywordtype}{void} TMXNeutronicParam::keffCalculation(std::vector <double>\& k) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00201}00201     \mbox{\hyperlink{class_t_m_x_stat_error_calc}{TMXStatErrorCalc}} ErrorKeff;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00202}00202     fkeff = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00203}00203     fsigma\_mean\_keff = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00204}00204     ferror\_mean\_keff = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00205}00205 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00206}00206     \textcolor{comment}{// TODO}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00207}00207     \textcolor{comment}{// Check the variation of k over the 5 generations before min to see if min is correctly defined (the plateau is reached)}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00208}00208     \textcolor{comment}{// END of TODO}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00209}00209 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00210}00210     \textcolor{comment}{// Definition of minimum and maximum of neutron generation to be considered to calculate keff}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00211}00211     \textcolor{keywordtype}{int} index\_keff\_min = 9;  \textcolor{comment}{// k at Generation 10}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00212}00212     \textcolor{keywordtype}{int} index\_keff\_max = 59;  \textcolor{comment}{// k at generation 59}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00213}00213     \textcolor{keywordflow}{if} (index\_keff\_max >= (\textcolor{keywordtype}{int})k.size()) \{ index\_keff\_max = k.size()-\/1; \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00214}00214     \textcolor{keywordflow}{if} (index\_keff\_min >= (\textcolor{keywordtype}{int})k.size()) \{ index\_keff\_min = 0; \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00215}00215 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00216}00216     \textcolor{comment}{// Accumulate values of k for several neutron generations}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00217}00217     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} ik = index\_keff\_min; ik <= index\_keff\_max; ++ik) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00218}00218         ErrorKeff.StatErrorCalc(k[ik]);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00219}00219     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00220}00220 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00221}00221     \textcolor{comment}{// Get Mean k = keff and sigma\_keff = standard dev.}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00222}00222     fkeff = ErrorKeff.GetMeanValue();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00223}00223     ferror\_mean\_keff = ErrorKeff.GetMeanError();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00224}00224     fsigma\_mean\_keff = ErrorKeff.GetStandardDeviation();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00225}00225 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00226}00226 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00227}00227 \textcolor{keywordtype}{void} TMXNeutronicParam::EpsilonCalculation() \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00228}00228     fepsilon = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00229}00229     fsigma\_eps = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00230}00230     \textcolor{keywordflow}{if}(1 -\/ fksrc !=0 \&\& fkeff !=0) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00231}00231         fepsilon = fksrc * (1 -\/ fkeff) / (fkeff * (1 -\/ fksrc));}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00232}00232         fsigma\_eps = fepsilon * sqrt(pow( (1-\/fkeff) / (fkeff * (1 -\/ fksrc)*(1 -\/ fksrc)) * fsigma\_ksrc , 2) + pow( fksrc / (fkeff*fkeff * (1 -\/ fksrc)) * fsigma\_mean\_keff , 2));}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00233}00233     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00234}00234 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00235}00235 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00236}00236 \textcolor{keywordtype}{void} TMXNeutronicParam::EtaCalculation(\textcolor{keywordtype}{double} NeutronFromFission, \textcolor{keywordtype}{double} NeutronFromInelastic) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00237}00237     feta = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00238}00238     \textcolor{keywordflow}{if}(NeutronFromFission + NeutronFromInelastic != 0) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00239}00239         feta = NeutronFromFission/(double)(NeutronFromFission + NeutronFromInelastic);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00240}00240         fsigma\_eta = fErrorEta.StatErrorCalc(feta);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00241}00241     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00242}00242 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00243}00243 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00244}00244 \textcolor{keywordtype}{void} TMXNeutronicParam::EFissionCalculation(\textcolor{keywordtype}{double} Edep, \textcolor{keywordtype}{double} Ebeam, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} NbFission) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00245}00245     \textcolor{comment}{// Total Energy deposited minus the beam energy divided by the number of fission = the mean energy released by each fission}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00246}00246     \textcolor{comment}{// If the number of values of the energy deposit per fission is not 0, we calculate the statistical error (1 sigma)}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00247}00247     \textcolor{keywordflow}{if}(NbFission != 0) \{fsigma\_EtotEbeam\_perFission = 1e-\/6 * fErrorEperFission\_withEdepMinusEbeam.StatErrorCalc((Edep-\/Ebeam)/NbFission);    \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00248}00248     \textcolor{keywordflow}{else} fsigma\_EtotEbeam\_perFission = 1e-\/6 * fErrorEperFission\_withEdepMinusEbeam.GetMeanError();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00249}00249     fEtotEbeam\_perFission = fErrorEperFission\_withEdepMinusEbeam.GetMeanValue() * 1e-\/6;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00250}00250 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00251}00251 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00252}00252 \textcolor{keywordtype}{void} TMXNeutronicParam::EperFissionCalculation(\textcolor{keywordtype}{double} EperFission, \textcolor{keywordtype}{int} Nb\_EperFission) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00253}00253     \textcolor{comment}{// Total Energy released by fission and secondaries due to fission = the mean energy released by each fission}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00254}00254     \textcolor{keywordflow}{if}(Nb\_EperFission != 0) \{ \textcolor{comment}{// If the number of value of the energy released by fissions is not 0, we calculate its statistical error (1 sigma)}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00255}00255         fsigma\_EperFission = 1e-\/6 * fErrorEperFission.StatErrorCalc(EperFission/(\textcolor{keywordtype}{double})Nb\_EperFission);     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00256}00256     \textcolor{keywordflow}{else} fsigma\_EperFission = 1e-\/6 * fErrorEperFission.GetMeanError();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00257}00257     fmeanEperFission = fErrorEperFission.GetMeanValue() * 1e-\/6;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00258}00258 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00259}00259 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00260}00260 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00261}00261 \textcolor{keywordtype}{void} TMXNeutronicParam::G0calculation(\textcolor{keywordtype}{double} nu) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00262}00262     fG0 = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00263}00263     \textcolor{keywordflow}{if}(fInputParam-\/>BeamEnergy !=0 \&\& nu !=0)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00264}00264         fG0 = feta/nu * (fNbNperGeneration[0]/(double)fnEvt) * fEtotEbeam\_perFission/(fInputParam-\/>BeamEnergy);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00265}00265     \textcolor{keywordflow}{if}(fNbNperGeneration[0] != 0 \&\& fEtotEbeam\_perFission != 0) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00266}00266         fsigma\_G0 = fG0 * sqrt(1/fNbNperGeneration[0] + (fsigma\_EtotEbeam\_perFission/fEtotEbeam\_perFission)*(fsigma\_EtotEbeam\_perFission/fEtotEbeam\_perFission));\}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00267}00267 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00268}00268 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00269}00269 \textcolor{keywordtype}{void} TMXNeutronicParam::G\_G0k\_calculation() \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00270}00270     fG\_G0k = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00271}00271     \textcolor{keywordflow}{if}( 1 -\/ fksrc !=0 )}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00272}00272         fG\_G0k = fG0 * fksrc/(1-\/fksrc);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00273}00273     \textcolor{keywordflow}{if}( fG0 != 0 \&\& fksrc != 0 \&\& 1-\/fksrc != 0)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00274}00274         fsigma\_G\_G0k = fG\_G0k * sqrt( (fsigma\_G0/fG0)*(fsigma\_G0/fG0) + (fsigma\_ksrc /(fksrc*(1-\/fksrc))) * (fsigma\_ksrc/(fksrc*(1-\/fksrc))));}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00275}00275 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00276}00276 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00277}00277 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00278}00278 \textcolor{keywordtype}{void} TMXNeutronicParam::G\_Pth\_calculation() \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00279}00279     fG\_Pth = fErrorEdep.GetMeanValue()/ (fInputParam-\/>BeamEnergy*1e+6) -\/ 1;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00280}00280     \textcolor{keywordflow}{if}( fInputParam-\/>BeamEnergy != 0 \&\& fnEvt != 0)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00281}00281         fsigma\_G\_Pth = std::sqrt( (fErrorEdep.GetMeanError()/fErrorEdep.GetMeanValue())*(fErrorEdep.GetMeanError()/fErrorEdep.GetMeanValue()) +}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00282}00282                                 1/fErrorEdep.GetNbValues()) * fG\_Pth;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00283}00283 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00284}00284 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00285}00285 \textcolor{keywordtype}{void} TMXNeutronicParam::FissionByN0Calculation(\textcolor{keywordtype}{long} \textcolor{keywordtype}{int}\& FissionByN0) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00286}00286     fsigma\_FissionByN0 = fErrorFissionByN0.StatErrorCalc(FissionByN0)/(double)fInputParam-\/>PrintModulo * fnEvt;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00287}00287     FissionByN0 = 0; \textcolor{comment}{// Initialize the counter after reading}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00288}00288     fsumFissionByN0 = fErrorFissionByN0.GetSum();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00289}00289 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00290}00290 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00291}00291 \textcolor{keywordtype}{void} TMXNeutronicParam::CapAbsRatioCalculation(\textcolor{keywordtype}{double}\& N\_AbsU5, \textcolor{keywordtype}{double} RelativeAbundanceU235, \textcolor{keywordtype}{double}\& N\_CapU8, \textcolor{keywordtype}{double} RelativeAbundanceU238) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00292}00292     \textcolor{comment}{// Definition of capture and absorption rates in U-\/238 or U-\/235}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00293}00293     fsigma\_N\_AbsU5 = fErrorN\_AbsU5.StatErrorCalc(N\_AbsU5)/(double)fInputParam-\/>PrintModulo;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00294}00294     fsigma\_N\_CapU8 = fErrorN\_CapU8.StatErrorCalc(N\_CapU8)/(double)fInputParam-\/>PrintModulo;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00295}00295 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00296}00296     \textcolor{comment}{// Definition of Capture/absorption ratio to estimate the spectrum quality (fast neutrons VS thermal neutrons)}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00297}00297     fCap\_abs = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00298}00298     \textcolor{keywordflow}{if}(N\_AbsU5 != 0 \&\& RelativeAbundanceU238 != 0)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00299}00299         fCap\_abs = N\_CapU8 / RelativeAbundanceU238 * RelativeAbundanceU235 / N\_AbsU5;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00300}00300     N\_AbsU5 = 0; \textcolor{comment}{// Initialize the counter after reading}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00301}00301     N\_CapU8 = 0; \textcolor{comment}{// Initialize the counter after reading}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00302}00302 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00303}00303     \textcolor{comment}{// to calculate statistical uncertainties (1 sigma)}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00304}00304     fsigma\_Cap\_Abs = fErrorCap\_abs.StatErrorCalc(fCap\_abs);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00305}00305 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00306}00306 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00307}00307 \textcolor{keywordtype}{void} TMXNeutronicParam::Chi2Calculation(\mbox{\hyperlink{class_t_m_x_random_distribution3_d}{TMXRandomDistribution3D}}\& RadiusAnglesHeight) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00308}00308     fSum2 = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00309}00309     \textcolor{keywordflow}{if}(TMXOption::IsKeffCalculation(fInputParam-\/>int\_Option)) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00310}00310         \textcolor{comment}{// Convergence calculation for keff calculation}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00311}00311         std::vector<double> weights = RadiusAnglesHeight.GetUnnormedWeights();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00312}00312         \textcolor{keywordflow}{if}( fPrevious\_weights.size() == 0) \{ fPrevious\_weights = RadiusAnglesHeight.GetInitialUnnormedWeights(); \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00313}00313         \textcolor{keywordtype}{long} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} n = fPrevious\_weights.size();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00314}00314         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{long} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i<n; ++i) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00315}00315             fSum2 += std::pow(weights[i] -\/ fPrevious\_weights[i], 2);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00316}00316             fSum4 += std::pow(weights[i] -\/ fPrevious\_weights[i], 4);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00317}00317         \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00318}00318         fSum2 = fSum2/n;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00319}00319         fSum4 = std::sqrt(fSum4/n -\/ fSum2*fSum2);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00320}00320         fPrevious\_weights = weights;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00321}00321     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00322}00322 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00323}00323 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00324}00324 \textcolor{keywordtype}{void} TMXNeutronicParam::WriteValues(\textcolor{keywordtype}{long} \textcolor{keywordtype}{int} NeutronFromFission, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} NeutronFromInelastic, \textcolor{keywordtype}{double} nu) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00325}00325     std::ofstream LogFile;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00326}00326     LogFile.open((fLogFile + std::to\_string(fthreadID) + \textcolor{stringliteral}{"{}\_"{}} + std::to\_string(fRunNumber) + (std::string)\textcolor{stringliteral}{"{}.txt"{}}).c\_str(),std::ios::out | std::ios::app);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00327}00327 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00328}00328     \textcolor{keywordflow}{if}(TMXOption::IsKeffCalculation(fInputParam-\/>int\_Option))}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00329}00329         LogFile << fSum2 << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fSum4 << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00330}00330 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00331}00331     \textcolor{comment}{// Writing in LogFile}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00332}00332     LogFile << fnEvt << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00333}00333     LogFile << fNbNperGeneration[0]   << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fTotNbNeutrons << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fsumFissionByN0 << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fsigma\_FissionByN0 << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << NeutronFromFission << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << NeutronFromInelastic << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00334}00334     LogFile << fErrorN\_AbsU5.GetSum()/(double)fnEvt << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fsigma\_N\_AbsU5 << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00335}00335     LogFile << fErrorN\_CapU8.GetSum()/(double)fnEvt << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fsigma\_N\_CapU8 << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00336}00336     LogFile << fksrc << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fsigma\_ksrc << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00337}00337     LogFile << fkeff << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fsigma\_mean\_keff << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00338}00338     LogFile << nu   << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << feta << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fsigma\_eta << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} ;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00339}00339     \textcolor{keywordflow}{if}(!TMXOption::IsKeffCalculation(fInputParam-\/>int\_Option)) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00340}00340         LogFile << fepsilon << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fsigma\_eps << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00341}00341     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00342}00342     LogFile << fCap\_abs<< \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fsigma\_Cap\_Abs << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00343}00343     LogFile << fEtotEbeam\_perFission << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fsigma\_EtotEbeam\_perFission << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00344}00344     LogFile << fmeanEperFission << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fsigma\_EperFission << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00345}00345     \textcolor{keywordflow}{if}(!TMXOption::IsKeffCalculation(fInputParam-\/>int\_Option)) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00346}00346         LogFile << fG0    << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fsigma\_G0 << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00347}00347         LogFile << fG\_G0k     << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fsigma\_G\_G0k  << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00348}00348         LogFile << fG\_Pth << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << fsigma\_G\_Pth << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00349}00349     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00350}00350 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00351}00351     LogFile << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00352}00352     LogFile.close();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00353}00353 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00354}00354 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00355}00355 \textcolor{keywordtype}{void} TMXNeutronicParam::PrintValues(\textcolor{keywordtype}{long} \textcolor{keywordtype}{int} NeutronFromFission, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} NeutronFromInelastic, \textcolor{keywordtype}{double} nu, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} N0abs) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00356}00356         std::string str\_k = \textcolor{stringliteral}{"{}k\_src"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00357}00357         \textcolor{keywordflow}{if}(TMXOption::IsKeffCalculation(fInputParam-\/>int\_Option)) \{ str\_k = \textcolor{stringliteral}{"{}k\_eff dedicated"{}}; \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00358}00358 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00359}00359         \textcolor{comment}{// Printing information in the terminal}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00360}00360         std::cout << \textcolor{stringliteral}{"{}nEvt = "{}} << fnEvt << \textcolor{stringliteral}{"{} N0 = "{}} << fNbNperGeneration[0]/(double)fnEvt << \textcolor{stringliteral}{"{} ; Ntot = "{}} << fTotNbNeutrons/(\textcolor{keywordtype}{double})fnEvt << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00361}00361         std::cout << \textcolor{stringliteral}{"{} ; FissionByN0 = "{}} << fsumFissionByN0/(double)fnEvt << \textcolor{stringliteral}{"{} +-\/ "{}} << fsigma\_FissionByN0/(\textcolor{keywordtype}{double})fnEvt << \textcolor{stringliteral}{"{} ; fission neutrons = "{}} << NeutronFromFission/(double)fnEvt << \textcolor{stringliteral}{"{} ; inelastic neutrons = "{}} << NeutronFromInelastic/(\textcolor{keywordtype}{double})fnEvt << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00362}00362         std::cout << \textcolor{stringliteral}{"{} N\_AbsU5 = "{}} << fErrorN\_AbsU5.GetSum()  /(double)fnEvt << \textcolor{stringliteral}{"{} +-\/ "{}} << fsigma\_N\_AbsU5 << \textcolor{stringliteral}{"{} ; N\_CapU8 = "{}} << fErrorN\_CapU8.GetSum()/(double)fnEvt << \textcolor{stringliteral}{"{} +-\/ "{}} << fsigma\_N\_CapU8 << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00363}00363         std::cout << \textcolor{stringliteral}{"{} nu    = "{}} << nu << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00364}00364         std::cout << \textcolor{stringliteral}{"{} "{}} << str\_k << \textcolor{stringliteral}{"{} = "{}} << fksrc << \textcolor{stringliteral}{"{} +-\/ "{}} << fsigma\_ksrc << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00365}00365         std::cout << \textcolor{stringliteral}{"{} k\_eff direct = "{}} << fkeff << \textcolor{stringliteral}{"{} +-\/ "{}} << fsigma\_mean\_keff << \textcolor{stringliteral}{"{}(mean error = "{}} << ferror\_mean\_keff << \textcolor{stringliteral}{"{})"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00366}00366         std::cout << \textcolor{stringliteral}{"{} Edep (=per fission) per fission : "{}} << fmeanEperFission << \textcolor{stringliteral}{"{} +-\/ "{}} << fsigma\_EperFission << \textcolor{stringliteral}{"{} MeV"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00367}00367 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00368}00368         \textcolor{keywordflow}{if}(!TMXOption::IsKeffCalculation(fInputParam-\/>int\_Option)) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00369}00369                 std::cout << \textcolor{stringliteral}{"{} Edep (= Etot-\/Ebeam) per fission : "{}} << fEtotEbeam\_perFission << \textcolor{stringliteral}{"{} +-\/ "{}} << fsigma\_EtotEbeam\_perFission << \textcolor{stringliteral}{"{} MeV"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00370}00370                 std::cout << \textcolor{stringliteral}{"{} eta   = "{}} << feta   << \textcolor{stringliteral}{"{} +-\/ "{}} << fsigma\_eta << \textcolor{stringliteral}{"{} ; epsilon = "{}} << fepsilon << \textcolor{stringliteral}{"{} +-\/ "{}} << fsigma\_eps << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00371}00371                 std::cout << \textcolor{stringliteral}{"{} G0    = "{}} << fG0    << \textcolor{stringliteral}{"{} +-\/ "{}} << fsigma\_G0 << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00372}00372                 std::cout << \textcolor{stringliteral}{"{} G     = "{}} << fG\_G0k     << \textcolor{stringliteral}{"{} +-\/ "{}} << fsigma\_G\_G0k  << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00373}00373                 std::cout << \textcolor{stringliteral}{"{} G\_Pth = "{}} << fG\_Pth << \textcolor{stringliteral}{"{} +-\/ "{}} << fsigma\_G\_Pth << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00374}00374                 std::cout << \textcolor{stringliteral}{"{}err\_cap(U-\/238) / err\_abs(U-\/235) = "{}} << fCap\_abs << \textcolor{stringliteral}{"{} +-\/ "{}} << fsigma\_Cap\_Abs << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00375}00375                 std::cout << \textcolor{stringliteral}{"{}N0absorber = "{}} << N0abs/(double)fnEvt << \textcolor{stringliteral}{"{}\(\backslash\)n"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00376}00376         \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00377}00377         \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00378}00378             std::cout << \textcolor{stringliteral}{"{}Sum = "{}} << fSum2 << \textcolor{stringliteral}{"{} +-\/ "{}} << fSum4 << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00379}00379             std::cout << \textcolor{stringliteral}{"{}MCNP keff estimators :"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00380}00380             std::cout << \textcolor{stringliteral}{"{} k\_col = "{}} << fErrorKeff\_collision.GetMeanValue() << \textcolor{stringliteral}{"{} +-\/ "{}} << fErrorKeff\_collision.GetMeanError() << \textcolor{stringliteral}{"{} (sigma = "{}} << fErrorKeff\_collision.GetStandardDeviation() << \textcolor{stringliteral}{"{})"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00381}00381             std::cout << \textcolor{stringliteral}{"{} k\_Aab = "{}} << fErrorKeff\_analogAbs.GetMeanValue() << \textcolor{stringliteral}{"{} +-\/ "{}} << fErrorKeff\_analogAbs.GetMeanError() << \textcolor{stringliteral}{"{} (sigma = "{}} << fErrorKeff\_analogAbs.GetStandardDeviation() << \textcolor{stringliteral}{"{})"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00382}00382             std::cout << \textcolor{stringliteral}{"{} k\_Iab = "{}} << fErrorKeff\_implicitAbs.GetMeanValue() << \textcolor{stringliteral}{"{} +-\/ "{}} << fErrorKeff\_implicitAbs.GetMeanError() << \textcolor{stringliteral}{"{} (sigma = "{}} << fErrorKeff\_implicitAbs.GetStandardDeviation() << \textcolor{stringliteral}{"{})"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00383}00383             std::cout << \textcolor{stringliteral}{"{} k\_trl = "{}} << fErrorKeff\_trackLength.GetMeanValue() << \textcolor{stringliteral}{"{} +-\/ "{}} << fErrorKeff\_trackLength.GetMeanError() << \textcolor{stringliteral}{"{} (sigma = "{}} << fErrorKeff\_trackLength.GetStandardDeviation() << \textcolor{stringliteral}{"{})"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00384}00384             \textcolor{keywordflow}{if}(fnEvt < 10) \{ \textcolor{comment}{// Do not keep first 10 cycles}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00385}00385                 fErrorKeff\_collision.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00386}00386                 fErrorKeff\_analogAbs.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00387}00387                 fErrorKeff\_implicitAbs.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00388}00388                 fErrorKeff\_trackLength.Initialize();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00389}00389             \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00390}00390         \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00391}00391 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00392}00392 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00393}00393 \textcolor{keywordtype}{void} TMXNeutronicParam::UpdateKeffEstimators(\textcolor{keywordtype}{double} Keff\_collision, \textcolor{keywordtype}{double} Keff\_analogAbs, \textcolor{keywordtype}{double} Keff\_implicitAbs, \textcolor{keywordtype}{double} Keff\_trackLength, \textcolor{keywordtype}{long} NsourceNeutronPerEvent) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00394}00394     \textcolor{keywordflow}{if}(NsourceNeutronPerEvent > 0) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00395}00395         fErrorKeff\_collision.StatErrorCalc(Keff\_collision/NsourceNeutronPerEvent);;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00396}00396         fErrorKeff\_analogAbs.StatErrorCalc(Keff\_analogAbs/NsourceNeutronPerEvent);;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00397}00397         fErrorKeff\_implicitAbs.StatErrorCalc(Keff\_implicitAbs/NsourceNeutronPerEvent);;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00398}00398         fErrorKeff\_trackLength.StatErrorCalc(Keff\_trackLength/NsourceNeutronPerEvent);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00399}00399     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00400}00400 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00401}00401 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00402}00402 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00403}00403 \textcolor{comment}{// Getter}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00404}00404 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00405}00405  \textcolor{keywordtype}{double} TMXNeutronicParam::GetEtotDeposit() \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00406}00406      \textcolor{keywordflow}{return}(fEtot\_deposit);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_neutronic_param_8cc_source_l00407}00407  \}}
+
+\end{DoxyCode}

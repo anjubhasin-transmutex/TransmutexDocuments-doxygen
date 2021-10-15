@@ -1,0 +1,54 @@
+\hypertarget{xntxs1_8_f_source}{}\doxysection{xntxs1.\+F}
+\label{xntxs1_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xntxs1.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xntxs1.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 04/06/96  18.14.07  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   03/06/94}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xntxs1(IMATL,EN,NELE,SECTL)}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00006}00006 \textcolor{comment}{*     Return total cross sections for many isomers in one call         *}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00008}00008 \textcolor{comment}{*     IMATL     (input) array of pointer to isomer "{}row"{}s in           *}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00009}00009 \textcolor{comment}{*               IMTABL index table                                     *}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00010}00010 \textcolor{comment}{*     EN        (input) incoming neutron energy in eV                  *}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00011}00011 \textcolor{comment}{*     NELE      (input) number of isomers in array IMATL               *}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00012}00012 \textcolor{comment}{*     SECTL     (output) array of total cross sections in barns        *}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00013}00013 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00014}00014 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00015}00015 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00016}00016 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcutil.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00017}00017 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00018}00018 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00019}00019 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbas.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00020}00020 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00021}00021 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00022}00022 \textcolor{preprocessor}{}\textcolor{comment}{* -\/-\/-\/> Column of total cross section in index table IMTABL}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00023}00023       parameter(ktotal=1)}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00024}00024       dimension imatl(nele),sectl(nele)}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00025}00025 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00026}00026 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00027}00027 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00028}00028       \textcolor{keywordflow}{DO} 10 jl=1,nele}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Loop on all elements}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00030}00030          sectl(jl)=0.}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00031}00031          imt=imatl(jl)}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> See that the pointer makes sense}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00033}00033          \textcolor{keywordflow}{IF}(imt.GT.0.AND.imt.LE.mxmate) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00034}00034             \textcolor{keywordflow}{IF}(imtabl(1,imt).EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00035}00035                \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' *** XNTXSM: Wrong pointer '}\textcolor{stringliteral}{',I5)'})imt}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00036}00036                \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00037}00037 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Get start and length of total cross section}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00039}00039             istart = imtabl(1+nreinf*(ktotal-\/1)+1,imt)}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00040}00040             ilengt = imtabl(1+nreinf*(ktotal-\/1)+2,imt)}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00041}00041             \textcolor{keywordflow}{IF}(istart.GT.0.AND.ilengt.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00042}00042 \textcolor{comment}{* -\/-\/-\/> If total cross section is present, interpolate}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00043}00043                \textcolor{keyword}{CALL }xnbint(istart,ilengt,en,sectl(jl))}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00044}00044 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00045}00045 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00046}00046    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00047}00047 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntxs1_8_f_source_l00048}00048   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

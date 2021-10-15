@@ -1,0 +1,52 @@
+\hypertarget{xnform_8_f_source}{}\doxysection{xnform.\+F}
+\label{xnform_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnform.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnform.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  11.28.19  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   23/08/94}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00003}00003       \textcolor{keyword}{FUNCTION }xnform(HNUM)}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00006}00006 \textcolor{comment}{*     Formats a floating point number maximising the digits in         *}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00007}00007 \textcolor{comment}{*     11 charaters                                                     *}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00009}00009 \textcolor{comment}{*     HNUM      (input) floating point number to be formatted          *}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00010}00010 \textcolor{comment}{*     XNFORM    (output CHARACTER*11 function value) formatted         *}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00011}00011 \textcolor{comment}{*               string containing the value of HNUM                    *}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00012}00012 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00013}00013 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00014}00014       \textcolor{keywordtype}{CHARACTER*11} XNFORM}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00015}00015       \textcolor{keywordtype}{CHARACTER*20} CHFORM}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00016}00016       \textcolor{keywordtype}{CHARACTER*1} CHSIGN(2)}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00017}00017       \textcolor{keyword}{DATA} chsign /\textcolor{stringliteral}{'-\/'},\textcolor{stringliteral}{'+'}/}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00018}00018 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00019}00019 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00020}00020 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00021}00021       \textcolor{keywordflow}{IF}(hnum.NE.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00022}00022 \textcolor{comment}{* -\/-\/-\/> Find exponent}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00023}00023          hexp = log10(abs(hnum))}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00024}00024       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00025}00025          hexp = 0}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00026}00026 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00027}00027       jexp = hexp}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00028}00028       \textcolor{keywordflow}{IF}(jexp.GE.-\/1.AND.jexp.LE.8) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Number is best written without exponent}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00030}00030          \textcolor{keyword}{WRITE}(chform, \textcolor{stringliteral}{'('}\textcolor{stringliteral}{'(F11.'}\textcolor{stringliteral}{',I1,'}\textcolor{stringliteral}{')'}\textcolor{stringliteral}{')'} ) min(8-\/jexp,8)}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00031}00031          \textcolor{keyword}{WRITE}(xnform,chform) hnum}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00032}00032       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00033}00033          \textcolor{keywordflow}{IF}(jexp.LT.0.AND.hexp.NE.jexp) jexp=jexp-\/1}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00034}00034          hman = hnum*10.**(-\/jexp)}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00035}00035          \textcolor{keywordflow}{IF}(abs(jexp).GT.9) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/> Need two digits for exponent}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00037}00037             \textcolor{keyword}{WRITE}(xnform,\textcolor{stringliteral}{'(F8.5,A1,I2)'}) hman, chsign(1+(1+sign(1,jexp)}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00038}00038      +      )/2),abs(jexp)}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00039}00039          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> One digit is enough for the exponent}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00041}00041             \textcolor{keyword}{WRITE}(xnform,\textcolor{stringliteral}{'(F9.6,A1,I1)'}) hman, chsign(1+(1+sign(1,jexp)}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00042}00042      +      )/2),abs(jexp)}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00043}00043 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00044}00044 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00045}00045 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnform_8_f_source_l00046}00046       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

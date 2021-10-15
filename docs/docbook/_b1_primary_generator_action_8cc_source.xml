@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__b1_primary_generator_action_8cc_source" xml:lang="en-US">
+<title>B1PrimaryGeneratorAction.cc</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/testKeff_v0.1/src/B1PrimaryGeneratorAction.cc</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered"><anchor xml:id="__b1_primary_generator_action_8cc_source_1l00001"/>00001 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00002"/>00002 <emphasis role="comment">//&#32;********************************************************************</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00003"/>00003 <emphasis role="comment">//&#32;*&#32;License&#32;and&#32;Disclaimer&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00004"/>00004 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00005"/>00005 <emphasis role="comment">//&#32;*&#32;The&#32;&#32;Geant4&#32;software&#32;&#32;is&#32;&#32;copyright&#32;of&#32;the&#32;Copyright&#32;Holders&#32;&#32;of&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00006"/>00006 <emphasis role="comment">//&#32;*&#32;the&#32;Geant4&#32;Collaboration.&#32;&#32;It&#32;is&#32;provided&#32;&#32;under&#32;&#32;the&#32;terms&#32;&#32;and&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00007"/>00007 <emphasis role="comment">//&#32;*&#32;conditions&#32;of&#32;the&#32;Geant4&#32;Software&#32;License,&#32;&#32;included&#32;in&#32;the&#32;file&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00008"/>00008 <emphasis role="comment">//&#32;*&#32;LICENSE&#32;and&#32;available&#32;at&#32;&#32;http://cern.ch/geant4/license&#32;.&#32;&#32;These&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00009"/>00009 <emphasis role="comment">//&#32;*&#32;include&#32;a&#32;list&#32;of&#32;copyright&#32;holders.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00010"/>00010 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00011"/>00011 <emphasis role="comment">//&#32;*&#32;Neither&#32;the&#32;authors&#32;of&#32;this&#32;software&#32;system,&#32;nor&#32;their&#32;employing&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00012"/>00012 <emphasis role="comment">//&#32;*&#32;institutes,nor&#32;the&#32;agencies&#32;providing&#32;financial&#32;support&#32;for&#32;this&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00013"/>00013 <emphasis role="comment">//&#32;*&#32;work&#32;&#32;make&#32;&#32;any&#32;representation&#32;or&#32;&#32;warranty,&#32;express&#32;or&#32;implied,&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00014"/>00014 <emphasis role="comment">//&#32;*&#32;regarding&#32;&#32;this&#32;&#32;software&#32;system&#32;or&#32;assume&#32;any&#32;liability&#32;for&#32;its&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00015"/>00015 <emphasis role="comment">//&#32;*&#32;use.&#32;&#32;Please&#32;see&#32;the&#32;license&#32;in&#32;the&#32;file&#32;&#32;LICENSE&#32;&#32;and&#32;URL&#32;above&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00016"/>00016 <emphasis role="comment">//&#32;*&#32;for&#32;the&#32;full&#32;disclaimer&#32;and&#32;the&#32;limitation&#32;of&#32;liability.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00017"/>00017 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00018"/>00018 <emphasis role="comment">//&#32;*&#32;This&#32;&#32;code&#32;&#32;implementation&#32;is&#32;the&#32;result&#32;of&#32;&#32;the&#32;&#32;scientific&#32;and&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00019"/>00019 <emphasis role="comment">//&#32;*&#32;technical&#32;work&#32;of&#32;the&#32;GEANT4&#32;collaboration.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00020"/>00020 <emphasis role="comment">//&#32;*&#32;By&#32;using,&#32;&#32;copying,&#32;&#32;modifying&#32;or&#32;&#32;distributing&#32;the&#32;software&#32;(or&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00021"/>00021 <emphasis role="comment">//&#32;*&#32;any&#32;work&#32;based&#32;&#32;on&#32;the&#32;software)&#32;&#32;you&#32;&#32;agree&#32;&#32;to&#32;acknowledge&#32;its&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00022"/>00022 <emphasis role="comment">//&#32;*&#32;use&#32;&#32;in&#32;&#32;resulting&#32;&#32;scientific&#32;&#32;publications,&#32;&#32;and&#32;indicate&#32;your&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00023"/>00023 <emphasis role="comment">//&#32;*&#32;acceptance&#32;of&#32;all&#32;terms&#32;of&#32;the&#32;Geant4&#32;Software&#32;license.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00024"/>00024 <emphasis role="comment">//&#32;********************************************************************</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00025"/>00025 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00026"/>00026 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00029"/>00029 <emphasis role="comment"></emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00030"/>00030 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__b1_primary_generator_action_8hh">B1PrimaryGeneratorAction.hh</link>&quot;</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00031"/>00031 
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00032"/>00032 <emphasis role="preprocessor">#include&#32;&quot;G4LogicalVolumeStore.hh&quot;</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00033"/>00033 <emphasis role="preprocessor">#include&#32;&quot;G4LogicalVolume.hh&quot;</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00034"/>00034 <emphasis role="preprocessor">#include&#32;&quot;G4Box.hh&quot;</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00035"/>00035 <emphasis role="preprocessor">#include&#32;&quot;G4RunManager.hh&quot;</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00036"/>00036 <emphasis role="preprocessor">#include&#32;&quot;G4ParticleGun.hh&quot;</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00037"/>00037 <emphasis role="preprocessor">#include&#32;&quot;G4ParticleTable.hh&quot;</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00038"/>00038 <emphasis role="preprocessor">#include&#32;&quot;G4ParticleDefinition.hh&quot;</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00039"/>00039 <emphasis role="preprocessor">#include&#32;&quot;G4SystemOfUnits.hh&quot;</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00040"/>00040 <emphasis role="preprocessor">#include&#32;&quot;Randomize.hh&quot;</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00041"/>00041 <emphasis role="preprocessor">#include&#32;&quot;TMXkeff.hh&quot;</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00042"/>00042 
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00043"/>00043 <emphasis role="comment">//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00044"/>00044 
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00045"/>00045 B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00046"/>00046 :&#32;G4VUserPrimaryGeneratorAction(),
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00047"/>00047 &#32;&#32;fParticleGun(0),&#32;
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00048"/>00048 &#32;&#32;fEnvelopeBox(0)
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00049"/>00049 {
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00050"/>00050 
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00051"/>00051 &#32;&#32;&#32;&#32;fSampler&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4FPYSamplingOps();
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00052"/>00052 
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00053"/>00053 &#32;&#32;G4int&#32;n_particle&#32;=&#32;1;
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00054"/>00054 &#32;&#32;fParticleGun&#32;&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4ParticleGun(n_particle);
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00055"/>00055 
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00056"/>00056 &#32;&#32;<emphasis role="comment">//&#32;default&#32;particle&#32;kinematic</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00057"/>00057 &#32;&#32;G4ParticleTable*&#32;particleTable&#32;=&#32;G4ParticleTable::GetParticleTable();
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00058"/>00058 &#32;&#32;G4String&#32;particleName;
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00059"/>00059 &#32;&#32;G4ParticleDefinition*&#32;particle
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00060"/>00060 &#32;&#32;&#32;&#32;=&#32;particleTable-&gt;FindParticle(particleName=<emphasis role="stringliteral">&quot;neutron&quot;</emphasis>);
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00061"/>00061 &#32;&#32;fParticleGun-&gt;SetParticleDefinition(particle);
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00062"/>00062 <emphasis role="comment">//&#32;&#32;fParticleGun-&gt;SetParticleEnergy(2.*keV);</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00063"/>00063 
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00064"/>00064 
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00065"/>00065 }
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00066"/>00066 
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00067"/>00067 <emphasis role="comment">//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00068"/>00068 
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00069"/>00069 B1PrimaryGeneratorAction::~B1PrimaryGeneratorAction()
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00070"/>00070 {
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00071"/>00071 &#32;&#32;<emphasis role="keyword">delete</emphasis>&#32;fParticleGun;
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00072"/>00072 }
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00073"/>00073 
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00074"/>00074 <emphasis role="comment">//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00075"/>00075 
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00076"/>00076 <emphasis role="keywordtype">void</emphasis>&#32;B1PrimaryGeneratorAction::GeneratePrimaries(G4Event*&#32;anEvent)
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00077"/>00077 {
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00078"/>00078 &#32;&#32;<emphasis role="comment">//this&#32;function&#32;is&#32;called&#32;at&#32;the&#32;begining&#32;of&#32;ecah&#32;event</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00079"/>00079 &#32;&#32;<emphasis role="comment">//</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00080"/>00080 &#32;&#32;&#32;&#32;<link linkend="_class_t_m_xkeff_1ae1e9f4676a54a9533cfe95f2d3b38805">TMXkeff::getInstance</link>()-&gt;<link linkend="_class_t_m_xkeff_1a06e77cdfda5e3914f7b6b37b27bd5299">inGeneratePrimaries</link>(fParticleGun,&#32;anEvent);
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00081"/>00081 &#32;&#32;<emphasis role="comment">//&#32;In&#32;order&#32;to&#32;avoid&#32;dependence&#32;of&#32;PrimaryGeneratorAction</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00082"/>00082 &#32;&#32;<emphasis role="comment">//&#32;on&#32;DetectorConstruction&#32;class&#32;we&#32;get&#32;Envelope&#32;volume</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00083"/>00083 &#32;&#32;<emphasis role="comment">//&#32;from&#32;G4LogicalVolumeStore.</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00084"/>00084 <emphasis role="comment">/*&#32;&#32;if&#32;(TMXkeff::getInstance()-&gt;getCurrentCycle()&#32;&lt;=&#32;1)</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00085"/>00085 <emphasis role="comment">&#32;&#32;{</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00086"/>00086 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;fParticleGun-&gt;SetParticlePosition(G4ThreeVector(0,&#32;0,&#32;0));</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00087"/>00087 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;fParticleGun-&gt;SetParticleEnergy(fSampler-&gt;G4SampleWatt(92235,&#32;G4FFGEnumerations::NEUTRON_INDUCED,&#32;0.025*eV));</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00088"/>00088 <emphasis role="comment"></emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00089"/>00089 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;G4double&#32;cosTheta&#32;=&#32;2*G4UniformRand()&#32;-&#32;1.;</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00090"/>00090 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;G4double&#32;phi&#32;=&#32;2*3.14159*G4UniformRand();</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00091"/>00091 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;G4double&#32;sinTheta&#32;=&#32;std::sqrt(1.&#32;-&#32;cosTheta*cosTheta);</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00092"/>00092 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;G4double&#32;ux&#32;=&#32;sinTheta*std::cos(phi);</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00093"/>00093 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;G4double&#32;uy&#32;=&#32;sinTheta*std::sin(phi);</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00094"/>00094 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;G4double&#32;uz&#32;=&#32;cosTheta;</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00095"/>00095 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;fParticleGun-&gt;SetParticleMomentumDirection(G4ThreeVector(ux,uy,uz));</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00096"/>00096 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;fParticleGun-&gt;GeneratePrimaryVertex(anEvent);</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00097"/>00097 <emphasis role="comment">&#32;&#32;}</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00098"/>00098 <emphasis role="comment">&#32;&#32;else</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00099"/>00099 <emphasis role="comment">&#32;&#32;{</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00100"/>00100 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;FissionSite&#32;site&#32;=&#32;TMXkeff::getInstance()-&gt;getFissionSite((int)round(G4UniformRand()&#32;*&#32;TMXkeff::getInstance()-&gt;getNbNeutronPerCycle())&#32;%&#32;TMXkeff::getInstance()-&gt;getNumberOfFissionSites());</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00101"/>00101 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;fParticleGun-&gt;SetParticlePosition(site.position);</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00102"/>00102 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;fParticleGun-&gt;SetParticleEnergy(site.energy);</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00103"/>00103 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;fParticleGun-&gt;SetParticleMomentumDirection(site.direction);</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00104"/>00104 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;fParticleGun-&gt;GeneratePrimaryVertex(anEvent);</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00105"/>00105 <emphasis role="comment">&#32;&#32;}</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00106"/>00106 <emphasis role="comment">*/</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00107"/>00107 }
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00108"/>00108 
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00109"/>00109 <emphasis role="comment">//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......</emphasis>
+<anchor xml:id="__b1_primary_generator_action_8cc_source_1l00110"/>00110 
+</programlisting></section>

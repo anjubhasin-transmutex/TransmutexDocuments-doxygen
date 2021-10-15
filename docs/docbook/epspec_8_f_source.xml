@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_epspec_8_f_source" xml:lang="en-US">
+<title>epspec.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/epspec/epspec.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_epspec_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.03/07&#32;25/09/96&#32;&#32;19.14.50&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">PROGRAM</emphasis>&#32;epspec
+<anchor xml:id="_epspec_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Calculates&#32;and&#32;outputs&#32;the&#32;secondary&#32;neutron&#32;spectrum&#32;from&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;a&#32;file&#32;5&#32;distribution&#32;of&#32;ENDF-6&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00009"/>00009 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00010"/>00010 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00011"/>00011 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcindx.inc&quot;</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00012"/>00012 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xctab1.inc&quot;</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00013"/>00013 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcenes.inc&quot;</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00014"/>00014 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;parameter(mxpoin=5000)
+<anchor xml:id="_epspec_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;ens(mxpoin),&#32;pb(mxpoin)
+<anchor xml:id="_epspec_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*124</emphasis>&#32;CHFINP,&#32;CHFOUT
+<anchor xml:id="_epspec_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;LNEUTR
+<anchor xml:id="_epspec_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;mathol&#32;/&#32;-99&#32;/
+<anchor xml:id="_epspec_8_f_source_1l00019"/>00019 <emphasis role="preprocessor">#include&#32;&quot;xcnamf.inc&quot;</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00020"/>00020 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00021"/>00021 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00022"/>00022 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00023"/>00023 <emphasis role="comment">*&#32;---&gt;&#32;Query&#32;file&#32;name</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;$&#32;Input&#32;&#32;file:&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)
+<anchor xml:id="_epspec_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(5,<emphasis role="stringliteral">&apos;(A)&apos;</emphasis>)&#32;chfinp
+<anchor xml:id="_epspec_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;---&gt;&#32;Open&#32;file</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00027"/>00027 +self,if=vax,decosf
+<anchor xml:id="_epspec_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(12,file=chfinp(:index(chfinp,<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)-1),shared,readonly,
+<anchor xml:id="_epspec_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;status=<emphasis role="stringliteral">&apos;OLD&apos;</emphasis>)
+<anchor xml:id="_epspec_8_f_source_1l00030"/>00030 +self,if=f90
+<anchor xml:id="_epspec_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(12,file=chfinp(:index(chfinp,<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)-1),
+<anchor xml:id="_epspec_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;status=<emphasis role="stringliteral">&apos;OLD&apos;</emphasis>,action=<emphasis role="stringliteral">&apos;READ&apos;</emphasis>)
+<anchor xml:id="_epspec_8_f_source_1l00033"/>00033 +self,if=sun
+<anchor xml:id="_epspec_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(12,file=chfinp(:index(chfinp,<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)-1),status=<emphasis role="stringliteral">&apos;OLD&apos;</emphasis>)
+<anchor xml:id="_epspec_8_f_source_1l00035"/>00035 +self
+<anchor xml:id="_epspec_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;$&#32;Output&#32;file:&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)
+<anchor xml:id="_epspec_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(5,<emphasis role="stringliteral">&apos;(A)&apos;</emphasis>)&#32;chfout
+<anchor xml:id="_epspec_8_f_source_1l00038"/>00038 +self,if=vax,decosf
+<anchor xml:id="_epspec_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(13,file=chfout(:index(chfout,<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)-1),form=<emphasis role="stringliteral">&apos;FORMATTED&apos;</emphasis>,
+<anchor xml:id="_epspec_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;status=<emphasis role="stringliteral">&apos;NEW&apos;</emphasis>)
+<anchor xml:id="_epspec_8_f_source_1l00041"/>00041 +self,if=f90,sun
+<anchor xml:id="_epspec_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(13,file=chfout(:index(chfout,<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)-1),form=<emphasis role="stringliteral">&apos;FORMATTED&apos;</emphasis>,
+<anchor xml:id="_epspec_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;status=<emphasis role="stringliteral">&apos;UNKNOWN&apos;</emphasis>)
+<anchor xml:id="_epspec_8_f_source_1l00044"/>00044 +self
+<anchor xml:id="_epspec_8_f_source_1l00045"/>00045 <emphasis role="comment">*&#32;---&gt;&#32;Query&#32;isomer&#32;and&#32;reaction&#32;code</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;$&#32;Enter&#32;A,&#32;Z,&#32;IS,&#32;EN,&#32;reaction:&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)
+<anchor xml:id="_epspec_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(5,*)&#32;iain,&#32;izin,&#32;isin,&#32;enin,&#32;mtin
+<anchor xml:id="_epspec_8_f_source_1l00048"/>00048 <emphasis role="comment">*&#32;---&gt;&#32;Query&#32;energy&#32;window&#32;and&#32;number&#32;of&#32;points</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;$&#32;Enter&#32;EMIN,&#32;EMAX,&#32;NEN:&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)
+<anchor xml:id="_epspec_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(5,*)&#32;emin,&#32;emax,&#32;nen
+<anchor xml:id="_epspec_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nen.GT.mxpoin)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MXPOIN&apos;</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00053"/>00053 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;fact=exp(log(emax/emin)/nen)
+<anchor xml:id="_epspec_8_f_source_1l00055"/>00055 <emphasis role="comment">*&#32;---&gt;&#32;Fill&#32;energy&#32;grid</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;ens(1)&#32;=&#32;emin
+<anchor xml:id="_epspec_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jen=2,nen
+<anchor xml:id="_epspec_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ens(jen)=ens(jen-1)*fact
+<anchor xml:id="_epspec_8_f_source_1l00059"/>00059 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00060"/>00060 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;next&#32;ENDF-6&#32;section&#32;header</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00061"/>00061 &#32;&#32;&#32;20&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnnews(c1,&#32;c2,&#32;l1,&#32;l2,&#32;n1,&#32;n2,&#32;math,&#32;mfh,&#32;mth)
+<anchor xml:id="_epspec_8_f_source_1l00062"/>00062 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;EoF&#32;exit</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(math.LT.0)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;40
+<anchor xml:id="_epspec_8_f_source_1l00064"/>00064 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;new&#32;material,&#32;special&#32;action</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(math.NE.mathol)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00066"/>00066 <emphasis role="comment">*&#32;---&gt;&#32;Print&#32;information</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)&#32;nint(c1/1000.),nint(mod(c1,1000.)),math
+<anchor xml:id="_epspec_8_f_source_1l00068"/>00068 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Now&#32;processing&#32;Z=&apos;</emphasis>,i3,<emphasis role="stringliteral">&apos;&#32;A=&apos;</emphasis>,i3,<emphasis role="stringliteral">&apos;&#32;mate=&apos;</emphasis>,i4)
+<anchor xml:id="_epspec_8_f_source_1l00069"/>00069 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;additional&#32;information&#32;on&#32;isomeric&#32;state</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(12,10100)&#32;elis,sta,lis,liso,izero,nfor
+<anchor xml:id="_epspec_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mathol=math
+<anchor xml:id="_epspec_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izamat&#32;=&#32;nint(c1)
+<anchor xml:id="_epspec_8_f_source_1l00073"/>00073 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00074"/>00074 <emphasis role="comment">*&#32;---&gt;&#32;Is&#32;this&#32;the&#32;section&#32;we&#32;are&#32;interested&#32;in?</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00075"/>00075 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>((mfh.NE.5)
+<anchor xml:id="_epspec_8_f_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;.OR.(mth.NE.mtin)
+<anchor xml:id="_epspec_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.OR.(izamat.NE.izin*1000+iain)
+<anchor xml:id="_epspec_8_f_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.OR.(liso.NE.isin))&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;20
+<anchor xml:id="_epspec_8_f_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;nsubs=n1
+<anchor xml:id="_epspec_8_f_source_1l00081"/>00081 <emphasis role="comment">*&#32;---&gt;&#32;Fill&#32;probability&#32;grid</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xn5gte(enin,&#32;ens,&#32;pb,&#32;nen)
+<anchor xml:id="_epspec_8_f_source_1l00083"/>00083 <emphasis role="comment">*&#32;---&gt;&#32;Write&#32;spectrum&#32;on&#32;unit&#32;13</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00084"/>00084 &#32;&#32;&#32;40&#32;<emphasis role="keyword">WRITE</emphasis>(13,<emphasis role="stringliteral">&apos;(2X,G14.7,A1,G14.7)&apos;</emphasis>)&#32;(ens(je),char(9),pb(je),je=1,nen)
+<anchor xml:id="_epspec_8_f_source_1l00085"/>00085 <emphasis role="comment">*&#32;---&gt;&#32;Close&#32;output</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CLOSE</emphasis>(13)
+<anchor xml:id="_epspec_8_f_source_1l00087"/>00087 <emphasis role="comment">*&#32;---&gt;&#32;Close&#32;input</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CLOSE</emphasis>(12)
+<anchor xml:id="_epspec_8_f_source_1l00089"/>00089 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_epspec_8_f_source_1l00090"/>00090 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(2e11.4,4i11,i4,i2,i3)
+<anchor xml:id="_epspec_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

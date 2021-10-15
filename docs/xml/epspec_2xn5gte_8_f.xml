@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="epspec_2xn5gte_8_f" kind="file" language="Fortran">
+    <compoundname>xn5gte.F</compoundname>
+    <includes refid="xcenes_8inc" local="yes">xcenes.inc</includes>
+    <includes refid="xctab1_8inc" local="yes">xctab1.inc</includes>
+    <includes refid="xc5dat_8inc" local="yes">xc5dat.inc</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/epspec/xn5gte.F</label>
+        <link refid="epspec_2xn5gte_8_f"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>xc5dat.inc</label>
+        <link refid="xc5dat_8inc_source"/>
+      </node>
+      <node id="2">
+        <label>xcenes.inc</label>
+        <link refid="xcenes_8inc_source"/>
+      </node>
+      <node id="3">
+        <label>xctab1.inc</label>
+        <link refid="xctab1_8inc_source"/>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="epspec_2xn5gte_8_f_1a2d12ca7e171781fcf0d2a9cde03f3128" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine xn5gte</definition>
+        <argsstring>(EN, ENS, PB, NEN)</argsstring>
+        <name>xn5gte</name>
+        <param>
+          <type>EN</type>
+          <defname>EN</defname>
+        </param>
+        <param>
+          <type>ENS</type>
+          <defname>ENS</defname>
+        </param>
+        <param>
+          <type>PB</type>
+          <defname>PB</defname>
+        </param>
+        <param>
+          <type>NEN</type>
+          <defname>NEN</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/epspec/xn5gte.F" line="3" column="1" bodyfile="/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/epspec/xn5gte.F" bodystart="4" bodyend="149"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">*CMZ<sp/>:<sp/><sp/>2.00/02<sp/>05/06/96<sp/><sp/>12.39.37<sp/><sp/>by<sp/><sp/>Federico<sp/>Carminati</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">*--<sp/>Author<sp/>:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">SUBROUTINE<sp/></highlight><highlight class="normal">xn5gte(EN,<sp/>ENS,<sp/>PB,<sp/>NEN)</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>Calculates<sp/>secondary<sp/>neutron<sp/>spectrum<sp/>from<sp/>ENDF-6<sp/>file<sp/>5<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>distribution<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>EN<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(input)<sp/>incoming<sp/>neutron<sp/>energy<sp/>in<sp/>eV<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>ENS<sp/><sp/><sp/><sp/><sp/><sp/><sp/>(input)<sp/>array<sp/>of<sp/>outgoing<sp/>neutron<sp/>energies<sp/>in<sp/>eV<sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>where<sp/>the<sp/>spectrum<sp/>has<sp/>to<sp/>be<sp/>calculated<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>PB<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(output)<sp/>array<sp/>of<sp/>spectrum<sp/>probability<sp/>values<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>corresponding<sp/>to<sp/>the<sp/>secondary<sp/>energies<sp/>in<sp/>ENS<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>NENS<sp/><sp/><sp/><sp/><sp/><sp/>(input)<sp/>number<sp/>of<sp/>points<sp/>in<sp/>ENS<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xcenes.inc&quot;</highlight></codeline>
+<codeline lineno="18"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#include<sp/>&quot;xctab1.inc&quot;</highlight></codeline>
+<codeline lineno="19"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#include<sp/>&quot;xc5dat.inc&quot;</highlight></codeline>
+<codeline lineno="20"><highlight class="preprocessor"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>parameter(maxpb1=2000)</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>dimension<sp/>ens(nen),<sp/>pb(nen),<sp/>pb1(maxpb1)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">*<sp/>----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Check<sp/>that<sp/>we<sp/>have<sp/>enough<sp/>space<sp/>in<sp/>local<sp/>variables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(nen.GT.maxpb1)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stop<sp/></highlight><highlight class="stringliteral">&apos;Increase<sp/>MAXPB1&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Set<sp/>everything<sp/>to<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>10<sp/>je=1,nen</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pb(je)=0</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pb1(je)=0</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/>10<sp/></highlight><highlight class="keywordflow">CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Loop<sp/>on<sp/>file<sp/>5<sp/>subsections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>50<sp/><sp/>jsubs=1,nsubs</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Read<sp/>weight<sp/>of<sp/>this<sp/>section</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xntab1</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WRITE(6,10800)<sp/>JSUBS,<sp/>N1,<sp/>NP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Calculate<sp/>weight<sp/>for<sp/>given<sp/>input<sp/>energy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>u<sp/>=<sp/>c1</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>energy<sp/>less<sp/>than<sp/>threshold,<sp/>section<sp/>is<sp/>skipped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(en.LT.u)<sp/></highlight><highlight class="keywordflow">GOTO</highlight><highlight class="normal"><sp/>50</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Save<sp/>section<sp/>content<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lf<sp/>=<sp/>l2</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Get<sp/>interpolated<sp/>weight</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnterp(nbt,int,n1,xnrval,n2,en,pe)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>no<sp/>weight,<sp/>skip<sp/>section</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(pe.LE.0)<sp/></highlight><highlight class="keywordflow">GOTO</highlight><highlight class="normal"><sp/>50</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Now<sp/>add<sp/>section<sp/>contribution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(lf.EQ.1)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Arbitrary<sp/>tabulated<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal">(6,10000)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">10000<sp/></highlight><highlight class="keyword">FORMAT</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&apos;<sp/>Arbitrary<sp/>tabulated<sp/>function&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Get<sp/>incoming<sp/>energy<sp/>interpolation<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xntab2</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Number<sp/>of<sp/>incoming<sp/>energy<sp/>distributions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nep=n2</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eold=0</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>40<sp/>jsub=1,nep</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Get<sp/>secondary<sp/>spectrum<sp/>tabulation<sp/>for<sp/>this<sp/>incoming<sp/>energy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xntab1</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>incoming<sp/>energy<sp/>less<sp/>than<sp/>first,<sp/>or<sp/>exactly<sp/>equal<sp/>to<sp/>current</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/>tabulation<sp/>or<sp/>greater<sp/>than<sp/>last,<sp/>take<sp/>current<sp/>tabulation<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/>leave</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(en.EQ.c2.OR.(en.LT.c2.AND.jsub.EQ.1)</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>+<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.OR.(en.GT.c2.AND.jsub.EQ.nep))<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnlf01(ens,pb,nen,pe)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">GOTO</highlight><highlight class="normal"><sp/>50</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>incoming<sp/>energy<sp/>between<sp/>this<sp/>tabulation<sp/>and<sp/>previous<sp/>one,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/>interpolate<sp/>and<sp/>leave</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(en.LT.c2)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Find<sp/>interpolation<sp/>factor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xrat=(c2-en)/(c2-eold)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Add<sp/>previous<sp/>weighted<sp/>energy<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>20<sp/><sp/>je=1,nen</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pb(je)=pb(je)+pb1(je)*xrat</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pb1(je)=0</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/>20<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Add<sp/>current<sp/>weighted<sp/>energy<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnlf01(ens,pb1,nen,pe)</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>30<sp/><sp/>je=1,nen</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pb(je)=pb(je)+pb1(je)*(1-xrat)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/>30<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Exit,<sp/>this<sp/>subsection<sp/>done</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">GOTO</highlight><highlight class="normal"><sp/>50</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Calculate<sp/>spectrum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnlf01(ens,pb1,nen,pe)</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Save<sp/>current<sp/>incoming<sp/>energy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eold=c2</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/>40<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(lf.EQ.5)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal">(6,10100)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>General<sp/>evaporation<sp/>spectrum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">10100<sp/></highlight><highlight class="keyword">FORMAT</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&apos;<sp/>General<sp/>evaporation<sp/>spectrum&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Read<sp/>and<sp/>interpolate<sp/>nuclear<sp/>temperature<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xntab1</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnterp(nbt,int,n1,xnrval,n2,en,theta)</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Read<sp/>tabulated<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xntab1</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Add<sp/>probability<sp/>to<sp/>grid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnlf05(ens,pb,nen,pe,theta)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(lf.EQ.7)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Simple<sp/>fission<sp/>spectrum<sp/>(Maxwellian)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal">(6,10200)</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">10200<sp/></highlight><highlight class="keyword">FORMAT</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&apos;<sp/>Simple<sp/>fission<sp/>spectrum<sp/>(Maxwellian)&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Read<sp/>and<sp/>interpolate<sp/>nuclear<sp/>temperature<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xntab1</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnterp(nbt,int,n1,xnrval,n2,en,theta)</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Add<sp/>probability<sp/>to<sp/>grid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnlf07(ens,pb,nen,pe,theta,en,u)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(lf.EQ.9)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Evaporation<sp/>spectrum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal">(6,10300)</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">10300<sp/></highlight><highlight class="keyword">FORMAT</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&apos;<sp/>Evaporation<sp/>spectrum&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Read<sp/>and<sp/>interpolate<sp/>nuclear<sp/>temperature<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xntab1</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnterp(nbt,int,n1,xnrval,n2,en,theta)</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Add<sp/>probability<sp/>to<sp/>grid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnlf09(ens,pb,nen,pe,theta,en,u)</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(lf.EQ.11)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Energy<sp/>dependent<sp/>Watt<sp/>spectrum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal">(6,10400)</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">10400<sp/></highlight><highlight class="keyword">FORMAT</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&apos;<sp/>Energy<sp/>dependent<sp/>Watt<sp/>spectrum&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Read<sp/>and<sp/>interpolate<sp/>values<sp/>for<sp/>a<sp/>constant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xntab1</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnterp(nbt,int,n1,xnrval,n2,en,aa)</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Read<sp/>and<sp/>interpolate<sp/>values<sp/>for<sp/>b<sp/>constant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xntab1</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnterp(nbt,int,n1,xnrval,n2,en,bb)</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Add<sp/>probability<sp/>to<sp/>grid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnlf11(ens,pb,nen,pe,aa,bb,en,u)</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(lf.EQ.12)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Energy<sp/>dependent<sp/>fission<sp/>neutron<sp/>spectrum<sp/>(Madland&amp;Nix)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal">(6,10500)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">10500<sp/></highlight><highlight class="keyword">FORMAT</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&apos;<sp/>Energy<sp/>dependent<sp/>fission<sp/>neutron<sp/>spectrum<sp/>(Madland&amp;Nix)&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Read<sp/>and<sp/>interpolate<sp/>max<sp/>nuclear<sp/>temperature<sp/>parameter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xntab1</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnterp(nbt,int,n1,xnrval,n2,en,tm)</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Add<sp/>probability<sp/>to<sp/>grid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xnlf12(ens,pb,nen,pe,c1,c2,tm)</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/>50<sp/></highlight><highlight class="keywordflow">CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal">10600<sp/></highlight><highlight class="keyword">FORMAT</highlight><highlight class="normal">(1x,i3,</highlight><highlight class="stringliteral">&apos;<sp/>Subsections<sp/>found&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">10700<sp/></highlight><highlight class="keyword">FORMAT</highlight><highlight class="normal">(1x,i5,</highlight><highlight class="stringliteral">&apos;<sp/>Found<sp/>energy<sp/>distribution<sp/>for<sp/>&apos;</highlight><highlight class="normal">,i2,</highlight><highlight class="stringliteral">&apos;-&apos;</highlight><highlight class="normal">,i3)</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">10800<sp/></highlight><highlight class="keyword">FORMAT</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&apos;<sp/>Subsection<sp/>&apos;</highlight><highlight class="normal">,i3,</highlight><highlight class="stringliteral">&apos;<sp/>number<sp/>of<sp/>int<sp/>ranges<sp/>&apos;</highlight><highlight class="normal">,i3,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>+</highlight><highlight class="stringliteral">&apos;<sp/>number<sp/>of<sp/>p(E)<sp/>&apos;</highlight><highlight class="normal">,i3)</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">END</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/epspec/xn5gte.F"/>
+  </compounddef>
+</doxygen>

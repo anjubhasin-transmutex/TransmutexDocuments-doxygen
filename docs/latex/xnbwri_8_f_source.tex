@@ -1,0 +1,43 @@
+\hypertarget{xnbwri_8_f_source}{}\doxysection{xnbwri.\+F}
+\label{xnbwri_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnbwri.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnbwri.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  09.41.48  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   10/03/95}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnbwri(LUNI)}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00006}00006 \textcolor{comment}{*     Writes dump of cross sections. This routine does not allow       *}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00007}00007 \textcolor{comment}{*     porting of Cross Section data between machine with non           *}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00008}00008 \textcolor{comment}{*     compatible binary representation. Should this be an issue, the   *}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00009}00009 \textcolor{comment}{*     routines XNAWRI/XNAREA have to be used instead, but they are     *}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00010}00010 \textcolor{comment}{*     much slower and space consuming.                                 *}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00011}00011 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00012}00012 \textcolor{comment}{*     LUNI      (input) ABS(LUNI) is the FORTRAN logical unit onto     *}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00013}00013 \textcolor{comment}{*               which the data are written. If LUNI<0 the file is      *}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00014}00014 \textcolor{comment}{*               rewound prior to writing                               *}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00015}00015 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00016}00016 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00017}00017 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00018}00018 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00019}00019 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00020}00020 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00021}00021 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00023}00023       lun=abs(luni)}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> See whether the file has to be rewound}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00025}00025       \textcolor{keywordflow}{IF}(luni.LT.0) rewind(lun)}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Write dimensions of arrays, XNSECT ID's and Cross Section table}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00027}00027 \textcolor{comment}{*      pointers}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00028}00028       \textcolor{keyword}{WRITE}(lun) nid,nmate,idl,imtabl,ltemp,nctemp}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Write dimensions of main store}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00030}00030       \textcolor{keyword}{WRITE}(lun) nbsize,ihgwmk}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Write main store}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00032}00032       \textcolor{keyword}{WRITE}(lun) (xstore(ll),ll=1,ihgwmk)}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/> Print number of words written}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00034}00034       \textcolor{keyword}{WRITE}(6,10000) ihgwmk, lun}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00035}00035 10000 \textcolor{keyword}{FORMAT}(i10,\textcolor{stringliteral}{' words of x-\/sections dumped on unit '},i2)}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00036}00036 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbwri_8_f_source_l00037}00037       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

@@ -1,0 +1,318 @@
+\hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source}{}\doxysection{SVBR100\+\_\+\+Fuel\+Pin.\+cc}
+\label{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/3/src/geometry/SVBR100/SVBR100\_FuelPin.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/3/src/geometry/SVBR100/SVBR100\_FuelPin.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00002}00002 \textcolor{comment}{// \(\backslash\)brief Implementation of the SVBR100's Fuel Pin class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00006}00006 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00007}00007 \textcolor{comment}{// SVBR100\_FuelPin}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00009}00009 \textcolor{comment}{// Thomas Guilbaud, Transmutex, 21/05/2021}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{// Geometry represented the SVBR100's Fuel Pin of AKME}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00014}00014 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00015}00015 \textcolor{preprocessor}{\#include "{}SVBR100\_FuelPin.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00017}00017 \textcolor{comment}{// Geant4 Class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00018}00018 \textcolor{preprocessor}{\#include "{}G4PhysicalConstants.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00019}00019 \textcolor{preprocessor}{\#include "{}G4PVPlacement.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00020}00020 \textcolor{preprocessor}{\#include "{}G4PVReplica.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00021}00021 \textcolor{preprocessor}{\#include "{}G4SystemOfUnits.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00022}00022 \textcolor{preprocessor}{\#include "{}G4Tubs.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00023}00023 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00025}00025 SVBR100\_FuelPin::SVBR100\_FuelPin(std::string name, \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* p)}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00026}00026 :   m\_p\{p\},}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00027}00027     m\_name(name),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00028}00028     m\_masterVolume(nullptr),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00029}00029     m\_isReplicated(false),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00030}00030     m\_nbSections(1),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00031}00031     m\_halfHeight(0.),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00032}00032     m\_fuelAssemblyIndex(\textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00033}00033 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00035}00035 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00037}00037 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00038}00038 \textcolor{comment}{// Builder}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00040}00040 \textcolor{keywordtype}{void} SVBR100\_FuelPin::createGeometry() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00041}00041     \textcolor{keywordtype}{bool} overlap = m\_p-\/>Verbose >= 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00043}00043     createMaterials();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00045}00045     G4double halfHeight\_topReflector = 65./2. * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00046}00046     G4double halfHeight\_activeCore = 900./2. * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00047}00047     G4double halfHeight\_bottomReflector = 150./2. * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00048}00048     G4double halfHeight\_pin = halfHeight\_topReflector + halfHeight\_activeCore + halfHeight\_bottomReflector;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00050}00050     G4double zPosition\_topReflector = halfHeight\_pin -\/ halfHeight\_topReflector;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00051}00051     G4double zPosition\_activeCore = zPosition\_topReflector -\/ halfHeight\_topReflector -\/ halfHeight\_activeCore;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00052}00052     G4double zPosition\_bottomReflector = -\/halfHeight\_pin + halfHeight\_bottomReflector;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00054}00054     \textcolor{comment}{// Cladding}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00055}00055     G4double outerRadius\_cladding = 12.0/2. * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00056}00056     G4double thickness\_cladding = 0.4 * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00057}00057     \textcolor{comment}{// Gap}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00058}00058     G4double outerRadius\_gap = outerRadius\_cladding -\/ thickness\_cladding;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00059}00059     G4double thickness\_gap = 0.1 * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00060}00060     \textcolor{comment}{// Fuel}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00061}00061     G4double outerRadius\_fuel = outerRadius\_gap -\/ thickness\_gap;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00062}00062     \textcolor{comment}{// Void}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00063}00063     G4double outerRadius\_void = 1.1/2. * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00065}00065     G4double halfHeight\_replica = halfHeight\_activeCore/(double)m\_nbSections;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00067}00067     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00069}00069     \textcolor{comment}{// std::string fuelA\_round = m\_fuelAssemblyIndex != -\/1 ? "{}\_Round"{}+std::to\_string(m\_fuelAssemblyIndex) : "{}"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00071}00071     \textcolor{comment}{// Cladding}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00072}00072     G4Tubs* sCladding = \textcolor{keyword}{new} G4Tubs(\textcolor{stringliteral}{"{}s"{}}+m\_name+\textcolor{stringliteral}{"{}\_Cladding"{}}, 0., outerRadius\_cladding, halfHeight\_pin, 0., twopi);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00073}00073     G4LogicalVolume* lCladding = \textcolor{keyword}{new} G4LogicalVolume(sCladding, m\_claddingMaterial, \textcolor{stringliteral}{"{}l"{}}+m\_name+\textcolor{stringliteral}{"{}\_Cladding"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00075}00075     \textcolor{comment}{// Void}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00076}00076     G4Tubs* sVoid = \textcolor{keyword}{new} G4Tubs(\textcolor{stringliteral}{"{}s"{}}+m\_name+\textcolor{stringliteral}{"{}\_Void"{}}, 0., outerRadius\_gap, halfHeight\_pin, 0., twopi);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00077}00077     G4LogicalVolume* lVoid = \textcolor{keyword}{new} G4LogicalVolume(sVoid, m\_voidMaterial, \textcolor{stringliteral}{"{}l"{}}+m\_name+\textcolor{stringliteral}{"{}\_Void"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00078}00078     \textcolor{keyword}{new} G4PVPlacement(0, G4ThreeVector(), lVoid, \textcolor{stringliteral}{"{}p"{}}+m\_name+\textcolor{stringliteral}{"{}\_Void"{}}, lCladding, \textcolor{keyword}{false}, 0, overlap);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00080}00080     \textcolor{comment}{// Top Reflector}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00081}00081     G4Tubs* sTopReflector = \textcolor{keyword}{new} G4Tubs(\textcolor{stringliteral}{"{}s"{}}+m\_name+\textcolor{stringliteral}{"{}\_topReflector"{}}, outerRadius\_void, outerRadius\_fuel, halfHeight\_topReflector, 0., twopi);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00082}00082     G4LogicalVolume* lTopReflector = \textcolor{keyword}{new} G4LogicalVolume(sTopReflector, m\_reflectorMaterial, \textcolor{stringliteral}{"{}l"{}}+m\_name+\textcolor{stringliteral}{"{}\_topReflector"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00083}00083     \textcolor{keyword}{new} G4PVPlacement(0, G4ThreeVector(0., 0., zPosition\_topReflector), lTopReflector, \textcolor{stringliteral}{"{}p"{}}+m\_name+\textcolor{stringliteral}{"{}\_topReflector"{}}, lVoid, \textcolor{keyword}{false}, 0, overlap);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00085}00085     \textcolor{comment}{// Fuel}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00086}00086     G4Tubs* sFuel = \textcolor{keyword}{new} G4Tubs(\textcolor{stringliteral}{"{}s"{}}+m\_name+\textcolor{stringliteral}{"{}\_Fuel"{}}, outerRadius\_void, outerRadius\_fuel, halfHeight\_replica, 0., twopi);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00087}00087     \textcolor{comment}{// G4LogicalVolume* lFuelPellet = new G4LogicalVolume(sFuel, m\_fuelMaterial, "{}lFuelPin\_FuelPellet"{});}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00088}00088     \textcolor{comment}{// new G4PVPlacement(0, G4ThreeVector(0., 0., zPosition\_activeCore), lFuelPellet, "{}pFuelPin\_FuelPellet"{}, lVoid, false, 0, overlap);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00089}00089 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00090}00090     \textcolor{comment}{// Bottom Reflector}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00091}00091     G4Tubs* sBottomReflector = \textcolor{keyword}{new} G4Tubs(\textcolor{stringliteral}{"{}s"{}}+m\_name+\textcolor{stringliteral}{"{}\_bottomReflector"{}}, outerRadius\_void, outerRadius\_fuel, halfHeight\_bottomReflector, 0., twopi);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00092}00092     G4LogicalVolume* lBottomReflector = \textcolor{keyword}{new} G4LogicalVolume(sBottomReflector, m\_reflectorMaterial, \textcolor{stringliteral}{"{}l"{}}+m\_name+\textcolor{stringliteral}{"{}\_bottomReflector"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00093}00093     \textcolor{keyword}{new} G4PVPlacement(0, G4ThreeVector(0., 0., zPosition\_bottomReflector), lBottomReflector, \textcolor{stringliteral}{"{}p"{}}+m\_name+\textcolor{stringliteral}{"{}\_bottomReflector"{}}, lVoid, \textcolor{keyword}{false}, 0, overlap);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00095}00095     \textcolor{keywordflow}{if} (m\_isReplicated) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00096}00096         \textcolor{comment}{/*G4Tubs* sFuelPin = new G4Tubs("{}sFuelPin"{}, 0., outerRadius\_cladding, halfHeight\_activeCore, 0., twopi);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00097}00097 \textcolor{comment}{        G4LogicalVolume* lFuelPin = new G4LogicalVolume(sFuelPin, m\_fuelMaterial, "{}lFuelPin"{});}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00098}00098 \textcolor{comment}{        m\_masterVolume = lFuelPin;*/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00100}00100         std::string name;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00101}00101         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < m\_nbSections; i++) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00102}00102             name = m\_name+\textcolor{stringliteral}{"{}\_FuelPellet\_"{}}+std::to\_string(i);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00103}00103             G4LogicalVolume* lFuelPellet = \textcolor{keyword}{new} G4LogicalVolume(sFuel, m\_fuelMaterialVector[i], \textcolor{stringliteral}{"{}l"{}}+name);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00104}00104             \textcolor{keyword}{new} G4PVPlacement(0, G4ThreeVector(0., 0., zPosition\_activeCore + halfHeight\_replica * (m\_nbSections -\/ 2.*i -\/ 1)), lFuelPellet, \textcolor{stringliteral}{"{}p"{}}+name, lVoid, \textcolor{keyword}{false}, i, overlap);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00105}00105         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00106}00106 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00107}00107         \textcolor{comment}{// new G4PVReplica("{}pFuelPin\_replica"{}, lFuelPin, lCladding, kZAxis, nSections, halfHeight\_replica);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00108}00108     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00109}00109     \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00110}00110         G4LogicalVolume* lFuelPellet = \textcolor{keyword}{new} G4LogicalVolume(sFuel, m\_fuelMaterialVector[0], \textcolor{stringliteral}{"{}l"{}}+m\_name+\textcolor{stringliteral}{"{}\_FuelPellet"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00111}00111         \textcolor{keyword}{new} G4PVPlacement(0, G4ThreeVector(0., 0., zPosition\_activeCore), lFuelPellet, \textcolor{stringliteral}{"{}p"{}}+m\_name+\textcolor{stringliteral}{"{}\_FuelPellet"{}}, lVoid, \textcolor{keyword}{false}, 0, overlap);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00112}00112     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00113}00113     m\_masterVolume = lCladding;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00114}00114 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00115}00115 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00116}00116 \textcolor{keywordtype}{void} SVBR100\_FuelPin::createMaterials() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00117}00117     G4double temperature\_cladding = (300. + 273.15) * kelvin; \textcolor{comment}{// !!! Random Temperature}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00118}00118     G4double temperature\_fuel = 900. * kelvin; \textcolor{comment}{// !!! Random TemperatureTemperature}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00119}00119     G4double temperature\_void = (500. + 237.15) * kelvin; \textcolor{comment}{// !!! Random Temperature}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00121}00121     \textcolor{keyword}{const} \textcolor{keywordtype}{double} A\_U235 = 235.044, A\_U238 = 238.051, A\_O16 = 15.995; \textcolor{comment}{// g/mol}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00123}00123     \textcolor{comment}{// std::string fuelA\_round = m\_fuelAssemblyIndex != -\/1 ? "{}\_Round"{}+std::to\_string(m\_fuelAssemblyIndex) : "{}"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00124}00124 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00126}00126     \textcolor{comment}{// Cladding}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00127}00127     \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* EP823 = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00128}00128         \textcolor{stringliteral}{"{}EP823\_"{}}+m\_fuelAssemblyIndex, 7.87*(g/cm3), 47, kStateSolid, temperature\_cladding \textcolor{comment}{// !!! Density to be confirmed}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00129}00129     );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00130}00130     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00131}00131         \textcolor{comment}{// C Nat -\/ 2 Stable Isotopes -\/ 0.16 wt\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00132}00132         \textcolor{keywordtype}{double} frac\_C = 0.16e-\/2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00133}00133         EP823-\/>AddElement( 60120, frac\_C * 0.989); \textcolor{comment}{// C-\/12}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00134}00134         EP823-\/>AddElement( 60120, frac\_C * 0.011); \textcolor{comment}{// C-\/13}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00135}00135         \textcolor{comment}{// Mn Nat -\/ 1 Stable Isotope -\/ 0.55 wt\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00136}00136         \textcolor{keywordtype}{double} frac\_Mn = 0.55e-\/2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00137}00137         EP823-\/>AddElement(250550, frac\_Mn); \textcolor{comment}{// Mn55}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00138}00138         \textcolor{comment}{// P Nat -\/ 1 Stable Isotope -\/ 0.014 wt\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00139}00139         \textcolor{keywordtype}{double} frac\_P = 0.014e-\/2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00140}00140         EP823-\/>AddElement(150310, frac\_P); \textcolor{comment}{// P-\/31}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00141}00141         \textcolor{comment}{// S Nat -\/ 4 Stable Isotopes -\/ 0.03 wt\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00142}00142         \textcolor{keywordtype}{double} frac\_S = 0.004e-\/2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00143}00143         EP823-\/>AddElement(160320, frac\_S * 0.9499); \textcolor{comment}{// S-\/32}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00144}00144         EP823-\/>AddElement(160330, frac\_S * 0.0075); \textcolor{comment}{// S-\/33}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00145}00145         EP823-\/>AddElement(160340, frac\_S * 0.0425); \textcolor{comment}{// S-\/34}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00146}00146         EP823-\/>AddElement(160360, frac\_S * 0.0001); \textcolor{comment}{// S-\/36}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00147}00147         \textcolor{comment}{// Si Nat -\/ 3 Stable Isotopes -\/ 1.09 wt\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00148}00148         \textcolor{keywordtype}{double} frac\_Si = 1.09e-\/2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00149}00149         EP823-\/>AddElement(140280, frac\_Si * 0.922); \textcolor{comment}{// Si28}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00150}00150         EP823-\/>AddElement(140290, frac\_Si * 0.047); \textcolor{comment}{// Si29}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00151}00151         EP823-\/>AddElement(140300, frac\_Si * 0.031); \textcolor{comment}{// Si30}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00152}00152         \textcolor{comment}{// Cr Nat -\/ 4 Stable Isotopes -\/ 11.70 wt\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00153}00153         \textcolor{keywordtype}{double} frac\_Cr = 11.70e-\/2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00154}00154         EP823-\/>AddElement(240500, frac\_Cr * 0.04345); \textcolor{comment}{// Cr50}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00155}00155         EP823-\/>AddElement(240520, frac\_Cr * 0.83789); \textcolor{comment}{// Cr52}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00156}00156         EP823-\/>AddElement(240530, frac\_Cr * 0.09501); \textcolor{comment}{// Cr53}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00157}00157         EP823-\/>AddElement(240540, frac\_Cr * 0.02365); \textcolor{comment}{// Cr54}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00158}00158         \textcolor{comment}{// Ni Nat -\/ 5 Stable Isotopes -\/ 0.66 wt\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00159}00159         \textcolor{keywordtype}{double} frac\_Ni = 0.66e-\/2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00160}00160         EP823-\/>AddElement(280580, frac\_Ni * 0.68077); \textcolor{comment}{// Ni58}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00161}00161         EP823-\/>AddElement(280600, frac\_Ni * 0.26223); \textcolor{comment}{// Ni60}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00162}00162         EP823-\/>AddElement(280610, frac\_Ni * 0.01140); \textcolor{comment}{// Ni61}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00163}00163         EP823-\/>AddElement(280620, frac\_Ni * 0.03635); \textcolor{comment}{// Ni62}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00164}00164         EP823-\/>AddElement(280640, frac\_Ni * 0.00926); \textcolor{comment}{// Ni64}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00165}00165         \textcolor{comment}{// Mo Nat -\/ 7 Stable Isotopes -\/ 0.74 wt\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00166}00166         \textcolor{keywordtype}{double} frac\_Mo = 0.74e-\/2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00167}00167         EP823-\/>AddElement(420920, frac\_Mo * 0.1465); \textcolor{comment}{// Mo92}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00168}00168         EP823-\/>AddElement(420940, frac\_Mo * 0.0919); \textcolor{comment}{// Mo94}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00169}00169         EP823-\/>AddElement(420950, frac\_Mo * 0.1587); \textcolor{comment}{// Mo95}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00170}00170         EP823-\/>AddElement(420960, frac\_Mo * 0.1667); \textcolor{comment}{// Mo96}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00171}00171         EP823-\/>AddElement(420970, frac\_Mo * 0.0958); \textcolor{comment}{// Mo97}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00172}00172         EP823-\/>AddElement(420980, frac\_Mo * 0.2429); \textcolor{comment}{// Mo98}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00173}00173         EP823-\/>AddElement(421000, frac\_Mo * 0.0974); \textcolor{comment}{// Mo100}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00174}00174         \textcolor{comment}{// Cu Nat -\/ 2 Stable Isotopes -\/ 0.002 wt\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00175}00175         \textcolor{keywordtype}{double} frac\_Cu = 0.002e-\/2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00176}00176         EP823-\/>AddElement(290630, frac\_Cu * 0.6915); \textcolor{comment}{// Cu63}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00177}00177         EP823-\/>AddElement(290650, frac\_Cu * 0.3085); \textcolor{comment}{// Cu65}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00178}00178         \textcolor{comment}{// V Nat -\/ 2 Stable Isotopes -\/ 0.30 wt\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00179}00179         \textcolor{keywordtype}{double} frac\_V = 0.30e-\/2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00180}00180         EP823-\/>AddElement(230500, frac\_V * 0.0025); \textcolor{comment}{// V-\/50}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00181}00181         EP823-\/>AddElement(230510, frac\_V * 0.9975); \textcolor{comment}{// V-\/51}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00182}00182         \textcolor{comment}{// W Nat -\/ 5 Stable Isotopes -\/ 0.60 wt\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00183}00183         \textcolor{keywordtype}{double} frac\_W = 0.60e-\/2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00184}00184         EP823-\/>AddElement(741800, frac\_W * 0.0012); \textcolor{comment}{// W-\/180}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00185}00185         EP823-\/>AddElement(741820, frac\_W * 0.2650); \textcolor{comment}{// W-\/182}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00186}00186         EP823-\/>AddElement(741830, frac\_W * 0.1431); \textcolor{comment}{// W-\/183}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00187}00187         EP823-\/>AddElement(741840, frac\_W * 0.3064); \textcolor{comment}{// W-\/184}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00188}00188         EP823-\/>AddElement(741860, frac\_W * 0.2843); \textcolor{comment}{// W-\/186}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00189}00189         \textcolor{comment}{// Nb Nat -\/ 1 Stable Isotope -\/ 0.24 wt\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00190}00190         \textcolor{keywordtype}{double} frac\_Nb = 0.24e-\/2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00191}00191         EP823-\/>AddElement(410930, frac\_Nb); \textcolor{comment}{// Nb93}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00192}00192         \textcolor{comment}{// B Nat -\/ 2 Stable Isotopes -\/ 0.009 wt\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00193}00193         \textcolor{keywordtype}{double} frac\_B = 0.009e-\/2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00194}00194         EP823-\/>AddElement( 50100, frac\_B * 0.2); \textcolor{comment}{// B-\/10}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00195}00195         EP823-\/>AddElement( 50110, frac\_B * 0.8); \textcolor{comment}{// B-\/11}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00196}00196         \textcolor{comment}{// Ce Nat -\/ 4 Stable Isotopes -\/ 0.04 wt\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00197}00197         \textcolor{keywordtype}{double} frac\_Ce = 0.04e-\/2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00198}00198         EP823-\/>AddElement(581360, frac\_Ce * 0.00186); \textcolor{comment}{// Ce136}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00199}00199         EP823-\/>AddElement(581380, frac\_Ce * 0.00251); \textcolor{comment}{// Ce138}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00200}00200         EP823-\/>AddElement(581400, frac\_Ce * 0.88449); \textcolor{comment}{// Ce140}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00201}00201         EP823-\/>AddElement(581420, frac\_Ce * 0.11114); \textcolor{comment}{// Ce142}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00202}00202         \textcolor{comment}{// Fe Nat -\/ 4 Stable Isotopes -\/ \%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00203}00203         \textcolor{keywordtype}{double} frac\_Fe = 1. -\/ (}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00204}00204             frac\_C+frac\_Mn+frac\_P+frac\_S+frac\_Si+frac\_Cr+frac\_Ni+frac\_Mo+frac\_Cu+}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00205}00205             frac\_V+frac\_W+frac\_Nb+frac\_B+frac\_Ce}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00206}00206         );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00207}00207         EP823-\/>AddElement(260540, frac\_Fe * 0.05845); \textcolor{comment}{// Fe54}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00208}00208         EP823-\/>AddElement(260560, frac\_Fe * 0.91754); \textcolor{comment}{// Fe56}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00209}00209         EP823-\/>AddElement(260570, frac\_Fe * 0.02119); \textcolor{comment}{// Fe57}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00210}00210         EP823-\/>AddElement(260580, frac\_Fe * 0.00282); \textcolor{comment}{// Fe58}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00211}00211     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00212}00212 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00214}00214     \textcolor{comment}{// Void}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00216}00216 \textcolor{comment}{}    \textcolor{comment}{// Inert Gas}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00217}00217     \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* InertGas = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00218}00218         \textcolor{stringliteral}{"{}InertGas\_"{}}+m\_fuelAssemblyIndex, 0.0017837*(g/cm3), 3, kStateSolid, temperature\_void}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00219}00219     );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00220}00220     InertGas-\/>AddElement(180360, 0.00334); \textcolor{comment}{// Ar36}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00221}00221     InertGas-\/>AddElement(180380, 0.00063); \textcolor{comment}{// Ar38}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00222}00222     InertGas-\/>AddElement(180400, 0.99604); \textcolor{comment}{// Ar40}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00223}00223 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00225}00225     \textcolor{comment}{// Fuel}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00226}00226     \textcolor{comment}{//-\/*-\/*-\/*-\/*-\/*-\/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00227}00227     \textcolor{keyword}{const} std::string fuelSelected = \textcolor{stringliteral}{"{}UO2"{}}; \textcolor{comment}{// UPuO2}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00228}00228     \textcolor{comment}{//-\/*-\/*-\/*-\/*-\/*-\/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00229}00229     \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* fuel;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00230}00230     std::string ext;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00231}00231     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < m\_nbSections; i++) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00232}00232         ext = \textcolor{stringliteral}{"{}\_"{}}+m\_fuelAssemblyIndex+\textcolor{stringliteral}{"{}\_"{}}+std::to\_string(i);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00233}00233         \textcolor{keywordflow}{if} (fuelSelected == \textcolor{stringliteral}{"{}UPuO2"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00235}00235             \textcolor{comment}{// Fuel UPuO2}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00236}00236             \textcolor{keywordtype}{double} scaleFactor = 10000000.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00237}00237             \textcolor{keyword}{const} \textcolor{keywordtype}{double} fracU = 0.794858, fracNp = 0.000047,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00238}00238                         fracPu = 0.200346, fracAm = 0.004749;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00239}00239             fuel = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00240}00240                 \textcolor{stringliteral}{"{}UPuO2\_fuel"{}}+ext, 10.407*(g/cm3), 12, kStateSolid, temperature\_fuel}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00241}00241             );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00242}00242             \textcolor{comment}{// Uranium}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00243}00243             fuel-\/>AddElement(922340, (\textcolor{keywordtype}{int})(0.000043 * fracU  * scaleFactor)); \textcolor{comment}{// U\_234}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00244}00244             fuel-\/>AddElement(922350, (\textcolor{keywordtype}{int})(0.005238 * fracU  * scaleFactor)); \textcolor{comment}{// U\_235}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00245}00245             fuel-\/>AddElement(922360, (\textcolor{keywordtype}{int})(0.000050 * fracU  * scaleFactor)); \textcolor{comment}{// U\_236}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00246}00246             fuel-\/>AddElement(922380, (\textcolor{keywordtype}{int})(0.994669 * fracU  * scaleFactor)); \textcolor{comment}{// U\_238}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00247}00247             \textcolor{comment}{// Neptunium}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00248}00248             fuel-\/>AddElement(932370, (\textcolor{keywordtype}{int})(1.       * fracNp * scaleFactor)); \textcolor{comment}{// Np237}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00249}00249             \textcolor{comment}{// Plutonium}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00250}00250             fuel-\/>AddElement(942380, (\textcolor{keywordtype}{int})(0.002800 * fracPu * scaleFactor)); \textcolor{comment}{// Pu238}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00251}00251             fuel-\/>AddElement(942390, (\textcolor{keywordtype}{int})(0.708407 * fracPu * scaleFactor)); \textcolor{comment}{// Pu239}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00252}00252             fuel-\/>AddElement(942400, (\textcolor{keywordtype}{int})(0.249273 * fracPu * scaleFactor)); \textcolor{comment}{// Pu240}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00253}00253             fuel-\/>AddElement(942410, (\textcolor{keywordtype}{int})(0.026509 * fracPu * scaleFactor)); \textcolor{comment}{// Pu241}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00254}00254             fuel-\/>AddElement(942420, (\textcolor{keywordtype}{int})(0.013011 * fracPu * scaleFactor)); \textcolor{comment}{// Pu242}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00255}00255             \textcolor{comment}{// Americium}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00256}00256             fuel-\/>AddElement(952410, (\textcolor{keywordtype}{int})(1.       * fracAm * scaleFactor)); \textcolor{comment}{// Am241}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00257}00257             \textcolor{comment}{// Oxygen}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00258}00258             fuel-\/>AddElement( 80160, (\textcolor{keywordtype}{int})(2.*(fracU+fracNp+fracPu+fracAm)*scaleFactor)); \textcolor{comment}{// O\_16}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00259}00259         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00260}00260 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00261}00261         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (fuelSelected == \textcolor{stringliteral}{"{}UO2"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00263}00263             \textcolor{comment}{// Fuel UO2}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00264}00264             \textcolor{keywordtype}{double} enrichmentU235 = 0.161;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00265}00265             \textcolor{keywordtype}{double} m\_U = A\_U235*enrichmentU235 + A\_U238*(1.-\/enrichmentU235), m\_O16 = 2.*A\_O16;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00266}00266             \textcolor{keywordtype}{double} m\_UO2 = m\_O16 + m\_U;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00267}00267             fuel = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00268}00268                 \textcolor{stringliteral}{"{}UO2\_fuel"{}}+ext, 10.407*(g/cm3), 3, kStateSolid, temperature\_fuel}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00269}00269             );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00270}00270             \textcolor{comment}{// Uranium}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00271}00271             fuel-\/>AddElement(922350,   m\_U/m\_UO2 * (   enrichmentU235)); \textcolor{comment}{// U\_235}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00272}00272             fuel-\/>AddElement(922380,   m\_U/m\_UO2 * (1.-\/enrichmentU235)); \textcolor{comment}{// U\_238}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00273}00273             \textcolor{comment}{// Oxygen}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00274}00274             fuel-\/>AddElement( 80160, m\_O16/m\_UO2); \textcolor{comment}{// O\_16}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00275}00275         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00276}00276 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00277}00277         m\_fuelMaterialVector.push\_back(fuel);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00278}00278     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00279}00279 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00281}00281     \textcolor{comment}{// Fuel UnatO2}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00282}00282     \textcolor{keywordtype}{double} enrichmentU235 = 0.007;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00283}00283     \textcolor{keywordtype}{double} m\_U = A\_U235*enrichmentU235 + A\_U238*(1.-\/enrichmentU235), m\_O16 = 2.*A\_O16;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00284}00284     \textcolor{keywordtype}{double} m\_UO2 = m\_O16 + m\_U;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00285}00285     \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* fuel\_UnatO2 = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00286}00286         \textcolor{stringliteral}{"{}UnatO2\_"{}}+m\_fuelAssemblyIndex, 10.407*(g/cm3), 3, kStateSolid, temperature\_fuel}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00287}00287     );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00288}00288     \textcolor{comment}{// Uranium}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00289}00289     fuel\_UnatO2-\/>AddElement(922350,   m\_U/m\_UO2 * (   enrichmentU235)); \textcolor{comment}{// U\_235}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00290}00290     fuel\_UnatO2-\/>AddElement(922380,   m\_U/m\_UO2 * (1.-\/enrichmentU235)); \textcolor{comment}{// U\_238}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00291}00291     \textcolor{comment}{// Oxygen}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00292}00292     fuel\_UnatO2-\/>AddElement( 80160, m\_O16/m\_UO2); \textcolor{comment}{// O\_16}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00293}00293 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00295}00295     \textcolor{comment}{// Material Selection}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00296}00296     m\_claddingMaterial = EP823;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00297}00297     \textcolor{comment}{// Select fuel, see above, search "{}fuelSelected"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00298}00298     m\_reflectorMaterial = fuel\_UnatO2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00299}00299     m\_voidMaterial = InertGas;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00300}00300 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00301}00301 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00302}00302 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00303}00303 \textcolor{comment}{// Setter}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00304}00304 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00305}00305 \textcolor{keywordtype}{void} SVBR100\_FuelPin::setHalfHeight(G4double halfHeight) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00306}00306     m\_halfHeight = halfHeight;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00307}00307 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00308}00308 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00309}00309 \textcolor{keywordtype}{void} SVBR100\_FuelPin::setNbSections(\textcolor{keywordtype}{int} nbSections) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00310}00310     m\_nbSections = nbSections;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00311}00311     m\_isReplicated = nbSections > 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00312}00312 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00313}00313 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00314}00314 \textcolor{keywordtype}{void} SVBR100\_FuelPin::setFuelAssemblyIndex(std::string index) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00315}00315     m\_fuelAssemblyIndex = index;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00316}00316 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00317}00317 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00318}00318 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00319}00319 \textcolor{comment}{// Getter}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00320}00320 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00321}00321 G4LogicalVolume* SVBR100\_FuelPin::getMasterVolume() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00322}00322     \textcolor{keywordflow}{return}(m\_masterVolume);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___fuel_pin_8cc_source_l00323}00323 \}}
+
+\end{DoxyCode}

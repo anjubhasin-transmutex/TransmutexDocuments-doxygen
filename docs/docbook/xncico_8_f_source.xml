@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xncico_8_f_source" xml:lang="en-US">
+<title>xncico.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/cirene/xncico.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xncico_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;0.05/00&#32;28/04/94&#32;&#32;12.13.23&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xncico(X,OUTP,SNEXT,SAFE,IHIT)
+<anchor xml:id="_xncico_8_f_source_1l00004"/>00004 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00005"/>00005 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">IMPLICIT&#32;DOUBLE&#32;PRECISION</emphasis>&#32;(a-h,o-z)
+<anchor xml:id="_xncico_8_f_source_1l00006"/>00006 &#32;&#32;&#32;&#32;&#32;&#32;parameter(half=0.5,three=3,one=1,zero=0)
+<anchor xml:id="_xncico_8_f_source_1l00007"/>00007 <emphasis role="preprocessor">#include&#32;&quot;xccige.inc&quot;</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00008"/>00008 <emphasis role="preprocessor"></emphasis><emphasis role="keywordtype">&#32;&#32;&#32;&#32;&#32;&#32;REAL</emphasis>&#32;X(6),OUTP(3),SNEXT,SAFE
+<anchor xml:id="_xncico_8_f_source_1l00009"/>00009 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;ROTATE
+<anchor xml:id="_xncico_8_f_source_1l00010"/>00010 &#32;&#32;&#32;&#32;&#32;&#32;lint(xx)=int(xx)-(half-sign(half,xx))
+<anchor xml:id="_xncico_8_f_source_1l00011"/>00011 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;---&#32;Prepare&#32;for&#32;failure</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00013"/>00013 &#32;&#32;&#32;&#32;&#32;&#32;safe&#32;&#32;=&#32;1e10
+<anchor xml:id="_xncico_8_f_source_1l00014"/>00014 &#32;&#32;&#32;&#32;&#32;&#32;snext&#32;=&#32;1e10
+<anchor xml:id="_xncico_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;ihit&#32;=&#32;0
+<anchor xml:id="_xncico_8_f_source_1l00016"/>00016 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00017"/>00017 <emphasis role="comment">*&#32;---&#32;Chose&#32;the&#32;right&#32;direction</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;hnorm&#32;=&#32;one/sqrt(x(4)**2+x(5)**2)
+<anchor xml:id="_xncico_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(abs(x(4)).GE.abs(x(5)))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00020"/>00020 <emphasis role="comment">*&#32;---&#32;Normal&#32;configuration</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;x0&#32;=&#32;x(1)
+<anchor xml:id="_xncico_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y0&#32;=&#32;x(2)
+<anchor xml:id="_xncico_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;alpha&#32;=&#32;x(4)*hnorm
+<anchor xml:id="_xncico_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;beta&#32;&#32;=&#32;x(5)*hnorm
+<anchor xml:id="_xncico_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rotate=.false.
+<anchor xml:id="_xncico_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00027"/>00027 <emphasis role="comment">*&#32;---&#32;Inverted&#32;configuration&#32;-&#32;no&#32;divide&#32;by&#32;0&#32;please</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;x0&#32;=&#32;x(2)
+<anchor xml:id="_xncico_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y0&#32;=&#32;x(1)
+<anchor xml:id="_xncico_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;alpha&#32;=&#32;x(5)*hnorm
+<anchor xml:id="_xncico_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;beta&#32;&#32;=&#32;x(4)*hnorm
+<anchor xml:id="_xncico_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rotate=.true.
+<anchor xml:id="_xncico_8_f_source_1l00033"/>00033 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;shift&#32;=&#32;half*disbar
+<anchor xml:id="_xncico_8_f_source_1l00035"/>00035 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00036"/>00036 <emphasis role="comment">*&#32;---&#32;Find&#32;starting&#32;point&#32;and&#32;direction</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;istart&#32;=&#32;nint((x0-shift)/disbar)+
+<anchor xml:id="_xncico_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(sign(one,x0-shift)-sign(one,alpha))*half
+<anchor xml:id="_xncico_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;istart&#32;=&#32;min(max(-nbside,istart),nbside-1)
+<anchor xml:id="_xncico_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;istep&#32;&#32;=&#32;sign(one,alpha)
+<anchor xml:id="_xncico_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;iend&#32;&#32;&#32;=&#32;nbside*istep-(1+istep)/2
+<anchor xml:id="_xncico_8_f_source_1l00042"/>00042 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00043"/>00043 <emphasis role="comment">*&#32;---&#32;Some&#32;useful&#32;constants</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;barrad=bardia*half
+<anchor xml:id="_xncico_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;barra2=barrad**2
+<anchor xml:id="_xncico_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;corrad=cordia*half
+<anchor xml:id="_xncico_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;corra2=corrad**2
+<anchor xml:id="_xncico_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;disbai=one/disbar
+<anchor xml:id="_xncico_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;alphai=one/alpha
+<anchor xml:id="_xncico_8_f_source_1l00050"/>00050 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00051"/>00051 <emphasis role="comment">*&#32;---&#32;Loop&#32;on&#32;planes</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;ix=istart,iend,istep
+<anchor xml:id="_xncico_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xx=(ix+0.5)*disbar
+<anchor xml:id="_xncico_8_f_source_1l00054"/>00054 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00055"/>00055 <emphasis role="comment">*&#32;---&#32;Nogo&#32;if&#32;outside&#32;diameter&#32;of&#32;core</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(abs(xx).GT.corrad)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;20
+<anchor xml:id="_xncico_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xx2=xx**2
+<anchor xml:id="_xncico_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;delx2&#32;=&#32;(x0-xx)**2
+<anchor xml:id="_xncico_8_f_source_1l00059"/>00059 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00060"/>00060 <emphasis role="comment">*&#32;---&#32;Compute&#32;y&#32;range&#32;-&#32;gamma&#32;is&#32;the&#32;projection&#32;of&#32;the</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00061"/>00061 <emphasis role="comment">*&#32;---&#32;y&#32;coordinate&#32;at&#32;the&#32;plane&#32;IX&#32;onto&#32;the&#32;normal&#32;to&#32;the&#32;line&#32;of</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00062"/>00062 <emphasis role="comment">*&#32;---&#32;flight</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;gamma=beta*(xx-x0)+alpha*y0
+<anchor xml:id="_xncico_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ya=(gamma-barrad)*alphai
+<anchor xml:id="_xncico_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yb=(gamma+barrad)*alphai
+<anchor xml:id="_xncico_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y1=min(ya,yb)
+<anchor xml:id="_xncico_8_f_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y2=max(ya,yb)
+<anchor xml:id="_xncico_8_f_source_1l00068"/>00068 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00069"/>00069 <emphasis role="comment">*&#32;---&#32;Number&#32;of&#32;bars&#32;in&#32;current&#32;plane</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iymin&#32;&#32;=&#32;-nbside
+<anchor xml:id="_xncico_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iymax&#32;&#32;=&#32;&#32;nbside-1
+<anchor xml:id="_xncico_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iy1=lint((y1-shift)*disbai)
+<anchor xml:id="_xncico_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iy2=lint((y2-shift)*disbai)
+<anchor xml:id="_xncico_8_f_source_1l00074"/>00074 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iy1.LT.iy2)<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;iy=max(iy1,iymin),min(iy2,iymax)
+<anchor xml:id="_xncico_8_f_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y=(iy+0.5)*disbar
+<anchor xml:id="_xncico_8_f_source_1l00078"/>00078 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00079"/>00079 <emphasis role="comment">*&#32;---&#32;If&#32;outside&#32;diameter&#32;of&#32;inner&#32;core,&#32;skip</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(xx2+y**2.GT.corra2)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xncico_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(y1.LE.y.AND.y.LE.y2)<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;a=alpha*(x0-xx)+beta*(y0-y)
+<anchor xml:id="_xncico_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;d2=delx2+(y0-y)**2
+<anchor xml:id="_xncico_8_f_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;det=max(a**2-(d2-barra2),zero)
+<anchor xml:id="_xncico_8_f_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;c=sqrt(det)
+<anchor xml:id="_xncico_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;t1=-a-c
+<anchor xml:id="_xncico_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;t2=-a+c
+<anchor xml:id="_xncico_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(t1.GT.0.0.AND.snext.GT.t1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xhtbar&#32;=&#32;xx
+<anchor xml:id="_xncico_8_f_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yhtbar&#32;=&#32;y
+<anchor xml:id="_xncico_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;snext=t1
+<anchor xml:id="_xncico_8_f_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ihit=1
+<anchor xml:id="_xncico_8_f_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(t1*t2.LT.0.0)&#32;ihit=-ihit
+<anchor xml:id="_xncico_8_f_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(t2.GT.0.0.AND.snext.GT.t2)<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xhtbar&#32;=&#32;xx
+<anchor xml:id="_xncico_8_f_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yhtbar&#32;=&#32;y
+<anchor xml:id="_xncico_8_f_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;snext=t2
+<anchor xml:id="_xncico_8_f_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ihit=1
+<anchor xml:id="_xncico_8_f_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(t1*t2.LT.0.0)&#32;ihit=-ihit
+<anchor xml:id="_xncico_8_f_source_1l00100"/>00100 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;END&#32;IF</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00101"/>00101 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;END&#32;IF</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00102"/>00102 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00103"/>00103 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;END&#32;IF</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00104"/>00104 
+<anchor xml:id="_xncico_8_f_source_1l00105"/>00105 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00106"/>00106 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00107"/>00107 <emphasis role="comment">*&#32;---&#32;convert&#32;distance&#32;in&#32;3&#32;dim</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00108"/>00108 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ihit.NE.0.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;snext=snext*sqrt((x(4)**2+x(5)**2+x(6)**2))*hnorm
+<anchor xml:id="_xncico_8_f_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;outp(1)&#32;=&#32;x(1)+x(4)*snext
+<anchor xml:id="_xncico_8_f_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;outp(2)&#32;=&#32;x(2)+x(5)*snext
+<anchor xml:id="_xncico_8_f_source_1l00112"/>00112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;outp(3)&#32;=&#32;x(3)+x(6)*snext
+<anchor xml:id="_xncico_8_f_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(rotate)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xtmp&#32;=&#32;&#32;yhtbar
+<anchor xml:id="_xncico_8_f_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ytmp&#32;=&#32;&#32;xhtbar
+<anchor xml:id="_xncico_8_f_source_1l00116"/>00116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xhtbar&#32;=&#32;xtmp
+<anchor xml:id="_xncico_8_f_source_1l00117"/>00117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yhtbar&#32;=&#32;ytmp
+<anchor xml:id="_xncico_8_f_source_1l00118"/>00118 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00119"/>00119 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00120"/>00120 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncico_8_f_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

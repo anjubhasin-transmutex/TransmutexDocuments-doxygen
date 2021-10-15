@@ -1,0 +1,464 @@
+\hypertarget{_b1_stepping_action_8cc_source}{}\doxysection{B1\+Stepping\+Action.\+cc}
+\label{_b1_stepping_action_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/testKeff\_v0.1/src/B1SteppingAction.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/testKeff\_v0.1/src/B1SteppingAction.cc}}
+\mbox{\hyperlink{_b1_stepping_action_8cc}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00002}00002 \textcolor{comment}{// ********************************************************************}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00003}00003 \textcolor{comment}{// * License and Disclaimer                                           *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00004}00004 \textcolor{comment}{// *                                                                  *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00005}00005 \textcolor{comment}{// * The  Geant4 software  is  copyright of the Copyright Holders  of *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00006}00006 \textcolor{comment}{// * the Geant4 Collaboration.  It is provided  under  the terms  and *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00007}00007 \textcolor{comment}{// * conditions of the Geant4 Software License,  included in the file *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00008}00008 \textcolor{comment}{// * LICENSE and available at  http://cern.ch/geant4/license .  These *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00009}00009 \textcolor{comment}{// * include a list of copyright holders.                             *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00010}00010 \textcolor{comment}{// *                                                                  *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00011}00011 \textcolor{comment}{// * Neither the authors of this software system, nor their employing *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00012}00012 \textcolor{comment}{// * institutes,nor the agencies providing financial support for this *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00013}00013 \textcolor{comment}{// * work  make  any representation or  warranty, express or implied, *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00014}00014 \textcolor{comment}{// * regarding  this  software system or assume any liability for its *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00015}00015 \textcolor{comment}{// * use.  Please see the license in the file  LICENSE  and URL above *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00016}00016 \textcolor{comment}{// * for the full disclaimer and the limitation of liability.         *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00017}00017 \textcolor{comment}{// *                                                                  *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00018}00018 \textcolor{comment}{// * This  code  implementation is the result of  the  scientific and *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00019}00019 \textcolor{comment}{// * technical work of the GEANT4 collaboration.                      *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00020}00020 \textcolor{comment}{// * By using,  copying,  modifying or  distributing the software (or *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00021}00021 \textcolor{comment}{// * any work based  on the software)  you  agree  to acknowledge its *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00022}00022 \textcolor{comment}{// * use  in  resulting  scientific  publications,  and indicate your *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00023}00023 \textcolor{comment}{// * acceptance of all terms of the Geant4 Software license.          *}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00024}00024 \textcolor{comment}{// ********************************************************************}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00025}00025 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00026}00026 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00029}00029 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00030}00030 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_b1_stepping_action_8hh}{B1SteppingAction.hh}}"{}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00031}00031 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_b1_event_action_8hh}{B1EventAction.hh}}"{}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00032}00032 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_b1_detector_construction_8hh}{B1DetectorConstruction.hh}}"{}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00034}00034 \textcolor{preprocessor}{\#include "{}G4Step.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00035}00035 \textcolor{preprocessor}{\#include "{}G4Event.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00036}00036 \textcolor{preprocessor}{\#include "{}G4RunManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00037}00037 \textcolor{preprocessor}{\#include "{}G4LogicalVolume.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00038}00038 \textcolor{preprocessor}{\#include "{}globals.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00039}00039 \textcolor{preprocessor}{\#include "{}G4PhysicalConstants.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00040}00040 \textcolor{preprocessor}{\#include "{}G4SystemOfUnits.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00041}00041 \textcolor{preprocessor}{\#include "{}TMXkeff.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00043}00043 \textcolor{comment}{//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00045}00045 B1SteppingAction::B1SteppingAction(\mbox{\hyperlink{class_b1_event_action}{B1EventAction}}* eventAction)}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00046}00046 : G4UserSteppingAction()}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00047}00047 \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00049}00049 \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00051}00051 \textcolor{comment}{//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00053}00053 B1SteppingAction::\string~B1SteppingAction()}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00054}00054 \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00056}00056 \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00058}00058 \textcolor{comment}{//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00059}00059 \textcolor{preprocessor}{\#include "{}G4UnitsTable.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00060}00060 \textcolor{keywordtype}{void} B1SteppingAction::UserSteppingAction(\textcolor{keyword}{const} G4Step* theStep)}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00061}00061 \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00062}00062     \mbox{\hyperlink{class_t_m_xkeff_ae1e9f4676a54a9533cfe95f2d3b38805}{TMXkeff::getInstance}}()-\/>\mbox{\hyperlink{class_t_m_xkeff_a33a603dcd2f64217c3e97ace0e62a110}{inUserSteppingAction}}(theStep);}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00064}00064     \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00065}00065 \textcolor{comment}{    if(theStep-\/>GetPostStepPoint()-\/>GetPhysicalVolume())}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00066}00066 \textcolor{comment}{    \{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00067}00067 \textcolor{comment}{        G4StepPoint* thePostPoint          = theStep-\/>GetPostStepPoint();}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00068}00068 \textcolor{comment}{        G4String processName               = thePostPoint-\/>GetProcessDefinedStep()-\/>GetProcessName();}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00069}00069 \textcolor{comment}{        G4Track* theTrack                  = theStep-\/>GetTrack();}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00070}00070 \textcolor{comment}{        G4ParticleDefinition* particleType = theTrack-\/>GetDefinition();}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00071}00071 \textcolor{comment}{        G4String particleName              = particleType-\/>GetParticleName();}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00072}00072 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00073}00073 \textcolor{comment}{        G4double MaterialSigmaF   = GetMaterialXS(theStep, "{}nFission"{});}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00074}00074 \textcolor{comment}{        G4double MaterialSimaCap  = GetMaterialXS(theStep, "{}nCapture"{});}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00075}00075 \textcolor{comment}{        G4double MaterialSigmaAbs = MaterialSigmaF}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00076}00076 \textcolor{comment}{                                  + MaterialSimaCap;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00077}00077 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00078}00078 \textcolor{comment}{        G4double MaterialSigmaTot = GetMaterialXS(theStep, "{}hadElastic"{})}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00079}00079 \textcolor{comment}{                                  + GetMaterialXS(theStep, "{}neutronInelastic"{})}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00080}00080 \textcolor{comment}{                                  + MaterialSigmaF}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00081}00081 \textcolor{comment}{                                  + MaterialSimaCap;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00082}00082 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00083}00083 \textcolor{comment}{        if(processName == "{}nFission"{} || processName == "{}nCapture"{})}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00084}00084 \textcolor{comment}{        \{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00085}00085 \textcolor{comment}{            TMXkeff::getInstance()-\/>addAbsorption(MaterialSigmaF/MaterialSigmaAbs);}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00086}00086 \textcolor{comment}{        \}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00087}00087 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00088}00088 \textcolor{comment}{        if ( theStep-\/>GetPostStepPoint()-\/>GetStepStatus() != fGeomBoundary )}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00089}00089 \textcolor{comment}{            TMXkeff::getInstance()-\/>addCollision( MaterialSigmaF / MaterialSigmaTot);}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00090}00090 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00091}00091 \textcolor{comment}{//        if (MaterialSigmaF * theStep-\/>GetStepLength() / cm != 0) std::cout<<MaterialSigmaF << "{} "{}<< theStep-\/>GetStepLength() / cm << "{} "{}<< MaterialSigmaF * (theStep-\/>GetStepLength() / cm)<<std::endl;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00092}00092 \textcolor{comment}{        TMXkeff::getInstance()-\/>addTrackLength(MaterialSigmaF * (theStep-\/>GetStepLength() / cm));}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00093}00093 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00094}00094 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00095}00095 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00096}00096 \textcolor{comment}{        if(processName == "{}nFission"{})}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00097}00097 \textcolor{comment}{        \{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00098}00098 \textcolor{comment}{            const std::vector<const G4Track*> *secondaries = theStep-\/>GetSecondaryInCurrentStep();}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00099}00099 \textcolor{comment}{            int countSecNeutrons = 0;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00100}00100 \textcolor{comment}{            for(G4int i=0; i<(G4int)secondaries-\/>size(); ++i)}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00101}00101 \textcolor{comment}{            \{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00102}00102 \textcolor{comment}{                G4String secondary\_particleName = (*secondaries)[i]-\/>GetDefinition()-\/>GetParticleName();}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00103}00103 \textcolor{comment}{                if (secondary\_particleName == "{}neutron"{})}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00104}00104 \textcolor{comment}{                \{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00105}00105 \textcolor{comment}{                    countSecNeutrons++;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00106}00106 \textcolor{comment}{                    TMXkeff::getInstance()-\/>addFissionSite(thePostPoint-\/>GetPosition(), (*secondaries)[i]-\/>GetMomentumDirection(), (*secondaries)[i]-\/>GetKineticEnergy());}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00107}00107 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00108}00108 \textcolor{comment}{                \}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00109}00109 \textcolor{comment}{            \}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00110}00110 \textcolor{comment}{            TMXkeff::getInstance()-\/>addFission(countSecNeutrons);}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00111}00111 \textcolor{comment}{            theTrack-\/>SetTrackStatus(fKillTrackAndSecondaries);}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00112}00112 \textcolor{comment}{        \}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00113}00113 \textcolor{comment}{        else if(processName == "{}RadioactiveDecayBase"{})}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00114}00114 \textcolor{comment}{        \{}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00115}00115 \textcolor{comment}{            theTrack-\/>SetTrackStatus(fKillTrackAndSecondaries);}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00116}00116 \textcolor{comment}{        \}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00117}00117 \textcolor{comment}{    \}*/}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00118}00118 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00119}00119 \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00121}00121 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00123}00123 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00124}00124 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00126}00126 G4double B1SteppingAction::GetNu(G4double en)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00127}00127   \textcolor{keyword}{using} CLHEP::eV;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00128}00128 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00129}00129   \textcolor{keyword}{const} \textcolor{keywordtype}{int} nump = 85;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00130}00130 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00131}00131   G4double nu235[170] = \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00132}00132  1.000000e-\/5,2.429850e+0,2.000000e-\/1,2.429850e+0,3.000000e-\/1,2.433850e+0,1.500000e+0,2.433850e+0,2.040000e+0,2.405850e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00133}00133  2.500000e+0,2.446650e+0,3.610000e+0,2.449650e+0,4.850000e+0,2.398500e+0,6.390000e+0,2.420920e+0,7.080000e+0,2.423830e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00134}00134  8.790000e+0,2.417800e+0,9.300000e+0,2.417800e+0,1.016000e+1,2.398710e+0,1.239000e+1,2.410770e+0,1.545000e+1,2.410970e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00135}00135  1.610000e+1,2.407750e+0,1.667000e+1,2.417800e+0,1.805000e+1,2.410770e+0,1.930000e+1,2.408760e+0,2.110000e+1,2.417800e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00136}00136  2.295000e+1,2.423830e+0,2.365000e+1,2.420820e+0,2.555000e+1,2.425840e+0,2.648000e+1,2.424830e+0,3.086000e+1,2.383850e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00137}00137  3.207000e+1,2.400750e+0,3.352000e+1,2.409650e+0,3.439000e+1,2.433450e+0,3.520000e+1,2.420550e+0,3.830000e+1,2.415550e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00138}00138  3.941000e+1,2.392750e+0,4.460000e+1,2.358150e+0,5.126000e+1,2.418550e+0,5.222000e+1,2.443350e+0,5.345000e+1,2.456150e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00139}00139  5.506000e+1,2.418550e+0,5.868000e+1,2.359050e+0,7.240000e+1,2.432450e+0,7.457000e+1,2.360050e+0,1.000000e+2,2.433800e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00140}00140  1.000000e+3,2.431810e+0,2.250000e+3,2.427590e+0,7.000000e+3,2.417970e+0,2.000000e+4,2.417390e+0,5.000000e+4,2.418100e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00141}00141  6.000000e+4,2.419220e+0,7.000000e+4,2.422000e+0,8.000000e+4,2.430880e+0,1.700000e+5,2.461380e+0,2.000000e+5,2.468670e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00142}00142  3.000000e+5,2.474470e+0,4.000000e+5,2.478470e+0,6.000000e+5,2.488800e+0,7.000000e+5,2.498080e+0,8.500000e+5,2.514080e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00143}00143  9.000000e+5,2.518670e+0,1.000000e+6,2.529690e+0,1.200000e+6,2.549830e+0,1.600000e+6,2.599670e+0,1.800000e+6,2.623370e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00144}00144  2.400000e+6,2.690480e+0,2.600000e+6,2.720510e+0,3.500000e+6,2.827820e+0,4.000000e+6,2.892750e+0,4.500000e+6,2.967100e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00145}00145  5.000000e+6,3.045350e+0,5.500000e+6,3.132000e+0,6.000000e+6,3.222550e+0,6.500000e+6,3.317200e+0,7.000000e+6,3.405400e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00146}00146  7.500000e+6,3.476410e+0,8.000000e+6,3.544630e+0,9.000000e+6,3.689830e+0,9.500000e+6,3.761160e+0,1.050000e+7,3.899280e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00147}00147  1.200000e+7,4.101020e+0,1.250000e+7,4.169660e+0,1.300000e+7,4.241150e+0,1.450000e+7,4.462290e+0,1.600000e+7,4.690100e+0,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00148}00148  1.650000e+7,4.763750e+0,1.700000e+7,4.833440e+0,1.800000e+7,4.964850e+0,1.900000e+7,5.090170e+0,3.000000e+7,6.249000e+0\};}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00149}00149 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00150}00150   \textcolor{keyword}{auto} e = [\&] (\textcolor{keywordtype}{int} i) \{ \textcolor{keywordflow}{return} nu235[2*i];\};}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00151}00151   \textcolor{keyword}{auto} nu = [\&] (\textcolor{keywordtype}{int} i) \{ \textcolor{keywordflow}{return} nu235[2*i+1];\};}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00152}00152 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00153}00153   G4double enev = en/eV;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00154}00154   \textcolor{keywordflow}{if}(enev <= e(0)) \textcolor{keywordflow}{return} nu(0);}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00155}00155   \textcolor{keywordflow}{if}(enev >= e(nump-\/1)) \textcolor{keywordflow}{return} nu(nump-\/1);}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00156}00156   G4int ilow = 0;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00157}00157   G4int ihig = nump-\/1;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00158}00158   G4int ihal=0;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00159}00159   \textcolor{keywordflow}{while}(ihig-\/ilow > 1)}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00160}00160     \textcolor{keywordflow}{if}(enev > e(ihal=(ilow+ihig)/2)) ilow = ihal;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00161}00161     \textcolor{keywordflow}{else} ihig = ihal;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00162}00162   \textcolor{keywordflow}{if}(enev < e(ilow) || enev > e(ihig)) std::cout << \textcolor{stringliteral}{"{}AAAAAAAAAAAAAAGH"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00163}00163 \textcolor{comment}{//  std::cout<<enev << "{} "{}<< nu(ilow) + (nu(ihig)-\/nu(ilow)) * (enev -\/ e(ilow)) / (e(ihig)-\/e(ilow))<<std::endl;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00164}00164   \textcolor{keywordflow}{return} nu(ilow) + (nu(ihig)-\/nu(ilow)) * (enev -\/ e(ilow)) / (e(ihig)-\/e(ilow));}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00165}00165 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00166}00166 \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00167}00167 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00168}00168 \textcolor{preprocessor}{\#include "{}G4HadronicProcess.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00169}00169 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00170}00170 \textcolor{keyword}{enum} reactions}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00171}00171 \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00172}00172     nFission,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00173}00173     nCapture,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00174}00174     hadElastic,}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00175}00175     neutronInelastic}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00176}00176 \};}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00177}00177 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00178}00178 G4double B1SteppingAction::GetMaterialXS(\textcolor{keyword}{const} G4Step * theStep, std::string XSreaction)}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00179}00179 \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00180}00180     reactions nFission;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00181}00181     \textcolor{keyword}{const} G4DynamicParticle* particleDyn = theStep-\/>GetTrack()-\/>GetDynamicParticle();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00182}00182     particleDyn                          = \textcolor{keyword}{new} G4DynamicParticle(particleDyn-\/>GetParticleDefinition(),}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00183}00183                                                                  particleDyn-\/>GetMomentumDirection(),}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00184}00184                                                                  theStep-\/>GetPreStepPoint()-\/>GetKineticEnergy());}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00185}00185     G4Material *mat                      = theStep-\/>GetPostStepPoint()-\/>GetMaterial();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00186}00186     G4ParticleDefinition *particle       = G4ParticleTable::GetParticleTable()-\/>FindParticle(\textcolor{stringliteral}{"{}neutron"{}});}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00187}00187     G4HadronicProcess * process          = (G4HadronicProcess *)particle-\/>GetProcessManager()-\/>GetProcess(XSreaction);}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00188}00188     \textcolor{keyword}{delete} particleDyn;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00189}00189     \textcolor{keywordflow}{return} process-\/>GetCrossSectionDataStore()-\/>GetCrossSection(particleDyn, mat)*cm;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00190}00190 \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00191}00191 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00192}00192 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00193}00193 G4double B1SteppingAction::GetMaterialFissionCrossSection(\textcolor{keyword}{const} G4Step * theStep)  \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00194}00194     \textcolor{comment}{// on recupere une DynamicParticle}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00195}00195 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00196}00196     \textcolor{keyword}{const} G4DynamicParticle*    particleDyn = theStep-\/>GetTrack()-\/>GetDynamicParticle();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00197}00197     G4StepPoint PreStep = *theStep-\/>GetPreStepPoint();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00198}00198     particleDyn = \textcolor{keyword}{new} G4DynamicParticle(particleDyn-\/>GetParticleDefinition(), particleDyn-\/>GetMomentumDirection(), PreStep.GetKineticEnergy());}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00199}00199 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00200}00200     \textcolor{comment}{// On vérifie l'énergie cinltique non nulle sinon on en défini une autre}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00201}00201     G4Track theTrack = *theStep-\/>GetTrack();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00202}00202 \textcolor{comment}{//    if(particleDyn-\/>GetKineticEnergy() == 0)}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00203}00203 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00204}00204     G4double matCrossSection = 0;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00205}00205 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00206}00206     G4Material *mat = theStep-\/>GetPostStepPoint()-\/>GetMaterial();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00207}00207     G4int nElements = mat-\/>GetNumberOfElements();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00208}00208 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00209}00209 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00210}00210     G4HadronicProcess* fProcessFis = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00211}00211     \textcolor{comment}{// on recupere la particule}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00212}00212     G4ParticleDefinition *particle = G4ParticleTable::GetParticleTable()-\/>FindParticle(\textcolor{stringliteral}{"{}neutron"{}}); \textcolor{comment}{// G4Neutron::Definition();}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00213}00213 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00214}00214     \textcolor{comment}{// on recupere le process manager pour la particule}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00215}00215     G4ProcessManager *pManager = particle-\/>GetProcessManager();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00216}00216     \textcolor{comment}{// on recupere la liste des processus}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00217}00217     G4ProcessVector *pList = pManager-\/>GetProcessList();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00218}00218     \textcolor{comment}{// on boucle pour trouver le bon process (je pense qu'il faut les imprimer une fois pour voir)}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00219}00219     \textcolor{keyword}{const} G4VProcess *pp = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00220}00220 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00221}00221     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} idx = 0; idx < pList-\/>size(); idx++)}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00222}00222     \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00223}00223         pp = (*pList)[idx];}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00224}00224         G4int ptype = pp-\/>GetProcessType();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00225}00225 \textcolor{comment}{//        std::cout<<pp-\/>GetProcessName()<< "{} "{} << pp-\/>GetProcessType()<< "{} "{} << pp-\/>GetProcessSubType() << "{} "{}<< pp-\/>GetProcessSubType()<<std::endl;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00226}00226         \textcolor{keywordflow}{if}( ptype == 4 ) \{ \textcolor{comment}{// Reaction of a neutron with something else (no surface, parallel world, etc.)}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00227}00227             \textcolor{keywordflow}{if}     ((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}hadElastic"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00228}00228 \textcolor{comment}{//                fProcessElas = (G4HadronicProcess *)pp;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00229}00229             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00230}00230             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}neutronInelastic"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00231}00231 \textcolor{comment}{//                fProcessInel = (G4HadronicProcess *)pp;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00232}00232                 \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00233}00233             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}nCapture"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00234}00234 \textcolor{comment}{//                fProcessCap = (G4HadronicProcess *)pp;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00235}00235             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00236}00236             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}nFission"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00237}00237                 fProcessFis = (G4HadronicProcess *)pp; \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00238}00238             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00239}00239                 std::cout << \textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n !! WARNING !! \(\backslash\)n !! At least one hadronic process has not been taken into account in SteppingAction::GetNeutronHadronicProcesses !!"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00240}00240                 printf(\textcolor{stringliteral}{"{} [\%s,\%d,\%d]"{}}, (\textcolor{keyword}{const} \textcolor{keywordtype}{char} *)pp-\/>GetProcessName(), ptype, pp-\/>GetProcessSubType());}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00241}00241                 std::cout << std::endl;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00242}00242             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00243}00243         \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00244}00244     \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00245}00245 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00246}00246    \textcolor{keywordflow}{for}(G4int i=0; i<nElements; ++i) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00247}00247         matCrossSection +=  *(*mat-\/>GetElementVector())[i]-\/>GetRelativeAbundanceVector() / (*mat-\/>GetElementVector())[i]-\/>GetAtomicMassAmu() * (fProcessFis-\/>GetCrossSectionDataStore()-\/>GetCrossSection(particleDyn, (*mat-\/>GetElementVector())[i], mat)/cm2);}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00248}00248     \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00249}00249     \textcolor{comment}{// on recupere la section efficace}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00250}00250     \textcolor{keywordflow}{return} matCrossSection * mat-\/>GetDensity()/(g/cm3)*6.02214076e+23;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00251}00251 \textcolor{comment}{//     return fProcessFis-\/>GetCrossSectionDataStore()-\/>GetCrossSection(particleDyn, mat)/cm2;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00252}00252 \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00253}00253 \textcolor{comment}{//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00254}00254 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00255}00255 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00256}00256 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00257}00257 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00258}00258 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00259}00259 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00260}00260 G4double B1SteppingAction::GetMaterialElasticCrossSection(\textcolor{keyword}{const} G4Step * theStep)  \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00261}00261     \textcolor{comment}{// on recupere une DynamicParticle}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00262}00262     \textcolor{keyword}{const} G4DynamicParticle*    particleDyn = theStep-\/>GetTrack()-\/>GetDynamicParticle();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00263}00263     \textcolor{comment}{// On vérifie l'énergie cinltique non nulle sinon on en défini une autre}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00264}00264     G4Track theTrack = *theStep-\/>GetTrack();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00265}00265     G4StepPoint PerStep = *theStep-\/>GetPreStepPoint();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00266}00266         \textcolor{keywordflow}{if}(particleDyn-\/>GetKineticEnergy() == 0)}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00267}00267             particleDyn = \textcolor{keyword}{new} G4DynamicParticle(particleDyn-\/>GetParticleDefinition(), particleDyn-\/>GetMomentumDirection(), PerStep.GetKineticEnergy());}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00268}00268 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00269}00269     G4double matCrossSection = 0;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00270}00270     G4Material *mat = theStep-\/>GetPostStepPoint()-\/>GetMaterial();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00271}00271     G4int nElements = mat-\/>GetNumberOfElements();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00272}00272 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00273}00273 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00274}00274 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00275}00275 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00276}00276     G4HadronicProcess* fProcessElas = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00277}00277      \textcolor{comment}{// on recupere la particule}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00278}00278     G4ParticleDefinition *particle = G4ParticleTable::GetParticleTable()-\/>FindParticle(\textcolor{stringliteral}{"{}neutron"{}}); \textcolor{comment}{// G4Neutron::Definition();}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00279}00279 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00280}00280     \textcolor{comment}{// on recupere le process manager pour la particule}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00281}00281     G4ProcessManager *pManager = particle-\/>GetProcessManager();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00282}00282     \textcolor{comment}{// on recupere la liste des processus}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00283}00283     G4ProcessVector *pList = pManager-\/>GetProcessList();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00284}00284     \textcolor{comment}{// on boucle pour trouver le bon process (je pense qu'il faut les imprimer une fois pour voir)}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00285}00285     \textcolor{keyword}{const} G4VProcess *pp = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00286}00286 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00287}00287     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} idx = 0; idx < pList-\/>size(); idx++)}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00288}00288     \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00289}00289         pp = (*pList)[idx];}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00290}00290         G4int ptype = pp-\/>GetProcessType();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00291}00291         \textcolor{keywordflow}{if}( ptype == 4 ) \{ \textcolor{comment}{// Reaction of a neutron with something else (no surface, parallel world, etc.)}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00292}00292             \textcolor{keywordflow}{if}     ((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}hadElastic"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00293}00293                 fProcessElas = (G4HadronicProcess *)pp;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00294}00294             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00295}00295             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}neutronInelastic"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00296}00296 \textcolor{comment}{//                fProcessInel = (G4HadronicProcess *)pp;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00297}00297                 \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00298}00298             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}nCapture"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00299}00299 \textcolor{comment}{//                fProcessCap = (G4HadronicProcess *)pp;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00300}00300             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00301}00301             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}nFission"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00302}00302 \textcolor{comment}{//                fProcessFis = (G4HadronicProcess *)pp;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00303}00303             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00304}00304             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00305}00305                 std::cout << \textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n !! WARNING !! \(\backslash\)n !! At least one hadronic process has not been taken into account in SteppingAction::GetNeutronHadronicProcesses !!"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00306}00306                 printf(\textcolor{stringliteral}{"{} [\%s,\%d,\%d]"{}}, (\textcolor{keyword}{const} \textcolor{keywordtype}{char} *)pp-\/>GetProcessName(), ptype, pp-\/>GetProcessSubType());}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00307}00307                 std::cout << std::endl;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00308}00308             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00309}00309         \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00310}00310     \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00311}00311 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00312}00312 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00313}00313 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00314}00314 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00315}00315 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00316}00316     \textcolor{keywordflow}{for}(G4int i=0; i<nElements; ++i) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00317}00317 \textcolor{comment}{//        matCrossSection += nAtomsPerVolume[i]/(G4double)TotNbAtomsPerVolume * (fProcessElas-\/>GetCrossSectionDataStore()-\/>GetCrossSection(particleDyn, (*mat-\/>GetElementVector())[i], mat)/cm2);}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00318}00318         matCrossSection += *(*mat-\/>GetElementVector())[i]-\/>GetRelativeAbundanceVector() / (*mat-\/>GetElementVector())[i]-\/>GetAtomicMassAmu() * (fProcessElas-\/>GetCrossSectionDataStore()-\/>GetCrossSection(particleDyn, (*mat-\/>GetElementVector())[i], mat)/cm2);}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00319}00319     \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00320}00320     \textcolor{comment}{// on recupere la section efficace}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00321}00321     \textcolor{keywordflow}{return} matCrossSection* mat-\/>GetDensity()/(g/cm3)*6.02214076e+23;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00322}00322 \textcolor{comment}{//     return fProcessElas-\/>GetCrossSectionDataStore()-\/>GetCrossSection(particleDyn, mat/*thePrePV-\/>GetLogicalVolume()-\/>GetMaterial()*/);}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00323}00323 \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00324}00324 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00325}00325 G4double B1SteppingAction::GetMaterialInelastCrossSection(\textcolor{keyword}{const} G4Step * theStep)  \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00326}00326     \textcolor{comment}{// on recupere une DynamicParticle}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00327}00327     \textcolor{keyword}{const} G4DynamicParticle*    particleDyn = theStep-\/>GetTrack()-\/>GetDynamicParticle();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00328}00328     \textcolor{comment}{// On vérifie l'énergie cinltique non nulle sinon on en défini une autre}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00329}00329     G4Track theTrack = *theStep-\/>GetTrack();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00330}00330     G4StepPoint PerStep = *theStep-\/>GetPreStepPoint();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00331}00331         \textcolor{keywordflow}{if}(particleDyn-\/>GetKineticEnergy() == 0)}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00332}00332             particleDyn = \textcolor{keyword}{new} G4DynamicParticle(particleDyn-\/>GetParticleDefinition(), particleDyn-\/>GetMomentumDirection(), PerStep.GetKineticEnergy());}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00333}00333 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00334}00334     G4double matCrossSection = 0;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00335}00335     G4Material *mat = theStep-\/>GetPostStepPoint()-\/>GetMaterial();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00336}00336     G4int nElements = mat-\/>GetNumberOfElements();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00337}00337 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00338}00338 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00339}00339 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00340}00340 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00341}00341 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00342}00342     G4HadronicProcess* fProcessInel = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00343}00343 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00344}00344     \textcolor{comment}{// on recupere la particule}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00345}00345     G4ParticleDefinition *particle = G4ParticleTable::GetParticleTable()-\/>FindParticle(\textcolor{stringliteral}{"{}neutron"{}}); \textcolor{comment}{// G4Neutron::Definition();}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00346}00346 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00347}00347     \textcolor{comment}{// on recupere le process manager pour la particule}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00348}00348     G4ProcessManager *pManager = particle-\/>GetProcessManager();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00349}00349     \textcolor{comment}{// on recupere la liste des processus}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00350}00350     G4ProcessVector *pList = pManager-\/>GetProcessList();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00351}00351     \textcolor{comment}{// on boucle pour trouver le bon process (je pense qu'il faut les imprimer une fois pour voir)}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00352}00352     \textcolor{keyword}{const} G4VProcess *pp = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00353}00353 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00354}00354     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} idx = 0; idx < pList-\/>size(); idx++)}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00355}00355     \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00356}00356         pp = (*pList)[idx];}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00357}00357         G4int ptype = pp-\/>GetProcessType();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00358}00358         \textcolor{keywordflow}{if}( ptype == 4 ) \{ \textcolor{comment}{// Reaction of a neutron with something else (no surface, parallel world, etc.)}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00359}00359             \textcolor{keywordflow}{if}     ((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}hadElastic"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00360}00360 \textcolor{comment}{//                fProcessElas = (G4HadronicProcess *)pp;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00361}00361             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00362}00362             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}neutronInelastic"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00363}00363                 fProcessInel = (G4HadronicProcess *)pp;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00364}00364                 \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00365}00365             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}nCapture"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00366}00366 \textcolor{comment}{//                fProcessCap = (G4HadronicProcess *)pp;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00367}00367             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00368}00368             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}nFission"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00369}00369 \textcolor{comment}{//                fProcessFis = (G4HadronicProcess *)pp;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00370}00370             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00371}00371             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00372}00372                 std::cout << \textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n !! WARNING !! \(\backslash\)n !! At least one hadronic process has not been taken into account in SteppingAction::GetNeutronHadronicProcesses !!"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00373}00373                 printf(\textcolor{stringliteral}{"{} [\%s,\%d,\%d]"{}}, (\textcolor{keyword}{const} \textcolor{keywordtype}{char} *)pp-\/>GetProcessName(), ptype, pp-\/>GetProcessSubType());}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00374}00374                 std::cout << std::endl;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00375}00375             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00376}00376         \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00377}00377     \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00378}00378 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00379}00379 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00380}00380 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00381}00381 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00382}00382 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00383}00383     \textcolor{keywordflow}{for}(G4int i=0; i<nElements; ++i) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00384}00384 \textcolor{comment}{//        matCrossSection += nAtomsPerVolume[i]/(G4double)TotNbAtomsPerVolume * (fProcessInel-\/>GetCrossSectionDataStore()-\/>GetCrossSection(particleDyn, (*mat-\/>GetElementVector())[i], mat)/cm2);}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00385}00385         matCrossSection += *(*mat-\/>GetElementVector())[i]-\/>GetRelativeAbundanceVector() / (*mat-\/>GetElementVector())[i]-\/>GetAtomicMassAmu() * (fProcessInel-\/>GetCrossSectionDataStore()-\/>GetCrossSection(particleDyn, (*mat-\/>GetElementVector())[i], mat)/cm2);}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00386}00386     \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00387}00387 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00388}00388     \textcolor{comment}{// on recupere la section efficace}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00389}00389     \textcolor{keywordflow}{return} matCrossSection* mat-\/>GetDensity()/(g/cm3)*6.02214076e+23;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00390}00390 \textcolor{comment}{//     return fProcessInel-\/>GetCrossSectionDataStore()-\/>GetCrossSection(particleDyn, mat)/cm2;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00391}00391 \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00392}00392 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00393}00393 G4double B1SteppingAction::GetMaterialCaptureCrossSection(\textcolor{keyword}{const} G4Step * theStep)  \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00394}00394     \textcolor{comment}{// on recupere une DynamicParticle}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00395}00395     \textcolor{keyword}{const} G4DynamicParticle*    particleDyn = theStep-\/>GetTrack()-\/>GetDynamicParticle();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00396}00396     \textcolor{comment}{// On vérifie l'énergie cinltique non nulle sinon on en défini une autre}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00397}00397     G4Track theTrack = *theStep-\/>GetTrack();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00398}00398     G4StepPoint PerStep = *theStep-\/>GetPreStepPoint();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00399}00399         \textcolor{keywordflow}{if}(particleDyn-\/>GetKineticEnergy() == 0)}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00400}00400             particleDyn = \textcolor{keyword}{new} G4DynamicParticle(particleDyn-\/>GetParticleDefinition(), particleDyn-\/>GetMomentumDirection(), PerStep.GetKineticEnergy());}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00401}00401 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00402}00402     G4double matCrossSection = 0;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00403}00403     G4Material *mat = theStep-\/>GetPostStepPoint()-\/>GetMaterial();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00404}00404     G4int nElements = mat-\/>GetNumberOfElements();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00405}00405 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00406}00406 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00407}00407 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00408}00408 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00409}00409     G4HadronicProcess* fProcessCap = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00410}00410 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00411}00411     \textcolor{comment}{// on recupere la particule}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00412}00412     G4ParticleDefinition *particle = G4ParticleTable::GetParticleTable()-\/>FindParticle(\textcolor{stringliteral}{"{}neutron"{}}); \textcolor{comment}{// G4Neutron::Definition();}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00413}00413 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00414}00414     \textcolor{comment}{// on recupere le process manager pour la particule}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00415}00415     G4ProcessManager *pManager = particle-\/>GetProcessManager();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00416}00416     \textcolor{comment}{// on recupere la liste des processus}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00417}00417     G4ProcessVector *pList = pManager-\/>GetProcessList();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00418}00418     \textcolor{comment}{// on boucle pour trouver le bon process (je pense qu'il faut les imprimer une fois pour voir)}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00419}00419     \textcolor{keyword}{const} G4VProcess *pp = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00420}00420 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00421}00421     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} idx = 0; idx < pList-\/>size(); idx++)}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00422}00422     \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00423}00423         pp = (*pList)[idx];}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00424}00424         G4int ptype = pp-\/>GetProcessType();}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00425}00425         \textcolor{keywordflow}{if}( ptype == 4 ) \{ \textcolor{comment}{// Reaction of a neutron with something else (no surface, parallel world, etc.)}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00426}00426             \textcolor{keywordflow}{if}     ((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}hadElastic"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00427}00427 \textcolor{comment}{//                fProcessElas = (G4HadronicProcess *)pp;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00428}00428             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00429}00429             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}neutronInelastic"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00430}00430 \textcolor{comment}{//                fProcessInel = (G4HadronicProcess *)pp;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00431}00431                 \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00432}00432             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}nCapture"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00433}00433                 fProcessCap = (G4HadronicProcess *)pp;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00434}00434             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00435}00435             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((G4String)pp-\/>GetProcessName() == \textcolor{stringliteral}{"{}nFission"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00436}00436 \textcolor{comment}{//                fProcessFis = (G4HadronicProcess *)pp;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00437}00437             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00438}00438             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00439}00439                 std::cout << \textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n !! WARNING !! \(\backslash\)n !! At least one hadronic process has not been taken into account in SteppingAction::GetNeutronHadronicProcesses !!"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00440}00440                 printf(\textcolor{stringliteral}{"{} [\%s,\%d,\%d]"{}}, (\textcolor{keyword}{const} \textcolor{keywordtype}{char} *)pp-\/>GetProcessName(), ptype, pp-\/>GetProcessSubType());}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00441}00441                 std::cout << std::endl;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00442}00442             \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00443}00443         \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00444}00444     \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00445}00445 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00446}00446 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00447}00447 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00448}00448 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00449}00449 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00450}00450     \textcolor{keywordflow}{for}(G4int i=0; i<nElements; ++i) \{}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00451}00451 \textcolor{comment}{//        matCrossSection += nAtomsPerVolume[i]/(G4double)TotNbAtomsPerVolume * (fProcessCap-\/>GetCrossSectionDataStore()-\/>GetCrossSection(particleDyn, (*mat-\/>GetElementVector())[i], mat)/cm2);}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00452}00452         matCrossSection += *(*mat-\/>GetElementVector())[i]-\/>GetRelativeAbundanceVector() / (*mat-\/>GetElementVector())[i]-\/>GetAtomicMassAmu() * (fProcessCap-\/>GetCrossSectionDataStore()-\/>GetCrossSection(particleDyn, (*mat-\/>GetElementVector())[i], mat)/cm2);}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00453}00453     \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00454}00454 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00455}00455     \textcolor{comment}{// on recupere la section efficace}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00456}00456     \textcolor{keywordflow}{return} matCrossSection* mat-\/>GetDensity()/(g/cm3)*6.02214076e+23;}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00457}00457 \textcolor{comment}{//     return fProcessCap-\/>GetCrossSectionDataStore()-\/>GetCrossSection(particleDyn, mat)/cm2;}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00458}00458 \}}
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00459}00459 }
+\DoxyCodeLine{\Hypertarget{_b1_stepping_action_8cc_source_l00460}00460 }
+
+\end{DoxyCode}

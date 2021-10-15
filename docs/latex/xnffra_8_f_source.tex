@@ -1,0 +1,121 @@
+\hypertarget{xnffra_8_f_source}{}\doxysection{xnffra.\+F}
+\label{xnffra_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnevol/xnffra.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnevol/xnffra.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/07 25/09/96  19.14.49  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnffra}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00004}00004 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00005}00005 \textcolor{comment}{*     Read an endf6 file}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00006}00006 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00007}00007 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00008}00008 \textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00009}00009 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcfyid.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00010}00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbnl.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00011}00011 \textcolor{preprocessor}{}      \textcolor{keywordtype}{CHARACTER*124} CHFINP, CHFOUT, CHLIST}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00012}00012       \textcolor{keyword}{DATA} mathol / -\/99 /}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00013}00013 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00014}00014 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00015}00015       chfinp=chroot//\textcolor{stringliteral}{'e6r1nds3.fyi'}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00016}00016       lfinp=index(chfinp,\textcolor{stringliteral}{' '})-\/1}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00017}00017       \textcolor{keyword}{OPEN}(11,file=chfinp(:lfinp),action=\textcolor{stringliteral}{'READ'},status=\textcolor{stringliteral}{'OLD'})}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00018}00018 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00019}00019 \textcolor{comment}{* -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00020}00020       numfis=0}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00021}00021    10 \textcolor{keyword}{CALL }xnnews(c1, c2, l1, l2, n1, n2, math, mfh, mth)}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00022}00022       \textcolor{keywordflow}{IF}(math.LT.0) \textcolor{keywordflow}{GOTO} 90}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00023}00023       \textcolor{keywordflow}{IF}(math.NE.mathol) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00024}00024          \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Now processing Z='}\textcolor{stringliteral}{',I3,'}\textcolor{stringliteral}{' A='}\textcolor{stringliteral}{',I3)'}) nint(c1/}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00025}00025      +   1000.) ,nint(mod(c1,1000.))}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00026}00026          mathol=math}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00027}00027          izap = nint(c1)}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00028}00028 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00029}00029 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00030}00030       \textcolor{keywordflow}{IF}(mfh.EQ.1.AND.mth.EQ.451) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00031}00031 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/ Get the isomeric state}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00033}00033          \textcolor{keyword}{READ}(11,10100) elis,sta,lis,liso,idumm,nfor}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00034}00034          izap=10*izap+liso}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00035}00035       \textcolor{keywordflow}{ELSEIF}(mfh.EQ.8.AND.mth.EQ.454) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00036}00036 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/ Decode LIST structures}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00038}00038          le1=l1}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00039}00039          \textcolor{keywordflow}{IF}(le1.GT.maxenf) stop \textcolor{stringliteral}{'Increase MAXENF'}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00040}00040 \textcolor{comment}{C         WRITE(6,'('' Apparently found '',I4,'' sections '')') LE1}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00041}00041          \textcolor{keywordflow}{DO} 80 jene=1,le1}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00042}00042             \textcolor{keyword}{CALL }xnlist}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00043}00043 \textcolor{comment}{C        WRITE(6,'('' Section '',I4,'' with energy '',E11.4,            '}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00044}00044 \textcolor{comment}{C     +  //'         '' Sec = '',I5,'' Points = '',I5)')JENE,C1,N1,NP}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00045}00045             totlos=0.}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00046}00046             \textcolor{keywordflow}{DO} 70 je=1,n1-\/3,4}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00047}00047                zafp=xnrval(je )}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00048}00048                fps =xnrval(je+1)}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00049}00049                yi =xnrval(je+2)}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00050}00050                dyi =xnrval(je+3)}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00051}00051                \textcolor{keywordflow}{IF}(yi.LE.0.) \textcolor{keywordflow}{GOTO} 70}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00052}00052 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/ Do not consider isomers}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00054}00054 \textcolor{comment}{C         IZAF = NINT(ZAFP*10+FPS)}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00055}00055                izaf = nint(zafp*10)}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00056}00056 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/ Check if in BNL table}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00058}00058                \textcolor{keywordflow}{DO} 20 jel=1,nelbnl}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00059}00059                   \textcolor{keywordflow}{IF}(izaf.EQ.kiz(jel)*10000+kia(jel)*10) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00060}00060                      \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00061}00061 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00062}00062    20          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00063}00063 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/ Not found in BNL table}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00065}00065 \textcolor{comment}{C               WRITE(6,'('' Fission Fragment ('',I3,'','',I3,}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00066}00066 \textcolor{comment}{C     +               '') not in BNL table, '',F5.3,'' yield lost'')')}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00067}00067 \textcolor{comment}{C     +                IZAF/10000,MOD(IZAF/10,1000),YI*100}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00068}00068                totlos=totlos+100*yi}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00069}00069                \textcolor{keywordflow}{GOTO} 70}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00070}00070 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00071}00071 \textcolor{comment}{* -\/-\/-\/ See if this entry already there}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00072}00072    30          \textcolor{keywordflow}{DO} 40 jfis=1,numfis}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00073}00073                   \textcolor{keywordflow}{IF}(izapar(jfis).EQ.izap) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00074}00074                      \textcolor{keywordflow}{IF}(izafra(jfis).EQ.izaf) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00075}00075                         kfis=jfis}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00076}00076                         \textcolor{keywordflow}{GOTO} 60}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00077}00077 \textcolor{keywordflow}{                     ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00078}00078 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00079}00079    40          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00080}00080 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00081}00081 \textcolor{comment}{* -\/-\/-\/ Not in list, add new}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00082}00082                \textcolor{keywordflow}{IF}(numfis.GE.maxfis) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00083}00083                   \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' No more space for fissions! '}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00084}00084                   stop \textcolor{stringliteral}{'Increas MAXFIS'}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00085}00085 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00086}00086                numfis=numfis+1}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00087}00087                izapar(numfis) = izap}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00088}00088                izafra(numfis) = izaf}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00089}00089                \textcolor{keywordflow}{DO} 50 jll=1,maxenf}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00090}00090                   xbrfra(numfis,jll) = 0.}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00091}00091                   enefra(numfis,jll) = 0.}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00092}00092    50          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00093}00093                kfis=numfis}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00094}00094 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00095}00095    60          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00096}00096                xbrfra(kfis,jene) = xbrfra(kfis,jene)+yi}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00097}00097                enefra(kfis,jene) = c1}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00098}00098    70       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00099}00099             \textcolor{keywordflow}{IF}(totlos.GT.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00100}00100                \textcolor{keyword}{WRITE}(6,10000) izap/10000,mod(izap/10,1000),c1,totlos}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00101}00101 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Probability loss for ('},i3,\textcolor{stringliteral}{','},i3,\textcolor{stringliteral}{')@'},e10.3,\textcolor{stringliteral}{'eV = '},}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00102}00102      +       f5.2,\textcolor{stringliteral}{'\%'})}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00103}00103 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00104}00104    80    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00105}00105 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00106}00106       \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00107}00107 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00108}00108    90 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00109}00109       \textcolor{keyword}{CLOSE}(91)}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00110}00110       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Total records = '}\textcolor{stringliteral}{',I10)'}) numfis}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00111}00111 10100 \textcolor{keyword}{FORMAT}(2e11.4,4i11,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00112}00112 10200 \textcolor{keyword}{FORMAT}(6e11.4,i4,i2,i3,i5)}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00113}00113 10300 \textcolor{keyword}{FORMAT}(i10,10x,i10,50x)}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00114}00114 10400 \textcolor{keyword}{FORMAT}(8i10)}
+\DoxyCodeLine{\Hypertarget{xnffra_8_f_source_l00115}00115       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

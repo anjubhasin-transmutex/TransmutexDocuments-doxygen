@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="xnbox_8_f" kind="file" language="Fortran">
+    <compoundname>xnbox.F</compoundname>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="xnbox_8_f_1ab9adb833918a16c5ac6545d81b212951" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine xnbox</definition>
+        <argsstring>(HINP, V, OUTP, C, SNEXT, SAFE, IHIT)</argsstring>
+        <name>xnbox</name>
+        <param>
+          <type>HINP</type>
+          <defname>HINP</defname>
+        </param>
+        <param>
+          <type>V</type>
+          <defname>V</defname>
+        </param>
+        <param>
+          <type>OUTP</type>
+          <defname>OUTP</defname>
+        </param>
+        <param>
+          <type>C</type>
+          <defname>C</defname>
+        </param>
+        <param>
+          <type>SNEXT</type>
+          <defname>SNEXT</defname>
+        </param>
+        <param>
+          <type>SAFE</type>
+          <defname>SAFE</defname>
+        </param>
+        <param>
+          <type>IHIT</type>
+          <defname>IHIT</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xngeom/xnbox.F" line="3" column="1" bodyfile="/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xngeom/xnbox.F" bodystart="4" bodyend="183"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">*CMZ<sp/>:<sp/><sp/>2.00/02<sp/>04/06/96<sp/><sp/>19.29.45<sp/><sp/>by<sp/><sp/>Federico<sp/>Carminati</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">*--<sp/>Author<sp/>:<sp/><sp/><sp/><sp/>Federico<sp/>Carminati<sp/><sp/><sp/>17/02/94</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">SUBROUTINE<sp/></highlight><highlight class="normal">xnbox(HINP,V,OUTP,C,SNEXT,SAFE,IHIT)</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>Find<sp/>distance<sp/>along<sp/>trajectory<sp/>and<sp/>minimum<sp/>distance<sp/>of<sp/>a<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>point<sp/>to<sp/>the<sp/>boundary<sp/>of<sp/>a<sp/>box.<sp/>The<sp/>centre<sp/>of<sp/>the<sp/>reference<sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>system<sp/>is<sp/>at<sp/>the<sp/>geometrical<sp/>centre<sp/>of<sp/>the<sp/>box.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>HINP<sp/><sp/><sp/><sp/><sp/><sp/>(input)<sp/>array<sp/>of<sp/>3<sp/>with<sp/>the<sp/>positio<sp/>of<sp/>the<sp/>particle<sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>with<sp/>respect<sp/>to<sp/>the<sp/>centre<sp/>of<sp/>the<sp/>box<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>V<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(input)<sp/>array<sp/>of<sp/>3<sp/>with<sp/>the<sp/>speed<sp/>of<sp/>the<sp/>particle<sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>OUTP<sp/><sp/><sp/><sp/><sp/><sp/>(output)<sp/>array<sp/>of<sp/>three<sp/>with<sp/>the<sp/>intersection<sp/>of<sp/>the<sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>particle<sp/>with<sp/>the<sp/>boundary<sp/>of<sp/>the<sp/>box<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(input)<sp/>array<sp/>of<sp/>3<sp/>with<sp/>the<sp/>half<sp/>dimensions<sp/>of<sp/>the<sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>box<sp/>in<sp/>x,<sp/>y<sp/>and<sp/>z<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>SNEXT<sp/><sp/><sp/><sp/><sp/>(output)<sp/>distance<sp/>from<sp/>the<sp/>particle<sp/>to<sp/>the<sp/>box<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>boundary<sp/>along<sp/>the<sp/>particle<sp/>direction<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>SAFE<sp/><sp/><sp/><sp/><sp/><sp/>(output)<sp/>minimum<sp/>distance<sp/>of<sp/>the<sp/>particle<sp/>to<sp/>the<sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>boundaries<sp/>of<sp/>the<sp/>box<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>IHIT<sp/><sp/><sp/><sp/><sp/><sp/>(output)<sp/>1<sp/>if<sp/>the<sp/>box<sp/>boundary<sp/>is<sp/>hit<sp/>from<sp/>inside<sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0<sp/>if<sp/>the<sp/>box<sp/>boundary<sp/>is<sp/>not<sp/>hit<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-1<sp/>if<sp/>the<sp/>box<sp/>boundary<sp/>is<sp/>hit<sp/>from<sp/>outside<sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">IMPLICIT<sp/>DOUBLE<sp/>PRECISION</highlight><highlight class="normal"><sp/>(a-h,o-z)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>parameter(zero=0,small=1e-14,one=1)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">LOGICAL</highlight><highlight class="normal"><sp/>ROTATE</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype"><sp/><sp/><sp/><sp/><sp/><sp/>REAL</highlight><highlight class="normal"><sp/>C(3),SNEXT,SAFE,HINP(3),V(3),OUTP(3)</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>dimension<sp/>x(6)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">*<sp/>----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Find<sp/>director<sp/>cosines<sp/>from<sp/>velocity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">CALL<sp/></highlight><highlight class="normal">xndirv(hinp,v,x,costh,sinth,cosph,sinph,rotate)</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">GOTO</highlight><highlight class="normal"><sp/>10</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>entry<sp/>xnboxn(hinp,v,outp,c,snext,safe,ihit)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>Find<sp/>distance<sp/>along<sp/>trajectory<sp/>and<sp/>minimum<sp/>distance<sp/>of<sp/>a<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>point<sp/>to<sp/>the<sp/>boundary<sp/>of<sp/>a<sp/>box.<sp/>The<sp/>centre<sp/>of<sp/>the<sp/>reference<sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>system<sp/>is<sp/>at<sp/>the<sp/>geometrical<sp/>centre<sp/>of<sp/>the<sp/>box.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>HINP<sp/><sp/><sp/><sp/><sp/><sp/>(input)<sp/>array<sp/>of<sp/>3<sp/>with<sp/>the<sp/>positio<sp/>of<sp/>the<sp/>particle<sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>with<sp/>respect<sp/>to<sp/>the<sp/>centre<sp/>of<sp/>the<sp/>box<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>V<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(input)<sp/>array<sp/>of<sp/>3<sp/>with<sp/>the<sp/>director<sp/>cosines<sp/>of<sp/>the<sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>particle<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>OUTP<sp/><sp/><sp/><sp/><sp/><sp/>(output)<sp/>array<sp/>of<sp/>three<sp/>with<sp/>the<sp/>intersection<sp/>of<sp/>the<sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>particle<sp/>with<sp/>the<sp/>boundary<sp/>of<sp/>the<sp/>box<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(input)<sp/>array<sp/>of<sp/>3<sp/>with<sp/>the<sp/>half<sp/>dimensions<sp/>of<sp/>the<sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>box<sp/>in<sp/>x,<sp/>y<sp/>and<sp/>z<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>SNEXT<sp/><sp/><sp/><sp/><sp/>(output)<sp/>distance<sp/>from<sp/>the<sp/>particle<sp/>to<sp/>the<sp/>box<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>boundary<sp/>along<sp/>the<sp/>particle<sp/>direction<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>SAFE<sp/><sp/><sp/><sp/><sp/><sp/>(output)<sp/>minimum<sp/>distance<sp/>of<sp/>the<sp/>particle<sp/>to<sp/>the<sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>boundaries<sp/>of<sp/>the<sp/>box<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>IHIT<sp/><sp/><sp/><sp/><sp/><sp/>(output)<sp/>1<sp/>if<sp/>the<sp/>box<sp/>boundary<sp/>is<sp/>hit<sp/>from<sp/>inside<sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0<sp/>if<sp/>the<sp/>box<sp/>boundary<sp/>is<sp/>not<sp/>hit<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-1<sp/>if<sp/>the<sp/>box<sp/>boundary<sp/>is<sp/>hit<sp/>from<sp/>outside<sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">*<sp/>----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>x(1)<sp/>=<sp/>hinp(1)</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>x(2)<sp/>=<sp/>hinp(2)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>x(3)<sp/>=<sp/>hinp(3)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>x(4)<sp/>=<sp/>v(1)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>x(5)<sp/>=<sp/>v(2)</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>x(6)<sp/>=<sp/>v(3)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Here<sp/>the<sp/>work<sp/>starts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/>10<sp/>dx=c(1)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>dy=c(2)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>dz=c(3)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>A<sp/>very<sp/>large<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>snext=1e10</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Find<sp/>minimum<sp/>distance<sp/>from<sp/>the<sp/>three<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>saf1<sp/>=<sp/>abs(x(1))-dx</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>saf2<sp/>=<sp/>abs(x(2))-dy</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>saf3<sp/>=<sp/>abs(x(3))-dz</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>safe<sp/>=<sp/>-max(saf1,saf2,saf3)</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(safe.GT.0.)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Inside<sp/>the<sp/>box,<sp/>we<sp/>always<sp/>hit<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ihit=1</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Find<sp/>distance<sp/>from<sp/>X<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s1<sp/>=<sp/>1e10</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s4<sp/>=<sp/>abs(x(4))</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(s4.GT.small)</highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>not<sp/>parallel<sp/>to<sp/>X<sp/>planes<sp/>calculate<sp/>real<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s1=dx/s4-x(1)/x(4)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Find<sp/>distance<sp/>from<sp/>Y<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s2<sp/>=<sp/>1e10</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s5<sp/>=<sp/>abs(x(5))</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(s5.GT.small)</highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>not<sp/>parallel<sp/>to<sp/>Y<sp/>planes<sp/>calculate<sp/>real<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s2=dy/s5-x(2)/x(5)</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Find<sp/>distance<sp/>from<sp/>Z<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s3<sp/>=<sp/>1e10</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s6<sp/>=<sp/>abs(x(6))</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(s6.GT.small)</highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>not<sp/>parallel<sp/>to<sp/>Z<sp/>planes<sp/>calculate<sp/>real<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s3=dz/s6-x(3)/x(6)</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Find<sp/>minimum<sp/>distance<sp/>to<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>snext<sp/>=<sp/>min(s1,s2,s3)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Outside<sp/>the<sp/>box,<sp/>say<sp/>we<sp/>do<sp/>not<sp/>hit<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ihit=0</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Make<sp/>sure<sp/>minimum<sp/>distance<sp/>is<sp/>positive</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>safe<sp/>=<sp/>-safe</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>we<sp/>are<sp/>moving<sp/>away<sp/>from<sp/>the<sp/>box,<sp/>we<sp/>will<sp/>not<sp/>hit<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(x(1)*x(4).GE.0.0.AND.saf1.GT.0.)<sp/></highlight><highlight class="keywordflow">GO<sp/>TO</highlight><highlight class="normal"><sp/>20</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(x(2)*x(5).GE.0.0.AND.saf2.GT.0.)<sp/></highlight><highlight class="keywordflow">GO<sp/>TO</highlight><highlight class="normal"><sp/>20</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(x(3)*x(6).GE.0.0.AND.saf3.GT.0.)<sp/></highlight><highlight class="keywordflow">GO<sp/>TO</highlight><highlight class="normal"><sp/>20</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Now<sp/>find<sp/>distance<sp/>to<sp/>X<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smax1=1e10</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smin1=0.0</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s4<sp/>=<sp/>abs(x(4))</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(saf1.GT.0.)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>We<sp/>are<sp/>outside<sp/>the<sp/>X<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(s4.LT.small)<sp/></highlight><highlight class="keywordflow">GO<sp/>TO</highlight><highlight class="normal"><sp/>20</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>we<sp/>are<sp/>parallel<sp/>to<sp/>X<sp/>planes<sp/>we<sp/>will<sp/>not<sp/>hit<sp/>the<sp/>box</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smin1=saf1<sp/>/<sp/>s4</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smax1=(dx+abs(x(1)))<sp/>/<sp/>s4</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>We<sp/>are<sp/>inside<sp/>the<sp/>X<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(s4.GT.small)</highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>we<sp/>are<sp/>not<sp/>parallel<sp/>to<sp/>them,<sp/>calculate<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smax1=dx/s4-x(1)/x(4)</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Now<sp/>find<sp/>distance<sp/>to<sp/>Y<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smax2=1e10</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smin2=0.0</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s5=abs(x(5))</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(saf2.GT.0.)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>We<sp/>are<sp/>outside<sp/>the<sp/>Y<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(s5.LT.small)<sp/></highlight><highlight class="keywordflow">GO<sp/>TO</highlight><highlight class="normal"><sp/>20</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>we<sp/>are<sp/>parallel<sp/>to<sp/>Y<sp/>planes<sp/>we<sp/>will<sp/>not<sp/>hit<sp/>the<sp/>box</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smin2=saf2<sp/>/<sp/>s5</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smax2=(dy+abs(x(2)))<sp/>/<sp/>s5</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>We<sp/>are<sp/>inside<sp/>the<sp/>Y<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(s5.GT.small)</highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>we<sp/>are<sp/>not<sp/>parallel<sp/>to<sp/>them,<sp/>calculate<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smax2=dy/s5-x(2)/x(5)</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Now<sp/>find<sp/>distance<sp/>to<sp/>Z<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smax3=1e10</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smin3=0.0</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s6=abs(x(6))</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(saf3.GT.0.)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>We<sp/>are<sp/>outside<sp/>the<sp/>Z<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(s6.LT.small)<sp/></highlight><highlight class="keywordflow">GO<sp/>TO</highlight><highlight class="normal"><sp/>20</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>we<sp/>are<sp/>parallel<sp/>to<sp/>Z<sp/>planes<sp/>we<sp/>will<sp/>not<sp/>hit<sp/>the<sp/>box</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smin3=saf3<sp/>/<sp/>s6</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smax3=(dz+abs(x(3)))<sp/>/<sp/>s6</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>We<sp/>are<sp/>inside<sp/>the<sp/>Z<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(s6.GT.small)</highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>we<sp/>are<sp/>not<sp/>parallel<sp/>to<sp/>them,<sp/>calculate<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smax3=dz/s6-x(3)/x(6)</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Find<sp/>minimum<sp/>distance<sp/>to<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smin=max(smin1,smin2,smin3)</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>Find<sp/>maximum<sp/>distance<sp/>to<sp/>planes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>smax=min(smax1,smax2,smax3)</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(smax.GE.smin)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>We<sp/>hit<sp/>the<sp/>box!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ihit=-1</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>snext<sp/>=<sp/>smin</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/>20<sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal">(ihit.NE.0)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---&gt;<sp/>If<sp/>we<sp/>hit<sp/>the<sp/>box,<sp/>transport<sp/>particle<sp/>to<sp/>boundary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outp(1)<sp/>=<sp/>x(1)+x(4)*snext</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outp(2)<sp/>=<sp/>x(2)+x(5)*snext</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outp(3)<sp/>=<sp/>x(3)+x(6)*snext</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">END</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xngeom/xnbox.F"/>
+  </compounddef>
+</doxygen>

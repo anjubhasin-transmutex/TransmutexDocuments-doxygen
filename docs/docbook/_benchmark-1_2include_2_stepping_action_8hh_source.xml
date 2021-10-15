@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__benchmark-1_2include_2_stepping_action_8hh_source" xml:lang="en-US">
+<title>SteppingAction.hh</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/Benchmark-1/include/SteppingAction.hh</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00001"/>00001 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00002"/>00002 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00003"/>00003 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00005"/>00005 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00006"/>00006 <emphasis role="comment">//&#32;SteppingAction</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00007"/>00007 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00008"/>00008 <emphasis role="comment">//&#32;Donovan&#32;Maire,&#32;Transmutex,&#32;18/10/2019</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00009"/>00009 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00011"/>00011 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00012"/>00012 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00013"/>00013 <emphasis role="preprocessor">#ifndef&#32;SteppingAction_H</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00014"/>00014 <emphasis role="preprocessor">#define&#32;SteppingAction_H&#32;1</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00015"/>00015 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00016"/>00016 <emphasis role="preprocessor">#include&#32;&quot;EventAction.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00017"/>00017 <emphasis role="preprocessor">#include&#32;&quot;RunAction.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00018"/>00018 <emphasis role="preprocessor">#include&#32;&quot;TMXInputParameters.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00019"/>00019 <emphasis role="preprocessor">#include&#32;&quot;Analysis.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00020"/>00020 <emphasis role="preprocessor">#include&#32;&quot;TMXNeutronGenerationCounting.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00021"/>00021 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00022"/>00022 <emphasis role="comment">//&#32;GEANT4&#32;libraries</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00023"/>00023 <emphasis role="preprocessor">#include&#32;&quot;globals.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00024"/>00024 <emphasis role="preprocessor">#include&#32;&quot;G4UserSteppingAction.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00025"/>00025 <emphasis role="preprocessor">#include&#32;&quot;G4ThreeVector.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00026"/>00026 <emphasis role="preprocessor">#include&#32;&quot;G4StepPoint.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00027"/>00027 <emphasis role="preprocessor">#include&#32;&quot;G4Track.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00028"/>00028 <emphasis role="preprocessor">#include&#32;&quot;G4VSolid.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00029"/>00029 <emphasis role="preprocessor">#include&#32;&quot;G4HadronicProcess.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00030"/>00030 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00031"/>00031 <emphasis role="comment">//&#32;C++&#32;libraries</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00032"/>00032 <emphasis role="preprocessor">#include&#32;&lt;iostream&gt;</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00033"/>00033 <emphasis role="preprocessor">#include&#32;&lt;fstream&gt;</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00034"/>00034 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00035"/><link linkend="_class_stepping_action">00035</link> <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_stepping_action">SteppingAction</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;G4UserSteppingAction
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00036"/>00036 {
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00037"/>00037 &#32;&#32;<emphasis role="keyword">public</emphasis>:
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00038"/>00038 &#32;&#32;&#32;&#32;<link linkend="_class_stepping_action">SteppingAction</link>(<link linkend="_class_event_action">EventAction</link>*&#32;eventAction,&#32;<link linkend="_class_run_action">RunAction</link>*&#32;runAction,&#32;<link linkend="_class_t_m_x_input_parameters">TMXInputParameters</link>&amp;&#32;parameter);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00039"/>00039 &#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<link linkend="_class_stepping_action">~SteppingAction</link>();
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00040"/>00040 &#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;UserSteppingAction(<emphasis role="keyword">const</emphasis>&#32;G4Step*);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00041"/>00041 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Initialize(<link linkend="_class_event_action">EventAction</link>*&#32;eventAction,&#32;<link linkend="_class_run_action">RunAction</link>*&#32;runAction,&#32;<link linkend="_class_t_m_x_input_parameters">TMXInputParameters</link>&amp;&#32;parameter);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00042"/>00042 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00043"/>00043 <emphasis role="keyword">private</emphasis>:
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00044"/>00044 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;NeutronGenerationCounting(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep,&#32;<emphasis role="keyword">const</emphasis>&#32;G4Track*&#32;secondary,
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;nNeutrons,&#32;<emphasis role="keywordtype">int</emphasis>&amp;&#32;Nb_inelastic);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00046"/>00046 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;CountSecondaries(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep,&#32;<emphasis role="keywordtype">int</emphasis>&#32;nNeutrons);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00047"/>00047 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ChangeStatusFlag(<emphasis role="keyword">const</emphasis>&#32;G4Step&#32;*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00048"/>00048 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;InitializeGenerationFlag(<emphasis role="keyword">const</emphasis>&#32;G4Step&#32;*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00049"/>00049 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00050"/>00050 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;FillHistoTimeEnergyFlux(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;BoundaryStatus,&#32;G4int&#32;nNeutrons);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00051"/>00051 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;FillNtuple1(G4double&#32;PosX,&#32;G4double&#32;PosY,&#32;G4double&#32;PosZ,&#32;G4int&#32;reasonID,&#32;G4int&#32;EveryVol,
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4int&#32;FissionVol,&#32;G4int&#32;CaptureVol,&#32;G4int&#32;InelasticVol,&#32;G4int&#32;nnPrimeVol,&#32;G4int&#32;nXnVol
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;G4int&#32;pID,&#32;G4int&#32;OutPhysVol<emphasis role="comment">/*,&#32;G4double&#32;energyK,&#32;G4int&#32;InPhysVol,&#32;G4double&#32;GlobalTime,&#32;G4double&#32;StepLength*/</emphasis>);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00054"/>00054 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;FillNtuple2(G4double&#32;PosX,&#32;G4double&#32;PosY,&#32;G4double&#32;PosZ,&#32;G4double&#32;energyK,&#32;G4int&#32;FissionVol,
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4int&#32;CaptureVol,&#32;G4double&#32;StepLength,&#32;G4double&#32;CubicVolume,&#32;G4int&#32;A,&#32;G4int&#32;Z);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00056"/>00056 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;FillNtupleDepositedPower(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep<emphasis role="comment">/*G4ThreeVector&#32;N0_Pos,&#32;G4double&#32;N0_Energy*/</emphasis>);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00057"/>00057 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;FillNtupleNeutronSource(G4ThreeVector&#32;N0_Pos,&#32;G4ThreeVector&#32;N0_Momentum,&#32;G4double&#32;N0_Energy);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00058"/>00058 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;FillNtupleProton(G4ThreeVector&#32;N0_Pos,&#32;G4ThreeVector&#32;N0_Momentum,&#32;G4double&#32;N0_Energy);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00059"/>00059 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;FillNdensityVStimeHisto(<emphasis role="keywordtype">double</emphasis>&#32;time);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00060"/>00060 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;FillEdepInStepHisto(<emphasis role="keyword">const</emphasis>&#32;G4Step&#32;*&#32;theStep,&#32;<emphasis role="keywordtype">double</emphasis>&#32;dbl_Ibeam=1);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00061"/>00061 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsInReactorVes(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00062"/>00062 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsSecondCoolant(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00063"/>00063 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsIncineration(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00064"/>00064 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsTargetRegion(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00065"/>00065 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsTarget(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00066"/>00066 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsHeatShieldRegion(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00067"/>00067 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsLeadRegion(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00068"/>00068 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsWaterCoreRegion(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00069"/>00069 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsBeamPipe(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00070"/>00070 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsBeamWindow(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00071"/>00071 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsNeutronAbsorber(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00072"/>00072 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsLead(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00073"/>00073 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsSpentFuel(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00074"/>00074 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsFuel(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00075"/>00075 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsCoolantRegion(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00076"/>00076 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsCoolantInCoreRegion(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00077"/>00077 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsReflector(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00078"/>00078 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsSamplesInLead(<emphasis role="keywordtype">int</emphasis>&#32;VolNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00079"/>00079 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00080"/>00080 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsEscapingTarget();
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00081"/>00081 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsFissionProduct(std::string&#32;particleType);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00082"/>00082 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsPrimaryProton(std::string&#32;particleName,&#32;<emphasis role="keywordtype">int</emphasis>&#32;ID_track);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00083"/>00083 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;FillBeamProfile(G4Track&amp;&#32;theTrack,&#32;<emphasis role="keywordtype">int</emphasis>&#32;stepnumber,&#32;G4ThreeVector&amp;&#32;PrePos,&#32;G4AnalysisManager&amp;&#32;analysisManager);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00084"/>00084 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;FillEdepPrimaries(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep<emphasis role="comment">/*G4ThreeVector&amp;&#32;PostPos,&#32;double&#32;Tot_Edep*/</emphasis>,&#32;<emphasis role="keywordtype">double</emphasis>&#32;dbl_Ibeam,&#32;G4AnalysisManager&amp;&#32;analysisManager);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00085"/>00085 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;AccumulateMeanEperFission(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00086"/>00086 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;FillTimeEnergyFissionProducts(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00087"/>00087 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;KineticEnergy_eV(<emphasis role="keyword">const</emphasis>&#32;G4Step&#32;*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00088"/>00088 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ManageNeutronBirth(<emphasis role="keyword">const</emphasis>&#32;G4Step&#32;*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00089"/>00089 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;FillHistoSourceN(<emphasis role="keywordtype">double</emphasis>&#32;energyAtBirth,&#32;G4ThreeVector&#32;posAtBirth,&#32;<emphasis role="keywordtype">double</emphasis>&#32;energyAtCounting,&#32;G4ThreeVector&#32;posAtCounting,&#32;G4ThreeVector&#32;dirAtCounting,&#32;<emphasis role="keywordtype">int</emphasis>&#32;nbNeutrons);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00090"/>00090 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;G4Isotope*&#32;GetTargetIsotope(G4StepPoint*&#32;thePostPoint);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00091"/>00091 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ManageNeutronScoring(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep,&#32;<emphasis role="keywordtype">int</emphasis>&amp;&#32;nNeutrons);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00092"/>00092 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ManageFission(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00093"/>00093 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ManageCapture(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00094"/>00094 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ManageNInelastic(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep,&#32;<emphasis role="keywordtype">int</emphasis>&amp;&#32;nNeutrons);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00095"/>00095 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ManageNeutronEscape(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00096"/>00096 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ManagePrimaryProtonEscape(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00097"/>00097 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00098"/>00098 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;CountN0_leavingTarget(<emphasis role="keyword">const</emphasis>&#32;G4Step&#32;*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00099"/>00099 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;CountN0_FromPrimaries(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep,&#32;<emphasis role="keywordtype">double</emphasis>&#32;SecondEnergy,&#32;G4ThreeVector&amp;&#32;SecondPos,&#32;G4ThreeVector&amp;&#32;SecondMom);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00100"/>00100 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;CountNeutronSource_DefEAP(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00101"/>00101 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;CountNeutronGeneration_FromInelastic(<emphasis role="keywordtype">int</emphasis>&#32;MotherNeutronGeneration,&#32;<emphasis role="keywordtype">int</emphasis>&#32;Nb_inelastic);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00102"/>00102 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;CountNeutronGeneration_FromFission(<emphasis role="keywordtype">int</emphasis>&#32;NeutronGeneration);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00103"/>00103 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ScoreNeutronGeneration(<emphasis role="keywordtype">int</emphasis>&#32;NeutronGeneration,&#32;<emphasis role="keywordtype">int</emphasis>&#32;NeutronNumber);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00104"/>00104 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;k_calculation(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep,&#32;<emphasis role="keywordtype">int</emphasis>&#32;nNeutrons);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00105"/>00105 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;k_initialization(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00106"/>00106 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;GetNeutronHadronicProcesses();
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00107"/>00107 &#32;&#32;&#32;&#32;G4double&#32;GetElementElasticCrossSection(&#32;<emphasis role="keyword">const</emphasis>&#32;G4Step*,&#32;G4Element*,&#32;G4Material*&#32;);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00108"/>00108 &#32;&#32;&#32;&#32;G4double&#32;GetElementInelastCrossSection(&#32;<emphasis role="keyword">const</emphasis>&#32;G4Step*,&#32;G4Element*,&#32;G4Material*&#32;);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00109"/>00109 &#32;&#32;&#32;&#32;G4double&#32;GetElementCaptureCrossSection(&#32;<emphasis role="keyword">const</emphasis>&#32;G4Step*,&#32;G4Element*,&#32;G4Material*&#32;);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00110"/>00110 &#32;&#32;&#32;&#32;G4double&#32;GetElementFissionCrossSection(&#32;<emphasis role="keyword">const</emphasis>&#32;G4Step*,&#32;G4Element*,&#32;G4Material*&#32;);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00111"/>00111 &#32;&#32;&#32;&#32;G4double&#32;GetElementInelastChannelCrossSection(&#32;<emphasis role="keyword">const</emphasis>&#32;G4Step*,&#32;G4Element*,&#32;G4int);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00112"/>00112 &#32;&#32;&#32;&#32;G4double&#32;GetMaterialElasticCrossSection(<emphasis role="keyword">const</emphasis>&#32;G4Step*,&#32;G4Material*);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00113"/>00113 &#32;&#32;&#32;&#32;G4double&#32;GetMaterialInelastCrossSection(<emphasis role="keyword">const</emphasis>&#32;G4Step*,&#32;G4Material*);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00114"/>00114 &#32;&#32;&#32;&#32;G4double&#32;GetMaterialCaptureCrossSection(<emphasis role="keyword">const</emphasis>&#32;G4Step*,&#32;G4Material*);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00115"/>00115 &#32;&#32;&#32;&#32;G4double&#32;GetMaterialFissionCrossSection(<emphasis role="keyword">const</emphasis>&#32;G4Step*,&#32;G4Material*);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00116"/>00116 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;MCNP_Keff_estimators_ori(<emphasis role="keyword">const</emphasis>&#32;G4Step&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00117"/>00117 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;MCNP_Keff_estimators(<emphasis role="keyword">const</emphasis>&#32;G4Step&#32;&amp;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00118"/>00118 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;RecursiveVolumeCalculation(G4VPhysicalVolume*,&#32;<emphasis role="keywordtype">int</emphasis>&#32;replicate_number=1);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00119"/>00119 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;RecursiveMassCalculation(G4VPhysicalVolume*,&#32;<emphasis role="keywordtype">int</emphasis>&#32;replicate_number=1);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00120"/>00120 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;GetPhysicalVolumeNumber(<emphasis role="keyword">const</emphasis>&#32;G4Step&#32;*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00121"/>00121 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;InitializeNeutronGenerationFlag&#32;(<emphasis role="keyword">const</emphasis>&#32;G4Step&#32;*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00122"/>00122 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;GetRegionNumber(std::string&#32;PhyicalVolume_name,&#32;G4StepStatus&#32;stepStatus);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00123"/>00123 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ScorePrimaryProtons(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep,&#32;<emphasis role="keywordtype">double</emphasis>&#32;dbl_Ibeam);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00124"/>00124 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Initialize_userDefinedRegions();
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00125"/>00125 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Initialize_userDefinedVariables();
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00126"/>00126 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;keff_Mesh_scoring(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00127"/>00127 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00128"/>00128 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;member&#32;variables</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00129"/>00129 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;fIsSourceNeutron;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00130"/>00130 &#32;&#32;&#32;&#32;std::vector&lt;bool&gt;&#32;vStatus_secondaries;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00131"/>00131 &#32;&#32;&#32;&#32;G4int&#32;fNeutronGeneration;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00132"/>00132 &#32;&#32;&#32;&#32;std::vector&lt;G4int&gt;&#32;v_NeutronGeneration;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00133"/>00133 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">long</emphasis>&#32;N0;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00134"/>00134 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">long</emphasis>&#32;Nf;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00135"/>00135 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">long</emphasis>&#32;Nfission;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00136"/>00136 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">long</emphasis>&#32;Nnfission;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00137"/>00137 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">long</emphasis>&#32;fN0Absorber;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00138"/>00138 &#32;&#32;&#32;&#32;<link linkend="_class_event_action">EventAction</link>*&#32;&#32;fEventAction;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00139"/>00139 &#32;&#32;&#32;&#32;<link linkend="_class_run_action">RunAction</link>*&#32;fRunAction;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00140"/>00140 &#32;&#32;&#32;&#32;G4double&#32;fEnergyAtBirth;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00141"/>00141 &#32;&#32;&#32;&#32;G4ThreeVector&#32;fPosAtBirth;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00142"/>00142 &#32;&#32;&#32;&#32;G4double&#32;fBirthTime;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00143"/>00143 &#32;&#32;&#32;&#32;G4bool&#32;fPromptN;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00144"/>00144 &#32;&#32;&#32;&#32;G4double&#32;fDeltat;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00145"/>00145 &#32;&#32;&#32;&#32;G4double&#32;f_tBin;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00146"/>00146 &#32;&#32;&#32;&#32;G4int&#32;fRunNumber;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00147"/>00147 &#32;&#32;&#32;&#32;G4bool&#32;fFromFission;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Flag&#32;commes&#32;to&#32;true&#32;if&#32;a&#32;fission&#32;occurs&#32;and&#32;remains&#32;true&#32;for&#32;the&#32;secondaries</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00148"/>00148 &#32;&#32;&#32;&#32;G4long&#32;fID_firstfission;&#32;<emphasis role="comment">//&#32;particle&#32;ID&#32;when&#32;the&#32;first&#32;fission&#32;occurs</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00149"/>00149 &#32;&#32;&#32;&#32;G4long&#32;fNfission_fromFission;&#32;<emphasis role="comment">//&#32;Number&#32;of&#32;fissions&#32;since&#32;the&#32;first&#32;fission</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00150"/>00150 &#32;&#32;&#32;&#32;G4double&#32;fEperFission;&#32;&#32;&#32;<emphasis role="comment">//&#32;Mean&#32;energy&#32;deposited&#32;per&#32;fission&#32;in&#32;eV</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00151"/>00151 &#32;&#32;&#32;&#32;G4double&#32;fLeadCubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00152"/>00152 &#32;&#32;&#32;&#32;G4double&#32;fWaterInCoreCubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00153"/>00153 &#32;&#32;&#32;&#32;G4double&#32;fTargetTubeCubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00154"/>00154 &#32;&#32;&#32;&#32;G4double&#32;fTargetBeamWindowCubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00155"/>00155 &#32;&#32;&#32;&#32;G4double&#32;fFuelUnionCubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00156"/>00156 &#32;&#32;&#32;&#32;G4HadronicProcess*&#32;fProcessElas;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00157"/>00157 &#32;&#32;&#32;&#32;G4HadronicProcess*&#32;fProcessInel;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00158"/>00158 &#32;&#32;&#32;&#32;G4HadronicProcess*&#32;fProcessCap;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00159"/>00159 &#32;&#32;&#32;&#32;G4HadronicProcess*&#32;fProcessFis;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00160"/>00160 &#32;&#32;&#32;&#32;G4double&#32;fLengthBetweenCollision;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00161"/>00161 &#32;&#32;&#32;&#32;<link linkend="_class_t_m_x_input_parameters">TMXInputParameters</link>*&#32;p;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00162"/>00162 &#32;&#32;&#32;&#32;std::unordered_map&lt;int&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;double&gt;&#32;fmap_Region_volume;&#32;&#32;<emphasis role="comment">//&#32;Volume&#32;in&#32;cm3&#32;of&#32;every&#32;listed&#32;regions</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00163"/>00163 &#32;&#32;&#32;&#32;std::unordered_map&lt;int&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;double&gt;&#32;fmap_Region_mass;&#32;&#32;<emphasis role="comment">//&#32;Mass&#32;in&#32;g&#32;of&#32;every&#32;listed&#32;regions</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00164"/>00164 &#32;&#32;&#32;&#32;std::unordered_map&lt;std::string,&#32;double&gt;&#32;fmap_LV_volume;&#32;&#32;&#32;<emphasis role="comment">//&#32;Volume&#32;in&#32;cm3&#32;of&#32;every&#32;logical&#32;volumes</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00165"/>00165 &#32;&#32;&#32;&#32;std::unordered_map&lt;std::string,&#32;double&gt;&#32;fmap_LV_mass;&#32;&#32;&#32;<emphasis role="comment">//&#32;Mass&#32;in&#32;g&#32;of&#32;every&#32;logical&#32;volumes</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00166"/>00166 &#32;&#32;&#32;&#32;std::unordered_map&lt;std::string,&#32;double&gt;&#32;fmap_mat_volume;&#32;<emphasis role="comment">//&#32;Volume&#32;in&#32;cm3&#32;of&#32;every&#32;material</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00167"/>00167 &#32;&#32;&#32;&#32;std::unordered_map&lt;std::string,&#32;double&gt;&#32;fmap_mat_mass;&#32;<emphasis role="comment">//&#32;Mass&#32;in&#32;g&#32;of&#32;every&#32;material</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00168"/>00168 &#32;&#32;&#32;&#32;std::unordered_map&lt;std::string,&#32;double&gt;&#32;fmap_PV_name_number;&#32;<emphasis role="comment">//&#32;Name&#32;of&#32;Physical&#32;Volume&#32;associated&#32;to&#32;an&#32;unique&#32;number&#32;defined&#32;by&#32;the&#32;user</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00169"/>00169 &#32;&#32;&#32;&#32;G4int&#32;fPostPhysicalVolumeNumber;&#32;<emphasis role="comment">//&#32;ID&#32;of&#32;the&#32;physical&#32;volume&#32;of&#32;the&#32;poststep</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00170"/>00170 &#32;&#32;&#32;&#32;G4int&#32;fPrePhysicalVolumeNumber;&#32;<emphasis role="comment">//&#32;ID&#32;of&#32;the&#32;physical&#32;volume&#32;of&#32;the&#32;prestep</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00171"/>00171 &#32;&#32;&#32;&#32;G4int&#32;fPhysicalVolumeNumber;&#32;<emphasis role="comment">//&#32;ID&#32;of&#32;the&#32;physical&#32;volume&#32;to&#32;be&#32;used</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00172"/>00172 &#32;&#32;&#32;&#32;std::string&#32;fPrePhysicalVolumeName;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00173"/>00173 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00175"/>00175 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Do&#32;not&#32;use&#32;anymore</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00176"/>00176 &#32;&#32;&#32;&#32;std::vector&lt;int&gt;&#32;strPhysVolNumber;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00177"/>00177 &#32;&#32;&#32;&#32;std::vector&lt;std::string&gt;&#32;strPhysVolName;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00178"/>00178 &#32;&#32;&#32;&#32;G4int&#32;fN_fuelrods;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00179"/>00179 &#32;&#32;&#32;&#32;G4int&#32;fN_FastRods;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00180"/>00180 &#32;&#32;&#32;&#32;G4ThreeVector&#32;fTargetPosition;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00181"/>00181 &#32;&#32;&#32;&#32;G4VSolid*&#32;&#32;&#32;fTargetTubeSolid;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00182"/>00182 &#32;&#32;&#32;&#32;G4double&#32;&#32;&#32;&#32;fTargetZdistanceToBottom;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00183"/>00183 &#32;&#32;&#32;&#32;G4double&#32;&#32;&#32;&#32;fh0;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00185"/>00185 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00186"/>00186 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;GeomSVBR_AKME&#32;Cubic&#32;Volumes</emphasis>
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00187"/>00187 &#32;&#32;&#32;&#32;G4double&#32;fPrimaryCoolantCubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00188"/>00188 &#32;&#32;&#32;&#32;G4double&#32;fPrimaryCoolantCoreCubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00189"/>00189 &#32;&#32;&#32;&#32;G4double&#32;fSecondaryCoolantCubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00190"/>00190 &#32;&#32;&#32;&#32;G4double&#32;fIncinerationCubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00191"/>00191 &#32;&#32;&#32;&#32;G4double&#32;fSpallationTargetCubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00192"/>00192 &#32;&#32;&#32;&#32;G4double&#32;fReactorOuterVesselCubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00193"/>00193 &#32;&#32;&#32;&#32;G4double&#32;fReactorInnerVesselCubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00194"/>00194 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00195"/>00195 &#32;&#32;&#32;&#32;G4double&#32;fFuelBlkt1CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00196"/>00196 &#32;&#32;&#32;&#32;G4double&#32;fFuel1CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00197"/>00197 &#32;&#32;&#32;&#32;G4double&#32;fFuel2CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00198"/>00198 &#32;&#32;&#32;&#32;G4double&#32;fFuel3CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00199"/>00199 &#32;&#32;&#32;&#32;G4double&#32;fFuelGrid2CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00200"/>00200 &#32;&#32;&#32;&#32;G4double&#32;fFuel4CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00201"/>00201 &#32;&#32;&#32;&#32;G4double&#32;fFuel5CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00202"/>00202 &#32;&#32;&#32;&#32;G4double&#32;fFuel6CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00203"/>00203 &#32;&#32;&#32;&#32;G4double&#32;fFuel7CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00204"/>00204 &#32;&#32;&#32;&#32;G4double&#32;fFuel8CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00205"/>00205 &#32;&#32;&#32;&#32;G4double&#32;fFuelGrid3CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00206"/>00206 &#32;&#32;&#32;&#32;G4double&#32;fFuel9CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00207"/>00207 &#32;&#32;&#32;&#32;G4double&#32;fFuel10CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00208"/>00208 &#32;&#32;&#32;&#32;G4double&#32;fFuel11CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00209"/>00209 &#32;&#32;&#32;&#32;G4double&#32;fFuelBlkt2CubicVolume;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00210"/>00210 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00211"/>00211 &#32;&#32;&#32;&#32;<link linkend="_class_t_m_x_neutron_generation_counting">TMXNeutronGenerationCounting</link>*&#32;fGenerationCounter;
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00212"/>00212 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;computeSourceTerm(<emphasis role="keyword">const</emphasis>&#32;G4Step*);
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00213"/>00213 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00214"/>00214 };
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00215"/>00215 
+<anchor xml:id="__benchmark-1_2include_2_stepping_action_8hh_source_1l00216"/>00216 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

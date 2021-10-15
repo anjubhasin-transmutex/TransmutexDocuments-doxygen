@@ -1,0 +1,140 @@
+\hypertarget{xncorc_8_f_source}{}\doxysection{xncorc.\+F}
+\label{xncorc_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/spanish/xncorc.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/spanish/xncorc.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  0.05/00 28/04/94  12.32.31  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xncorc(X,OUTP,SNEXT,SAFE,IHIT)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00004}00004 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00005}00005       \textcolor{keywordtype}{IMPLICIT DOUBLE PRECISION} (a-\/h,o-\/z)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00006}00006       parameter(half=0.5,three=3,one=1,zero=0)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00007}00007 \textcolor{preprocessor}{\#include "{}xcsgeo.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00008}00008 \textcolor{preprocessor}{}\textcolor{keywordtype}{      REAL} X(6),OUTP(3),SNEXT,SAFE}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00009}00009       \textcolor{keywordtype}{LOGICAL} ROTATE}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00010}00010       lint(xx)=int(xx)-\/(half-\/sign(half,xx))}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00011}00011 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00012}00012 \textcolor{comment}{* -\/-\/-\/ Prepare for failure}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00013}00013       safe  = 1e10}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00014}00014       snext = 1e10}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00015}00015       ihit = 0}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00016}00016 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00017}00017 \textcolor{comment}{* -\/-\/-\/ At the beginning we just invert x and y.}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00018}00018       x0 = x(2)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00019}00019       y0 = x(1)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00020}00020       hnorm = one/sqrt(x(4)**2+x(5)**2)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00021}00021       alpha = x(5)*hnorm}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00022}00022       beta  = x(4)*hnorm}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00023}00023       sqrt3 = sqrt(three)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00024}00024       sqrt3h = sqrt3*half}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00025}00025       rotate=.false.}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00026}00026       \textcolor{keywordflow}{IF}(abs(alpha).LT.half) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00027}00027 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/ Rotate everything by 60 degrees, the distance stays the same}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00029}00029          y0 =  x(1)*half  +x(2)*sqrt3h}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00030}00030          x0 = -\/x(1)*sqrt3h+x(2)*half}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00031}00031          beta  = ( x(4)*half  +x(5)*sqrt3h)*hnorm}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00032}00032          alpha = (-\/x(4)*sqrt3h+x(5)*half  )*hnorm}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00033}00033          rotate=.true.}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00034}00034 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00035}00035 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/ Find starting point and direction}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00037}00037       displa = disbar*sqrt3h}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00038}00038       istart = (nint(x0/displa)+}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00039}00039      +          (sign(one,x0)-\/sign(one,alpha))*half)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00040}00040       istart = min(max(-\/nbside+1,istart),nbside-\/1)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00041}00041       istep  = sign(one,alpha)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00042}00042       iend   = (nbside-\/1)*istep}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00043}00043 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00044}00044 \textcolor{comment}{* -\/-\/-\/ Some useful constants}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00045}00045       barrad=bardia*half}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00046}00046       barra2=barrad**2}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00047}00047       corrad=cordia*half}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00048}00048       corra2=corrad**2}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00049}00049       disbai=one/disbar}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00050}00050       alphai=one/alpha}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00051}00051 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00052}00052 \textcolor{comment}{* -\/-\/-\/ Loop on planes}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00053}00053       \textcolor{keywordflow}{DO} 20 ix=istart,iend,istep}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00054}00054          xx=ix*displa}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00055}00055 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00056}00056 \textcolor{comment}{* -\/-\/-\/ Nogo if outside diameter of core}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00057}00057          \textcolor{keywordflow}{IF}(xx.GT.cordia) \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00058}00058          xx2=xx**2}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00059}00059          delx2 = (x0-\/xx)**2}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00060}00060 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00061}00061 \textcolor{comment}{* -\/-\/-\/ Slightly more complicated... we need the shift for the odd planes}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00062}00062          shift=disbar*half*mod(ix,2)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00063}00063 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/ Compute y range -\/ gamma is the projection of the}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00065}00065 \textcolor{comment}{* -\/-\/-\/ y coordinate at the plane IX onto the normal to the line of}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00066}00066 \textcolor{comment}{* -\/-\/-\/ flight}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00067}00067          gamma=beta*(xx-\/x0)+alpha*y0}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00068}00068          ya=(gamma-\/barrad)*alphai}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00069}00069          yb=(gamma+barrad)*alphai}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00070}00070          y1=min(ya,yb)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00071}00071          y2=max(ya,yb)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00072}00072 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00073}00073 \textcolor{comment}{* -\/-\/-\/ Number of bars in current plane}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00074}00074          ncbars = 2*nbside-\/1-\/abs(ix)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00075}00075          \textcolor{keywordflow}{IF}(ix.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00076}00076             iymin  = -\/ncbars/2}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00077}00077             iymax  = ncbars/2-\/mod(ix,2)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00078}00078          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00079}00079             iymin  = -\/ncbars/2-\/mod(ix,2)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00080}00080             iymax  = ncbars/2}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00081}00081 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00082}00082          iy1=lint((y1-\/shift)*disbai)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00083}00083          iy2=lint((y2-\/shift)*disbai)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00084}00084 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00085}00085          \textcolor{keywordflow}{IF}(iy1.LT.iy2)\textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00086}00086             \textcolor{keywordflow}{DO} 10 iy=max(iy1,iymin),min(iy2,iymax)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00087}00087 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00088}00088 \textcolor{comment}{* -\/-\/-\/ Avoid treating central bar}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00089}00089                \textcolor{keywordflow}{IF}(ix.EQ.0.AND.iy.EQ.0) \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00090}00090                y=iy*disbar+shift}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00091}00091 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00092}00092 \textcolor{comment}{* -\/-\/-\/ If outside diameter of inner core, skip}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00093}00093                \textcolor{keywordflow}{IF}(xx2+y**2.GT.corra2) \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00094}00094                \textcolor{keywordflow}{IF}(y1.LE.y.AND.y.LE.y2)\textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00095}00095                   a=alpha*(x0-\/xx)+beta*(y0-\/y)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00096}00096                   d2=delx2+(y0-\/y)**2}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00097}00097                   det=max(a**2-\/(d2-\/barra2),zero)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00098}00098                   c=sqrt(det)}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00099}00099                   t1=-\/a-\/c}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00100}00100                   t2=-\/a+c}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00101}00101                   \textcolor{keywordflow}{IF}(t1.GT.0.0.AND.snext.GT.t1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00102}00102                      xhtbar = y}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00103}00103                      yhtbar = xx}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00104}00104                      snext=t1}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00105}00105                      ihit=1}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00106}00106                      \textcolor{keywordflow}{IF}(t1*t2.LT.0.0) ihit=-\/ihit}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00107}00107                   \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(t2.GT.0.0.AND.snext.GT.t2)\textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00108}00108                      xhtbar = y}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00109}00109                      yhtbar = xx}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00110}00110                      snext=t2}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00111}00111                      ihit=1}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00112}00112                      \textcolor{keywordflow}{IF}(t1*t2.LT.0.0) ihit=-\/ihit}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00113}00113 \textcolor{keywordflow}{                  END IF}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00114}00114 \textcolor{keywordflow}{               END IF}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00115}00115    10       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00116}00116 \textcolor{keywordflow}{         END IF}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00117}00117 }
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00118}00118    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00119}00119 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00120}00120 \textcolor{comment}{* -\/-\/-\/ convert distance in 3 dim}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00121}00121       \textcolor{keywordflow}{IF}(ihit.NE.0.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00122}00122          snext=snext*sqrt((x(4)**2+x(5)**2+x(6)**2))*hnorm}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00123}00123          outp(1) = x(1)+x(4)*snext}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00124}00124          outp(2) = x(2)+x(5)*snext}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00125}00125          outp(3) = x(3)+x(6)*snext}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00126}00126          \textcolor{keywordflow}{IF}(rotate) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00127}00127             xtmp =  xhtbar*half  -\/yhtbar*sqrt3h}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00128}00128             ytmp =  xhtbar*sqrt3h+yhtbar*half}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00129}00129             xhtbar = xtmp}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00130}00130             yhtbar = ytmp}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00131}00131 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00132}00132 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00133}00133 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncorc_8_f_source_l00134}00134       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

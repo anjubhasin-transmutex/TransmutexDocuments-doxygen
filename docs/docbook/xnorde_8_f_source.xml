@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnorde_8_f_source" xml:lang="en-US">
+<title>xnorde.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnmkdb/xnorde.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnorde_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;05/06/96&#32;&#32;16.28.28&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnorde
+<anchor xml:id="_xnorde_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Order&#32;isomer&#32;codes&#32;in&#32;ascending&#32;order&#32;in&#32;the&#32;scratch&#32;file&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;index&#32;to&#32;output&#32;them&#32;in&#32;order&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00009"/>00009 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00010"/>00010 <emphasis role="preprocessor">#include&#32;&quot;xcsind.inc&quot;</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00011"/>00011 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcsele.inc&quot;</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00012"/>00012 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcdnam.inc&quot;</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00013"/>00013 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcluni.inc&quot;</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00014"/>00014 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*128</emphasis>&#32;CHFDUM
+<anchor xml:id="_xnorde_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*11</emphasis>&#32;CHELNA,&#32;XNELNA
+<anchor xml:id="_xnorde_8_f_source_1l00017"/>00017 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00018"/>00018 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00019"/>00019 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;j=1,npoint-1
+<anchor xml:id="_xnorde_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;i=j+1,npoint
+<anchor xml:id="_xnorde_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ipoint(1,j).GT.ipoint(1,i))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;k=1,3
+<anchor xml:id="_xnorde_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;id=ipoint(k,j)
+<anchor xml:id="_xnorde_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(k,j)=ipoint(k,i)
+<anchor xml:id="_xnorde_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(k,i)=id
+<anchor xml:id="_xnorde_8_f_source_1l00027"/>00027 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chfdum=chfnam(j)
+<anchor xml:id="_xnorde_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chfnam(j)=chfnam(i)
+<anchor xml:id="_xnorde_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chfnam(i)=chfdum
+<anchor xml:id="_xnorde_8_f_source_1l00031"/>00031 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00032"/>00032 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00033"/>00033 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00034"/>00034 <emphasis role="comment">*&#32;---&gt;&#32;Write&#32;final&#32;selection&#32;in&#32;listing&#32;file</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(itapl,10000)
+<anchor xml:id="_xnorde_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;40&#32;jp=1,npoint
+<anchor xml:id="_xnorde_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chelna=xnelna(ipoint(1,jp))
+<anchor xml:id="_xnorde_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(itapl,10100)&#32;ipoint(1,jp),chelna,
+<anchor xml:id="_xnorde_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chfnam(jp)(:lnblnk(chfnam(jp)))
+<anchor xml:id="_xnorde_8_f_source_1l00040"/>00040 &#32;&#32;&#32;40&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00041"/>00041 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnorde_8_f_source_1l00042"/>00042 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(1x,26(<emphasis role="stringliteral">&apos;=&apos;</emphasis>),<emphasis role="stringliteral">&apos;&#32;index&#32;of&#32;elements&#32;loaded&#32;&apos;</emphasis>,26(<emphasis role="stringliteral">&apos;=&apos;</emphasis>))
+<anchor xml:id="_xnorde_8_f_source_1l00043"/>00043 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(1x,i7.7,1x,a11,1x,a)
+<anchor xml:id="_xnorde_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

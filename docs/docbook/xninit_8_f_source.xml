@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xninit_8_f_source" xml:lang="en-US">
+<title>xninit.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xninit.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xninit_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.03/07&#32;10/09/96&#32;&#32;17.18.10&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;17/01/94</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xninit(MBSIZE,CHFILE)
+<anchor xml:id="_xninit_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Initialise&#32;XNSECT&#32;package,&#32;mandatory&#32;system&#32;routine&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00008"/>00008 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00009"/>00009 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00010"/>00010 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcutil.inc&quot;</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00011"/>00011 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcstor.inc&quot;</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00012"/>00012 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcdbas.inc&quot;</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00013"/>00013 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcpoin.inc&quot;</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00014"/>00014 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcdbna.inc&quot;</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00015"/>00015 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;itabze(ntablr*mxmate)
+<anchor xml:id="_xninit_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;equivalence(itabze,imtabl)
+<anchor xml:id="_xninit_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*(*)</emphasis>&#32;CHFILE
+<anchor xml:id="_xninit_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;FIRST
+<anchor xml:id="_xninit_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">SAVE</emphasis>&#32;first
+<anchor xml:id="_xninit_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;first&#32;/.true./
+<anchor xml:id="_xninit_8_f_source_1l00021"/>00021 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00022"/>00022 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00023"/>00023 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00024"/>00024 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00025"/>00025 <emphasis role="comment">*&#32;---&gt;&#32;Initialisation&#32;tasks:&#32;do&#32;only&#32;at&#32;first&#32;entry</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(first)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00027"/>00027 <emphasis role="comment">*&#32;---&gt;&#32;Current&#32;number&#32;of&#32;material&#32;=&#32;0</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nmate&#32;=&#32;0
+<anchor xml:id="_xninit_8_f_source_1l00029"/>00029 <emphasis role="comment">*&#32;---&gt;&#32;Available&#32;number&#32;of&#32;words&#32;in&#32;XNSTOR</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nbsize&#32;=&#32;mbsize-2
+<anchor xml:id="_xninit_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;---&gt;&#32;HiGh&#32;Water&#32;MarK</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ihgwmk&#32;=&#32;1
+<anchor xml:id="_xninit_8_f_source_1l00033"/>00033 <emphasis role="comment">*&#32;---&gt;&#32;Number&#32;of&#32;XNSECT&#32;&quot;histograms&quot;</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nid&#32;=&#32;0
+<anchor xml:id="_xninit_8_f_source_1l00035"/>00035 <emphasis role="comment">*&#32;---&gt;&#32;First&#32;entry</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;first&#32;=&#32;.false.
+<anchor xml:id="_xninit_8_f_source_1l00037"/>00037 <emphasis role="comment">*&#32;---&gt;&#32;Number&#32;of&#32;active&#32;temperature&#32;indexes</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nctemp&#32;=&#32;1
+<anchor xml:id="_xninit_8_f_source_1l00039"/>00039 <emphasis role="comment">*&#32;---&gt;&#32;Default&#32;temperature</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntemp(293)
+<anchor xml:id="_xninit_8_f_source_1l00041"/>00041 <emphasis role="comment">*&#32;---&gt;&#32;Set&#32;to&#32;0&#32;index&#32;table&#32;for&#32;memory</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;j=1,mxmate*ntablr
+<anchor xml:id="_xninit_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;itabze(j)=0
+<anchor xml:id="_xninit_8_f_source_1l00044"/>00044 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00045"/>00045 <emphasis role="comment">*&#32;---&gt;&#32;Set&#32;current&#32;Cross&#32;Section&#32;database,&#32;default&#32;ENDF/B-VI</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(chfile.EQ.<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chdbas=chroot//<emphasis role="stringliteral">&apos;e6r1nds3&apos;</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chdbas=chfile
+<anchor xml:id="_xninit_8_f_source_1l00050"/>00050 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00051"/>00051 <emphasis role="comment">*&#32;---&gt;&#32;Set&#32;default&#32;name&#32;for&#32;EET&#32;nuclear&#32;database</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chetdb=chroot//<emphasis role="stringliteral">&apos;eetnucdb.dat&apos;</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00053"/>00053 <emphasis role="comment">*&#32;---&gt;&#32;Set&#32;debug&#32;flag&#32;to&#32;false</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ldebug=.false.
+<anchor xml:id="_xninit_8_f_source_1l00055"/>00055 <emphasis role="comment">*&#32;---&gt;&#32;Print&#32;version&#32;number</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>eetver(2.03,<emphasis role="stringliteral">&apos;XNSECT&apos;</emphasis>,<emphasis role="stringliteral">&apos;10-SEP-1996&apos;</emphasis>)
+<anchor xml:id="_xninit_8_f_source_1l00057"/>00057 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00058"/>00058 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xninit_8_f_source_1l00059"/>00059 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

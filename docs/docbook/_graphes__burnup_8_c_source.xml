@@ -1,0 +1,420 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__graphes__burnup_8_c_source" xml:lang="en-US">
+<title>Graphes_burnup.C</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/G4-NeutronTransport/Graphes_burnup.C</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__graphes__burnup_8_c_source_1l00001"/>00001 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00002"/>00002 <emphasis role="comment">&#32;*&#32;------------------------------------------------</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00003"/>00003 <emphasis role="comment">&#32;*&#32;|&#32;Generation&#32;of&#32;graphes&#32;for&#32;burnup&#32;analysis&#32;&#32;&#32;&#32;|</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00004"/>00004 <emphasis role="comment">&#32;*&#32;------------------------------------------------</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00005"/>00005 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00006"/>00006 <emphasis role="comment">&#32;*&#32;Read&#32;every&#32;Evolved&#32;material&#32;files&#32;in&#32;the&#32;directory</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00007"/>00007 <emphasis role="comment">&#32;*&#32;and&#32;draw&#32;three&#32;types&#32;of&#32;histogram</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00008"/>00008 <emphasis role="comment">&#32;*&#32;&#32;&#32;&#32;&#32;&#32;-&#32;2D&#32;histogram&#32;representing&#32;the&#32;mass&#32;of&#32;each&#32;isotope&#32;with&#32;A&#32;=&#32;f(Z)&#32;in&#32;the&#32;last&#32;run</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00009"/>00009 <emphasis role="comment">&#32;*&#32;&#32;&#32;&#32;&#32;&#32;-&#32;histogram&#32;representing&#32;the&#32;time&#32;evolution&#32;of&#32;the&#32;isotope&#32;mass&#32;&#32;of&#32;every&#32;isotopes</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00010"/>00010 <emphasis role="comment">&#32;*&#32;&#32;&#32;&#32;&#32;&#32;-&#32;histogram&#32;representing&#32;the&#32;time&#32;evolution&#32;of&#32;the&#32;mass&#32;fraction&#32;of&#32;every&#32;isotopes&#32;with&#32;fraction&#32;&lt;&#32;threshold</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00011"/>00011 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00012"/>00012 <emphasis role="comment">&#32;*&#32;@rg1:&#32;Threshold&#32;to&#32;draw&#32;isotope&#32;fraction&#32;evolution&#32;only&#32;with&#32;isotope&#32;fractions&#32;lower&#32;than&#32;value</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00013"/>00013 <emphasis role="comment">&#32;*&#32;@rg2:&#32;Name&#32;of&#32;the&#32;material&#32;to&#32;be&#32;plotted&#32;(Initial&#32;name&#32;in&#32;the&#32;GEANT4&#32;geometry).&#32;Value&#32;must&#32;be&#32;given&#32;between&#32;quotes.</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00014"/>00014 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00015"/>00015 <emphasis role="comment">&#32;*&#32;Output1:&#32;root&#32;file&#32;&quot;burnup.root&quot;&#32;with&#32;all&#32;histograms</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00016"/>00016 <emphasis role="comment">&#32;*&#32;Output2:&#32;text&#32;file&#32;&quot;final_inventory.txt&quot;&#32;with&#32;total&#32;inventory&#32;in&#32;last&#32;run</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00017"/>00017 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00018"/>00018 <emphasis role="comment">&#32;*&#32;Example&#32;to&#32;run&#32;the&#32;code&#32;from&#32;the&#32;directory&#32;containing&#32;burnup&#32;text&#32;files</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00019"/>00019 <emphasis role="comment">&#32;*&#32;&gt;&#32;root&#32;&apos;../Graphes_burnup.C(0.12,&quot;fuel_ThPuO2&quot;)&apos;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00020"/>00020 <emphasis role="comment">&#32;*/</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00021"/>00021 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00022"/>00022 <emphasis role="comment">//&#32;C++&#32;libraries</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00023"/>00023 <emphasis role="preprocessor">#include&#32;&lt;iostream&gt;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00024"/>00024 <emphasis role="preprocessor">#include&#32;&lt;fstream&gt;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00025"/>00025 <emphasis role="preprocessor">#include&#32;&lt;string&gt;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00026"/>00026 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00027"/>00027 <emphasis role="comment">//&#32;ROOT&#32;libraries</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00028"/>00028 <emphasis role="preprocessor">#include&#32;&lt;TFile.h&gt;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00029"/>00029 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00030"/>00030 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00031"/>00031 <emphasis role="comment">&#32;*&#32;Return&#32;a&#32;string&#32;corresponding&#32;to&#32;the&#32;expression&#32;between&#32;phrase_before&#32;and&#32;phrase_after</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00032"/>00032 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00033"/>00033 <emphasis role="comment">&#32;*&#32;@rg1:&#32;current&#32;line</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00034"/>00034 <emphasis role="comment">&#32;*&#32;@rg2:&#32;phrase&#32;before&#32;the&#32;expression&#32;we&#32;are&#32;looking&#32;for</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00035"/>00035 <emphasis role="comment">&#32;*&#32;@rg3:&#32;phrase&#32;after&#32;&#32;the&#32;expression&#32;we&#32;are&#32;looking&#32;for</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00036"/>00036 <emphasis role="comment">&#32;*&#32;@rg4:&#32;the&#32;expression&#32;we&#32;are&#32;looking&#32;for</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00037"/>00037 <emphasis role="comment">&#32;*/</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00038"/>00038 <emphasis role="keywordtype">bool</emphasis>&#32;find_expression_betweenPhrases(std::string&#32;line,&#32;std::string&#32;phrase_before_value,&#32;std::string&#32;phrase_after_value,&#32;std::string&amp;&#32;expression)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00039"/>00039 &#32;&#32;&#32;&#32;std::size_t&#32;pos&#32;=&#32;line.find(phrase_before_value);&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00040"/>00040 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(pos!=std::string::npos)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;expression&#32;=&#32;line.substr(pos+phrase_before_value.size(),&#32;line.find(phrase_after_value,&#32;pos+phrase_before_value.size())&#32;-&#32;(pos+phrase_before_value.size()));
+<anchor xml:id="__graphes__burnup_8_c_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00043"/>00043 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00044"/>00044 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00045"/>00045 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00046"/>00046 }
+<anchor xml:id="__graphes__burnup_8_c_source_1l00047"/>00047 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00048"/>00048 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00049"/>00049 <emphasis role="comment">&#32;*&#32;Return&#32;a&#32;double&#32;corresponding&#32;to&#32;the&#32;mass&#32;in&#32;g&#32;found&#32;in&#32;the&#32;current&#32;line&#32;of&#32;the&#32;text&#32;file</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00050"/>00050 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00051"/>00051 <emphasis role="comment">&#32;*&#32;@rg1:&#32;current&#32;line</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00052"/>00052 <emphasis role="comment">&#32;*&#32;@rg2:&#32;phrase&#32;to&#32;be&#32;found&#32;located&#32;just&#32;before&#32;the&#32;value</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00053"/>00053 <emphasis role="comment">&#32;*&#32;@rg3:&#32;value&#32;in&#32;grams</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00054"/>00054 <emphasis role="comment">&#32;*/</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00055"/>00055 <emphasis role="keywordtype">void</emphasis>&#32;find_mass_in_g(std::string&#32;line,&#32;std::string&#32;phrase_before_value,&#32;<emphasis role="keywordtype">double</emphasis>&amp;&#32;mass)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00056"/>00056 &#32;&#32;&#32;&#32;std::string&#32;str_mass&#32;=<emphasis role="stringliteral">&quot;&quot;</emphasis>;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00057"/>00057 &#32;&#32;&#32;&#32;find_expression_betweenPhrases(line,&#32;phrase_before_value,&#32;<emphasis role="stringliteral">&quot;&#32;g&#32;and&#32;volume&quot;</emphasis>,&#32;str_mass);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00058"/>00058 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(str_mass&#32;!=&#32;<emphasis role="stringliteral">&quot;&quot;</emphasis>)&#32;mass&#32;=&#32;std::stod(str_mass);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00059"/>00059 }
+<anchor xml:id="__graphes__burnup_8_c_source_1l00060"/>00060 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00061"/>00061 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00062"/>00062 <emphasis role="comment">&#32;*&#32;Return&#32;a&#32;double&#32;corresponding&#32;to&#32;the&#32;time&#32;in&#32;s&#32;found&#32;in&#32;the&#32;current&#32;line&#32;of&#32;the&#32;text&#32;file</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00063"/>00063 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00064"/>00064 <emphasis role="comment">&#32;*&#32;@rg1:&#32;current&#32;line</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00065"/>00065 <emphasis role="comment">&#32;*&#32;@rg2:&#32;phrase&#32;to&#32;be&#32;found&#32;located&#32;just&#32;before&#32;the&#32;value</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00066"/>00066 <emphasis role="comment">&#32;*&#32;@rg3:&#32;value&#32;in&#32;second</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00067"/>00067 <emphasis role="comment">&#32;*/</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00068"/>00068 <emphasis role="keywordtype">void</emphasis>&#32;find_time_in_s(std::string&#32;line,&#32;std::string&#32;phrase_before_value,&#32;<emphasis role="keywordtype">double</emphasis>&amp;&#32;time)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00069"/>00069 &#32;&#32;&#32;&#32;std::string&#32;str_time&#32;=<emphasis role="stringliteral">&quot;&quot;</emphasis>;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00070"/>00070 &#32;&#32;&#32;&#32;find_expression_betweenPhrases(line,&#32;phrase_before_value,&#32;<emphasis role="stringliteral">&quot;s&quot;</emphasis>,&#32;str_time);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00071"/>00071 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(str_time&#32;!=&#32;<emphasis role="stringliteral">&quot;&quot;</emphasis>)&#32;time&#32;=&#32;std::stod(str_time);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00072"/>00072 }
+<anchor xml:id="__graphes__burnup_8_c_source_1l00073"/>00073 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00074"/>00074 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00075"/>00075 <emphasis role="comment">&#32;*&#32;Read&#32;every&#32;lines&#32;of&#32;the&#32;text&#32;file</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00076"/>00076 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00077"/>00077 <emphasis role="comment">&#32;*&#32;@rg1:&#32;stream&#32;of&#32;the&#32;text&#32;files</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00078"/>00078 <emphasis role="comment">&#32;*&#32;@rg2:&#32;vector&#32;with&#32;timestamp&#32;of&#32;every&#32;runs</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00079"/>00079 <emphasis role="comment">&#32;*/</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00080"/>00080 <emphasis role="keywordtype">void</emphasis>&#32;read_every_lines(std::ifstream&amp;&#32;input_file,&#32;std::vector&lt;double&gt;&amp;&#32;vtotal_Run_time)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00081"/>00081 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00082"/>00082 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;current_Run_duration&#32;=&#32;0;&#32;<emphasis role="comment">//&#32;s</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00083"/>00083 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;total_Run_time&#32;=&#32;-10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;s</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00084"/>00084 &#32;&#32;&#32;&#32;std::string&#32;material_name&#32;=<emphasis role="stringliteral">&quot;&quot;</emphasis>;&#32;&#32;&#32;<emphasis role="comment">//&#32;Name&#32;of&#32;current&#32;material</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00085"/>00085 &#32;&#32;&#32;&#32;std::map&lt;std::string,&#32;double&gt;&#32;map_total_mass;&#32;<emphasis role="comment">//&#32;Total&#32;mass&#32;of&#32;every&#32;materials</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00086"/>00086 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;IZA;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00087"/>00087 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;isotope_mass,&#32;mass_fraction;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00088"/>00088 &#32;&#32;&#32;&#32;TTree*&#32;IZA_mass_tree&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00089"/>00089 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00090"/>00090 &#32;&#32;&#32;&#32;std::string&#32;line;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00091"/>00091 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(std::getline(input_file,&#32;line))&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Get&#32;the&#32;duration&#32;of&#32;the&#32;current&#32;run</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;find_time_in_s(line,&#32;<emphasis role="stringliteral">&quot;Step&#32;irradiation&#32;period:&quot;</emphasis>,&#32;current_Run_duration);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Get&#32;the&#32;total&#32;time&#32;since&#32;the&#32;first&#32;run</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;find_time_in_s(line,&#32;<emphasis role="stringliteral">&quot;Current&#32;irradiation&#32;time:&quot;</emphasis>,&#32;total_Run_time);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Get&#32;material&#32;name</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;newMaterial&#32;=&#32;find_expression_betweenPhrases(line,<emphasis role="stringliteral">&quot;Material:&#32;&quot;</emphasis>,<emphasis role="stringliteral">&quot;&#32;appearing&#32;in&quot;</emphasis>,&#32;material_name);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00101"/>00101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Get&#32;total&#32;mass</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;mass&#32;=&#32;0;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;find_mass_in_g(line,&#32;<emphasis role="stringliteral">&quot;with&#32;mass:&#32;&quot;</emphasis>,&#32;mass);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;map_total_mass[material_name]&#32;+=&#32;mass;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00105"/>00105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Define&#32;new&#32;histo/ntuple&#32;if&#32;new&#32;material</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(newMaterial)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00108"/>00108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(IZA_mass_tree)&#32;IZA_mass_tree-&gt;Write();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string&#32;tree_name&#32;=&#32;<emphasis role="stringliteral">&quot;IZA_mass_&quot;</emphasis>&#32;+&#32;material_name.substr(0,material_name.find(<emphasis role="stringliteral">&quot;*&quot;</emphasis>))&#32;+&#32;<emphasis role="stringliteral">&quot;_&quot;</emphasis>&#32;+&#32;material_name.substr(material_name.find(<emphasis role="stringliteral">&quot;*&quot;</emphasis>)+1,material_name.size());
+<anchor xml:id="__graphes__burnup_8_c_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IZA_mass_tree&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TTree(tree_name.c_str(),<emphasis role="stringliteral">&quot;&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IZA_mass_tree-&gt;Branch(<emphasis role="stringliteral">&quot;IZA&quot;</emphasis>,&#32;&amp;IZA);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00112"/>00112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IZA_mass_tree-&gt;Branch(<emphasis role="stringliteral">&quot;fraction&quot;</emphasis>,&#32;&amp;mass_fraction);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IZA_mass_tree-&gt;Branch(<emphasis role="stringliteral">&quot;mass&quot;</emphasis>,&#32;&amp;isotope_mass);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00116"/>00116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Fill&#32;the&#32;ntuple&#32;with&#32;IZA&#32;and&#32;mass</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00117"/>00117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string&#32;str_IZA&#32;=<emphasis role="stringliteral">&quot;&quot;</emphasis>;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;find_expression_betweenPhrases(line,<emphasis role="stringliteral">&quot;-&gt;AddElement(&quot;</emphasis>,<emphasis role="stringliteral">&quot;,&quot;</emphasis>,&#32;str_IZA);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00119"/>00119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string&#32;str_mass_fraction=<emphasis role="stringliteral">&quot;&quot;</emphasis>;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00120"/>00120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;find_expression_betweenPhrases(line,<emphasis role="stringliteral">&quot;-&gt;AddElement(&quot;</emphasis>+&#32;str_IZA&#32;+<emphasis role="stringliteral">&quot;,&quot;</emphasis>,&#32;<emphasis role="stringliteral">&quot;);&quot;</emphasis>,&#32;str_mass_fraction);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(str_IZA!=<emphasis role="stringliteral">&quot;&quot;</emphasis>&#32;&amp;&amp;&#32;str_mass_fraction!=<emphasis role="stringliteral">&quot;&quot;</emphasis>)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00122"/>00122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IZA&#32;=&#32;std::stoi(str_IZA);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00123"/>00123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mass_fraction&#32;=&#32;std::stod(str_mass_fraction);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00124"/>00124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;isotope_mass&#32;=&#32;std::stod(str_mass_fraction)&#32;*&#32;map_total_mass[material_name];
+<anchor xml:id="__graphes__burnup_8_c_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IZA_mass_tree-&gt;Fill();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00126"/>00126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00127"/>00127 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00128"/>00128 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00129"/>00129 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(IZA_mass_tree)&#32;IZA_mass_tree-&gt;Write();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00130"/>00130 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00131"/>00131 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;total_Run_time&#32;!=&#32;-10&#32;&amp;&amp;&#32;(vtotal_Run_time.size()==0&#32;||&#32;vtotal_Run_time.back()&#32;!=&#32;total_Run_time&#32;))&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00132"/>00132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vtotal_Run_time.push_back(total_Run_time/3600.);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00133"/>00133 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00134"/>00134 }
+<anchor xml:id="__graphes__burnup_8_c_source_1l00135"/>00135 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00136"/>00136 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00137"/>00137 <emphasis role="comment">&#32;*&#32;Read&#32;every&#32;text&#32;files&#32;on&#32;the&#32;current&#32;directory&#32;with&#32;the&#32;following&#32;name&#32;fileNamePattern&#32;+&#32;FileName_index</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00138"/>00138 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00139"/>00139 <emphasis role="comment">&#32;*&#32;@rg1:&#32;name&#32;of&#32;the&#32;text&#32;files</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00140"/>00140 <emphasis role="comment">&#32;*&#32;@rg2:&#32;starting&#32;index&#32;to&#32;read&#32;the&#32;text&#32;files</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00141"/>00141 <emphasis role="comment">&#32;*&#32;@rg3:&#32;vector&#32;with&#32;timestamp&#32;of&#32;every&#32;runs</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00142"/>00142 <emphasis role="comment">&#32;*/</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00143"/>00143 <emphasis role="keywordtype">void</emphasis>&#32;read_every_textfiles(std::string&#32;fileNamePattern,&#32;<emphasis role="keywordtype">int</emphasis>&amp;&#32;FileName_index,&#32;std::vector&lt;double&gt;&amp;&#32;vtotal_Run_time)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00144"/>00144 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00145"/>00145 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Open&#32;reading&#32;stream</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00146"/>00146 &#32;&#32;&#32;&#32;std::ifstream&#32;Evolved_Materials_File;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00147"/>00147 &#32;&#32;&#32;&#32;Evolved_Materials_File.open(fileNamePattern&#32;+&#32;std::to_string(FileName_index));
+<anchor xml:id="__graphes__burnup_8_c_source_1l00148"/>00148 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00149"/>00149 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Process&#32;every&#32;text&#32;files</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00150"/>00150 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(Evolved_Materials_File.is_open())&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00151"/>00151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00152"/>00152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Read&#32;every&#32;lines&#32;of&#32;the&#32;text&#32;file&#32;and&#32;fill&#32;histograms</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00153"/>00153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;read_every_lines(Evolved_Materials_File,&#32;vtotal_Run_time);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00154"/>00154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00155"/>00155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Close&#32;text&#32;file</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00156"/>00156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Evolved_Materials_File.close();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00157"/>00157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00158"/>00158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Increase&#32;FileName_index&#32;to&#32;search&#32;new&#32;file</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00159"/>00159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++FileName_index;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00160"/>00160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Evolved_Materials_File.open(fileNamePattern&#32;+&#32;std::to_string(FileName_index));
+<anchor xml:id="__graphes__burnup_8_c_source_1l00161"/>00161 &#32;&#32;&#32;&#32;}&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00162"/>00162 &#32;&#32;&#32;&#32;--FileName_index;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00163"/>00163 }
+<anchor xml:id="__graphes__burnup_8_c_source_1l00164"/>00164 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00165"/>00165 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00166"/>00166 <emphasis role="comment">&#32;*&#32;Get&#32;the&#32;maximum&#32;number&#32;of&#32;isotopes&#32;over&#32;the&#32;whole&#32;simulation</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00167"/>00167 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00168"/>00168 <emphasis role="comment">&#32;*&#32;@rg1:&#32;pattern&#32;of&#32;the&#32;tree&#32;name</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00169"/>00169 <emphasis role="comment">&#32;*&#32;@rg2:&#32;total&#32;number&#32;of&#32;Runs</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00170"/>00170 <emphasis role="comment">&#32;*/</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00171"/>00171 <emphasis role="keywordtype">int</emphasis>&#32;GetMax_entries(std::string&#32;name_pattern,&#32;<emphasis role="keywordtype">int</emphasis>&#32;RunNumber)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00172"/>00172 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;nentries&#32;=&#32;0;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00173"/>00173 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<emphasis role="keywordtype">int</emphasis>&#32;i=1;&#32;i&lt;&#32;RunNumber+1;&#32;++i)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00174"/>00174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string&#32;name&#32;=&#32;name_pattern&#32;+&#32;std::to_string(i);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00175"/>00175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TTree*&#32;tree_histo&#32;=&#32;(TTree*)&#32;gDirectory-&gt;GetObjectChecked((name.c_str()),&#32;<emphasis role="stringliteral">&quot;TTree&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00176"/>00176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(tree_histo&#32;&amp;&amp;&#32;nentries&lt;tree_histo-&gt;GetEntries())&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00177"/>00177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nentries&#32;=&#32;(int)tree_histo-&gt;GetEntries();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00178"/>00178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00179"/>00179 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00180"/>00180 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;nentries;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00181"/>00181 }
+<anchor xml:id="__graphes__burnup_8_c_source_1l00182"/>00182 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00183"/>00183 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00184"/>00184 <emphasis role="comment">&#32;*&#32;Define&#32;drawing&#32;style</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00185"/>00185 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00186"/>00186 <emphasis role="comment">&#32;*/</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00187"/>00187 <emphasis role="keywordtype">void</emphasis>&#32;SetStyle()&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00188"/>00188 &#32;&#32;&#32;&#32;gErrorIgnoreLevel&#32;=&#32;kWarning;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00189"/>00189 &#32;&#32;&#32;&#32;gStyle-&gt;SetOptStat(0);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00190"/>00190 &#32;&#32;&#32;&#32;gStyle-&gt;SetStatX(1);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00191"/>00191 &#32;&#32;&#32;&#32;gStyle-&gt;SetStatY(1);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00192"/>00192 &#32;&#32;&#32;&#32;gStyle-&gt;SetStatH(0.22);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00193"/>00193 &#32;&#32;&#32;&#32;gStyle-&gt;SetStatW(0.26);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00194"/>00194 &#32;&#32;&#32;&#32;gStyle-&gt;SetLabelSize(0.04,<emphasis role="stringliteral">&quot;X&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00195"/>00195 &#32;&#32;&#32;&#32;gStyle-&gt;SetLabelSize(0.04,<emphasis role="stringliteral">&quot;Y&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00196"/>00196 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;gStyle-&gt;SetLabelSize(0.05,&quot;Z&quot;);</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00197"/>00197 &#32;&#32;&#32;&#32;gStyle-&gt;SetTitleXSize(0.05);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00198"/>00198 &#32;&#32;&#32;&#32;gStyle-&gt;SetTitleYSize(0.05);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00199"/>00199 &#32;&#32;&#32;&#32;gStyle-&gt;SetTitleXOffset(0.95);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00200"/>00200 &#32;&#32;&#32;&#32;gStyle-&gt;SetTitleYOffset(1.20);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00201"/>00201 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;gStyle-&gt;SetTitleZOffset(1.30);</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00202"/>00202 &#32;&#32;&#32;&#32;gStyle-&gt;SetPadRightMargin&#32;(0.17);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00203"/>00203 &#32;&#32;&#32;&#32;gStyle-&gt;SetPadLeftMargin&#32;&#32;(0.12);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00204"/>00204 &#32;&#32;&#32;&#32;gStyle-&gt;SetPadBottomMargin(0.1);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00205"/>00205 &#32;&#32;&#32;&#32;gStyle-&gt;SetPadTopMargin&#32;&#32;&#32;(0.01);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00206"/>00206 &#32;&#32;&#32;&#32;gStyle-&gt;SetCanvasDefH(900);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00207"/>00207 &#32;&#32;&#32;&#32;gStyle-&gt;SetCanvasDefW(1000);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00208"/>00208 &#32;&#32;&#32;&#32;gStyle-&gt;SetPadGridX(kTRUE);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00209"/>00209 &#32;&#32;&#32;&#32;gStyle-&gt;SetPadGridY(kTRUE);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00210"/>00210 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;gStyle-&gt;SetPalette(105);&#32;//&#32;kThermometer</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00211"/>00211 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;gStyle-&gt;SetPalette(55);&#32;//&#32;kRainBow</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00212"/>00212 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00213"/>00213 }
+<anchor xml:id="__graphes__burnup_8_c_source_1l00214"/>00214 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00215"/>00215 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00216"/>00216 <emphasis role="comment">&#32;*&#32;Find&#32;the&#32;tree&#32;corresponding&#32;to&#32;a&#32;given&#32;material&#32;and&#32;fill&#32;3&#32;types&#32;of&#32;histograms</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00217"/>00217 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00218"/>00218 <emphasis role="comment">&#32;*&#32;@rg1:&#32;total&#32;number&#32;of&#32;Runs</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00219"/>00219 <emphasis role="comment">&#32;*&#32;@rg2:&#32;vector&#32;with&#32;timestamp&#32;of&#32;every&#32;runs</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00220"/>00220 <emphasis role="comment">&#32;*&#32;@rg3:&#32;name&#32;of&#32;the&#32;material</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00221"/>00221 <emphasis role="comment">&#32;*&#32;@rg4:&#32;threshold&#32;to&#32;draw&#32;the&#32;mass&#32;fraction&#32;histogram</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00222"/>00222 <emphasis role="comment">&#32;*&#32;@rg5:&#32;2D&#32;histogram&#32;representing&#32;the&#32;mass&#32;of&#32;each&#32;isotope&#32;with&#32;A&#32;=&#32;f(Z)&#32;in&#32;the&#32;last&#32;run</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00223"/>00223 <emphasis role="comment">&#32;*&#32;@rg6:&#32;vector&#32;of&#32;histograms&#32;representing&#32;time&#32;evolution&#32;of&#32;the&#32;mass&#32;fraction&#32;for&#32;each&#32;isotope&#32;with&#32;fraction&#32;&lt;&#32;threshold</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00224"/>00224 <emphasis role="comment">&#32;*&#32;@rg7:&#32;vector&#32;of&#32;histograms&#32;representing&#32;time&#32;evolution&#32;of&#32;the&#32;isotope&#32;mass&#32;&#32;for&#32;each&#32;isotope</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00225"/>00225 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00226"/>00226 <emphasis role="comment">&#32;*/</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00227"/>00227 <emphasis role="keywordtype">void</emphasis>&#32;FillHistograms(<emphasis role="keywordtype">int</emphasis>&#32;RunNumber,&#32;std::vector&lt;double&gt;&#32;vtotal_Run_time,&#32;std::string&#32;material_name,&#32;<emphasis role="keywordtype">double</emphasis>&#32;limit,&#32;TH2D*&#32;AZ_mass_histo,&#32;std::map&lt;int,&#32;TH1D*&gt;&amp;&#32;map_fractionHisto,&#32;std::map&lt;int,&#32;TH1D*&gt;&amp;&#32;map_massHisto)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00228"/>00228 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;IZA;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00229"/>00229 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;isotope_mass,&#32;mass_fraction;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00230"/>00230 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>*&#32;binningRun&#32;=&#32;&amp;vtotal_Run_time[0];
+<anchor xml:id="__graphes__burnup_8_c_source_1l00231"/>00231 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<emphasis role="keywordtype">int</emphasis>&#32;i=1;&#32;i&lt;&#32;RunNumber+1;&#32;++i)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00232"/>00232 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string&#32;name&#32;=&#32;<emphasis role="stringliteral">&quot;IZA_mass_&quot;</emphasis>&#32;+&#32;material_name&#32;+&#32;<emphasis role="stringliteral">&quot;_&quot;</emphasis>&#32;+&#32;std::to_string(i);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00233"/>00233 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TTree*&#32;tree_histo&#32;=&#32;(TTree*)&#32;gDirectory-&gt;GetObjectChecked((name.c_str()),&#32;<emphasis role="stringliteral">&quot;TTree&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00234"/>00234 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;total_fraction&#32;=&#32;1;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00235"/>00235 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(tree_histo)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00236"/>00236 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tree_histo-&gt;SetBranchAddress(<emphasis role="stringliteral">&quot;IZA&quot;</emphasis>,&amp;IZA);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00237"/>00237 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tree_histo-&gt;SetBranchAddress(<emphasis role="stringliteral">&quot;mass&quot;</emphasis>,&amp;isotope_mass);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00238"/>00238 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tree_histo-&gt;SetBranchAddress(<emphasis role="stringliteral">&quot;fraction&quot;</emphasis>,&amp;mass_fraction);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00239"/>00239 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;nentries&#32;=&#32;(int)tree_histo-&gt;GetEntries();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00240"/>00240 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;k=0;&#32;k&lt;nentries;&#32;k++)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00241"/>00241 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tree_histo-&gt;GetEntry(k);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00242"/>00242 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(map_fractionHisto.find(IZA)&#32;==&#32;map_fractionHisto.end())&#32;{&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00243"/>00243 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;map_fractionHisto[IZA]&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TH1D((std::to_string(IZA)).c_str(),(std::to_string(IZA)).c_str(),RunNumber,&#32;1,&#32;RunNumber+1);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00244"/>00244 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;map_fractionHisto[IZA]-&gt;SetBins(RunNumber,&#32;binningRun);&#32;<emphasis role="comment">//&#32;time&#32;binning</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00245"/>00245 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00246"/>00246 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(mass_fraction&lt;limit)&#32;{map_fractionHisto[IZA]-&gt;Fill(vtotal_Run_time[i-1],&#32;mass_fraction);}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00247"/>00247 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;total_fraction&#32;-=&#32;mass_fraction;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00248"/>00248 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00249"/>00249 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(map_massHisto.find(IZA)&#32;==&#32;map_massHisto.end())&#32;{&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00250"/>00250 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;map_massHisto[IZA]&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TH1D((std::to_string(IZA)&#32;+&#32;<emphasis role="stringliteral">&quot;_m&quot;</emphasis>).c_str(),<emphasis role="stringliteral">&quot;&quot;</emphasis>,RunNumber,&#32;1,&#32;RunNumber+1);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00251"/>00251 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;map_massHisto[IZA]-&gt;SetBins(RunNumber,&#32;binningRun);&#32;<emphasis role="comment">//&#32;time&#32;binning</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00252"/>00252 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00253"/>00253 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;map_massHisto[IZA]-&gt;Fill(vtotal_Run_time[i-1],&#32;isotope_mass);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00254"/>00254 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00255"/>00255 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(i==RunNumber)&#32;{&#32;<emphasis role="comment">//&#32;Last&#32;Run&#32;only</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00256"/>00256 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;Z&#32;=&#32;IZA/10000;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00257"/>00257 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;A&#32;=&#32;IZA/10&#32;-&#32;Z*1000;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00258"/>00258 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;AZ_mass_histo-&gt;Fill(Z,A,isotope_mass);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00259"/>00259 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00260"/>00260 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00261"/>00261 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(total_fraction&#32;!=&#32;0)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Total&#32;Mass&#32;fraction&#32;&lt;&#32;1&#32;(Missing&#32;:&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;total_fraction&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;)&#32;in&#32;Run&#32;number&#32;:&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;i&#32;&lt;&lt;&#32;std::endl;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00262"/>00262 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00263"/>00263 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00264"/>00264 }
+<anchor xml:id="__graphes__burnup_8_c_source_1l00265"/>00265 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00266"/>00266 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00267"/>00267 <emphasis role="comment">&#32;*&#32;Draw&#32;and&#32;save&#32;the&#32;histogram&#32;representing&#32;time&#32;evolution&#32;of&#32;the&#32;isotope&#32;mass</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00268"/>00268 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00269"/>00269 <emphasis role="comment">&#32;*&#32;@rg1:&#32;vector&#32;of&#32;histograms&#32;representing&#32;time&#32;evolution&#32;of&#32;the&#32;isotope&#32;mass&#32;for&#32;each&#32;isotope</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00270"/>00270 <emphasis role="comment">&#32;*&#32;@rg2:&#32;Name&#32;of&#32;the&#32;material&#32;to&#32;be&#32;plotted&#32;(Initial&#32;name&#32;in&#32;the&#32;GEANT4&#32;geometry)</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00271"/>00271 <emphasis role="comment">&#32;*/</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00272"/>00272 <emphasis role="keywordtype">void</emphasis>&#32;DrawMassEvolution(std::map&lt;int,&#32;TH1D*&gt;&amp;&#32;map_massHisto,&#32;std::string&#32;Initial_material_Name)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00273"/>00273 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;lowerYlimit&#32;=&#32;1e-5;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00274"/>00274 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00275"/>00275 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;legend&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TLegend(0.85,0.01,0.99,0.99);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00276"/>00276 &#32;&#32;&#32;&#32;legend-&gt;SetHeader(<emphasis role="stringliteral">&quot;Isotopes&quot;</emphasis>,<emphasis role="stringliteral">&quot;C&quot;</emphasis>);&#32;<emphasis role="comment">//&#32;option&#32;&quot;C&quot;&#32;allows&#32;to&#32;center&#32;the&#32;header</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00277"/>00277 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00278"/>00278 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;maximum&#32;=&#32;0;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00279"/>00279 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keyword">auto</emphasis>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;[IZA,&#32;histo1D]&#32;:&#32;map_massHisto)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00280"/>00280 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;maximum&#32;&lt;&#32;histo1D-&gt;GetBinContent(histo1D-&gt;GetMaximumBin()))
+<anchor xml:id="__graphes__burnup_8_c_source_1l00281"/>00281 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;maximum&#32;=&#32;histo1D-&gt;GetBinContent(histo1D-&gt;GetMaximumBin());
+<anchor xml:id="__graphes__burnup_8_c_source_1l00282"/>00282 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00283"/>00283 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00284"/>00284 &#32;&#32;&#32;&#32;TCanvas*&#32;canvas_mass&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TCanvas(<emphasis role="stringliteral">&quot;mass_evolution&quot;</emphasis>,Initial_material_Name.c_str());
+<anchor xml:id="__graphes__burnup_8_c_source_1l00285"/>00285 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;color&#32;=&#32;2;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00286"/>00286 &#32;&#32;&#32;&#32;map&lt;int,&#32;TH1D*&gt;::iterator&#32;it;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00287"/>00287 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(it&#32;=&#32;map_massHisto.begin();&#32;it&#32;!=&#32;map_massHisto.end();&#32;it++)
+<anchor xml:id="__graphes__burnup_8_c_source_1l00288"/>00288 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00289"/>00289 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(it&#32;==&#32;map_massHisto.begin())&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00290"/>00290 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;it-&gt;second-&gt;GetYaxis()-&gt;SetRangeUser(lowerYlimit,1.05*maximum);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00291"/>00291 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;it-&gt;second-&gt;Draw(<emphasis role="stringliteral">&quot;hist&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00292"/>00292 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;it-&gt;second-&gt;GetXaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;Time&#32;[hours]&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00293"/>00293 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;it-&gt;second-&gt;GetYaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;Mass&#32;[g]&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00294"/>00294 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;legend-&gt;AddEntry(it-&gt;second,it-&gt;second-&gt;GetName(),<emphasis role="stringliteral">&quot;l&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00295"/>00295 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00296"/>00296 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(it-&gt;second-&gt;GetBinContent(it-&gt;second-&gt;GetMaximumBin())&#32;&gt;&#32;lowerYlimit)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00297"/>00297 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;it-&gt;second-&gt;Draw(<emphasis role="stringliteral">&quot;hist&#32;same&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00298"/>00298 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;legend-&gt;AddEntry(it-&gt;second,it-&gt;second-&gt;GetName(),<emphasis role="stringliteral">&quot;l&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00299"/>00299 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00300"/>00300 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;it-&gt;second-&gt;SetLineColor(color);&#32;<emphasis role="comment">//&#32;color&#32;by&#32;position&#32;in&#32;map</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00301"/>00301 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;it-&gt;second-&gt;SetLineWidth(2);&#32;<emphasis role="comment">//&#32;color&#32;by&#32;position&#32;in&#32;map</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00302"/>00302 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00303"/>00303 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;color&#32;+=&#32;10;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00304"/>00304 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(color&#32;&gt;&#32;49)&#32;{&#32;color&#32;-=&#32;49;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00305"/>00305 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(color&#32;==&#32;0&#32;||&#32;color&#32;==&#32;10)&#32;{&#32;color&#32;=&#32;2;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00306"/>00306 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00307"/>00307 &#32;&#32;&#32;&#32;legend-&gt;Draw();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00308"/>00308 &#32;&#32;&#32;&#32;canvas_mass-&gt;SetLogy();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00309"/>00309 &#32;&#32;&#32;&#32;canvas_mass-&gt;Write();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00310"/>00310 &#32;&#32;&#32;&#32;canvas_mass-&gt;SaveAs((<emphasis role="stringliteral">&quot;mass_evolution_&quot;</emphasis>&#32;+&#32;Initial_material_Name&#32;+&#32;<emphasis role="stringliteral">&quot;.png&quot;</emphasis>).c_str());
+<anchor xml:id="__graphes__burnup_8_c_source_1l00311"/>00311 }
+<anchor xml:id="__graphes__burnup_8_c_source_1l00312"/>00312 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00313"/>00313 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00314"/>00314 <emphasis role="comment">&#32;*&#32;Draw&#32;and&#32;save&#32;the&#32;histogram&#32;representing&#32;time&#32;evolution&#32;of&#32;the&#32;mass&#32;fraction&#32;with&#32;fraction&#32;&lt;&#32;threshold</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00315"/>00315 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00316"/>00316 <emphasis role="comment">&#32;*&#32;@rg1:&#32;vector&#32;of&#32;histograms&#32;representing&#32;time&#32;evolution&#32;of&#32;the&#32;mass&#32;fraction&#32;for&#32;each&#32;isotope&#32;with&#32;fraction&#32;&lt;&#32;threshold</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00317"/>00317 <emphasis role="comment">&#32;*&#32;@rg2:&#32;Name&#32;of&#32;the&#32;material&#32;to&#32;be&#32;plotted&#32;(Initial&#32;name&#32;in&#32;the&#32;GEANT4&#32;geometry)</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00318"/>00318 <emphasis role="comment">&#32;*/</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00319"/>00319 <emphasis role="keywordtype">void</emphasis>&#32;DrawMassFractionEvolution(std::map&lt;int,&#32;TH1D*&gt;&amp;&#32;map_fractionHisto,&#32;std::string&#32;Initial_material_Name)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00320"/>00320 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;legend&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TLegend(0.85,0.01,0.99,0.99);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00321"/>00321 &#32;&#32;&#32;&#32;legend-&gt;SetHeader(<emphasis role="stringliteral">&quot;Isotopes&quot;</emphasis>,<emphasis role="stringliteral">&quot;C&quot;</emphasis>);&#32;<emphasis role="comment">//&#32;option&#32;&quot;C&quot;&#32;allows&#32;to&#32;center&#32;the&#32;header</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00322"/>00322 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00323"/>00323 &#32;&#32;&#32;&#32;THStack*&#32;hs&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;THStack((<emphasis role="stringliteral">&quot;Stack_&quot;</emphasis>&#32;+&#32;Initial_material_Name).c_str(),<emphasis role="stringliteral">&quot;&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00324"/>00324 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;color&#32;=&#32;2;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00325"/>00325 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keyword">auto</emphasis>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;[IZA,&#32;histo1D]&#32;:&#32;map_fractionHisto)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00326"/>00326 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;histo1D-&gt;SetFillColor(color);&#32;<emphasis role="comment">//&#32;color&#32;by&#32;position&#32;in&#32;map</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00327"/>00327 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hs-&gt;Add(histo1D);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00328"/>00328 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;legend-&gt;AddEntry(histo1D,histo1D-&gt;GetName(),<emphasis role="stringliteral">&quot;f&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00329"/>00329 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00330"/>00330 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;color&#32;+=&#32;10;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00331"/>00331 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(color&#32;&gt;&#32;49)&#32;{&#32;color&#32;-=&#32;49;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00332"/>00332 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(color&#32;==&#32;0&#32;||&#32;color&#32;==&#32;10)&#32;{&#32;color&#32;=&#32;2;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00333"/>00333 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00334"/>00334 &#32;&#32;&#32;&#32;TCanvas*&#32;canvas_fraction&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TCanvas(<emphasis role="stringliteral">&quot;mass_fraction_histogram&quot;</emphasis>,Initial_material_Name.c_str());
+<anchor xml:id="__graphes__burnup_8_c_source_1l00335"/>00335 &#32;&#32;&#32;&#32;hs-&gt;Write();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00336"/>00336 &#32;&#32;&#32;&#32;hs-&gt;Draw(<emphasis role="stringliteral">&quot;hist&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00337"/>00337 &#32;&#32;&#32;&#32;hs-&gt;GetXaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;Time&#32;[hours]&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00338"/>00338 &#32;&#32;&#32;&#32;hs-&gt;GetYaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;Mass&#32;fraction&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00339"/>00339 &#32;&#32;&#32;&#32;legend-&gt;Draw();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00340"/>00340 &#32;&#32;&#32;&#32;canvas_fraction-&gt;Write();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00341"/>00341 &#32;&#32;&#32;&#32;canvas_fraction-&gt;SaveAs((<emphasis role="stringliteral">&quot;mass_fraction_&quot;</emphasis>&#32;+&#32;Initial_material_Name&#32;+&#32;<emphasis role="stringliteral">&quot;.png&quot;</emphasis>).c_str());
+<anchor xml:id="__graphes__burnup_8_c_source_1l00342"/>00342 }
+<anchor xml:id="__graphes__burnup_8_c_source_1l00343"/>00343 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00344"/>00344 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00345"/>00345 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00346"/>00346 <emphasis role="comment">&#32;*&#32;Draw&#32;and&#32;save&#32;the&#32;histogram&#32;representing&#32;the&#32;mass&#32;of&#32;each&#32;isotope&#32;with&#32;A&#32;=&#32;f(Z)&#32;in&#32;the&#32;last&#32;run</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00347"/>00347 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00348"/>00348 <emphasis role="comment">&#32;*&#32;@rg1:&#32;2D&#32;histogram&#32;representing&#32;the&#32;mass&#32;of&#32;each&#32;isotope&#32;with&#32;A&#32;=&#32;f(Z)&#32;in&#32;the&#32;last&#32;run</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00349"/>00349 <emphasis role="comment">&#32;*/</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00350"/>00350 <emphasis role="keywordtype">void</emphasis>&#32;DrawLastRunComposition(TH2D*&#32;AZ_mass_histo)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00351"/>00351 &#32;&#32;&#32;&#32;TCanvas*&#32;canvas&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TCanvas(AZ_mass_histo-&gt;GetName(),<emphasis role="stringliteral">&quot;&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00352"/>00352 &#32;&#32;&#32;&#32;AZ_mass_histo-&gt;Draw(<emphasis role="stringliteral">&quot;colz&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00353"/>00353 &#32;&#32;&#32;&#32;AZ_mass_histo-&gt;GetXaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;Z&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00354"/>00354 &#32;&#32;&#32;&#32;AZ_mass_histo-&gt;GetYaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;A&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00355"/>00355 &#32;&#32;&#32;&#32;AZ_mass_histo-&gt;GetZaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;Mass&#32;[g]&quot;</emphasis>);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00356"/>00356 &#32;&#32;&#32;&#32;AZ_mass_histo-&gt;Write();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00357"/>00357 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00358"/>00358 &#32;&#32;&#32;&#32;std::ofstream&#32;final_inventory_file(<emphasis role="stringliteral">&quot;final_inventory.txt&quot;</emphasis>,ios::trunc);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00359"/>00359 &#32;&#32;&#32;&#32;final_inventory_file&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Z\tA\tmass&#32;[g]\n&quot;</emphasis>;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00360"/>00360 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<emphasis role="keywordtype">int</emphasis>&#32;Z=1;&#32;Z&lt;AZ_mass_histo-&gt;GetNbinsX();&#32;++Z)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00361"/>00361 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<emphasis role="keywordtype">int</emphasis>&#32;A=1;&#32;A&lt;AZ_mass_histo-&gt;GetNbinsY();&#32;++A)&#32;{
+<anchor xml:id="__graphes__burnup_8_c_source_1l00362"/>00362 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;AZ_mass_histo-&gt;GetBinContent(AZ_mass_histo-&gt;GetBin(Z,A))&#32;!=&#32;0)
+<anchor xml:id="__graphes__burnup_8_c_source_1l00363"/>00363 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;final_inventory_file&#32;&lt;&lt;&#32;Z&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;\t&quot;</emphasis>&#32;&lt;&lt;&#32;A&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;\t&quot;</emphasis>&#32;&lt;&lt;&#32;AZ_mass_histo-&gt;GetBinContent(AZ_mass_histo-&gt;GetBin(Z,A))&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;\n&quot;</emphasis>;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00364"/>00364 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00365"/>00365 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__graphes__burnup_8_c_source_1l00366"/>00366 &#32;&#32;&#32;&#32;final_inventory_file.close();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00367"/>00367 &#32;&#32;&#32;&#32;canvas-&gt;SaveAs((std::string(AZ_mass_histo-&gt;GetName())&#32;+&#32;<emphasis role="stringliteral">&quot;.png&quot;</emphasis>).c_str());
+<anchor xml:id="__graphes__burnup_8_c_source_1l00368"/>00368 }
+<anchor xml:id="__graphes__burnup_8_c_source_1l00369"/>00369 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00370"/>00370 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00371"/>00371 <emphasis role="comment">&#32;*&#32;Main</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00372"/>00372 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00373"/>00373 <emphasis role="comment">&#32;*&#32;Open&#32;a&#32;ROOT&#32;file</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00374"/>00374 <emphasis role="comment">&#32;*&#32;Read&#32;every&#32;text&#32;files&#32;of&#32;burnup&#32;simulation</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00375"/>00375 <emphasis role="comment">&#32;*&#32;Fill&#32;and&#32;draw&#32;histograms</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00376"/>00376 <emphasis role="comment">&#32;*&#32;</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00377"/>00377 <emphasis role="comment">&#32;*&#32;@rg1:&#32;Threshold&#32;to&#32;draw&#32;isotope&#32;fraction&#32;evolution&#32;only&#32;with&#32;isotope&#32;fractions&#32;lower&#32;than&#32;value</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00378"/>00378 <emphasis role="comment">&#32;*&#32;@rg2:&#32;Name&#32;of&#32;the&#32;material&#32;to&#32;be&#32;plotted&#32;(Initial&#32;name&#32;in&#32;the&#32;GEANT4&#32;geometry).&#32;Value&#32;must&#32;be&#32;given&#32;between&#32;quotes.</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00379"/>00379 <emphasis role="comment">&#32;*/</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00380"/>00380 <emphasis role="keywordtype">int</emphasis>&#32;Graphes_burnup(<emphasis role="keywordtype">double</emphasis>&#32;Fraction_Threshold,&#32;std::string&#32;Initial_material_Name)
+<anchor xml:id="__graphes__burnup_8_c_source_1l00381"/>00381 {
+<anchor xml:id="__graphes__burnup_8_c_source_1l00382"/>00382 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Set&#32;drawing&#32;style</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00383"/>00383 &#32;&#32;&#32;&#32;SetStyle();
+<anchor xml:id="__graphes__burnup_8_c_source_1l00384"/>00384 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00385"/>00385 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Pattern&#32;of&#32;the&#32;text&#32;file&#32;containing&#32;burnup&#32;data</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00386"/>00386 &#32;&#32;&#32;&#32;std::string&#32;file_name_pattern&#32;=&#32;<emphasis role="stringliteral">&quot;Evolved_Materials_Step&quot;</emphasis>;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00387"/>00387 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00388"/>00388 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Creation&#32;of&#32;ROOT&#32;file</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00389"/>00389 &#32;&#32;&#32;&#32;TFile&#32;*ROOT_file&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TFile(&#32;<emphasis role="stringliteral">&quot;burnup.root&quot;</emphasis>,&#32;<emphasis role="stringliteral">&quot;RECREATE&quot;</emphasis>&#32;);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00390"/>00390 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00391"/>00391 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Number&#32;of&#32;runs,&#32;starting&#32;at&#32;1</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00392"/>00392 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;RunNumber&#32;=&#32;1;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00393"/>00393 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Vector&#32;of&#32;time&#32;stamp&#32;for&#32;each&#32;run</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00394"/>00394 &#32;&#32;&#32;&#32;std::vector&lt;double&gt;&#32;vtotal_Run_time(1,0);&#32;<emphasis role="comment">//&#32;in&#32;hours</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00395"/>00395 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00396"/>00396 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Reading&#32;of&#32;every&#32;burnup&#32;text&#32;files&#32;and&#32;fill&#32;trees&#32;containing&#32;the&#32;data</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00397"/>00397 &#32;&#32;&#32;&#32;read_every_textfiles(file_name_pattern,&#32;RunNumber,&#32;vtotal_Run_time);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00398"/>00398 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00399"/>00399 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Fill&#32;histo</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00400"/>00400 &#32;&#32;&#32;&#32;TH2D*&#32;AZ_mass_histo&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TH2D((<emphasis role="stringliteral">&quot;AZ_mass_&quot;</emphasis>&#32;+&#32;Initial_material_Name).c_str(),Initial_material_Name.c_str(),&#32;122,1,123,292,1,293);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00401"/>00401 &#32;&#32;&#32;&#32;std::map&lt;int,&#32;TH1D*&gt;&#32;map_fractionHisto;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00402"/>00402 &#32;&#32;&#32;&#32;std::map&lt;int,&#32;TH1D*&gt;&#32;map_massHisto;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00403"/>00403 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;FillHistograms(RunNumber,&#32;vtotal_Run_time,&#32;&quot;fuel_ThPuO2&quot;,&#32;0.12,&#32;AZ_mass_histo,&#32;map_fractionHisto,&#32;map_massHisto);</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00404"/>00404 &#32;&#32;&#32;&#32;FillHistograms(RunNumber,&#32;vtotal_Run_time,&#32;Initial_material_Name,&#32;Fraction_Threshold,&#32;AZ_mass_histo,&#32;map_fractionHisto,&#32;map_massHisto);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00405"/>00405 
+<anchor xml:id="__graphes__burnup_8_c_source_1l00406"/>00406 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Draw&#32;histo</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00407"/>00407 &#32;&#32;&#32;&#32;DrawMassEvolution(map_massHisto,&#32;Initial_material_Name);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00408"/>00408 &#32;&#32;&#32;&#32;DrawMassFractionEvolution(map_fractionHisto,&#32;Initial_material_Name);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00409"/>00409 &#32;&#32;&#32;&#32;DrawLastRunComposition(AZ_mass_histo);
+<anchor xml:id="__graphes__burnup_8_c_source_1l00410"/>00410 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00411"/>00411 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Close&#32;ROOT&#32;file</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00412"/>00412 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;ROOT_file-&gt;Close();</emphasis>
+<anchor xml:id="__graphes__burnup_8_c_source_1l00413"/>00413 &#32;&#32;&#32;&#32;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00414"/>00414 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+<anchor xml:id="__graphes__burnup_8_c_source_1l00415"/>00415 }
+</programlisting></section>

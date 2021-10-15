@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_merge__keff_8py_source" xml:lang="en-US">
+<title>merge_keff.py</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/Dockerfiles/scripts/merge_keff.py</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_merge__keff_8py_source_1l00001"/>00001 <emphasis role="comment">#!/usr/bin/env&#32;python3</emphasis>
+<anchor xml:id="_merge__keff_8py_source_1l00002"/>00002 <emphasis role="comment">#&#32;-*-&#32;coding:&#32;utf-8&#32;-*-</emphasis>
+<anchor xml:id="_merge__keff_8py_source_1l00003"/>00003 <emphasis role="stringliteral">&quot;&quot;&quot;</emphasis>
+<anchor xml:id="_merge__keff_8py_source_1l00004"/>00004 <emphasis role="stringliteral">Created&#32;on&#32;Thu&#32;Jul&#32;29&#32;14:34:37&#32;2021</emphasis>
+<anchor xml:id="_merge__keff_8py_source_1l00005"/>00005 <emphasis role="stringliteral"></emphasis>
+<anchor xml:id="_merge__keff_8py_source_1l00006"/>00006 <emphasis role="stringliteral">@author:&#32;tfrosio</emphasis>
+<anchor xml:id="_merge__keff_8py_source_1l00007"/>00007 <emphasis role="stringliteral">&quot;&quot;&quot;</emphasis>
+<anchor xml:id="_merge__keff_8py_source_1l00008"/>00008 
+<anchor xml:id="_merge__keff_8py_source_1l00009"/>00009 <emphasis role="keyword">import</emphasis>&#32;argparse
+<anchor xml:id="_merge__keff_8py_source_1l00010"/>00010 <emphasis role="keyword">import</emphasis>&#32;glob
+<anchor xml:id="_merge__keff_8py_source_1l00011"/>00011 <emphasis role="keyword">import</emphasis>&#32;math
+<anchor xml:id="_merge__keff_8py_source_1l00012"/>00012 <emphasis role="keyword">import</emphasis>&#32;os
+<anchor xml:id="_merge__keff_8py_source_1l00013"/>00013 
+<anchor xml:id="_merge__keff_8py_source_1l00014"/>00014 
+<anchor xml:id="_merge__keff_8py_source_1l00017"/>00017 
+<anchor xml:id="_merge__keff_8py_source_1l00018"/>00018 parser&#32;=&#32;argparse.ArgumentParser()
+<anchor xml:id="_merge__keff_8py_source_1l00019"/>00019 parser.add_argument(<emphasis role="stringliteral">&apos;-i&apos;</emphasis>,&#32;nargs=<emphasis role="stringliteral">&apos;+&apos;</emphasis>,&#32;required=<emphasis role="keyword">True</emphasis>,&#32;help=<emphasis role="stringliteral">&apos;Provide&#32;a&#32;list&#32;of&#32;keff&#32;input&#32;files&#32;to&#32;be&#32;merged&apos;</emphasis>)
+<anchor xml:id="_merge__keff_8py_source_1l00020"/>00020 parser.add_argument(<emphasis role="stringliteral">&apos;-o&apos;</emphasis>,&#32;required=<emphasis role="keyword">True</emphasis>,&#32;help=<emphasis role="stringliteral">&apos;Output&#32;file&#32;name&apos;</emphasis>)
+<anchor xml:id="_merge__keff_8py_source_1l00021"/>00021 args&#32;=&#32;parser.parse_args()
+<anchor xml:id="_merge__keff_8py_source_1l00022"/>00022 
+<anchor xml:id="_merge__keff_8py_source_1l00023"/>00023 fileName&#32;=&#32;<emphasis role="stringliteral">&quot;root_keff&quot;</emphasis>
+<anchor xml:id="_merge__keff_8py_source_1l00024"/>00024 
+<anchor xml:id="_merge__keff_8py_source_1l00025"/>00025 
+<anchor xml:id="_merge__keff_8py_source_1l00026"/>00026 
+<anchor xml:id="_merge__keff_8py_source_1l00029"/>00029 
+<anchor xml:id="_merge__keff_8py_source_1l00030"/>00030 <emphasis role="keyword">def&#32;</emphasis>findFiles(path):
+<anchor xml:id="_merge__keff_8py_source_1l00031"/>00031 &#32;&#32;&#32;&#32;listFiles&#32;=&#32;[]
+<anchor xml:id="_merge__keff_8py_source_1l00032"/>00032 &#32;&#32;&#32;&#32;os.chdir(path)
+<anchor xml:id="_merge__keff_8py_source_1l00033"/>00033 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;file&#32;<emphasis role="keywordflow">in</emphasis>&#32;glob.glob(<emphasis role="stringliteral">&quot;*&quot;</emphasis>&#32;+&#32;fileName&#32;+&#32;<emphasis role="stringliteral">&quot;*&quot;</emphasis>):
+<anchor xml:id="_merge__keff_8py_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;listFiles.append(path&#32;+&#32;file)
+<anchor xml:id="_merge__keff_8py_source_1l00035"/>00035 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;listFiles
+<anchor xml:id="_merge__keff_8py_source_1l00036"/>00036 
+<anchor xml:id="_merge__keff_8py_source_1l00037"/>00037 
+<anchor xml:id="_merge__keff_8py_source_1l00038"/>00038 <emphasis role="keyword">def&#32;</emphasis>readFiles(listFiles):
+<anchor xml:id="_merge__keff_8py_source_1l00039"/>00039 &#32;&#32;&#32;&#32;kgen&#32;=&#32;[]
+<anchor xml:id="_merge__keff_8py_source_1l00040"/>00040 &#32;&#32;&#32;&#32;kcol&#32;=&#32;[]
+<anchor xml:id="_merge__keff_8py_source_1l00041"/>00041 &#32;&#32;&#32;&#32;kabs&#32;=&#32;[]
+<anchor xml:id="_merge__keff_8py_source_1l00042"/>00042 &#32;&#32;&#32;&#32;ktrk&#32;=&#32;[]
+<anchor xml:id="_merge__keff_8py_source_1l00043"/>00043 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;f&#32;<emphasis role="keywordflow">in</emphasis>&#32;listFiles:
+<anchor xml:id="_merge__keff_8py_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lines&#32;=&#32;open(f,&#32;<emphasis role="stringliteral">&quot;r&quot;</emphasis>).readlines()
+<anchor xml:id="_merge__keff_8py_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;i&#32;=&#32;0
+<anchor xml:id="_merge__keff_8py_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;<emphasis role="keywordflow">not</emphasis>&#32;<emphasis role="stringliteral">&quot;==================&#32;ACTIVE&#32;CYCLES&#32;==================&quot;</emphasis>&#32;<emphasis role="keywordflow">in</emphasis>&#32;lines[i]:
+<anchor xml:id="_merge__keff_8py_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;i&#32;=&#32;i&#32;+&#32;1
+<anchor xml:id="_merge__keff_8py_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;i&#32;=&#32;i&#32;+&#32;1
+<anchor xml:id="_merge__keff_8py_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;<emphasis role="keywordflow">not</emphasis>&#32;<emphasis role="stringliteral">&quot;------------------------------------------------------------&quot;</emphasis>&#32;<emphasis role="keywordflow">in</emphasis>&#32;lines[i]:
+<anchor xml:id="_merge__keff_8py_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;kgen.append(float(lines[i].split()[1]))
+<anchor xml:id="_merge__keff_8py_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;kcol.append(float(lines[i].split()[2]))
+<anchor xml:id="_merge__keff_8py_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;kabs.append(float(lines[i].split()[3]))
+<anchor xml:id="_merge__keff_8py_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ktrk.append(float(lines[i].split()[4]))
+<anchor xml:id="_merge__keff_8py_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;i&#32;=&#32;i&#32;+&#32;1
+<anchor xml:id="_merge__keff_8py_source_1l00055"/>00055 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;kgen,&#32;kcol,&#32;ktrk,&#32;kabs
+<anchor xml:id="_merge__keff_8py_source_1l00056"/>00056 
+<anchor xml:id="_merge__keff_8py_source_1l00057"/>00057 
+<anchor xml:id="_merge__keff_8py_source_1l00058"/>00058 <emphasis role="keyword">def&#32;</emphasis>computeMean(vector):
+<anchor xml:id="_merge__keff_8py_source_1l00059"/>00059 &#32;&#32;&#32;&#32;summ&#32;=&#32;0.
+<anchor xml:id="_merge__keff_8py_source_1l00060"/>00060 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;elem&#32;<emphasis role="keywordflow">in</emphasis>&#32;vector:
+<anchor xml:id="_merge__keff_8py_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;summ&#32;+=&#32;elem
+<anchor xml:id="_merge__keff_8py_source_1l00062"/>00062 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;round(summ&#32;/&#32;len(vector),&#32;6)
+<anchor xml:id="_merge__keff_8py_source_1l00063"/>00063 
+<anchor xml:id="_merge__keff_8py_source_1l00064"/>00064 
+<anchor xml:id="_merge__keff_8py_source_1l00065"/>00065 <emphasis role="keyword">def&#32;</emphasis>computeStd(vector):
+<anchor xml:id="_merge__keff_8py_source_1l00066"/>00066 &#32;&#32;&#32;&#32;summ&#32;=&#32;0.
+<anchor xml:id="_merge__keff_8py_source_1l00067"/>00067 &#32;&#32;&#32;&#32;sumSquare&#32;=&#32;0.
+<anchor xml:id="_merge__keff_8py_source_1l00068"/>00068 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;elem&#32;<emphasis role="keywordflow">in</emphasis>&#32;vector:
+<anchor xml:id="_merge__keff_8py_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sumSquare&#32;+=&#32;elem&#32;*&#32;elem
+<anchor xml:id="_merge__keff_8py_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;summ&#32;+=&#32;elem
+<anchor xml:id="_merge__keff_8py_source_1l00071"/>00071 &#32;&#32;&#32;&#32;mean&#32;=&#32;summ&#32;/&#32;len(vector)
+<anchor xml:id="_merge__keff_8py_source_1l00072"/>00072 &#32;&#32;&#32;&#32;mean2&#32;=&#32;sumSquare&#32;/&#32;len(vector)
+<anchor xml:id="_merge__keff_8py_source_1l00073"/>00073 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;round(math.sqrt((mean2&#32;-&#32;mean&#32;*&#32;mean)&#32;/&#32;(len(vector)&#32;-&#32;1)),&#32;6)
+<anchor xml:id="_merge__keff_8py_source_1l00074"/>00074 
+<anchor xml:id="_merge__keff_8py_source_1l00075"/>00075 
+<anchor xml:id="_merge__keff_8py_source_1l00076"/>00076 <emphasis role="keyword">def&#32;</emphasis>writeResults(output,&#32;kgen,&#32;kcol,&#32;kabs,&#32;ktrk):
+<anchor xml:id="_merge__keff_8py_source_1l00077"/>00077 &#32;&#32;&#32;&#32;f&#32;=&#32;open(output,&#32;<emphasis role="stringliteral">&quot;w&quot;</emphasis>)
+<anchor xml:id="_merge__keff_8py_source_1l00078"/>00078 &#32;&#32;&#32;&#32;f.write(<emphasis role="stringliteral">&quot;kgen&#32;&quot;</emphasis>&#32;+&#32;str(computeMean(kgen))&#32;+&#32;<emphasis role="stringliteral">&quot;&#32;&quot;</emphasis>&#32;+&#32;str(computeStd(kgen))&#32;+&#32;<emphasis role="stringliteral">&quot;\n&quot;</emphasis>)
+<anchor xml:id="_merge__keff_8py_source_1l00079"/>00079 &#32;&#32;&#32;&#32;f.write(<emphasis role="stringliteral">&quot;kcol&#32;&quot;</emphasis>&#32;+&#32;str(computeMean(kcol))&#32;+&#32;<emphasis role="stringliteral">&quot;&#32;&quot;</emphasis>&#32;+&#32;str(computeStd(kcol))&#32;+&#32;<emphasis role="stringliteral">&quot;\n&quot;</emphasis>)
+<anchor xml:id="_merge__keff_8py_source_1l00080"/>00080 &#32;&#32;&#32;&#32;f.write(<emphasis role="stringliteral">&quot;kabs&#32;&quot;</emphasis>&#32;+&#32;str(computeMean(kabs))&#32;+&#32;<emphasis role="stringliteral">&quot;&#32;&quot;</emphasis>&#32;+&#32;str(computeStd(kabs))&#32;+&#32;<emphasis role="stringliteral">&quot;\n&quot;</emphasis>)
+<anchor xml:id="_merge__keff_8py_source_1l00081"/>00081 &#32;&#32;&#32;&#32;f.write(<emphasis role="stringliteral">&quot;ktrk&#32;&quot;</emphasis>&#32;+&#32;str(computeMean(ktrk))&#32;+&#32;<emphasis role="stringliteral">&quot;&#32;&quot;</emphasis>&#32;+&#32;str(computeStd(ktrk))&#32;+&#32;<emphasis role="stringliteral">&quot;\n&quot;</emphasis>)
+<anchor xml:id="_merge__keff_8py_source_1l00082"/>00082 
+<anchor xml:id="_merge__keff_8py_source_1l00083"/>00083 
+<anchor xml:id="_merge__keff_8py_source_1l00084"/>00084 
+<anchor xml:id="_merge__keff_8py_source_1l00087"/>00087 
+<anchor xml:id="_merge__keff_8py_source_1l00088"/>00088 <emphasis role="comment">#&#32;l&#32;=&#32;readFile(path)</emphasis>
+<anchor xml:id="_merge__keff_8py_source_1l00089"/>00089 l&#32;=&#32;args.i
+<anchor xml:id="_merge__keff_8py_source_1l00090"/>00090 kgen,&#32;kcol,&#32;ktrk,&#32;kabs&#32;=&#32;readFiles(l)
+<anchor xml:id="_merge__keff_8py_source_1l00091"/>00091 
+<anchor xml:id="_merge__keff_8py_source_1l00092"/>00092 writeResults(args.o,&#32;kgen,&#32;kcol,&#32;kabs,&#32;ktrk)
+<anchor xml:id="_merge__keff_8py_source_1l00093"/>00093 
+<anchor xml:id="_merge__keff_8py_source_1l00094"/>00094 <emphasis role="comment">#&#32;print(&quot;kgen&quot;,&#32;computeMean(kgen),&#32;computeStd(kgen))</emphasis>
+<anchor xml:id="_merge__keff_8py_source_1l00095"/>00095 <emphasis role="comment">#&#32;print(&quot;kcol&quot;,&#32;computeMean(kcol),&#32;computeStd(kcol))</emphasis>
+<anchor xml:id="_merge__keff_8py_source_1l00096"/>00096 <emphasis role="comment">#&#32;print(&quot;kabs&quot;,&#32;computeMean(kabs),&#32;computeStd(kabs))</emphasis>
+<anchor xml:id="_merge__keff_8py_source_1l00097"/>00097 <emphasis role="comment">#&#32;print(&quot;ktrk&quot;,&#32;computeMean(ktrk),&#32;computeStd(ktrk))</emphasis>
+</programlisting></section>

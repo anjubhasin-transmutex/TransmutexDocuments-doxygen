@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xngetd_8_f_source" xml:lang="en-US">
+<title>xngetd.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xngetd.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xngetd_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;03/06/96&#32;&#32;12.15.41&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;17/01/94</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xngetd(IDPOI,IMATE,IREAC)
+<anchor xml:id="_xngetd_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Read&#32;data&#32;for&#32;a&#32;reaction&#32;from&#32;Cross&#32;Section&#32;database&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IDPOI&#32;&#32;&#32;&#32;&#32;(input)&#32;pointer&#32;to&#32;the&#32;reaction&#32;to&#32;be&#32;read&#32;in&#32;the&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;disk&#32;database&#32;index&#32;LINDEX&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IMATE&#32;&#32;&#32;&#32;&#32;(input)&#32;pointer&#32;to&#32;the&#32;material&#32;&quot;row&quot;&#32;in&#32;the&#32;memory&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;index&#32;IMTABL&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IMATE&#32;&#32;&#32;&#32;&#32;(input)&#32;pointer&#32;to&#32;the&#32;reaction&#32;&quot;column&quot;&#32;in&#32;the&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memory&#32;index&#32;IMTABL&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00015"/>00015 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00016"/>00016 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00017"/>00017 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcstor.inc&quot;</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00018"/>00018 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcpoin.inc&quot;</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00019"/>00019 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcdbas.inc&quot;</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00020"/>00020 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcutil.inc&quot;</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00021"/>00021 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcindx.inc&quot;</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00022"/>00022 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00023"/>00023 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00024"/>00024 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00025"/>00025 <emphasis role="comment">*&#32;---&gt;&#32;Number&#32;of&#32;words&#32;to&#32;read</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;ntodo=lindex(4,idpoi)
+<anchor xml:id="_xngetd_8_f_source_1l00027"/>00027 <emphasis role="comment">*&#32;---&gt;&#32;Record&#32;pointer&#32;in&#32;disk</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;nrecr=lindex(3,idpoi)
+<anchor xml:id="_xngetd_8_f_source_1l00029"/>00029 <emphasis role="comment">*&#32;---&gt;&#32;Last&#32;used&#32;position&#32;in&#32;memory</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;ipos&#32;=ihgwmk
+<anchor xml:id="_xngetd_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;---&gt;&#32;Now&#32;read</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00032"/>00032 <emphasis role="preprocessor">#ifdef&#32;XSASCII</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00033"/>00033 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*&#32;---&gt;&#32;Number&#32;of&#32;words&#32;per&#32;line</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;nwplin=6
+<anchor xml:id="_xngetd_8_f_source_1l00035"/>00035 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;header</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(itape,rec=nrecr,fmt=10000)&#32;(hmtabl(1+nreinf*(ireac-1)+2+
+<anchor xml:id="_xngetd_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;+l,imate),l=1,nadinf)
+<anchor xml:id="_xngetd_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;nrecr=nrecr+1
+<anchor xml:id="_xngetd_8_f_source_1l00039"/>00039 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;data</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00040"/>00040 &#32;&#32;&#32;10&#32;<emphasis role="keyword">READ</emphasis>(itape,rec=nrecr,fmt=10000)&#32;(xstore(ipos+l),l=1,min(nwplin,
+<anchor xml:id="_xngetd_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;+ntodo))
+<anchor xml:id="_xngetd_8_f_source_1l00042"/>00042 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00043"/>00043 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*&#32;---&gt;&#32;Number&#32;of&#32;words&#32;per&#32;line</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;nwplin=20
+<anchor xml:id="_xngetd_8_f_source_1l00045"/>00045 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;header</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(itape,rec=nrecr)&#32;(hmtabl(1+nreinf*(ireac-1)+2+
+<anchor xml:id="_xngetd_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;+l,imate),l=1,nadinf)
+<anchor xml:id="_xngetd_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;nrecr=nrecr+1
+<anchor xml:id="_xngetd_8_f_source_1l00049"/>00049 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;data</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00050"/>00050 &#32;&#32;&#32;10&#32;<emphasis role="keyword">READ</emphasis>(itape,rec=nrecr)&#32;(xstore(ipos+l),l=1,min(nwplin,ntodo))
+<anchor xml:id="_xngetd_8_f_source_1l00051"/>00051 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00052"/>00052 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*&#32;---&gt;&#32;Update&#32;counters</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;nrecr=nrecr+1
+<anchor xml:id="_xngetd_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;ntodo=ntodo-nwplin
+<anchor xml:id="_xngetd_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;ipos=ipos+nwplin
+<anchor xml:id="_xngetd_8_f_source_1l00056"/>00056 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;not&#32;finished&#32;read&#32;again</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ntodo.GT.0)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xngetd_8_f_source_1l00058"/>00058 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;WRITE(6,&apos;(&apos;&apos;&#32;***&#32;XNGETD:&#32;&apos;&apos;,I5,&apos;&apos;&#32;words&#32;loaded&#32;for&#32;Z=&apos;&apos;,</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00059"/>00059 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;I2,&apos;&apos;,&#32;A=&apos;&apos;,I3,&apos;&apos;,&#32;MF&#32;&apos;&apos;,I3,&apos;&apos;,&#32;MT=&apos;&apos;,I3)&apos;&#32;)&#32;LINDEX(4,</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00060"/>00060 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;IDPOI),&#32;LINDEX(1,IDPOI)/1000,&#32;MOD(LINDEX(1,IDPOI),1000),</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00061"/>00061 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;LINDEX(2,IDPOI)/1000,&#32;MOD(LINDEX(2,IDPOI),1000)</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00062"/>00062 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;WRITE(6,&apos;(&apos;&apos;&#32;***&#32;XNGETD:&#32;&apos;&apos;,F5.1,&apos;&apos;%&#32;of&#32;the&#32;space&#32;used&apos;&apos;)&apos;)</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00063"/>00063 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;+100.*&#32;(IHGWMK+LINDEX(4,IDPOI))/NBSIZE</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00064"/>00064 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xngetd_8_f_source_1l00065"/>00065 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(6e11.4,i4,i2,i3,i5)
+<anchor xml:id="_xngetd_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

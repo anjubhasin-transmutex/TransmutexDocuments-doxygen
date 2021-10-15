@@ -1,0 +1,56 @@
+\hypertarget{xnorgr_8_f_source}{}\doxysection{xnorgr.\+F}
+\label{xnorgr_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnorgr.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnorgr.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 31/05/96  17.16.03  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnorgr}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00006}00006 \textcolor{comment}{*     Orders the energy grid for a file 5 section                      *}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00008}00008 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00009}00009 \textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00010}00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00011}00011 \textcolor{preprocessor}{}      dimension xdumm(2*maxep)}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00012}00012 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00013}00013 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00014}00014 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00015}00015 \textcolor{comment}{* -\/-\/-\/> Order primary energies}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00016}00016       \textcolor{keywordflow}{DO} 50  j1=1,nens-\/1}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00017}00017          \textcolor{keywordflow}{DO} 40  j2=j1+1,nens}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00018}00018             \textcolor{keywordflow}{IF}(xengr(j1).GT.xengr(j2)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00019}00019                tmpen     = xengr(j1)}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00020}00020                xengr(j1) = xengr(j2)}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00021}00021                xengr(j2) = tmpen}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00022}00022                ntemp     = neps(j1)}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00023}00023                neps(j1)  = neps(j2)}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00024}00024                neps(j2)  = ntemp}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00025}00025                \textcolor{keywordflow}{DO} 10 jdum=1,2*maxep}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00026}00026                   xdumm(jdum)=xenpb(jdum,j1)}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00027}00027    10          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00028}00028                \textcolor{keywordflow}{DO} 20 jdum=1,2*maxep}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00029}00029                   xenpb(jdum,j1)=xenpb(jdum,j2)}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00030}00030    20          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00031}00031                \textcolor{keywordflow}{DO} 30 jdum=1,2*maxep}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00032}00032                   xenpb(jdum,j2)=xdumm(jdum)}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00033}00033    30          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00034}00034 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00035}00035    40    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00036}00036    50 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Order outgoing energies}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00038}00038       \textcolor{keywordflow}{DO} 80  jen=1,nens}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00039}00039          \textcolor{keywordflow}{DO} 70 j1=1,neps(jen)-\/1}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00040}00040             \textcolor{keywordflow}{DO} 60 j2=j1+1,neps(jen)}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00041}00041                \textcolor{keywordflow}{IF}(xenpb(2*j1-\/1,jen).GT.xenpb(2*j2-\/1,jen)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00042}00042                   tmp=xenpb(2*j1-\/1,jen)}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00043}00043                   xenpb(2*j1-\/1,jen)=xenpb(2*j2-\/1,jen)}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00044}00044                   xenpb(2*j2-\/1,jen)=tmp}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00045}00045 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00046}00046    60       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00047}00047    70    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00048}00048    80 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00049}00049 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnorgr_8_f_source_l00050}00050       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

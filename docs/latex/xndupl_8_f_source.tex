@@ -1,0 +1,171 @@
+\hypertarget{xndupl_8_f_source}{}\doxysection{xndupl.\+F}
+\label{xndupl_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xndupl.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xndupl.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/07 19/08/96  12.18.13  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   13/08/96}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xndupl(XY,NPIN,NPOU)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00006}00006 \textcolor{comment}{* This routine removes points with duplicated energies and different   *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00007}00007 \textcolor{comment}{* cross sections. The algorithm is the following:                      *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00009}00009 \textcolor{comment}{* If there are two points with the same energy and a different cross   *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00010}00010 \textcolor{comment}{* section, the second point is moved by a relative amount of 1e-\/5,     *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00011}00011 \textcolor{comment}{* in order not to alter the value of thresholds.                       *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00012}00012 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00013}00013 \textcolor{comment}{* If there are more than two points and they are all increasing or     *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00014}00014 \textcolor{comment}{* decreasing in energy, then only the first and the last are kept,     *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00015}00015 \textcolor{comment}{* and the previous algorithm is used.                                  *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00016}00016 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00017}00017 \textcolor{comment}{* If the behaviour is not monotonous, then the minimum, the maximum    *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00018}00018 \textcolor{comment}{* and the first and the last points are kept, and then they are        *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00019}00019 \textcolor{comment}{* spaced by 1e-\/5 relative value.                                       *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00020}00020 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00021}00021 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00022}00022       dimension xy(2*npin)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00023}00023       parameter(spread=1e-\/5)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00024}00024 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00025}00025 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00026}00026 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/> Current point for reading}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00028}00028       je=1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Current point for writing}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00030}00030       jw=1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Scan for equal energies}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00032}00032    10 ene=xy(2*je-\/1)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/> Number of points with the same energy (at least one!)}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00034}00034       nrep=1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00035}00035    20 \textcolor{keywordflow}{IF}(je+nrep.LE.npin) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00036}00036          enr=xy(2*(je+nrep)-\/1)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00037}00037          \textcolor{keywordflow}{IF}(enr-\/ene.LT.2e-\/6*ene) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Repeated energy, check for next if more points}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00039}00039             nrep=nrep+1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00040}00040             \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00041}00041 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00042}00042 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> Either different energy or no more points}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00044}00044       \textcolor{keywordflow}{IF}(nrep.GE.2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Repeated energies, check behaviour}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00046}00046          xs1=xy(2*je)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00047}00047          xs2=xy(2*(je+nrep-\/1))}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00048}00048 \textcolor{comment}{* -\/-\/-\/> Pointer of minimum and maximum}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00049}00049          ipmin=-\/1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00050}00050          ipmax=-\/1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/> Minimum and maximum of extremes}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00052}00052          xsmin=min(xs1,xs2)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00053}00053          xsmax=max(xs1,xs2)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00054}00054 \textcolor{comment}{* -\/-\/-\/> Loop on internal points if any}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00055}00055          \textcolor{keywordflow}{DO} jr=2,nrep-\/1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00056}00056             ipo=je+jr-\/1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00057}00057             xsp=xy(2*ipo)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00058}00058             \textcolor{keywordflow}{IF}(xsp.LT.xsmin) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00059}00059 \textcolor{comment}{* -\/-\/-\/> Non-\/monotonous behaviour, minimum not at the extremes}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00060}00060                ipmin=ipo}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00061}00061                xsmin=xsp}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00062}00062             \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(xsp.GT.xsmax) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00063}00063 \textcolor{comment}{* -\/-\/-\/> Non-\/monotonous behaviour, maximum not at the extremes}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00064}00064                ipmax=ipo}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00065}00065                xsmax=xsp}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00066}00066 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00067}00067 \textcolor{keywordflow}{         ENDDO}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00068}00068 \textcolor{comment}{* -\/-\/-\/> Always keep first point}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00069}00069          \textcolor{keywordflow}{IF}(je.NE.jw) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00070}00070             xy(2*jw-\/1)=xy(2*je-\/1)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00071}00071             xy(2*jw )=xy(2*je )}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00072}00072 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00073}00073 \textcolor{comment}{* -\/-\/-\/> Write to next location}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00074}00074          jw=jw+1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00075}00075 \textcolor{comment}{* -\/-\/-\/> Count points to spread}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00076}00076          nspre=1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00077}00077 \textcolor{comment}{* -\/-\/-\/> Check for resonant behaviour}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00078}00078          ip1=min(ipmin,ipmax)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00079}00079          ip2=max(ipmin,ipmax)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00080}00080          \textcolor{keywordflow}{IF}(ip2.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00081}00081             \textcolor{keywordflow}{IF}(ip1.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00082}00082                xy(2*jw-\/1)=xy(2*ip1-\/1)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00083}00083                xy(2*jw )=xy(2*ip1 )}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00084}00084 \textcolor{comment}{* -\/-\/-\/> Write to next location}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00085}00085                jw=jw+1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00086}00086 \textcolor{comment}{* -\/-\/-\/> Count points to spread}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00087}00087                nspre=nspre+1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00088}00088 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00089}00089             xy(2*jw-\/1)=xy(2*ip2-\/1)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00090}00090             xy(2*jw )=xy(2*ip2 )}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00091}00091 \textcolor{comment}{* -\/-\/-\/> Write to next location}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00092}00092             jw=jw+1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00093}00093 \textcolor{comment}{* -\/-\/-\/> Count points to spread}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00094}00094             nspre=nspre+1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00095}00095 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00096}00096 \textcolor{comment}{* -\/-\/-\/> Always keep last point}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00097}00097          \textcolor{keywordflow}{IF}(jw.NE.je+nrep-\/1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00098}00098             xy(2*jw-\/1)=xy(2*(je+nrep-\/1)-\/1)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00099}00099             xy(2*jw )=xy(2*(je+nrep-\/1) )}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00100}00100 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00101}00101 \textcolor{comment}{* -\/-\/-\/> Write to next location}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00102}00102          jw=jw+1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00103}00103 \textcolor{comment}{* -\/-\/-\/> Count points to spread}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00104}00104          nspre=nspre+1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00105}00105 \textcolor{comment}{* -\/-\/-\/> Now do spread}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00106}00106          deltae=spread*ene}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00107}00107          \textcolor{keywordflow}{IF}(je.EQ.1.OR.xy(2*je).EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00108}00108 \textcolor{comment}{* -\/-\/-\/> Threshold, move up only upper energy}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00109}00109             emin=ene}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00110}00110          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00111}00111 \textcolor{comment}{* -\/-\/-\/> Normal case, be sure that we do not overlap previous energy}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00112}00112             emin=ene-\/0.5*(nspre-\/1)*deltae}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00113}00113 \textcolor{comment}{* -\/-\/-\/> Do not go before the half point between the last energy}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00114}00114 \textcolor{comment}{*      before repetition starts and the repeated energy}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00115}00115             emin=max(emin,0.5*(xy(2*(jw-\/nspre)-\/3)+ene))}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00116}00116 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00117}00117          \textcolor{keywordflow}{IF}(je+nrep.EQ.npin+1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00118}00118 \textcolor{comment}{* -\/-\/-\/> Last, move down only lower energy}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00119}00119             emax=ene}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00120}00120          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00121}00121 \textcolor{comment}{* -\/-\/-\/> Normal case, be sure that we do not overlap next energy}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00122}00122             emax=ene+0.5*(nspre-\/1)*deltae}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00123}00123 \textcolor{comment}{* -\/-\/-\/> Do not go beyond the half point between the repeated energy}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00124}00124 \textcolor{comment}{*      and the first point after repetition}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00125}00125             emax=min(emax,0.5*(xy(2*(je+nrep)-\/1)+ene))}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00126}00126 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00127}00127 \textcolor{comment}{* -\/-\/-\/> Recalculated Delta energy}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00128}00128          iround=0}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00129}00129    30    deltae=(emax-\/emin)/(nspre-\/1)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00130}00130          \textcolor{keywordflow}{IF}(deltae.LT.0.5e-\/6*ene) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00131}00131 \textcolor{comment}{* -\/-\/-\/> Something went wrong, cannot spread energies}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00132}00132             \textcolor{keywordflow}{IF}(je.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00133}00133 \textcolor{comment}{* -\/-\/-\/> It happens because we did not go below first point}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00134}00134 \textcolor{comment}{*      remove this limitation}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00135}00135                deltae=spread*ene}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00136}00136                emin=ene-\/0.5*(nspre-\/1)*deltae}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00137}00137             \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(je+nrep-\/1.EQ.npin) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00138}00138 \textcolor{comment}{* -\/-\/-\/> It happens because we did not go above last point}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00139}00139 \textcolor{comment}{*      remove this limitation}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00140}00140                deltae=spread*ene}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00141}00141                emax=ene+0.5*(nspre-\/1)*deltae}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00142}00142 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00143}00143             \textcolor{keywordflow}{IF}(iround.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00144}00144                iround=1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00145}00145                \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00146}00146 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00147}00147             stop \textcolor{stringliteral}{'Cannot spread energy'}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00148}00148 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00149}00149 \textcolor{comment}{* -\/-\/-\/> Change value of energies}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00150}00150          \textcolor{keywordflow}{DO} 40 jspre=1,nspre}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00151}00151             xy(2*(jw-\/(nspre-\/jspre+1))-\/1)=emin+(jspre-\/1)*deltae}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00152}00152    40    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00153}00153       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00154}00154 \textcolor{comment}{* -\/-\/-\/> No repetition, just copy point}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00155}00155          \textcolor{keywordflow}{IF}(je.NE.jw) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00156}00156             xy(2*jw-\/1)=xy(2*je-\/1)}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00157}00157             xy(2*jw )=xy(2*je )}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00158}00158 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00159}00159          jw=jw+1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00160}00160 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00161}00161       je=je+nrep}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00162}00162       \textcolor{keywordflow}{IF}(je.LE.npin) \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00163}00163       npou=jw-\/1}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00164}00164 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xndupl_8_f_source_l00165}00165       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

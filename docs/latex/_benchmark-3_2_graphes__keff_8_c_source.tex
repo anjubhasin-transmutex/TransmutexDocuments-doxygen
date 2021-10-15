@@ -1,0 +1,366 @@
+\hypertarget{_benchmark-3_2_graphes__keff_8_c_source}{}\doxysection{Graphes\+\_\+keff.\+C}
+\label{_benchmark-3_2_graphes__keff_8_c_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/3/Graphes\_keff.C@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/3/Graphes\_keff.C}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00001}00001 \textcolor{comment}{/* Lecture */}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00002}00002 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00003}00003 \textcolor{comment}{ Energy is eV}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00004}00004 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00005}00005 \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00006}00006 \textcolor{preprocessor}{\#include <TCanvas.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00007}00007 \textcolor{preprocessor}{\#include <TFile.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00008}00008 \textcolor{preprocessor}{\#include <TH1F.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00009}00009 \textcolor{preprocessor}{\#include <TGraph.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00010}00010 \textcolor{preprocessor}{\#include <TTree.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00011}00011 \textcolor{preprocessor}{\#include <TLegend.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00013}00013 \textcolor{keywordtype}{int} Graphes\_keff()}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00014}00014 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00015}00015     std::string FileName = \textcolor{stringliteral}{"{}0\_Opt4\_Rez6\_Be\_TargetX\_17"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00016}00016 \textcolor{comment}{//     std::string FileName = "{}0\_Opt4\_20p\_3layers\_Hex3mm\_AlB4cm\_TopBot\_Slab10mm\_nTS3\_noEvolutionAfter3E4"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00017}00017     TFile *f\_ROOT = \textcolor{keyword}{new} TFile( (FileName + \textcolor{stringliteral}{"{}.root"{}}).c\_str() );    }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00018}00018     }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00019}00019   \textcolor{keywordtype}{int} N\_source = 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00020}00020   \textcolor{keywordtype}{bool} save\_root = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00021}00021   \textcolor{keywordtype}{bool} save\_png  = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00023}00023   \textcolor{keywordflow}{if}(f\_ROOT)}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00024}00024   \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00025}00025     TTree* EverythingN = (TTree*) f\_ROOT-\/>GetObjectChecked((\textcolor{stringliteral}{"{}EverythingN"{}}), \textcolor{stringliteral}{"{}TTree"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00026}00026     }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00027}00027     \textcolor{comment}{// histo}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00028}00028     \textcolor{keywordtype}{int} Nhisto = 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00029}00029     TCanvas *histo[Nhisto];}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00030}00030     }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00031}00031     std::string str\_CanvaName, str\_histoName, str\_cut, str\_drawOption, str\_legendHisto;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00032}00032     \textcolor{keywordtype}{int} int\_xbin = 1000, int\_ybin = 1000, int\_zbin = 1500;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00033}00033     \textcolor{keywordtype}{int}    dbl\_Xmin = -\/1000, }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00034}00034            dbl\_Xmax =  1000,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00035}00035            dbl\_Ymin = -\/1000,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00036}00036            dbl\_Ymax =  1000,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00037}00037            dbl\_Zmin = -\/1500, }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00038}00038            dbl\_Zmax =  1500;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00039}00039            }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00040}00040     \textcolor{keywordtype}{double} dbl\_min = 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00041}00041     \textcolor{keywordtype}{double} dbl\_max = 1e5;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00042}00042     \textcolor{keywordtype}{int} int\_nbinsLog = 1000;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00043}00043     \textcolor{keywordtype}{double} min\_log = TMath::Log10(dbl\_min);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00044}00044     \textcolor{keywordtype}{double} max\_log = TMath::Log10(dbl\_max);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00045}00045     \textcolor{keywordtype}{double} bin\_width = ( max\_log -\/ min\_log) /(\textcolor{keywordtype}{double}) int\_nbinsLog;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00046}00046     \textcolor{keywordtype}{double} logbins[int\_nbinsLog + 1];}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00047}00047     logbins[0] = dbl\_min;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00048}00048     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k = 1; k <= int\_nbinsLog; ++k)}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00049}00049         logbins[k] = dbl\_min + TMath::Power(10, min\_log + k * bin\_width);           }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00050}00050            }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00051}00051     std::vector<int> strPhysVolNumber\{               14,          15,          16,         17,          18,          19,          20,           21,       22,            23,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00052}00052                                                   1,           5,            3,       13,         24,           25,         2,          9,       7 ,       10 ,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00053}00053                                                 40,         41,                  42,         43,            44,           50,           51,           52,           53,           54,          }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00054}00054                                                      55,        4,           60\};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00055}00055     std::vector<std::string> strPhysVolName\{\textcolor{stringliteral}{"{}pTargetL1"{}}, \textcolor{stringliteral}{"{}pTargetL2"{}}, \textcolor{stringliteral}{"{}pTargetL3"{}}, \textcolor{stringliteral}{"{}pTargetC"{}}, \textcolor{stringliteral}{"{}pTargetR1"{}}, \textcolor{stringliteral}{"{}pTargetR2"{}}, \textcolor{stringliteral}{"{}pTargetR3"{}}, \textcolor{stringliteral}{"{}TargetTube"{}}, \textcolor{stringliteral}{"{}Alcuts"{}}, \textcolor{stringliteral}{"{}TargetWater"{}},}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00056}00056                                             \textcolor{stringliteral}{"{}World"{}}, \textcolor{stringliteral}{"{}pDiffusor"{}}, \textcolor{stringliteral}{"{}pReflector"{}}, \textcolor{stringliteral}{"{}pFetop"{}}, \textcolor{stringliteral}{"{}BeamPipe"{}}, \textcolor{stringliteral}{"{}BeamWindow"{}}, \textcolor{stringliteral}{"{}pShield"{}}, \textcolor{stringliteral}{"{}pAirside"{}}, \textcolor{stringliteral}{"{}pCool7"{}}, \textcolor{stringliteral}{"{}pCool10"{}}, }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00057}00057                                             \textcolor{stringliteral}{"{}Fuel"{}}, \textcolor{stringliteral}{"{}Cladding"{}}, \textcolor{stringliteral}{"{}WaterFuelCladding"{}}, \textcolor{stringliteral}{"{}pBreeder"{}}, \textcolor{stringliteral}{"{}pReflectorC"{}}, \textcolor{stringliteral}{"{}pDiffusor0"{}}, \textcolor{stringliteral}{"{}pDiffusor1"{}}, \textcolor{stringliteral}{"{}pDiffusor2"{}}, \textcolor{stringliteral}{"{}pDiffusor3"{}}, \textcolor{stringliteral}{"{}pDiffusor4"{}}, }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00058}00058                                             \textcolor{stringliteral}{"{}pB4Clayer"{}}, \textcolor{stringliteral}{"{}pFebot"{}}, \textcolor{stringliteral}{"{}pSpentFuel"{}}\};     }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00059}00059 \textcolor{comment}{//    std::vector<double> strPhysVolCubic\{   0.7*4.8*25.2,0.7*4.8*25.2,0.7*4.8*25.2,0.7*4.8*25.2,0.7*4.8*25.2,0.7*4.8*25.2,0.7*4.8*25.2,       1,           1,      1,         1\};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00060}00060     std::vector<std::string> strInteractionVolName\{\textcolor{stringliteral}{"{}InPhysVol"{}}, \textcolor{stringliteral}{"{}OutPhysVol"{}}, \textcolor{stringliteral}{"{}FissionVol"{}}, \textcolor{stringliteral}{"{}CaptureVol"{}}, \textcolor{stringliteral}{"{}InelasticVol"{}}\};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00061}00061     }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00062}00062     \textcolor{comment}{// Global style definition}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00063}00063     gStyle-\/>SetOptStat(0);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00064}00064     gStyle-\/>SetStatX(1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00065}00065     gStyle-\/>SetStatY(1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00066}00066     gStyle-\/>SetStatH(0.22);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00067}00067     gStyle-\/>SetStatW(0.26);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00068}00068     gStyle-\/>SetLabelSize(0.05,\textcolor{stringliteral}{"{}X"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00069}00069     gStyle-\/>SetLabelSize(0.05,\textcolor{stringliteral}{"{}Z"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00070}00070     gStyle-\/>SetTitleXSize(0.05);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00071}00071     gStyle-\/>SetTitleYSize(0.05);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00072}00072     gStyle-\/>SetTitleXOffset(1.15);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00073}00073     gStyle-\/>SetTitleYOffset(1.25);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00074}00074     gStyle-\/>SetPadRightMargin (0.15);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00075}00075     gStyle-\/>SetPadLeftMargin  (0.15);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00076}00076     gStyle-\/>SetPadBottomMargin(0.15);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00077}00077     gStyle-\/>SetPadTopMargin   (0.05);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00078}00078     gStyle-\/>SetCanvasDefH(700);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00079}00079     gStyle-\/>SetCanvasDefW(900);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00080}00080     gStyle-\/>SetPadGridX(kTRUE);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00081}00081     gStyle-\/>SetPadGridY(kTRUE);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00082}00082 \textcolor{comment}{//     gStyle-\/>SetPalette(105); // kThermometer}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00083}00083 \textcolor{comment}{//     gStyle-\/>SetPalette(55); // kRainBow}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00086}00086 \textcolor{comment}{//  Neutrons source birth}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00087}00087 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00089}00089 \textcolor{comment}{}       }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00090}00090     \textcolor{comment}{// X pos birth neutron sources}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00091}00091     Nhisto = 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00092}00092     TH1D* XBirthNsrc;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00093}00093     \textcolor{keywordflow}{if}(Nhisto == 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00094}00094 \textcolor{comment}{//         str\_cut = "{}reasonID == -\/1 \&\& NbNGeneration == 0"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00095}00095        str\_cut = \textcolor{stringliteral}{"{}reasonID == -\/1 \&\& pID == 0"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00096}00096         str\_CanvaName = \textcolor{stringliteral}{"{}X\_birthNsrc"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00097}00097 \textcolor{comment}{//         str\_histoName = "{}NPosY*NPosY+NPosX*NPosX>> "{} + str\_CanvaName + "{}(101,90000,228497.38)"{};   // 6 layers}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00098}00098         str\_histoName = \textcolor{stringliteral}{"{}NPosX>> "{}} + str\_CanvaName + \textcolor{stringliteral}{"{}(101,-\/240,240)"{}}; \textcolor{comment}{// 8 layers}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00099}00099         histo[0] = \textcolor{keyword}{new} TCanvas(str\_CanvaName.c\_str(),str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00100}00100         EverythingN-\/>Draw(str\_histoName.c\_str(), str\_cut.c\_str(), \textcolor{stringliteral}{"{}hist e"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00101}00101         XBirthNsrc = (TH1D*)gDirectory-\/>Get(str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00102}00102         XBirthNsrc-\/>SetNameTitle(str\_CanvaName.c\_str(),\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00103}00103         XBirthNsrc-\/>GetYaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}dN"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00104}00104         XBirthNsrc-\/>GetXaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}X [mm]"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00105}00105         N\_source = XBirthNsrc-\/>Integral();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00106}00106 \textcolor{comment}{//         XBirthNsrc-\/>Scale(1./(double)N\_source);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00107}00107         std::cout << \textcolor{stringliteral}{"{}Nb neutrons source : "{}} << N\_source <<std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00108}00108         XBirthNsrc-\/>Draw(\textcolor{stringliteral}{"{}hist e"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00109}00109         }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00110}00110         \textcolor{keywordflow}{if}(save\_root) \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.root"{}}).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00111}00111         \textcolor{keywordflow}{if}(save\_png)  \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.png"{}} ).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00112}00112     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00113}00113     }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00114}00114     \textcolor{comment}{// Y pos birth neutron sources}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00115}00115     Nhisto = 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00116}00116     TH1D* YBirthNsrc;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00117}00117     \textcolor{keywordflow}{if}(Nhisto == 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00118}00118 \textcolor{comment}{//         str\_cut = "{}reasonID == -\/1 \&\& NbNGeneration == 0"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00119}00119        str\_cut = \textcolor{stringliteral}{"{}reasonID == -\/1 \&\& pID == 0"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00120}00120         str\_CanvaName = \textcolor{stringliteral}{"{}Y\_birthNsrc"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00121}00121 \textcolor{comment}{//         str\_histoName = "{}NPosY*NPosY+NPosX*NPosX>> "{} + str\_CanvaName + "{}(101,90000,228497.38)"{};   // 6 layers}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00122}00122         str\_histoName = \textcolor{stringliteral}{"{}NPosY>> "{}} + str\_CanvaName + \textcolor{stringliteral}{"{}(101,-\/310,240)"{}}; \textcolor{comment}{// 8 layers}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00123}00123         histo[0] = \textcolor{keyword}{new} TCanvas(str\_CanvaName.c\_str(),str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00124}00124         EverythingN-\/>Draw(str\_histoName.c\_str(), str\_cut.c\_str(), \textcolor{stringliteral}{"{}hist e"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00125}00125         YBirthNsrc = (TH1D*)gDirectory-\/>Get(str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00126}00126         YBirthNsrc-\/>SetNameTitle(str\_CanvaName.c\_str(),\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00127}00127         YBirthNsrc-\/>GetYaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}dN"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00128}00128         YBirthNsrc-\/>GetXaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Y [mm]"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00129}00129 \textcolor{comment}{//         N\_source = YBirthNsrc-\/>Integral();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00130}00130 \textcolor{comment}{//         YBirthNsrc-\/>Scale(1./(double)N\_source);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00131}00131 \textcolor{comment}{//         std::cout << "{}Nb neutrons source : "{} << N\_source <<std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00132}00132         YBirthNsrc-\/>Draw(\textcolor{stringliteral}{"{}hist e"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00133}00133         }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00134}00134         \textcolor{keywordflow}{if}(save\_root) \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.root"{}}).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00135}00135         \textcolor{keywordflow}{if}(save\_png)  \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.png"{}} ).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00136}00136     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00137}00137     }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00138}00138     \textcolor{comment}{// Radius\string^2 pos birth neutron sources}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00139}00139     Nhisto = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00140}00140     TH1D* Radius2BirthNsrc;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00141}00141     \textcolor{keywordflow}{if}(Nhisto == 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00142}00142 \textcolor{comment}{//         str\_cut = "{}reasonID == -\/1 \&\& NbNGeneration == 0"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00143}00143        str\_cut = \textcolor{stringliteral}{"{}reasonID == -\/1 \&\& pID == 0"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00144}00144         str\_CanvaName = \textcolor{stringliteral}{"{}Radius2\_birthNsrc"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00145}00145 \textcolor{comment}{//         str\_histoName = "{}NPosY*NPosY+NPosX*NPosX>> "{} + str\_CanvaName + "{}(101,90000,228497.38)"{};   // 6 layers}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00146}00146         str\_histoName = \textcolor{stringliteral}{"{}NPosY*NPosY+NPosX*NPosX>> "{}} + str\_CanvaName + \textcolor{stringliteral}{"{}(101,90000,262376.499529)"{}};  \textcolor{comment}{// 7 layers}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00147}00147         histo[0] = \textcolor{keyword}{new} TCanvas(str\_CanvaName.c\_str(),str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00148}00148         EverythingN-\/>Draw(str\_histoName.c\_str(), str\_cut.c\_str(), \textcolor{stringliteral}{"{}hist e"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00149}00149         Radius2BirthNsrc = (TH1D*)gDirectory-\/>Get(str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00150}00150         Radius2BirthNsrc-\/>SetNameTitle(str\_CanvaName.c\_str(),\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00151}00151         Radius2BirthNsrc-\/>GetYaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}dN/d(r\string^\{2\})"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00152}00152         Radius2BirthNsrc-\/>GetXaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}r\string^\{2\} [mm\string^\{2\}]"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00153}00153 \textcolor{comment}{//         N\_source = Radius2BirthNsrc-\/>Integral();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00154}00154 \textcolor{comment}{//         Radius2BirthNsrc-\/>Scale(1./(double)N\_source);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00155}00155 \textcolor{comment}{//         std::cout << "{}Nb neutrons source : "{} << N\_source <<std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00156}00156         Radius2BirthNsrc-\/>Draw(\textcolor{stringliteral}{"{}hist e"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00157}00157         }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00158}00158         \textcolor{keywordflow}{if}(save\_root) \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.root"{}}).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00159}00159         \textcolor{keywordflow}{if}(save\_png)  \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.png"{}} ).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00160}00160     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00161}00161     }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00162}00162     \textcolor{comment}{// Radius pos birth neutron sources}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00163}00163     Nhisto = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00164}00164     TH1D* RadiusBirthNsrc;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00165}00165     \textcolor{keywordflow}{if}(Nhisto == 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00166}00166 \textcolor{comment}{//         str\_cut = "{}reasonID == -\/1 \&\& NbNGeneration == 0"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00167}00167        str\_cut = \textcolor{stringliteral}{"{}reasonID == -\/1 \&\& pID == 0"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00168}00168         str\_CanvaName = \textcolor{stringliteral}{"{}Radius\_birthNsrc"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00169}00169 \textcolor{comment}{//         str\_histoName = "{}TMath::Sqrt(NPosY*NPosY+NPosX*NPosX)>> "{} + str\_CanvaName + "{}(101,300,478.014)"{};   // 6 layers}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00170}00170         str\_histoName = \textcolor{stringliteral}{"{}TMath::Sqrt(NPosY*NPosY+NPosX*NPosX)>> "{}} + str\_CanvaName + \textcolor{stringliteral}{"{}(101,300,512.227)"{}};   \textcolor{comment}{// 7 layers}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00171}00171         histo[0] = \textcolor{keyword}{new} TCanvas(str\_CanvaName.c\_str(),str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00172}00172         EverythingN-\/>Draw(str\_histoName.c\_str(), str\_cut.c\_str(), \textcolor{stringliteral}{"{}hist e"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00173}00173         RadiusBirthNsrc = (TH1D*)gDirectory-\/>Get(str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00174}00174         RadiusBirthNsrc-\/>SetNameTitle(str\_CanvaName.c\_str(),\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00175}00175         RadiusBirthNsrc-\/>GetYaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}dN/dr"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00176}00176         RadiusBirthNsrc-\/>GetXaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}r [mm]"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00177}00177 \textcolor{comment}{//         RadiusBirthNsrc-\/>Scale(1./(double)N\_source);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00178}00178         RadiusBirthNsrc-\/>Draw(\textcolor{stringliteral}{"{}hist e"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00179}00179         }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00180}00180         \textcolor{keywordflow}{if}(save\_root) \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.root"{}}).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00181}00181         \textcolor{keywordflow}{if}(save\_png)  \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.png"{}} ).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00182}00182     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00183}00183     }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00184}00184     \textcolor{comment}{// Theta pos birth neutron sources}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00185}00185     Nhisto = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00186}00186     TH1D* ThetaBirthNsrc;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00187}00187     \textcolor{keywordflow}{if}(Nhisto == 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00188}00188 \textcolor{comment}{//         str\_cut = "{}reasonID == -\/1 \&\& NbNGeneration == 0"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00189}00189        str\_cut = \textcolor{stringliteral}{"{}reasonID == -\/1 \&\& pID == 0"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00190}00190         str\_CanvaName = \textcolor{stringliteral}{"{}Theta\_birthNsrc"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00191}00191 \textcolor{comment}{//         str\_histoName = "{}TMath::ACos(NPosX/TMath::Sqrt(NPosY*NPosY+NPosX*NPosX))*180/TMath::Pi()>> "{} + str\_CanvaName + "{}(101,0,360)"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00192}00192         str\_histoName = \textcolor{stringliteral}{"{}TMath::ATan2(NPosY,NPosX)*180/TMath::Pi()>> "{}} + str\_CanvaName + \textcolor{stringliteral}{"{}(101,-\/180,180)"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00193}00193         histo[0] = \textcolor{keyword}{new} TCanvas(str\_CanvaName.c\_str(),str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00194}00194         EverythingN-\/>Draw(str\_histoName.c\_str(), str\_cut.c\_str(), \textcolor{stringliteral}{"{}hist e"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00195}00195         Radius2BirthNsrc = (TH1D*)gDirectory-\/>Get(str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00196}00196         Radius2BirthNsrc-\/>SetNameTitle(str\_CanvaName.c\_str(),\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00197}00197         Radius2BirthNsrc-\/>GetYaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}dN/d\{Theta\}"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00198}00198         Radius2BirthNsrc-\/>GetXaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}\{Theta\} [°]"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00199}00199 \textcolor{comment}{//         Radius2BirthNsrc-\/>Scale(1./(double)N\_source);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00200}00200         Radius2BirthNsrc-\/>Draw(\textcolor{stringliteral}{"{}hist e"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00201}00201         }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00202}00202         \textcolor{keywordflow}{if}(save\_root) \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.root"{}}).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00203}00203         \textcolor{keywordflow}{if}(save\_png)  \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.png"{}} ).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00204}00204     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00205}00205     }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00206}00206     \textcolor{comment}{// Z pos birth neutron sources}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00207}00207     Nhisto = 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00208}00208     TH1D* ZPosBirthNsrc;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00209}00209     \textcolor{keywordflow}{if}(Nhisto == 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00210}00210 \textcolor{comment}{//         str\_cut = "{}reasonID == -\/1 \&\& NbNGeneration == 0"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00211}00211        str\_cut = \textcolor{stringliteral}{"{}reasonID == -\/1 \&\& pID == 0"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00212}00212         str\_CanvaName = \textcolor{stringliteral}{"{}ZPos\_birthNsrc"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00213}00213         str\_histoName = \textcolor{stringliteral}{"{}NPosZ>> "{}} + str\_CanvaName + \textcolor{stringliteral}{"{}(101,-\/300,300)"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00214}00214         histo[0] = \textcolor{keyword}{new} TCanvas(str\_CanvaName.c\_str(),str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00215}00215         EverythingN-\/>Draw(str\_histoName.c\_str(), str\_cut.c\_str(), \textcolor{stringliteral}{"{}hist e"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00216}00216         Radius2BirthNsrc = (TH1D*)gDirectory-\/>Get(str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00217}00217         Radius2BirthNsrc-\/>SetNameTitle(str\_CanvaName.c\_str(),\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00218}00218         Radius2BirthNsrc-\/>GetYaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}dN/dz"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00219}00219         Radius2BirthNsrc-\/>GetXaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}z [mm]"{}});  }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00220}00220 \textcolor{comment}{//         Radius2BirthNsrc-\/>Scale(1./(double)N\_source);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00221}00221         Radius2BirthNsrc-\/>Draw(\textcolor{stringliteral}{"{}hist e"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00222}00222         }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00223}00223         \textcolor{keywordflow}{if}(save\_root) \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.root"{}}).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00224}00224         \textcolor{keywordflow}{if}(save\_png)  \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.png"{}} ).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00225}00225     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00226}00226     }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00227}00227     \textcolor{comment}{// XY pos birth}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00228}00228     Nhisto = 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00229}00229     TH2D* MappingXYposBirthNsrc;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00230}00230     \textcolor{keywordflow}{if}(Nhisto == 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00231}00231 \textcolor{comment}{//         str\_cut = "{}reasonID == -\/1 \&\& NbNGeneration == 0"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00232}00232        str\_cut = \textcolor{stringliteral}{"{}reasonID == -\/1 \&\& pID == 0"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00233}00233         str\_CanvaName = \textcolor{stringliteral}{"{}XvsY\_BirthNsrc"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00234}00234         str\_histoName = \textcolor{stringliteral}{"{}NPosY:NPosX>> "{}} + str\_CanvaName + \textcolor{stringliteral}{"{}(501,-\/500,500,501,-\/500,500)"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00235}00235         histo[0] = \textcolor{keyword}{new} TCanvas(str\_CanvaName.c\_str(),str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00236}00236         histo[0]-\/>SetLogz();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00237}00237         EverythingN-\/>Draw(str\_histoName.c\_str(), str\_cut.c\_str(), \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00238}00238         MappingXYposBirthNsrc = (TH2D*)gDirectory-\/>Get(str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00239}00239         MappingXYposBirthNsrc-\/>SetNameTitle(str\_CanvaName.c\_str(),\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00240}00240         MappingXYposBirthNsrc-\/>GetZaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Number of neutron birth"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00241}00241         MappingXYposBirthNsrc-\/>GetZaxis()-\/>SetTitleOffset(1.3);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00242}00242         MappingXYposBirthNsrc-\/>GetYaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Y [mm]"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00243}00243         MappingXYposBirthNsrc-\/>GetXaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}X [mm]"{}});  }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00244}00244 \textcolor{comment}{//         MappingXYposBirthNsrc-\/>Scale(1./(double)N\_source);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00245}00245         MappingXYposBirthNsrc-\/>GetZaxis()-\/>SetRangeUser(5E-\/1,30);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00246}00246         MappingXYposBirthNsrc-\/>Draw(\textcolor{stringliteral}{"{}colz"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00247}00247         \textcolor{keywordflow}{if}(save\_root) \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.root"{}}).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00248}00248         \textcolor{keywordflow}{if}(save\_png)  \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.png"{}} ).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00249}00249     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00250}00250     }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00251}00251     \textcolor{comment}{// Neutron fluence XY mapping}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00252}00252     Nhisto = 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00253}00253     TH2D* MappingXY\_FluxN;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00254}00254     \textcolor{keywordflow}{if}(Nhisto == 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00255}00255         str\_CanvaName = \textcolor{stringliteral}{"{}MappingXY\_FluxN"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00256}00256         str\_histoName = \textcolor{stringliteral}{"{}MappingXY\_FluxN"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00257}00257         histo[0] = \textcolor{keyword}{new} TCanvas(str\_CanvaName.c\_str(),str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00258}00258         MappingXY\_FluxN = (TH2D*)gDirectory-\/>Get(str\_histoName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00259}00259         MappingXY\_FluxN-\/>SetNameTitle(str\_CanvaName.c\_str(), \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00260}00260         MappingXY\_FluxN-\/>SetContour(100);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00261}00261         MappingXY\_FluxN-\/>GetYaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Y [mm]"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00262}00262         MappingXY\_FluxN-\/>GetYaxis()-\/>SetTitleOffset(1.25);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00263}00263         MappingXY\_FluxN-\/>GetXaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}X [mm]"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00264}00264         MappingXY\_FluxN-\/>GetYaxis()-\/>SetTitleOffset(1.15);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00265}00265         MappingXY\_FluxN-\/>GetZaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Neutron Fluence [cm\string^\{-\/2\}] per primaries"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00266}00266         MappingXY\_FluxN-\/>GetZaxis()-\/>SetTitleOffset(1.4);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00267}00267         MappingXY\_FluxN-\/>Scale(1.602E-\/19 * 70 / 1E6 /(\textcolor{keywordtype}{double})N\_source);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00268}00268 \textcolor{comment}{//         MappingXY\_FluxN-\/>Scale(0.03/(double)N\_source);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00269}00269 \textcolor{comment}{//         MappingXY\_FluxN-\/>Scale(500*0.03/(double)N\_source/591.2);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00270}00270 \textcolor{comment}{//         MappingXY\_FluxN-\/>Scale(1.602E-\/19 * 300/(double)320000.);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00271}00271 \textcolor{comment}{//         MappingXY\_FluxN-\/>Scale(1.602E-\/19 * 300/(double)200000.);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00272}00272 \textcolor{comment}{//         histo[0]-\/>SetLogz();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00273}00273         MappingXY\_FluxN-\/>SetAxisRange(0.00,5E-\/10,\textcolor{stringliteral}{"{}Z"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00274}00274         MappingXY\_FluxN-\/>Draw(\textcolor{stringliteral}{"{}colz"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00275}00275         \textcolor{keywordflow}{if}(save\_root) \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.root"{}}).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00276}00276         \textcolor{keywordflow}{if}(save\_png)  \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.png"{}} ).c\_str());\}        }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00277}00277     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00278}00278     }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00279}00279        }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00280}00280 \textcolor{comment}{//     // Fission time}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00281}00281 \textcolor{comment}{//     Nhisto = 1;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00282}00282 \textcolor{comment}{//     TH2D* GenerationTimeFission;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00283}00283 \textcolor{comment}{//     if(Nhisto == 1) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00284}00284 \textcolor{comment}{//         str\_cut = "{}FissionVol > 0"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00285}00285 \textcolor{comment}{//         str\_CanvaName = "{}GenerationTimeFission"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00286}00286 \textcolor{comment}{//         str\_histoName = "{}NbNGeneration:GlobalTime>> "{} + str\_CanvaName + "{}(500,-\/8,3,400,0,399)"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00287}00287 \textcolor{comment}{//         histo[0] = new TCanvas(str\_CanvaName.c\_str(),str\_CanvaName.c\_str());}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00288}00288 \textcolor{comment}{// //         histo[0]-\/>SetLogz();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00289}00289 \textcolor{comment}{//         EverythingN-\/>Draw(str\_histoName.c\_str(), str\_cut.c\_str(), "{}colz"{});}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00290}00290 \textcolor{comment}{//         GenerationTimeFission = (TH2D*)gDirectory-\/>Get(str\_CanvaName.c\_str());}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00291}00291 \textcolor{comment}{//         GenerationTimeFission-\/>SetNameTitle(str\_CanvaName.c\_str(),"{}"{});}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00292}00292 \textcolor{comment}{//         GenerationTimeFission-\/>GetZaxis()-\/>SetTitle("{}Fissions"{});}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00293}00293 \textcolor{comment}{//         GenerationTimeFission-\/>GetZaxis()-\/>SetTitleOffset(1.3);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00294}00294 \textcolor{comment}{//         GenerationTimeFission-\/>GetYaxis()-\/>SetTitle("{}Generation number"{});}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00295}00295 \textcolor{comment}{//         GenerationTimeFission-\/>GetXaxis()-\/>SetTitle("{}Log\_\{10\}(Time [s])"{});  }}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00296}00296 \textcolor{comment}{//         GenerationTimeFission-\/>Draw("{}colz"{});}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00297}00297 \textcolor{comment}{//         if(save\_root) \{ histo[0]-\/>SaveAs((str\_CanvaName + "{}.root"{}).c\_str());\}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00298}00298 \textcolor{comment}{//         if(save\_png)  \{ histo[0]-\/>SaveAs((str\_CanvaName + "{}.png"{} ).c\_str());\}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00299}00299 \textcolor{comment}{//     \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00300}00300 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00301}00301 \textcolor{comment}{// Comparison with MCNP fmesh flux}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00302}00302     Nhisto = 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00303}00303     \textcolor{keywordflow}{if}(Nhisto == 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00304}00304         }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00305}00305         std::string strFileName = \textcolor{stringliteral}{"{}MCNPfile.txt"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00306}00306         std::ifstream myfile;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00307}00307         myfile.open (strFileName);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00308}00308         }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00309}00309         std::string strLine, separator = \textcolor{stringliteral}{"{},"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00310}00310         std::vector<std::vector<double>> vMap(5); \textcolor{comment}{// X, Y, Z, Flux, ErrorFlux}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00311}00311         std::vector<std::vector<double>> vMinMax\{ \{0,0\}, \{0,0\}, \{0,0\}\};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00312}00312         }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00313}00313         std::getline (myfile,strLine); \textcolor{comment}{// remove 1st line}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00314}00314         \textcolor{keywordflow}{while}(std::getline (myfile,strLine)) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00315}00315             std::size\_t lastPos = strLine.find(separator, 0), previousPos=0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00316}00316             \textcolor{keywordflow}{for}(std::size\_t i = 0; i < 5; ++i) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00317}00317                 vMap[i].push\_back( strLine.substr(previousPos, lastPos-\/previousPos) );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00318}00318                 \textcolor{keywordflow}{if}(i<3) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00319}00319                     \textcolor{keywordflow}{if}(strLine.substr(previousPos, lastPos-\/previousPos) < vMinMax[i][0])}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00320}00320                         vMinMax[i][0] = strLine.substr(previousPos, lastPos-\/previousPos);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00321}00321                     \textcolor{keywordflow}{if}(strLine.substr(previousPos, lastPos-\/previousPos) > vMinMax[i][1])}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00322}00322                         vMinMax[i][1] = strLine.substr(previousPos, lastPos-\/previousPos);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00323}00323                 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00324}00324                 previousPos = lastPos+1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00325}00325                 lastPos = strLine.find(separator, previousPos);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00326}00326             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00327}00327         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00328}00328         myfile.close();    }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00329}00329         }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00330}00330 \textcolor{comment}{//         TH2D* MappingXY\_FluxN\_MCNP = new TH2D(str\_CanvaName.c\_str(), "{}"{}, vMap[0], vMap[1]);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00331}00331         TH2D* MappingXY\_FluxN\_MCNP = \textcolor{keyword}{new} TH2D(str\_CanvaName.c\_str(), \textcolor{stringliteral}{"{}"{}}, vMap[0].size(), vMinMax[0][0], vMinMax[0][1], vMap[1].size(), vMinMax[1][0], vMinMax[1][1]);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00332}00332         \textcolor{keywordflow}{for}(std::size\_t i = 0; i<vMap[0].size(); ++i) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00333}00333                 MappingXY\_FluxN\_MCNP-\/>SetBinContent(MappingXY\_FluxN\_MCNP-\/>FindBin(vMap[0][i], vMap[1][i]), vMap[3][i]);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00334}00334                 MappingXY\_FluxN\_MCNP-\/>SetBinError  (MappingXY\_FluxN\_MCNP-\/>FindBin(vMap[0][i], vMap[1][i]), vMap[4][i]);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00335}00335         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00336}00336         }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00337}00337         str\_CanvaName = \textcolor{stringliteral}{"{}MappingXY\_FluxN\_MCNP"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00338}00338         str\_histoName = \textcolor{stringliteral}{"{}MappingXY\_FluxN\_MCNP"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00339}00339         histo[0] = \textcolor{keyword}{new} TCanvas(str\_CanvaName.c\_str(),str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00340}00340         MappingXY\_FluxN\_MCNP-\/>SetContour(100);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00341}00341         MappingXY\_FluxN\_MCNP-\/>GetYaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Y [mm]"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00342}00342         MappingXY\_FluxN\_MCNP-\/>GetYaxis()-\/>SetTitleOffset(1.25);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00343}00343         MappingXY\_FluxN\_MCNP-\/>GetXaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}X [mm]"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00344}00344         MappingXY\_FluxN\_MCNP-\/>GetYaxis()-\/>SetTitleOffset(1.15);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00345}00345         MappingXY\_FluxN\_MCNP-\/>GetZaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Neutron Fluence [cm\string^\{-\/2\}] per primaries"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00346}00346         MappingXY\_FluxN\_MCNP-\/>GetZaxis()-\/>SetTitleOffset(1.4);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00347}00347         MappingXY\_FluxN\_MCNP-\/>Scale(1 /(\textcolor{keywordtype}{double})16255226.34);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00348}00348 \textcolor{comment}{//         histo[0]-\/>SetLogz();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00349}00349         MappingXY\_FluxN\_MCNP-\/>SetAxisRange(0.00,5E-\/10,\textcolor{stringliteral}{"{}Z"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00350}00350         MappingXY\_FluxN\_MCNP-\/>Draw(\textcolor{stringliteral}{"{}colz"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00351}00351         \textcolor{keywordflow}{if}(save\_root) \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.root"{}}).c\_str());\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00352}00352         \textcolor{keywordflow}{if}(save\_png)  \{ histo[0]-\/>SaveAs((str\_CanvaName + \textcolor{stringliteral}{"{}.png"{}} ).c\_str());\}        }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00353}00353     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00354}00354     }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00355}00355 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00356}00356 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00357}00357   \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00358}00358   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00359}00359     std::cerr << \textcolor{stringliteral}{"{}Impossible d'ouvrir le fichier"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00360}00360   }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00361}00361   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2_graphes__keff_8_c_source_l00362}00362 \}}
+
+\end{DoxyCode}

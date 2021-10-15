@@ -1,0 +1,93 @@
+\hypertarget{xn6ceg_8_f_source}{}\doxysection{xn6ceg.\+F}
+\label{xn6ceg_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6ceg.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6ceg.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/01 28/06/96  16.22.19  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xn6ceg}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00006}00006 \textcolor{comment}{*     Fills primary energy grid for file 6 distribution                *}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00008}00008 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00009}00009 \textcolor{preprocessor}{\#include "{}xcmfh6.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00010}00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00011}00011 \textcolor{preprocessor}{}      parameter(maxphs=50)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00012}00012       \textcolor{keywordtype}{DOUBLE PRECISION} EM}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00013}00013 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00014}00014 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00015}00015 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00016}00016       nens=0}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00017}00017       \textcolor{keywordflow}{DO} 30 jk=1,nsect}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00018}00018 \textcolor{comment}{* -\/-\/-\/> Find pointer to section}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00019}00019          ipsec=isecpn(jk)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00020}00020          law=i6stor(ipsec+1)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00021}00021          \textcolor{keywordflow}{IF}(law.EQ.6) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00022}00022 \textcolor{comment}{* -\/-\/-\/> This is n-\/body phase space distribution}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00023}00023             \textcolor{keywordflow}{IF}(nsect.EQ.1.OR.(jk.EQ.nsect.AND.nens.LE.2)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> This is the Mickey Mouse part}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00025}00025 \textcolor{comment}{*      If there is only one distribution and it is a phase space}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00026}00026 \textcolor{comment}{*      distribution, there is no energy grid, by definition, so}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00027}00027 \textcolor{comment}{*      we make one, with 50 steps logarithmically spaced from}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00028}00028 \textcolor{comment}{*      threshold to 20MeV.}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> This is the threshold energy in the lab}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00030}00030                emin=max(-\/qi*(1+awr)/awr,1e-\/5)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00031}00031                emax=2e7}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00032}00032                fact=exp(log(emax/emin)/maxphs)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00033}00033                em=emin}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00034}00034                \textcolor{keywordflow}{DO} 10 jen=1,maxphs}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00035}00035                   em=em*fact}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00036}00036                   percen(jen)=em}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00037}00037    10          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00038}00038                nens=maxphs}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00039}00039 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00040}00040          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Add all incoming energies for this section to the grid}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00042}00042             nry=i6stor(ipsec+2)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00043}00043             ney=i6stor(ipsec+3)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00044}00044 \textcolor{comment}{* -\/-\/-\/> Pointer to specific data for this law}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00045}00045             ipl=ipsec+3+2*nry+2*ney}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00046}00046             \textcolor{keywordflow}{IF}(law.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00047}00047                nrein=i6stor(ipl+3)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00048}00048                npein=i6stor(ipl+4)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00049}00049                ipein=ipl+4+2*nrein}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00050}00050             \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(law.EQ.7) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00051}00051                nrein=i6stor(ipl+1)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00052}00052                npein=i6stor(ipl+2)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00053}00053                ipein=ipl+2+2*nrein}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00054}00054             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00055}00055                stop \textcolor{stringliteral}{'XN6CEG Unhandled law'}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00056}00056 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00057}00057             \textcolor{keywordflow}{IF}(nens+npein.GT.mxperc) stop \textcolor{stringliteral}{'Increase MXPERC'}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00058}00058             \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Adding '}\textcolor{stringliteral}{',I4,}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00059}00059 \textcolor{stringliteral}{}\textcolor{stringliteral}{     +                       '}\textcolor{stringliteral}{' points to energy grid'}\textcolor{stringliteral}{')'}) npein}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> Here add energies}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00061}00061             \textcolor{keywordflow}{DO} 20 jen=1,npein}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00062}00062                percen(nens+jen)=r6stor(ipein+jen)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00063}00063    20       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00064}00064             nens=nens+npein}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00065}00065 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00066}00066    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00067}00067 \textcolor{comment}{* -\/-\/-\/> Order Energies}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00068}00068       \textcolor{keywordflow}{DO} 50 jen=1,nens-\/1}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00069}00069          \textcolor{keywordflow}{DO} 40 ken=jen+1,nens}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00070}00070             \textcolor{keywordflow}{IF}(percen(jen).GT.percen(ken)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00071}00071                etmp=percen(jen)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00072}00072                percen(jen)=percen(ken)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00073}00073                percen(ken)=etmp}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00074}00074 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00075}00075    40    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00076}00076    50 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00077}00077 \textcolor{comment}{* -\/-\/-\/> Eliminate duplicate}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00078}00078       icurr=1}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00079}00079       \textcolor{keywordflow}{DO} 60 jen=2,nens}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00080}00080          \textcolor{keywordflow}{IF}(percen(jen)-\/percen(icurr).GT.1e-\/5*percen(jen)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00081}00081             icurr=icurr+1}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00082}00082 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00083}00083          percen(icurr)=percen(jen)}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00084}00084    60 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00085}00085       nens=icurr}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00086}00086 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6ceg_8_f_source_l00087}00087       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

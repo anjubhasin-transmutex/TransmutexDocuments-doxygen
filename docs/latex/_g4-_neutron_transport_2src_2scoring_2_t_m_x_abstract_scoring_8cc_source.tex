@@ -1,0 +1,377 @@
+\hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source}{}\doxysection{TMXAbstract\+Scoring.\+cc}
+\label{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/src/scoring/TMXAbstractScoring.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/src/scoring/TMXAbstractScoring.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00002}00002 \textcolor{comment}{// \(\backslash\)brief Implementation of the Scoring of Fluence Spectrum}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00006}00006 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00007}00007 \textcolor{comment}{// TMXAbstractScoring}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00009}00009 \textcolor{comment}{// Thomas Guilbaud, Transmutex, 05/07/2021}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{// Scoring of Fluence Spectrum}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00014}00014 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00015}00015 \textcolor{comment}{// TMX Class}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00016}00016 \textcolor{preprocessor}{\#include "{}TMXAbstractScoring.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00017}00017 \textcolor{preprocessor}{\#include "{}TMXInputParameters.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00019}00019 \textcolor{comment}{// GEANT4 libraries}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00020}00020 \textcolor{preprocessor}{\#include "{}Analysis.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00021}00021 \textcolor{preprocessor}{\#include "{}G4Box.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00022}00022 \textcolor{preprocessor}{\#include "{}G4PhysicalVolumeStore.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00023}00023 \textcolor{preprocessor}{\#include "{}G4PVPlacement.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00024}00024 \textcolor{preprocessor}{\#include "{}G4VPhysicalVolume.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00026}00026 \textcolor{comment}{// Standard libraries}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00027}00027 \textcolor{preprocessor}{\#include <algorithm>}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00028}00028 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00029}00029 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00030}00030 \textcolor{preprocessor}{\#include <regex>}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00031}00031 \textcolor{preprocessor}{\#include <future>}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00034}00034 TMXAbstractScoring::TMXAbstractScoring(\mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* parameter, std::string name)}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00035}00035 :   G4VUserParallelWorld(\textcolor{stringliteral}{"{}ParallelScoringWorld\_Score"{}}),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00036}00036     m\_p\{parameter\},}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00037}00037     m\_name(name),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00038}00038     m\_TH1D(nullptr),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00039}00039     m\_TH2D(nullptr),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00040}00040     m\_isRecursivePV(false),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00041}00041     m\_particleToScore(\textcolor{stringliteral}{"{}"{}}),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00042}00042     sScoringMesh(nullptr),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00043}00043     lScoringMesh(nullptr)}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00044}00044 \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00045}00045     m\_binning.clear();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00046}00046     m\_vectorPVtoScore.clear();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00047}00047     m\_vectorPVDaughtersToScore.clear();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00049}00049     Initialize();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00050}00050 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00052}00052 TMXAbstractScoring::\string~TMXAbstractScoring()}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00053}00053 \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00055}00055 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00057}00057 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00058}00058 \textcolor{comment}{// Initializer}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00060}00060 \textcolor{keywordtype}{void} TMXAbstractScoring::Initialize() \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00062}00062 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00064}00064 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00065}00065 \textcolor{comment}{// Builder}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00067}00067 \textcolor{keywordtype}{void} TMXAbstractScoring::Construct() \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00069}00069 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00071}00071 \textcolor{keywordtype}{void} TMXAbstractScoring::buildParallelScoringVolumes() \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00072}00072     \textcolor{comment}{// std::string name, unit, idx, ext;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00073}00073     \textcolor{comment}{// double min1, max1, min2, max2, min3, max3;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00074}00074     \textcolor{comment}{// int bin1, bin2, bin3;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00075}00075     \textcolor{comment}{// G4double DeltaX, DeltaY, DeltaZ;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00076}00076     \textcolor{comment}{// G4double Xpos, Ypos, Zpos;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00077}00077     \textcolor{comment}{// int i, j, k;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00078}00078     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00079}00079     \textcolor{comment}{// G4VPhysicalVolume* ghostWorld = GetWorld();}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00080}00080     \textcolor{comment}{// G4LogicalVolume* worldLogical = ghostWorld-\/>GetLogicalVolume();}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00081}00081     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00082}00082     \textcolor{comment}{// for (auto mapIndex = m\_mapPVHisto2DId.begin(); mapIndex != m\_mapPVHisto2DId.end(); mapIndex++) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00083}00083     \textcolor{comment}{//     idx = mapIndex-\/>first;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00084}00084     \textcolor{comment}{//     bin1 = (int)m\_mapPVHisto2DBinning[idx][0], min1 = m\_mapPVHisto2DBinning[idx][1], max1 = m\_mapPVHisto2DBinning[idx][2];}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00085}00085     \textcolor{comment}{//     bin2 = (int)m\_mapPVHisto2DBinning[idx][3], min2 = m\_mapPVHisto2DBinning[idx][4], max2 = m\_mapPVHisto2DBinning[idx][5];}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00086}00086     \textcolor{comment}{//     bin3 = (int)m\_mapPVHisto2DBinning[idx][6], min3 = m\_mapPVHisto2DBinning[idx][7], max3 = m\_mapPVHisto2DBinning[idx][8];}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00087}00087     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00088}00088     \textcolor{comment}{//     DeltaX = (max1-\/min1)/(double)bin1; // X pitch = X box length}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00089}00089     \textcolor{comment}{//     DeltaY = (max2-\/min2)/(double)bin2; // Y pitch = Y box length}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00090}00090     \textcolor{comment}{//     DeltaZ = (max3-\/min3)/(double)bin3; // Z pitch = Z box length}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00091}00091     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00092}00092     \textcolor{comment}{//     sScoringMesh = new G4Box("{}sScoringMesh\_"{}+idx, DeltaX/2., DeltaY/2., DeltaZ/2.);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00093}00093     \textcolor{comment}{//     lScoringMesh = new G4LogicalVolume(sScoringMesh, 0, "{}lScoringMesh\_"{}+idx, 0, 0, 0);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00094}00094     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00095}00095     \textcolor{comment}{//     for (i = 0; i < bin1; i++) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00096}00096     \textcolor{comment}{//         Xpos = (i + 0.5) * DeltaX + min1;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00097}00097     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00098}00098     \textcolor{comment}{//         for (j = 0; j < bin2; j++) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00099}00099     \textcolor{comment}{//             Ypos = (j + 0.5) * DeltaY + min2;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00100}00100     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00101}00101     \textcolor{comment}{//             for (k = 0; k < bin3; k++) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00102}00102     \textcolor{comment}{//                 Zpos = (k + 0.5) * DeltaZ + min3;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00103}00103     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00104}00104     \textcolor{comment}{//                 ext = idx+"{}\_"{}+std::to\_string(i)+"{}\_"{}+std::to\_string(j)+"{}\_"{}+std::to\_string(k);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00105}00105     \textcolor{comment}{//                 new G4PVPlacement(0,}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00106}00106     \textcolor{comment}{//                                   G4ThreeVector(Xpos, Ypos, Zpos),}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00107}00107     \textcolor{comment}{//                                   lScoringMesh,}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00108}00108     \textcolor{comment}{//                                   "{}pScoringMesh\_"{}+ext,}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00109}00109     \textcolor{comment}{//                                   worldLogical,}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00110}00110     \textcolor{comment}{//                                   false, i);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00111}00111     \textcolor{comment}{//             \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00112}00112     \textcolor{comment}{//         \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00113}00113     \textcolor{comment}{//     \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00114}00114     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00115}00115     \textcolor{comment}{//     m\_mapPVSensitiveLV[idx] = lScoringMesh;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00116}00116     \textcolor{comment}{// \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00117}00117 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00118}00118 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00119}00119 \textcolor{keywordtype}{void} TMXAbstractScoring::buildPVDaughters() \{ \textcolor{comment}{// New}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00120}00120     G4PhysicalVolumeStore* PVStore = G4PhysicalVolumeStore::GetInstance();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00121}00121     std::string PVScorer;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00122}00122     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < m\_vectorPVtoScore.size(); i++) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00123}00123         PVScorer = m\_vectorPVtoScore[i];}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00124}00124         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it\_PV = PVStore-\/>begin(); it\_PV != PVStore-\/>end(); it\_PV++) \{ \textcolor{comment}{// Test on all PV}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00125}00125             \textcolor{keywordflow}{if} (    PVScorer == (*it\_PV)-\/>GetName()  \textcolor{comment}{// Find a PV in the scoring written by the user}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00126}00126                 \&\&  m\_isRecursivePV \textcolor{comment}{// which is set to be recursive \&\& the PV must not have already been count in the loop (avoid duplication)}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00127}00127                 \textcolor{comment}{// \&\&  std::find(m\_mapPVDaughters[PVScorer].begin(), m\_mapPVDaughters[PVScorer].end(), (*it\_PV)-\/>GetName()) == m\_mapPVDaughters[PVScorer].end()}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00128}00128             ) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00129}00129                 std::vector<std::string> temp = getRecursivePV(*it\_PV);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00130}00130                 m\_vectorPVDaughtersToScore.insert(m\_vectorPVDaughtersToScore.end(), temp.begin(), temp.end());}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00131}00131             \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00132}00132         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00134}00134         \textcolor{comment}{// Erase excess PV}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00135}00135         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} j = 0; j < m\_vectorPVDaughtersToScore.size(); j++) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00136}00136             \textcolor{keywordflow}{if} (PVScorer.find(m\_vectorPVDaughtersToScore[j]) != std::string::npos) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00137}00137                 m\_vectorPVDaughtersToScore.erase(m\_vectorPVDaughtersToScore.begin() + j);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00138}00138                 j-\/-\/;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00139}00139             \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00140}00140         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00141}00141     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00142}00142 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00143}00143     \textcolor{comment}{// for (size\_t i = 0; i < m\_vectorPVtoScore.size(); i++) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00144}00144     \textcolor{comment}{//     G4cout << m\_vectorPVtoScore[i] << "{} "{};}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00145}00145     \textcolor{comment}{// \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00146}00146     \textcolor{comment}{// G4cout << "{}++ "{};}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00147}00147     \textcolor{comment}{// for (size\_t i = 0; i < m\_vectorPVDaughtersToScore.size(); i++) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00148}00148     \textcolor{comment}{//     G4cout << m\_vectorPVDaughtersToScore[i] << "{} "{};}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00149}00149     \textcolor{comment}{// \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00150}00150     \textcolor{comment}{// G4cout << G4endl;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00151}00151 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00152}00152 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00153}00153 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00154}00154 \textcolor{comment}{// Getter}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00156}00156 G4double TMXAbstractScoring::getKineticEnergy\_eV(\textcolor{keyword}{const} G4Step* theStep) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00157}00157     G4double energyK = theStep-\/>GetTrack()-\/>GetKineticEnergy()/eV;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00158}00158     \textcolor{keywordflow}{if} (energyK == 0) \{ \textcolor{comment}{// If kinetic energy is 0, get the kinetic energy of preStep}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00159}00159         energyK = theStep-\/>GetPreStepPoint()-\/>GetKineticEnergy()/eV;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00160}00160     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00161}00161     \textcolor{keywordflow}{return} energyK; \textcolor{comment}{// Return the energy in eV}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00162}00162 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00163}00163 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00164}00164 std::vector<std::string> TMXAbstractScoring::getRecursivePV(G4VPhysicalVolume* PV) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00165}00165     std::vector<std::string> daughterNames;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00166}00166     \textcolor{keywordflow}{if} (PV) \{ \textcolor{comment}{// if physical volume is not null}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00167}00167         G4LogicalVolume* LV = PV-\/>GetLogicalVolume();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00169}00169         \textcolor{keywordflow}{if} (LV) \{ \textcolor{comment}{// if logical volume is not null}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00170}00170             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{size\_t} i = 0; i < LV-\/>GetNoDaughters(); i++) \{ \textcolor{comment}{// For each Physical volume daugther of the Logical volume}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00171}00171                 G4VPhysicalVolume* Daughter\_PV = LV-\/>GetDaughter(i);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00172}00172                 daughterNames.push\_back(Daughter\_PV-\/>GetName());}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00173}00173                 std::vector<std::string> temp = getRecursivePV(Daughter\_PV);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00174}00174                 daughterNames.insert( daughterNames.end(), temp.begin(), temp.end());}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00175}00175             \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00176}00176         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00177}00177     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00178}00178     \textcolor{keywordflow}{return}(daughterNames);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00179}00179 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00180}00180 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00181}00181 TH1D* TMXAbstractScoring::GetTH1D()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00182}00182     \textcolor{keywordflow}{return}(m\_TH1D);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00183}00183 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00184}00184 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00185}00185 TH2D* TMXAbstractScoring::GetTH2D()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00186}00186     \textcolor{keywordflow}{return}(m\_TH2D);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00187}00187 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00189}00189 std::string TMXAbstractScoring::GetName()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00190}00190     std::string name = m\_name + \textcolor{stringliteral}{"{}\_"{}} + m\_particleToScore + \textcolor{stringliteral}{"{}\_"{}};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00191}00191     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < m\_vectorPVtoScore.size(); i++) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00192}00192         name += m\_vectorPVtoScore[i] + (i < m\_vectorPVtoScore.size() -\/ 1 ? \textcolor{stringliteral}{"{}+"{}} : \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00193}00193     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00194}00194     name += m\_isRecursivePV ? \textcolor{stringliteral}{"{}+"{}} : \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00195}00195     \textcolor{keywordflow}{return}(name);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00196}00196 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00197}00197 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00198}00198 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00199}00199 \textcolor{comment}{// Setter}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00200}00200 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00201}00201 \textcolor{keywordtype}{void} TMXAbstractScoring::SetParticleToScore(std::string particleToScore) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00202}00202     m\_particleToScore = particleToScore;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00203}00203 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00204}00204 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00205}00205 \textcolor{keywordtype}{void} TMXAbstractScoring::SetPVtoScore(std::string PVtoScore) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00206}00206     m\_isRecursivePV = (PVtoScore.back() == \textcolor{charliteral}{'+'}) ? \textcolor{keyword}{true} : \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00207}00207 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00208}00208     \textcolor{keywordtype}{char}* strPVtoScore = strcpy(\textcolor{keyword}{new} \textcolor{keywordtype}{char}[PVtoScore.length() + 1], PVtoScore.c\_str());}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00209}00209     \textcolor{comment}{// Returns first token}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00210}00210     \textcolor{keywordtype}{char} *token = strtok(strPVtoScore, \textcolor{stringliteral}{"{}+"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00211}00211 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00212}00212     \textcolor{keywordflow}{while} (token != NULL) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00213}00213         std::string str(token);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00214}00214         m\_vectorPVtoScore.push\_back(str);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00215}00215         token = strtok(NULL, \textcolor{stringliteral}{"{}+"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00216}00216     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00217}00217 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00218}00218     buildPVDaughters();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00219}00219 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00220}00220 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00221}00221 \textcolor{keywordtype}{void} TMXAbstractScoring::SetTH1D(\textcolor{keywordtype}{int} nbin, \textcolor{keywordtype}{double} min, \textcolor{keywordtype}{double} max, \textcolor{keywordtype}{bool} isSumw2, \textcolor{keywordtype}{bool} isLogX) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00222}00222     m\_binning = \{(double)nbin, min, max\};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00223}00223     m\_TH1D = \textcolor{keyword}{new} TH1D(GetName().c\_str(), GetName().c\_str(), nbin, min, max);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00224}00224     \textcolor{keywordflow}{if} (isLogX) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00225}00225         \textcolor{keywordtype}{double} Emin\_log = log10(min);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00226}00226         \textcolor{keywordtype}{double} Emax\_log = log10(max);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00227}00227         \textcolor{keywordtype}{double} Ebin\_width = (Emax\_log -\/ Emin\_log) /(\textcolor{keywordtype}{double}) nbin;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00228}00228         \textcolor{keywordtype}{double} Ebins[nbin + 1];}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00229}00229 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00230}00230         Ebins[0] = min;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00231}00231         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 1; i <= nbin; i++) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00232}00232             Ebins[i] = min + pow(10, Emin\_log + i * Ebin\_width);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00233}00233         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00234}00234         m\_TH1D-\/>SetBins(nbin, Ebins); \textcolor{comment}{// Logarithmic binning}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00235}00235     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00236}00236     m\_TH1D-\/>Sumw2(isSumw2);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00237}00237 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00238}00238 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00239}00239 \textcolor{keywordtype}{void} TMXAbstractScoring::SetTH2D(\textcolor{keywordtype}{int} nbinX, \textcolor{keywordtype}{double} minX, \textcolor{keywordtype}{double} maxX, \textcolor{keywordtype}{int} nbinY, \textcolor{keywordtype}{double} minY, \textcolor{keywordtype}{double} maxY, \textcolor{keywordtype}{bool} isSumw2) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00240}00240     m\_binning = \{(double)nbinX, minX, maxX, (\textcolor{keywordtype}{double})nbinY, minY, maxY\};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00241}00241     m\_TH2D = \textcolor{keyword}{new} TH2D(GetName().c\_str(), GetName().c\_str(), nbinX, minX, maxX, nbinY, minY, maxY);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00242}00242     m\_TH2D-\/>Sumw2(isSumw2);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00243}00243 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00244}00244 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00245}00245 \textcolor{keywordtype}{void} TMXAbstractScoring::SetTH2D(std::vector<double> binning, \textcolor{keywordtype}{bool} isSumw2) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00246}00246     SetTH2D(binning[0], binning[1], binning[2], binning[3], binning[4], binning[5], isSumw2);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00247}00247 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00248}00248 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00249}00249 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00250}00250 \textcolor{comment}{// Adder}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00251}00251 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00252}00252 \textcolor{keywordtype}{void} TMXAbstractScoring::AddHistograms(\mbox{\hyperlink{class_t_m_x_abstract_scoring}{TMXAbstractScoring}}* AbstractScoring) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00253}00253     \textcolor{comment}{// TH1}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00254}00254     \textcolor{keywordflow}{if} (m\_TH1D) m\_TH1D-\/>Add(AbstractScoring-\/>GetTH1D());}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00255}00255 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00256}00256     \textcolor{comment}{// TH2}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00257}00257     \textcolor{keywordflow}{if} (m\_TH2D) m\_TH2D-\/>Add(AbstractScoring-\/>GetTH2D());}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00258}00258 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00259}00259 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00260}00260 \textcolor{keywordtype}{void} TMXAbstractScoring::AddToRootArray(TObjArray* \textcolor{comment}{/*histogramRootList*/})\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00261}00261     \textcolor{comment}{// if (m\_mapTH1D.size() != 0) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00262}00262     \textcolor{comment}{//     for (auto mapIndex = m\_mapTH1D.begin(); mapIndex != m\_mapTH1D.end(); mapIndex++) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00263}00263     \textcolor{comment}{//         histogramRootList-\/>Add(mapIndex-\/>second);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00264}00264     \textcolor{comment}{//     \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00265}00265     \textcolor{comment}{// \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00266}00266     \textcolor{comment}{// if (m\_mapTH2D.size() != 0) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00267}00267     \textcolor{comment}{//     for (auto mapIndex = m\_mapTH2D.begin(); mapIndex != m\_mapTH2D.end(); mapIndex++) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00268}00268     \textcolor{comment}{//         histogramRootList-\/>Add(mapIndex-\/>second);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00269}00269     \textcolor{comment}{//     \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00270}00270     \textcolor{comment}{// \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00271}00271 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00272}00272 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00273}00273 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00274}00274 \textcolor{comment}{// Boolean}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00275}00275 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00276}00276 \textcolor{keywordtype}{bool} TMXAbstractScoring::IsInParticleAndPVconditions(\textcolor{keyword}{const} G4Step* theStep)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00277}00277     \textcolor{comment}{// General test by comparing if the step contains the same particle as}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00278}00278     \textcolor{comment}{// required by the user AND if the step is in the PV or one of his daughter}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00279}00279     \textcolor{comment}{// PV required by the user}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00280}00280     \textcolor{keywordflow}{if} (theStep) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00281}00281         std::string particleName = theStep-\/>GetTrack()-\/>GetParticleDefinition()-\/>GetParticleName();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00282}00282         \textcolor{keywordflow}{if} (m\_particleToScore == particleName || m\_particleToScore == \textcolor{stringliteral}{"{}"{}}) \{ \textcolor{comment}{// Test of the particle OR every particle}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00283}00283             \textcolor{keywordflow}{return}(IsInPVconditions(theStep));}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00284}00284         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00285}00285     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00286}00286     \textcolor{keywordflow}{return}(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00287}00287 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00288}00288 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00289}00289 \textcolor{keywordtype}{bool} TMXAbstractScoring::IsInPVconditions(\textcolor{keyword}{const} G4Step* theStep)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00290}00290     \textcolor{keywordflow}{if} (m\_vectorPVtoScore.size() == 0) \{ \textcolor{comment}{// Test if PV is global}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00291}00291         \textcolor{keywordflow}{return}(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00292}00292     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00293}00293     G4String PVname = theStep-\/>GetPreStepPoint()-\/>GetPhysicalVolume()-\/>GetName();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00294}00294     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < m\_vectorPVtoScore.size(); i++) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00295}00295         \textcolor{keywordflow}{if} (m\_vectorPVtoScore[i] == PVname) \{ \textcolor{comment}{// Test if current PV is a scoring PV}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00296}00296             \textcolor{keywordflow}{return}(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00297}00297         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00298}00298     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00299}00299     \textcolor{keywordflow}{if} (m\_isRecursivePV) \{ \textcolor{comment}{// Test for recursive scoring in daughter PV}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00300}00300         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < m\_vectorPVDaughtersToScore.size(); i++) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00301}00301             \textcolor{keywordflow}{if} (m\_vectorPVDaughtersToScore[i] == PVname) \{ \textcolor{comment}{// Test if current PV is a daughter of scoring PV}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00302}00302                 \textcolor{keywordflow}{return}(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00303}00303             \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00304}00304         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00305}00305     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00306}00306     \textcolor{keywordflow}{return}(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00307}00307 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00308}00308 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00309}00309 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00310}00310 \textcolor{comment}{// Utilitaries}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00311}00311 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00312}00312 \textcolor{comment}{/*std::vector<std::string> TMXAbstractScoring::split(std::string string, std::string delimiter) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00313}00313 \textcolor{comment}{    // Bug: produce a segmentation fault in unexpected places}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00314}00314 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00315}00315 \textcolor{comment}{    // Based on https://stackoverflow.com/questions/14265581/parse-\/split-\/a-\/string-\/in-\/c-\/using-\/string-\/delimiter-\/standard-\/c}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00316}00316 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00317}00317 \textcolor{comment}{    std::vector<std::string> vectorString;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00318}00318 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00319}00319 \textcolor{comment}{    size\_t pos = 0;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00320}00320 \textcolor{comment}{    std::string token;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00321}00321 \textcolor{comment}{    while ((pos =string.find(delimiter)) != std::string::npos) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00322}00322 \textcolor{comment}{        token = string.substr(0, pos);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00323}00323 \textcolor{comment}{        vectorString.push\_back(token);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00324}00324 \textcolor{comment}{        string.erase(0, pos + delimiter.length());}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00325}00325 \textcolor{comment}{    \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00326}00326 \textcolor{comment}{    // vectorString.push\_back(string);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00327}00327 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00328}00328 \textcolor{comment}{    // int start = 0;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00329}00329 \textcolor{comment}{    // int end = string.find(delimiter);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00330}00330 \textcolor{comment}{    // while (end != -\/1) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00331}00331 \textcolor{comment}{    //     vectorString.push\_back(string.substr(start, end -\/ start));}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00332}00332 \textcolor{comment}{    //     G4cout << string.substr(start, end -\/ start) << G4endl;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00333}00333 \textcolor{comment}{    //     start = end + delimiter.size();}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00334}00334 \textcolor{comment}{    //     end = string.find(delimiter, start);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00335}00335 \textcolor{comment}{    // \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00336}00336 \textcolor{comment}{    // vectorString.push\_back(string.substr(start, end -\/ start));}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00337}00337 \textcolor{comment}{    // G4cout << string.substr(start, end -\/ start);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00338}00338 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00339}00339 \textcolor{comment}{    // std::string token;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00340}00340 \textcolor{comment}{    // std::istringstream tokenStream(string);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00341}00341 \textcolor{comment}{    // while (std::getline(tokenStream, token, delimiter)) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00342}00342 \textcolor{comment}{    //     vectorString.push\_back(token);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00343}00343 \textcolor{comment}{    // \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00344}00344 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00345}00345 \textcolor{comment}{    // std::stringstream ss(string);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00346}00346 \textcolor{comment}{    //}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00347}00347 \textcolor{comment}{    // for (std::string i; ss >> i;) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00348}00348 \textcolor{comment}{    //     vectorString.push\_back(i);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00349}00349 \textcolor{comment}{    //     if (ss.peek() == delimiter)}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00350}00350 \textcolor{comment}{    //         ss.ignore();}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00351}00351 \textcolor{comment}{    // \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00352}00352 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00353}00353 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00354}00354 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00355}00355 \textcolor{comment}{    // std::regex rgx("{}\(\backslash\)\(\backslash\)"{}+delimiter+"{}+"{});}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00356}00356 \textcolor{comment}{    // std::sregex\_token\_iterator iter(string.begin(),}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00357}00357 \textcolor{comment}{    //     string.end(),}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00358}00358 \textcolor{comment}{    //     rgx,}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00359}00359 \textcolor{comment}{    //     -\/1);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00360}00360 \textcolor{comment}{    // std::sregex\_token\_iterator end;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00361}00361 \textcolor{comment}{    // for ( ; iter != end; ++iter) \{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00362}00362 \textcolor{comment}{    //     vectorString.push\_back(*iter);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00363}00363 \textcolor{comment}{    //     std::cout << *iter << '\(\backslash\)n';}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00364}00364 \textcolor{comment}{    // \}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00365}00365 \textcolor{comment}{    return(vectorString);}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00366}00366 \textcolor{comment}{\}*/}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00367}00367 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00368}00368 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00369}00369 \textcolor{comment}{// Writer}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00370}00370 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00371}00371 \textcolor{keywordtype}{void} TMXAbstractScoring::Write() \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00372}00372     \textcolor{keywordflow}{if} (m\_TH1D) m\_TH1D-\/>Write();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00373}00373     \textcolor{keywordflow}{if} (m\_TH2D) m\_TH2D-\/>Write();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_8cc_source_l00374}00374 \}}
+
+\end{DoxyCode}

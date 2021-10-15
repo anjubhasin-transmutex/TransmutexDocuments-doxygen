@@ -1,0 +1,826 @@
+\hypertarget{_benchmark-3_2src_2_run_action_8cc_source}{}\doxysection{Run\+Action.\+cc}
+\label{_benchmark-3_2src_2_run_action_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/3/src/RunAction.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/3/src/RunAction.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00005}00005 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00006}00006 \textcolor{comment}{// RunAction}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00007}00007 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00008}00008 \textcolor{comment}{// Donovan Maire, Transmutex, 18/10/2019}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00009}00009 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00011}00011 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00013}00013 \textcolor{comment}{// Class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00014}00014 \textcolor{preprocessor}{\#include "{}Analysis.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00015}00015 \textcolor{preprocessor}{\#include "{}RunAction.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00016}00016 \textcolor{preprocessor}{\#include "{}Run.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00017}00017 \textcolor{preprocessor}{\#include "{}PrimaryGeneratorAction.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00018}00018 \textcolor{preprocessor}{\#include "{}Burnup.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00019}00019 \textcolor{preprocessor}{\#include "{}TMXkeff.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00020}00020 \textcolor{preprocessor}{\#include "{}TMXStopTheRun.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00022}00022 \textcolor{comment}{// GEANT4 libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00023}00023 \textcolor{preprocessor}{\#ifdef G4MULTITHREADED}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00024}00024 \textcolor{preprocessor}{    \#include "{}G4MTRunManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00025}00025 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00026}00026 \textcolor{preprocessor}{    \#include "{}G4RunManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00027}00027 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00028}00028 \textcolor{preprocessor}{\#include "{}G4StatDouble.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00029}00029 \textcolor{preprocessor}{\#include "{}G4Run.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00030}00030 \textcolor{preprocessor}{\#include "{}G4UImanager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00031}00031 \textcolor{preprocessor}{\#include "{}G4VVisManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00032}00032 \textcolor{preprocessor}{\#include "{}G4SystemOfUnits.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00033}00033 \textcolor{preprocessor}{\#include "{}G4PhysicalConstants.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00035}00035 \textcolor{comment}{//ABLA de-\/excitation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00036}00036 \textcolor{preprocessor}{\#include "{}G4HadronicInteraction.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00037}00037 \textcolor{preprocessor}{\#include "{}G4HadronicInteractionRegistry.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00038}00038 \textcolor{preprocessor}{\#include "{}G4INCLXXInterface.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00039}00039 \textcolor{preprocessor}{\#include "{}G4INCLXXInterfaceStore.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00040}00040 \textcolor{preprocessor}{\#include "{}G4AblaInterface.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00042}00042 \textcolor{comment}{// C++ libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00043}00043 \textcolor{preprocessor}{\#include <chrono>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00044}00044 \textcolor{preprocessor}{\#include <ctime>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00046}00046 \textcolor{keyword}{using namespace }CLHEP;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00047}00047 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00049}00049 \textcolor{preprocessor}{\#include "{}G4AutoLock.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00050}00050 \textcolor{comment}{// namespace \{ G4Mutex myHEPPrimGenMutex = G4MUTEX\_INITIALIZER; \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00054}00054 RunAction::RunAction(\mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}\& parameter, \mbox{\hyperlink{class_t_m_x_merge_threads_results}{TMXMergeThreadsResults}} *mergedResultsinTextFile)}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00055}00055   : G4UserRunAction()}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00056}00056 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00057}00057 \textcolor{comment}{// set printing event number per each event}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00058}00058 \textcolor{comment}{//   G4RunManager::GetRunManager()-\/>SetPrintProgress(1000);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00060}00060     m\_p = \&parameter;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00061}00061     fRunNumber=0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00062}00062     fmergedResultsinTextFile = mergedResultsinTextFile;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00063}00063     BuildHistogramsAndNtuple();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00064}00064     m\_accNumOfEvent = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00065}00065     fStepNumber     = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00066}00066     m\_timePassed    = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00067}00067 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00071}00071 RunAction::\string~RunAction()}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00072}00072 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00073}00073     fmergedResultsinTextFile = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00074}00074 \textcolor{comment}{//     delete G4AnalysisManager::Instance();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00075}00075 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00079}00079 G4Run* RunAction::GenerateRun()}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00081}00081 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00082}00082     fRun = \textcolor{keyword}{new} \mbox{\hyperlink{class_run}{Run}}(fRunNumber, m\_p-\/>TypeOfMesh);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00083}00083     \textcolor{keywordflow}{return} fRun;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00084}00084 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00088}00088 \textcolor{keywordtype}{void} RunAction::BeginOfRunAction(\textcolor{keyword}{const} G4Run* aRun) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00089}00089 \textcolor{comment}{// std::cout << "{}Begin of BeginRunAction"{} << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00091}00091     \textcolor{keywordflow}{if} (m\_p-\/>isRandomSeed) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00092}00092         G4cout << \textcolor{stringliteral}{"{}*** AUTOSEED ON ***"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00093}00093         \textcolor{keywordtype}{long} seeds[2];}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00094}00094         time\_t systime = time(NULL);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00095}00095         \textcolor{keywordflow}{if}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* env\_p = std::getenv(\textcolor{stringliteral}{"{}POD\_ID"{}}))}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00096}00096             systime = crc32(0, (\textcolor{keyword}{const} Bytef*)\&env\_p, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{long}));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00097}00097         seeds[0] = (long) systime;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00098}00098         seeds[1] = (long) (systime*G4UniformRand());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00099}00099         G4Random::setTheSeeds(seeds);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00100}00100         G4Random::showEngineStatus();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00101}00101     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00103}00103   Initialize(fRunNumber, *m\_p, fmergedResultsinTextFile);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00105}00105   \textcolor{comment}{// Register ABLA de-\/excitation model}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00106}00106   \textcolor{keywordflow}{if} (m\_p-\/>isAbla) \{ UseABLAmodel(); \} \textcolor{comment}{// POSSIBLE ONLY WITH INCL++ in 03/2021. To implement other physics lists if needed !}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00108}00108   \textcolor{comment}{// Timer start}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00109}00109   fTimer = clock();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00111}00111   \textcolor{comment}{// Print run number and time}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00112}00112   PrintRunStart(aRun);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00114}00114   \textcolor{comment}{// Get analysis manager}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00115}00115   \textcolor{keyword}{auto} analysisManager = G4AnalysisManager::Instance();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00117}00117   \textcolor{comment}{// Open an output file}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00118}00118   analysisManager-\/>OpenFile( std::to\_string(fRunNumber) + \textcolor{stringliteral}{"{}\_"{}} + m\_p-\/>str\_ROOTFileName);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00120}00120 \textcolor{preprocessor}{\#ifdef G4VIS\_USE}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00121}00121   G4UImanager* UI = G4UImanager::GetUIpointer();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00123}00123   G4VVisManager* pVVisManager = G4VVisManager::GetConcreteInstance();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00124}00124 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00125}00125   \textcolor{keywordflow}{if}(pVVisManager)}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00126}00126   \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00127}00127     UI-\/>ApplyCommand(\textcolor{stringliteral}{"{}/vis/scene/notifyHandlers"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00128}00128   \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00129}00129 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00130}00130 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00131}00131     \textcolor{comment}{// Initialization of G4Run with sensitive detector in a mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00132}00132     \mbox{\hyperlink{class_run}{Run}}* run = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{class_run}{Run}}*\textcolor{keyword}{>}(G4RunManager::GetRunManager()-\/>GetNonConstCurrentRun());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00133}00133     run-\/>Initialize(fRunNumber, m\_p-\/>TypeOfMesh);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00134}00134 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00135}00135 \textcolor{comment}{// std::cout << "{}End of BeginRunAction"{} << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00136}00136 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00139}00139 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00140}00140 \textcolor{keywordtype}{void} RunAction::EndOfRunAction( \textcolor{keyword}{const} G4Run* run ) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00141}00141   \textcolor{comment}{// std::cout << "{}Begin of EndRunAction"{} << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00142}00142 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00143}00143   \textcolor{keywordtype}{int} Nprotons = 1;   \textcolor{comment}{// The graphs are scaled in Graphes\_ROOT.C}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00144}00144 \textcolor{comment}{//   In case the beam energy vary between two runs}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00145}00145 \textcolor{comment}{//   The following line make the code to bug}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00146}00146 \textcolor{comment}{//   double Ebeam = static\_cast<const PrimaryGeneratorAction*> (G4RunManager::GetRunManager()-\/>GetUserPrimaryGeneratorAction())-\/>GetBeamEnergy()/eV; // eV}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00147}00147 \textcolor{comment}{//   double dbl\_Ibeam = 1.E6 / Ebeam /(double) Nprotons;  // beam current at 1 MW\_beam}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00148}00148   \textcolor{keywordtype}{double} dbl\_Ibeam = 1; \textcolor{comment}{//.E6 / (m\_p-\/>BeamEnergy/eV) /(double) Nprotons;  // beam current at 1 MW\_beam}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00149}00149   \textcolor{keywordflow}{if}(m\_p-\/>int\_Option == 20) \{ dbl\_Ibeam = 1; \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00150}00150 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00151}00151   \textcolor{comment}{// Read sensitive detector mesh and fill ntuples/histograms}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00152}00152 \textcolor{comment}{//   if (m\_p-\/>int\_Option != 4) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00153}00153     \textcolor{keywordflow}{if}(m\_p-\/>TypeOfMesh == \textcolor{stringliteral}{"{}cartesian"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00154}00154         ReadCartesianMesh(run, Nprotons, dbl\_Ibeam);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00155}00155     \}   \textcolor{comment}{// if r binning is zero -\/> cartesian mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00156}00156     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(m\_p-\/>TypeOfMesh == \textcolor{stringliteral}{"{}hexagonal"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00157}00157         ReadHexagonalMesh(run, Nprotons, dbl\_Ibeam);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00158}00158     \} \textcolor{comment}{// if r binning non zero -\/> polar mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00159}00159     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(m\_p-\/>TypeOfMesh == \textcolor{stringliteral}{"{}polar"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00160}00160         ReadPolarMesh(run, Nprotons, dbl\_Ibeam);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00161}00161     \} \textcolor{comment}{// if r binning non zero -\/> polar mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00162}00162 \textcolor{comment}{//   \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00163}00163 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00164}00164   \textcolor{keywordflow}{if}(IsMaster()) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00165}00165     G4int \textcolor{keywordtype}{id} = run-\/>GetRunID();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00166}00166     G4cout << \textcolor{stringliteral}{"{}RunAction: End of run ("{}} << \textcolor{keywordtype}{id} << \textcolor{stringliteral}{"{}) actions are started"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00167}00167     \textcolor{keywordflow}{if}(m\_p-\/>int\_Option == 20 )}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00168}00168     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00169}00169         \mbox{\hyperlink{class_t_m_xkeff_ae1e9f4676a54a9533cfe95f2d3b38805}{TMXkeff::getInstance}}()-\/>\mbox{\hyperlink{class_t_m_xkeff_a1056716dc652be6766b69149741b01c6}{computeKeffCycle}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00170}00170 \textcolor{comment}{//    Merge(m\_SourceTerm, fRun-\/>getSourceTerm());}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00171}00171         fRun-\/>\mbox{\hyperlink{class_run_ab3b40b2173bb96cf1bbda5067711ed81}{EndOfRun}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00172}00172         \textcolor{keywordflow}{if}(\mbox{\hyperlink{class_t_m_xkeff_ae1e9f4676a54a9533cfe95f2d3b38805}{TMXkeff::getInstance}}()-\/>getCurrentCycle() -\/ 1 > \mbox{\hyperlink{class_t_m_xkeff_ae1e9f4676a54a9533cfe95f2d3b38805}{TMXkeff::getInstance}}()-\/>getNbCycleToDiscard())}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00173}00173         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00174}00174             m\_accNumOfEvent += fRun-\/>GetNumberOfEvent();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00175}00175             Merge(m\_SourceTerm, fRun-\/>\mbox{\hyperlink{class_run_a998915d315ef811eaee674992e5664d9}{getSourceTerm}}());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00176}00176         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00177}00177     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00178}00178     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00179}00179     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00180}00180         m\_accNumOfEvent = fRun-\/>GetNumberOfEvent();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00181}00181         m\_SourceTerm = fRun-\/>\mbox{\hyperlink{class_run_a998915d315ef811eaee674992e5664d9}{getSourceTerm}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00182}00182     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00183}00183   \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00184}00184 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00186}00186   \textcolor{comment}{// Writing Neutronic quantities (ksrc, keff, G0, etc.) in a text file}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00187}00187   \textcolor{keywordflow}{if}(IsMaster())}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00188}00188     writeNeutronicCalcResultsInTextFile();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00190}00190   \textcolor{comment}{// Print time between the start and the end of runAction}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00191}00191   PrintSimulationTime();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00192}00192 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00193}00193   \textcolor{comment}{// Print scoring values}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00194}00194   \textcolor{comment}{// m\_scoringVolumeFluenceSpectrum-\/>printAverage();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00195}00195 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00196}00196   \textcolor{comment}{// Save ntuples/histograms}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00197}00197   \textcolor{keyword}{auto} analysisManager = G4AnalysisManager::Instance();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00198}00198   analysisManager-\/>Write();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00199}00199   analysisManager-\/>CloseFile();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00200}00200 \textcolor{preprocessor}{\#ifdef G4VIS\_USE}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00201}00201   \textcolor{keywordflow}{if} (G4VVisManager::GetConcreteInstance())}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00202}00202     G4UImanager::GetUIpointer()-\/>ApplyCommand(\textcolor{stringliteral}{"{}/vis/viewer/update"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00203}00203 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00204}00204 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00205}00205   \textcolor{comment}{// Increase run number for the next run}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00206}00206   ++fRunNumber;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00207}00207 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00208}00208   \textcolor{keywordflow}{if}(IsMaster())}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00209}00209   \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00210}00210       \textcolor{keywordflow}{if}(m\_p-\/>int\_Option == 20 )}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00211}00211       \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00212}00212           \textcolor{keywordflow}{if}(\mbox{\hyperlink{class_t_m_xkeff_ae1e9f4676a54a9533cfe95f2d3b38805}{TMXkeff::getInstance}}()-\/>getCurrentCycle() -\/ 1 == \mbox{\hyperlink{class_t_m_xkeff_ae1e9f4676a54a9533cfe95f2d3b38805}{TMXkeff::getInstance}}()-\/>getNbTotCycle())}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00213}00213           \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00214}00214               ++fStepNumber;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00215}00215               G4cout << \textcolor{stringliteral}{"{}\(\backslash\)n List of generated particles:"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00216}00216               \textcolor{keywordflow}{for} ( \textcolor{keyword}{const} \textcolor{keyword}{auto}\& matData : m\_SourceTerm )}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00217}00217               \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00218}00218                   G4cout << std::setw(20)<< matData.first-\/>GetName()<<\textcolor{stringliteral}{"{}     "{}} << std::setw(15)<< \textcolor{stringliteral}{"{}Reac.Rate(/p)"{}}<<std::setw(15)<< \textcolor{stringliteral}{"{}Reac.Count"{}}<<G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00219}00219                   \textcolor{keywordflow}{for}(\textcolor{keyword}{const} \textcolor{keyword}{auto}\& partData : matData.second)}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00220}00220                   \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00221}00221                       G4cout << \textcolor{stringliteral}{"{}   "{}} << std::setw(20) << partData.first << \textcolor{stringliteral}{"{}: "{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00222}00222                              << std::setw(15) << (float)partData.second / (\textcolor{keywordtype}{float})m\_accNumOfEvent}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00223}00223                              << std::setw(15) << (float)partData.second << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00224}00224                   \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00225}00225                   G4cout<<G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00226}00226               \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00227}00227               \textcolor{keywordtype}{double} injectedEnergy = (\mbox{\hyperlink{class_t_m_xkeff_ae1e9f4676a54a9533cfe95f2d3b38805}{TMXkeff::getInstance}}()-\/>getEnergyPerFission() / MeV) / \mbox{\hyperlink{class_t_m_xkeff_ae1e9f4676a54a9533cfe95f2d3b38805}{TMXkeff::getInstance}}()-\/>\mbox{\hyperlink{class_t_m_xkeff_a25ce9e029824552f1deedbc80bf3d10e}{getNu}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00228}00228               \mbox{\hyperlink{class_burnup}{Burnup}} gc(m\_SourceTerm, m\_p, fStepNumber, m\_timePassed, injectedEnergy);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00229}00229               m\_timePassed = gc.getTimePassed();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00230}00230           \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00231}00231       \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00232}00232       \textcolor{keywordflow}{if}(m\_p-\/>int\_Option != 20 \&\& m\_p-\/>TimeOfRun != 0)}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00233}00233       \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00234}00234           ++fStepNumber;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00235}00235           G4cout << \textcolor{stringliteral}{"{}\(\backslash\)n List of generated particles:"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00236}00236           \textcolor{keywordflow}{for} ( \textcolor{keyword}{const} \textcolor{keyword}{auto}\& matData : m\_SourceTerm )}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00237}00237           \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00238}00238               G4cout << std::setw(20)<< matData.first-\/>GetName()<<\textcolor{stringliteral}{"{}     "{}} << std::setw(15)<< \textcolor{stringliteral}{"{}Reac.Rate(/p)"{}}<<std::setw(15)<< \textcolor{stringliteral}{"{}Reac.Count"{}}<<G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00239}00239               \textcolor{keywordflow}{for}(\textcolor{keyword}{const} \textcolor{keyword}{auto}\& partData : matData.second)}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00240}00240               \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00241}00241                   G4cout << \textcolor{stringliteral}{"{}   "{}} << std::setw(20) << partData.first << \textcolor{stringliteral}{"{}: "{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00242}00242                          << std::setw(15) << (float)partData.second / (\textcolor{keywordtype}{float})m\_accNumOfEvent}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00243}00243                          << std::setw(15) << (float)partData.second << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00244}00244               \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00245}00245               G4cout<<G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00246}00246           \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00247}00247           \mbox{\hyperlink{class_burnup}{Burnup}} gc(m\_SourceTerm, m\_p, fStepNumber, m\_timePassed);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00248}00248           m\_timePassed = gc.getTimePassed();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00249}00249       \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00250}00250       m\_accNumOfEvent = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00251}00251       m\_SourceTerm.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00252}00252   \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00253}00253 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00254}00254 \textcolor{comment}{  if (IsMaster() \&\& m\_p-\/>TimeOfRun != 0 \&\& TMXkeff::getInstance()-\/>getCurrentCycle() -\/ 1 == TMXkeff::getInstance()-\/>getNbTotCycle())}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00255}00255 \textcolor{comment}{  \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00256}00256 \textcolor{comment}{      ++fStepNumber;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00257}00257 \textcolor{comment}{      G4cout << "{}\(\backslash\)n List of generated particles:"{} << G4endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00258}00258 \textcolor{comment}{      for ( const auto\& matData : m\_SourceTerm )}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00259}00259 \textcolor{comment}{      \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00260}00260 \textcolor{comment}{          G4cout << std::setw(20)<< matData.first-\/>GetName()<<"{}     "{} << std::setw(15)<< "{}Reac.Rate(/p)"{}<<std::setw(15)<< "{}Reac.Count"{}<<G4endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00261}00261 \textcolor{comment}{          for(const auto\& partData : matData.second)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00262}00262 \textcolor{comment}{          \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00263}00263 \textcolor{comment}{              G4cout << "{}   "{} << std::setw(20) << partData.first << "{}: "{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00264}00264 \textcolor{comment}{                     << std::setw(15) << (float)partData.second / (float)m\_accNumOfEvent}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00265}00265 \textcolor{comment}{                     << std::setw(15) << (float)partData.second << G4endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00266}00266 \textcolor{comment}{          \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00267}00267 \textcolor{comment}{          G4cout<<G4endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00268}00268 \textcolor{comment}{      \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00269}00269 \textcolor{comment}{      if(m\_p-\/>int\_Option == 20 )}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00270}00270 \textcolor{comment}{      \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00271}00271 \textcolor{comment}{          double injectedEnergy = (TMXkeff::getInstance()-\/>getEnergyPerFission() / MeV) / TMXkeff::getInstance()-\/>getNu();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00272}00272 \textcolor{comment}{          Burnup gc(m\_SourceTerm, m\_p, fStepNumber, m\_timePassed, injectedEnergy);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00273}00273 \textcolor{comment}{          m\_timePassed = gc.getTimePassed();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00274}00274 \textcolor{comment}{      \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00275}00275 \textcolor{comment}{      else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00276}00276 \textcolor{comment}{      \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00277}00277 \textcolor{comment}{          Burnup gc(m\_SourceTerm, m\_p, fStepNumber, m\_timePassed);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00278}00278 \textcolor{comment}{          m\_timePassed = gc.getTimePassed();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00279}00279 \textcolor{comment}{      \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00280}00280 \textcolor{comment}{      m\_accNumOfEvent = 0;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00281}00281 \textcolor{comment}{      m\_SourceTerm.clear();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00282}00282 \textcolor{comment}{  \}*/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00283}00283   \textcolor{comment}{// std::cout << "{}End of RunAction"{} << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00284}00284 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00285}00285 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00287}00287 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00288}00288 \textcolor{keywordtype}{void} RunAction::Merge(std::map<\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}*, std::map<G4int,G4int>>\& destinationMap,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00289}00289                 \textcolor{keyword}{const} std::map<\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}*, std::map<G4int,G4int>>\& sourceMap)\textcolor{keyword}{ const}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00290}00290 \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00291}00291     \textcolor{keywordflow}{for} ( \textcolor{keyword}{const} \textcolor{keyword}{auto}\& matData : sourceMap )}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00292}00292     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00293}00293         \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* mat       = matData.first;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00294}00294         \textcolor{keywordflow}{if} ( destinationMap.find(mat) == destinationMap.end())}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00295}00295             destinationMap[mat] = matData.second;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00296}00296         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00297}00297         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00298}00298             \textcolor{keywordflow}{for} ( \textcolor{keyword}{const} \textcolor{keyword}{auto}\& partData : sourceMap.at(mat) )}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00299}00299                 destinationMap[mat][partData.first] += partData.second;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00300}00300         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00301}00301     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00302}00302 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00303}00303 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00304}00304 \textcolor{keywordtype}{void} RunAction::Initialize(G4int RunNumber, \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}\& parameter, \mbox{\hyperlink{class_t_m_x_merge_threads_results}{TMXMergeThreadsResults}} *mergedResultsinTextFile) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00305}00305   fRunNumber = RunNumber;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00306}00306   m\_p = \&parameter;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00307}00307 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00308}00308 \textcolor{preprocessor}{  \#ifdef G4MULTITHREADED}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00309}00309     fnThreads = G4MTRunManager::GetMasterRunManager()-\/>GetNumberOfThreads();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00310}00310 \textcolor{preprocessor}{  \#else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00311}00311     fnThreads = 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00312}00312 \textcolor{preprocessor}{  \#endif}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00313}00313 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00314}00314   fmergedResultsinTextFile = mergedResultsinTextFile;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00315}00315   \textcolor{keywordflow}{if}(IsMaster())}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00316}00316     fmergedResultsinTextFile-\/>Initialize(fnThreads);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00317}00317 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00318}00318 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00319}00319   \mbox{\hyperlink{class_t_m_x_stop_the_run}{TMXStopTheRun}} *stopRun = TMXStopTheRun::getInstance();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00320}00320   stopRun-\/>Initialize(\&parameter);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00321}00321 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00322}00322 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00323}00323 \textcolor{keywordtype}{void} RunAction::BuildHistogramsAndNtuple() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00324}00324   \textcolor{comment}{// Instanciate the analysis manager}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00325}00325   \textcolor{comment}{// The choice of analysis technology is done via selection of a namespace}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00326}00326   \textcolor{comment}{// in Analysis.hh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00327}00327     \textcolor{keywordflow}{if}(IsMaster())}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00328}00328     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00329}00329   \textcolor{keyword}{auto} analysisManager = G4AnalysisManager::Instance();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00330}00330 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00331}00331   \textcolor{comment}{// Create directories}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00332}00332   analysisManager-\/>SetVerboseLevel(1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00333}00333   analysisManager-\/>SetNtupleMerging(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00334}00334     \textcolor{comment}{// Note: merging ntuples is available only with Root output}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00335}00335 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00336}00336   \textcolor{comment}{// Book ntuples}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00337}00337 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00338}00338   \textcolor{comment}{// Creating first ntuple}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00339}00339   \textcolor{comment}{// Filled in SteppingAction}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00340}00340   analysisManager-\/>CreateNtuple(\textcolor{stringliteral}{"{}EverythingN"{}}, \textcolor{stringliteral}{"{}Every info on N"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00341}00341   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}NPosX"{}});         \textcolor{comment}{// ID= 0 X position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00342}00342   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}NPosY"{}});         \textcolor{comment}{// ID= 1 Y position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00343}00343   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}NPosZ"{}});         \textcolor{comment}{// ID= 2 Z position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00344}00344   analysisManager-\/>CreateNtupleIColumn(\textcolor{stringliteral}{"{}reasonID"{}});      \textcolor{comment}{// ID= 3 Flag for interactions}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00345}00345   analysisManager-\/>CreateNtupleIColumn(    \textcolor{stringliteral}{"{}EveryVol"{}});  \textcolor{comment}{// ID= 4 Number of neutrons entering  in the volume of interest}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00346}00346   analysisManager-\/>CreateNtupleIColumn(  \textcolor{stringliteral}{"{}FissionVol"{}});  \textcolor{comment}{// ID= 5 Number of neutrons inducing fission into the volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00347}00347   analysisManager-\/>CreateNtupleIColumn(  \textcolor{stringliteral}{"{}CaptureVol"{}});  \textcolor{comment}{// ID= 6 Number of neutrons captured         into the volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00348}00348   analysisManager-\/>CreateNtupleIColumn(\textcolor{stringliteral}{"{}InelasticVol"{}});  \textcolor{comment}{// ID= 7 Number of neutrons inducing inelastic scattering into the volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00349}00349   analysisManager-\/>CreateNtupleIColumn(  \textcolor{stringliteral}{"{}nnPrimeVol"{}});  \textcolor{comment}{// ID= 8 Number of neutrons inducing inelastic scattering into the volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00350}00350   analysisManager-\/>CreateNtupleIColumn(      \textcolor{stringliteral}{"{}nXnVol"{}});  \textcolor{comment}{// ID= 9 Number of neutrons inducing inelastic scattering into the volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00351}00351   analysisManager-\/>CreateNtupleIColumn(\textcolor{stringliteral}{"{}pID"{}});           \textcolor{comment}{// ID=10 Parent ID}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00352}00352   analysisManager-\/>CreateNtupleIColumn(\textcolor{stringliteral}{"{}NbNGeneration"{}}); \textcolor{comment}{// ID=11 Neutron generation number; 0 = source neutrons}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00353}00353   analysisManager-\/>CreateNtupleIColumn(\textcolor{stringliteral}{"{}OutPhysVol"{}});    \textcolor{comment}{// ID=12 Number of neutrons leaving  into the volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00354}00354   \textcolor{comment}{// analysisManager-\/>CreateNtupleDColumn("{}Edep"{});          // ID=13 Energy deposited}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00355}00355 \textcolor{comment}{//   analysisManager-\/>CreateNtupleDColumn("{}energyK"{});       // ID= 5 Kinetic energy of the track}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00356}00356 \textcolor{comment}{//   analysisManager-\/>CreateNtupleIColumn(   "{}InPhysVol"{});  // ID= 7 Number of neutrons entering into the volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00357}00357 \textcolor{comment}{//   analysisManager-\/>CreateNtupleDColumn("{}GlobalTime"{});    // ID=14 Time since the event (containing all the tracks) is created in ns}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00358}00358 \textcolor{comment}{//   analysisManager-\/>CreateNtupleDColumn("{}n\_Fluence"{});     // ID=15 Neutron step length in cm}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00359}00359   analysisManager-\/>FinishNtuple();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00360}00360 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00361}00361   \textcolor{comment}{// Creating second ntuple for transmutation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00362}00362   analysisManager-\/>CreateNtuple(\textcolor{stringliteral}{"{}TransmutationInfo"{}}, \textcolor{stringliteral}{"{}Every info on Transmutation"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00363}00363   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}NPosX"{}});         \textcolor{comment}{// ID= 0 X position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00364}00364   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}NPosY"{}});         \textcolor{comment}{// ID= 1 Y position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00365}00365   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}NPosZ"{}});         \textcolor{comment}{// ID= 2 Z position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00366}00366   analysisManager-\/>CreateNtupleDColumn(\textcolor{stringliteral}{"{}energyK"{}});       \textcolor{comment}{// ID= 3 Kinetic energy of the track}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00367}00367   analysisManager-\/>CreateNtupleDColumn(\textcolor{stringliteral}{"{}n\_Fluence"{}});     \textcolor{comment}{// ID= 4 Neutron fluence in cm-\/2}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00368}00368   analysisManager-\/>CreateNtupleIColumn(\textcolor{stringliteral}{"{}FissionVol"{}});    \textcolor{comment}{// ID= 5 Number of neutrons inducing fission into the volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00369}00369   analysisManager-\/>CreateNtupleIColumn(\textcolor{stringliteral}{"{}CaptureVol"{}});    \textcolor{comment}{// ID= 6 Number of neutrons captured         into the volume  (20/04/20: Capture + addition of inelastic)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00370}00370   analysisManager-\/>CreateNtupleIColumn(\textcolor{stringliteral}{"{}NbNGeneration"{}}); \textcolor{comment}{// ID= 7 Neutron generation number}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00371}00371   analysisManager-\/>CreateNtupleIColumn(\textcolor{stringliteral}{"{}A"{}});             \textcolor{comment}{// ID= 8 Atomic mass}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00372}00372   analysisManager-\/>CreateNtupleIColumn(\textcolor{stringliteral}{"{}Z"{}});             \textcolor{comment}{// ID= 9 Atomic number}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00373}00373   analysisManager-\/>FinishNtuple();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00374}00374 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00375}00375   \textcolor{comment}{// Creating ntuple}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00376}00376   analysisManager-\/>CreateNtuple(\textcolor{stringliteral}{"{}DepositedPower"{}}, \textcolor{stringliteral}{"{}Every info on Deposited power"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00377}00377   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}NPosX"{}});         \textcolor{comment}{// ID= 0 X position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00378}00378   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}NPosY"{}});         \textcolor{comment}{// ID= 1 Y position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00379}00379   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}NPosZ"{}});         \textcolor{comment}{// ID= 2 Z position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00380}00380   analysisManager-\/>CreateNtupleDColumn(\textcolor{stringliteral}{"{}energyK"{}});       \textcolor{comment}{// ID= 3 Kinetic energy}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00381}00381   analysisManager-\/>CreateNtupleIColumn(\textcolor{stringliteral}{"{}isInFuel"{}});      \textcolor{comment}{// ID= 4 Bool is in Fuel (1: true, 0: false)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00382}00382   analysisManager-\/>FinishNtuple();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00383}00383 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00384}00384   \textcolor{comment}{// Creating ntuple for neutron source of Spallation Target}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00385}00385   analysisManager-\/>CreateNtuple(\textcolor{stringliteral}{"{}TMXNeutronSource"{}}, \textcolor{stringliteral}{"{}Every info on Neutron Source"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00386}00386   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}x"{}});      \textcolor{comment}{// ID= 0 X Position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00387}00387   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}y"{}});      \textcolor{comment}{// ID= 1 Y Position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00388}00388   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}z"{}});      \textcolor{comment}{// ID= 2 Z Position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00389}00389   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}px"{}});     \textcolor{comment}{// ID= 3 X Momentum}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00390}00390   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}py"{}});     \textcolor{comment}{// ID= 4 Y Momentum}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00391}00391   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}pz"{}});     \textcolor{comment}{// ID= 5 Z Momentum}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00392}00392   analysisManager-\/>CreateNtupleDColumn(\textcolor{stringliteral}{"{}energy"{}}); \textcolor{comment}{// ID= 6   Energy}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00393}00393   analysisManager-\/>FinishNtuple();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00394}00394 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00395}00395   \textcolor{comment}{// Creating ntuple for proton}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00396}00396   analysisManager-\/>CreateNtuple(\textcolor{stringliteral}{"{}Proton"{}}, \textcolor{stringliteral}{"{}Every info on Proton Source"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00397}00397   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}x"{}});      \textcolor{comment}{// ID= 0 X Position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00398}00398   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}y"{}});      \textcolor{comment}{// ID= 1 Y Position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00399}00399   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}z"{}});      \textcolor{comment}{// ID= 2 Z Position}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00400}00400   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}px"{}});     \textcolor{comment}{// ID= 3 X Momentum}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00401}00401   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}py"{}});     \textcolor{comment}{// ID= 4 Y Momentum}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00402}00402   analysisManager-\/>CreateNtupleFColumn(\textcolor{stringliteral}{"{}pz"{}});     \textcolor{comment}{// ID= 5 Z Momentum}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00403}00403   analysisManager-\/>CreateNtupleDColumn(\textcolor{stringliteral}{"{}energy"{}}); \textcolor{comment}{// ID= 6   Energy}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00404}00404   analysisManager-\/>FinishNtuple();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00405}00405 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00406}00406   \textcolor{comment}{// Creating 2-\/D Histograms}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00407}00407   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXY\_Edeposit"{}},\textcolor{stringliteral}{"{}MappingXY\_Edeposit"{}}  , m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsY, m\_p-\/>minY, m\_p-\/>maxY, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}}); \textcolor{comment}{// ID=0}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00408}00408   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXY\_FluxN"{}},\textcolor{stringliteral}{"{}MappingXY\_FluxN"{}}        , m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsY, m\_p-\/>minY, m\_p-\/>maxY, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}}); \textcolor{comment}{// ID=1}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00409}00409   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXY\_FluxG"{}},\textcolor{stringliteral}{"{}MappingXY\_FluxG"{}}        , m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsY, m\_p-\/>minY, m\_p-\/>maxY, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}}); \textcolor{comment}{// ID=2}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00410}00410   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXY\_Edep\_p"{}},\textcolor{stringliteral}{"{}MappingXY\_Edep\_p"{}}      , m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsY, m\_p-\/>minY, m\_p-\/>maxY, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}}); \textcolor{comment}{// ID=3}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00411}00411   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXY\_Edep\_g"{}},\textcolor{stringliteral}{"{}MappingXY\_Edep\_g"{}}      , m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsY, m\_p-\/>minY, m\_p-\/>maxY, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}}); \textcolor{comment}{// ID=4}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00412}00412   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXY\_Ede\_ppSrc"{}},\textcolor{stringliteral}{"{}MappingXY\_Ede\_ppSrc"{}}, m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsY, m\_p-\/>minY, m\_p-\/>maxY, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}}); \textcolor{comment}{// ID=5}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00413}00413   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXZ\_FluxN"{}},\textcolor{stringliteral}{"{}MappingXZ\_FluxN"{}}        , m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsZ, m\_p-\/>minZ, m\_p-\/>maxZ, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}}); \textcolor{comment}{// ID=6}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00414}00414 \textcolor{comment}{//   analysisManager-\/>CreateH2("{}MappingXZ\_FluxN"{},"{}MappingXZ\_FluxN"{}        , m\_p-\/>nbinsY, m\_p-\/>minY, m\_p-\/>maxY, m\_p-\/>nbinsZ, m\_p-\/>minZ, m\_p-\/>maxZ, "{}mm"{}, "{}mm"{}); // ID=6}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00415}00415   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXY\_Edep\_targ"{}},\textcolor{stringliteral}{"{}MappingXY\_Edep\_targ"{}}, 200, -\/50*mm, 50*mm, 200, -\/50*mm, 50*mm, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}}); \textcolor{comment}{// ID=7}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00416}00416   \textcolor{keywordflow}{if}(m\_p-\/>src\_XYZposition.size() != 0) \{ analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingYZ\_pSrc"{}},\textcolor{stringliteral}{"{}MappingYZ\_pSrc"{}}, 200, m\_p-\/>src\_XYZposition[0][1]-\/m\_p-\/>yTarget/1.9, m\_p-\/>src\_XYZposition[0][1]+m\_p-\/>yTarget/1.9, 200, m\_p-\/>src\_XYZposition[0][2]-\/m\_p-\/>zTargetHeight/1.9, m\_p-\/>src\_XYZposition[0][2]+m\_p-\/>zTargetHeight/1.9, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}});\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00417}00417   \textcolor{keywordflow}{else} \{ analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingYZ\_pSrc"{}},\textcolor{stringliteral}{"{}MappingYZ\_pSrc"{}}, m\_p-\/>nbinsY, m\_p-\/>minY, m\_p-\/>maxY, m\_p-\/>nbinsZ, m\_p-\/>minZ, m\_p-\/>maxZ, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}});\} \textcolor{comment}{// ID=8}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00418}00418   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTime"{}},\textcolor{stringliteral}{"{}LogEvsLogTime"{}}            , 2,    -\/12   ,    2   , 2,    -\/7   ,    9); \textcolor{comment}{// ID=9}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00419}00419   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXZ\_Edep"{}}, \textcolor{stringliteral}{"{}MappingXZ\_Edep"{}}         , m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsZ, m\_p-\/>minZ, m\_p-\/>maxZ, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}});  \textcolor{comment}{// ID=10}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00420}00420   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXZ\_FluxG"{}},\textcolor{stringliteral}{"{}MappingXZ\_FluxG"{}}        , m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsZ, m\_p-\/>minZ, m\_p-\/>maxZ, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}});  \textcolor{comment}{// ID=11}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00421}00421 \textcolor{comment}{//   analysisManager-\/>CreateH2("{}MappingXZ\_FluxG"{},"{}MappingXZ\_FluxG"{}        , m\_p-\/>nbinsY, m\_p-\/>minY, m\_p-\/>maxY, m\_p-\/>nbinsZ, m\_p-\/>minZ, m\_p-\/>maxZ, "{}mm"{}, "{}mm"{});  // ID=11}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00422}00422   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTimeTarget"{}},\textcolor{stringliteral}{"{}LogEvsLogTimeTarget"{}}             , 1000, -\/9   ,  2 , 1000,    -\/7   ,    9); \textcolor{comment}{// ID=12}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00423}00423   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTimeReflecFeTop"{}},\textcolor{stringliteral}{"{}LogEvsLogTimeReflecFeTop"{}}   , 1000, -\/9   ,  2 , 1000,    -\/7   ,    9); \textcolor{comment}{// ID=13}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00424}00424   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTimeLead"{}},\textcolor{stringliteral}{"{}LogEvsLogTimeLead"{}}                 , 1000, -\/9   ,  2 , 1000,    -\/7   ,    9); \textcolor{comment}{// ID=14}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00425}00425   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTimeFuel"{}},\textcolor{stringliteral}{"{}LogEvsLogTimeFuel"{}}                 , 1000, -\/9   ,  2 , 1000,    -\/7   ,    9); \textcolor{comment}{// ID=15}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00426}00426   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTimeTarg\_inter"{}},\textcolor{stringliteral}{"{}LogEvsLogTimeTarg\_inter"{}}     , 1000, -\/9   ,  2 , 1000,    -\/7   ,    9); \textcolor{comment}{// ID=16}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00427}00427   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTimeRefTop\_inter"{}},\textcolor{stringliteral}{"{}LogEvsLogTimeRefTop\_inter"{}} , 1000, -\/9   ,  2 , 1000,    -\/7   ,    9); \textcolor{comment}{// ID=17}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00428}00428   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTimeLead\_inter"{}},\textcolor{stringliteral}{"{}LogEvsLogTimeLead\_inter"{}}     , 1000, -\/9   ,  2 , 1000,    -\/7   ,    9); \textcolor{comment}{// ID=18}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00429}00429   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTimeFuel\_inter"{}},\textcolor{stringliteral}{"{}LogEvsLogTimeFuel\_inter"{}}     , 1000, -\/9   ,  2 , 1000,    -\/7   ,    9); \textcolor{comment}{// ID=19}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00430}00430   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}d2N\_dlogElogPhi\_Absorb"{}},\textcolor{stringliteral}{"{}d2N\_dlogElogPhi\_Absorb"{}}       , 1000, -\/7   ,  9 , 1000,    -\/10  ,   20); \textcolor{comment}{// ID=20}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00431}00431   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}d2N\_dlogElogPhi\_AbsorbNo"{}},\textcolor{stringliteral}{"{}d2N\_dlogElogPhi\_AbsorbN0"{}}   , 1000, -\/7   ,  9 , 1000,    -\/10  ,   20); \textcolor{comment}{// ID=21}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00432}00432   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_n"{}},\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_n"{}}               , 1000, -\/9   ,  6 , 1000,     3  ,     8); \textcolor{comment}{// ID=22}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00433}00433   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_g"{}},\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_g"{}}               , 1000, -\/9   ,  6 , 1000,     3  ,     8); \textcolor{comment}{// ID=23}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00434}00434   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_FFe"{}},\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_FFe"{}}           , 1000, -\/7   , 20 , 1000,    -\/3  ,     8); \textcolor{comment}{// ID=24}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00435}00435   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_others"{}},\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_others"{}}     , 1000, -\/9   ,  6 , 1000,     5  ,     9); \textcolor{comment}{// ID=25}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00436}00436   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_fission"{}},\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_fission"{}}   , 1000, -\/9   ,  6 , 1000,     3  ,     9); \textcolor{comment}{// ID=26}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00437}00437   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_tot"{}},\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_tot"{}}           , 1000, -\/9   ,  6 , 1000,     7.5,   8.5); \textcolor{comment}{// ID=27}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00438}00438   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_FFn"{}},\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_FFn"{}}           , 1000, -\/7   ,  8 , 1000,     3  ,     8); \textcolor{comment}{// ID=28}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00439}00439   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_FFg"{}},\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_FFg"{}}           , 1000, -\/7   , 20 , 1000,     0  ,     8); \textcolor{comment}{// ID=29}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00440}00440   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_FFothers"{}},\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_FFothers"{}} , 1000, -\/7   , 10 , 1000,    -\/3  ,     9); \textcolor{comment}{// ID=30}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00441}00441   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_FFantiNu"{}},\textcolor{stringliteral}{"{}d2N\_dlogElogTime\_FFantiNu"{}} , 1000, -\/7   , 10 , 1000,    -\/3  ,     9); \textcolor{comment}{// ID=31}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00442}00442   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXY\_N0count"{}},\textcolor{stringliteral}{"{}MappingXY\_N0count"{}}        , m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsY, m\_p-\/>minY, m\_p-\/>maxY, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}}); \textcolor{comment}{// ID=32}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00443}00443   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXZ\_N0count"{}},\textcolor{stringliteral}{"{}MappingXZ\_N0count"{}}        , m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsZ, m\_p-\/>minZ, m\_p-\/>maxZ, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}}); \textcolor{comment}{// ID=33}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00444}00444   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXY\_N0"{}},\textcolor{stringliteral}{"{}MappingXY\_N0"{}}        , m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsY, m\_p-\/>minY, m\_p-\/>maxY, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}}); \textcolor{comment}{// ID=34}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00445}00445   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXZ\_N0"{}},\textcolor{stringliteral}{"{}MappingXZ\_N0"{}}        , m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsZ, m\_p-\/>minZ, m\_p-\/>maxZ, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}}); \textcolor{comment}{// ID=35}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00446}00446   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}N0\_DIRvsLogE"{}},\textcolor{stringliteral}{"{}N0\_DIRvsLogE"{}}              , 1000, -\/1, 1, 1000, -\/7   , 10); \textcolor{comment}{// ID=36}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00447}00447   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}N0\_ThetavsLogE"{}},\textcolor{stringliteral}{"{}N0\_ThetavsLogE"{}}          , 90, 0, 180, 1000, -\/7   , 10); \textcolor{comment}{// ID=37}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00448}00448   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXY\_DeathN0"{}},\textcolor{stringliteral}{"{}MappingXY\_DeathN0"{}}        , m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsY, m\_p-\/>minY, m\_p-\/>maxY, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}}); \textcolor{comment}{// ID=38}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00449}00449   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTimeWater"{}},\textcolor{stringliteral}{"{}LogEvsLogTimeWater"{}}               , 1000, -\/9   ,  2 , 1000,    -\/7   ,    9); \textcolor{comment}{// ID=39}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00450}00450   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTimeWater\_inter"{}},\textcolor{stringliteral}{"{}LogEvsLogTimeWater\_inter"{}}   , 1000, -\/9   ,  2 , 1000,    -\/7   ,    9); \textcolor{comment}{// ID=40}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00451}00451   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTime\_inReacVes"{}},\textcolor{stringliteral}{"{}LogEvsLogTime\_inReacVes"{}}     , 1000, -\/9   ,  2 , 1000,    -\/7   ,    9); \textcolor{comment}{// ID=41}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00452}00452   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTime\_inReacVes\_inter"{}},\textcolor{stringliteral}{"{}LogEvsLogTime\_inReacVes\_inter"{}}, 1000, -\/9   ,  2 , 1000,    -\/7   ,    9); \textcolor{comment}{// ID=42}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00453}00453   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTime\_secondCool"{}},\textcolor{stringliteral}{"{}LogEvsLogTime\_secondCool"{}}    , 1000, -\/9   ,  2 , 1000,    -\/7   ,    9); \textcolor{comment}{// ID=43}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00454}00454   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}LogEvsLogTime\_secondCool\_inter"{}},\textcolor{stringliteral}{"{}LogEvsLogTime\_secondCool\_inter"{}}, 1000, -\/9   ,  2 , 1000,    -\/7   ,    9); \textcolor{comment}{// ID=44}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00455}00455   analysisManager-\/>CreateH2(\textcolor{stringliteral}{"{}MappingXZ\_DeathN0"{}},\textcolor{stringliteral}{"{}MappingXZ\_DeathN0"{}}        , m\_p-\/>nbinsX, m\_p-\/>minX, m\_p-\/>maxX, m\_p-\/>nbinsZ, m\_p-\/>minZ, m\_p-\/>maxZ, \textcolor{stringliteral}{"{}mm"{}}, \textcolor{stringliteral}{"{}mm"{}}); \textcolor{comment}{// ID=45}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00456}00456   \textcolor{comment}{//analysisManager-\/>CreateH2("{}MappingPolarXY\_Edep"{},"{}MappingPolarXY\_Edep"{},             m\_p-\/>nbinsTheta, m\_p-\/>minTheta, m\_p-\/>maxTheta, m\_p-\/>nbinsR, m\_p-\/>minR, m\_p-\/>maxR); // ID=45}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00457}00457 \textcolor{comment}{//   analysisManager-\/>CreateH2("{}MappingXY\_FuelGeantino"{},"{}MappingXY\_FuelGeantino"{}  , 1001, -\/500, 500, 1001, -\/500, 500, "{}mm"{}, "{}mm"{});// ID=31}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00458}00458 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00459}00459     \textcolor{comment}{// Scoring}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00460}00460     m\_scoringPowerDensityMap = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_scoring_power_density_map}{TMXScoringPowerDensityMap}}(m\_p);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00461}00461     m\_scoringPowerDensityMap-\/>setFirstIdHistogramH2(46);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00462}00462     m\_scoringPowerDensityMap-\/>buildHistogramsH2(\textcolor{stringliteral}{"{}Power\_Density\_Map"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00463}00463 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00464}00464   \textcolor{comment}{// 1-\/D Histograms}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00465}00465   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}MappingVol\_Edep"{}},\textcolor{stringliteral}{"{}MappingVol\_Edep"{}}  , 601,       0   ,   600);              \textcolor{comment}{// ID=0}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00466}00466   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}MappingEdep"{}},\textcolor{stringliteral}{"{}MappingEdep"{}}          , 601,       0   ,   600);              \textcolor{comment}{// ID=1}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00467}00467   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dFlux\_dlogE\_lead"{}} ,\textcolor{stringliteral}{"{}dFlux\_dlogE\_lead"{}}         , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=2}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00468}00468   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dFlux\_dlogE\_lead0"{}},\textcolor{stringliteral}{"{}dFlux\_dlogE\_lead0"{}}        , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=3}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00469}00469   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dFlux\_dlogE\_lead1"{}},\textcolor{stringliteral}{"{}dFlux\_dlogE\_lead1"{}}        , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=4}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00470}00470   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dFlux\_dlogE\_lead2"{}},\textcolor{stringliteral}{"{}dFlux\_dlogE\_lead2"{}}        , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=5}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00471}00471   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dFlux\_dlogE\_lead3"{}},\textcolor{stringliteral}{"{}dFlux\_dlogE\_lead3"{}}        , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=6}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00472}00472   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dFlux\_dlogE\_lead4"{}},\textcolor{stringliteral}{"{}dFlux\_dlogE\_lead4"{}}        , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=7}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00473}00473   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dFlux\_dlogE\_fuel"{}} ,\textcolor{stringliteral}{"{}dFlux\_dlogE\_fuel"{}}         , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=8}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00474}00474   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dN\_dlogE\_FuelFis"{}},\textcolor{stringliteral}{"{}dN\_dlogE\_FuelFis"{}}          , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=9}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00475}00475   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dFlux\_dlogE\_Reflec"{}},\textcolor{stringliteral}{"{}dFlux\_dlogE\_Reflec"{}}      , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=10}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00476}00476   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dFlux\_dlogE\_AbsorbN0"{}},\textcolor{stringliteral}{"{}dFlux\_dlogE\_AbsorbN0"{}}  , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=11}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00477}00477   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}Logt\_N0\_FuelFis"{}},\textcolor{stringliteral}{"{}Logt\_N0\_FuelFis"{}}            , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=12}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00478}00478   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dFlux\_dlogE\_target"{}},\textcolor{stringliteral}{"{}dFlux\_dlogE\_target"{}}      , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=13}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00479}00479   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}LogTime\_fission"{}},\textcolor{stringliteral}{"{}LogTime\_fission"{}}            , 1000,    -\/9   ,    2);        \textcolor{comment}{// ID=14}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00480}00480   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}NeutronGenerations"{}},\textcolor{stringliteral}{"{}NeutronGenerations"{}}      , 1001,     0   , 1000);        \textcolor{comment}{// ID=15}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00481}00481   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dN\_dlogE\_N0"{}},\textcolor{stringliteral}{"{}dN\_dlogE\_N0"{}}                    , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=16 Energy at birth of source neutrons}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00482}00482   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dN\_dlogE\_N0count"{}},\textcolor{stringliteral}{"{}dN\_dlogE\_N0count"{}}          , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=17 Energy of source neutrons when counted}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00483}00483   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}MappingEdep\_square"{}},\textcolor{stringliteral}{"{}MappingEdep\_square"{}}      , 601,       0  ,  600);        \textcolor{comment}{// ID=18 Square of deposited energy}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00484}00484   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}PromptN\_lifetime"{}},\textcolor{stringliteral}{"{}PromptN\_lifetime"{}}          , 1000,    -\/12  ,    2);        \textcolor{comment}{// ID=19 Prompt neutrons lifetime}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00485}00485   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}EveryN\_lifetime"{}},\textcolor{stringliteral}{"{}EveryN\_lifetime"{}}            , 1000,    -\/12  ,    2);        \textcolor{comment}{// ID=20 Every  neutrons lifetime}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00486}00486   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}NbN\_time\_target"{}},\textcolor{stringliteral}{"{}NbN\_time\_target"{}}            , 1000,    -\/9   ,    8);        \textcolor{comment}{// ID=21 Number of neutrons as a function of time in target}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00487}00487   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}NbN\_time\_lead"{}}  ,\textcolor{stringliteral}{"{}NbN\_time\_lead"{}}              , 1000,    -\/9   ,    8);        \textcolor{comment}{// ID=22 Number of neutrons as a function of time in lead}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00488}00488   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}NbN\_time\_core"{}}  ,\textcolor{stringliteral}{"{}NbN\_time\_core"{}}              , 1000,    -\/9   ,    8);        \textcolor{comment}{// ID=23 Number of neutrons as a function of time in core}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00489}00489   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}NbN\_time\_graphi"{}},\textcolor{stringliteral}{"{}NbN\_time\_graphi"{}}            , 1000,    -\/9   ,    8);        \textcolor{comment}{// ID=24 Number of neutrons as a function of time in graphite}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00490}00490   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}MappingEdep\_N"{}},\textcolor{stringliteral}{"{}MappingEdep\_N"{}}                , 601,       0  ,  600);        \textcolor{comment}{// ID=25 Number of times the deposited energy is scored}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00491}00491   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dFlux\_dlogE\_water"{}} ,\textcolor{stringliteral}{"{}dFlux\_dlogE\_water"{}}       , 1000,    -\/5   ,    9);        \textcolor{comment}{// ID=26}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00492}00492   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}dFlux\_dlogE\_SpentFuel"{}} ,\textcolor{stringliteral}{"{}dFlux\_dlogE\_SpentFuel"{}},1000,    -\/5   ,    9);        \textcolor{comment}{// ID=27}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00493}00493   analysisManager-\/>CreateH1(\textcolor{stringliteral}{"{}spectrum\_protonEscape"{}}, \textcolor{stringliteral}{"{}spectrum\_protonEscape"{}}, 1000, -\/5, 9);        \textcolor{comment}{// ID=28}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00494}00494 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00495}00495   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_inReacVes"{} ,"{}dFlux\_dlogE\_inReacVes"{},1000,    -\/5   ,    9);        // ID=28}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00496}00496   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_secondCool"{} ,"{}dFlux\_dlogE\_secondCool"{},1000,    -\/5   ,    9);        // ID=29}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00497}00497   \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00498}00498   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuelTopBlkt"{} ,"{}dFlux\_dlogE\_fuelTopBlkt"{}         , 1000,    -\/5   ,    9);        // ID=30}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00499}00499   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuel1"{} ,"{}dFlux\_dlogE\_fuel1"{}         , 1000,    -\/5   ,    9);        // ID=31}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00500}00500   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuel2"{} ,"{}dFlux\_dlogE\_fuel2"{}         , 1000,    -\/5   ,    9);        // ID=32}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00501}00501   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuel3"{} ,"{}dFlux\_dlogE\_fuel3"{}         , 1000,    -\/5   ,    9);        // ID=33}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00502}00502   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuelGrid2"{} ,"{}dFlux\_dlogE\_fuelGrid2"{}         , 1000,    -\/5   ,    9);        // ID=34}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00503}00503   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuel4"{} ,"{}dFlux\_dlogE\_fuel4"{}         , 1000,    -\/5   ,    9);        // ID=35}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00504}00504   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuel5"{} ,"{}dFlux\_dlogE\_fuel5"{}         , 1000,    -\/5   ,    9);        // ID=36}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00505}00505   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuel6"{} ,"{}dFlux\_dlogE\_fuel6"{}         , 1000,    -\/5   ,    9);        // ID=37}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00506}00506   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuel7"{} ,"{}dFlux\_dlogE\_fuel7"{}         , 1000,    -\/5   ,    9);        // ID=38}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00507}00507   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuel8"{} ,"{}dFlux\_dlogE\_fuel8"{}         , 1000,    -\/5   ,    9);        // ID=39}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00508}00508   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuelGrid3"{} ,"{}dFlux\_dlogE\_fuelGrid3"{}         , 1000,    -\/5   ,    9);        // ID=40}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00509}00509   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuel9"{} ,"{}dFlux\_dlogE\_fuel9"{}         , 1000,    -\/5   ,    9);        // ID=41}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00510}00510   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuel10"{} ,"{}dFlux\_dlogE\_fuel10"{}         , 1000,    -\/5   ,    9);        // ID=42}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00511}00511   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuel11"{} ,"{}dFlux\_dlogE\_fuel11"{}         , 1000,    -\/5   ,    9);        // ID=43}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00512}00512   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuelBotBlkt"{} ,"{}dFlux\_dlogE\_fuelBotBlkt"{}         , 1000,    -\/5   ,    9);        // ID=44}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00513}00513   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_fuelBotBlkt"{} ,"{}dFlux\_dlogE\_Reflector"{}         , 1000,    -\/5   ,    9);        // ID=45}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00514}00514   \textcolor{comment}{// analysisManager-\/>CreateH1("{}AngularDistrib\_primCool"{} ,"{}AngularDistrib\_primCool"{}, 1000,    -\/1   ,    1);        // ID=46 (in cos)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00515}00515   \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_incineration"{} ,"{}dFlux\_dlogE\_incineration"{},1000,    -\/5   ,    9);        // ID=47}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00516}00516 \textcolor{comment}{//   analysisManager-\/>CreateH1("{}R\_FuelGeantino"{},"{}R\_FuelGeantino"{}  , 101,300,478.014);// ID=16}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00517}00517 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00518}00518     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00519}00519     \textcolor{comment}{// Special Case for TMXTarget Power Deposition}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00520}00520     \textcolor{comment}{/*int nBins = (int)(m\_p-\/>nbinsZ);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00521}00521 \textcolor{comment}{    int zMin = (int)(m\_p-\/>minZ), zMax = (int)(m\_p-\/>maxZ/mm); // mm}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00522}00522 \textcolor{comment}{    analysisManager-\/>CreateH1("{}Edep\_beamWindow"{}, "{}Edep\_beamWindow"{}, nBins, zMin, zMax);        // ID=48}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00523}00523 \textcolor{comment}{    for (double r = 0.; r < 95.; r+=12.5) \{ // ID from 49 to 56}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00524}00524 \textcolor{comment}{        std::string name = "{}Edep\_coolant\_"{} + std::to\_string(r);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00525}00525 \textcolor{comment}{        analysisManager-\/>CreateH1(name, name, nBins, zMin, zMax);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00526}00526 \textcolor{comment}{    \}*/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00527}00527     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00528}00528 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00529}00529     \textcolor{comment}{// analysisManager-\/>CreateH1("{}dFlux\_dlogE\_beamWindow"{} ,"{}dFlux\_dlogE\_beamWindow"{}, 1000, -\/5, 9);        // ID=57}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00530}00530     \textcolor{comment}{// analysisManager-\/>CreateH1("{}spectrum\_protonEscape"{} ,"{}spectrum\_protonEscape"{}, 1000, -\/5, 9);        // ID=58}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00531}00531 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00532}00532     \textcolor{comment}{// Scoring}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00533}00533     m\_scoringSurfaceCurrentSpectrum = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_scoring_surface_current_spectrum}{TMXScoringSurfaceCurrentSpectrum}}(m\_p);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00534}00534     m\_scoringSurfaceCurrentSpectrum-\/>setFirstIdHistogramH1(29);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00535}00535     m\_scoringSurfaceCurrentSpectrum-\/>buildHistogramsH1(\textcolor{stringliteral}{"{}Surface\_Current"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00536}00536 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00537}00537     m\_scoringSurfaceFluenceSpectrum = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_scoring_surface_fluence_spectrum}{TMXScoringSurfaceFluenceSpectrum}}(m\_p);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00538}00538     m\_scoringSurfaceFluenceSpectrum-\/>setFirstIdHistogramH1(m\_scoringSurfaceCurrentSpectrum-\/>getLastIdHistogramH1()+1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00539}00539     m\_scoringSurfaceFluenceSpectrum-\/>buildHistogramsH1(\textcolor{stringliteral}{"{}Surface\_Fluence"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00540}00540 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00541}00541     m\_scoringVolumeFluenceSpectrum = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_scoring_volume_fluence_spectrum}{TMXScoringVolumeFluenceSpectrum}}(m\_p);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00542}00542     m\_scoringVolumeFluenceSpectrum-\/>setFirstIdHistogramH1(m\_scoringSurfaceFluenceSpectrum-\/>getLastIdHistogramH1()+1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00543}00543     m\_scoringVolumeFluenceSpectrum-\/>buildHistogramsH1(\textcolor{stringliteral}{"{}dFlux\_dlogE"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00544}00544     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00545}00545 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00546}00546 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00547}00547 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00548}00548 \textcolor{keywordtype}{void} RunAction::ReadCartesianMesh(\textcolor{keyword}{const} G4Run* run, \textcolor{keywordtype}{int} \textcolor{comment}{/*Nprotons*/}, \textcolor{keywordtype}{double} \textcolor{comment}{/*dbl\_Ibeam*/}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00549}00549     \textcolor{comment}{// Mesh cubic volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00550}00550     G4double CubicVolume = ((m\_p-\/>maxX-\/m\_p-\/>minX)/m\_p-\/>nbinsX * (m\_p-\/>maxY-\/m\_p-\/>minY)/m\_p-\/>nbinsY * (m\_p-\/>maxZ-\/m\_p-\/>minZ)/m\_p-\/>nbinsZ) /cm3;  \textcolor{comment}{// Cartesian}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00551}00551 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00552}00552     \textcolor{comment}{// Pitch of the binning}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00553}00553     G4double DeltaX = (m\_p-\/>maxX-\/m\_p-\/>minX)/(\textcolor{keywordtype}{double})m\_p-\/>nbinsX; \textcolor{comment}{// X pitch = X box length}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00554}00554     G4double DeltaY = (m\_p-\/>maxY-\/m\_p-\/>minY)/(\textcolor{keywordtype}{double})m\_p-\/>nbinsY; \textcolor{comment}{// Y pitch = Y box length}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00555}00555     G4double DeltaZ = (m\_p-\/>maxZ-\/m\_p-\/>minZ)/(\textcolor{keywordtype}{double})m\_p-\/>nbinsZ; \textcolor{comment}{// Z pitch = Z box length}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00556}00556 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00557}00557     \textcolor{keyword}{auto} analysisManager = G4AnalysisManager::Instance();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00558}00558     \textcolor{keyword}{const} \mbox{\hyperlink{class_run}{Run}}* theRun = (\textcolor{keyword}{const} \mbox{\hyperlink{class_run}{Run}}*)run;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00559}00559     G4double Xpos, Ypos, Zpos;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00560}00560 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00561}00561     \textcolor{comment}{// For each scored quantity of the sensitive detector}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00562}00562     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0;k<theRun-\/>GetNumberOfSD();k++) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00563}00563 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00564}00564         \textcolor{keyword}{const} G4THitsMap<G4double> map = theRun-\/>GetFullMap(k); \textcolor{comment}{// Get the 3D map of the scoring quantity}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00565}00565         std::map<G4int,G4double*>::iterator itr = map.GetMap()-\/>begin();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00566}00566         std::map<G4int,G4double*>::iterator itr\_end = map.GetMap()-\/>end();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00567}00567         G4double value = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00568}00568         G4int key = 0, binX, binY, binZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00569}00569 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00570}00570 \textcolor{comment}{//         for(; itr != map.GetMap()-\/>end(); ++itr) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00571}00571         \textcolor{keywordflow}{for}(; itr != itr\_end; ++itr) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00572}00572             key   = (itr-\/>first);   \textcolor{comment}{// key of the mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00573}00573             value = *(itr-\/>second);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00574}00574 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00575}00575             \textcolor{comment}{// Bin number for each axis}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00576}00576             binX = (int)(key/(\textcolor{keywordtype}{int})(m\_p-\/>nbinsY*m\_p-\/>nbinsZ));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00577}00577             binY = (int)(key/(\textcolor{keywordtype}{int})(m\_p-\/>nbinsZ) -\/ binX * m\_p-\/>nbinsY);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00578}00578             binZ = key -\/ binY * m\_p-\/>nbinsZ -\/ binX * m\_p-\/>nbinsY * m\_p-\/>nbinsZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00579}00579 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00580}00580            \textcolor{comment}{// Position of the bin number}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00581}00581             Xpos = (binX + 0.5) * DeltaX + m\_p-\/>minX;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00582}00582             Ypos = (binY + 0.5) * DeltaY + m\_p-\/>minY;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00583}00583             Zpos = (binZ + 0.5) * DeltaZ + m\_p-\/>minZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00584}00584 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00585}00585             \textcolor{keywordflow}{if}(k==0) \{ \textcolor{comment}{// energy deposit for every particles}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00586}00586 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00587}00587                 \textcolor{comment}{// Fill 2D with the projected mean value}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00588}00588                 analysisManager-\/>FillH2( 0, Xpos/mm, Ypos/mm, value/eV  / (CubicVolume * m\_p-\/>nbinsZ));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00589}00589                 analysisManager-\/>FillH2(10, Xpos/mm, Zpos/mm, value/eV  / (CubicVolume * m\_p-\/>nbinsY));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00590}00590 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00591}00591                \textcolor{comment}{// Fill the ntuple to get a 3D mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00592}00592                 analysisManager-\/>FillNtupleFColumn( 2, 0,Xpos/mm);              \textcolor{comment}{// ID= 0 radial pos in mm}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00593}00593                 analysisManager-\/>FillNtupleFColumn( 2, 1,Ypos/mm);              \textcolor{comment}{// ID= 1 Theta in rad}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00594}00594                 analysisManager-\/>FillNtupleFColumn( 2, 2,Zpos/mm);              \textcolor{comment}{// ID= 2 PosZ in mm}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00595}00595                 analysisManager-\/>FillNtupleDColumn( 2, 3,value/eV ); \textcolor{comment}{// ID= 3 Kinetic energy in eV}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00596}00596                 analysisManager-\/>AddNtupleRow(2);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00597}00597             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00598}00598             \textcolor{keywordflow}{if}(k==3 || k==4) \textcolor{comment}{// Energy deposit for proton or gamma}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00599}00599                 analysisManager-\/>FillH2(k, Xpos/mm, Ypos/mm, value/eV  / CubicVolume / m\_p-\/>nbinsZ);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00600}00600             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (k==1) \{ \textcolor{comment}{// neutron flux}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00601}00601                 analysisManager-\/>FillH2(1, Xpos/mm, Ypos/mm, value/(1/cm2)  / m\_p-\/>nbinsZ);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00602}00602                 analysisManager-\/>FillH2(6, Xpos/mm, Zpos/mm, value/(1/cm2)  / m\_p-\/>nbinsY);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00603}00603             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00604}00604             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (k==2) \{ \textcolor{comment}{// gamma flux}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00605}00605                 analysisManager-\/>FillH2( 2, Xpos/mm, Ypos/mm, value/(1/cm2)  / m\_p-\/>nbinsZ);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00606}00606                 analysisManager-\/>FillH2(11, Xpos/mm, Zpos/mm, value/(1/cm2)  / m\_p-\/>nbinsY);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00607}00607             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00608}00608         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00609}00609     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00610}00610 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00611}00611 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00612}00612 \textcolor{keywordtype}{void} RunAction::ReadPolarMesh(\textcolor{keyword}{const} G4Run* run, \textcolor{keywordtype}{int} \textcolor{comment}{/*Nprotons*/}, \textcolor{keywordtype}{double} \textcolor{comment}{/*dbl\_Ibeam*/}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00613}00613 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00614}00614     \textcolor{comment}{// Defining Z axis binning}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00615}00615     \textcolor{keywordtype}{double} minZ, maxZ, nbinsZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00616}00616     \textcolor{keywordflow}{if} (m\_p-\/>polarAxis == \textcolor{stringliteral}{"{}Y"{}}) \{ \textcolor{comment}{// if Y-\/axis (cartesian) corresponds to the Z-\/axis in polar coordinates}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00617}00617         minZ   = m\_p-\/>minY;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00618}00618         maxZ   = m\_p-\/>maxY;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00619}00619         nbinsZ = m\_p-\/>nbinsY;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00620}00620     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00621}00621     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (m\_p-\/>polarAxis == \textcolor{stringliteral}{"{}Z"{}}) \{ \textcolor{comment}{// if Z-\/axis (cartesian) corresponds to the Z-\/axis in polar coordinates}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00622}00622         minZ   = m\_p-\/>minZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00623}00623         maxZ   = m\_p-\/>maxZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00624}00624         nbinsZ = m\_p-\/>nbinsZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00625}00625     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00626}00626     \textcolor{keywordflow}{else} \{ \textcolor{comment}{// Default is X-\/axis in cartesian coordinates corresponding to Z-\/axis in polar coordinates}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00627}00627         minZ   = m\_p-\/>minX;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00628}00628         maxZ   = m\_p-\/>maxX;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00629}00629         nbinsZ = m\_p-\/>nbinsX;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00630}00630     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00631}00631 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00632}00632     \textcolor{comment}{// Pitch of the binning}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00633}00633     G4double DeltaR = (m\_p-\/>maxR-\/m\_p-\/>minR)/(\textcolor{keywordtype}{double})m\_p-\/>nbinsR; \textcolor{comment}{// R pitch = thickness of the tub}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00634}00634     G4double DeltaTheta = (m\_p-\/>maxTheta-\/m\_p-\/>minTheta)/(\textcolor{keywordtype}{double})m\_p-\/>nbinsTheta; \textcolor{comment}{// Theta pitch = angle of the arc (part of the tub)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00635}00635     G4double DeltaZ = (maxZ-\/minZ)/(\textcolor{keywordtype}{double})nbinsZ; \textcolor{comment}{// Z pitch = Height of the tub}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00636}00636 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00637}00637     \textcolor{keyword}{auto} analysisManager = G4AnalysisManager::Instance(); \textcolor{comment}{// Instantiate the analysis manager}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00638}00638     \textcolor{keyword}{const} \mbox{\hyperlink{class_run}{Run}}* theRun = (\textcolor{keyword}{const} \mbox{\hyperlink{class_run}{Run}}*)run; \textcolor{comment}{// Get the run containing the sensitive detector Hits map}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00639}00639     G4double Radius, Theta, Zpos;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00640}00640 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00641}00641     \textcolor{comment}{// For each scored quantity of the sensitive detector}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00642}00642     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0;k<theRun-\/>GetNumberOfSD();k++) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00643}00643 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00644}00644         \textcolor{keyword}{const} G4THitsMap<G4double> map = theRun-\/>GetFullMap(k); \textcolor{comment}{// Get the 3D map of the scoring quantity}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00645}00645         std::map<G4int,G4double*>::iterator itr = map.GetMap()-\/>begin();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00646}00646         G4double value = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00647}00647         G4int key = 0., binR, binTheta, binZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00648}00648 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00649}00649         \textcolor{keywordflow}{for}(; itr != map.GetMap()-\/>end(); ++itr) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00650}00650             key   = (itr-\/>first);   \textcolor{comment}{// key of the mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00651}00651             value = *(itr-\/>second);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00652}00652 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00653}00653             \textcolor{comment}{// Bin number for each axis}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00654}00654             binR     = (int) (key/(\textcolor{keywordtype}{int})(m\_p-\/>nbinsTheta*nbinsZ));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00655}00655             binTheta = (int)((key -\/ binR * m\_p-\/>nbinsTheta*nbinsZ)/(int)(nbinsZ));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00656}00656             binZ     =  key -\/ binTheta * nbinsZ -\/ binR * m\_p-\/>nbinsTheta * nbinsZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00657}00657 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00658}00658             \textcolor{comment}{// Position of the bin number}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00659}00659             Radius = (binR     + 0.5) * DeltaR     + m\_p-\/>minR;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00660}00660             Theta  = (binTheta + 0.5) * DeltaTheta + m\_p-\/>minTheta;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00661}00661             Zpos   = (binZ     + 0.5) * DeltaZ     + minZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00662}00662 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00663}00663             \textcolor{comment}{// Mesh cubic volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00664}00664             G4double CubicVolume = (((m\_p-\/>maxTheta-\/m\_p-\/>minTheta)*CLHEP::pi/180. /(\textcolor{keywordtype}{double})m\_p-\/>nbinsTheta * (maxZ-\/minZ)/(\textcolor{keywordtype}{double})nbinsZ)}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00665}00665                                     * ((binR+1)*DeltaR + m\_p-\/>minR)*((binR+1)*DeltaR + m\_p-\/>minR) -\/ (binR*DeltaR + m\_p-\/>minR)*(binR*DeltaR + m\_p-\/>minR)/2.)/cm3;  \textcolor{comment}{// Delta\_r\string^2 / 2}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00666}00666 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00667}00667             \textcolor{keywordflow}{if}(k==0) \{ \textcolor{comment}{// XY and XZ energy deposit for every particles}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00668}00668                 analysisManager-\/>FillH2( 0, CalculateCartesianPos(Radius, Theta, Zpos).x() + m\_p-\/>origin\_PolarMesh[0],}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00669}00669                                             CalculateCartesianPos(Radius, Theta, Zpos).y() + m\_p-\/>origin\_PolarMesh[1], value/eV  / (CubicVolume * m\_p-\/>nbinsZ));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00670}00670                 analysisManager-\/>FillH2(10, CalculateCartesianPos(Radius, Theta, Zpos).x() + m\_p-\/>origin\_PolarMesh[0],}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00671}00671                                             CalculateCartesianPos(Radius, Theta, Zpos).z() + m\_p-\/>origin\_PolarMesh[2], value/eV  / (CubicVolume * m\_p-\/>nbinsY));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00672}00672 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00673}00673                 analysisManager-\/>FillNtupleFColumn( 2, 0,Radius);               \textcolor{comment}{// ID= 0 radial pos in mm}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00674}00674                 analysisManager-\/>FillNtupleFColumn( 2, 1,Theta);                \textcolor{comment}{// ID= 1 Theta in degree}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00675}00675                 analysisManager-\/>FillNtupleFColumn( 2, 2,Zpos);                 \textcolor{comment}{// ID= 2 PosZ in mm}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00676}00676                 analysisManager-\/>FillNtupleDColumn( 2, 3,value/eV ); \textcolor{comment}{// ID= 3 deposited power to be multiplied by the beam power and divided by the number of source particles}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00677}00677                 analysisManager-\/>AddNtupleRow(2);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00678}00678             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00679}00679             \textcolor{keywordflow}{if}(k==3 || k==4) \textcolor{comment}{// Energy deposit for proton or gamma}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00680}00680                 analysisManager-\/>FillH2(k, CalculateCartesianPos(Radius, Theta, Zpos).x() + m\_p-\/>origin\_PolarMesh[0],}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00681}00681                                             CalculateCartesianPos(Radius, Theta, Zpos).y() + m\_p-\/>origin\_PolarMesh[1], value/eV  / CubicVolume / m\_p-\/>nbinsZ);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00682}00682             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (k==1) \{ \textcolor{comment}{// neutron flux}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00683}00683                 analysisManager-\/>FillH2(1, CalculateCartesianPos(Radius, Theta, Zpos).x() + m\_p-\/>origin\_PolarMesh[0],}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00684}00684                                             CalculateCartesianPos(Radius, Theta, Zpos).y() + m\_p-\/>origin\_PolarMesh[1], value/(1/cm2)  /e\_SI / m\_p-\/>nbinsZ);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00685}00685                 analysisManager-\/>FillH2(6, CalculateCartesianPos(Radius, Theta, Zpos).x() + m\_p-\/>origin\_PolarMesh[0],}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00686}00686                                             CalculateCartesianPos(Radius, Theta, Zpos).z() + m\_p-\/>origin\_PolarMesh[2], value/(1/cm2)  /e\_SI / m\_p-\/>nbinsY);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00687}00687             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00688}00688             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (k==2) \{ \textcolor{comment}{// gamma flux}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00689}00689                 analysisManager-\/>FillH2( 2, CalculateCartesianPos(Radius, Theta, Zpos).x() + m\_p-\/>origin\_PolarMesh[0],}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00690}00690                                             CalculateCartesianPos(Radius, Theta, Zpos).y() + m\_p-\/>origin\_PolarMesh[1], value/(1/cm2)  /e\_SI / m\_p-\/>nbinsZ);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00691}00691                 analysisManager-\/>FillH2(11, CalculateCartesianPos(Radius, Theta, Zpos).x() + m\_p-\/>origin\_PolarMesh[0],}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00692}00692                                             CalculateCartesianPos(Radius, Theta, Zpos).z() + m\_p-\/>origin\_PolarMesh[2], value/(1/cm2)  /e\_SI / m\_p-\/>nbinsY);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00693}00693             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00694}00694         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00695}00695     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00696}00696 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00697}00697 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00698}00698 \textcolor{keywordtype}{void} RunAction::ReadHexagonalMesh(\textcolor{keyword}{const} G4Run* run, \textcolor{keywordtype}{int} \textcolor{comment}{/*Nprotons*/}, \textcolor{keywordtype}{double} \textcolor{comment}{/*dbl\_Ibeam*/}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00699}00699     \textcolor{comment}{// Mesh cubic volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00700}00700     G4double CubicVolume = (3.*sqrt(3.)/8. * m\_p-\/>hexPitch * m\_p-\/>hexPitch * (m\_p-\/>maxZ-\/m\_p-\/>minZ)/m\_p-\/>nbinsZ)/cm3;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00701}00701 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00702}00702     \textcolor{comment}{// Pitch of the binning}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00703}00703     G4double r = m\_p-\/>hexPitch * 0.5;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00704}00704     G4double d = std::sqrt(3) * r;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00705}00705     G4double DeltaZ = (m\_p-\/>maxZ-\/m\_p-\/>minZ)/(\textcolor{keywordtype}{double})m\_p-\/>nbinsZ; \textcolor{comment}{// Z pitch = Z box length}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00706}00706 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00707}00707     \textcolor{keyword}{auto} analysisManager = G4AnalysisManager::Instance();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00708}00708     \textcolor{keyword}{const} \mbox{\hyperlink{class_run}{Run}}* theRun = (\textcolor{keyword}{const} \mbox{\hyperlink{class_run}{Run}}*)run;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00709}00709     G4double Xpos, Ypos, Zpos;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00710}00710     \textcolor{keywordtype}{int} nBinsY = m\_p-\/>nbinsHexMaxY-\/m\_p-\/>nbinsHexMinY+1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00711}00711 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00712}00712     \textcolor{comment}{// For each scored quantity of the sensitive detector}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00713}00713     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=0; k<theRun-\/>GetNumberOfSD(); k++) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00714}00714 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00715}00715         \textcolor{keyword}{const} G4THitsMap<G4double> map = theRun-\/>GetFullMap(k); \textcolor{comment}{// Get the 3D map of the scoring quantity}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00716}00716         std::map<G4int,G4double*>::iterator itr = map.GetMap()-\/>begin();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00717}00717         std::map<G4int,G4double*>::iterator itr\_end = map.GetMap()-\/>end();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00718}00718         G4double value = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00719}00719         G4int key = 0, nx, ny, nz;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00720}00720 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00721}00721 \textcolor{comment}{//         for(; itr != map.GetMap()-\/>end(); ++itr) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00722}00722         \textcolor{keywordflow}{for}(; itr != itr\_end; ++itr) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00723}00723             key   = (itr-\/>first);   \textcolor{comment}{// key of the mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00724}00724             value = *(itr-\/>second);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00725}00725 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00726}00726             \textcolor{comment}{// Bin number for each axis}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00727}00727             nx = (int)(key/(\textcolor{keywordtype}{int})(nBinsY*m\_p-\/>nbinsZ));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00728}00728             ny = (int)(key/(\textcolor{keywordtype}{int})(m\_p-\/>nbinsZ) -\/ nx * nBinsY);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00729}00729             nz = key -\/ ny * m\_p-\/>nbinsZ -\/ nx * nBinsY * m\_p-\/>nbinsZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00730}00730 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00731}00731             \textcolor{comment}{// Position of the bin number}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00732}00732             Xpos =  (double)(2 * (nx+m\_p-\/>nbinsHexMinX) + (int)(ny+m\_p-\/>nbinsHexMinY)\%2) * r;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00733}00733             Ypos =  (double)(ny+m\_p-\/>nbinsHexMinY) * d;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00734}00734             Zpos = ((double)(nz) + 0.5) * DeltaZ + m\_p-\/>minZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00735}00735 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00736}00736             \textcolor{keywordflow}{if}(k==0) \{ \textcolor{comment}{// energy deposit for every particles}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00737}00737 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00738}00738                 \textcolor{comment}{// Fill 2D with the projected mean value}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00739}00739                 analysisManager-\/>FillH2( 0, Xpos/mm, Ypos/mm, value/eV  / (CubicVolume * m\_p-\/>nbinsZ));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00740}00740                 analysisManager-\/>FillH2(10, Xpos/mm, Zpos/mm, value/eV  / (CubicVolume * nBinsY));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00741}00741 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00742}00742                \textcolor{comment}{// Fill the ntuple to get a 3D mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00743}00743                 analysisManager-\/>FillNtupleFColumn( 2, 0, Xpos/mm);              \textcolor{comment}{// ID= 0 radial pos in mm}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00744}00744                 analysisManager-\/>FillNtupleFColumn( 2, 1, Ypos/mm);              \textcolor{comment}{// ID= 1 Theta in rad}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00745}00745                 analysisManager-\/>FillNtupleFColumn( 2, 2, Zpos/mm);              \textcolor{comment}{// ID= 2 PosZ in mm}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00746}00746                 analysisManager-\/>FillNtupleDColumn( 2, 3, value/eV ); \textcolor{comment}{// ID= 3 Kinetic energy in eV}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00747}00747                 analysisManager-\/>AddNtupleRow(2);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00748}00748             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00749}00749             \textcolor{keywordflow}{if}(k==3 || k==4) \textcolor{comment}{// Energy deposit for proton or gamma}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00750}00750                 analysisManager-\/>FillH2(k, Xpos/mm, Ypos/mm, value/eV  / CubicVolume / m\_p-\/>nbinsZ);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00751}00751             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (k==1) \{ \textcolor{comment}{// neutron flux}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00752}00752                 analysisManager-\/>FillH2(1, Xpos/mm, Ypos/mm, value/(1/cm2)  / m\_p-\/>nbinsZ);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00753}00753                 analysisManager-\/>FillH2(6, Xpos/mm, Zpos/mm, value/(1/cm2)  / nBinsY);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00754}00754             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00755}00755             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (k==2) \{ \textcolor{comment}{// gamma flux}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00756}00756                 analysisManager-\/>FillH2( 2, Xpos/mm, Ypos/mm, value/(1/cm2)  / m\_p-\/>nbinsZ);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00757}00757                 analysisManager-\/>FillH2(11, Xpos/mm, Zpos/mm, value/(1/cm2)  / nBinsY);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00758}00758             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00759}00759         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00760}00760     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00761}00761 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00762}00762 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00763}00763 \textcolor{keywordtype}{void} RunAction::PrintSimulationTime() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00764}00764   fTimer = clock() -\/ fTimer;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00765}00765 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00766}00766   \textcolor{keywordflow}{if}(IsMaster()) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00767}00767     G4cout <<  \textcolor{stringliteral}{"{}\(\backslash\)n **************************************\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00768}00768             << \textcolor{stringliteral}{"{} * Simulation time : "{}} << (((float)fTimer)/CLOCKS\_PER\_SEC)/60./(\textcolor{keywordtype}{double})fnThreads << \textcolor{stringliteral}{"{} minutes *"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00769}00769             << \textcolor{stringliteral}{"{}\(\backslash\)n **************************************\(\backslash\)n"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00770}00770   \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00771}00771 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00772}00772 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00773}00773 \textcolor{keywordtype}{void} RunAction::UseABLAmodel() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00774}00774       G4cout<< \textcolor{stringliteral}{"{} **************************************************** "{}}<<G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00775}00775       G4cout<< \textcolor{stringliteral}{"{} ******** Use of ABLA v3 de-\/excitation model ******** "{}}<<G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00776}00776       G4cout<< \textcolor{stringliteral}{"{} **************************************************** "{}}<<G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00777}00777       \textcolor{comment}{// Get hold of pointers to the INCL++ model interfaces}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00778}00778       std::vector<G4HadronicInteraction*> interactions =}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00779}00779               G4HadronicInteractionRegistry::Instance()-\/>FindAllModels( G4INCLXXInterfaceStore::GetInstance()-\/>getINCLXXVersionName());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00780}00780       \textcolor{keywordflow}{for}(std::vector<G4HadronicInteraction*>::const\_iterator iInter=interactions.begin(),e=interactions.end();iInter!=e; ++iInter)}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00781}00781       \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00782}00782           G4INCLXXInterface*theINCLInterface = \textcolor{keyword}{static\_cast<}G4INCLXXInterface*\textcolor{keyword}{>}(*iInter);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00783}00783           \textcolor{keywordflow}{if}(theINCLInterface)}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00784}00784           \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00785}00785               \textcolor{comment}{// Instantiate the ABLA model}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00786}00786               G4HadronicInteraction*interaction = G4HadronicInteractionRegistry::Instance()-\/>FindModel(\textcolor{stringliteral}{"{}ABLA"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00787}00787               G4AblaInterface*theAblaInterface =\textcolor{keyword}{static\_cast<}G4AblaInterface*\textcolor{keyword}{>}(interaction);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00788}00788               \textcolor{keywordflow}{if}(!theAblaInterface)}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00789}00789               \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00790}00790                   theAblaInterface = \textcolor{keyword}{new} G4AblaInterface;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00791}00791                   \textcolor{comment}{// Couple INCL++ to ABLA}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00792}00792                   G4cout << \textcolor{stringliteral}{"{}Coupling INCLXX to ABLA"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00793}00793                   theINCLInterface-\/>SetDeExcitation(theAblaInterface);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00794}00794               \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00795}00795           \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00796}00796       \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00797}00797 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00798}00798 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00799}00799 \textcolor{keywordtype}{void} RunAction::PrintRunStart(\textcolor{keyword}{const} G4Run* aRun) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00800}00800   \textcolor{keywordflow}{if}(IsMaster()) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00801}00801     G4int \textcolor{keywordtype}{id} = aRun-\/>GetRunID();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00802}00802     G4cout << \textcolor{stringliteral}{"{}\#\#\# Run "{}} << \textcolor{keywordtype}{id} << \textcolor{stringliteral}{"{} start"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00803}00803 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00804}00804     \textcolor{keyword}{auto} timenow =}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00805}00805       chrono::system\_clock::to\_time\_t(chrono::system\_clock::now());}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00806}00806 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00807}00807     G4cout << ctime(\&timenow) << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00808}00808   \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00809}00809 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00810}00810 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00811}00811 \textcolor{comment}{// Calculate the cartesian position from polar oordinates}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00812}00812 \textcolor{comment}{// Theta is in degree}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00813}00813 G4ThreeVector RunAction::CalculateCartesianPos(\textcolor{keywordtype}{double} Radius, \textcolor{keywordtype}{double} Theta, \textcolor{keywordtype}{double} Zpos) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00814}00814     \textcolor{keywordflow}{if} (m\_p-\/>polarAxis == \textcolor{stringliteral}{"{}Y"{}}) \{ \textcolor{comment}{// if Y-\/axis (cartesian) corresponds to the Z-\/axis in polar coordinates}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00815}00815         \textcolor{keywordflow}{return} G4ThreeVector(Radius/mm * std::sin(Theta*CLHEP::pi/180.), Zpos, Radius/mm * std::cos(Theta*CLHEP::pi/180.));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00816}00816     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00817}00817     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (m\_p-\/>polarAxis == \textcolor{stringliteral}{"{}Z"{}}) \{ \textcolor{comment}{// if Z-\/axis (cartesian) corresponds to the Z-\/axis in polar coordinates}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00818}00818         \textcolor{keywordflow}{return} G4ThreeVector(Radius/mm * std::cos(Theta*CLHEP::pi/180.), Radius/mm * std::sin(Theta*CLHEP::pi/180.), Zpos);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00819}00819     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00820}00820     \textcolor{keywordflow}{else} \{ \textcolor{comment}{// Default is X-\/axis in cartesian coordinates corresponding to Z-\/axis in polar coordinates}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00821}00821         \textcolor{keywordflow}{return} G4ThreeVector(Zpos, Radius/mm * std::cos(Theta*CLHEP::pi/180.), Radius/mm * std::sin(Theta*CLHEP::pi/180.));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00822}00822     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00823}00823 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00824}00824 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00829}00829 \textcolor{keywordtype}{void} RunAction::writeNeutronicCalcResultsInTextFile() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00830}00830     \textcolor{keywordflow}{if} (fnThreads > 1) \{\textcolor{comment}{// Merge threads results in one file if more than 1 thread}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00831}00831         fmergedResultsinTextFile-\/>WriteResults(m\_p-\/>str\_ROOTFileName, m\_p-\/>int\_Option, fRunNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00832}00832     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2_run_action_8cc_source_l00833}00833 \}}
+
+\end{DoxyCode}

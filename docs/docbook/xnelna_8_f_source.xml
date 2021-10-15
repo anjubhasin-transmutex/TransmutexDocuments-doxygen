@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnelna_8_f_source" xml:lang="en-US">
+<title>xnelna.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xnelna.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnelna_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;03/06/96&#32;&#32;12.15.41&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;08/09/95</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">FUNCTION&#32;</emphasis>xnelna(IZAEXT)
+<anchor xml:id="_xnelna_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Returns&#32;isomer&#32;name&#32;and&#32;level&#32;code&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IZAEXT&#32;&#32;&#32;&#32;(input)&#32;isomer&#32;code&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;XNELNA&#32;&#32;&#32;&#32;(output&#32;CHARACTER*11)&#32;element&#32;name&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00011"/>00011 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00012"/>00012 <emphasis role="preprocessor">#include&#32;&quot;xcelna.inc&quot;</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00013"/>00013 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;parameter(maxiso=6)
+<anchor xml:id="_xnelna_8_f_source_1l00014"/>00014 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*11</emphasis>&#32;XNELNA
+<anchor xml:id="_xnelna_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*(*)</emphasis>&#32;CHZUNK,CHIUNK
+<anchor xml:id="_xnelna_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*1</emphasis>&#32;CHISOM(0:MAXISO)
+<anchor xml:id="_xnelna_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;chisom&#32;/&#32;<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>,<emphasis role="stringliteral">&apos;m&apos;</emphasis>,<emphasis role="stringliteral">&apos;n&apos;</emphasis>,<emphasis role="stringliteral">&apos;p&apos;</emphasis>,<emphasis role="stringliteral">&apos;q&apos;</emphasis>,<emphasis role="stringliteral">&apos;r&apos;</emphasis>,<emphasis role="stringliteral">&apos;s&apos;</emphasis>&#32;/
+<anchor xml:id="_xnelna_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;parameter(chzunk=<emphasis role="stringliteral">&apos;??-??-&apos;</emphasis>,chiunk=<emphasis role="stringliteral">&apos;?&apos;</emphasis>)
+<anchor xml:id="_xnelna_8_f_source_1l00019"/>00019 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00020"/>00020 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00021"/>00021 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00022"/>00022 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;rid&#32;of&#32;temperature&#32;code</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xngtmp(izaext,izamat,itpos)
+<anchor xml:id="_xnelna_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izamat.EQ.10)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00025"/>00025 <emphasis role="comment">*&#32;---&gt;&#32;ENDF-6&#32;special&#32;code&#32;for&#32;neutrons</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xnelna=<emphasis role="stringliteral">&apos;&#32;&#32;&#32;&#32;neutron&apos;</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnelna_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(izamat.EQ.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00029"/>00029 <emphasis role="comment">*&#32;---&gt;&#32;ENDF-6&#32;special&#32;code&#32;for&#32;photons</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xnelna=<emphasis role="stringliteral">&apos;&#32;&#32;&#32;&#32;&#32;photon&apos;</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnelna_8_f_source_1l00032"/>00032 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;iz=izamat/10000
+<anchor xml:id="_xnelna_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iz.LE.0.OR.iz.GT.mxelna)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00035"/>00035 <emphasis role="comment">*&#32;---&gt;&#32;Z&#32;smaller&#32;than&#32;1&#32;or&#32;greater&#32;tham&#32;MXELNA</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xnelna=chzunk
+<anchor xml:id="_xnelna_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00038"/>00038 <emphasis role="comment">*&#32;---&gt;&#32;Encode&#32;Z&#32;and&#32;element&#32;symbol</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(xnelna(1:7),10000)&#32;iz,chelna(iz)
+<anchor xml:id="_xnelna_8_f_source_1l00040"/>00040 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00041"/>00041 <emphasis role="comment">*&#32;---&gt;&#32;Decode&#32;A</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;ia=mod(izamat/10,1000)
+<anchor xml:id="_xnelna_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ia.EQ.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00044"/>00044 <emphasis role="comment">*&#32;---&gt;&#32;ENDF-6&#32;convention&#32;A=0&#32;=&gt;&#32;natural&#32;isotope&#32;mixture</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xnelna(8:10)=<emphasis role="stringliteral">&apos;Nat&apos;</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00047"/>00047 <emphasis role="comment">*&#32;---&gt;&#32;Encode&#32;A</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(xnelna(8:10),10100)&#32;ia
+<anchor xml:id="_xnelna_8_f_source_1l00049"/>00049 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00050"/>00050 <emphasis role="comment">*&#32;---&gt;&#32;Decode&#32;isomer&#32;code</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;is=mod(izamat,10)
+<anchor xml:id="_xnelna_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(is.LT.0.OR.is.GT.maxiso)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00053"/>00053 <emphasis role="comment">*&#32;---&gt;&#32;Invalid&#32;isomer&#32;code</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xnelna(11:11)=chiunk
+<anchor xml:id="_xnelna_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00056"/>00056 <emphasis role="comment">*&#32;---&gt;&#32;Decode&#32;isomer&#32;code</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xnelna(11:11)=chisom(is)
+<anchor xml:id="_xnelna_8_f_source_1l00058"/>00058 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00059"/>00059 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnelna_8_f_source_1l00060"/>00060 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(i3,<emphasis role="stringliteral">&apos;-&apos;</emphasis>,a2,<emphasis role="stringliteral">&apos;-&apos;</emphasis>)
+<anchor xml:id="_xnelna_8_f_source_1l00061"/>00061 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(i3.3)
+<anchor xml:id="_xnelna_8_f_source_1l00062"/>00062 &#32;999&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

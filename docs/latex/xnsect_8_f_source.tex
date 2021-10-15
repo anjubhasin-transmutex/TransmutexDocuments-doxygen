@@ -1,0 +1,53 @@
+\hypertarget{xnsect_8_f_source}{}\doxysection{xnsect.\+F}
+\label{xnsect_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnsect.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnsect.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 04/06/96  11.23.57  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   17/01/94}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnsect(ID,EN,SEC)}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00006}00006 \textcolor{comment}{*     Interpolates and returns Cross Section previously booked via     *}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00007}00007 \textcolor{comment}{*     XNBOOK                                                           *}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00009}00009 \textcolor{comment}{*     ID        (input) Cross Section identifier                       *}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00010}00010 \textcolor{comment}{*     EN        (input) incoming neutron energy in eV                  *}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00011}00011 \textcolor{comment}{*     SEC       (output) Cross Section in barns                        *}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00012}00012 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00013}00013 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00014}00014 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00015}00015 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00016}00016 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00017}00017 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbas.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00018}00018 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00019}00019 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00020}00020 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00021}00021 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00022}00022 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00023}00023 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> Initialises cross section to 0}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00025}00025       sec=0.}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Look for cross section ID}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00027}00027       \textcolor{keywordflow}{DO} 10 jid=1,nid}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00028}00028          \textcolor{keywordflow}{IF}(id.EQ.idl(jid,1)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00029}00029             iid=jid}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Cross section ID found}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00031}00031             \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00032}00032 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00033}00033    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> Cross section ID not found, print message and leave}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00035}00035       \textcolor{keyword}{WRITE}(6,10000) id}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00036}00036 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNSECT: ID '},i6,\textcolor{stringliteral}{' non existent!'})}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00037}00037       \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Length of data in memory}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00039}00039    20 ilen = imtabl(1+nreinf*(idl(iid,3)-\/1)+2,idl(iid,2))}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> If no data leave now}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00041}00041       \textcolor{keywordflow}{IF}(ilen.LE.0) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00042}00042 \textcolor{comment}{* -\/-\/-\/> Start of data in memory}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00043}00043       ibase = imtabl(1+nreinf*(idl(iid,3)-\/1)+1,idl(iid,2))}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00044}00044 \textcolor{comment}{* -\/-\/-\/> Interpolate}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00045}00045       \textcolor{keyword}{CALL }xnbint(ibase,ilen,en,sec)}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00046}00046 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnsect_8_f_source_l00047}00047   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

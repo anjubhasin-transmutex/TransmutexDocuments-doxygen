@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_isomers_2xnlbnl_8_f_source" xml:lang="en-US">
+<title>xnlbnl.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/isomers/xnlbnl.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;05/06/96&#32;&#32;14.47.33&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnlbnl(CHFBNL)
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Load&#32;isomer&#32;codes&#32;and&#32;some&#32;relevant&#32;information&#32;from&#32;the&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;EET&#32;nuclear&#32;database,&#32;one&#32;entry&#32;per&#32;isomer&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;CHFBNL&#32;&#32;&#32;&#32;(input&#32;CHARACTER*(*))&#32;EET&#32;nuclear&#32;database&#32;file&#32;name&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00011"/>00011 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00012"/>00012 <emphasis role="preprocessor">#include&#32;&quot;xcsbnl.inc&quot;</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00013"/>00013 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*(*)</emphasis>&#32;CHFBNL
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00014"/>00014 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;LFIRST
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;lfirst&#32;/.true./
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">SAVE</emphasis>&#32;lfirst
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;izold/-1/
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00018"/>00018 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00019"/>00019 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00020"/>00020 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00021"/>00021 <emphasis role="comment">*&#32;---&gt;&#32;Make&#32;sure&#32;we&#32;do&#32;this&#32;only&#32;once</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(.NOT.lfirst)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;lfirst=.false.
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00024"/>00024 <emphasis role="comment">*&#32;---&gt;&#32;Initialise&#32;counter</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;ntobnl=0
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;---&gt;&#32;Open&#32;file</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(99,file=chfbnl,status=<emphasis role="stringliteral">&apos;OLD&apos;</emphasis>,action=<emphasis role="stringliteral">&apos;READ&apos;</emphasis>)
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00028"/>00028 <emphasis role="comment">*&#32;---&gt;&#32;Strip&#32;header</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(99,10000)
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00030"/>00030 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;new&#32;entry</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00031"/>00031 &#32;&#32;&#32;10&#32;<emphasis role="keyword">READ</emphasis>(99,10000,<emphasis role="keyword">END</emphasis>=30)&#32;IN,IA,IZ,IS,CHSYMB,HM,QL,TL,IDA,IDZ,IDI,BR,
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;+qd,ha,t1,t2,<emphasis role="keywordflow">IF</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00033"/>00033 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;WRITE(6,10000)&#32;IN,IA,IZ,IS,CHSYMB,HM,QL,TL,IDA,IDZ,IDI,BR,QD,HA,</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00034"/>00034 <emphasis role="comment">*&#32;&#32;&#32;&#32;+T1,T2,IF</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;iznow=is+10*ia+10&#32;000*iz
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00036"/>00036 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;not&#32;new&#32;isomer&#32;code,&#32;read&#32;again</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iznow.EQ.izold)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00038"/>00038 <emphasis role="comment">*&#32;---&gt;&#32;Isomer&#32;code&#32;different&#32;from&#32;previous</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;izold=iznow
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00040"/>00040 <emphasis role="comment">*&#32;---&gt;&#32;Make&#32;sure&#32;it&#32;is&#32;not&#32;already&#32;there</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;jb=1,ntobnl
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izabnl(jb).EQ.iznow)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00043"/>00043 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ntobnl.GE.maxbnl)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00045"/>00045 <emphasis role="comment">*&#32;---&gt;&#32;Not&#32;enough&#32;space&#32;to&#32;go&#32;on</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10100)&#32;ntobnl
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;30
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00048"/>00048 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00049"/>00049 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;isomer&#32;information</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;ntobnl=ntobnl+1
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00051"/>00051 <emphasis role="comment">*&#32;---&gt;&#32;Isomer&#32;code</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;izabnl(ntobnl)=iznow
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00053"/>00053 <emphasis role="comment">*&#32;---&gt;&#32;Mass&#32;in&#32;AU</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;hmabnl(ntobnl)=hm
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00055"/>00055 <emphasis role="comment">*&#32;---&gt;&#32;Level&#32;in&#32;eV</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;qlvbnl(ntobnl)=ql
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00057"/>00057 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;next&#32;line</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00059"/>00059 <emphasis role="comment">*&#32;---&gt;&#32;EoF,&#32;close&#32;file</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00060"/>00060 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CLOSE</emphasis>(99)
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00062"/>00062 <emphasis role="comment">*&#32;---&gt;&#32;Now&#32;sort&#32;isomer&#32;codes&#32;in&#32;ascending&#32;order</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;50&#32;jb=1,ntobnl-1
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;40&#32;ib=jb+1,ntobnl
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izabnl(jb).GT.izabnl(ib))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iztmp=izabnl(jb)
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hmtmp=hmabnl(jb)
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qltmp=qlvbnl(jb)
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izabnl(jb)=izabnl(ib)
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hmabnl(jb)=hmabnl(ib)
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qlvbnl(jb)=qlvbnl(ib)
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izabnl(ib)=iztmp
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hmabnl(ib)=hmtmp
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qlvbnl(ib)=qltmp
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00075"/>00075 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00076"/>00076 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00077"/>00077 &#32;&#32;&#32;50&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10200)&#32;ntobnl
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00079"/>00079 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00080"/>00080 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(4i5,a5,3g15.7,3i5,5g15.7,i5)
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00081"/>00081 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNLBNL:&#32;Loading&#32;stopped&#32;at&#32;&apos;</emphasis>,i5,<emphasis role="stringliteral">&apos;&#32;isomers&apos;</emphasis>)
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00082"/>00082 10200&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNLBNL:&#32;&apos;</emphasis>,i5,<emphasis role="stringliteral">&apos;&#32;isomers&#32;successfully&#32;read&#32;in&apos;</emphasis>)
+<anchor xml:id="_isomers_2xnlbnl_8_f_source_1l00083"/>00083 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

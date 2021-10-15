@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xninte_8_f_source" xml:lang="en-US">
+<title>xninte.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xninte.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xninte_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;05/03/97&#32;&#32;08.03.46&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;14/03/94</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xninte(IZAEX,CHREAC,ELIM,SECR,SECT)
+<anchor xml:id="_xninte_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Performs&#32;thermal&#32;and&#32;resonance&#32;integral&#32;of&#32;a&#32;cross&#32;section&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;The&#32;termal&#32;integral&#32;is&#32;defined&#32;as:&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;INT(1E-5-&gt;ELIM)&#32;{MaXW(E)&#32;sigma(E)&#32;dE}&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;where&#32;MaXW(E)&#32;is&#32;the&#32;Maxwell&#32;distribution&#32;as&#32;a&#32;function&#32;of&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;energy.&#32;The&#32;resonance&#32;integral&#32;is&#32;defined&#32;as&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;INT(ELIM-&gt;2E7)&#32;{sigma(E)/E&#32;dE}&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IZAEX&#32;&#32;&#32;&#32;&#32;(input)&#32;isomer&#32;code&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00017"/>00017 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;CHREAC&#32;&#32;&#32;&#32;(input&#32;CHARACTER*8)&#32;reaction&#32;name.&#32;For&#32;available&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00018"/>00018 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;reaction&#32;names&#32;see&#32;array&#32;CHNAME&#32;below&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00019"/>00019 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;ELIM&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;upper&#32;limit&#32;for&#32;the&#32;thermal&#32;integral&#32;and&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00020"/>00020 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lower&#32;limit&#32;for&#32;the&#32;resonance&#32;integral&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00021"/>00021 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;SECR&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;resonance&#32;integral&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00022"/>00022 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;SECT&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;thermal&#32;integral&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00023"/>00023 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00024"/>00024 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00025"/>00025 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00026"/>00026 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcpoin.inc&quot;</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00027"/>00027 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcstor.inc&quot;</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00028"/>00028 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcnamf.inc&quot;</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00029"/>00029 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;hinfo(nadinf)
+<anchor xml:id="_xninte_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*4</emphasis>&#32;CHREAC
+<anchor xml:id="_xninte_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;---&gt;&#32;Boltzmann&#32;constant&#32;in&#32;eV/K</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;parameter(pi=3.14159265358979312)
+<anchor xml:id="_xninte_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;parameter(boltz=11604.45)
+<anchor xml:id="_xninte_8_f_source_1l00034"/>00034 <emphasis role="comment">*&#32;---&gt;&#32;Normalised&#32;Maxwell&#32;Energy&#32;distribution</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;pmaxw(e,et)&#32;=&#32;sqrt(e)*exp(-e/et)*2/sqrt(et**3*pi)
+<anchor xml:id="_xninte_8_f_source_1l00036"/>00036 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00037"/>00037 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00038"/>00038 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00039"/>00039 <emphasis role="comment">*&#32;---&gt;&#32;Save&#32;old&#32;number&#32;of&#32;material&#32;and&#32;HiGh&#32;Water&#32;MarK</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;ihgold=ihgwmk
+<anchor xml:id="_xninte_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;nmatol=nmate
+<anchor xml:id="_xninte_8_f_source_1l00042"/>00042 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;reaction&#32;pointers</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;lreac=1,mxreac
+<anchor xml:id="_xninte_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(chreac.EQ.chname(lreac))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00045"/>00045 <emphasis role="comment">*&#32;---&gt;&#32;ENDF-6&#32;reaction&#32;code</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ircode=3000+nbmft(lreac)
+<anchor xml:id="_xninte_8_f_source_1l00047"/>00047 <emphasis role="comment">*&#32;---&gt;&#32;Reaction&#32;&quot;column&quot;&#32;pointer&#32;in&#32;IMTABL&#32;array</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;irnumb=lreac
+<anchor xml:id="_xninte_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;20
+<anchor xml:id="_xninte_8_f_source_1l00050"/>00050 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00051"/>00051 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00052"/>00052 <emphasis role="comment">*&#32;---&gt;&#32;Reaction&#32;not&#32;found,&#32;print&#32;message&#32;and&#32;stop</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;***&#32;XNSPEC:&#32;Unknown&#32;reaction&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;,A4)&apos;</emphasis>)&#32;chreac
+<anchor xml:id="_xninte_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;stop
+<anchor xml:id="_xninte_8_f_source_1l00055"/>00055 <emphasis role="comment">*&#32;---&gt;&#32;Treat&#32;temperature&#32;coefficent</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00056"/>00056 &#32;&#32;&#32;20&#32;<emphasis role="keyword">CALL&#32;</emphasis>xngtmp(izaex,izamat,itcod)
+<anchor xml:id="_xninte_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(itcod.GE.nctemp)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00058"/>00058 <emphasis role="comment">*&#32;---&gt;&#32;Invalid&#32;temperature&#32;code,&#32;assume&#32;293K</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)&#32;itcod
+<anchor xml:id="_xninte_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;temp=293
+<anchor xml:id="_xninte_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00062"/>00062 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;temperature&#32;in&#32;K</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;temp=ltemp(itcod+1)
+<anchor xml:id="_xninte_8_f_source_1l00064"/>00064 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00065"/>00065 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;thermal&#32;energy&#32;for&#32;this&#32;temperature</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;eterm=temp/boltz
+<anchor xml:id="_xninte_8_f_source_1l00067"/>00067 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;the&#32;reaction</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;mf=ircode/1000
+<anchor xml:id="_xninte_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;mt=mod(ircode,1000)
+<anchor xml:id="_xninte_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntabl(izaex,ircode,ima)
+<anchor xml:id="_xninte_8_f_source_1l00071"/>00071 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;beginning&#32;and&#32;length&#32;of&#32;the&#32;reaction&#32;in&#32;memory</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xngetm(izaex,ircode,ista,ilen,hinf)
+<anchor xml:id="_xninte_8_f_source_1l00073"/>00073 <emphasis role="comment">*&#32;---&gt;&#32;Zero&#32;integrals</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;sect=0.
+<anchor xml:id="_xninte_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;secr=0.
+<anchor xml:id="_xninte_8_f_source_1l00076"/>00076 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;reaction&#32;is&#32;there&#32;perform&#32;integrals</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ilen.GT.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;e1&#32;=&#32;xstore(ista+1)
+<anchor xml:id="_xninte_8_f_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s1&#32;=&#32;xstore(ista+2)
+<anchor xml:id="_xninte_8_f_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iend&#32;=&#32;ista+2*ilen-1
+<anchor xml:id="_xninte_8_f_source_1l00081"/>00081 <emphasis role="comment">*&#32;---&gt;&#32;Thermal&#32;part</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;je=ista+3,iend,2
+<anchor xml:id="_xninte_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;e2=xstore(je)
+<anchor xml:id="_xninte_8_f_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s2=xstore(je+1)
+<anchor xml:id="_xninte_8_f_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(e2.LT.elim)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00086"/>00086 <emphasis role="comment">*&#32;---&gt;&#32;End&#32;of&#32;this&#32;integration&#32;interval&#32;still&#32;smaller&#32;than&#32;ELIM</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sect=sect+0.5*
+<anchor xml:id="_xninte_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(s1*pmaxw(e1,eterm)+s2*pmaxw(e2,eterm))*(e2-e1)
+<anchor xml:id="_xninte_8_f_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;e1=e2
+<anchor xml:id="_xninte_8_f_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s1=s2
+<anchor xml:id="_xninte_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00092"/>00092 <emphasis role="comment">*&#32;---&gt;&#32;ELIM&#32;is&#32;inside&#32;this&#32;interval,&#32;integrate&#32;only&#32;from&#32;E1&#32;to&#32;ELIM</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;e2=elim
+<anchor xml:id="_xninte_8_f_source_1l00094"/>00094 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;cross&#32;section&#32;at&#32;ELIM</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xngetx(izaex,ircode,e2,s2,hinfo,ninfo)
+<anchor xml:id="_xninte_8_f_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sect=sect+0.5*
+<anchor xml:id="_xninte_8_f_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(s1*pmaxw(e1,eterm)+s2*pmaxw(e2,eterm))*(e2-e1)
+<anchor xml:id="_xninte_8_f_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;e1=e2
+<anchor xml:id="_xninte_8_f_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s1=s2
+<anchor xml:id="_xninte_8_f_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ista=je
+<anchor xml:id="_xninte_8_f_source_1l00101"/>00101 <emphasis role="comment">*&#32;---&gt;&#32;Perform&#32;second&#32;integral</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;40
+<anchor xml:id="_xninte_8_f_source_1l00103"/>00103 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00104"/>00104 &#32;&#32;&#32;30&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00105"/>00105 <emphasis role="comment">*&#32;---&gt;&#32;ELIM&#32;larger&#32;than&#32;max&#32;energy&#32;in&#32;table&#32;for&#32;this&#32;reaction,&#32;skip</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00106"/>00106 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;resonance&#32;integral</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;60
+<anchor xml:id="_xninte_8_f_source_1l00108"/>00108 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00109"/>00109 <emphasis role="comment">*&#32;---&gt;&#32;Resonance&#32;integral</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;50&#32;je=ista,iend,2
+<anchor xml:id="_xninte_8_f_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;e2=xstore(je)
+<anchor xml:id="_xninte_8_f_source_1l00112"/>00112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s2=xstore(je+1)
+<anchor xml:id="_xninte_8_f_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;secr=secr+0.5*(s1/e1+s2/e2)*&#32;(e2-e1)
+<anchor xml:id="_xninte_8_f_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;e1=e2
+<anchor xml:id="_xninte_8_f_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s1=s2
+<anchor xml:id="_xninte_8_f_source_1l00116"/>00116 &#32;&#32;&#32;50&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00117"/>00117 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00118"/>00118 <emphasis role="comment">*&#32;---&gt;&#32;Reset&#32;old&#32;HiGh&#32;Water&#32;Mark&#32;and&#32;number&#32;of&#32;materials</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00119"/>00119 &#32;&#32;&#32;60&#32;ihgwmk=ihgold
+<anchor xml:id="_xninte_8_f_source_1l00120"/>00120 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nmate.GT.nmatol)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00121"/>00121 <emphasis role="comment">*&#32;---&gt;&#32;Clean&#32;index&#32;table&#32;in&#32;memory&#32;of&#32;newly&#32;read&#32;materials,&#32;if&#32;any</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00122"/>00122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;70&#32;jp=1,ntablr
+<anchor xml:id="_xninte_8_f_source_1l00123"/>00123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;imtabl(jp,nmate)&#32;=&#32;0
+<anchor xml:id="_xninte_8_f_source_1l00124"/>00124 &#32;&#32;&#32;70&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nmate=nmatol
+<anchor xml:id="_xninte_8_f_source_1l00126"/>00126 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00127"/>00127 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xninte_8_f_source_1l00128"/>00128 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNINTE:&#32;Invalid&#32;temperature&#32;code&#32;&apos;</emphasis>,i5,
+<anchor xml:id="_xninte_8_f_source_1l00129"/>00129 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;:&#32;293K&#32;assumed&apos;</emphasis>)
+<anchor xml:id="_xninte_8_f_source_1l00130"/>00130 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

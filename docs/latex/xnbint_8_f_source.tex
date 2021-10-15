@@ -1,0 +1,68 @@
+\hypertarget{xnbint_8_f_source}{}\doxysection{xnbint.\+F}
+\label{xnbint_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnbint.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnbint.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  09.41.48  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   17/01/94}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnbint(IBASE,ILEN,EN,SEC)}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00006}00006 \textcolor{comment}{*     Interpolate cross section in common /XCSTORE/. Cross sections    *}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00007}00007 \textcolor{comment}{*     are stored in pairs (E,sigma) in ascending energy value in the   *}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00008}00008 \textcolor{comment}{*     array XNSTOR. The ith energy is at position XNSTOR(IBASE+2*i-\/1)  *}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00009}00009 \textcolor{comment}{*     and the corresponding  cross section at position                 *}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00010}00010 \textcolor{comment}{*     XNSTOR(IBASE+2*i).                                               *}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00011}00011 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00012}00012 \textcolor{comment}{*     IBASE     (input) Last word before cross section table in memory *}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00013}00013 \textcolor{comment}{*     ILEN      (input) Number of pairs (E,sigma)                      *}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00014}00014 \textcolor{comment}{*     EN        (input) Energy (in eV)                                 *}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00015}00015 \textcolor{comment}{*     SEC       (output) cross section in barns                        *}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00016}00016 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00017}00017 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00018}00018 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00019}00019 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00020}00020 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00021}00021 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00023}00023       sec=0.}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> If no cross section return}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00025}00025       \textcolor{keywordflow}{IF}(ilen.LE.0) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Binary search}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00027}00027       k1=1}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00028}00028       k2=ilen}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00029}00029       emin=xstore(ibase+1)}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00030}00030       emax=xstore(ibase+2*k2-\/1)}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00031}00031       \textcolor{keywordflow}{IF}(en.LE.emin) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> Energy less than minimum, assign the first value and return}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00033}00033 \textcolor{comment}{C         IF(EN.LT.EMIN) WRITE(6,10000) EN, EMIN}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00034}00034 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNBINT: Energy '},e11.4,\textcolor{stringliteral}{' smaller than minimum '},}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00035}00035      +       e11.4)}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00036}00036          sec=xstore(ibase+2)}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00037}00037       \textcolor{keywordflow}{ELSEIF}(en.GE.emax) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Energy larger than maximum, assign the last value and return}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00039}00039 \textcolor{comment}{C         IF(EN.GT.EMAX) WRITE(6,10100) EN, EMAX}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00040}00040 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNSECT: Energy '},e11.4,\textcolor{stringliteral}{' larger than maximum '},}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00041}00041      +       e11.4)}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00042}00042          sec=xstore(ibase+2*k2)}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00043}00043       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00044}00044 \textcolor{comment}{* -\/-\/-\/> Do binary search}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00045}00045    10    \textcolor{keywordflow}{IF}(k2-\/k1.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00046}00046             khalf=(k1+k2)/2}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00047}00047             ehalf=xstore(ibase+2*khalf-\/1)}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00048}00048             \textcolor{keywordflow}{IF}(en.LE.ehalf) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00049}00049                k2=khalf}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00050}00050             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00051}00051                k1=khalf}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00052}00052 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00053}00053             \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00054}00054 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00055}00055          e1 = xstore(ibase+2*k2-\/3)}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00056}00056          e2 = xstore(ibase+2*k2-\/1)}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/> Do linear interpolation}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00058}00058          xrat = (e2-\/en)/(e2-\/e1)}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00059}00059          sec = xrat*xstore(ibase+2*k2-\/2)+(1.-\/xrat)*xstore(ibase+2*k2)}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00060}00060 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00061}00061 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbint_8_f_source_l00062}00062   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

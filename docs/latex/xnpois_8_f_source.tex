@@ -1,0 +1,45 @@
+\hypertarget{xnpois_8_f_source}{}\doxysection{xnpois.\+F}
+\label{xnpois_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnpois.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnpois.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/07 19/08/96  12.12.27  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   21/03/95}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnpois(NPOIS,N,AVE)}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00006}00006 \textcolor{comment}{*     Samples random numbers according to Poisson distribution         *}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00008}00008 \textcolor{comment}{*     NPOIS     (output) array containing the numbers sampled          *}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00009}00009 \textcolor{comment}{*     N         (input) number of numbers to sample                    *}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00010}00010 \textcolor{comment}{*     AVE       (input) average value of the distribution to sample    *}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00011}00011 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00012}00012 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00013}00013       dimension npois(n),vpois(1)}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00014}00014       \textcolor{keywordtype}{DOUBLE PRECISION} DAVE, XPOIS, XSUMM}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00015}00015 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00016}00016 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00017}00017 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00018}00018       expave=exp(ave)}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00019}00019       dave = ave}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/> Loop over number of sampling requested}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00021}00021       \textcolor{keywordflow}{DO} 20 jp=1,n}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00022}00022 \textcolor{comment}{* -\/-\/-\/> Test value}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00023}00023          \textcolor{keyword}{CALL }xnrand(vpois,1)}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00024}00024          xtest=vpois(1)*expave}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00025}00025          kp=0}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00026}00026          xpois=1.}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00027}00027          xsumm=1.}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Perform sampling}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00029}00029    10    \textcolor{keywordflow}{IF}(xsumm.LT.xtest.AND.xpois.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00030}00030             kp=kp+1}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00031}00031             xpois=xpois*dave/kp}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00032}00032             xsumm=xsumm+xpois}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00033}00033             \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00034}00034 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Number accepted}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00036}00036          npois(jp)=kp}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00037}00037    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00038}00038 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnpois_8_f_source_l00039}00039       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

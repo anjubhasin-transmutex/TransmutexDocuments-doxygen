@@ -1,0 +1,49 @@
+\hypertarget{xngtpb_8_f_source}{}\doxysection{xngtpb.\+F}
+\label{xngtpb_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xngtpb.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xngtpb.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 31/05/96  17.16.03  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xngtpb}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00006}00006 \textcolor{comment}{*     For a given section of a file 5 find the probabilities for       *}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00007}00007 \textcolor{comment}{*     all points of the energy grid.                                   *}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00009}00009 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00010}00010 \textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00011}00011 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xc5dat.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00012}00012 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00013}00013 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00014}00014 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00015}00015 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00016}00016 \textcolor{comment}{* -\/-\/-\/> Read off HEAD record, to see in which distribution we are}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00017}00017       \textcolor{keyword}{READ}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2,}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00018}00018      +                  (nbtpe(n),intpe(n),n=1,n1),(pes(k),k=1,2*n2)}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00019}00019       nrpes=n1}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00020}00020       npes =n2}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00021}00021       lf=l2}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00022}00022 \textcolor{comment}{* -\/-\/-\/> For every energy in the grid we calculate Pb distribution}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00023}00023       \textcolor{keywordflow}{IF}(lf.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> Arbitrarily tabulated function}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00025}00025          \textcolor{keyword}{CALL }xnlf01}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00026}00026       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.5) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/> General evaporation spectrum}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00028}00028          \textcolor{keyword}{CALL }xnlf05}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00029}00029       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.7) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Simple fission spectrum (Maxwellian)}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00031}00031          \textcolor{keyword}{CALL }xnlf07}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00032}00032       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.9) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/> Evaporation spectrum}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00034}00034          \textcolor{keyword}{CALL }xnlf09}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00035}00035       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.11) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/> Energy dependent Watt spectrum}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00037}00037          \textcolor{keyword}{CALL }xnlf11}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00038}00038       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.12) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Energy dependent neutron fission spectrum (Madland \& Nix)}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00040}00040          \textcolor{keyword}{CALL }xnlf12}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00041}00041 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00042}00042 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xngtpb_8_f_source_l00043}00043       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

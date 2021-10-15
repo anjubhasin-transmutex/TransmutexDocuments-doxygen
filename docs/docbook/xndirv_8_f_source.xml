@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xndirv_8_f_source" xml:lang="en-US">
+<title>xndirv.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xngeom/xndirv.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xndirv_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;04/06/96&#32;&#32;19.29.45&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;17/02/94</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xndirv(HINP,V,X,COSTH,SINTH,COSPH,SINPH,ROTATE)
+<anchor xml:id="_xndirv_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Finds&#32;direction&#32;of&#32;a&#32;particle&#32;from&#32;its&#32;speed&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;HINP&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;array&#32;of&#32;3&#32;with&#32;particle&#32;position&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;V&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;array&#32;of&#32;3&#32;with&#32;particle&#32;speed&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;X&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(output&#32;DOUBLE&#32;PRECISION)&#32;array&#32;of&#32;6&#32;with&#32;particle&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;position&#32;and&#32;directo&#32;cosines&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;COSTH&#32;&#32;&#32;&#32;&#32;(output&#32;DOUBLE&#32;PRECISION)&#32;cosinus&#32;of&#32;polar&#32;angle&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;SINTH&#32;&#32;&#32;&#32;&#32;(output&#32;DOUBLE&#32;PRECISION)&#32;sinus&#32;of&#32;polar&#32;angle&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;COSPH&#32;&#32;&#32;&#32;&#32;(output&#32;DOUBLE&#32;PRECISION)&#32;cosinus&#32;of&#32;azimuthal&#32;angle&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;SINPH&#32;&#32;&#32;&#32;&#32;(output&#32;DOUBLE&#32;PRECISION)&#32;sinus&#32;of&#32;azimuthal&#32;angle&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;ROTATE&#32;&#32;&#32;&#32;(output&#32;LOGICAL)&#32;false&#32;if&#32;the&#32;particle&#32;is&#32;travelling&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00017"/>00017 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;along&#32;the&#32;Z&#32;axis&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00018"/>00018 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00019"/>00019 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">IMPLICIT&#32;DOUBLE&#32;PRECISION</emphasis>&#32;(a-h,o-z)
+<anchor xml:id="_xndirv_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;x(6)
+<anchor xml:id="_xndirv_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;ROTATE
+<anchor xml:id="_xndirv_8_f_source_1l00023"/>00023 <emphasis role="keywordtype">&#32;&#32;&#32;&#32;&#32;&#32;REAL</emphasis>&#32;HINP(3),V(3)
+<anchor xml:id="_xndirv_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;parameter(one=1)
+<anchor xml:id="_xndirv_8_f_source_1l00025"/>00025 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00027"/>00027 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00028"/>00028 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;position&#32;and&#32;speed</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;x(1)=hinp(1)
+<anchor xml:id="_xndirv_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;x(2)=hinp(2)
+<anchor xml:id="_xndirv_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;x(3)=hinp(3)
+<anchor xml:id="_xndirv_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;x(4)=v(1)
+<anchor xml:id="_xndirv_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;x(5)=v(2)
+<anchor xml:id="_xndirv_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;x(6)=v(3)
+<anchor xml:id="_xndirv_8_f_source_1l00035"/>00035 <emphasis role="comment">*&#32;---&gt;&#32;Normalise&#32;speed</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;hnorm=1/sqrt(x(4)**2+x(5)**2+x(6)**2)
+<anchor xml:id="_xndirv_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;x(4)&#32;=&#32;x(4)*hnorm
+<anchor xml:id="_xndirv_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;x(5)&#32;=&#32;x(5)*hnorm
+<anchor xml:id="_xndirv_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;x(6)&#32;=&#32;x(6)*hnorm
+<anchor xml:id="_xndirv_8_f_source_1l00040"/>00040 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;angles</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;rotate&#32;&#32;&#32;=&#32;.true.
+<anchor xml:id="_xndirv_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(abs(x(6)).GE.0.85)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00043"/>00043 <emphasis role="comment">*&#32;---&gt;&#32;Particle&#32;close&#32;to&#32;Z&#32;axis,&#32;calculate&#32;polar&#32;sinus&#32;first</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dsith2=x(4)**2+x(5)**2
+<anchor xml:id="_xndirv_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(dsith2.GT.0.)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00046"/>00046 <emphasis role="comment">*&#32;---&gt;&#32;Particle&#32;not&#32;parallel&#32;to&#32;Z&#32;axis</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;costh&#32;&#32;=&#32;sign(one,x(6))*sqrt(one-dsith2)
+<anchor xml:id="_xndirv_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sinth&#32;&#32;=&#32;sqrt(dsith2)
+<anchor xml:id="_xndirv_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cosph&#32;&#32;=&#32;x(4)/sinth
+<anchor xml:id="_xndirv_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sinph&#32;&#32;=&#32;x(5)/sinth
+<anchor xml:id="_xndirv_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSEIF</emphasis>(x(6).GT.0.)<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00052"/>00052 <emphasis role="comment">*&#32;---&gt;&#32;Particle&#32;paralle&#32;to&#32;Z&#32;axis</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rotate&#32;=&#32;.false.
+<anchor xml:id="_xndirv_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00055"/>00055 <emphasis role="comment">*&#32;---&gt;&#32;Particle&#32;antiparallel&#32;to&#32;Z&#32;axis</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;costh&#32;=&#32;-1.
+<anchor xml:id="_xndirv_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sinth&#32;=&#32;&#32;0.
+<anchor xml:id="_xndirv_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cosph&#32;=&#32;&#32;1.
+<anchor xml:id="_xndirv_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sinph&#32;=&#32;&#32;0.
+<anchor xml:id="_xndirv_8_f_source_1l00060"/>00060 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00062"/>00062 <emphasis role="comment">*&#32;---&gt;&#32;Particle&#32;far&#32;from&#32;Z&#32;axis,&#32;calculate&#32;polar&#32;cosinus&#32;first</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;costh&#32;&#32;=&#32;x(6)
+<anchor xml:id="_xndirv_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sinth&#32;&#32;=&#32;sqrt((one+x(6))*(one-x(6)))
+<anchor xml:id="_xndirv_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dnorm&#32;&#32;=&#32;one/sqrt(x(4)**2+x(5)**2)
+<anchor xml:id="_xndirv_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cosph&#32;&#32;=&#32;x(4)*dnorm
+<anchor xml:id="_xndirv_8_f_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sinph&#32;&#32;=&#32;x(5)*dnorm
+<anchor xml:id="_xndirv_8_f_source_1l00068"/>00068 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00069"/>00069 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xndirv_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

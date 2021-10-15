@@ -1,0 +1,263 @@
+\hypertarget{xn0mak_8_f_source}{}\doxysection{xn0mak.\+F}
+\label{xn0mak_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn0mak.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn0mak.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :          24/05/2000  14.26.39  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00003}00003       \textcolor{keyword}{PROGRAM} xnmake}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00006}00006 \textcolor{comment}{*     This program creates a direct access file containing cross       *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00007}00007 \textcolor{comment}{*     sections and secondary neutrons energy distributions from        *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00008}00008 \textcolor{comment}{*     and ENDF-\/6 file processed by the PREPRO94 suite of               *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00009}00009 \textcolor{comment}{*     programs LINEAR, RECENT, SIGMA1, FIXUP /1/. The format of        *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00010}00010 \textcolor{comment}{*     the file and the corresponding routines to read it are           *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00011}00011 \textcolor{comment}{*     described in /2/. The description of the algorithms and          *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00012}00012 \textcolor{comment}{*     formats of ENDF-\/6 files is contained in /3/.                     *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00013}00013 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00014}00014 \textcolor{comment}{*     Latest update 31/5/96                                            *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00015}00015 \textcolor{comment}{*     Author: Federico Carminati CERN-\/LHC                              *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00016}00016 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00017}00017 \textcolor{comment}{* /1/ D.E.Cullen, The 1994 ENDF Pre-\/processing codes, IAEA-\/NDS-\/39      *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00018}00018 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00019}00019 \textcolor{comment}{* /2/ F.Carminati, EET Code Collection, User Guide                     *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00020}00020 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00021}00021 \textcolor{comment}{* /3/ P.F.Rose, C.L.Dunford, ENDF-\/6 Format Manual, IAEA-\/NDS-\/76         *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00022}00022 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00023}00023 \textcolor{comment}{*     Calling tree of the program                                      *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00024}00024 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00025}00025 \textcolor{comment}{*    2   1      XNNEWS                                                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00026}00026 \textcolor{comment}{*    3   1      XNTAB1                                                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00027}00027 \textcolor{comment}{*    4   1      XNMWRI                                                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00028}00028 \textcolor{comment}{*    5   1      XNFIVE                                                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00029}00029 \textcolor{comment}{*    6   2         XN5GTE                                              *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00030}00030 \textcolor{comment}{*    7   3            XNTAB1                                           *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00031}00031 \textcolor{comment}{*    8   3            XNTAB2                                           *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00032}00032 \textcolor{comment}{*    9   3            XNHLIN                                           *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00033}00033 \textcolor{comment}{*   10   3            XNTERP                                           *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00034}00034 \textcolor{comment}{*   11   4               XNBINS                                        *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00035}00035 \textcolor{comment}{*   12   4               XNTRPI                                        *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00036}00036 \textcolor{comment}{*   13   3            XNENGR                                           *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00037}00037 \textcolor{comment}{*   14   4               XNTERP                ===> 10                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00038}00038 \textcolor{comment}{*   15   4               XNPOPE                                        *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00039}00039 \textcolor{comment}{*   16   3            XNORGR                                           *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00040}00040 \textcolor{comment}{*   17   2         XN5PRB                                              *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00041}00041 \textcolor{comment}{*   18   3            XNGTPB                                           *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00042}00042 \textcolor{comment}{*   19   4               XNLF01                                        *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00043}00043 \textcolor{comment}{*   20   5                  XNTERP             ===> 10                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00044}00044 \textcolor{comment}{*   21   5                  XNBINS                                     *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00045}00045 \textcolor{comment}{*   22   4               XNLF05                                        *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00046}00046 \textcolor{comment}{*   23   5                  XNTERP             ===> 10                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00047}00047 \textcolor{comment}{*   24   4               XNLF07                                        *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00048}00048 \textcolor{comment}{*   25   5                  XNTERP             ===> 10                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00049}00049 \textcolor{comment}{*   26   4               XNLF09                                        *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00050}00050 \textcolor{comment}{*   27   5                  XNTERP             ===> 10                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00051}00051 \textcolor{comment}{*   28   4               XNLF11                                        *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00052}00052 \textcolor{comment}{*   29   5                  XNTERP             ===> 10                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00053}00053 \textcolor{comment}{*   30   4               XNLF12                                        *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00054}00054 \textcolor{comment}{*   31   5                  XNTERP             ===> 10                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00055}00055 \textcolor{comment}{*   32   2         XN5PER                                              *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00056}00056 \textcolor{comment}{*   33   3            XNPERC                                           *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00057}00057 \textcolor{comment}{*   34   1      XNSIX                                                  *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00058}00058 \textcolor{comment}{*   35   2         XN6LOA                                              *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00059}00059 \textcolor{comment}{*   36   3            XNTAB1                                           *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00060}00060 \textcolor{comment}{*   37   3            XNTAB2                                           *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00061}00061 \textcolor{comment}{*   38   3            XNLIST                                           *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00062}00062 \textcolor{comment}{*   39   2         XN6CEG                                              *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00063}00063 \textcolor{comment}{*   40   2         XN6TLB                                              *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00064}00064 \textcolor{comment}{*   41   3            XN6TO5                                           *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00065}00065 \textcolor{comment}{*   42   4               XN6PLB                                        *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00066}00066 \textcolor{comment}{*   43   5                  XNTERP             ===> 10                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00067}00067 \textcolor{comment}{*   44   5                  XN6LA1                                     *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00068}00068 \textcolor{comment}{*   45   6                     XN6SSC                                  *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00069}00069 \textcolor{comment}{*   46   7                        XN6LE1                               *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00070}00070 \textcolor{comment}{*   47   8                           DASLGF                            *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00071}00071 \textcolor{comment}{*   48   8                           XNKAMA                            *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00072}00072 \textcolor{comment}{*   49   8                           XNTERP    ===> 10                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00073}00073 \textcolor{comment}{*   50   7                        XNTRPI                               *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00074}00074 \textcolor{comment}{*   51   6                     XNTRPI                                  *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00075}00075 \textcolor{comment}{*   52   6                     XN6LE1          ===> 46                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00076}00076 \textcolor{comment}{*   53   5                  XN6LA6                                     *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00077}00077 \textcolor{comment}{*   54   5                  XN6LA7                                     *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00078}00078 \textcolor{comment}{*   55   6                     XNTERP          ===> 10                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00079}00079 \textcolor{comment}{*   56   6                     XNTRPI                                  *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00080}00080 \textcolor{comment}{*   57   3            XN6INT                                           *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00081}00081 \textcolor{comment}{*   58   4               XN6TO5                ===> 41                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00082}00082 \textcolor{comment}{*   59   1      XNSUMM                                                 *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00083}00083 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00084}00084 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00085}00085 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00086}00086 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00087}00087 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00088}00088 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00089}00089 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcmfh6.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00090}00090 \textcolor{preprocessor}{}\textcolor{comment}{* -\/-\/-\/> File names}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00091}00091       \textcolor{keywordtype}{CHARACTER*124} CHFINP, CHFOUT, CHLIST}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00092}00092 \textcolor{comment}{* -\/-\/-\/> Isotope names}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00093}00093       \textcolor{keywordtype}{CHARACTER*11} XNELNA, CHELNA}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00094}00094       dimension mindex(mxsect*ninden),addinf(nadinf)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00095}00095       equivalence(lindex,mindex)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00096}00096 \textcolor{comment}{* -\/-\/-\/> Neutron mass in GeV}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00097}00097       parameter(hnmass=.93956563)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00098}00098       \textcolor{keyword}{DATA} mathol / -\/99 /}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00099}00099       \textcolor{keywordtype}{CHARACTER*(*)} CHFORM}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00100}00100 \#ifdef XSASCII}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00101}00101       parameter(chform=\textcolor{stringliteral}{'FORMATTED'})}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00102}00102 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00103}00103 \textcolor{preprocessor}{}      parameter(chform=\textcolor{stringliteral}{'UNFORMATTED'})}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00104}00104 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00105}00105 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00106}00106 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcseci.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00107}00107 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00108}00108 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00109}00109 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00110}00110 \textcolor{comment}{* -\/-\/-\/> Open input file (should come from FIXUP)}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00111}00111       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{'Input  file: '}\textcolor{stringliteral}{',\$)'})}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00112}00112       \textcolor{keyword}{READ}(5,\textcolor{stringliteral}{'(A)'}) chfinp}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00113}00113       \textcolor{keyword}{OPEN}(12,file=chfinp(:index(chfinp,\textcolor{stringliteral}{' '})-\/1),}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00114}00114      +     status=\textcolor{stringliteral}{'OLD'},action=\textcolor{stringliteral}{'READ'})}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00115}00115 \textcolor{comment}{* -\/-\/-\/> Open direct access output file}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00116}00116       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{'Output file: '}\textcolor{stringliteral}{',\$)'})}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00117}00117       \textcolor{keyword}{READ}(5,\textcolor{stringliteral}{'(A)'}) chfout}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00118}00118       \textcolor{keyword}{OPEN}(11,file=chfout(:index(chfout,\textcolor{stringliteral}{' '})-\/1),form=chform,}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00119}00119      +     access=\textcolor{stringliteral}{'DIRECT'},recl=80,status=\textcolor{stringliteral}{'UNKNOWN'})}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00120}00120 \textcolor{comment}{* -\/-\/-\/> Open summary file}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00121}00121       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{'Listing file: '}\textcolor{stringliteral}{',\$)'})}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00122}00122       \textcolor{keyword}{READ}(5,\textcolor{stringliteral}{'(A)'}) chlist}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00123}00123       \textcolor{keyword}{OPEN}(15,file=chlist(:index(chlist,\textcolor{stringliteral}{' '})-\/1),form=\textcolor{stringliteral}{'FORMATTED'},}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00124}00124      + status=\textcolor{stringliteral}{'UNKNOWN'})}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00125}00125       \textcolor{keyword}{WRITE}(15,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' *** XNMAKE: from file '}\textcolor{stringliteral}{',A)'})}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00126}00126      +        chfinp(:index(chfinp,\textcolor{stringliteral}{' '})-\/1)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00127}00127 \textcolor{comment}{* -\/-\/-\/> Set to 0 index counter}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00128}00128       nindex = 0}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00129}00129 \textcolor{comment}{* -\/-\/-\/> Set to 1 record counter}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00130}00130       nrecw = 1}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00131}00131 \textcolor{comment}{* -\/-\/-\/> Get to new ENDF-\/6 section}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00132}00132    10 \textcolor{keyword}{CALL }xnnews(c1, c2, l1, l2, n1, n2, math, mfh, mth)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00133}00133 \textcolor{comment}{* -\/-\/-\/> EoF?}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00134}00134       \textcolor{keywordflow}{IF}(math.LT.0) \textcolor{keywordflow}{GOTO} 70}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00135}00135 \textcolor{comment}{* -\/-\/-\/> New material?}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00136}00136       \textcolor{keywordflow}{IF}(math.NE.mathol) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00137}00137 \textcolor{comment}{* -\/-\/-\/> Get additional information on isomeric state}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00138}00138          \textcolor{keyword}{READ}(12,10200) elis,sta,lis,liso,izero,nfor}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00139}00139          mathol=math}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00140}00140          izamat = nint(c1)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00141}00141 \textcolor{comment}{* -\/-\/-\/> Print what we found}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00142}00142          chelna = xnelna(izamat*10+liso)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00143}00143          \textcolor{keyword}{WRITE}(6,10000) chelna,math}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00144}00144 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Now processing '},a,\textcolor{stringliteral}{' mate '},i4)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00145}00145 \textcolor{comment}{* -\/-\/-\/> Find mass of isotope in GeV}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00146}00146          hmass = c2*hnmass}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00147}00147 \textcolor{comment}{* -\/-\/-\/> Reset Q-\/values counter}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00148}00148          nqiv  = 0}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00149}00149 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00150}00150       mfo=mfh}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00151}00151 \textcolor{comment}{* -\/-\/-\/> In case of file 6 we call it file 5 in the index}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00152}00152       \textcolor{keywordflow}{IF}(mfo.EQ.6) mfo=5}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00153}00153 \textcolor{comment}{* -\/-\/-\/> Combined reaction code}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00154}00154       ibmft=mfo*1000+mth}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00155}00155 \textcolor{comment}{* -\/-\/-\/> Is this a reaction we want?}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00156}00156       \textcolor{keywordflow}{DO} 20 jindex=1,mxreac}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00157}00157          \textcolor{keywordflow}{IF}(mth.EQ.nbmft(jindex)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00158}00158             jjth=jindex}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00159}00159             \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00160}00160 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00161}00161    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00162}00162       \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00163}00163 \textcolor{comment}{* -\/-\/-\/> Cross section or energy spectrum?}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00164}00164    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00165}00165       \textcolor{keywordflow}{DO} 40 jmfil=1,maxmfi}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00166}00166          \textcolor{keywordflow}{IF}(mfo.EQ.lmfile(jmfil)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00167}00167             \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00168}00168 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00169}00169    40 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00170}00170       \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00171}00171 \textcolor{comment}{* -\/-\/-\/> Store index entry}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00172}00172    50 nindex=nindex+1}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00173}00173       lindex(1,nindex) = izamat*10+liso}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00174}00174       lindex(2,nindex) = ibmft}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00175}00175       lindex(3,nindex) = nrecw+1}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00176}00176 \textcolor{comment}{* -\/-\/-\/> Set to 0 additional information}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00177}00177       \textcolor{keywordflow}{DO} 60 jinf=1,nadinf}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00178}00178          addinf(jinf)=0.0}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00179}00179    60 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00180}00180       \textcolor{keywordflow}{IF}(mfh.EQ.3) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00181}00181 \textcolor{comment}{* -\/-\/-\/> This is a cross section}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00182}00182 \textcolor{comment}{* -\/-\/-\/> Decode TAB1 structures}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00183}00183          \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00184}00184 \textcolor{comment}{* -\/-\/-\/> Elimintate duplicate energies}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00185}00185          \textcolor{keyword}{CALL }xndupl(xnrval,np,npout)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00186}00186          \textcolor{keywordflow}{IF}(np.NE.npout) \textcolor{keyword}{WRITE}(6,10100) np-\/npout}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00187}00187          np=npout}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00188}00188 \textcolor{comment}{* -\/-\/-\/> Store number of words = 2*points}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00189}00189          lindex(4,nindex) = 2*np}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00190}00190 \textcolor{comment}{* -\/-\/-\/> Store QI value}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00191}00191          addinf(1) = c2}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00192}00192          \textcolor{keywordflow}{IF}(lepdis(jjth)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00193}00193 \textcolor{comment}{* -\/-\/-\/> Save QI for later use by file 6 routine, if any}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00194}00194             nqiv=nqiv+1}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00195}00195             \textcolor{keywordflow}{IF}(nqiv.GT.maxse6) stop \textcolor{stringliteral}{'Increase MAXSE6'}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00196}00196             qiv(nqiv)=c2}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00197}00197             mtqiv(nqiv)=mth}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00198}00198 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00199}00199          \textcolor{keywordflow}{IF}(mth.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00200}00200 \textcolor{comment}{* -\/-\/-\/> If total Cross Section store atomic mass in GeV}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00201}00201             addinf(1) = hmass}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00202}00202 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00203}00203 \textcolor{comment}{* -\/-\/-\/> Write information on direct access file}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00204}00204          \textcolor{keyword}{CALL }xnmwri(addinf,nadinf,xnrval,np*2,nrecw,math,mth,mfh)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00205}00205       \textcolor{keywordflow}{ELSEIF}(mfh.EQ.5) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00206}00206 \textcolor{comment}{* -\/-\/-\/> File 5 distribution}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00207}00207          \textcolor{keywordflow}{IF}(lepdis(jjth)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00208}00208 \textcolor{comment}{* -\/-\/-\/> Build integral table}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00209}00209             \textcolor{keyword}{CALL }xnfive}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00210}00210             addinf(1) = nperc}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00211}00211 \textcolor{comment}{* -\/-\/-\/> NENS primary energies + (NPERC+1) secondary energies for each}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00212}00212 \textcolor{comment}{*      primary one}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00213}00213             mtperc = (nperc+1+1)*nens}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00214}00214             lindex(4,nindex) = mtperc}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00215}00215 \textcolor{comment}{* -\/-\/-\/> Write information on direct access file}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00216}00216             \textcolor{keyword}{CALL }xnmwri(addinf,nadinf,percen,mtperc,nrecw,math,mth,mfh)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00217}00217 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00218}00218       \textcolor{keywordflow}{ELSEIF}(mfh.EQ.6) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00219}00219 \textcolor{comment}{* -\/-\/-\/> File 6 distribution}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00220}00220          \textcolor{keywordflow}{IF}(lepdis(jjth)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00221}00221             neutyi=nyield(jjth)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00222}00222 \textcolor{comment}{* -\/-\/-\/> Build integral table}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00223}00223             \textcolor{keyword}{CALL }xnsix}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00224}00224             addinf(1) = nperc}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00225}00225 \textcolor{comment}{* -\/-\/-\/> NENS primary energies + (NPERC+1) secondary energies for each}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00226}00226 \textcolor{comment}{*      primary one}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00227}00227             mtperc = (nperc+1+1)*nens}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00228}00228             lindex(4,nindex) = mtperc}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00229}00229 \textcolor{comment}{* -\/-\/-\/> Write information on direct access file}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00230}00230             \textcolor{keyword}{CALL }xnmwri(addinf,nadinf,percen,mtperc,nrecw,math,mth,mfh)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00231}00231 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00232}00232 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00233}00233       \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00234}00234 \textcolor{comment}{* -\/-\/-\/> Write file index at the end, and pointer at the beginning}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00235}00235 \textcolor{preprocessor}{\#ifdef XSASCII}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00236}00236 \textcolor{preprocessor}{}   70 \textcolor{keyword}{WRITE}(11,rec=1,fmt=10400) nindex*ninden, nrecw+1}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00237}00237       \textcolor{keywordflow}{DO} 80  j=1,(nindex*ninden-\/1)/8+1}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00238}00238          \textcolor{keyword}{WRITE}(11,rec=j+nrecw,fmt=10500) (mindex(l),l=8*(j-\/1)+1,}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00239}00239      +   8*j)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00240}00240    80 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00241}00241 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00242}00242 \textcolor{preprocessor}{}   70 \textcolor{keyword}{WRITE}(11,rec=1) nindex*ninden, nrecw+1}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00243}00243       \textcolor{keywordflow}{DO} 80  j=1,(nindex*ninden-\/1)/20+1}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00244}00244          \textcolor{keyword}{WRITE}(11,rec=j+nrecw) (mindex(l),l=20*(j-\/1)+1,20*j)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00245}00245    80 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00246}00246 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00247}00247 \textcolor{preprocessor}{}      \textcolor{keyword}{CLOSE}(11)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00248}00248 \textcolor{comment}{* -\/-\/-\/> Write summary}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00249}00249       \textcolor{keyword}{CALL }xnsumm}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00250}00250       \textcolor{keyword}{CLOSE}(15)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00251}00251 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00252}00252 10100 \textcolor{keyword}{FORMAT}(1x,i4,\textcolor{stringliteral}{' duplicate energies removed'})}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00253}00253 10200 \textcolor{keyword}{FORMAT}(2e11.4,4i11,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00254}00254 10300 \textcolor{keyword}{FORMAT}(6e11.4,i4,i2,i3,i5)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00255}00255 10400 \textcolor{keyword}{FORMAT}(i10,10x,i10,50x)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00256}00256 10500 \textcolor{keyword}{FORMAT}(8i10)}
+\DoxyCodeLine{\Hypertarget{xn0mak_8_f_source_l00257}00257       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

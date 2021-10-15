@@ -1,0 +1,73 @@
+\hypertarget{xnwsum_8_f_source}{}\doxysection{xnwsum.\+F}
+\label{xnwsum_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/convac9/xnwsum.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/convac9/xnwsum.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/01 12/12/95  14.36.33  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00003}00003       \textcolor{keyword}{subroutine }xnwsum}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00004}00004 \textcolor{preprocessor}{\#include "{}xceafi.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00005}00005 \textcolor{preprocessor}{}      parameter(itapd=98,itaps=99)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00006}00006       \textcolor{keywordtype}{character*11} chelna}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00007}00007       \textcolor{keywordtype}{character*11} xnelna}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00008}00008       \textcolor{keywordtype}{character*8}  chrena, xnrena}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00009}00009       \textcolor{keywordtype}{logical} lhea03,lhea10}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00010}00010 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00011}00011 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00012}00012 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00013}00013       \textcolor{keyword}{open}(97,file=\textcolor{stringliteral}{'eaf.lst'},status=\textcolor{stringliteral}{'unknown'})}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00014}00014       rewind(97)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00015}00015       izo=-\/1}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00016}00016       \textcolor{keywordflow}{do} 20 j=1, nsec}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00017}00017          iza=ipoint(j,1)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00018}00018          mfh=ipoint(j,2)/1000}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00019}00019          \textcolor{keywordflow}{if}(mfh.eq.1.or.mfh.eq.8) \textcolor{keywordflow}{goto} 20}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00020}00020          mth=mod(ipoint(j,2),1000)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00021}00021          chrena=xnrena(mth)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00022}00022          irc=ipoint(j,3)+ipoint(j,5)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00023}00023          \textcolor{keyword}{read}(itapd,rec=irc+2,fmt=10000) qm,l2,np}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00024}00024          \textcolor{keywordflow}{if}(iza.ne.izo) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00025}00025             lhea03=.false.}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00026}00026             lhea10=.false.}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00027}00027             chelna=xnelna(iza)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00028}00028             \textcolor{keyword}{write}(97,10200) chelna}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00029}00029             izo=iza}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00030}00030 \textcolor{keywordflow}{         endif}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00031}00031          \textcolor{keyword}{call }xngson(iza,mth,izs)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00032}00032          \textcolor{keywordflow}{if}(mfh.eq.10.or.mfh.eq.9) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00033}00033             \textcolor{keywordflow}{if}(.not.lhea10) \textcolor{keyword}{write}(97,10500)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00034}00034             lhea10=.true.}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00035}00035             \textcolor{keyword}{read}(itapd,rec=irc+1,fmt=10600) ns}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00036}00036             nlin=0}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00037}00037             \textcolor{keywordflow}{do} 10 js=1,ns}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00038}00038                \textcolor{keyword}{read}(itapd,rec=irc+nlin+2,fmt=10700) qm,lisos,nr,np}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00039}00039                chelns=xnelna(izs+lisos)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00040}00040                \textcolor{keyword}{write}(97,10300) chrena, chelns, qm, np}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00041}00041                nlin=nlin+(np-\/1)/3+1+(nr-\/1)/3+1+1}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00042}00042    10       \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00043}00043          \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(mfh.eq.3) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00044}00044             \textcolor{keywordflow}{if}(.not.lhea03) \textcolor{keyword}{write}(97,10400)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00045}00045             lhea03=.true.}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00046}00046             \textcolor{keywordflow}{if}(mth.eq.18) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00047}00047                chelns=\textcolor{stringliteral}{'Fiss Fragm'}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00048}00048             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00049}00049                chelns=xnelna(izs)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00050}00050 \textcolor{keywordflow}{            endif}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00051}00051             \textcolor{keyword}{write}(97,10300) chrena, chelns, qm, np}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00052}00052 \textcolor{keywordflow}{         endif}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00053}00053    20 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00054}00054       \textcolor{keyword}{write}(97,10100)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00055}00055       \textcolor{keyword}{close}(97)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00056}00056 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00057}00057 10000 \textcolor{keyword}{format}(e11.4,22x,i11,11x,i11)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00058}00058 10100 \textcolor{keyword}{format}(\textcolor{stringliteral}{'0'},79(\textcolor{stringliteral}{'='}))}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00059}00059 10200 \textcolor{keyword}{format}(\textcolor{stringliteral}{'0'},33(\textcolor{stringliteral}{'='}),1x,a11,1x,33(\textcolor{stringliteral}{'='}),/1x,\textcolor{stringliteral}{'Reaction'},}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00060}00060      +6x,\textcolor{stringliteral}{'Product'},9x,\textcolor{stringliteral}{'Q (ground state)'},4x,\textcolor{stringliteral}{'Points'})}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00061}00061 10300 \textcolor{keyword}{format}(1x,a8,5x,a11,7x,e12.5,7x,i6)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00062}00062 10400 \textcolor{keyword}{format}(1x,27(\textcolor{stringliteral}{'-\/'}),1x,\textcolor{stringliteral}{'Reaction cross sections'},1x,27(\textcolor{stringliteral}{'-\/'}))}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00063}00063 10500 \textcolor{keyword}{format}(1x,26(\textcolor{stringliteral}{'-\/'}),1x,\textcolor{stringliteral}{'Activation cross sections'},1x,26(\textcolor{stringliteral}{'-\/'}))}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00064}00064 10600 \textcolor{keyword}{format}(44x,i11)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00065}00065 10700 \textcolor{keyword}{format}(e11.4,22x,3i11)}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00066}00066       \textcolor{keyword}{end}}
+\DoxyCodeLine{\Hypertarget{xnwsum_8_f_source_l00067}00067 +patch,convac3.}
+
+\end{DoxyCode}

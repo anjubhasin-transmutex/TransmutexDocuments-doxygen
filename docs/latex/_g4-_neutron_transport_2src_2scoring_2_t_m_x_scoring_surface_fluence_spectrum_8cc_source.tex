@@ -1,0 +1,83 @@
+\hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source}{}\doxysection{TMXScoring\+Surface\+Fluence\+Spectrum.\+cc}
+\label{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/src/scoring/TMXScoringSurfaceFluenceSpectrum.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/src/scoring/TMXScoringSurfaceFluenceSpectrum.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00002}00002 \textcolor{comment}{// \(\backslash\)brief Implementation of the Scoring of Fluence Spectrum}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00006}00006 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00007}00007 \textcolor{comment}{// TMXScoringSurfaceFluenceSpectrum}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00009}00009 \textcolor{comment}{// Thomas Guilbaud, Transmutex, 06/07/2021}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{// Scoring of Surface Fluence Spectrum}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00014}00014 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00015}00015 \textcolor{preprocessor}{\#include "{}TMXScoringSurfaceFluenceSpectrum.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00017}00017 \textcolor{comment}{// GEANT4 libraries}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00018}00018 \textcolor{preprocessor}{\#include "{}Analysis.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00019}00019 \textcolor{preprocessor}{\#include "{}G4RotationMatrix.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00020}00020 \textcolor{preprocessor}{\#include "{}G4VSolid.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00021}00021 \textcolor{preprocessor}{\#include "{}G4VTouchable.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00023}00023 \textcolor{comment}{// C++ libraries}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00024}00024 \textcolor{preprocessor}{\#include <cmath>}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00027}00027 TMXScoringSurfaceFluenceSpectrum::TMXScoringSurfaceFluenceSpectrum(\mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* parameter, std::string name)}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00028}00028 :   \mbox{\hyperlink{class_t_m_x_abstract_scoring_surface}{TMXAbstractScoringSurface}}(parameter, name)}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00029}00029 \{\}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00031}00031 TMXScoringSurfaceFluenceSpectrum::\string~TMXScoringSurfaceFluenceSpectrum()}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00032}00032 \{\}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00034}00034 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00035}00035 \textcolor{comment}{// Scorer}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00036}00036 \textcolor{keywordtype}{void} TMXScoringSurfaceFluenceSpectrum::score(\textcolor{keyword}{const} G4Step* theStep) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00037}00037     G4StepPoint* preStep = theStep-\/>GetPreStepPoint();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00038}00038     G4String PVname = preStep-\/>GetPhysicalVolume()-\/>GetName();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00039}00039     std::string PVScorer;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00041}00041     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < m\_vectorPVtoScore.size(); i++) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00042}00042         PVScorer = m\_vectorPVtoScore[i];}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00043}00043         \textcolor{keywordflow}{if} (PVScorer == PVname \&\& theStep-\/>GetPostStepPoint()-\/>GetStepStatus() == fGeomBoundary) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00044}00044             std::string particleName = theStep-\/>GetTrack()-\/>GetParticleDefinition()-\/>GetParticleName();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00046}00046             \textcolor{keywordflow}{if} (m\_particleToScore == particleName || m\_particleToScore == \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00047}00047                 \textcolor{comment}{// auto analysisManager = G4AnalysisManager::Instance();}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00048}00048                 G4double energyK = getKineticEnergy\_eV(theStep);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00049}00049                 \textcolor{comment}{// double theta = theStep-\/>GetPostStepPoint()-\/>GetPhysicalVolume()-\/>GetLogicalVolume()-\/>GetSolid();}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00051}00051                 \textcolor{comment}{// https://geant4-\/forum.web.cern.ch/t/surface-\/normal-\/in-\/complex-\/geometry/1451}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00053}00053                 G4ThreeVector direction = preStep-\/>GetMomentum()/preStep-\/>GetMomentum().mag();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00054}00054                 G4ThreeVector stepPos = preStep-\/>GetPosition();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00056}00056                 \textcolor{keyword}{const} G4VTouchable* touchable = preStep-\/>GetTouchable();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00057}00057                 \textcolor{keyword}{const} G4RotationMatrix * PVRotation = touchable-\/>GetRotation();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00058}00058                 \textcolor{comment}{// G4RotationMatrix PVRotationInv = PVRotation-\/>inverse();}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00059}00059                 G4ThreeVector PVTranslation = touchable-\/>GetTranslation();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00060}00060                 G4VSolid* surface = touchable-\/>GetSolid();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00061}00061                 G4ThreeVector posLoc = *PVRotation * (stepPos -\/ PVTranslation);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00062}00062                 G4ThreeVector norm = surface-\/>SurfaceNormal(posLoc);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00064}00064                 G4ThreeVector gammDirLoc = *PVRotation*direction + PVTranslation;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00065}00065                 gammDirLoc = gammDirLoc/(gammDirLoc.mag());}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00066}00066                 G4double incidentAngle = acos( norm.dot(gammDirLoc) ) * rad;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00067}00067                 \textcolor{comment}{// std::cout << PVScorer << "{} incidentAngle : "{} << incidentAngle << "{} "{} << cos(incidentAngle) << "{} "{} << 1./(m\_mapPVSurface[PVScorer] * cos(incidentAngle)) << "{} rad \(\backslash\)n"{};}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00069}00069                 m\_TH1D-\/>Fill(energyK, 1./(m\_surface * cos(incidentAngle)));}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00070}00070             \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00071}00071         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00072}00072     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00073}00073 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00075}00075 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00076}00076 \textcolor{comment}{// Printer}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00078}00078 \textcolor{keywordtype}{void} TMXScoringSurfaceFluenceSpectrum::printAverage()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_scoring_surface_fluence_spectrum_8cc_source_l00080}00080 \}}
+
+\end{DoxyCode}

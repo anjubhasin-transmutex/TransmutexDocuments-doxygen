@@ -1,0 +1,61 @@
+\hypertarget{epspec_2xnlf12_8_f_source}{}\doxysection{xnlf12.\+F}
+\label{epspec_2xnlf12_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/epspec/xnlf12.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/epspec/xnlf12.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  12.39.37  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnlf12(ENS,PB,NEN,PE,CC1,CC2,TM)}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00006}00006 \textcolor{comment}{*     Calculate probability for Energy dependent fission neutron       *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00007}00007 \textcolor{comment}{*     spectrum (Madland\&Nix) on an array of outgoing energy values     *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00009}00009 \textcolor{comment}{*     ENS       (input) array of energy values of outgoing neutron     *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00010}00010 \textcolor{comment}{*               in eV                                                  *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00011}00011 \textcolor{comment}{*     PB        (output) array of probabilities corresponding to       *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00012}00012 \textcolor{comment}{*               the values in ENS                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00013}00013 \textcolor{comment}{*     NEN       (input) number of energy values in ENS                 *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00014}00014 \textcolor{comment}{*     PE        (input) weight of the section                          *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00015}00015 \textcolor{comment}{*     CC1       (input) average energy of the ligth fragment in eV     *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00016}00016 \textcolor{comment}{*     CC2       (input) average energy of the heavy fragment in eV     *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00017}00017 \textcolor{comment}{*     TM        (input) maximum nuclear temperature in eV              *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00018}00018 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00019}00019 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00020}00020 \textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00021}00021 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xc5dat.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00022}00022 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00023}00023 \textcolor{preprocessor}{}      parameter(sqrpi=1.7724539)}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00024}00024       dimension ef(2),ens(nen),pb(nen),tmppb(2000)}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00025}00025       gg(xx) = xx**1.5*expint(xx)+gapnc(1.5,xx)}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00026}00026 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00028}00028 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00029}00029 \textcolor{comment}{*     WRITE(6,10000)}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00030}00030 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Energy dependent fission neutron spectrum (Madland\&Nix)'})}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Store useful constants}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00032}00032       ef(1)=cc1}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00033}00033       ef(2)=cc2}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> Calculate distribution and normalisation integral}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00035}00035       hint=0}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00036}00036       \textcolor{keywordflow}{DO} 20 jen=1,nen}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Calculate probability onto auxiliary array}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00038}00038          \textcolor{keywordflow}{DO} 10 jhl=1,2}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00039}00039             u1=(sqrt(ens(jen))-\/sqrt(ef(jhl)))**2/tm}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00040}00040             u2=(sqrt(ens(jen))+sqrt(ef(jhl)))**2/tm}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00041}00041             prob=prob+0.5*(gg(u2)-\/gg(u1))/(3*sqrt(ef(jhl)*tm))}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00042}00042    10    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00043}00043          tmppb(jen)=prob}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00044}00044          \textcolor{keywordflow}{IF}(jen.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00045}00045             hint=hint+0.5*(tmppb(jen-\/1)+tmppb(jen))*(ens(jen)-\/}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00046}00046      +      ens(jen-\/1))}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00047}00047 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00048}00048    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Add normalised probability to grid}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00050}00050       \textcolor{keywordflow}{DO} 30 jen=1,nen}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00051}00051          pb(jen)=pb(jen)+pe*tmppb(jen)/hint}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00052}00052    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00053}00053 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00054}00054       \textcolor{keyword}{END}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf12_8_f_source_l00055}00055 +patch,isomers.}
+
+\end{DoxyCode}

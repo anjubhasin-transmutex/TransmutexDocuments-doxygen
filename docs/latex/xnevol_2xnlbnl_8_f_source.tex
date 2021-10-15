@@ -1,0 +1,60 @@
+\hypertarget{xnevol_2xnlbnl_8_f_source}{}\doxysection{xnlbnl.\+F}
+\label{xnevol_2xnlbnl_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnevol/xnlbnl.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnevol/xnlbnl.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/07 25/09/96  19.14.49  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   18/03/94}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnlbnl}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00004}00004 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00005}00005 \textcolor{comment}{* -\/-\/-\/ To read BNL data, by CR}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00006}00006 \textcolor{comment}{* -\/-\/-\/ Modified by FCA}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00007}00007 \textcolor{preprocessor}{\#include "{}xcfyid.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00008}00008 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbnl.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00009}00009 \textcolor{preprocessor}{}\textcolor{comment}{C                   COMMON}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00010}00010 \textcolor{comment}{C      KIA(I)                        !A}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00011}00011 \textcolor{comment}{C      KIZ(I)                        !Z}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00012}00012 \textcolor{comment}{C      KISO(I)                       !isomeric level, 0,1,2 ;max 2}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00013}00013 \textcolor{comment}{C      XSYMB(I)                      !symbol}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00014}00014 \textcolor{comment}{C      XMASS(I))                     !atomic mass c12=12}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00015}00015 \textcolor{comment}{C      XELEV(I)                      !energy diff for isomeric state}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00016}00016 \textcolor{comment}{C      XLIFE(I)                      !half-\/life in sec}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00017}00017 \textcolor{comment}{C      KDIA(I)                       ! change in A for decay}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00018}00018 \textcolor{comment}{C      KDIZ(I)                       ! change in Z for decay,}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00019}00019 \textcolor{comment}{C                                      =1000 for spontaneus fission}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00020}00020 \textcolor{comment}{C      XBR(I)                        ! branching ratio in \%}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00021}00021 \textcolor{comment}{C      XQ(I)                         ! Q of decay}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00022}00022 \textcolor{comment}{C      XABUND(I)                     ! natural abundance}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00023}00023 \textcolor{comment}{C      XTOXW(I)                      ! toxicity, Water}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00024}00024 \textcolor{comment}{C      XTOXA(I)                      ! toxicity, air}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00025}00025 \textcolor{comment}{C}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00026}00026 \textcolor{preprocessor}{\#include "{}xcendf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00027}00027 \textcolor{preprocessor}{}\textcolor{comment}{C                   COMMON}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00028}00028 \textcolor{comment}{C      NCRLIN                        !Number of elements from ENDF}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00029}00029 \textcolor{comment}{C      IZA(I)                        !1000*Z+A}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00030}00030 \textcolor{comment}{C      HINFO(1,I)                    !Average cross section N,2N}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00031}00031 \textcolor{comment}{C      HINFO(2,I)                    !Average cross section Fission}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00032}00032 \textcolor{comment}{C      HINFO(3,I)                    !Average cross section Capture}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00033}00033 \textcolor{comment}{C      HINFO(4,I)                    !Branching ratio for N,2N}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00034}00034 \textcolor{comment}{C      HINFO(5,I)                    !Branching ratio for Fission}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00035}00035 \textcolor{comment}{C      HINFO(6,I)                    !Branching ratio for Capture}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00036}00036 \textcolor{comment}{C      HINFO(7,I)                    !T1/2}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00037}00037 \textcolor{comment}{C}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00038}00038       \textcolor{keywordtype}{CHARACTER*70} COMMENT}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00039}00039 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/ Load the BNL file}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00041}00041       \textcolor{keyword}{OPEN}(unit=16,file=\textcolor{stringliteral}{'bnl-\/common.dat'},status=\textcolor{stringliteral}{'OLD'},action=\textcolor{stringliteral}{'READ'},}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00042}00042      + recl=500)}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00043}00043       \textcolor{keyword}{READ}(16,\textcolor{stringliteral}{'(I15,A)'}) nelbnl,comment}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00044}00044       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Start reading table of '}\textcolor{stringliteral}{',I6,'}\textcolor{stringliteral}{' entries'}\textcolor{stringliteral}{')'}) nelbnl}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00045}00045       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'(A)'}) comment}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00046}00046       \textcolor{keyword}{READ}(16,10000) (k,kia(i),kiz(i),kiso(i),xsymb(i),xmass(i),}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00047}00047      +xelev(i),xlife(i),kdia(i),kdiz(i),xbr(i),xq(i), xabund(i),}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00048}00048      +xtoxw(i),xtoxa(i) ,i=1,nelbnl)}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00049}00049       \textcolor{keyword}{CLOSE}(16)}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00050}00050       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' BNL file loaded'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00051}00051 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00052}00052 10000 \textcolor{keyword}{FORMAT}(4i5,3x,a2,3e15.6,2i5,5e15.6)}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00053}00053       \textcolor{keyword}{END}}
+\DoxyCodeLine{\Hypertarget{xnevol_2xnlbnl_8_f_source_l00054}00054 +patch,xnendf.}
+
+\end{DoxyCode}

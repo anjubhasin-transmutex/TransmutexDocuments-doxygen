@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnsphe_8_f_source" xml:lang="en-US">
+<title>xnsphe.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xngeom/xnsphe.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnsphe_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;05/06/96&#32;&#32;09.38.14&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;17/02/94</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnsphe(HINP,V,OUTP,SC,SNEXT,SAFE,IHIT)
+<anchor xml:id="_xnsphe_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Finds&#32;intesection&#32;of&#32;a&#32;particle&#32;with&#32;a&#32;sphere&#32;centred&#32;in&#32;the&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;origin&#32;of&#32;coordinates:&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;HINP&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;array&#32;of&#32;3&#32;with&#32;the&#32;coordinates&#32;of&#32;the&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;particle&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;V&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;array&#32;of&#32;3&#32;with&#32;the&#32;particle&#32;speed&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;OUTP&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;array&#32;of&#32;3&#32;with&#32;the&#32;final&#32;coordinates&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;of&#32;the&#32;particle&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;SC&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;sphere&#32;radius&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;SNEXT&#32;&#32;&#32;&#32;&#32;(output)&#32;distance&#32;to&#32;the&#32;intersection&#32;with&#32;the&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sphere&#32;along&#32;the&#32;particle&#32;direction&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00017"/>00017 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;SAFE&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;minimum&#32;distance&#32;to&#32;sphere&#32;boundary&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00018"/>00018 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IHIT&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;intersection&#32;flag&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00019"/>00019 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;1&#32;sphere&#32;is&#32;hit&#32;from&#32;inside&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00020"/>00020 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;-1&#32;sphere&#32;is&#32;hit&#32;from&#32;outside&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00021"/>00021 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;0&#32;sphere&#32;is&#32;not&#32;hit&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00022"/>00022 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00023"/>00023 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">IMPLICIT&#32;DOUBLE&#32;PRECISION</emphasis>&#32;(a-h,o-z)
+<anchor xml:id="_xnsphe_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;parameter(zero=0,small=1e-14)
+<anchor xml:id="_xnsphe_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;ROTATE
+<anchor xml:id="_xnsphe_8_f_source_1l00027"/>00027 <emphasis role="keywordtype">&#32;&#32;&#32;&#32;&#32;&#32;REAL</emphasis>&#32;SC,SNEXT,SAFE,HINP(3),V(3),OUTP(3)
+<anchor xml:id="_xnsphe_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;x(6)
+<anchor xml:id="_xnsphe_8_f_source_1l00029"/>00029 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00030"/>00030 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00031"/>00031 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00032"/>00032 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;particle&#32;direction</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xndirv(hinp,v,x,costh,sinth,cosph,sinph,rotate)
+<anchor xml:id="_xnsphe_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xnsphe_8_f_source_1l00035"/>00035 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;entry&#32;xnsphn(hinp,v,outp,sc,snext,safe,ihit)
+<anchor xml:id="_xnsphe_8_f_source_1l00037"/>00037 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00038"/>00038 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00039"/>00039 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Same&#32;as&#32;main&#32;entry,&#32;but&#32;particle&#32;speed&#32;normalised&#32;to&#32;1&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00040"/>00040 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00041"/>00041 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00042"/>00042 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00043"/>00043 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00044"/>00044 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00045"/>00045 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;particle&#32;direction</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;x(1)&#32;=&#32;hinp(1)
+<anchor xml:id="_xnsphe_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;x(2)&#32;=&#32;hinp(2)
+<anchor xml:id="_xnsphe_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;x(3)&#32;=&#32;hinp(3)
+<anchor xml:id="_xnsphe_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;x(4)&#32;=&#32;v(1)
+<anchor xml:id="_xnsphe_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;x(5)&#32;=&#32;v(2)
+<anchor xml:id="_xnsphe_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;x(6)&#32;=&#32;v(3)
+<anchor xml:id="_xnsphe_8_f_source_1l00052"/>00052 <emphasis role="comment">*&#32;---&gt;&#32;Here&#32;real&#32;work&#32;starts</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00053"/>00053 &#32;&#32;&#32;10&#32;c=sc
+<anchor xml:id="_xnsphe_8_f_source_1l00054"/>00054 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;minimum&#32;distance&#32;from&#32;sphere</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;r2&#32;&#32;&#32;=&#32;x(1)**2+x(2)**2+x(3)**2
+<anchor xml:id="_xnsphe_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;safe&#32;=&#32;abs(c-sqrt(r2))
+<anchor xml:id="_xnsphe_8_f_source_1l00057"/>00057 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;scalar&#32;product&#32;between&#32;particle&#32;direction&#32;and&#32;position</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;bbh=x(1)*x(4)+x(2)*x(5)+x(3)*x(6)
+<anchor xml:id="_xnsphe_8_f_source_1l00059"/>00059 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;where&#32;we&#32;are</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;cc=r2-c**2
+<anchor xml:id="_xnsphe_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(cc.LT.zero)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00062"/>00062 <emphasis role="comment">*&#32;---&gt;&#32;We&#32;are&#32;inside&#32;the&#32;sphere,&#32;there&#32;is&#32;always&#32;a&#32;non&#32;negative&#32;distance</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00063"/>00063 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;to&#32;boundary</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ihit=1
+<anchor xml:id="_xnsphe_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dnext&#32;=&#32;-bbh+sqrt(bbh**2-cc)
+<anchor xml:id="_xnsphe_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00067"/>00067 <emphasis role="comment">*&#32;---&gt;&#32;We&#32;are&#32;outside&#32;the&#32;sphere,&#32;discriminant&#32;will&#32;tell&#32;us</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00068"/>00068 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;whether&#32;we&#32;hit&#32;the&#32;sphere&#32;or&#32;not</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;delta&#32;=&#32;bbh**2-cc
+<anchor xml:id="_xnsphe_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(delta.GE.zero.AND.bbh.LE.0.)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00071"/>00071 <emphasis role="comment">*&#32;---&gt;&#32;Wo&#32;do&#32;hit&#32;the&#32;sphere,&#32;take&#32;smallest&#32;distance&#32;to&#32;boundary</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ihit=-1
+<anchor xml:id="_xnsphe_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dnext&#32;=&#32;-bbh-sqrt(delta)
+<anchor xml:id="_xnsphe_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00075"/>00075 <emphasis role="comment">*&#32;---&gt;&#32;We&#32;do&#32;not&#32;hit&#32;the&#32;sphere</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ihit=0
+<anchor xml:id="_xnsphe_8_f_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dnext=1e10
+<anchor xml:id="_xnsphe_8_f_source_1l00078"/>00078 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00079"/>00079 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ihit.NE.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00081"/>00081 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;we&#32;hit&#32;the&#32;sphere,&#32;propagate&#32;particle&#32;to&#32;boundary</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;outp(1)&#32;=&#32;x(1)+x(4)*dnext
+<anchor xml:id="_xnsphe_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;outp(2)&#32;=&#32;x(2)+x(5)*dnext
+<anchor xml:id="_xnsphe_8_f_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;outp(3)&#32;=&#32;x(3)+x(6)*dnext
+<anchor xml:id="_xnsphe_8_f_source_1l00085"/>00085 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;snext=dnext
+<anchor xml:id="_xnsphe_8_f_source_1l00087"/>00087 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnsphe_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

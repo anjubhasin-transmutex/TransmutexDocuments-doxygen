@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnbint_8_f_source" xml:lang="en-US">
+<title>xnbint.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xnbint.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnbint_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;03/06/96&#32;&#32;09.41.48&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;17/01/94</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnbint(IBASE,ILEN,EN,SEC)
+<anchor xml:id="_xnbint_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Interpolate&#32;cross&#32;section&#32;in&#32;common&#32;/XCSTORE/.&#32;Cross&#32;sections&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;are&#32;stored&#32;in&#32;pairs&#32;(E,sigma)&#32;in&#32;ascending&#32;energy&#32;value&#32;in&#32;the&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;array&#32;XNSTOR.&#32;The&#32;ith&#32;energy&#32;is&#32;at&#32;position&#32;XNSTOR(IBASE+2*i-1)&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;and&#32;the&#32;corresponding&#32;&#32;cross&#32;section&#32;at&#32;position&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;XNSTOR(IBASE+2*i).&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IBASE&#32;&#32;&#32;&#32;&#32;(input)&#32;Last&#32;word&#32;before&#32;cross&#32;section&#32;table&#32;in&#32;memory&#32;*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;ILEN&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;Number&#32;of&#32;pairs&#32;(E,sigma)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;EN&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;Energy&#32;(in&#32;eV)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;SEC&#32;&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;cross&#32;section&#32;in&#32;barns&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00017"/>00017 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00018"/>00018 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00019"/>00019 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcstor.inc&quot;</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00020"/>00020 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00021"/>00021 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00022"/>00022 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;sec=0.
+<anchor xml:id="_xnbint_8_f_source_1l00024"/>00024 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;no&#32;cross&#32;section&#32;return</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ilen.LE.0)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnbint_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;---&gt;&#32;Binary&#32;search</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;k1=1
+<anchor xml:id="_xnbint_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;k2=ilen
+<anchor xml:id="_xnbint_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;emin=xstore(ibase+1)
+<anchor xml:id="_xnbint_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;emax=xstore(ibase+2*k2-1)
+<anchor xml:id="_xnbint_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(en.LE.emin)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00032"/>00032 <emphasis role="comment">*&#32;---&gt;&#32;Energy&#32;less&#32;than&#32;minimum,&#32;assign&#32;the&#32;first&#32;value&#32;and&#32;return</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00033"/>00033 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IF(EN.LT.EMIN)&#32;WRITE(6,10000)&#32;EN,&#32;EMIN</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00034"/>00034 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNBINT:&#32;Energy&#32;&apos;</emphasis>,e11.4,<emphasis role="stringliteral">&apos;&#32;smaller&#32;than&#32;minimum&#32;&apos;</emphasis>,
+<anchor xml:id="_xnbint_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;e11.4)
+<anchor xml:id="_xnbint_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sec=xstore(ibase+2)
+<anchor xml:id="_xnbint_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSEIF</emphasis>(en.GE.emax)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00038"/>00038 <emphasis role="comment">*&#32;---&gt;&#32;Energy&#32;larger&#32;than&#32;maximum,&#32;assign&#32;the&#32;last&#32;value&#32;and&#32;return</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00039"/>00039 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IF(EN.GT.EMAX)&#32;WRITE(6,10100)&#32;EN,&#32;EMAX</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00040"/>00040 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNSECT:&#32;Energy&#32;&apos;</emphasis>,e11.4,<emphasis role="stringliteral">&apos;&#32;larger&#32;than&#32;maximum&#32;&apos;</emphasis>,
+<anchor xml:id="_xnbint_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;e11.4)
+<anchor xml:id="_xnbint_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sec=xstore(ibase+2*k2)
+<anchor xml:id="_xnbint_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00044"/>00044 <emphasis role="comment">*&#32;---&gt;&#32;Do&#32;binary&#32;search</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00045"/>00045 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(k2-k1.GT.1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;khalf=(k1+k2)/2
+<anchor xml:id="_xnbint_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ehalf=xstore(ibase+2*khalf-1)
+<anchor xml:id="_xnbint_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(en.LE.ehalf)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;k2=khalf
+<anchor xml:id="_xnbint_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;k1=khalf
+<anchor xml:id="_xnbint_8_f_source_1l00052"/>00052 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xnbint_8_f_source_1l00054"/>00054 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;e1&#32;=&#32;xstore(ibase+2*k2-3)
+<anchor xml:id="_xnbint_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;e2&#32;=&#32;xstore(ibase+2*k2-1)
+<anchor xml:id="_xnbint_8_f_source_1l00057"/>00057 <emphasis role="comment">*&#32;---&gt;&#32;Do&#32;linear&#32;interpolation</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xrat&#32;=&#32;(e2-en)/(e2-e1)
+<anchor xml:id="_xnbint_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sec&#32;=&#32;xrat*xstore(ibase+2*k2-2)+(1.-xrat)*xstore(ibase+2*k2)
+<anchor xml:id="_xnbint_8_f_source_1l00060"/>00060 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00061"/>00061 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnbint_8_f_source_1l00062"/>00062 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

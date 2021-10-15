@@ -1,0 +1,51 @@
+\hypertarget{xn6la6_8_f_source}{}\doxysection{xn6la6.\+F}
+\label{xn6la6_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6la6.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6la6.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 31/05/96  18.32.10  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xn6la6(IP,EIN,EOU,COST,PROB)}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00006}00006 \textcolor{comment}{*     Probability calculation for LAW=6 in file6, phase space          *}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00007}00007 \textcolor{comment}{*     distribution                                                     *}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00009}00009 \textcolor{comment}{* IP    pointer to the LAW information in R/I6STOR (input)             *}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00010}00010 \textcolor{comment}{* EIN   incoming neutron energy in eV (input)                          *}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00011}00011 \textcolor{comment}{* EOU   outgoing neutron energy in eV (input)                          *}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00012}00012 \textcolor{comment}{* COST  outgoing neutron cosin (teta) (input)                          *}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00013}00013 \textcolor{comment}{* PROB  probability (output)                                           *}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00014}00014 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00015}00015 \textcolor{comment}{* All quantities in the LAB system.                                    *}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00016}00016 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00017}00017 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00018}00018 \textcolor{preprocessor}{\#include "{}xcmfh6.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00019}00019 \textcolor{preprocessor}{}\textcolor{comment}{* -\/-\/-\/> Phase space distribution normalisation constants}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00020}00020       dimension cn(3)}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00021}00021       \textcolor{keyword}{DATA} cn / 1.27323954474, 3.28125, 5.82052363307 /}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00022}00022       \textcolor{keywordtype}{SAVE} cn}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00023}00023 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00025}00025 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Total mass of products}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00027}00027       apsx=r6stor(ip+1)}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Number of products}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00029}00029       npsx=i6stor(ip+2)}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Energy available in centre of mass}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00031}00031       eavail=ein*awr/(1+awr)+qi}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> Maximum energy of neutron in centre of mass}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00033}00033       emaxn=eavail*(apsx-\/1)/apsx}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> Centre of mass energy requested}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00035}00035       ecms=ein/(1+awr)**2+eou-\/2*sqrt(ein*eou)/(1+awr)*cost}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00036}00036       \textcolor{keywordflow}{IF}(ecms.LT.emaxn) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Combination kinematically allowed}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00038}00038          prob=cn(npsx-\/2)*sqrt(eou)/emaxn**(1.5*(npsx+1)-\/4)*}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00039}00039      +   (emaxn-\/ecms)**(1.5*npsx-\/4)}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00040}00040       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> No phase space for this configuration}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00042}00042          prob=0}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00043}00043 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00044}00044 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6la6_8_f_source_l00045}00045       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

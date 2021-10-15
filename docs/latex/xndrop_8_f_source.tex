@@ -1,0 +1,84 @@
+\hypertarget{xndrop_8_f_source}{}\doxysection{xndrop.\+F}
+\label{xndrop_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xndrop.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xndrop.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  10.48.09  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   08/03/94}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xndrop(IZAMAT,MFMT)}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00006}00006 \textcolor{comment}{*     Drops reaction in memory and recuperates space                   *}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00008}00008 \textcolor{comment}{*     IZAMAT    (input) material code of the reaction to be dropped    *}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00009}00009 \textcolor{comment}{*     MFMT      (input) ENDF-\/6 reaction code to be dropped in the      *}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00010}00010 \textcolor{comment}{*               format 1000*MF+MT. If MF=0 then all data related to    *}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00011}00011 \textcolor{comment}{*               that reaction for the given isotope are erased from    *}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00012}00012 \textcolor{comment}{*               memory. If MT=0 all reaction are erased from memory.   *}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00013}00013 \textcolor{comment}{*               If MFMT=0 all the information about the isotope is     *}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00014}00014 \textcolor{comment}{*               removed from memory. For a description of ENDF-\/6 codes *}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00015}00015 \textcolor{comment}{*               see arrays  NBMFT and CHNAME below.                    *}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00016}00016 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00017}00017 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00018}00018 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00019}00019 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00020}00020 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00021}00021 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00022}00022 \textcolor{preprocessor}{}      dimension hinfo(nadinf)}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00023}00023 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00025}00025 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Find ENDF-\/6 file and section identifiers}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00027}00027       mf = mfmt/1000}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00028}00028       mt = mod(mfmt,1000)}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Loop on all the ENDF-\/6 files allowed}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00030}00030       \textcolor{keywordflow}{DO} 30 jmfile=1,maxmfi}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00031}00031          \textcolor{keywordflow}{IF}(lmfile(jmfile).EQ.mf.OR.mf.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> If the correct file is found, or if all files have to be deleted}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00033}00033 \textcolor{comment}{*      loop over reactions}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00034}00034             \textcolor{keywordflow}{DO} 20 jreac=1,mxreac}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00035}00035                \textcolor{keywordflow}{IF}(mt.EQ.0.OR.mt.EQ.nbmft(jreac)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/> If the reaction is among the ones present in the database or}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00037}00037 \textcolor{comment}{*      if all the reactions are requested}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00038}00038                   imfmt=lmfile(jmfile)*1000+nbmft(jreac)}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Find start and length of data}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00040}00040                   \textcolor{keyword}{CALL }xngetm(izamat,imfmt,istar,ileng,hinfo)}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> If reaction is there...}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00042}00042                   \textcolor{keywordflow}{IF}(ileng.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> If we are dealing with a cross section ILENG is the number}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00044}00044 \textcolor{comment}{*      of pairs}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00045}00045                      \textcolor{keywordflow}{IF}(lmfile(jmfile).EQ.3) ileng=ileng*2}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00046}00046 \textcolor{comment}{* -\/-\/-\/> ...compress storage}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00047}00047                      \textcolor{keywordflow}{DO} 10 jdrop=istar+1,istar+ihgwmk-\/ileng}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00048}00048                         xstore(jdrop) = xstore(jdrop+ileng)}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00049}00049    10                \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00050}00050 \textcolor{comment}{* -\/-\/-\/> and reset HiGh Water MarK}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00051}00051                      ihgwmk=ihgwmk-\/ileng}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00052}00052 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00053}00053 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00054}00054    20       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00055}00055 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00056}00056    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/> Reset pointers}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00058}00058       \textcolor{keywordflow}{DO} 60 jmat=1,nmate}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00059}00059          \textcolor{keywordflow}{DO} 50 jmfile=1,maxmfi}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00060}00060             \textcolor{keywordflow}{DO} 40 kreac=1,mxreac}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00061}00061                jreac=(jmfile-\/1)*mxreac+kreac}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> If this reaction was store after the deleted reaction, the}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00063}00063 \textcolor{comment}{*      pointer needs to be shifted back}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00064}00064                \textcolor{keywordflow}{IF}(imtabl(1+nreinf*(jreac-\/1)+1,jmat).GT.istar) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00065}00065                   imtabl(1+nreinf*(jreac-\/1)+1,jmat)= imtabl(1+nreinf*}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00066}00066      +            (jreac-\/ 1)+1,jmat)-\/ileng}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00067}00067 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00068}00068                \textcolor{keywordflow}{IF}(izamat.EQ.imtabl(1,jmat)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/> Pointers to the reaction which has been removed are zeroed}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00070}00070                   imtabl(1+nreinf*(jreac-\/1)+1,jmat) = 0}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00071}00071                   imtabl(1+nreinf*(jreac-\/1)+2,jmat) = 0}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00072}00072                   hmtabl(1+nreinf*(jreac-\/1)+3,jmat) = 0.}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00073}00073 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00074}00074    40       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00075}00075    50    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00076}00076    60 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00077}00077 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xndrop_8_f_source_l00078}00078       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

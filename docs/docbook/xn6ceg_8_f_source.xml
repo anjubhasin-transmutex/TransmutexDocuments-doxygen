@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xn6ceg_8_f_source" xml:lang="en-US">
+<title>xn6ceg.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnmake/xn6ceg.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xn6ceg_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.03/01&#32;28/06/96&#32;&#32;16.22.19&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xn6ceg
+<anchor xml:id="_xn6ceg_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Fills&#32;primary&#32;energy&#32;grid&#32;for&#32;file&#32;6&#32;distribution&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00008"/>00008 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00009"/>00009 <emphasis role="preprocessor">#include&#32;&quot;xcmfh6.inc&quot;</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00010"/>00010 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcenes.inc&quot;</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00011"/>00011 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;parameter(maxphs=50)
+<anchor xml:id="_xn6ceg_8_f_source_1l00012"/>00012 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">DOUBLE&#32;PRECISION</emphasis>&#32;EM
+<anchor xml:id="_xn6ceg_8_f_source_1l00013"/>00013 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;--------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00015"/>00015 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;nens=0
+<anchor xml:id="_xn6ceg_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;jk=1,nsect
+<anchor xml:id="_xn6ceg_8_f_source_1l00018"/>00018 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;pointer&#32;to&#32;section</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipsec=isecpn(jk)
+<anchor xml:id="_xn6ceg_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;law=i6stor(ipsec+1)
+<anchor xml:id="_xn6ceg_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(law.EQ.6)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00022"/>00022 <emphasis role="comment">*&#32;---&gt;&#32;This&#32;is&#32;n-body&#32;phase&#32;space&#32;distribution</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nsect.EQ.1.OR.(jk.EQ.nsect.AND.nens.LE.2))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00024"/>00024 <emphasis role="comment">*&#32;---&gt;&#32;This&#32;is&#32;the&#32;Mickey&#32;Mouse&#32;part</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00025"/>00025 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;If&#32;there&#32;is&#32;only&#32;one&#32;distribution&#32;and&#32;it&#32;is&#32;a&#32;phase&#32;space</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;distribution,&#32;there&#32;is&#32;no&#32;energy&#32;grid,&#32;by&#32;definition,&#32;so</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00027"/>00027 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;we&#32;make&#32;one,&#32;with&#32;50&#32;steps&#32;logarithmically&#32;spaced&#32;from</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00028"/>00028 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;threshold&#32;to&#32;20MeV.</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00029"/>00029 <emphasis role="comment">*&#32;---&gt;&#32;This&#32;is&#32;the&#32;threshold&#32;energy&#32;in&#32;the&#32;lab</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;emin=max(-qi*(1+awr)/awr,1e-5)
+<anchor xml:id="_xn6ceg_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;emax=2e7
+<anchor xml:id="_xn6ceg_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fact=exp(log(emax/emin)/maxphs)
+<anchor xml:id="_xn6ceg_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;em=emin
+<anchor xml:id="_xn6ceg_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jen=1,maxphs
+<anchor xml:id="_xn6ceg_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;em=em*fact
+<anchor xml:id="_xn6ceg_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;percen(jen)=em
+<anchor xml:id="_xn6ceg_8_f_source_1l00037"/>00037 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nens=maxphs
+<anchor xml:id="_xn6ceg_8_f_source_1l00039"/>00039 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00041"/>00041 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;all&#32;incoming&#32;energies&#32;for&#32;this&#32;section&#32;to&#32;the&#32;grid</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nry=i6stor(ipsec+2)
+<anchor xml:id="_xn6ceg_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ney=i6stor(ipsec+3)
+<anchor xml:id="_xn6ceg_8_f_source_1l00044"/>00044 <emphasis role="comment">*&#32;---&gt;&#32;Pointer&#32;to&#32;specific&#32;data&#32;for&#32;this&#32;law</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipl=ipsec+3+2*nry+2*ney
+<anchor xml:id="_xn6ceg_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(law.EQ.1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrein=i6stor(ipl+3)
+<anchor xml:id="_xn6ceg_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;npein=i6stor(ipl+4)
+<anchor xml:id="_xn6ceg_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipein=ipl+4+2*nrein
+<anchor xml:id="_xn6ceg_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(law.EQ.7)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrein=i6stor(ipl+1)
+<anchor xml:id="_xn6ceg_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;npein=i6stor(ipl+2)
+<anchor xml:id="_xn6ceg_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipein=ipl+2+2*nrein
+<anchor xml:id="_xn6ceg_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;XN6CEG&#32;Unhandled&#32;law&apos;</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00056"/>00056 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nens+npein.GT.mxperc)&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MXPERC&apos;</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;Adding&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;,I4,</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00059"/>00059 <emphasis role="stringliteral"></emphasis><emphasis role="stringliteral">&#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;points&#32;to&#32;energy&#32;grid&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)&#32;npein
+<anchor xml:id="_xn6ceg_8_f_source_1l00060"/>00060 <emphasis role="comment">*&#32;---&gt;&#32;Here&#32;add&#32;energies</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;jen=1,npein
+<anchor xml:id="_xn6ceg_8_f_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;percen(nens+jen)=r6stor(ipein+jen)
+<anchor xml:id="_xn6ceg_8_f_source_1l00063"/>00063 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nens=nens+npein
+<anchor xml:id="_xn6ceg_8_f_source_1l00065"/>00065 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00066"/>00066 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00067"/>00067 <emphasis role="comment">*&#32;---&gt;&#32;Order&#32;Energies</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;50&#32;jen=1,nens-1
+<anchor xml:id="_xn6ceg_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;40&#32;ken=jen+1,nens
+<anchor xml:id="_xn6ceg_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(percen(jen).GT.percen(ken))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;etmp=percen(jen)
+<anchor xml:id="_xn6ceg_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;percen(jen)=percen(ken)
+<anchor xml:id="_xn6ceg_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;percen(ken)=etmp
+<anchor xml:id="_xn6ceg_8_f_source_1l00074"/>00074 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00075"/>00075 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00076"/>00076 &#32;&#32;&#32;50&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00077"/>00077 <emphasis role="comment">*&#32;---&gt;&#32;Eliminate&#32;duplicate</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;icurr=1
+<anchor xml:id="_xn6ceg_8_f_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;60&#32;jen=2,nens
+<anchor xml:id="_xn6ceg_8_f_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(percen(jen)-percen(icurr).GT.1e-5*percen(jen))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;icurr=icurr+1
+<anchor xml:id="_xn6ceg_8_f_source_1l00082"/>00082 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;percen(icurr)=percen(jen)
+<anchor xml:id="_xn6ceg_8_f_source_1l00084"/>00084 &#32;&#32;&#32;60&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;nens=icurr
+<anchor xml:id="_xn6ceg_8_f_source_1l00086"/>00086 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xn6ceg_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

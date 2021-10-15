@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xn6to5_8_f_source" xml:lang="en-US">
+<title>xn6to5.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnmake/xn6to5.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xn6to5_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;31/05/96&#32;&#32;18.32.10&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xn6to5(EIN,&#32;EOU,&#32;PROB)
+<anchor xml:id="_xn6to5_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Integrates&#32;the&#32;double&#32;differential&#32;probability&#32;of&#32;a&#32;file6&#32;to&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;return&#32;the&#32;probability&#32;for&#32;given&#32;incoming&#32;and&#32;outgoing&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;energies.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;EIN&#32;&#32;&#32;&#32;incoming&#32;neutron&#32;energy&#32;in&#32;eV&#32;(input)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;EOU&#32;&#32;&#32;&#32;outgoing&#32;neutron&#32;energy&#32;in&#32;eV&#32;(input)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;PROB&#32;&#32;&#32;differential&#32;prob&#32;(dPb/dE)&#32;(output)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;All&#32;quantities&#32;are&#32;in&#32;the&#32;LAB&#32;system&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00016"/>00016 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">DOUBLE&#32;PRECISION</emphasis>&#32;S1,S2,H,HALF
+<anchor xml:id="_xn6to5_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;parameter(npoint=100)
+<anchor xml:id="_xn6to5_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;parameter(half=5d-1)
+<anchor xml:id="_xn6to5_8_f_source_1l00020"/>00020 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00021"/>00021 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00022"/>00022 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00023"/>00023 <emphasis role="comment">*&#32;---&gt;&#32;Do&#32;Simpson&apos;s&#32;Rule&#32;integration</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;chig=1
+<anchor xml:id="_xn6to5_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;clow=-1
+<anchor xml:id="_xn6to5_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;h=half*(chig-clow)/npoint
+<anchor xml:id="_xn6to5_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xn6plb(ein,eou,clow,prob1)
+<anchor xml:id="_xn6to5_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xn6plb(ein,eou,chig,prob2)
+<anchor xml:id="_xn6to5_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;c3=chig-h
+<anchor xml:id="_xn6to5_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xn6plb(ein,eou,c3,prob3)
+<anchor xml:id="_xn6to5_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;---&gt;&#32;Simpson&apos;s&#32;rule</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;s1=0
+<anchor xml:id="_xn6to5_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;s2=0
+<anchor xml:id="_xn6to5_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jpoint=1,npoint-1
+<anchor xml:id="_xn6to5_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;codd=(2*jpoint-1)*h-1
+<anchor xml:id="_xn6to5_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ceve=&#32;2*jpoint&#32;&#32;&#32;*h-1
+<anchor xml:id="_xn6to5_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xn6plb(ein,eou,codd,podd)
+<anchor xml:id="_xn6to5_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xn6plb(ein,eou,ceve,peve)
+<anchor xml:id="_xn6to5_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s1=s1+podd
+<anchor xml:id="_xn6to5_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s2=s2+peve
+<anchor xml:id="_xn6to5_8_f_source_1l00041"/>00041 &#32;&#32;10&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;s1=s1+prob3
+<anchor xml:id="_xn6to5_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;prob=h*(prob1+prob2+4*s1+2*s2)/3.
+<anchor xml:id="_xn6to5_8_f_source_1l00044"/>00044 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xn6to5_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

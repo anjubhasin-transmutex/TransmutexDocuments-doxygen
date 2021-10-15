@@ -1,0 +1,130 @@
+\hypertarget{xnfiss_8_f_source}{}\doxysection{xnfiss.\+F}
+\label{xnfiss_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnfiss.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnfiss.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  12.15.41  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnfiss(IZAMAT,ENE,IZA,IAA,ISO)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00006}00006 \textcolor{comment}{*     Samples one fission products                                     *}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00008}00008 \textcolor{comment}{*     IZAMAT    (input) isomer code of the fissioning nuclide          *}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00009}00009 \textcolor{comment}{*     ENE       (input) incoming neutron energy in eV                  *}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00010}00010 \textcolor{comment}{*     IZA       (output) atomic number of the fission product          *}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00011}00011 \textcolor{comment}{*     IAA       (output) isotope number of the fission product         *}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00012}00012 \textcolor{comment}{*     ISO       (output) isomer code of the fission product            *}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00013}00013 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00014}00014 \textcolor{comment}{*     ***** Obsolete routine, should not be used anymore *****         *}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00015}00015 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00016}00016 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00017}00017 \textcolor{preprocessor}{\#include "{}xcfyid.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00018}00018 \textcolor{preprocessor}{}      parameter(maxpro=10000)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00019}00019       dimension fispro(maxpro)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00020}00020       \textcolor{keywordtype}{LOGICAL} LFIRST}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00021}00021       \textcolor{keyword}{DATA} lfirst/.true./}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00023}00023 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00024}00024 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00025}00025       \textcolor{keywordflow}{IF}(lfirst) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> If first call, load indipendent fission yields}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00027}00027          \textcolor{keyword}{CALL }xnldfr}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00028}00028          lfirst=.false.}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00029}00029 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Set output to 0 in case we fail}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00031}00031       iza=0}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00032}00032       iaa=0}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00033}00033       iso=0}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> Get rid of temperature code}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00035}00035       \textcolor{keyword}{CALL }xngtmp(izamat,izaint,itpos)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/> Start samplng}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00037}00037       \textcolor{keyword}{CALL }xnrand(vr,1)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Total probability}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00039}00039       totpro=0.}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> Start and end of fission yield information for the fissioning}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00041}00041 \textcolor{comment}{*      nucleus}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00042}00042       ksta=0}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00043}00043       klen=0}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00044}00044       \textcolor{keywordflow}{DO} 70 lfel=1,nmfele}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Search all fissioning nuclei stored}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00046}00046          \textcolor{keywordflow}{IF}(izaint.EQ.ifzma(lfel)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> Correct fissioning nucleus found, load start and length}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00048}00048 \textcolor{comment}{*      of information}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00049}00049             ksta = ifsta(lfel)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00050}00050             klen = iflen(lfel)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/> No fission yield information loaded}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00052}00052             \textcolor{keywordflow}{IF}(ksta.LE.0.OR.klen.LE.0) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00053}00053             \textcolor{keywordflow}{IF}(klen.GE.maxpro) stop \textcolor{stringliteral}{'Increase MAXPRO in XNFISS'}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00054}00054 \textcolor{comment}{* -\/-\/-\/> Loop on all fission fragment yields}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00055}00055             \textcolor{keywordflow}{DO} 60 lpro=ksta,ksta+klen-\/1}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00056}00056                jpro=lpro-\/ksta+1}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/> Search for minimum incoming neutron energy in the tabulation}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00058}00058                \textcolor{keywordflow}{DO} 10 len=1,maxenf}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00059}00059                   \textcolor{keywordflow}{IF}(enefra(lpro,len).NE.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00060}00060                      lmin=len}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00061}00061                      \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00062}00062 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00063}00063    10          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00064}00064                \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' *** XNFISS: Energy always 0'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00065}00065 \textcolor{comment}{* -\/-\/-\/> Search for maximum incoming neutron energy in the tabulation}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00066}00066    20          \textcolor{keywordflow}{DO} 30 len=maxenf,1,-\/1}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00067}00067                   \textcolor{keywordflow}{IF}(enefra(lpro,len).NE.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00068}00068                      lmax=len}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00069}00069                      \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00070}00070 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00071}00071    30          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00072}00072                \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' *** XNFISS: Energy always 0'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00073}00073    40          \textcolor{keywordflow}{IF}(lmin.GT.lmax) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00074}00074                   \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' *** XNFISS: LMIN>LMAX'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00075}00075 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00076}00076 \textcolor{comment}{* -\/-\/-\/> Find incoming neutron energy interval for interpolation}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00077}00077                \textcolor{keywordflow}{IF}(ene.LE.enefra(lpro,lmin).OR.lmin.EQ.lmax) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00078}00078 \textcolor{comment}{* -\/-\/-\/> Incoming neutron energy smaller than minimum of tabulation}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00079}00079 \textcolor{comment}{*      or only one neutron energy tabulated, take yield at minimum}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00080}00080                   fispro(jpro)=xbrfra(lpro,lmin)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00081}00081                \textcolor{keywordflow}{ELSEIF}(ene.GE.enefra(lpro,lmax)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00082}00082 \textcolor{comment}{* -\/-\/-\/> Incoming neutron energy larger than maximum of tabulation}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00083}00083 \textcolor{comment}{*      take yield at maximum}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00084}00084                   fispro(jpro)=xbrfra(lpro,lmax)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00085}00085                \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00086}00086 \textcolor{comment}{* -\/-\/-\/> Linear search and interpolation between incoming energies}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00087}00087 \textcolor{comment}{*      to find yield}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00088}00088                   \textcolor{keywordflow}{DO} 50 jene=lmin+1,lmax}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00089}00089                      \textcolor{keywordflow}{IF}(ene.LT.enefra(lpro,jene)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00090}00090                         xrat = (enefra(lpro,jene)-\/ene)/ (enefra(lpro,}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00091}00091      +                  jene)-\/enefra(lpro,jene-\/1))}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00092}00092 \textcolor{comment}{* -\/-\/-\/> Store interpolated probability}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00093}00093                         fispro(jpro)=xrat*xbrfra(lpro,jene-\/1)+ (1-\/xrat)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00094}00094      +                  *xbrfra(lpro,jene)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00095}00095 \textcolor{keywordflow}{                     ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00096}00096    50             \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00097}00097 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00098}00098 \textcolor{comment}{* -\/-\/-\/> Find integral probability}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00099}00099                totpro=totpro+fispro(jpro)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00100}00100    60       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00101}00101             \textcolor{keywordflow}{GOTO} 80}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00102}00102 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00103}00103    70 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00104}00104 \textcolor{comment}{* -\/-\/-\/> No yield, exit}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00105}00105       \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00106}00106 \textcolor{comment}{* -\/-\/-\/> Here do sampling}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00107}00107    80 totran=vr*totpro}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00108}00108 \textcolor{comment}{* -\/-\/-\/> Running sum}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00109}00109       totsum=0.}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00110}00110 \textcolor{comment}{* -\/-\/-\/> Check when test value smaller than running sum}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00111}00111       \textcolor{keywordflow}{DO} 90 jffra=1,klen}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00112}00112          totsum=totsum+fispro(jffra)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00113}00113          \textcolor{keywordflow}{IF}(totsum.GE.totran) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00114}00114 \textcolor{comment}{* -\/-\/-\/> Load sampled fission product and exit}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00115}00115             izafr = izafra(jffra+ksta-\/1)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00116}00116             iza = izafr/10/1000}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00117}00117             iaa = mod(izafr/10,1000)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00118}00118             iso = mod(izafr,10)}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00119}00119             \textcolor{keywordflow}{GOTO} 100}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00120}00120 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00121}00121    90 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00122}00122   100 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00123}00123 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnfiss_8_f_source_l00124}00124   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

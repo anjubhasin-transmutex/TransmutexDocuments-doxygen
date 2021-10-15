@@ -1,0 +1,140 @@
+\hypertarget{xn6plb_8_f_source}{}\doxysection{xn6plb.\+F}
+\label{xn6plb_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6plb.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6plb.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 31/05/96  18.32.10  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xn6plb(EINO,EOUL,COSTL,PROB)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00006}00006 \textcolor{comment}{*     Returns the probability for an incoming energy EINO, outgoing    *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00007}00007 \textcolor{comment}{*     energy EOUL and angle COSTL for the file6 information            *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00008}00008 \textcolor{comment}{*     currently loaded in memory                                       *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00009}00009 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00010}00010 \textcolor{comment}{*     EINO   incoming neutron energy in eV (input)                     *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00011}00011 \textcolor{comment}{*     EOUL   outgoing neutron energy in eV (input)                     *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00012}00012 \textcolor{comment}{*     COSTL  outgoing neutron cos (theta) (input)                      *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00013}00013 \textcolor{comment}{*     PROB    differential prob (d2Pb/dE dcost) (output)               *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00014}00014 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00015}00015 \textcolor{comment}{*     All quantities are in the LAB system                             *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00016}00016 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00017}00017 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00018}00018 \textcolor{preprocessor}{\#include "{}xcmfh6.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00019}00019 \textcolor{preprocessor}{}      \textcolor{keywordtype}{DOUBLE PRECISION} DEIN, DECM, DEOU, DCOST}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00020}00020       \textcolor{keywordtype}{DOUBLE PRECISION} DEOUL, DCOSTL, DEOUC, DCOSTC}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00021}00021 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00022}00022 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00023}00023 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> Incoming energy is always in the LAB system}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00025}00025 \textcolor{comment}{* -\/-\/-\/> Outgoing energy and angle are in the LAB system for this entry}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00026}00026       ein=eino}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00027}00027       \textcolor{keywordflow}{IF}(lct.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Distribution is given in the LAB, jacobian = 1 and no}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00029}00029 \textcolor{comment}{*      transformation is necessary}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00030}00030          eou=eoul}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00031}00031          cost=costl}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00032}00032          hjack=1}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00033}00033       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lct.EQ.2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> Distribution is given in the CMS, transform quantities and}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00035}00035 \textcolor{comment}{*      calculate Jacobian}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00036}00036          dein=ein}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00037}00037          deoul=eoul}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00038}00038          dcostl=costl}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00039}00039 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00040}00040          decm=dein/(1+awr)**2}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00041}00041          deou=deoul+decm-\/2*sqrt(deoul*decm)*dcostl}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00042}00042          dcost=(sqrt(deoul)*dcostl-\/sqrt(decm))/sqrt(deou)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00043}00043          hjack=sqrt(deoul/deou)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00044}00044          eou=deou}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00045}00045          cost=dcost}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00046}00046       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00047}00047          stop \textcolor{stringliteral}{'*** XN6PLB: Invalid value of LCT'}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00048}00048 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00049}00049       \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00050}00050       entry xn6pcm(eino,eouc,costc,prob)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00051}00051 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00052}00052 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00053}00053 \textcolor{comment}{*     Returns the probability for an incoming energy EINO, outgoing    *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00054}00054 \textcolor{comment}{*     energy EOUC and angle COSTC for the file6 information            *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00055}00055 \textcolor{comment}{*     currently loaded in memory                                       *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00056}00056 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00057}00057 \textcolor{comment}{*     EINO   incoming neutron energy in eV (input)                     *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00058}00058 \textcolor{comment}{*     EOUC   outgoing neutron energy in eV (input)                     *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00059}00059 \textcolor{comment}{*     COSTC  outgoing neutron cos (theta) (input)                      *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00060}00060 \textcolor{comment}{*     PROB    differential prob (d2Pb/dE dcost) (output)               *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00061}00061 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00062}00062 \textcolor{comment}{*     Incoming energy is in the LAB system                             *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00063}00063 \textcolor{comment}{*     Outgoing energy and angle are in the CMS system                  *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00064}00064 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00065}00065 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00066}00066 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00067}00067 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00068}00068 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/> Incoming energy is always in the LAB system}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00070}00070 \textcolor{comment}{* -\/-\/-\/> Outgoing energy and angle are in the CMS system for this entry}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00071}00071       ein=eino}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00072}00072       \textcolor{keywordflow}{IF}(lct.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00073}00073 \textcolor{comment}{* -\/-\/-\/> Distribution is given in the LAB, transform quantities and}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00074}00074 \textcolor{comment}{*      calculate Jacobian}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00075}00075          dein=ein}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00076}00076          deouc=eouc}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00077}00077          dcostc=costc}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00078}00078 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00079}00079          decm=dein/(1+awr)**2}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00080}00080          deou=deouc+decm+2*sqrt(deouc*decm)*dcostc}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00081}00081          dcost=(sqrt(deouc)*dcostc+sqrt(decm))/sqrt(deou)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00082}00082          hjack=sqrt(deouc/deou)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00083}00083          eou=deou}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00084}00084          cost=dcost}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00085}00085       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lct.EQ.2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00086}00086 \textcolor{comment}{* -\/-\/-\/> Distribution is given in the CMS, jacobian = 1 and no}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00087}00087 \textcolor{comment}{*      transformation is necessary}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00088}00088          eou=eouc}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00089}00089          cost=costc}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00090}00090          hjack=1}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00091}00091       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00092}00092          stop \textcolor{stringliteral}{'*** XN6PLB: Invalid value of LCT'}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00093}00093 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00094}00094    10 prob=0}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00095}00095 \textcolor{comment}{* -\/-\/-\/> Avoid input energies larger than max}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00096}00096       ein=min(ein,1.99e7)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00097}00097 \textcolor{comment}{* -\/-\/-\/> Loop over all the sections}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00098}00098       \textcolor{keywordflow}{DO} 20 jsect=1,nsect}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00099}00099 \textcolor{comment}{* -\/-\/-\/> Recover data of section}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00100}00100          ip=isecpn(jsect)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00101}00101          law=i6stor(ip+1)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00102}00102          nr=i6stor(ip+2)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00103}00103          np=i6stor(ip+3)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00104}00104 \textcolor{comment}{* -\/-\/-\/> Get the yield of this section}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00105}00105          \textcolor{keyword}{CALL }xnterp(i6stor(ip+4),i6stor(ip+4+nr),nr,}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00106}00106      +               r6stor(ip+4+2*nr),np,ein,yi)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00107}00107          \textcolor{keywordflow}{IF}(yi.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00108}00108 \textcolor{comment}{* -\/-\/-\/> If the yield is different from 0, we calculate the probability}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00109}00109 \textcolor{comment}{* -\/-\/-\/> Shift the pointer to the section data}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00110}00110             ip=ip+2*nr+2*np+3}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00111}00111             \textcolor{keywordflow}{IF}(law.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00112}00112 \textcolor{comment}{* -\/-\/-\/> Unknown distribution, should never happen}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00113}00113                stop \textcolor{stringliteral}{'*** XN6PLB: Cannot have unknown dist for neutrons'}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00114}00114             \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(law.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00115}00115 \textcolor{comment}{* -\/-\/-\/> Continuum energy-\/angle distribution}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00116}00116                \textcolor{keyword}{CALL }xn6la1(ip,ein,eou,cost,probs)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00117}00117             \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(law.EQ.6) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00118}00118 \textcolor{comment}{* -\/-\/-\/> Phase space distribution}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00119}00119                \textcolor{keyword}{CALL }xn6la6(ip,ein,eou,cost,probs)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00120}00120             \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(law.EQ.7) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00121}00121 \textcolor{comment}{* -\/-\/-\/> Laboratory Angle-\/Energy law}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00122}00122                \textcolor{keyword}{CALL }xn6la7(ip,ein,eou,cost,probs)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00123}00123             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00124}00124 \textcolor{comment}{* -\/-\/-\/> Unhandled case, there is none at the moment}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00125}00125                \textcolor{keyword}{WRITE}(6,10000) law}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00126}00126 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XN6PLB: Still unhandled case:'},i4)}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00127}00127 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00128}00128             prob=prob+yi*probs}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00129}00129 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00130}00130    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00131}00131 \textcolor{comment}{* -\/-\/-\/> Apply Jacobian}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00132}00132       prob=prob*hjack}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00133}00133 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6plb_8_f_source_l00134}00134       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="_b1_primary_generator_action_8cc" kind="file" language="C++">
+    <compoundname>B1PrimaryGeneratorAction.cc</compoundname>
+    <includes refid="_b1_primary_generator_action_8hh" local="yes">B1PrimaryGeneratorAction.hh</includes>
+    <includes local="yes">G4LogicalVolumeStore.hh</includes>
+    <includes local="yes">G4LogicalVolume.hh</includes>
+    <includes local="yes">G4Box.hh</includes>
+    <includes local="yes">G4RunManager.hh</includes>
+    <includes local="yes">G4ParticleGun.hh</includes>
+    <includes local="yes">G4ParticleTable.hh</includes>
+    <includes local="yes">G4ParticleDefinition.hh</includes>
+    <includes local="yes">G4SystemOfUnits.hh</includes>
+    <includes local="yes">Randomize.hh</includes>
+    <includes local="yes">TMXkeff.hh</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>B1PrimaryGeneratorAction.hh</label>
+        <link refid="_b1_primary_generator_action_8hh"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/Users/Transmutex/Simulation/ADS_SimulationCode/testKeff_v0.1/src/B1PrimaryGeneratorAction.cc</label>
+        <link refid="_b1_primary_generator_action_8cc"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>G4Box.hh</label>
+      </node>
+      <node id="6">
+        <label>G4FPYSamplingOps.hh</label>
+      </node>
+      <node id="8">
+        <label>G4LogicalVolume.hh</label>
+      </node>
+      <node id="7">
+        <label>G4LogicalVolumeStore.hh</label>
+      </node>
+      <node id="12">
+        <label>G4ParticleDefinition.hh</label>
+      </node>
+      <node id="4">
+        <label>G4ParticleGun.hh</label>
+      </node>
+      <node id="11">
+        <label>G4ParticleTable.hh</label>
+      </node>
+      <node id="10">
+        <label>G4RunManager.hh</label>
+      </node>
+      <node id="13">
+        <label>G4SystemOfUnits.hh</label>
+      </node>
+      <node id="3">
+        <label>G4VUserPrimaryGeneratorAction.hh</label>
+      </node>
+      <node id="14">
+        <label>Randomize.hh</label>
+      </node>
+      <node id="15">
+        <label>TMXkeff.hh</label>
+      </node>
+      <node id="5">
+        <label>globals.hh</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+<para>Implementation of the <ref refid="class_b1_primary_generator_action" kindref="compound">B1PrimaryGeneratorAction</ref> class. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>********************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>License<sp/>and<sp/>Disclaimer<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>The<sp/><sp/>Geant4<sp/>software<sp/><sp/>is<sp/><sp/>copyright<sp/>of<sp/>the<sp/>Copyright<sp/>Holders<sp/><sp/>of<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>the<sp/>Geant4<sp/>Collaboration.<sp/><sp/>It<sp/>is<sp/>provided<sp/><sp/>under<sp/><sp/>the<sp/>terms<sp/><sp/>and<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>conditions<sp/>of<sp/>the<sp/>Geant4<sp/>Software<sp/>License,<sp/><sp/>included<sp/>in<sp/>the<sp/>file<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>LICENSE<sp/>and<sp/>available<sp/>at<sp/><sp/>http://cern.ch/geant4/license<sp/>.<sp/><sp/>These<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>include<sp/>a<sp/>list<sp/>of<sp/>copyright<sp/>holders.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>Neither<sp/>the<sp/>authors<sp/>of<sp/>this<sp/>software<sp/>system,<sp/>nor<sp/>their<sp/>employing<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>institutes,nor<sp/>the<sp/>agencies<sp/>providing<sp/>financial<sp/>support<sp/>for<sp/>this<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>work<sp/><sp/>make<sp/><sp/>any<sp/>representation<sp/>or<sp/><sp/>warranty,<sp/>express<sp/>or<sp/>implied,<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>regarding<sp/><sp/>this<sp/><sp/>software<sp/>system<sp/>or<sp/>assume<sp/>any<sp/>liability<sp/>for<sp/>its<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>use.<sp/><sp/>Please<sp/>see<sp/>the<sp/>license<sp/>in<sp/>the<sp/>file<sp/><sp/>LICENSE<sp/><sp/>and<sp/>URL<sp/>above<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>for<sp/>the<sp/>full<sp/>disclaimer<sp/>and<sp/>the<sp/>limitation<sp/>of<sp/>liability.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>This<sp/><sp/>code<sp/><sp/>implementation<sp/>is<sp/>the<sp/>result<sp/>of<sp/><sp/>the<sp/><sp/>scientific<sp/>and<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>technical<sp/>work<sp/>of<sp/>the<sp/>GEANT4<sp/>collaboration.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>By<sp/>using,<sp/><sp/>copying,<sp/><sp/>modifying<sp/>or<sp/><sp/>distributing<sp/>the<sp/>software<sp/>(or<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>any<sp/>work<sp/>based<sp/><sp/>on<sp/>the<sp/>software)<sp/><sp/>you<sp/><sp/>agree<sp/><sp/>to<sp/>acknowledge<sp/>its<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>use<sp/><sp/>in<sp/><sp/>resulting<sp/><sp/>scientific<sp/><sp/>publications,<sp/><sp/>and<sp/>indicate<sp/>your<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>acceptance<sp/>of<sp/>all<sp/>terms<sp/>of<sp/>the<sp/>Geant4<sp/>Software<sp/>license.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>********************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//</highlight></codeline>
+<codeline lineno="29"><highlight class="comment"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_b1_primary_generator_action_8hh" kindref="compound">B1PrimaryGeneratorAction.hh</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;G4LogicalVolumeStore.hh&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;G4LogicalVolume.hh&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;G4Box.hh&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;G4RunManager.hh&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;G4ParticleGun.hh&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;G4ParticleTable.hh&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;G4ParticleDefinition.hh&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;G4SystemOfUnits.hh&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Randomize.hh&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;TMXkeff.hh&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">:<sp/>G4VUserPrimaryGeneratorAction(),</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/>fParticleGun(0),<sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/>fEnvelopeBox(0)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>fSampler<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>G4FPYSamplingOps();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/>G4int<sp/>n_particle<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/>fParticleGun<sp/><sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>G4ParticleGun(n_particle);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>default<sp/>particle<sp/>kinematic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/>G4ParticleTable*<sp/>particleTable<sp/>=<sp/>G4ParticleTable::GetParticleTable();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/>G4String<sp/>particleName;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/>G4ParticleDefinition*<sp/>particle</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>=<sp/>particleTable-&gt;FindParticle(particleName=</highlight><highlight class="stringliteral">&quot;neutron&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/>fParticleGun-&gt;SetParticleDefinition(particle);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>fParticleGun-&gt;SetParticleEnergy(2.*keV);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal">B1PrimaryGeneratorAction::~B1PrimaryGeneratorAction()</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>fParticleGun;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>B1PrimaryGeneratorAction::GeneratePrimaries(G4Event*<sp/>anEvent)</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//this<sp/>function<sp/>is<sp/>called<sp/>at<sp/>the<sp/>begining<sp/>of<sp/>ecah<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_t_m_xkeff_1ae1e9f4676a54a9533cfe95f2d3b38805" kindref="member">TMXkeff::getInstance</ref>()-&gt;<ref refid="class_t_m_xkeff_1a06e77cdfda5e3914f7b6b37b27bd5299" kindref="member">inGeneratePrimaries</ref>(fParticleGun,<sp/>anEvent);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>order<sp/>to<sp/>avoid<sp/>dependence<sp/>of<sp/>PrimaryGeneratorAction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>on<sp/>DetectorConstruction<sp/>class<sp/>we<sp/>get<sp/>Envelope<sp/>volume</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>from<sp/>G4LogicalVolumeStore.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">/*<sp/><sp/>if<sp/>(TMXkeff::getInstance()-&gt;getCurrentCycle()<sp/>&lt;=<sp/>1)</highlight></codeline>
+<codeline lineno="85"><highlight class="comment"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>fParticleGun-&gt;SetParticlePosition(G4ThreeVector(0,<sp/>0,<sp/>0));</highlight></codeline>
+<codeline lineno="87"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>fParticleGun-&gt;SetParticleEnergy(fSampler-&gt;G4SampleWatt(92235,<sp/>G4FFGEnumerations::NEUTRON_INDUCED,<sp/>0.025*eV));</highlight></codeline>
+<codeline lineno="88"><highlight class="comment"></highlight></codeline>
+<codeline lineno="89"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>G4double<sp/>cosTheta<sp/>=<sp/>2*G4UniformRand()<sp/>-<sp/>1.;</highlight></codeline>
+<codeline lineno="90"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>G4double<sp/>phi<sp/>=<sp/>2*3.14159*G4UniformRand();</highlight></codeline>
+<codeline lineno="91"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>G4double<sp/>sinTheta<sp/>=<sp/>std::sqrt(1.<sp/>-<sp/>cosTheta*cosTheta);</highlight></codeline>
+<codeline lineno="92"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>G4double<sp/>ux<sp/>=<sp/>sinTheta*std::cos(phi);</highlight></codeline>
+<codeline lineno="93"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>G4double<sp/>uy<sp/>=<sp/>sinTheta*std::sin(phi);</highlight></codeline>
+<codeline lineno="94"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>G4double<sp/>uz<sp/>=<sp/>cosTheta;</highlight></codeline>
+<codeline lineno="95"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>fParticleGun-&gt;SetParticleMomentumDirection(G4ThreeVector(ux,uy,uz));</highlight></codeline>
+<codeline lineno="96"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>fParticleGun-&gt;GeneratePrimaryVertex(anEvent);</highlight></codeline>
+<codeline lineno="97"><highlight class="comment"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="comment"><sp/><sp/>else</highlight></codeline>
+<codeline lineno="99"><highlight class="comment"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>FissionSite<sp/>site<sp/>=<sp/>TMXkeff::getInstance()-&gt;getFissionSite((int)round(G4UniformRand()<sp/>*<sp/>TMXkeff::getInstance()-&gt;getNbNeutronPerCycle())<sp/>%<sp/>TMXkeff::getInstance()-&gt;getNumberOfFissionSites());</highlight></codeline>
+<codeline lineno="101"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>fParticleGun-&gt;SetParticlePosition(site.position);</highlight></codeline>
+<codeline lineno="102"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>fParticleGun-&gt;SetParticleEnergy(site.energy);</highlight></codeline>
+<codeline lineno="103"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>fParticleGun-&gt;SetParticleMomentumDirection(site.direction);</highlight></codeline>
+<codeline lineno="104"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/>fParticleGun-&gt;GeneratePrimaryVertex(anEvent);</highlight></codeline>
+<codeline lineno="105"><highlight class="comment"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="comment">*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/Users/Transmutex/Simulation/ADS_SimulationCode/testKeff_v0.1/src/B1PrimaryGeneratorAction.cc"/>
+  </compounddef>
+</doxygen>

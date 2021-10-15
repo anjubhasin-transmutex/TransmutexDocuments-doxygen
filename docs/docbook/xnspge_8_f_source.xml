@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnspge_8_f_source" xml:lang="en-US">
+<title>xnspge.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/spanish/xnspge.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnspge_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;0.05/00&#32;01/04/94&#32;&#32;13.57.29&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnspge_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;01/04/94</emphasis>
+<anchor xml:id="_xnspge_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnspge
+<anchor xml:id="_xnspge_8_f_source_1l00004"/>00004 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnspge_8_f_source_1l00005"/>00005 <emphasis role="preprocessor">#include&#32;&quot;xcsgeo.inc&quot;</emphasis>
+<anchor xml:id="_xnspge_8_f_source_1l00006"/>00006 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnspge_8_f_source_1l00007"/>00007 &#32;&#32;&#32;&#32;&#32;&#32;cos30=sqrt(3.)*0.5
+<anchor xml:id="_xnspge_8_f_source_1l00008"/>00008 &#32;&#32;&#32;&#32;&#32;&#32;distp=disbar*cos30
+<anchor xml:id="_xnspge_8_f_source_1l00009"/>00009 &#32;&#32;&#32;&#32;&#32;&#32;nbsid1=nbside-1
+<anchor xml:id="_xnspge_8_f_source_1l00010"/>00010 &#32;&#32;&#32;&#32;&#32;&#32;hight=nbsid1*disbar*sqrt(3.)
+<anchor xml:id="_xnspge_8_f_source_1l00011"/>00011 &#32;&#32;&#32;&#32;&#32;&#32;nbars=0
+<anchor xml:id="_xnspge_8_f_source_1l00012"/>00012 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;j=-nbsid1,+nbsid1
+<anchor xml:id="_xnspge_8_f_source_1l00013"/>00013 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yrow&#32;=&#32;j*distp
+<anchor xml:id="_xnspge_8_f_source_1l00014"/>00014 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xlim&#32;=&#32;(hight-abs(yrow))/sqrt(3.)
+<anchor xml:id="_xnspge_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shift&#32;=&#32;mod(j,2)*disbar*0.5
+<anchor xml:id="_xnspge_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;i=-nbsid1,nbsid1
+<anchor xml:id="_xnspge_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xrow&#32;=&#32;disbar*i+shift
+<anchor xml:id="_xnspge_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rho=sqrt(xrow**2+yrow**2)
+<anchor xml:id="_xnspge_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(abs(xrow).LE.xlim.AND.rho.LT.cordia*0.5.AND.
+<anchor xml:id="_xnspge_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(xrow.NE.0..OR.yrow.NE.0.))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnspge_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nbars=nbars+1
+<anchor xml:id="_xnspge_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nbars.GT.maxbar)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnspge_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MAXBAR&apos;</emphasis>
+<anchor xml:id="_xnspge_8_f_source_1l00024"/>00024 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnspge_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xcbar(nbars)=xrow
+<anchor xml:id="_xnspge_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ycbar(nbars)=yrow
+<anchor xml:id="_xnspge_8_f_source_1l00027"/>00027 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnspge_8_f_source_1l00028"/>00028 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnspge_8_f_source_1l00029"/>00029 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnspge_8_f_source_1l00030"/>00030 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnspge_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

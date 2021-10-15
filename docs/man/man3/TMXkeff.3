@@ -1,0 +1,821 @@
+.TH "TMXkeff" 3 "Fri Oct 15 2021" "Version Version 1.0" "Transmutex Documentation" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+TMXkeff
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBrun\fP (G4MTRunManager *)"
+.br
+.ti -1c
+.RI "void \fBinUserSteppingAction\fP (const G4Step *)"
+.br
+.RI "TMXkeff::scoring\&. "
+.ti -1c
+.RI "void \fBinGeneratePrimaries\fP (G4ParticleGun *, G4Event *)"
+.br
+.RI "\fBTMXkeff::inGeneratePrimaries\fP\&. "
+.ti -1c
+.RI "void \fBreinitialize\fP ()"
+.br
+.RI "\fBTMXkeff::reinitialize\fP\&. "
+.ti -1c
+.RI "void \fBcomputeKeffCycle\fP ()"
+.br
+.RI "\fBTMXkeff::computeKeffCycle\fP\&. "
+.ti -1c
+.RI "void \fBaddFission\fP (double)"
+.br
+.RI "\fBTMXkeff::addFission\fP\&. "
+.ti -1c
+.RI "void \fBaddCollision\fP (double)"
+.br
+.RI "\fBTMXkeff::addCollision\fP\&. "
+.ti -1c
+.RI "void \fBaddAbsorption\fP (double)"
+.br
+.RI "\fBTMXkeff::addAbsorption\fP\&. "
+.ti -1c
+.RI "void \fBaddTrackLength\fP (double)"
+.br
+.RI "\fBTMXkeff::addTrackLength\fP\&. "
+.ti -1c
+.RI "void \fBaddFissionSite\fP (G4ThreeVector, G4ThreeVector, double, G4ThreeVector)"
+.br
+.RI "\fBTMXkeff::addFissionSite\fP\&. "
+.ti -1c
+.RI "void \fBaddOriginPosition\fP (G4ThreeVector position)"
+.br
+.RI "\fBTMXkeff::addOriginPosition\fP\&. "
+.ti -1c
+.RI "int \fBgetCurrentCycle\fP ()"
+.br
+.RI "\fBTMXkeff::getCurrentCycle\fP\&. "
+.ti -1c
+.RI "int \fBgetNumberOfFissionSites\fP ()"
+.br
+.RI "TMXkeff::getFissionSiteNumber\&. "
+.ti -1c
+.RI "\fBFissionSite\fP \fBgetFissionSite\fP (int)"
+.br
+.RI "\fBTMXkeff::getFissionSite\fP\&. "
+.ti -1c
+.RI "int \fBgetNbNeutronPerCycle\fP ()"
+.br
+.RI "\fBTMXkeff::getNbNeutronPerCycle\fP\&. "
+.ti -1c
+.RI "int \fBgetNbCycleToDiscard\fP ()"
+.br
+.RI "\fBTMXkeff::getNbCycleToDiscard\fP\&. "
+.ti -1c
+.RI "int \fBgetNbTotCycle\fP ()"
+.br
+.RI "\fBTMXkeff::getNbTotCycle\fP\&. "
+.ti -1c
+.RI "void \fBsetNbParticlePerCycle\fP (int)"
+.br
+.RI "TMXkeff::setNbNeutronPerCycle\&. "
+.ti -1c
+.RI "void \fBsetNbCycleToDiscard\fP (int)"
+.br
+.RI "\fBTMXkeff::setNbCycleToDiscard\fP\&. "
+.ti -1c
+.RI "void \fBsetNbTotCycle\fP (int)"
+.br
+.RI "\fBTMXkeff::setNbTotCycle\fP\&. "
+.ti -1c
+.RI "void \fBsetOutputFileName\fP (std::string)"
+.br
+.RI "\fBTMXkeff::setOutputFileName\fP\&. "
+.ti -1c
+.RI "void \fBprintAll\fP ()"
+.br
+.RI "\fBTMXkeff::printAll\fP\&. "
+.ti -1c
+.RI "void \fBwriteKResults\fP ()"
+.br
+.RI "\fBTMXkeff::writeKResults\fP\&. "
+.ti -1c
+.RI "double \fBgetNu\fP ()"
+.br
+.RI "\fBTMXkeff::getNu\fP\&. "
+.ti -1c
+.RI "double \fBgetEnergyPerFission\fP ()"
+.br
+.ti -1c
+.RI "\fBTMXkeff\fP & \fBoperator=\fP (const \fBTMXkeff\fP &b)"
+.br
+.ti -1c
+.RI "void \fBrun\fP (G4MTRunManager *)"
+.br
+.ti -1c
+.RI "void \fBinUserSteppingAction\fP (const G4Step *)"
+.br
+.ti -1c
+.RI "void \fBinGeneratePrimaries\fP (G4ParticleGun *, G4Event *)"
+.br
+.ti -1c
+.RI "void \fBreinitialize\fP ()"
+.br
+.ti -1c
+.RI "void \fBcomputeKeffCycle\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddFission\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddCollision\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddAbsorption\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddTrackLength\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddFissionSite\fP (G4ThreeVector, G4ThreeVector, double, G4ThreeVector)"
+.br
+.ti -1c
+.RI "void \fBaddOriginPosition\fP (G4ThreeVector position)"
+.br
+.ti -1c
+.RI "int \fBgetCurrentCycle\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNumberOfFissionSites\fP ()"
+.br
+.ti -1c
+.RI "\fBFissionSite\fP \fBgetFissionSite\fP (int)"
+.br
+.ti -1c
+.RI "int \fBgetNbNeutronPerCycle\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNbCycleToDiscard\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNbTotCycle\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetNbParticlePerCycle\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetNbCycleToDiscard\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetNbTotCycle\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetOutputFileName\fP (std::string)"
+.br
+.ti -1c
+.RI "void \fBprintAll\fP ()"
+.br
+.ti -1c
+.RI "void \fBwriteKResults\fP ()"
+.br
+.ti -1c
+.RI "double \fBgetNu\fP ()"
+.br
+.ti -1c
+.RI "double \fBgetEnergyPerFission\fP ()"
+.br
+.ti -1c
+.RI "\fBTMXkeff\fP & \fBoperator=\fP (const \fBTMXkeff\fP &b)"
+.br
+.ti -1c
+.RI "void \fBrun\fP (G4MTRunManager *)"
+.br
+.ti -1c
+.RI "void \fBinUserSteppingAction\fP (const G4Step *)"
+.br
+.ti -1c
+.RI "void \fBinGeneratePrimaries\fP (G4ParticleGun *, G4Event *)"
+.br
+.ti -1c
+.RI "void \fBreinitialize\fP ()"
+.br
+.ti -1c
+.RI "void \fBcomputeKeffCycle\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddFission\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddCollision\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddAbsorption\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddTrackLength\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddFissionSite\fP (G4ThreeVector, G4ThreeVector, double, G4ThreeVector)"
+.br
+.ti -1c
+.RI "void \fBaddOriginPosition\fP (G4ThreeVector position)"
+.br
+.ti -1c
+.RI "int \fBgetCurrentCycle\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNumberOfFissionSites\fP ()"
+.br
+.ti -1c
+.RI "\fBFissionSite\fP \fBgetFissionSite\fP (int)"
+.br
+.ti -1c
+.RI "int \fBgetNbNeutronPerCycle\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNbCycleToDiscard\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNbTotCycle\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetNbParticlePerCycle\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetNbCycleToDiscard\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetNbTotCycle\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetOutputFileName\fP (std::string)"
+.br
+.ti -1c
+.RI "void \fBprintAll\fP ()"
+.br
+.ti -1c
+.RI "void \fBwriteKResults\fP ()"
+.br
+.ti -1c
+.RI "double \fBgetNu\fP ()"
+.br
+.ti -1c
+.RI "double \fBgetEnergyPerFission\fP ()"
+.br
+.ti -1c
+.RI "\fBTMXkeff\fP & \fBoperator=\fP (const \fBTMXkeff\fP &b)"
+.br
+.ti -1c
+.RI "void \fBrun\fP (G4MTRunManager *)"
+.br
+.ti -1c
+.RI "void \fBinUserSteppingAction\fP (const G4Step *)"
+.br
+.ti -1c
+.RI "void \fBinGeneratePrimaries\fP (G4ParticleGun *, G4Event *)"
+.br
+.ti -1c
+.RI "void \fBreinitialize\fP ()"
+.br
+.ti -1c
+.RI "void \fBcomputeKeffCycle\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddFission\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddCollision\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddAbsorption\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddTrackLength\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddFissionSite\fP (G4ThreeVector, G4ThreeVector, double, G4ThreeVector)"
+.br
+.ti -1c
+.RI "void \fBaddOriginPosition\fP (G4ThreeVector position)"
+.br
+.ti -1c
+.RI "int \fBgetCurrentCycle\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNumberOfFissionSites\fP ()"
+.br
+.ti -1c
+.RI "\fBFissionSite\fP \fBgetFissionSite\fP (int)"
+.br
+.ti -1c
+.RI "int \fBgetNbNeutronPerCycle\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNbCycleToDiscard\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNbTotCycle\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetNbParticlePerCycle\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetNbCycleToDiscard\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetNbTotCycle\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetOutputFileName\fP (std::string)"
+.br
+.ti -1c
+.RI "void \fBprintAll\fP ()"
+.br
+.ti -1c
+.RI "void \fBwriteKResults\fP ()"
+.br
+.ti -1c
+.RI "double \fBgetNu\fP ()"
+.br
+.ti -1c
+.RI "double \fBgetEnergyPerFission\fP ()"
+.br
+.ti -1c
+.RI "\fBTMXkeff\fP & \fBoperator=\fP (const \fBTMXkeff\fP &b)"
+.br
+.ti -1c
+.RI "void \fBrun\fP (G4MTRunManager *)"
+.br
+.ti -1c
+.RI "void \fBinUserSteppingAction\fP (const G4Step *)"
+.br
+.ti -1c
+.RI "void \fBinGeneratePrimaries\fP (G4ParticleGun *, G4Event *)"
+.br
+.ti -1c
+.RI "void \fBreinitialize\fP ()"
+.br
+.ti -1c
+.RI "void \fBcomputeKeffCycle\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddFission\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddCollision\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddAbsorption\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddTrackLength\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddFissionSite\fP (G4ThreeVector, G4ThreeVector, double, G4ThreeVector)"
+.br
+.ti -1c
+.RI "void \fBaddOriginPosition\fP (G4ThreeVector position)"
+.br
+.ti -1c
+.RI "int \fBgetCurrentCycle\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNumberOfFissionSites\fP ()"
+.br
+.ti -1c
+.RI "\fBFissionSite\fP \fBgetFissionSite\fP (int)"
+.br
+.ti -1c
+.RI "int \fBgetNbNeutronPerCycle\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNbCycleToDiscard\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNbTotCycle\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetNbParticlePerCycle\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetNbCycleToDiscard\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetNbTotCycle\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetOutputFileName\fP (std::string)"
+.br
+.ti -1c
+.RI "void \fBprintAll\fP ()"
+.br
+.ti -1c
+.RI "void \fBwriteKResults\fP ()"
+.br
+.ti -1c
+.RI "double \fBgetNu\fP ()"
+.br
+.ti -1c
+.RI "double \fBgetEnergyPerFission\fP ()"
+.br
+.ti -1c
+.RI "\fBTMXkeff\fP & \fBoperator=\fP (const \fBTMXkeff\fP &b)"
+.br
+.ti -1c
+.RI "void \fBrun\fP (G4MTRunManager *)"
+.br
+.ti -1c
+.RI "void \fBinUserSteppingAction\fP (const G4Step *)"
+.br
+.ti -1c
+.RI "void \fBinGeneratePrimaries\fP (G4ParticleGun *, G4Event *)"
+.br
+.ti -1c
+.RI "void \fBcomputeKeffCycle\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddFission\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddCollision\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddAbsorption\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddTrackLength\fP (double)"
+.br
+.ti -1c
+.RI "void \fBaddFissionSite\fP (G4ThreeVector, G4ThreeVector, double, G4ThreeVector)"
+.br
+.ti -1c
+.RI "int \fBgetCurrentCycle\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNumberOfFissionSites\fP ()"
+.br
+.ti -1c
+.RI "\fBFissionSite\fP \fBgetFissionSite\fP (int)"
+.br
+.ti -1c
+.RI "int \fBgetNbNeutronPerCycle\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNbCycleToDiscard\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNbTotCycle\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetNbParticlePerCycle\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetNbCycleToDiscard\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetNbTotCycle\fP (int)"
+.br
+.ti -1c
+.RI "void \fBsetOutputFileName\fP (std::string)"
+.br
+.ti -1c
+.RI "void \fBprintAll\fP ()"
+.br
+.ti -1c
+.RI "void \fBwriteKResults\fP ()"
+.br
+.ti -1c
+.RI "\fBTMXkeff\fP & \fBoperator=\fP (const \fBTMXkeff\fP &b)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBTMXkeff\fP * \fBgetInstance\fP ()"
+.br
+.RI "\fBTMXkeff::getInstance\fP\&. "
+.ti -1c
+.RI "static \fBTMXkeff\fP * \fBgetInstance\fP ()"
+.br
+.ti -1c
+.RI "static \fBTMXkeff\fP * \fBgetInstance\fP ()"
+.br
+.ti -1c
+.RI "static \fBTMXkeff\fP * \fBgetInstance\fP ()"
+.br
+.ti -1c
+.RI "static \fBTMXkeff\fP * \fBgetInstance\fP ()"
+.br
+.ti -1c
+.RI "static \fBTMXkeff\fP * \fBgetInstance\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line \fB55\fP of file \fBTMXkeff\&.hh\fP\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void TMXkeff::addAbsorption (double absor)"
+
+.PP
+\fBTMXkeff::addAbsorption\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIabsor\fP 
+.RE
+.PP
+
+.PP
+Definition at line \fB76\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::addCollision (double col)"
+
+.PP
+\fBTMXkeff::addCollision\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIcol\fP 
+.RE
+.PP
+
+.PP
+Definition at line \fB86\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::addFission (double nbFissions)"
+
+.PP
+\fBTMXkeff::addFission\fP\&. 
+.PP
+Definition at line \fB65\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::addFissionSite (G4ThreeVector location, G4ThreeVector direction, double energy, G4ThreeVector momentum)"
+
+.PP
+\fBTMXkeff::addFissionSite\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIlocation\fP 
+.br
+\fIdirection\fP 
+.br
+\fIenergy\fP 
+.RE
+.PP
+
+.PP
+Definition at line \fB107\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::addOriginPosition (G4ThreeVector position)"
+
+.PP
+\fBTMXkeff::addOriginPosition\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIposition\fP 
+.RE
+.PP
+
+.PP
+Definition at line \fB116\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::addTrackLength (double trc)"
+
+.PP
+\fBTMXkeff::addTrackLength\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fItrc\fP 
+.RE
+.PP
+
+.PP
+Definition at line \fB95\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::computeKeffCycle ()"
+
+.PP
+\fBTMXkeff::computeKeffCycle\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInbFissions\fP 
+.RE
+.PP
+
+.PP
+Definition at line \fB125\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "int TMXkeff::getCurrentCycle ()"
+
+.PP
+\fBTMXkeff::getCurrentCycle\fP\&. 
+.PP
+\fBReturns\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Definition at line \fB468\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "double TMXkeff::getEnergyPerFission ()"
+
+.PP
+Definition at line \fB532\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "\fBFissionSite\fP TMXkeff::getFissionSite (int num)"
+
+.PP
+\fBTMXkeff::getFissionSite\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInum\fP 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+.RE
+.PP
+
+.PP
+Definition at line \fB489\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "\fBTMXkeff\fP * TMXkeff::getInstance ()\fC [static]\fP"
+
+.PP
+\fBTMXkeff::getInstance\fP\&. 
+.PP
+\fBReturns\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Definition at line \fB427\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "int TMXkeff::getNbCycleToDiscard ()"
+
+.PP
+\fBTMXkeff::getNbCycleToDiscard\fP\&. 
+.PP
+\fBReturns\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Definition at line \fB448\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "int TMXkeff::getNbNeutronPerCycle ()"
+
+.PP
+\fBTMXkeff::getNbNeutronPerCycle\fP\&. 
+.PP
+\fBReturns\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Definition at line \fB438\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "int TMXkeff::getNbTotCycle ()"
+
+.PP
+\fBTMXkeff::getNbTotCycle\fP\&. 
+.PP
+\fBReturns\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Definition at line \fB458\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "double TMXkeff::getNu ()"
+
+.PP
+\fBTMXkeff::getNu\fP\&. 
+.PP
+\fBReturns\fP
+.RS 4
+
+.RE
+.PP
+
+.PP
+Definition at line \fB527\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "int TMXkeff::getNumberOfFissionSites ()"
+
+.PP
+TMXkeff::getFissionSiteNumber\&. 
+.PP
+\fBReturns\fP
+.RS 4
+int 
+.RE
+.PP
+
+.PP
+Definition at line \fB478\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::inGeneratePrimaries (G4ParticleGun * particleGun, G4Event * anEvent)"
+
+.PP
+\fBTMXkeff::inGeneratePrimaries\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIparticleGun\fP 
+.br
+\fIanEvent\fP 
+.RE
+.PP
+
+.PP
+Definition at line \fB171\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::inUserSteppingAction (const G4Step * theStep)"
+
+.PP
+TMXkeff::scoring\&. \fBTMXkeff::inUserSteppingAction\fP\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fItheStep\fP 
+.RE
+.PP
+
+.PP
+Definition at line \fB288\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::printAll ()"
+
+.PP
+\fBTMXkeff::printAll\fP\&. 
+.PP
+Definition at line \fB684\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::reinitialize ()"
+
+.PP
+\fBTMXkeff::reinitialize\fP\&. 
+.PP
+Definition at line \fB539\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::setNbCycleToDiscard (int nbCycleToDiscard)"
+
+.PP
+\fBTMXkeff::setNbCycleToDiscard\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInbCycleToDiscard\fP 
+.RE
+.PP
+
+.PP
+Definition at line \fB568\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::setNbParticlePerCycle (int nbParticlePerCycle)"
+
+.PP
+TMXkeff::setNbNeutronPerCycle\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInbNeutronPerCycle\fP 
+.RE
+.PP
+
+.PP
+Definition at line \fB513\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::setNbTotCycle (int nbTotCycle)"
+
+.PP
+\fBTMXkeff::setNbTotCycle\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInbTotCycle\fP 
+.RE
+.PP
+
+.PP
+Definition at line \fB578\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::setOutputFileName (std::string output)"
+
+.PP
+\fBTMXkeff::setOutputFileName\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIoutput\fP 
+.RE
+.PP
+
+.PP
+Definition at line \fB504\fP of file \fBTMXkeff\&.cc\fP\&.
+.SS "void TMXkeff::writeKResults ()"
+
+.PP
+\fBTMXkeff::writeKResults\fP\&. 
+.PP
+Definition at line \fB720\fP of file \fBTMXkeff\&.cc\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Transmutex Documentation from the source code\&.

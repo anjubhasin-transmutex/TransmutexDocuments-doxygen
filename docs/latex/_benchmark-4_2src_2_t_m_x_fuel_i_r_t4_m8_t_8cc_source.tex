@@ -1,0 +1,279 @@
+\hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source}{}\doxysection{TMXFuel\+IRT4\+M8\+T.\+cc}
+\label{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/4/src/TMXFuelIRT4M8T.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/4/src/TMXFuelIRT4M8T.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00002}00002 \textcolor{comment}{// \(\backslash\)brief Implementation of the TMXFuelIRT4M8T class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00006}00006 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00007}00007 \textcolor{comment}{// TMXFuelIRT4M8T}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00009}00009 \textcolor{comment}{// Donovan Maire, Thomas Frosio, Transmutex, 07/09/2020}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{// Class to manage the different fuel types}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00014}00014 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00016}00016 \textcolor{comment}{// TMX Class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00017}00017 \textcolor{preprocessor}{\#include "{}TMXInputParameters.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00018}00018 \textcolor{preprocessor}{\#include "{}TMXFuelIRT4M8T.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00019}00019 \textcolor{preprocessor}{\#include "{}TMXMaterial.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00021}00021 \textcolor{comment}{// GEANT4 libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00022}00022 \textcolor{preprocessor}{\#include "{}G4Material.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00023}00023 \textcolor{preprocessor}{\#include "{}G4LogicalVolume.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00024}00024 \textcolor{preprocessor}{\#include "{}G4NistManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00025}00025 \textcolor{preprocessor}{\#include "{}G4PVPlacement.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00028}00028 \textcolor{comment}{// C++ libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00029}00029 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00030}00030 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00032}00032 \textcolor{keyword}{static} G4String fuelType = \textcolor{stringliteral}{"{}IRT4M8T"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00034}00034 TMXFuelIRT4M8T::TMXFuelIRT4M8T(\textcolor{keyword}{const} std::string\& FuelAssemblyName, \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* parameter, G4double rodInsertion ):}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00035}00035 \mbox{\hyperlink{class_t_m_x_abstract_fuel_assembly}{TMXAbstractFuelAssembly}}(FuelAssemblyName, parameter, rodInsertion)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00036}00036 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00037}00037     createMaterial();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00038}00038     createGeometry();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00039}00039 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00042}00042 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00043}00043 \textcolor{comment}{// Construction of the material compositions}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00044}00044 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00045}00045 \textcolor{keywordtype}{void} TMXFuelIRT4M8T::createMaterial()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00046}00046 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00047}00047   G4double temperature\_fuel       = m\_p-\/>TemperatureFuel;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00049}00049   G4double massUO2     = 0.313;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00050}00050   G4double massAl      = 0.687;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00051}00051   G4double X\_vol\_Al    = 0.888;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00052}00052   G4double massU235pc  = 19.75;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00053}00053   G4double massU238pc  = 80.25;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00056}00056   \textcolor{comment}{// Water}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00058}00058 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00059}00059   G4Material* g4\_h2o     =  G4NistManager::Instance()-\/>FindOrBuildMaterial(\textcolor{stringliteral}{"{}G4\_WATER"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00060}00060   m\_WaterMaterial        =  \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(\textcolor{stringliteral}{"{}FUEL\_WATER"{}}, g4\_h2o-\/>GetDensity(), 1, kStateLiquid, temperature\_fuel);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00061}00061   m\_WaterMaterial-\/>AddMaterial(g4\_h2o, 1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00064}00064   \textcolor{comment}{// CLAD Aluminium material; target material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00066}00066 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00067}00067   G4Element* elAl\_metal  = \textcolor{keyword}{new} G4Element(\textcolor{stringliteral}{"{}TS\_Aluminium\_Metal"{}}, \textcolor{stringliteral}{"{}al\_metal"{}}, 13., 26.981539 * g / mole);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00068}00068   G4Material* m\_CladMaterial\_t = \textcolor{keyword}{new} G4Material(\textcolor{stringliteral}{"{}FUEL\_CLAD"{}}, G4NistManager::Instance()-\/>FindOrBuildMaterial(\textcolor{stringliteral}{"{}G4\_Al"{}})-\/>GetDensity(), 1, kStateSolid, temperature\_fuel);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00069}00069   m\_CladMaterial\_t-\/>AddElement(elAl\_metal, 1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00070}00070   m\_CladMaterial        =  \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(\textcolor{stringliteral}{"{}FUEL\_CLAD"{}}, G4NistManager::Instance()-\/>FindOrBuildMaterial(\textcolor{stringliteral}{"{}G4\_Al"{}})-\/>GetDensity(), 1, kStateSolid, temperature\_fuel);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00071}00071   m\_CladMaterial-\/>AddMaterial(m\_CladMaterial\_t, 1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00074}00074   \textcolor{comment}{// ABSOR: B4C}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00076}00076 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00077}00077   G4Material* g4\_b4c = G4NistManager::Instance()-\/>FindOrBuildMaterial(\textcolor{stringliteral}{"{}G4\_BORON\_CARBIDE"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00078}00078   m\_AbsorMaterial = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(\textcolor{stringliteral}{"{}FUEL\_ABSOR"{}}, g4\_b4c-\/>GetDensity(), 1, kStateSolid, temperature\_fuel);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00079}00079   m\_AbsorMaterial-\/>AddMaterial(g4\_b4c, 1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00082}00082   \textcolor{comment}{// FUEL: UO2 (19.75\% U-\/235) + Al matrix}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00084}00084 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00085}00085   G4NistManager* manager = G4NistManager::Instance();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00086}00086 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00087}00087   \textcolor{comment}{// Elements //}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00088}00088   G4Isotope* U5 = \textcolor{keyword}{new} G4Isotope(\textcolor{stringliteral}{"{}U235"{}}, 92, 235, manager-\/>GetIsotopeMass(92,235));}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00089}00089   G4Isotope* U8 = \textcolor{keyword}{new} G4Isotope(\textcolor{stringliteral}{"{}U238"{}}, 92, 238, manager-\/>GetIsotopeMass(92,238));}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00091}00091   G4Element* elU235\_238 = \textcolor{keyword}{new} G4Element(\textcolor{stringliteral}{"{}TS\_U\_of\_Uranium\_Dioxide"{}}, \textcolor{stringliteral}{"{}u\_uo2"{}}, 2);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00092}00092   elU235\_238-\/>AddIsotope(U5, massU235pc * perCent); \textcolor{comment}{// in \%  19.75 was discussed, \string~3.5-\/4.5 for H2O reactors}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00093}00093   elU235\_238-\/>AddIsotope(U8, massU238pc * perCent); \textcolor{comment}{// in \% !}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00095}00095   G4Element* elO\_uo2  = \textcolor{keyword}{new} G4Element(\textcolor{stringliteral}{"{}TS\_O\_of\_Uranium\_Dioxide"{}}  ,\textcolor{stringliteral}{"{}o\_uo2"{}} , 8., 16.00 * g/mole);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00096}00096 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00097}00097   \textcolor{comment}{// Materials //}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00098}00098   G4double denUO2 = 9.8 * CLHEP::g / CLHEP::cm3;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00099}00099   G4Material* uo2 = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(\textcolor{stringliteral}{"{}uo2"{}}, denUO2, 2, kStateSolid, temperature\_fuel);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00100}00100   uo2-\/>AddElement(elU235\_238, 1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00101}00101   uo2-\/>AddElement(elO\_uo2, 2);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00103}00103   G4double denUO2Al = X\_vol\_Al * G4NistManager::Instance()-\/>FindOrBuildMaterial(\textcolor{stringliteral}{"{}G4\_Al"{}})-\/>GetDensity() + (1-\/X\_vol\_Al) * denUO2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00104}00104   m\_FuelMaterial = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(\textcolor{stringliteral}{"{}fuel\_UO2Al"{}}, denUO2Al, 2, kStateSolid, temperature\_fuel);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00105}00105   m\_FuelMaterial-\/>AddMaterial(m\_CladMaterial, massAl /(massAl + massUO2));}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00106}00106   m\_FuelMaterial-\/>AddMaterial(uo2, massUO2 /(massAl + massUO2));}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00107}00107 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00109}00109 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00110}00110 \textcolor{comment}{// Construction of the logical volumes for cladding, Fuel and water in the active area}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00111}00111 \textcolor{comment}{// IRT-\/4M-\/8T fuel assembly}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00112}00112 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00113}00113 \textcolor{comment}{// Sources}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00114}00114 \textcolor{comment}{// https://www.ipen.br/biblioteca/slr/cel/0059}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00115}00115 \textcolor{comment}{// https://www.researchgate.net/publication/263485134\_Thermal\_hydraulic\_calculations\_of\_the\_IRT-\/Sofia\_research\_reactor\_with\_leu\_fuel\_IRT-\/4M\_Sofia}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00116}00116 \textcolor{comment}{// https://www.researchgate.net/publication/238658698\_A\_neutronic\_feasibility\_study\_for\_LEU\_conversion\_of\_the\_IR8\_research\_reactor/figures?lo=1}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00117}00117 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00118}00118 \textcolor{keywordtype}{void} TMXFuelIRT4M8T::createGeometry()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00119}00119 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00120}00120     \textcolor{comment}{// Dimensions of the fuel assemblies}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00121}00121     G4double assembly\_Thickness = 69.6 * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00122}00122     G4double step\_btw\_Clad      = 6.9  * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00123}00123     G4double h\_Fuel             = 600  * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00124}00124     G4double fuel\_Thickness     = 0.7  * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00125}00125     G4double clad\_thickness     = 1.6  * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00126}00126     G4int nb\_plate              = 7;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00127}00127     G4double tubeOutDiameter    = 21.3 * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00128}00128     G4double tubeIntDiameter    = 18.1 * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00129}00129     G4double tubeDisplOutDiam   = 14   * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00130}00130     G4double tubeDisplIntDiam   = 12   * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00131}00131 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00132}00132     \textcolor{comment}{//See if there is a way to remove it////////////}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00133}00133     std::vector<G4LogicalVolume*> fLogicCladInt8T;\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00135}00135 \textcolor{comment}{}    G4bool overlap = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00136}00136     \textcolor{keywordflow}{if}(m\_p-\/>Verbose == 1)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00137}00137           overlap = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00138}00138 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00139}00139     G4Box* sMaster = \textcolor{keyword}{new} G4Box(\textcolor{stringliteral}{"{}sMaster"{}},}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00140}00140                                     assembly\_Thickness / 2, assembly\_Thickness / 2, h\_Fuel / 2 );}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00141}00141     m\_Solids.push\_back(sMaster);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00142}00142     m\_masterVolume = \textcolor{keyword}{new} G4LogicalVolume(       sMaster,                                              \textcolor{comment}{// its solid}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00143}00143                                                 m\_WaterMaterial,                                      \textcolor{comment}{// its material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00144}00144                                                 \textcolor{stringliteral}{"{}lMaster"{}} );                                          \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00145}00145     m\_waterLogicalVolumes.push\_back(m\_masterVolume);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00147}00147     \textcolor{comment}{// From external to internal physical volumes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00148}00148     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < nb\_plate ; i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00149}00149     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00150}00150         G4Box * sCLADOut = \textcolor{keyword}{new} G4Box(\textcolor{stringliteral}{"{}sCLADOut\_"{}} + std::to\_string(i),}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00151}00151                               ( assembly\_Thickness -\/ i * step\_btw\_Clad ) / 2,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00152}00152                               ( assembly\_Thickness -\/ i * step\_btw\_Clad ) / 2,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00153}00153                               h\_Fuel / 2);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00154}00154         m\_Solids.push\_back(sCLADOut);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00155}00155         G4LogicalVolume * lCLADOut =  \textcolor{keyword}{new} G4LogicalVolume( sCLADOut,                                        \textcolor{comment}{// its solid}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00156}00156                                                 m\_CladMaterial,                                       \textcolor{comment}{// its material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00157}00157                                                 \textcolor{stringliteral}{"{}lCLADOut\_"{}} + std::to\_string(i) );                   \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00158}00158         m\_cladLogicalVolumes.push\_back(lCLADOut);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00159}00159         \textcolor{keyword}{new} G4PVPlacement( 0,                                                                         \textcolor{comment}{// no rotation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00160}00160                        G4ThreeVector(),                                                               \textcolor{comment}{// at (0,0,0)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00161}00161                        lCLADOut,                                                               \textcolor{comment}{// its logical volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00162}00162                        \textcolor{stringliteral}{"{}CLADOut\_"{}} + std::to\_string(i),                                        \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00163}00163                        (i == 0) ? m\_masterVolume : fLogicCladInt8T[i-\/1],                                    \textcolor{comment}{// its mother volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00164}00164                        \textcolor{keyword}{false},                                                                         \textcolor{comment}{// no boolean operation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00165}00165                        0,                                                                             \textcolor{comment}{// copy number}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00166}00166                        overlap);                                                                      \textcolor{comment}{// overlaps checking}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00167}00167 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00169}00169 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00170}00170         G4Box * sFUEL = \textcolor{keyword}{new} G4Box(\textcolor{stringliteral}{"{}sFUEL"{}} + std::to\_string(i),}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00171}00171                               ( assembly\_Thickness -\/ i * step\_btw\_Clad -\/ ( clad\_thickness -\/ fuel\_Thickness )  ) / 2,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00172}00172                               ( assembly\_Thickness -\/ i * step\_btw\_Clad -\/ ( clad\_thickness -\/ fuel\_Thickness )   ) / 2,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00173}00173                               h\_Fuel / 2);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00174}00174         m\_Solids.push\_back(sFUEL);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00175}00175         G4LogicalVolume * lFUEL = \textcolor{keyword}{new} G4LogicalVolume( sFUEL,                                       \textcolor{comment}{// its solid}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00176}00176                                                 m\_FuelMaterial,                                       \textcolor{comment}{// its material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00177}00177                                                 \textcolor{stringliteral}{"{}lFUEL\_"{}} + std::to\_string(i) );                   \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00178}00178         m\_fuelLogicalVolumes.push\_back(lFUEL);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00179}00179         \textcolor{keyword}{new} G4PVPlacement( 0,                                                                         \textcolor{comment}{// no rotation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00180}00180                        G4ThreeVector(),                                                               \textcolor{comment}{// at (0,0,0)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00181}00181                        lFUEL,                                                               \textcolor{comment}{// its logical volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00182}00182                        \textcolor{stringliteral}{"{}FUEL\_"{}} + std::to\_string(i),                                         \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00183}00183                        lCLADOut,                                                               \textcolor{comment}{// its mother volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00184}00184                        \textcolor{keyword}{false},                                                                         \textcolor{comment}{// no boolean operation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00185}00185                        0,                                                                             \textcolor{comment}{// copy number}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00186}00186                        overlap);                                                                      \textcolor{comment}{// overlaps checking}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00187}00187 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00190}00190         G4Box * sCLADInt = \textcolor{keyword}{new} G4Box(\textcolor{stringliteral}{"{}sCLADInt\_"{}} + std::to\_string(i),}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00191}00191                                   ( assembly\_Thickness -\/ i * step\_btw\_Clad -\/ ( clad\_thickness + fuel\_Thickness )  ) / 2,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00192}00192                                   ( assembly\_Thickness -\/ i * step\_btw\_Clad -\/ ( clad\_thickness + fuel\_Thickness )   ) / 2,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00193}00193                                   h\_Fuel / 2);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00194}00194         m\_Solids.push\_back(sCLADInt);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00195}00195         G4LogicalVolume * lCLADInt = \textcolor{keyword}{new} G4LogicalVolume( sCLADInt,                                \textcolor{comment}{// its solid}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00196}00196                                                 m\_CladMaterial,                                       \textcolor{comment}{// its material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00197}00197                                                 \textcolor{stringliteral}{"{}lCLADInt\_"{}} + std::to\_string(i) );                \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00198}00198         m\_cladLogicalVolumes.push\_back(lCLADInt);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00199}00199         \textcolor{keyword}{new} G4PVPlacement( 0,                                                                         \textcolor{comment}{// no rotation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00200}00200                        G4ThreeVector(),                                                               \textcolor{comment}{// at (0,0,0)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00201}00201                        lCLADInt,                                                            \textcolor{comment}{// its logical volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00202}00202                        \textcolor{stringliteral}{"{}CLADInt\_"{}} + std::to\_string(i),                                      \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00203}00203                        lFUEL,                                                               \textcolor{comment}{// its mother volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00204}00204                        \textcolor{keyword}{false},                                                                         \textcolor{comment}{// no boolean operation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00205}00205                        0,                                                                             \textcolor{comment}{// copy number}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00206}00206                        overlap);                                                                      \textcolor{comment}{// overlaps checking}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00207}00207 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00208}00208 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00209}00209 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00210}00210         G4Box * sWATER = \textcolor{keyword}{new} G4Box(\textcolor{stringliteral}{"{}sWATER\_"{}} + std::to\_string(i),}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00211}00211                                   ( assembly\_Thickness -\/ i * step\_btw\_Clad ) / 2 -\/ clad\_thickness,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00212}00212                                   ( assembly\_Thickness -\/ i * step\_btw\_Clad ) / 2 -\/ clad\_thickness,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00213}00213                                   h\_Fuel / 2);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00214}00214         m\_Solids.push\_back(sWATER);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00215}00215         G4LogicalVolume * lWATER = \textcolor{keyword}{new} G4LogicalVolume( sWATER,                                \textcolor{comment}{// its solid}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00216}00216                                                 m\_WaterMaterial,                                      \textcolor{comment}{// its material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00217}00217                                                 \textcolor{stringliteral}{"{}lWATER\_"{}} + std::to\_string(i) );}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00218}00218         m\_waterLogicalVolumes.push\_back(lWATER);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00219}00219         fLogicCladInt8T.push\_back( lWATER );                \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00220}00220         \textcolor{keyword}{new} G4PVPlacement( 0,                                                                         \textcolor{comment}{// no rotation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00221}00221                        G4ThreeVector(),                                                               \textcolor{comment}{// at (0,0,0)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00222}00222                        lWATER,                                                            \textcolor{comment}{// its logical volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00223}00223                        \textcolor{stringliteral}{"{}WATER\_"{}} + std::to\_string(i),                                      \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00224}00224                        lCLADInt,                                                            \textcolor{comment}{// its mother volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00225}00225                        \textcolor{keyword}{false},                                                                         \textcolor{comment}{// no boolean operation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00226}00226                        0,                                                                             \textcolor{comment}{// copy number}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00227}00227                        overlap);                                                                      \textcolor{comment}{// overlaps checking}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00228}00228 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00229}00229     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00230}00230     G4Tubs* sCLADTube = \textcolor{keyword}{new} G4Tubs(\textcolor{stringliteral}{"{}sCLADTube"{}},}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00231}00231                                     tubeIntDiameter / 2, tubeOutDiameter / 2,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00232}00232                                     h\_Fuel / 2, 0.,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00233}00233                                     twopi );}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00234}00234     m\_Solids.push\_back(sCLADTube);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00235}00235     G4LogicalVolume * lCLADTube = \textcolor{keyword}{new} G4LogicalVolume( sCLADTube,                            \textcolor{comment}{// its solid}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00236}00236                                                 m\_CladMaterial,                                       \textcolor{comment}{// its material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00237}00237                                                 \textcolor{stringliteral}{"{}lCLADTube"{}}  );                                     \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00238}00238     m\_cladLogicalVolumes.push\_back(lCLADTube);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00239}00239     \textcolor{keyword}{new} G4PVPlacement( 0,                                                                             \textcolor{comment}{// no rotation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00240}00240                        G4ThreeVector(),                                                               \textcolor{comment}{// at (0,0,0)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00241}00241                        lCLADTube,                                                                   \textcolor{comment}{// its logical volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00242}00242                        \textcolor{stringliteral}{"{}CLADTube"{}} ,                                                                 \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00243}00243                        fLogicCladInt8T[nb\_plate-\/1],                                                   \textcolor{comment}{// its mother volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00244}00244                        \textcolor{keyword}{false},                                                                         \textcolor{comment}{// no boolean operation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00245}00245                        0,                                                                             \textcolor{comment}{// copy number}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00246}00246                        overlap);                                                                      \textcolor{comment}{// overlaps checking}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00247}00247 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00248}00248 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00249}00249 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00250}00250     G4Tubs* sFUELTube = \textcolor{keyword}{new} G4Tubs(\textcolor{stringliteral}{"{}sFUELTube"{}},}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00251}00251                                     tubeIntDiameter / 2 + ((tubeOutDiameter -\/ tubeIntDiameter) / 2 -\/ fuel\_Thickness ) / 2,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00252}00252                                     tubeIntDiameter / 2 + ((tubeOutDiameter -\/ tubeIntDiameter) / 2 + fuel\_Thickness  ) / 2,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00253}00253                                     h\_Fuel / 2, 0., twopi );}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00254}00254     m\_Solids.push\_back(sFUELTube);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00255}00255     G4LogicalVolume * lFUELTube = \textcolor{keyword}{new} G4LogicalVolume( sFUELTube,                                                   \textcolor{comment}{// its solid}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00256}00256                                                 m\_FuelMaterial,                                       \textcolor{comment}{// its material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00257}00257                                                 \textcolor{stringliteral}{"{}lFUELTube"{}}  );                                     \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00258}00258     m\_fuelLogicalVolumes.push\_back(lFUELTube);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00259}00259     \textcolor{keyword}{new} G4PVPlacement( 0,                                                                             \textcolor{comment}{// no rotation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00260}00260                        G4ThreeVector(),                                                               \textcolor{comment}{// at (0,0,0)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00261}00261                        lFUELTube,                                                                   \textcolor{comment}{// its logical volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00262}00262                        \textcolor{stringliteral}{"{}FUELTube"{}} ,                                                                 \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00263}00263                        lFUELTube,                                                                   \textcolor{comment}{// its mother volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00264}00264                        \textcolor{keyword}{false},                                                                         \textcolor{comment}{// no boolean operation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00265}00265                        0,                                                                             \textcolor{comment}{// copy number}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00266}00266                        overlap);                                                                      \textcolor{comment}{// overlaps checking}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00267}00267 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00268}00268     G4Tubs* sCLADTubeDispl = \textcolor{keyword}{new} G4Tubs(\textcolor{stringliteral}{"{}sCLADTubeDispl"{}},}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00269}00269                                     tubeDisplIntDiam / 2, tubeDisplOutDiam / 2,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00270}00270                                     h\_Fuel / 2, 0.,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00271}00271                                     twopi );}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00272}00272     m\_Solids.push\_back(sCLADTubeDispl);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00273}00273     G4LogicalVolume * lCLADTubeDispl = \textcolor{keyword}{new} G4LogicalVolume( sCLADTubeDispl,                                   \textcolor{comment}{// its solid}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00274}00274                                                 m\_CladMaterial,                                       \textcolor{comment}{// its material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00275}00275                                                 \textcolor{stringliteral}{"{}lCLADTubeDispl"{}}  );                             \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00276}00276     m\_cladLogicalVolumes.push\_back(lCLADTubeDispl);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00277}00277     \textcolor{keyword}{new} G4PVPlacement( 0,                                                                             \textcolor{comment}{// no rotation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00278}00278                        G4ThreeVector(),                                                               \textcolor{comment}{// at (0,0,0)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00279}00279                        lCLADTubeDispl,                                                           \textcolor{comment}{// its logical volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00280}00280                        \textcolor{stringliteral}{"{}CLADTubeDispl"{}} ,                                                         \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00281}00281                        fLogicCladInt8T[nb\_plate-\/1],                                                   \textcolor{comment}{// its mother volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00282}00282                        \textcolor{keyword}{false},                                                                         \textcolor{comment}{// no boolean operation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00283}00283                        0,                                                                             \textcolor{comment}{// copy number}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00284}00284                        overlap);                                                                      \textcolor{comment}{// overlaps checking}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_x_fuel_i_r_t4_m8_t_8cc_source_l00285}00285 \}}
+
+\end{DoxyCode}

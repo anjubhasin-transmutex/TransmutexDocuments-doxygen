@@ -1,0 +1,51 @@
+\hypertarget{xnbrea_8_f_source}{}\doxysection{xnbrea.\+F}
+\label{xnbrea_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnbrea.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnbrea.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  09.41.48  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   10/03/95}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnbrea(LUNI)}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00006}00006 \textcolor{comment}{*     Reads dump of cross sections previously written by the XNBWRI    *}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00007}00007 \textcolor{comment}{*     routine in binary format. This routine does not allow porting    *}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00008}00008 \textcolor{comment}{*     of Cross Section data between machine with non compatible        *}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00009}00009 \textcolor{comment}{*     binary representation. Should this be an issue, the routines     *}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00010}00010 \textcolor{comment}{*     XNAWRI/XNAREA have to be used instead, but they are much slower  *}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00011}00011 \textcolor{comment}{*     and space consuming.                                             *}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00012}00012 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00013}00013 \textcolor{comment}{*     LUNI      (input) ABS(LUNI) is the FORTRAN logical unit from     *}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00014}00014 \textcolor{comment}{*               which the data are read. If LUNI<0 the file is rewound *}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00015}00015 \textcolor{comment}{*               prior to reading                                       *}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00016}00016 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00017}00017 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00018}00018 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00019}00019 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00020}00020 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00021}00021 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00022}00022 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00023}00023 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00024}00024       lun=abs(luni)}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00025}00025 \textcolor{comment}{* -\/-\/-\/> See whether the file has to be rewound}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00026}00026       \textcolor{keywordflow}{IF}(luni.LT.0) rewind(lun)}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/> Read dimensions of arrays, XNSECT ID's and Cross Section table}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00028}00028 \textcolor{comment}{*      pointers}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00029}00029       \textcolor{keyword}{READ}(lun) nid,nmate,idl,imtabl,ltemp,nctemp}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Read dimension of main store}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00031}00031       \textcolor{keyword}{READ}(lun) nbsiz1,ihgwmk}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> If not enough space, print a message and stop}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00033}00033       \textcolor{keywordflow}{IF}(ihgwmk.GT.nbsize) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00034}00034          \textcolor{keyword}{WRITE}(6,10000) ihgwmk+2}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00035}00035          stop \textcolor{stringliteral}{'Increase XCSTOR'}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00036}00036 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Read main store}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00038}00038       \textcolor{keyword}{READ}(lun) (xstore(ll),ll=1,ihgwmk)}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Print number of words read}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00040}00040       \textcolor{keyword}{WRITE}(6,10100) ihgwmk, lun}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00041}00041 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00042}00042 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Current common XCSTOR too small, need at least '},i10,}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00043}00043      +       \textcolor{stringliteral}{' words'})}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00044}00044 10100 \textcolor{keyword}{FORMAT}(i10,\textcolor{stringliteral}{' words of x-\/sections read from unit '},i2)}
+\DoxyCodeLine{\Hypertarget{xnbrea_8_f_source_l00045}00045       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

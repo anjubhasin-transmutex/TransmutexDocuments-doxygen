@@ -1,0 +1,105 @@
+\hypertarget{epscan_8_f_source}{}\doxysection{epscan.\+F}
+\label{epscan_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/epspec/epscan.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/epspec/epscan.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  12.39.37  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00003}00003       \textcolor{keyword}{PROGRAM} epscan}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00006}00006 \textcolor{comment}{*     This program scans all Evaluated Nuclear Databases available     *}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00007}00007 \textcolor{comment}{*     and for each FILE 5 secondary neutron spectrum outputs a file    *}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00008}00008 \textcolor{comment}{*     with 200 values of energy (in eV) and related probability for    *}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00009}00009 \textcolor{comment}{*     an incoming neutron energy of 10MeV.                             *}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00010}00010 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00011}00011 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00012}00012 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00013}00013 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00014}00014 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00015}00015 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00016}00016 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00017}00017 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcelna.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00018}00018 \textcolor{preprocessor}{}      parameter(mxpoin=5000)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00019}00019       dimension ens(mxpoin), pb(mxpoin)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00020}00020       \textcolor{keyword}{DATA} mathol / -\/99 /}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00021}00021       parameter(emin=1e-\/3,emax=2e7,nen=200,enin=1e7)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00022}00022       \textcolor{keywordtype}{CHARACTER*125} CHFOUT}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00023}00023 \#include \textcolor{stringliteral}{"{}xcdbna.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00024}00024       \textcolor{keywordtype}{CHARACTER*5} CHFIDE(NFDBAS)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00025}00025       \textcolor{keyword}{DATA} chfide / \textcolor{stringliteral}{'endf6'}, \textcolor{stringliteral}{'jendl'}, \textcolor{stringliteral}{'jef22'}, \textcolor{stringliteral}{'brond'}, \textcolor{stringliteral}{'eaf41'} /}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00026}00026       \textcolor{keywordtype}{CHARACTER*3} CHANUM}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00027}00027       \textcolor{keywordtype}{CHARACTER*8} CHREAC}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00028}00028 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00030}00030 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Build the energy grid logarithmically spaced}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00032}00032       fact=exp(log(emax/emin)/nen)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00033}00033       ens(1) = emin}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00034}00034       \textcolor{keywordflow}{DO} 10 jen=2,nen}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00035}00035          ens(jen)=ens(jen-\/1)*fact}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00036}00036    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Loop on all databases}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00038}00038       \textcolor{keywordflow}{DO} 70 jf=1,nfdbas}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00039}00039          lfinp=lnblnk(chfiln(jf))}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> Open file}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00041}00041          \textcolor{keyword}{OPEN}(12,file=chroot//chfiln(jf)(:lfinp)//\textcolor{stringliteral}{'.dat'},}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00042}00042      +   status=\textcolor{stringliteral}{'OLD'},action=\textcolor{stringliteral}{'READ'})}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> Read ENDF-\/6 section header}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00044}00044    20    \textcolor{keyword}{CALL }xnnews(c1, c2, l1, l2, n1, n2, math, mfh, mth)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> If EoF exit}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00046}00046          \textcolor{keywordflow}{IF}(math.LT.0) \textcolor{keywordflow}{GOTO} 60}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> New material}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00048}00048          \textcolor{keywordflow}{IF}(math.NE.mathol) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Print message}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00050}00050             \textcolor{keyword}{WRITE}(6,10000) nint(c1/1000.),nint(mod(c1,1000.)),math}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00051}00051 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Now processing Z='},i3,\textcolor{stringliteral}{' A='},i3,\textcolor{stringliteral}{' mate='},i4)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00052}00052 \textcolor{comment}{* -\/-\/-\/> Get additional information on isomeric state}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00053}00053             \textcolor{keyword}{READ}(12,10100) elis,sta,lis,liso,izero,nfor}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00054}00054             mathol=math}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00055}00055             izamat = nint(c1)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00056}00056             iz=izamat/1000}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00057}00057             ia=mod(izamat,1000)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00058}00058             \textcolor{keywordflow}{IF}(ia.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00059}00059                chanum=\textcolor{stringliteral}{'Nat'}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00060}00060             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00061}00061                \textcolor{keyword}{WRITE}(chanum,\textcolor{stringliteral}{'(I3.3)'}) ia}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00062}00062 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00063}00063 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/> If this is not a file 5 continue reading}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00065}00065          \textcolor{keywordflow}{IF}((mfh.NE.5)) \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00066}00066          \textcolor{keywordflow}{DO} 40 jr=1,mxreac}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00067}00067 \textcolor{comment}{* -\/-\/-\/> Is this one of the reactions we consider?}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00068}00068             \textcolor{keywordflow}{IF}(mth.EQ.nbmft(jr)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00069}00069                chreac=chname(jr)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00070}00070                \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00071}00071 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00072}00072    40    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00073}00073 \textcolor{comment}{* -\/-\/-\/> No, simply encode reaction numbers}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00074}00074          \textcolor{keyword}{WRITE}(chreac,\textcolor{stringliteral}{'(I3.3,5X)'}) mth}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00075}00075    50    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00076}00076 \textcolor{comment}{* -\/-\/-\/> Build output filename}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00077}00077          \textcolor{keyword}{WRITE}(chfout,\textcolor{stringliteral}{'(I2.2,'}\textcolor{stringliteral}{'-\/'}\textcolor{stringliteral}{',A,'}\textcolor{stringliteral}{'-\/'}\textcolor{stringliteral}{',A3,'}\textcolor{stringliteral}{'-\/'}\textcolor{stringliteral}{',A,'}\textcolor{stringliteral}{'-\/'}\textcolor{stringliteral}{',A,'}\textcolor{stringliteral}{'.dat'}\textcolor{stringliteral}{')'}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00078}00078      +   ) iz, chelna(iz)(:lnblnk(chelna(iz))), chanum, chreac(:}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00079}00079      +   index(chreac,\textcolor{stringliteral}{' '})-\/1),chfide(jf)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00080}00080          \textcolor{keyword}{CALL }cutol(chfout)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00081}00081 \textcolor{comment}{* -\/-\/-\/> Open output file}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00082}00082          \textcolor{keyword}{OPEN}(13,file=chfout(:index(chfout,\textcolor{stringliteral}{' '})-\/1),form=\textcolor{stringliteral}{'FORMATTED'},}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00083}00083      +   status=\textcolor{stringliteral}{'UNKNOWN'})}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00084}00084 \textcolor{comment}{* -\/-\/-\/> Calculate probability on grid for 10MeV}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00085}00085          nsubs=n1}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00086}00086          \textcolor{keyword}{CALL }xn5gte(enin, ens, pb, nen)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00087}00087 \textcolor{comment}{* -\/-\/-\/> Write out probability}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00088}00088          \textcolor{keyword}{WRITE}(13,\textcolor{stringliteral}{'(2X,G14.7,A1,G14.7)'}) (ens(je),char(9),pb(je),je=1,}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00089}00089      +   nen)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00090}00090 \textcolor{comment}{* -\/-\/-\/> Close output}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00091}00091          \textcolor{keyword}{CLOSE}(13)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00092}00092          \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00093}00093 \textcolor{comment}{* -\/-\/-\/> End of ENDF file, close}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00094}00094    60    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00095}00095          \textcolor{keyword}{CLOSE}(12)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00096}00096    70 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00097}00097 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00098}00098 10100 \textcolor{keyword}{FORMAT}(2e11.4,4i11,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{epscan_8_f_source_l00099}00099       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

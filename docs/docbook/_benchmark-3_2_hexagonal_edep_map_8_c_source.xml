@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source" xml:lang="en-US">
+<title>HexagonalEdepMap.C</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/Benchmark-3/HexagonalEdepMap.C</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00001"/>00001 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00002"/>00002 <emphasis role="comment">//&#32;\brief&#32;Implementation&#32;of&#32;the&#32;Hexagonal&#32;Energy&#32;Deposition&#32;Graphs</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00003"/>00003 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00004"/>00004 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00006"/>00006 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00007"/>00007 <emphasis role="comment">//&#32;HexagonalEdepMap</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00008"/>00008 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00009"/>00009 <emphasis role="comment">//&#32;Thomas&#32;Guilbaud,&#32;Transmutex,&#32;05/06/2021</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00010"/>00010 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00012"/>00012 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;2D&#32;Graphs&#32;of&#32;the&#32;energy&#32;deposition&#32;in&#32;a&#32;hexagonal&#32;lattice</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00014"/>00014 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00015"/>00015 <emphasis role="preprocessor">#include&#32;&lt;TCanvas.h&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00016"/>00016 <emphasis role="preprocessor">#include&#32;&lt;TFile.h&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00017"/>00017 <emphasis role="preprocessor">#include&#32;&lt;TH1F.h&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00018"/>00018 <emphasis role="preprocessor">#include&#32;&lt;TGraph.h&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00019"/>00019 <emphasis role="preprocessor">#include&#32;&lt;TTree.h&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00020"/>00020 <emphasis role="preprocessor">#include&#32;&lt;TLegend.h&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00021"/>00021 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00022"/>00022 <emphasis role="keywordtype">void</emphasis>&#32;marginCanvas(TCanvas*&#32;canvas,&#32;<emphasis role="keywordtype">double</emphasis>&#32;margin)&#32;{
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00023"/>00023 &#32;&#32;&#32;&#32;canvas-&gt;SetLeftMargin(margin);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00024"/>00024 &#32;&#32;&#32;&#32;canvas-&gt;SetRightMargin(margin);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00025"/>00025 &#32;&#32;&#32;&#32;canvas-&gt;SetBottomMargin(margin);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00026"/>00026 &#32;&#32;&#32;&#32;canvas-&gt;SetTopMargin(margin);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00027"/>00027 }
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00028"/>00028 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00029"/>00029 <emphasis role="keywordtype">double</emphasis>&#32;totalContent(TH2Poly*&#32;histo)&#32;{
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00030"/>00030 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;total&#32;=&#32;0.;
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00031"/>00031 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;histo-&gt;GetEntries();&#32;i++)&#32;{
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;total&#32;+=&#32;histo-&gt;GetBinContent(i);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00033"/>00033 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00034"/>00034 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>(total);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00035"/>00035 }
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00036"/>00036 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00037"/>00037 <emphasis role="keywordtype">int</emphasis>&#32;HexagonalEdepMap(std::string&#32;inputFile)&#32;{
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00038"/>00038 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Reading&#32;name&#32;of&#32;the&#32;ROOT&#32;file</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00039"/>00039 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;last_slash&#32;=&#32;inputFile.rfind(<emphasis role="stringliteral">&quot;/&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00040"/>00040 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(last_slash&#32;==&#32;std::string::npos)&#32;{
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;last_slash&#32;=&#32;0;
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00042"/>00042 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00043"/>00043 &#32;&#32;&#32;&#32;std::string&#32;FileName&#32;=&#32;inputFile.substr(last_slash,&#32;inputFile.rfind(<emphasis role="stringliteral">&quot;.root&quot;</emphasis>)-last_slash);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00044"/>00044 &#32;&#32;&#32;&#32;TFile&#32;*f_ROOT&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TFile(&#32;(inputFile).c_str()&#32;);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00045"/>00045 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00046"/>00046 &#32;&#32;&#32;&#32;<emphasis role="comment">//-------------------------&#32;Begin&#32;User&#32;Input&#32;-------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00047"/>00047 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Reactor&#32;Parameter</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00048"/>00048 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;pitch&#32;=&#32;225.45;&#32;<emphasis role="comment">//&#32;mm</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00049"/>00049 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;a&#32;=&#32;pitch&#32;*&#32;2./sqrt(3.);&#32;<emphasis role="comment">//&#32;mm</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00050"/>00050 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;height&#32;=&#32;900.;&#32;<emphasis role="comment">//&#32;mm</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00051"/>00051 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;volumeAssembly&#32;=&#32;3.*sqrt(3.)/8.&#32;*&#32;a*a&#32;*&#32;height&#32;*&#32;1e-3;&#32;<emphasis role="comment">//&#32;cm3</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00052"/>00052 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;volumeFuelAssembly&#32;=&#32;height&#32;*&#32;198.&#32;*&#32;3.14159265&#32;*&#32;(5.5*5.5-0.55*0.55)&#32;*&#32;1e-3;
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00053"/>00053 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;volume&#32;=&#32;volumeFuelAssembly;
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00054"/>00054 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;density&#32;=&#32;10.407;&#32;<emphasis role="comment">//&#32;g/cm3</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00055"/>00055 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00056"/>00056 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Physical&#32;Scale</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00057"/>00057 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;corePower&#32;=&#32;280.;&#32;<emphasis role="comment">//&#32;MW</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00058"/>00058 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;nNeutrons&#32;=&#32;160000.;
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00059"/>00059 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;nAssembly&#32;=&#32;61.;
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00060"/>00060 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00061"/>00061 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Binning&#32;of&#32;Hexagonal&#32;Map</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00062"/>00062 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;&#32;&#32;xBin&#32;=&#32;11,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yBin&#32;=&#32;13;
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00063"/>00063 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;xMin&#32;=&#32;-(double)xBin/2.*pitch,&#32;yMin&#32;=&#32;-(3.*(<emphasis role="keywordtype">double</emphasis>)yBin+1.)*a/8.;
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00064"/>00064 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;xMax&#32;=&#32;-xMin,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yMax&#32;=&#32;-yMin;
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00065"/>00065 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00066"/>00066 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Plot&#32;Scale</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00067"/>00067 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;minPowerDeposition&#32;=&#32;&#32;&#32;2.70*0;&#32;<emphasis role="comment">//&#32;MW</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00068"/>00068 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;minPowerDensity&#32;&#32;&#32;&#32;=&#32;160.50*0;&#32;<emphasis role="comment">//&#32;W/cm3</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00069"/>00069 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;minSpecificPower&#32;&#32;&#32;=&#32;&#32;15.50*0;&#32;<emphasis role="comment">//&#32;W/g</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00070"/>00070 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;maxPowerDeposition&#32;=&#32;&#32;&#32;6.88;&#32;<emphasis role="comment">//&#32;MW</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00071"/>00071 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;maxPowerDensity&#32;&#32;&#32;&#32;=&#32;410.37;&#32;<emphasis role="comment">//&#32;W/cm3</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00072"/>00072 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;maxSpecificPower&#32;&#32;&#32;=&#32;&#32;39.43;&#32;<emphasis role="comment">//&#32;W/g</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00073"/>00073 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00074"/>00074 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Canvas&#32;Setup</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00075"/>00075 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;margin&#32;=&#32;0.16;
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00076"/>00076 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;windowWidth&#32;=&#32;1000.;
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00077"/>00077 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00078"/>00078 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;isSaveHasPNG&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00079"/>00079 &#32;&#32;&#32;&#32;<emphasis role="comment">//-------------------------&#32;End&#32;User&#32;Input&#32;---------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00080"/>00080 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00081"/>00081 &#32;&#32;&#32;&#32;TTree*&#32;DepositedPower&#32;=&#32;(TTree*)f_ROOT-&gt;GetObjectChecked((<emphasis role="stringliteral">&quot;DepositedPower&quot;</emphasis>),&#32;<emphasis role="stringliteral">&quot;TTree&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00082"/>00082 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;nEntries&#32;=&#32;(int)DepositedPower-&gt;GetEntries();
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00083"/>00083 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00084"/>00084 &#32;&#32;&#32;&#32;TH2Poly&#32;*hexEnergy&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TH2Poly();
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00085"/>00085 &#32;&#32;&#32;&#32;hexEnergy-&gt;Honeycomb(xMin,&#32;yMin,&#32;a/2.,&#32;xBin,&#32;yBin);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00086"/>00086 &#32;&#32;&#32;&#32;hexEnergy-&gt;GetXaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;X&#32;(mm)&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00087"/>00087 &#32;&#32;&#32;&#32;hexEnergy-&gt;GetYaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;Y&#32;(mm)&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00088"/>00088 &#32;&#32;&#32;&#32;hexEnergy-&gt;GetZaxis()-&gt;SetTitleOffset(1.5);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00089"/>00089 &#32;&#32;&#32;&#32;gStyle-&gt;SetCanvasPreferGL(<emphasis role="keyword">true</emphasis>);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00090"/>00090 &#32;&#32;&#32;&#32;gStyle-&gt;SetPaintTextFormat(<emphasis role="stringliteral">&quot;.2f&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00091"/>00091 &#32;&#32;&#32;&#32;gStyle-&gt;SetOptStat(<emphasis role="keyword">false</emphasis>);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00092"/>00092 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00093"/>00093 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;TH2D*&#32;MappingXY_Edep&#32;=&#32;GetAndDraw2D_histo(histo[0],&#32;&quot;MappingXY_Edeposit_&quot;&#32;+&#32;FileName,&#32;&quot;MappingXY_Edeposit&quot;,&#32;&quot;X&#32;[mm]&quot;,&#32;&quot;Y&#32;[mm]&quot;,&#32;&quot;Power&#32;density&#32;[W&#32;/&#32;cm^{3}]&#32;@&#32;&quot;&#32;+&#32;str_beamPower,&#32;rescaling_Data,&#32;&quot;colz&quot;,&#32;save_root,&#32;save_png);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00094"/>00094 &#32;&#32;&#32;&#32;TH2D*&#32;MappingXY_Edep&#32;=&#32;(TH2D*)gDirectory-&gt;Get(<emphasis role="stringliteral">&quot;MappingXY_Edeposit&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00095"/>00095 &#32;&#32;&#32;&#32;MappingXY_Edep-&gt;Draw(<emphasis role="stringliteral">&quot;colz&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00096"/>00096 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00097"/>00097 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00098"/>00098 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;x&#32;=&#32;0;&#32;x&#32;&lt;&#32;13;&#32;x++)&#32;{
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;y&#32;=&#32;0;&#32;y&#32;&lt;&#32;13;&#32;y++)&#32;{
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;MappingXY_Edep-&gt;GetBinContent(x,&#32;y)&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>;
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00101"/>00101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hexEnergy-&gt;Fill(x,&#32;y,&#32;MappingXY_Edep-&gt;GetBinContent(x,&#32;y));
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00103"/>00103 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00104"/>00104 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00105"/>00105 &#32;&#32;&#32;&#32;hexEnergy-&gt;Draw(<emphasis role="stringliteral">&quot;colz&#32;text&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00106"/>00106 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00107"/>00107 &#32;&#32;&#32;&#32;<emphasis role="comment">/*double&#32;x,&#32;y,&#32;edep,&#32;Etot&#32;=&#32;0;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00108"/>00108 <emphasis role="comment">&#32;&#32;&#32;&#32;for&#32;(int&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;nEntries;&#32;i++)&#32;{</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00109"/>00109 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DepositedPower-&gt;GetEntry(i);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00110"/>00110 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;(DepositedPower-&gt;GetLeaf(&quot;isInFuel&quot;)-&gt;GetValue(0)&#32;==&#32;1)&#32;{</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00111"/>00111 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;x&#32;=&#32;DepositedPower-&gt;GetLeaf(&quot;NPosX&quot;)-&gt;GetValue(0);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00112"/>00112 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y&#32;=&#32;DepositedPower-&gt;GetLeaf(&quot;NPosY&quot;)-&gt;GetValue(0);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00113"/>00113 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//z&#32;=&#32;DepositedPower-&gt;GetLeaf(&quot;NPosZ&quot;)-&gt;GetValue(0);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00114"/>00114 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;edep&#32;=&#32;DepositedPower-&gt;GetLeaf(&quot;energyK&quot;)-&gt;GetValue(0);&#32;//&#32;*&#32;Beam_Power/(double)N_source;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00115"/>00115 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Etot&#32;+=&#32;edep;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00116"/>00116 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hexEnergy-&gt;Fill(x,&#32;y,&#32;edep);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00117"/>00117 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00118"/>00118 <emphasis role="comment">&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00119"/>00119 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00120"/>00120 <emphasis role="comment">&#32;&#32;&#32;&#32;//--------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00121"/>00121 <emphasis role="comment">&#32;&#32;&#32;&#32;std::string&#32;name&#32;=&#32;&quot;Power&#32;Deposition&quot;;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00122"/>00122 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;scalingFactor&#32;=&#32;corePower&#32;/&#32;Etot;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00123"/>00123 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00124"/>00124 <emphasis role="comment">&#32;&#32;&#32;&#32;TCanvas*&#32;cPowerDeposition&#32;=&#32;new&#32;TCanvas(name.c_str(),&#32;name.c_str(),&#32;windowWidth,&#32;windowWidth);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00125"/>00125 <emphasis role="comment">&#32;&#32;&#32;&#32;marginCanvas(cPowerDeposition,&#32;margin);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00126"/>00126 <emphasis role="comment">&#32;&#32;&#32;&#32;TH2Poly&#32;*hexPowerDeposition&#32;=&#32;(TH2Poly*)hexEnergy-&gt;Clone(name.c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00127"/>00127 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDeposition-&gt;SetName(name.c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00128"/>00128 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDeposition-&gt;SetTitle((name&#32;+&#32;&quot;&#32;&quot;&#32;+&#32;ext).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00129"/>00129 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDeposition-&gt;GetZaxis()-&gt;SetTitle((name&#32;+&#32;&quot;&#32;(MW)&quot;).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00130"/>00130 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDeposition-&gt;Scale(scalingFactor);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00131"/>00131 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDeposition-&gt;GetZaxis()-&gt;SetRangeUser(minPowerDeposition,&#32;maxPowerDeposition);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00132"/>00132 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDeposition-&gt;Draw(&quot;coll&#32;colz&#32;text&#32;0&quot;);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00133"/>00133 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00134"/>00134 <emphasis role="comment">&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;&quot;Total&#32;Energy&#32;Deposited&#32;:&#32;&quot;&#32;&lt;&lt;&#32;Etot&#32;&lt;&lt;&#32;&quot;&#32;eV&quot;&#32;&lt;&lt;&#32;std::endl</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00135"/>00135 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;Energy&#32;Deposited&#32;per&#32;neutron&#32;:&#32;&quot;&#32;&lt;&lt;&#32;Etot*1e-6/nNeutrons&#32;&lt;&lt;&#32;&quot;&#32;MeV&quot;&#32;&lt;&lt;&#32;std::endl</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00136"/>00136 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;Total&#32;Core&#32;Power&#32;:&#32;&quot;&#32;&lt;&lt;&#32;scalingFactor*Etot&#32;&lt;&lt;&#32;&quot;&#32;MW&quot;&#32;&lt;&lt;&#32;std::endl</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00137"/>00137 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;Average&#32;Power&#32;Deposition&#32;:&#32;&quot;&#32;&lt;&lt;&#32;totalContent(hexPowerDeposition)/nAssembly&#32;&lt;&lt;&#32;&quot;&#32;MW&quot;&#32;&lt;&lt;&#32;std::endl;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00138"/>00138 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00139"/>00139 <emphasis role="comment">&#32;&#32;&#32;&#32;//--------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00140"/>00140 <emphasis role="comment">&#32;&#32;&#32;&#32;name&#32;=&#32;&quot;Power&#32;Density&quot;;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00141"/>00141 <emphasis role="comment">&#32;&#32;&#32;&#32;scalingFactor&#32;=&#32;corePower*1e6&#32;/&#32;(Etot*volume);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00142"/>00142 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00143"/>00143 <emphasis role="comment">&#32;&#32;&#32;&#32;TCanvas*&#32;cPowerDensity&#32;=&#32;new&#32;TCanvas(name.c_str(),&#32;name.c_str(),&#32;windowWidth,&#32;windowWidth);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00144"/>00144 <emphasis role="comment">&#32;&#32;&#32;&#32;marginCanvas(cPowerDensity,&#32;margin);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00145"/>00145 <emphasis role="comment">&#32;&#32;&#32;&#32;TH2Poly&#32;*hexPowerDensity&#32;=&#32;(TH2Poly*)hexEnergy-&gt;Clone(name.c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00146"/>00146 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDensity-&gt;SetName(name.c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00147"/>00147 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDensity-&gt;SetTitle((name&#32;+&#32;&quot;&#32;&quot;&#32;+&#32;ext).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00148"/>00148 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDensity-&gt;GetZaxis()-&gt;SetTitle((name&#32;+&#32;&quot;&#32;(W/cm^{3})&quot;).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00149"/>00149 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDensity-&gt;Scale(scalingFactor);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00150"/>00150 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDensity-&gt;GetZaxis()-&gt;SetRangeUser(minPowerDensity,&#32;maxPowerDensity);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00151"/>00151 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDensity-&gt;Draw(&quot;coll&#32;colz&#32;text&#32;0&quot;);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00152"/>00152 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00153"/>00153 <emphasis role="comment">&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;&quot;Average&#32;Power&#32;Density&#32;:&#32;&quot;&#32;&lt;&lt;&#32;totalContent(hexPowerDensity)/nAssembly&#32;&lt;&lt;&#32;&quot;&#32;W/cm3&quot;&#32;&lt;&lt;&#32;std::endl;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00154"/>00154 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00155"/>00155 <emphasis role="comment">&#32;&#32;&#32;&#32;//--------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00156"/>00156 <emphasis role="comment">&#32;&#32;&#32;&#32;name&#32;=&#32;&quot;Specific&#32;Power&quot;;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00157"/>00157 <emphasis role="comment">&#32;&#32;&#32;&#32;scalingFactor&#32;=&#32;corePower*1e6&#32;/&#32;(Etot*volume*density);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00158"/>00158 <emphasis role="comment">&#32;&#32;&#32;&#32;TCanvas*&#32;cSpecificPower&#32;=&#32;new&#32;TCanvas(name.c_str(),&#32;name.c_str(),&#32;windowWidth,&#32;windowWidth);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00159"/>00159 <emphasis role="comment">&#32;&#32;&#32;&#32;marginCanvas(cSpecificPower,&#32;margin);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00160"/>00160 <emphasis role="comment">&#32;&#32;&#32;&#32;TH2Poly&#32;*hexSpecificPower&#32;=&#32;(TH2Poly*)hexEnergy-&gt;Clone(name.c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00161"/>00161 <emphasis role="comment">&#32;&#32;&#32;&#32;hexSpecificPower-&gt;SetName(name.c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00162"/>00162 <emphasis role="comment">&#32;&#32;&#32;&#32;hexSpecificPower-&gt;SetTitle((name&#32;+&#32;&quot;&#32;&quot;&#32;+&#32;ext).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00163"/>00163 <emphasis role="comment">&#32;&#32;&#32;&#32;hexSpecificPower-&gt;GetZaxis()-&gt;SetTitle((name&#32;+&#32;&quot;&#32;(W/g)&quot;).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00164"/>00164 <emphasis role="comment">&#32;&#32;&#32;&#32;hexSpecificPower-&gt;Scale(scalingFactor);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00165"/>00165 <emphasis role="comment">&#32;&#32;&#32;&#32;hexSpecificPower-&gt;GetZaxis()-&gt;SetRangeUser(minSpecificPower,&#32;maxSpecificPower);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00166"/>00166 <emphasis role="comment">&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;&quot;Average&#32;Specific&#32;Power&#32;:&#32;&quot;&#32;&lt;&lt;&#32;totalContent(hexSpecificPower)/nAssembly&#32;&lt;&lt;&#32;&quot;&#32;W/g&quot;&#32;&lt;&lt;&#32;std::endl;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00167"/>00167 <emphasis role="comment">&#32;&#32;&#32;&#32;hexSpecificPower-&gt;Draw(&quot;coll&#32;colz&#32;text&#32;0&quot;);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00168"/>00168 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00169"/>00169 <emphasis role="comment">&#32;&#32;&#32;&#32;//--------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00170"/>00170 <emphasis role="comment">&#32;&#32;&#32;&#32;if&#32;(isSaveHasPNG)&#32;{</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00171"/>00171 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cPowerDeposition-&gt;SaveAs((&quot;Power_Deposition_&quot;&#32;+&#32;ext&#32;+&#32;&quot;.png&quot;).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00172"/>00172 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cPowerDensity&#32;&#32;&#32;-&gt;SaveAs((&quot;Power_Density_&quot;&#32;+&#32;ext&#32;+&#32;&quot;.png&quot;).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00173"/>00173 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cSpecificPower&#32;&#32;-&gt;SaveAs((&quot;Specific_Power_&quot;&#32;+&#32;ext&#32;+&#32;&quot;.png&quot;).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00174"/>00174 <emphasis role="comment">&#32;&#32;&#32;&#32;}*/</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00175"/>00175 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>(0);
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00176"/>00176 }
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00177"/>00177 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00178"/>00178 <emphasis role="comment">int&#32;HexagonalEdepMap(std::string&#32;inputFile,&#32;std::string&#32;ext)&#32;{</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00179"/>00179 <emphasis role="comment">&#32;&#32;&#32;&#32;//&#32;Reading&#32;name&#32;of&#32;the&#32;ROOT&#32;file</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00180"/>00180 <emphasis role="comment">&#32;&#32;&#32;&#32;size_t&#32;last_slash&#32;=&#32;inputFile.rfind(&quot;/&quot;);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00181"/>00181 <emphasis role="comment">&#32;&#32;&#32;&#32;if(last_slash&#32;==&#32;std::string::npos)&#32;{</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00182"/>00182 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;last_slash&#32;=&#32;0;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00183"/>00183 <emphasis role="comment">&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00184"/>00184 <emphasis role="comment">&#32;&#32;&#32;&#32;std::string&#32;FileName&#32;=&#32;inputFile.substr(last_slash,&#32;inputFile.rfind(&quot;.root&quot;)-last_slash);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00185"/>00185 <emphasis role="comment">&#32;&#32;&#32;&#32;TFile&#32;*f_ROOT&#32;=&#32;new&#32;TFile(&#32;(inputFile).c_str()&#32;);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00186"/>00186 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00187"/>00187 <emphasis role="comment">&#32;&#32;&#32;&#32;//-------------------------&#32;Begin&#32;User&#32;Input&#32;-------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00188"/>00188 <emphasis role="comment">&#32;&#32;&#32;&#32;//&#32;Reactor&#32;Parameter</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00189"/>00189 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;pitch&#32;=&#32;225.45;&#32;//&#32;mm</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00190"/>00190 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;a&#32;=&#32;pitch&#32;*&#32;2./sqrt(3.);&#32;//&#32;mm</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00191"/>00191 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;height&#32;=&#32;900.;&#32;//&#32;mm</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00192"/>00192 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;volumeAssembly&#32;=&#32;3.*sqrt(3.)/8.&#32;*&#32;a*a&#32;*&#32;height&#32;*&#32;1e-3;&#32;//&#32;cm3</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00193"/>00193 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;volumeFuelAssembly&#32;=&#32;height&#32;*&#32;198.&#32;*&#32;3.14159265&#32;*&#32;(5.5*5.5-0.55*0.55)&#32;*&#32;1e-3;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00194"/>00194 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;volume&#32;=&#32;volumeFuelAssembly;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00195"/>00195 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;density&#32;=&#32;10.407;&#32;//&#32;g/cm3</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00196"/>00196 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00197"/>00197 <emphasis role="comment">&#32;&#32;&#32;&#32;//&#32;Physical&#32;Scale</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00198"/>00198 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;corePower&#32;=&#32;280.;&#32;//&#32;MW</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00199"/>00199 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;nNeutrons&#32;=&#32;160000.;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00200"/>00200 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;nAssembly&#32;=&#32;61.;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00201"/>00201 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00202"/>00202 <emphasis role="comment">&#32;&#32;&#32;&#32;//&#32;Binning&#32;of&#32;Hexagonal&#32;Map</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00203"/>00203 <emphasis role="comment">&#32;&#32;&#32;&#32;int&#32;&#32;&#32;&#32;xBin&#32;=&#32;11,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yBin&#32;=&#32;13;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00204"/>00204 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;xMin&#32;=&#32;-(double)xBin/2.*pitch,&#32;yMin&#32;=&#32;-(3.*(double)yBin+1.)*a/8.;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00205"/>00205 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;xMax&#32;=&#32;-xMin,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yMax&#32;=&#32;-yMin;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00206"/>00206 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00207"/>00207 <emphasis role="comment">&#32;&#32;&#32;&#32;//&#32;Plot&#32;Scale</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00208"/>00208 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;minPowerDeposition&#32;=&#32;&#32;&#32;2.70*0;&#32;//&#32;MW</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00209"/>00209 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;minPowerDensity&#32;&#32;&#32;&#32;=&#32;160.50*0;&#32;//&#32;W/cm3</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00210"/>00210 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;minSpecificPower&#32;&#32;&#32;=&#32;&#32;15.50*0;&#32;//&#32;W/g</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00211"/>00211 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;maxPowerDeposition&#32;=&#32;&#32;&#32;6.88;&#32;//&#32;MW</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00212"/>00212 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;maxPowerDensity&#32;&#32;&#32;&#32;=&#32;410.37;&#32;//&#32;W/cm3</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00213"/>00213 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;maxSpecificPower&#32;&#32;&#32;=&#32;&#32;39.43;&#32;//&#32;W/g</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00214"/>00214 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00215"/>00215 <emphasis role="comment">&#32;&#32;&#32;&#32;//&#32;Canvas&#32;Setup</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00216"/>00216 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;margin&#32;=&#32;0.16;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00217"/>00217 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;windowWidth&#32;=&#32;1000.;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00218"/>00218 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00219"/>00219 <emphasis role="comment">&#32;&#32;&#32;&#32;bool&#32;isSaveHasPNG&#32;=&#32;true;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00220"/>00220 <emphasis role="comment">&#32;&#32;&#32;&#32;//-------------------------&#32;End&#32;User&#32;Input&#32;---------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00221"/>00221 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00222"/>00222 <emphasis role="comment">&#32;&#32;&#32;&#32;TTree*&#32;DepositedPower&#32;=&#32;(TTree*)f_ROOT-&gt;GetObjectChecked((&quot;DepositedPower&quot;),&#32;&quot;TTree&quot;);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00223"/>00223 <emphasis role="comment">&#32;&#32;&#32;&#32;int&#32;nEntries&#32;=&#32;(int)DepositedPower-&gt;GetEntries();</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00224"/>00224 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00225"/>00225 <emphasis role="comment">&#32;&#32;&#32;&#32;TH2Poly&#32;*hexEnergy&#32;=&#32;new&#32;TH2Poly();</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00226"/>00226 <emphasis role="comment">&#32;&#32;&#32;&#32;hexEnergy-&gt;Honeycomb(xMin,&#32;yMin,&#32;a/2.,&#32;xBin,&#32;yBin);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00227"/>00227 <emphasis role="comment">&#32;&#32;&#32;&#32;hexEnergy-&gt;GetXaxis()-&gt;SetTitle(&quot;X&#32;(mm)&quot;);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00228"/>00228 <emphasis role="comment">&#32;&#32;&#32;&#32;hexEnergy-&gt;GetYaxis()-&gt;SetTitle(&quot;Y&#32;(mm)&quot;);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00229"/>00229 <emphasis role="comment">&#32;&#32;&#32;&#32;hexEnergy-&gt;GetZaxis()-&gt;SetTitleOffset(1.5);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00230"/>00230 <emphasis role="comment">&#32;&#32;&#32;&#32;gStyle-&gt;SetCanvasPreferGL(true);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00231"/>00231 <emphasis role="comment">&#32;&#32;&#32;&#32;gStyle-&gt;SetPaintTextFormat(&quot;.2f&quot;);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00232"/>00232 <emphasis role="comment">&#32;&#32;&#32;&#32;gStyle-&gt;SetOptStat(false);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00233"/>00233 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00234"/>00234 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;x,&#32;y,&#32;edep,&#32;Etot&#32;=&#32;0;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00235"/>00235 <emphasis role="comment">&#32;&#32;&#32;&#32;for&#32;(int&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;nEntries;&#32;i++)&#32;{</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00236"/>00236 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DepositedPower-&gt;GetEntry(i);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00237"/>00237 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;(DepositedPower-&gt;GetLeaf(&quot;isInFuel&quot;)-&gt;GetValue(0)&#32;==&#32;1)&#32;{</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00238"/>00238 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;x&#32;=&#32;DepositedPower-&gt;GetLeaf(&quot;NPosX&quot;)-&gt;GetValue(0);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00239"/>00239 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y&#32;=&#32;DepositedPower-&gt;GetLeaf(&quot;NPosY&quot;)-&gt;GetValue(0);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00240"/>00240 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//z&#32;=&#32;DepositedPower-&gt;GetLeaf(&quot;NPosZ&quot;)-&gt;GetValue(0);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00241"/>00241 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;edep&#32;=&#32;DepositedPower-&gt;GetLeaf(&quot;energyK&quot;)-&gt;GetValue(0);&#32;//&#32;*&#32;Beam_Power/(double)N_source;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00242"/>00242 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Etot&#32;+=&#32;edep;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00243"/>00243 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hexEnergy-&gt;Fill(x,&#32;y,&#32;edep);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00244"/>00244 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00245"/>00245 <emphasis role="comment">&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00246"/>00246 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00247"/>00247 <emphasis role="comment">&#32;&#32;&#32;&#32;//--------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00248"/>00248 <emphasis role="comment">&#32;&#32;&#32;&#32;std::string&#32;name&#32;=&#32;&quot;Power&#32;Deposition&quot;;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00249"/>00249 <emphasis role="comment">&#32;&#32;&#32;&#32;double&#32;scalingFactor&#32;=&#32;corePower&#32;/&#32;Etot;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00250"/>00250 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00251"/>00251 <emphasis role="comment">&#32;&#32;&#32;&#32;TCanvas*&#32;cPowerDeposition&#32;=&#32;new&#32;TCanvas(name.c_str(),&#32;name.c_str(),&#32;windowWidth,&#32;windowWidth);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00252"/>00252 <emphasis role="comment">&#32;&#32;&#32;&#32;marginCanvas(cPowerDeposition,&#32;margin);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00253"/>00253 <emphasis role="comment">&#32;&#32;&#32;&#32;TH2Poly&#32;*hexPowerDeposition&#32;=&#32;(TH2Poly*)hexEnergy-&gt;Clone(name.c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00254"/>00254 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDeposition-&gt;SetName(name.c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00255"/>00255 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDeposition-&gt;SetTitle((name&#32;+&#32;&quot;&#32;&quot;&#32;+&#32;ext).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00256"/>00256 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDeposition-&gt;GetZaxis()-&gt;SetTitle((name&#32;+&#32;&quot;&#32;(MW)&quot;).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00257"/>00257 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDeposition-&gt;Scale(scalingFactor);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00258"/>00258 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDeposition-&gt;GetZaxis()-&gt;SetRangeUser(minPowerDeposition,&#32;maxPowerDeposition);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00259"/>00259 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDeposition-&gt;Draw(&quot;coll&#32;colz&#32;text&#32;0&quot;);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00260"/>00260 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00261"/>00261 <emphasis role="comment">&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;&quot;Total&#32;Energy&#32;Deposited&#32;:&#32;&quot;&#32;&lt;&lt;&#32;Etot&#32;&lt;&lt;&#32;&quot;&#32;eV&quot;&#32;&lt;&lt;&#32;std::endl</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00262"/>00262 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;Energy&#32;Deposited&#32;per&#32;neutron&#32;:&#32;&quot;&#32;&lt;&lt;&#32;Etot*1e-6/nNeutrons&#32;&lt;&lt;&#32;&quot;&#32;MeV&quot;&#32;&lt;&lt;&#32;std::endl</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00263"/>00263 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;Total&#32;Core&#32;Power&#32;:&#32;&quot;&#32;&lt;&lt;&#32;scalingFactor*Etot&#32;&lt;&lt;&#32;&quot;&#32;MW&quot;&#32;&lt;&lt;&#32;std::endl</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00264"/>00264 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;Average&#32;Power&#32;Deposition&#32;:&#32;&quot;&#32;&lt;&lt;&#32;totalContent(hexPowerDeposition)/nAssembly&#32;&lt;&lt;&#32;&quot;&#32;MW&quot;&#32;&lt;&lt;&#32;std::endl;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00265"/>00265 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00266"/>00266 <emphasis role="comment">&#32;&#32;&#32;&#32;//--------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00267"/>00267 <emphasis role="comment">&#32;&#32;&#32;&#32;name&#32;=&#32;&quot;Power&#32;Density&quot;;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00268"/>00268 <emphasis role="comment">&#32;&#32;&#32;&#32;scalingFactor&#32;=&#32;corePower*1e6&#32;/&#32;(Etot*volume);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00269"/>00269 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00270"/>00270 <emphasis role="comment">&#32;&#32;&#32;&#32;TCanvas*&#32;cPowerDensity&#32;=&#32;new&#32;TCanvas(name.c_str(),&#32;name.c_str(),&#32;windowWidth,&#32;windowWidth);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00271"/>00271 <emphasis role="comment">&#32;&#32;&#32;&#32;marginCanvas(cPowerDensity,&#32;margin);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00272"/>00272 <emphasis role="comment">&#32;&#32;&#32;&#32;TH2Poly&#32;*hexPowerDensity&#32;=&#32;(TH2Poly*)hexEnergy-&gt;Clone(name.c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00273"/>00273 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDensity-&gt;SetName(name.c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00274"/>00274 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDensity-&gt;SetTitle((name&#32;+&#32;&quot;&#32;&quot;&#32;+&#32;ext).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00275"/>00275 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDensity-&gt;GetZaxis()-&gt;SetTitle((name&#32;+&#32;&quot;&#32;(W/cm^{3})&quot;).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00276"/>00276 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDensity-&gt;Scale(scalingFactor);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00277"/>00277 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDensity-&gt;GetZaxis()-&gt;SetRangeUser(minPowerDensity,&#32;maxPowerDensity);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00278"/>00278 <emphasis role="comment">&#32;&#32;&#32;&#32;hexPowerDensity-&gt;Draw(&quot;coll&#32;colz&#32;text&#32;0&quot;);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00279"/>00279 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00280"/>00280 <emphasis role="comment">&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;&quot;Average&#32;Power&#32;Density&#32;:&#32;&quot;&#32;&lt;&lt;&#32;totalContent(hexPowerDensity)/nAssembly&#32;&lt;&lt;&#32;&quot;&#32;W/cm3&quot;&#32;&lt;&lt;&#32;std::endl;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00281"/>00281 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00282"/>00282 <emphasis role="comment">&#32;&#32;&#32;&#32;//--------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00283"/>00283 <emphasis role="comment">&#32;&#32;&#32;&#32;name&#32;=&#32;&quot;Specific&#32;Power&quot;;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00284"/>00284 <emphasis role="comment">&#32;&#32;&#32;&#32;scalingFactor&#32;=&#32;corePower*1e6&#32;/&#32;(Etot*volume*density);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00285"/>00285 <emphasis role="comment">&#32;&#32;&#32;&#32;TCanvas*&#32;cSpecificPower&#32;=&#32;new&#32;TCanvas(name.c_str(),&#32;name.c_str(),&#32;windowWidth,&#32;windowWidth);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00286"/>00286 <emphasis role="comment">&#32;&#32;&#32;&#32;marginCanvas(cSpecificPower,&#32;margin);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00287"/>00287 <emphasis role="comment">&#32;&#32;&#32;&#32;TH2Poly&#32;*hexSpecificPower&#32;=&#32;(TH2Poly*)hexEnergy-&gt;Clone(name.c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00288"/>00288 <emphasis role="comment">&#32;&#32;&#32;&#32;hexSpecificPower-&gt;SetName(name.c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00289"/>00289 <emphasis role="comment">&#32;&#32;&#32;&#32;hexSpecificPower-&gt;SetTitle((name&#32;+&#32;&quot;&#32;&quot;&#32;+&#32;ext).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00290"/>00290 <emphasis role="comment">&#32;&#32;&#32;&#32;hexSpecificPower-&gt;GetZaxis()-&gt;SetTitle((name&#32;+&#32;&quot;&#32;(W/g)&quot;).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00291"/>00291 <emphasis role="comment">&#32;&#32;&#32;&#32;hexSpecificPower-&gt;Scale(scalingFactor);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00292"/>00292 <emphasis role="comment">&#32;&#32;&#32;&#32;hexSpecificPower-&gt;GetZaxis()-&gt;SetRangeUser(minSpecificPower,&#32;maxSpecificPower);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00293"/>00293 <emphasis role="comment">&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;&quot;Average&#32;Specific&#32;Power&#32;:&#32;&quot;&#32;&lt;&lt;&#32;totalContent(hexSpecificPower)/nAssembly&#32;&lt;&lt;&#32;&quot;&#32;W/g&quot;&#32;&lt;&lt;&#32;std::endl;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00294"/>00294 <emphasis role="comment">&#32;&#32;&#32;&#32;hexSpecificPower-&gt;Draw(&quot;coll&#32;colz&#32;text&#32;0&quot;);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00295"/>00295 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00296"/>00296 <emphasis role="comment">&#32;&#32;&#32;&#32;//--------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00297"/>00297 <emphasis role="comment">&#32;&#32;&#32;&#32;if&#32;(isSaveHasPNG)&#32;{</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00298"/>00298 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cPowerDeposition-&gt;SaveAs((&quot;Power_Deposition_&quot;&#32;+&#32;ext&#32;+&#32;&quot;.png&quot;).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00299"/>00299 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cPowerDensity&#32;&#32;&#32;-&gt;SaveAs((&quot;Power_Density_&quot;&#32;+&#32;ext&#32;+&#32;&quot;.png&quot;).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00300"/>00300 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cSpecificPower&#32;&#32;-&gt;SaveAs((&quot;Specific_Power_&quot;&#32;+&#32;ext&#32;+&#32;&quot;.png&quot;).c_str());</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00301"/>00301 <emphasis role="comment">&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00302"/>00302 <emphasis role="comment">&#32;&#32;&#32;&#32;return(0);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00303"/>00303 <emphasis role="comment">}*/</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00304"/>00304 
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00305"/>00305 <emphasis role="comment">/*int&#32;multiplot(std::string&#32;inputFile,&#32;int&#32;nRoot)&#32;{</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00306"/>00306 <emphasis role="comment">&#32;&#32;&#32;&#32;std::string&#32;index;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00307"/>00307 <emphasis role="comment">&#32;&#32;&#32;&#32;for&#32;(int&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;nRoot;&#32;i++)&#32;{</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00308"/>00308 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;index&#32;=&#32;std::to_string(i);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00309"/>00309 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;HexagonalEdepMap(index+&quot;_&quot;+inputFile,&#32;&quot;Cycle_&quot;+index);</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00310"/>00310 <emphasis role="comment">&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00311"/>00311 <emphasis role="comment">&#32;&#32;&#32;&#32;return&#32;0;</emphasis>
+<anchor xml:id="__benchmark-3_2_hexagonal_edep_map_8_c_source_1l00312"/>00312 <emphasis role="comment">}*/</emphasis>
+</programlisting></section>

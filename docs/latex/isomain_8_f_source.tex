@@ -1,0 +1,125 @@
+\hypertarget{isomain_8_f_source}{}\doxysection{isomain.\+F}
+\label{isomain_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/isomers/isomain.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/isomers/isomain.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/02 03/07/96  09.41.18  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   23/08/95}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00003}00003       \textcolor{keyword}{PROGRAM} isomain}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00006}00006 \textcolor{comment}{*     This program scans an ENDF-\/6 database looking for isomer         *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00007}00007 \textcolor{comment}{*     production information in files 8/9/10 and transforms them       *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00008}00008 \textcolor{comment}{*     into yield data, which are subsequently written in a file to     *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00009}00009 \textcolor{comment}{*     be used by the XNPROD subroutine of the EET library              *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00010}00010 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00011}00011 \textcolor{comment}{*     Program calling tree:                                            *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00012}00012 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00013}00013 \textcolor{comment}{*    1   0   ISOMAIN                                                   *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00014}00014 \textcolor{comment}{*    2   1      XNLBNL                                                 *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00015}00015 \textcolor{comment}{*    3   1      XNINIT                                                 *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00016}00016 \textcolor{comment}{*    4   2         XNTEMP                                              *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00017}00017 \textcolor{comment}{*    5   2         EETVER                                              *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00018}00018 \textcolor{comment}{*    6   1      XNTEMP                                                 *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00019}00019 \textcolor{comment}{*    7   1      XNFILE                                                 *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00020}00020 \textcolor{comment}{*    8   1      XNNEWS                                                 *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00021}00021 \textcolor{comment}{*    9   1      XNFIL8                                                 *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00022}00022 \textcolor{comment}{*   10   2         XNLIST                                              *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00023}00023 \textcolor{comment}{*   11   1      XNF910                                                 *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00024}00024 \textcolor{comment}{*   12   2         XNTAB1                                              *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00025}00025 \textcolor{comment}{*   13   2         XNTABL                                              *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00026}00026 \textcolor{comment}{*   14   3            XNGTMP                                           *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00027}00027 \textcolor{comment}{*   15   3            XNTMPI                                           *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00028}00028 \textcolor{comment}{*   16   3            XNOPEN                                           *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00029}00029 \textcolor{comment}{*   17   3            XNGETD                                           *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00030}00030 \textcolor{comment}{*   18   3            XNCLOS                                           *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00031}00031 \textcolor{comment}{*   19   2         XNGETX                                              *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00032}00032 \textcolor{comment}{*   20   3            XNBINT                                           *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00033}00033 \textcolor{comment}{*   21   2         XNADAC                                              *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00034}00034 \textcolor{comment}{*   22   1      XNWISO                                                 *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00035}00035 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00036}00036 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00037}00037 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00038}00038 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00039}00039 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00040}00040 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00041}00041 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcsbnl.inc"{}}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00042}00042 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcsend.inc"{}}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00043}00043 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcacti.inc"{}}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00044}00044 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcatmp.inc"{}}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00045}00045 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbna.inc"{}}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00046}00046 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00047}00047       parameter(maxstr=1000000)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00048}00048       \textcolor{keyword}{COMMON} / xcstor / nbsize,ihgwmk,xstore(maxstr)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00049}00049 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00050}00050       parameter(itapa=12)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00051}00051       \textcolor{keyword}{DATA} mathol / -\/99 /}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00052}00052 \textcolor{comment}{* -\/-\/-\/> Open first European Activation file}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00053}00053       dimension lorddb(nfdbas)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00054}00054       \textcolor{keyword}{DATA} lorddb / 5, 1, 2, 3, 4 /}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00055}00055 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00056}00056 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00057}00057 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00058}00058 \textcolor{comment}{* -\/-\/-\/> Load EET nuclear database, one entry per isotope}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00059}00059       \textcolor{keyword}{CALL }xnlbnl(chetdb)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> Initialise cross sections}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00061}00061       \textcolor{keyword}{CALL }xninit(maxstr,\textcolor{stringliteral}{' '})}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00062}00062       \textcolor{keyword}{CALL }xntemp(323)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00063}00063 \textcolor{comment}{* -\/-\/-\/> Zero counter}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00064}00064       nizact=0}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00065}00065 \textcolor{comment}{* -\/-\/-\/> Zero counter}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00066}00066       nmtpoi=0}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00067}00067 \textcolor{comment}{* -\/-\/-\/> Zero counter}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00068}00068       noacti=0}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/> Loop on all databases}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00070}00070       \textcolor{keywordflow}{DO} 30  jfile=1,nfdbas}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00071}00071 \textcolor{comment}{* -\/-\/-\/> Alter order of files in CHFILN to open first EAF 4.1}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00072}00072          idbcod=lorddb(jfile)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00073}00073          ifend=index(chfiln(idbcod),\textcolor{stringliteral}{' '})-\/1}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00074}00074 \textcolor{comment}{* -\/-\/-\/> Open database file}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00075}00075          \textcolor{keyword}{OPEN}(itapa,file=chroot//chfiln(idbcod)(:ifend)//\textcolor{stringliteral}{'.dat'},}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00076}00076      +   status=\textcolor{stringliteral}{'OLD'},action=\textcolor{stringliteral}{'READ'})}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00077}00077          \textcolor{keyword}{WRITE}(6,10000) chroot//chfiln(idbcod)(:ifend)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00078}00078 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Data from '},a,\textcolor{stringliteral}{' quoted differences are ENDF-\/BNL'},/)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00079}00079          \textcolor{keyword}{CALL }xnfile(chroot//chfiln(idbcod)(:ifend))}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00080}00080 \textcolor{comment}{* -\/-\/-\/> Read header of new ENDF-\/6 section}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00081}00081    10    \textcolor{keyword}{CALL }xnnews(c1, c2, l1, l2, n1, n2, math, mfh, mth)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00082}00082 \textcolor{comment}{* -\/-\/-\/> If EoF leave}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00083}00083          \textcolor{keywordflow}{IF}(math.LT.0) \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00084}00084 \textcolor{comment}{* -\/-\/-\/> If new material special action}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00085}00085          \textcolor{keywordflow}{IF}(math.NE.mathol) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00086}00086             mathol=math}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00087}00087             izamat = 10*nint(c1)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00088}00088 \textcolor{comment}{* -\/-\/-\/> Get additional information on isomeric state}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00089}00089             \textcolor{keyword}{READ}(itapa,10400) elis,sta,lis,liso,izero,nfor}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00090}00090             izamat=izamat+liso}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00091}00091             ntendf=0}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00092}00092             lisofa=liso}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00093}00093             lisfa=lis}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00094}00094 \textcolor{comment}{* -\/-\/-\/> Make sure we will print the material information only if}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00095}00095 \textcolor{comment}{*      we find isomer production information, but only once}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00096}00096             lmatep=.false.}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00097}00097 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00098}00098 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00099}00099          \textcolor{keywordflow}{IF}(mfh.EQ.8) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00100}00100 \textcolor{comment}{* -\/-\/-\/> File 8, special process}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00101}00101             \textcolor{keyword}{CALL }xnfil8}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00102}00102          \textcolor{keywordflow}{ELSEIF}(mfh.EQ.9.OR.mfh.EQ.10) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00103}00103 \textcolor{comment}{* -\/-\/-\/> File 9/10 for yield or cross section}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00104}00104             \textcolor{keyword}{CALL }xnf910}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00105}00105 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00106}00106 \textcolor{comment}{* -\/-\/-\/> Loop back to new section}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00107}00107          \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00108}00108 \textcolor{comment}{* -\/-\/-\/> End of processing, close input file}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00109}00109    20    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00110}00110          \textcolor{keyword}{CLOSE}(itapa)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00111}00111    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00112}00112 \textcolor{comment}{* -\/-\/-\/> Write output file}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00113}00113       \textcolor{keyword}{CALL }xnwiso}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00114}00114 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00115}00115 10100 \textcolor{keyword}{FORMAT}(19x,\textcolor{stringliteral}{'ratio min-\/max '},g10.3,\textcolor{stringliteral}{'-\/'},g10.3)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00116}00116 10200 \textcolor{keyword}{FORMAT}(10x,\textcolor{stringliteral}{'Level = '},i3,\textcolor{stringliteral}{' energy = '},g10.3)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00117}00117 10300 \textcolor{keyword}{FORMAT}(6e11.4,i4,i2,i3,i5)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00118}00118 10400 \textcolor{keyword}{FORMAT}(2e11.4,4i11,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{isomain_8_f_source_l00119}00119       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

@@ -1,0 +1,170 @@
+\hypertarget{xnldfr_8_f_source}{}\doxysection{xnldfr.\+F}
+\label{xnldfr_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnldfr.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnldfr.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/07 25/09/96  19.14.49  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   31/05/94}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnldfr}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00006}00006 \textcolor{comment}{*     Loads fission fragments from ENDF-\/6 file                         *}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00008}00008 \textcolor{comment}{*    **** Obsolete routine, see documentation ****                     *}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00009}00009 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00010}00010 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00011}00011 \textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00012}00012 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcfyid.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00013}00013 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcroot.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00014}00014 \textcolor{preprocessor}{}      parameter(maxbnl=3500)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00015}00015       dimension izabnl(maxbnl)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00016}00016       \textcolor{keywordtype}{CHARACTER*124} CHFINP}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00017}00017       \textcolor{keywordtype}{LOGICAL} LFIRST}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00018}00018       \textcolor{keyword}{DATA} mathol / -\/99 /}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00019}00019       \textcolor{keyword}{DATA} lfirst /.true./}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00020}00020 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00021}00021 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00023}00023 \textcolor{comment}{* -\/-\/-\/> Make sure load is performed only once}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00024}00024       \textcolor{keywordflow}{IF}(.NOT.lfirst) \textcolor{keywordflow}{RETURN}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00025}00025       lfirst=.false.}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Get list of isomers in EET nuclear database}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00027}00027       \textcolor{keyword}{CALL }xnbnls(izabnl,nmxbnl,maxbnl)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Load from american database the independent fission yields}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00029}00029       chfinp=chroot//\textcolor{stringliteral}{'e6r1nds3.fyi'}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00030}00030       lfinp=index(chfinp,\textcolor{stringliteral}{' '})-\/1}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Open the file}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00032}00032       \textcolor{keyword}{OPEN}(12,file=chfinp(:lfinp),action=\textcolor{stringliteral}{'READ'},status=\textcolor{stringliteral}{'OLD'})}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/> Initialise pointers}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00034}00034       \textcolor{keywordflow}{DO} 10 jfele=1,mxfele}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Start of fission fragment data for each fissile nuclide}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00036}00036          ifsta(jfele) = 0}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Start of fission neutron multiplicity data for each fissile nuclide}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00038}00038          insta(jfele) = 0}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Length of fission fragment data for each fissile nuclide}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00040}00040          iflen(jfele) = 0}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Length of fission neutron multiplicity data for each fissile nuclide}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00042}00042          inlen(jfele) = 0}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00043}00043    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00044}00044 \textcolor{comment}{* -\/-\/-\/> Number of nuclides with fission yield information}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00045}00045       nmfele=0}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00046}00046 \textcolor{comment}{* -\/-\/-\/> Number of words used}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00047}00047       numfis=0}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00048}00048 \textcolor{comment}{* -\/-\/-\/> Read a new section in ENDF 6 format}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00049}00049    20 \textcolor{keyword}{CALL }xnnews(c1, c2, l1, l2, n1, n2, math, mfh, mth)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00050}00050 \textcolor{comment}{* -\/-\/-\/> If end of file exit}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00051}00051       \textcolor{keywordflow}{IF}(math.LT.0) \textcolor{keywordflow}{GOTO} 100}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00052}00052       \textcolor{keywordflow}{IF}(math.NE.mathol) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/> Reading new material}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00054}00054 \textcolor{comment}{C         WRITE(6,'('' Loading Z='',I3,'' A='',I3)') NINT(C1/}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00055}00055 \textcolor{comment}{C     +   1000.) ,NINT(MOD(C1,1000.))}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00056}00056          mathol=math}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00057}00057          izap = nint(c1)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00058}00058 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00059}00059 \textcolor{comment}{* -\/-\/-\/> Analyse the section just read}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00060}00060       \textcolor{keywordflow}{IF}(mfh.EQ.1.AND.mth.EQ.451) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00061}00061 \textcolor{comment}{* -\/-\/-\/> Comment section, get the isomeric state}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00062}00062          \textcolor{keyword}{READ}(12,10200) elis,sta,lis,liso,idumm,nfor}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00063}00063          izap=10*izap+liso}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00064}00064       \textcolor{keywordflow}{ELSEIF}(mfh.EQ.8.AND.mth.EQ.454) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00065}00065 \textcolor{comment}{* -\/-\/-\/> Independent Fission Yield section}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00066}00066          \textcolor{keywordflow}{IF}(nmfele.GE.mxfele) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00067}00067 \textcolor{comment}{* -\/-\/-\/> Too many fissile elements?}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00068}00068             \textcolor{keyword}{WRITE}(6,10000)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00069}00069 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' No more space to store fission fragments'},}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00070}00070      +      \textcolor{stringliteral}{' increase MXFELE'})}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00071}00071             \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00072}00072 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00073}00073 \textcolor{comment}{* -\/-\/-\/> New fissile element}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00074}00074          nmfele=nmfele+1}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00075}00075 \textcolor{comment}{* -\/-\/-\/> Load start of Fission Yield information}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00076}00076          ifsta(nmfele)=numfis+1}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00077}00077 \textcolor{comment}{* -\/-\/-\/> Load code of fissile element}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00078}00078          ifzma(nmfele)=izap}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00079}00079 \textcolor{comment}{* -\/-\/-\/> Number of incoming neutron energies}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00080}00080          le1=l1}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00081}00081          \textcolor{keywordflow}{IF}(le1.GT.maxenf) stop \textcolor{stringliteral}{'Increase MAXENF'}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00082}00082 \textcolor{comment}{C         WRITE(6,'('' Found '',I4,'' sections '')') LE1}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00083}00083 \textcolor{comment}{* -\/-\/-\/> For each energy read yields}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00084}00084          \textcolor{keywordflow}{DO} 90 jene=1,le1}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00085}00085             \textcolor{keyword}{CALL }xnlist}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00086}00086 \textcolor{comment}{C        WRITE(6,'('' Section '',I4,'' with energy '',E11.4,            '}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00087}00087 \textcolor{comment}{C     +  //'         '' Sec = '',I5,'' Points = '',I5)')JENE,C1,N1,NP}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00088}00088 \textcolor{comment}{* -\/-\/-\/> Total probability loss for discarded yields}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00089}00089             totlos=0.}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00090}00090             \textcolor{keywordflow}{DO} 80 je=1,n1-\/3,4}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00091}00091 \textcolor{comment}{* -\/-\/-\/> Fission fragment code}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00092}00092                zafp=xnrval(je )}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00093}00093 \textcolor{comment}{* -\/-\/-\/> Fission fragment isomeric state}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00094}00094                fps =xnrval(je+1)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00095}00095 \textcolor{comment}{* -\/-\/-\/> Fission fragment yield}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00096}00096                yi =xnrval(je+2)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00097}00097 \textcolor{comment}{* -\/-\/-\/> Error on yield}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00098}00098                dyi =xnrval(je+3)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00099}00099 \textcolor{comment}{* -\/-\/-\/> Do not consider yields which are too small}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00100}00100                \textcolor{keywordflow}{IF}(yi.LE.1e-\/7) \textcolor{keywordflow}{GOTO} 80}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00101}00101 \textcolor{comment}{* -\/-\/-\/> Do not consider isomers}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00102}00102 \textcolor{comment}{C               IZAF = NINT(ZAFP*10+FPS)}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00103}00103                izaf = nint(zafp*10)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00104}00104 \textcolor{comment}{* -\/-\/-\/> See if this entry already there}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00105}00105                \textcolor{keywordflow}{DO} 30 jfis=ifsta(nmfele),numfis}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00106}00106                   \textcolor{keywordflow}{IF}(izafra(jfis).EQ.izaf) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00107}00107 \textcolor{comment}{* -\/-\/-\/> Entry already there, sum yield}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00108}00108                      kfis=jfis}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00109}00109                      \textcolor{keywordflow}{GOTO} 70}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00110}00110 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00111}00111    30          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00112}00112 \textcolor{comment}{* -\/-\/-\/> Not in list, add only if in BNL table}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00113}00113                \textcolor{keywordflow}{DO} 40 lbnl=1,nmxbnl}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00114}00114                   \textcolor{keywordflow}{IF}(izaf.EQ.izabnl(lbnl)) \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00115}00115    40          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00116}00116 \textcolor{comment}{* -\/-\/-\/> Not in BNL table, skip}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00117}00117 \textcolor{comment}{C               WRITE(6,'('' ***XNLDFR: Excluding '',I6,'' because'',}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00118}00118 \textcolor{comment}{C     +         '' not in BNL'')') IZAF}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00119}00119 \textcolor{comment}{C              TOTLOS=TOTLOS+YI}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00120}00120                \textcolor{keywordflow}{GOTO} 80}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00121}00121    50          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00122}00122 \textcolor{comment}{* -\/-\/-\/> Enough space to add one more yield?}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00123}00123                \textcolor{keywordflow}{IF}(numfis.GE.maxfis) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00124}00124                   \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' No more space for fissions! '}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00125}00125                   stop \textcolor{stringliteral}{'Increas MAXFIS'}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00126}00126 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00127}00127 \textcolor{comment}{* -\/-\/-\/> Add Fission Fragment}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00128}00128                numfis=numfis+1}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00129}00129 \textcolor{comment}{* -\/-\/-\/> Store isomer code}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00130}00130                izafra(numfis) = izaf}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00131}00131 \textcolor{comment}{* -\/-\/-\/> Set to 0 yield and energy}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00132}00132                \textcolor{keywordflow}{DO} 60 jll=1,maxenf}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00133}00133                   xbrfra(numfis,jll) = 0.}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00134}00134                   enefra(numfis,jll) = 0.}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00135}00135    60          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00136}00136                kfis=numfis}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00137}00137 \textcolor{comment}{* -\/-\/-\/> Store yield and incoming neutron energy}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00138}00138    70          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00139}00139                xbrfra(kfis,jene) = xbrfra(kfis,jene)+yi}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00140}00140                enefra(kfis,jene) = c1}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00141}00141    80       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00142}00142             \textcolor{keywordflow}{IF}(totlos.GT.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00143}00143 \textcolor{comment}{* -\/-\/-\/> Print total probability loss}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00144}00144                \textcolor{keyword}{WRITE}(6,10100) izap/10000,mod(izap/10,1000),c1,totlos}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00145}00145 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Probability loss for ('},i3,\textcolor{stringliteral}{','},i3,\textcolor{stringliteral}{')@'},e10.3,\textcolor{stringliteral}{'eV = '},}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00146}00146      +       f5.2,\textcolor{stringliteral}{'\%'})}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00147}00147 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00148}00148 \textcolor{comment}{* -\/-\/-\/> Store length of data for this fissile nuclide}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00149}00149             iflen(nmfele)=numfis-\/ifsta(nmfele)+1}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00150}00150    90    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00151}00151 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00152}00152 \textcolor{comment}{* -\/-\/-\/> Read new ENDF-\/6 section}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00153}00153       \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00154}00154 \textcolor{comment}{* -\/-\/-\/> End of processing, close file and print summary}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00155}00155   100 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00156}00156       \textcolor{keyword}{CLOSE}(91)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00157}00157       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'(5X,I10,'}\textcolor{stringliteral}{' entries for '}\textcolor{stringliteral}{',I10,'}\textcolor{stringliteral}{' elements'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00158}00158      +        numfis,nmfele}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00159}00159 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00160}00160 10200 \textcolor{keyword}{FORMAT}(2e11.4,4i11,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00161}00161 10300 \textcolor{keyword}{FORMAT}(6e11.4,i4,i2,i3,i5)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00162}00162 10400 \textcolor{keyword}{FORMAT}(i10,10x,i10,50x)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00163}00163 10500 \textcolor{keyword}{FORMAT}(8i10)}
+\DoxyCodeLine{\Hypertarget{xnldfr_8_f_source_l00164}00164       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

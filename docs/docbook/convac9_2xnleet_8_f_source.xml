@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_convac9_2xnleet_8_f_source" xml:lang="en-US">
+<title>xnleet.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/convac9/xnleet.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_convac9_2xnleet_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.03/07&#32;27/09/96&#32;&#32;15.19.10&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnleet(CHFEET)
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00004"/>00004 <emphasis role="comment">*----------------------------------------------------------------------*</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;Reads&#32;all&#32;isomers&#32;in&#32;the&#32;EET&#32;nuclear&#32;database,&#32;one&#32;entry&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;per&#32;isomer&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00009"/>00009 <emphasis role="comment">*----------------------------------------------------------------------*</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00010"/>00010 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00011"/>00011 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcseet.inc&quot;</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00012"/>00012 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*(*)</emphasis>&#32;CHFEET
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00013"/>00013 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;LFIRST
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00014"/>00014 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;lfirst&#32;/.true./
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">SAVE</emphasis>&#32;lfirst
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;izold/-1/
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00017"/>00017 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00018"/>00018 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00019"/>00019 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(.NOT.lfirst)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;lfirst=.false.
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00022"/>00022 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;ntoeet=0
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(20,file=chfeet,status=<emphasis role="stringliteral">&apos;OLD&apos;</emphasis>,action=<emphasis role="stringliteral">&apos;READ&apos;</emphasis>)
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(20,10000)
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00026"/>00026 &#32;&#32;&#32;10&#32;<emphasis role="keyword">READ</emphasis>(20,10000,<emphasis role="keyword">END</emphasis>=30)&#32;IN,IA,IZ,IS,CHSYMB,HM,QL,TL,IDA,IDZ,IDI,BR,
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;+qd,ha,t1,t2,<emphasis role="keywordflow">IF</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00028"/>00028 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;WRITE(6,10000)&#32;IN,IA,IZ,IS,CHSYMB,HM,QL,TL,IDA,IDZ,IDI,BR,QD,HA,</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00029"/>00029 <emphasis role="comment">*&#32;&#32;&#32;&#32;+T1,T2,IF</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;iznow=is+10*ia+10&#32;000*iz
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iznow.EQ.izold)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;izold=iznow
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00033"/>00033 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00034"/>00034 <emphasis role="comment">*&#32;---&#32;New&#32;isotope,&#32;see&#32;whether&#32;it&#32;is&#32;there&#32;already&#32;(you&#32;never&#32;know)</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;jb=1,ntoeet
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izaeet(jb).EQ.iznow)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00037"/>00037 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ntoeet.GE.maxeet)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10100)&#32;ntoeet
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;30
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00041"/>00041 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;ntoeet=ntoeet+1
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;izaeet(ntoeet)=iznow
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;hmaeet(ntoeet)=hm
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;qlveet(ntoeet)=ql
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;hlieet(ntoeet)=tl
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00048"/>00048 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00049"/>00049 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CLOSE</emphasis>(20)
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00051"/>00051 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00052"/>00052 <emphasis role="comment">*&#32;---&#32;Now&#32;sort&apos;em</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;50&#32;jb=1,ntoeet-1
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;40&#32;ib=jb+1,ntoeet
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izaeet(jb).GT.izaeet(ib))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iztmp=izaeet(jb)
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hmtmp=hmaeet(jb)
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qltmp=qlveet(jb)
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izaeet(jb)=izaeet(ib)
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hmaeet(jb)=hmaeet(ib)
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qlveet(jb)=qlveet(ib)
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izaeet(ib)=iztmp
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hmaeet(ib)=hmtmp
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qlveet(ib)=qltmp
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00065"/>00065 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00066"/>00066 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00067"/>00067 &#32;&#32;&#32;50&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10200)&#32;ntoeet
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00069"/>00069 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00070"/>00070 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(4i5,a5,3g15.7,3i5,5g15.7,i5)
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00071"/>00071 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNLEET:&#32;Loading&#32;stopped&#32;at&#32;&apos;</emphasis>,i5,<emphasis role="stringliteral">&apos;&#32;isomers&apos;</emphasis>)
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00072"/>00072 10200&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNLEET:&#32;&apos;</emphasis>,i5,<emphasis role="stringliteral">&apos;&#32;isomers&#32;successfully&#32;read&#32;in&apos;</emphasis>)
+<anchor xml:id="_convac9_2xnleet_8_f_source_1l00073"/>00073 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

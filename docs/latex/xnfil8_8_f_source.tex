@@ -1,0 +1,126 @@
+\hypertarget{xnfil8_8_f_source}{}\doxysection{xnfil8.\+F}
+\label{xnfil8_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/isomers/xnfil8.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/isomers/xnfil8.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  14.47.33  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnfil8}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00006}00006 \textcolor{comment}{*     Collect information stored in file 8 on isomer production        *}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00007}00007 \textcolor{comment}{*     data to be found in file 9 or 10                                 *}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00009}00009 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00010}00010 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00011}00011 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00012}00012 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00013}00013 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcsbnl.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00014}00014 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcsend.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00015}00015 \textcolor{preprocessor}{}      dimension ida(mxreac), idz(mxreac)}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00016}00016 \textcolor{comment}{* -\/-\/-\/> Difference in mass number after reaction}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00017}00017       \textcolor{keyword}{DATA} ida / 0, 0, 0, -\/1, 0, 1, 41*0, -\/2, -\/4, -\/12, -\/5, -\/6, -\/1,}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00018}00018      +       -\/8, -\/9, -\/2, -\/3, -\/3, -\/10, -\/11, -\/3, -\/2, -\/3, 0, -\/1, -\/2,}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00019}00019      +       -\/2, -\/3, -\/7, -\/11, -\/1, -\/4, -\/10, -\/9, -\/2, -\/3/}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/> Difference in atomic number after reaction}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00021}00021       \textcolor{keyword}{DATA} idz / 0, 0, 0, 0, 0, 0, 41*0, 0, -\/2, -\/6, -\/2, -\/2, -\/1, -\/4,}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00022}00022      + -\/4, -\/1, -\/1, -\/2, -\/5, -\/5, 0, -\/1, -\/1, -\/1, -\/1, -\/1, -\/2, -\/2, -\/4, -\/6,}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00023}00023      + -\/2, -\/3, -\/5, -\/5, -\/2, -\/2/}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00024}00024       parameter(itapa=12)}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00025}00025 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00027}00027 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> See if reaction is amongst the ones we consider}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00029}00029       \textcolor{keywordflow}{DO} 10 jr=1,mxreac}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00030}00030          \textcolor{keywordflow}{IF}(mth.EQ.nbmft(jr)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00031}00031             kreac=jr}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00032}00032             \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00033}00033 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00034}00034    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00035}00035       \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/> Raction is ok}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00037}00037    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Number of subsections}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00039}00039       ns=n1}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> Kind of information present}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00041}00041       no=n2}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00042}00042 \textcolor{comment}{* -\/-\/-\/> Loop on subsections}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00043}00043       \textcolor{keywordflow}{DO} 40 js=1,ns}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00044}00044 \textcolor{comment}{* -\/-\/-\/> Read subsection (we are really interested only in the header)}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00045}00045          \textcolor{keywordflow}{IF}(no.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00046}00046             \textcolor{keyword}{READ}(itapa,10000) zap,elfs,lmf,lfs,izero,matp}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00047}00047          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00048}00048             \textcolor{keyword}{CALL }xnlist}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Product isomer code}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00050}00050             zap=c1}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/> Product isomer level}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00052}00052             elfs=c2}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/> ENDF-\/6 file where additional information is stored}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00054}00054             lmf=l1}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/> Level (NOT ISOMER!) number}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00056}00056             lfs=l2}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/> ENDF-\/6 material code of product}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00058}00058             matp=n2}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00059}00059 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> If additional information is not about isomer production skip}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00061}00061          \textcolor{keywordflow}{IF}(lmf.NE.9.AND.lmf.NE.10) \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> This is the isotope code of the product}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00063}00063          izap=nint(zap)}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/> Here we recalculate the product and we see whether it}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00065}00065 \textcolor{comment}{*      agrees with the one read, just to see if everything is ok}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00066}00066          izfa=izamat/10000}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00067}00067          iafa=mod(izamat/10,1000)}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00068}00068          isfa=mod(izamat,10)}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00069}00069          izso=izfa+idz(kreac)}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00070}00070          iaso=iafa+ida(kreac)}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00071}00071          izaso=izso*1000+iaso}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00072}00072          \textcolor{keywordflow}{IF}(izaso.NE.izap) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00073}00073 \textcolor{comment}{* -\/-\/-\/> Mismatch between product read and found. May be is not}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00074}00074 \textcolor{comment}{*      very serious. In an (n,alpha) reaction also the alpha}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00075}00075 \textcolor{comment}{*      can figure in the product list. Just print it.}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00076}00076             \textcolor{keyword}{WRITE}(6,10100) izamat,chname(kreac),izap,izaso}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00077}00077             \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00078}00078 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00079}00079 \textcolor{comment}{* -\/-\/-\/> Here there is a problem. The LFS flag is not the isomer}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00080}00080 \textcolor{comment}{*      number but the level number, and the information linking}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00081}00081 \textcolor{comment}{*      level and isomer number is not available in ENDF. So we}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00082}00082 \textcolor{comment}{*      look in the EET database for the isomer with the closest}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00083}00083 \textcolor{comment}{*      value of the energy level.}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00084}00084          qmdiff=1e10}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00085}00085          ipobnl=0}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00086}00086          \textcolor{keywordflow}{DO} 30 jb=1,ntobnl}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00087}00087             \textcolor{keywordflow}{IF}(izabnl(jb)/10.EQ.izap) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00088}00088 \textcolor{comment}{* -\/-\/-\/> Product of reaction exists in EET database, see now level}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00089}00089                qcdiff=elfs-\/qlvbnl(jb)*1e6}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00090}00090                \textcolor{keywordflow}{IF}(abs(qcdiff).LT.qmdiff) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00091}00091 \textcolor{comment}{* -\/-\/-\/> Go for closest level}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00092}00092                   ipobnl=jb}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00093}00093                   qmdiff=qcdiff}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00094}00094 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00095}00095 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00096}00096    30    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00097}00097          \textcolor{keywordflow}{IF}(ipobnl.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00098}00098 \textcolor{comment}{* -\/-\/-\/> We did not find the isotope in EET, print message and skip}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00099}00099             \textcolor{keyword}{WRITE}(6,10200) izap,lfs,elfs}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00100}00100             \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00101}00101          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00102}00102 \textcolor{comment}{* -\/-\/-\/> Load one more product in list, if enough space is left}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00103}00103             \textcolor{keywordflow}{IF}(ntendf.GE.maxssc) stop \textcolor{stringliteral}{'Increase MAXSSC!'}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00104}00104             ntendf=ntendf+1}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00105}00105             izapl(ntendf)=izabnl(ipobnl)}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00106}00106             elfsl(ntendf)=elfs}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00107}00107             lmfl(ntendf)=lmf}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00108}00108             lfsl(ntendf)=lfs}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00109}00109             mthl(ntendf)=mth}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00110}00110             ipbnl(ntendf)=ipobnl}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00111}00111             qmdifl(ntendf)=qmdiff}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00112}00112 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00113}00113    40 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00114}00114 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00115}00115 10000 \textcolor{keyword}{FORMAT}(2e11.4,4i11,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00116}00116 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Warning!!!! Target '},i6,\textcolor{stringliteral}{' Reaction '},a6,}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00117}00117      +       \textcolor{stringliteral}{' ENDF product '},i5,\textcolor{stringliteral}{' Our calculation '},i5)}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00118}00118 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Isomer '},i6,\textcolor{stringliteral}{' level '},i2,\textcolor{stringliteral}{' level '},g10.3,}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00119}00119      +\textcolor{stringliteral}{' not in BNL list, skipping!'})}
+\DoxyCodeLine{\Hypertarget{xnfil8_8_f_source_l00120}00120   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

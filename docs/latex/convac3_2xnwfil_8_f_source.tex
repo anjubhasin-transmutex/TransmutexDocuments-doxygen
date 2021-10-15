@@ -1,0 +1,158 @@
+\hypertarget{convac3_2xnwfil_8_f_source}{}\doxysection{xnwfil.\+F}
+\label{convac3_2xnwfil_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/convac3/xnwfil.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/convac3/xnwfil.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/07 27/09/96  18.12.33  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00003}00003       \textcolor{keyword}{subroutine }xnwfil}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00004}00004 \textcolor{preprocessor}{\#include "{}xcedat.inc"{}}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00005}00005 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xceafi.inc"{}}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00006}00006 \textcolor{preprocessor}{}      parameter(itapd=98,itaps=99)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00007}00007       parameter(maxsum=100,maxcom=3*maxsum)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00008}00008       dimension msumm(3,maxsum)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00009}00009       \textcolor{keywordtype}{character*75} chline, chcomm(maxcom)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00010}00010       \textcolor{keywordtype}{character*9}  chelin}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00011}00011       \textcolor{keywordtype}{character*(*)} chdivi}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00012}00012       parameter(chdivi=}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00013}00013      +\textcolor{stringliteral}{' **************** '}//}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00014}00014      +\textcolor{stringliteral}{'Comments from the '}//eafver//\textcolor{stringliteral}{' file *****************'})}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00015}00015 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00016}00016 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00017}00017 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00018}00018 \textcolor{comment}{* -\/-\/-\/ Order the material numbers}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00019}00019       \textcolor{keywordflow}{do} 30 j=1,nsec-\/1}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00020}00020          \textcolor{keywordflow}{do} 20 i=j+1,nsec}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00021}00021             \textcolor{keywordflow}{if}(ipoint(j,1).gt.ipoint(i,1)) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00022}00022                \textcolor{keywordflow}{do} 10 l=1,5}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00023}00023                   itmp=ipoint(i,l)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00024}00024                   ipoint(i,l)=ipoint(j,l)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00025}00025                   ipoint(j,l)=itmp}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00026}00026    10          \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00027}00027 \textcolor{keywordflow}{            endif}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00028}00028    20    \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00029}00029    30 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00030}00030 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/ Order the section numbers}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00032}00032       \textcolor{keywordflow}{do} 60 j=1,nsec-\/1}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00033}00033          \textcolor{keywordflow}{do} 50 i=j+1,nsec}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00034}00034             \textcolor{keywordflow}{if}(ipoint(j,1).eq.ipoint(i,1)) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00035}00035                \textcolor{keywordflow}{if}(ipoint(j,2).gt.ipoint(i,2)) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00036}00036                   \textcolor{keywordflow}{do} 40 l=2,5}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00037}00037                      itmp=ipoint(i,l)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00038}00038                      ipoint(i,l)=ipoint(j,l)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00039}00039                      ipoint(j,l)=itmp}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00040}00040    40             \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00041}00041 \textcolor{keywordflow}{               endif}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00042}00042 \textcolor{keywordflow}{            endif}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00043}00043    50    \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00044}00044    60 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00045}00045 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00046}00046 \textcolor{comment}{* -\/-\/-\/ Now do output}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00047}00047       \textcolor{keyword}{write}(itaps,10100)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00048}00048       mfo=-\/1}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00049}00049       mto=-\/1}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00050}00050       izo=-\/1}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00051}00051       \textcolor{keywordflow}{do} 140 j=1,nsec}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00052}00052          mf=ipoint(j,2)/1000}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00053}00053          mt=mod(ipoint(j,2),1000)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00054}00054          izacur=ipoint(j,1)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00055}00055          \textcolor{keywordflow}{if}(izacur.eq.izo.and.mt.eq.mto.and.mf.eq.mfo) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00056}00056             stop \textcolor{stringliteral}{'MT=MTO!!!'}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00057}00057          \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (mf.ne.mfo.and.j.gt.1) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00058}00058             \textcolor{keyword}{write}(itaps,10500) chelin(1:4),0,0}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00059}00059 \textcolor{keywordflow}{         endif}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00060}00060          \textcolor{keywordflow}{if}(ipoint(j,2).eq.1451) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00061}00061 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/ Starting a new section, some cleanup is needed}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00063}00063             \textcolor{keywordflow}{if}(izacur.eq.izo) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00064}00064                stop \textcolor{stringliteral}{'IZACUR=IZO!!!'}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00065}00065 \textcolor{keywordflow}{            end if}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00066}00066             \textcolor{keywordflow}{if}(j.gt.1) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00067}00067                \textcolor{keyword}{write}(itaps,10600) 0,0,0}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00068}00068 \textcolor{keywordflow}{            endif}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00069}00069             nrecr=ipoint(j,3)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00070}00070 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00071}00071 \textcolor{comment}{* -\/-\/-\/ Dump section 1 as far as possible}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00072}00072             \textcolor{keywordflow}{do} 70 i1=1,3}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00073}00073                nrecr=nrecr+1}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00074}00074                \textcolor{keyword}{read}(itapd,rec=nrecr,fmt=10000) chline}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00075}00075                \textcolor{keyword}{write}(itaps,10000) chline}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00076}00076    70       \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00077}00077             chelin=chline(67:75)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00078}00078 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00079}00079 \textcolor{comment}{* -\/-\/-\/ Now count sections and comment cards}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00080}00080             msumm(1,1)=1}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00081}00081             msumm(2,1)=451}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00082}00082             msumm(3,1)=ipoint(j,4)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00083}00083             nsesum=1}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00084}00084             ncomm=0}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00085}00085             \textcolor{keywordflow}{do} 90 l=j+1,nsec}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00086}00086                \textcolor{keywordflow}{if}(ipoint(l,1).eq.izacur) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00087}00087                   \textcolor{keywordflow}{if}(nsesum.ge.maxsum) stop \textcolor{stringliteral}{'Increase MAXSUM'}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00088}00088                   nsesum=nsesum+1}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00089}00089                   msumm(1,nsesum)=ipoint(l,2)/1000}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00090}00090                   msumm(2,nsesum)=mod(ipoint(l,2),1000)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00091}00091                   msumm(3,nsesum)=ipoint(l,4)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00092}00092                   lcomm=ipoint(l,5)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00093}00093                   nrecc=ipoint(l,3)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00094}00094                   \textcolor{keywordflow}{if}(lcomm+ncomm.gt.maxcom) stop \textcolor{stringliteral}{'Increase MAXCOM'}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00095}00095                   \textcolor{keywordflow}{do} 80 jc=1,lcomm}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00096}00096                      ncomm=ncomm+1}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00097}00097                      \textcolor{keyword}{read}(itapd,rec=nrecc+jc,fmt=10000) chcomm(ncomm)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00098}00098                      \textcolor{keyword}{write}(chcomm(ncomm)(61:65),10700) ipoint(l,2)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00099}00099    80             \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00100}00100 \textcolor{keywordflow}{               endif}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00101}00101    90       \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00102}00102 \textcolor{comment}{* -\/-\/-\/ All comment lines now}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00103}00103             nwd=ncomf1+ncomm+2}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00104}00104 \textcolor{comment}{* -\/-\/-\/ No dictionary for the moment}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00105}00105             nxc=nsesum}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00106}00106             msumm(3,1)=msumm(3,1)+ncomm+nsesum+2}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00107}00107             nrecr=nrecr+1}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00108}00108             \textcolor{keyword}{read}(itapd,rec=nrecr,fmt=10000) chline}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00109}00109             \textcolor{keyword}{write}(chline(45:66),10200) nwd,nxc}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00110}00110             \textcolor{keyword}{write}(itaps,10000) chline}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00111}00111             \textcolor{keywordflow}{do} 100 js=1,ncomf1}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00112}00112                nrecr=nrecr+1}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00113}00113                \textcolor{keyword}{read}(itapd,rec=nrecr,fmt=10000) chline}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00114}00114                \textcolor{keyword}{write}(itaps,10000) chline}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00115}00115   100       \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00116}00116             \textcolor{keyword}{write}(itaps,10000) chdivi//chelin}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00117}00117             \textcolor{keywordflow}{do} 110 js=1,ncomm}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00118}00118                \textcolor{keyword}{write}(itaps,10000) \textcolor{stringliteral}{' '}//chcomm(js)(1:65)//chelin}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00119}00119   110       \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00120}00120             \textcolor{keyword}{write}(itaps,10000) chdivi//chelin}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00121}00121             \textcolor{keywordflow}{do} 120 js=1,nsesum}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00122}00122                \textcolor{keyword}{write}(itaps,10300) (msumm(ll,js),ll=1,3),0,chelin}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00123}00123   120       \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00124}00124          \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00125}00125             nrecr=ipoint(j,3)+ipoint(j,5)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00126}00126             \textcolor{keywordflow}{do} 130 js=1,ipoint(j,4)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00127}00127                \textcolor{keyword}{read}(itapd,rec=nrecr+js,fmt=10000) chline}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00128}00128                \textcolor{keyword}{write}(itaps,10000) chline}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00129}00129   130       \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00130}00130             chelin=chline(67:75)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00131}00131 \textcolor{keywordflow}{         endif}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00132}00132 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00133}00133 \textcolor{comment}{* -\/-\/-\/ end section}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00134}00134          \textcolor{keyword}{write}(itaps,10400) chelin(1:6),0}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00135}00135          mfo=mf}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00136}00136          mto=mt}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00137}00137          izo=izacur}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00138}00138   140 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00139}00139       \textcolor{keyword}{write}(itaps,10500) chelin(1:4),0,0}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00140}00140       \textcolor{keyword}{write}(itaps,10600) 0,0,0}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00141}00141       \textcolor{keyword}{write}(itaps,10600) -\/1,0,0}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00142}00142 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00143}00143 10000 \textcolor{keyword}{format}(a75)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00144}00144 10100 \textcolor{keyword}{format}(\textcolor{stringliteral}{'EAF file'})}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00145}00145 10200 \textcolor{keyword}{format}(2i11)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00146}00146 10300 \textcolor{keyword}{format}(22x,4i11,a9)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00147}00147 10400 \textcolor{keyword}{format}(66x,a6,i3)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00148}00148 10500 \textcolor{keyword}{format}(66x,a4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00149}00149 10600 \textcolor{keyword}{format}(66x,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00150}00150 10700 \textcolor{keyword}{format}(i5)}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00151}00151       \textcolor{keyword}{end}}
+\DoxyCodeLine{\Hypertarget{convac3_2xnwfil_8_f_source_l00152}00152 +patch,xnmkdb.}
+
+\end{DoxyCode}

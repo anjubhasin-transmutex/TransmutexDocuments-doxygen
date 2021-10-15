@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnmk09_8_f_source" xml:lang="en-US">
+<title>xnmk09.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/convac9/xnmk09.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnmk09_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/01&#32;12/12/95&#32;&#32;12.01.49&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">subroutine&#32;</emphasis>xnmk09
+<anchor xml:id="_xnmk09_8_f_source_1l00004"/>00004 <emphasis role="preprocessor">#include&#32;&quot;xceafi.inc&quot;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00005"/>00005 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xctb1c.inc&quot;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00006"/>00006 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcmk09.inc&quot;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00007"/>00007 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcmf01.inc&quot;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00008"/>00008 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcmf03.inc&quot;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00009"/>00009 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcseet.inc&quot;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00010"/>00010 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">logical</emphasis>&#32;lfixqm
+<anchor xml:id="_xnmk09_8_f_source_1l00011"/>00011 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*8</emphasis>&#32;&#32;xnrena,chrena
+<anchor xml:id="_xnmk09_8_f_source_1l00012"/>00012 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*11</emphasis>&#32;xnelna
+<anchor xml:id="_xnmk09_8_f_source_1l00013"/>00013 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*66</emphasis>&#32;chtext
+<anchor xml:id="_xnmk09_8_f_source_1l00014"/>00014 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*11</emphasis>&#32;xnform
+<anchor xml:id="_xnmk09_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;parameter(itapd=98,itaps=99)
+<anchor xml:id="_xnmk09_8_f_source_1l00016"/>00016 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00017"/>00017 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00018"/>00018 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00019"/>00019 <emphasis role="comment">*&#32;---&#32;Order&#32;section&#32;9</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;20&#32;j=1,npo9-1
+<anchor xml:id="_xnmk09_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;10&#32;l=j+1,npo9
+<anchor xml:id="_xnmk09_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipoint(ipo9(j),2).gt.ipoint(ipo9(l),2))&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;itmp=ipo9(j)
+<anchor xml:id="_xnmk09_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipo9(j)=ipo9(l)
+<anchor xml:id="_xnmk09_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipo9(l)=itmp
+<anchor xml:id="_xnmk09_8_f_source_1l00026"/>00026 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00027"/>00027 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00028"/>00028 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00029"/>00029 <emphasis role="comment">*&#32;---&#32;Read&#32;all&#32;file&#32;9&#32;candidates</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;50&#32;j=1,npo9
+<anchor xml:id="_xnmk09_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=ipoint(ipo9(j),3)
+<anchor xml:id="_xnmk09_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=nrecr+2
+<anchor xml:id="_xnmk09_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr,fmt=10100)qm09(j),qi09(j),nr09(j),np09(j)
+<anchor xml:id="_xnmk09_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(np09(j).gt.maxpnt)&#32;stop&#32;<emphasis role="stringliteral">&apos;&#32;***&#32;XNMK03:&#32;increase&#32;maxpnt&apos;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(nr09(j).gt.maxran)&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MAXRAN&apos;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nlints=(nr09(j)-1)/3+1
+<anchor xml:id="_xnmk09_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;30&#32;jl=1,nlints
+<anchor xml:id="_xnmk09_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=nrecr+1
+<anchor xml:id="_xnmk09_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr,fmt=10200)&#32;(nbt09(n,j),int09(n,j),n=3*
+<anchor xml:id="_xnmk09_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;(jl-1)+1,min(nr09(j),3*jl))
+<anchor xml:id="_xnmk09_8_f_source_1l00041"/>00041 &#32;&#32;&#32;30&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nlines=(np09(j)-1)/3+1
+<anchor xml:id="_xnmk09_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;40&#32;jl=1,nlines
+<anchor xml:id="_xnmk09_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=nrecr+1
+<anchor xml:id="_xnmk09_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr,fmt=10300)&#32;(tab109(n,j),n=6*
+<anchor xml:id="_xnmk09_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;(jl-1)+1,min(2*np09(j),6*jl))
+<anchor xml:id="_xnmk09_8_f_source_1l00047"/>00047 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00048"/>00048 &#32;&#32;&#32;50&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;chelna=xnelna(izamat)
+<anchor xml:id="_xnmk09_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;chrena=xnrena(mth)
+<anchor xml:id="_xnmk09_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipo3.le.0)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00052"/>00052 <emphasis role="comment">*&#32;---&#32;see&#32;whether&#32;we&#32;have&#32;to&#32;build&#32;a&#32;section&#32;3&#32;or&#32;not</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(6,10500)&#32;chelna,chrena
+<anchor xml:id="_xnmk09_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnmk03
+<anchor xml:id="_xnmk09_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00056"/>00056 <emphasis role="comment">*&#32;---&#32;Read&#32;in&#32;section&#32;3&#32;which&#32;exists</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=ipoint(ipo3,3)
+<anchor xml:id="_xnmk09_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=nrecr+2
+<anchor xml:id="_xnmk09_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr,fmt=10100)qm,qi03,nr03,np03
+<anchor xml:id="_xnmk09_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(np03.gt.maxpnt)&#32;stop&#32;<emphasis role="stringliteral">&apos;&#32;***&#32;XNMK03:&#32;increase&#32;maxpnt&apos;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(nr03.gt.maxran)&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MAXRAN&apos;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nlints=(nr03-1)/3+1
+<anchor xml:id="_xnmk09_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;60&#32;jl=1,nlints
+<anchor xml:id="_xnmk09_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=nrecr+1
+<anchor xml:id="_xnmk09_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr,fmt=10200)&#32;(nbt03(n),int03(n),n=3*
+<anchor xml:id="_xnmk09_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;(jl-1)+1,min(nr03,3*jl))
+<anchor xml:id="_xnmk09_8_f_source_1l00067"/>00067 &#32;&#32;&#32;60&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nlines=(np03-1)/3+1
+<anchor xml:id="_xnmk09_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;70&#32;jl=1,nlines
+<anchor xml:id="_xnmk09_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=nrecr+1
+<anchor xml:id="_xnmk09_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr,fmt=10300)&#32;(tab103(n),n=6*
+<anchor xml:id="_xnmk09_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;(jl-1)+1,min(2*np03,6*jl))
+<anchor xml:id="_xnmk09_8_f_source_1l00073"/>00073 &#32;&#32;&#32;70&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00074"/>00074 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00075"/>00075 <emphasis role="comment">*&#32;---&#32;make&#32;the&#32;section&#32;9s</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;nsec=nsec+1
+<anchor xml:id="_xnmk09_8_f_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(nsec.gt.maxsec)&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MAXSEC&apos;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,1)=izamat
+<anchor xml:id="_xnmk09_8_f_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,2)=ipoint(ipo9(1),2)
+<anchor xml:id="_xnmk09_8_f_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,3)=nrecw
+<anchor xml:id="_xnmk09_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,4)=1
+<anchor xml:id="_xnmk09_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,5)=0
+<anchor xml:id="_xnmk09_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;lis=mod(izamat,10)
+<anchor xml:id="_xnmk09_8_f_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;liso=lis
+<anchor xml:id="_xnmk09_8_f_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;ns=npo9
+<anchor xml:id="_xnmk09_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwhea(itapd,za,awr,lis,liso,npo9,0,math,9,mth,nrecw)
+<anchor xml:id="_xnmk09_8_f_source_1l00087"/>00087 <emphasis role="comment">*&gt;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;lfixqm=.false.
+<anchor xml:id="_xnmk09_8_f_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;emin=1e10
+<anchor xml:id="_xnmk09_8_f_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;90&#32;&#32;j=1,npo9
+<anchor xml:id="_xnmk09_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lisos=mod(ipoint(ipo9(j),2),1000)/300
+<anchor xml:id="_xnmk09_8_f_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;difqm=abs((qm09(j)-qm)/qm)
+<anchor xml:id="_xnmk09_8_f_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(difqm.gt.1e-3.and..not.lfixqm)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chelns=xnelna(izaeet(ipos(j)))
+<anchor xml:id="_xnmk09_8_f_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(6,10000)chelna,chrena,chelns,qm-qi09(j),qm09(j)-
+<anchor xml:id="_xnmk09_8_f_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;qi09(j)
+<anchor xml:id="_xnmk09_8_f_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lfixqm=.true.
+<anchor xml:id="_xnmk09_8_f_source_1l00098"/>00098 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;80&#32;jp=1,np09(j)
+<anchor xml:id="_xnmk09_8_f_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xe=tab109(2*jp-1,j)
+<anchor xml:id="_xnmk09_8_f_source_1l00101"/>00101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnterp(nbt03,int03,nr03,tab103,np03,xe,xs)
+<anchor xml:id="_xnmk09_8_f_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnterp(nbt09(1,j),int09(1,j),nr09(j),&#32;tab109(1,j),
+<anchor xml:id="_xnmk09_8_f_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;np09(j),xe,xs9)
+<anchor xml:id="_xnmk09_8_f_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(xs.gt.0)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00105"/>00105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tab109(2*jp&#32;&#32;,j)=xs9/xs
+<anchor xml:id="_xnmk09_8_f_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tab109(2*jp&#32;&#32;,j)=0
+<anchor xml:id="_xnmk09_8_f_source_1l00108"/>00108 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00109"/>00109 &#32;&#32;&#32;80&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00110"/>00110 <emphasis role="comment">*&#32;---&#32;Here&#32;thin&#32;section&#32;9&#32;should&#32;be&#32;linear!</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnthin(tab109(1,j),np09(j),np09n,perthi)
+<anchor xml:id="_xnmk09_8_f_source_1l00112"/>00112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(nr09(j).ne.1)&#32;stop&#32;<emphasis role="stringliteral">&apos;XNMK09&#32;more&#32;than&#32;1&#32;interp&#32;range!&apos;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;np09(j)=np09n
+<anchor xml:id="_xnmk09_8_f_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nbt09(1,j)=np09n
+<anchor xml:id="_xnmk09_8_f_source_1l00115"/>00115 <emphasis role="comment">*&#32;---</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00116"/>00116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;emin=min(emin,tab109(1,j))
+<anchor xml:id="_xnmk09_8_f_source_1l00117"/>00117 &#32;&#32;&#32;90&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;110&#32;j=1,npo9
+<anchor xml:id="_xnmk09_8_f_source_1l00119"/>00119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(lfixqm)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00120"/>00120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qi09(j)=qm-qlveet(ipos(j))*1e6
+<anchor xml:id="_xnmk09_8_f_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qm09(j)=qm
+<anchor xml:id="_xnmk09_8_f_source_1l00122"/>00122 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00123"/>00123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(tab109(1,j).gt.emin)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00124"/>00124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(np09(j).ge.maxpnt)&#32;stop&#32;<emphasis role="stringliteral">&apos;&#32;***&#32;XNMK09:&#32;increase&#32;maxpnt&apos;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;100&#32;kp=np09(j),1,-1
+<anchor xml:id="_xnmk09_8_f_source_1l00126"/>00126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tab109(2*kp+1,j)=tab109(2*kp-1,j)
+<anchor xml:id="_xnmk09_8_f_source_1l00127"/>00127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tab109(2*kp+2,j)=tab109(2*kp&#32;&#32;,j)
+<anchor xml:id="_xnmk09_8_f_source_1l00128"/>00128 &#32;&#32;100&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00129"/>00129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tab109(1,j)=emin
+<anchor xml:id="_xnmk09_8_f_source_1l00130"/>00130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tab109(2,j)=0.
+<anchor xml:id="_xnmk09_8_f_source_1l00131"/>00131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;np09(j)=np09(j)+1
+<anchor xml:id="_xnmk09_8_f_source_1l00132"/>00132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nbt09(1,j)=np09(j)
+<anchor xml:id="_xnmk09_8_f_source_1l00133"/>00133 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00134"/>00134 &#32;&#32;110&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00135"/>00135 <emphasis role="comment">*&gt;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00136"/>00136 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;150&#32;j=1,npo9
+<anchor xml:id="_xnmk09_8_f_source_1l00137"/>00137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lisos=mod(ipoint(ipo9(j),2),1000)/300
+<anchor xml:id="_xnmk09_8_f_source_1l00138"/>00138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwhea(itapd,qm09(j),qi09(j),0,lisos,nr09(j),
+<anchor xml:id="_xnmk09_8_f_source_1l00139"/>00139 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;np09(j),math,9,mth,nrecw)
+<anchor xml:id="_xnmk09_8_f_source_1l00140"/>00140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nlints=(nr09(j)-1)/3+1
+<anchor xml:id="_xnmk09_8_f_source_1l00141"/>00141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;120&#32;jl=1,nlints
+<anchor xml:id="_xnmk09_8_f_source_1l00142"/>00142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chtext=<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00143"/>00143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(chtext,10200)&#32;(nbt09(n,j),int09(n,j),&#32;n=3*(jl-1)+1,
+<anchor xml:id="_xnmk09_8_f_source_1l00144"/>00144 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;min(nr09(j),3*jl))
+<anchor xml:id="_xnmk09_8_f_source_1l00145"/>00145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chtext,math,9,mth,nrecw)
+<anchor xml:id="_xnmk09_8_f_source_1l00146"/>00146 &#32;&#32;120&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00147"/>00147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nlines=(np09(j)-1)/3+1
+<anchor xml:id="_xnmk09_8_f_source_1l00148"/>00148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;140&#32;jl=1,nlines
+<anchor xml:id="_xnmk09_8_f_source_1l00149"/>00149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chtext=<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00150"/>00150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jbase=(jl-1)*6
+<anchor xml:id="_xnmk09_8_f_source_1l00151"/>00151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;130&#32;jn=1,min(2*np09(j)-jbase,6)
+<anchor xml:id="_xnmk09_8_f_source_1l00152"/>00152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chtext(11*(jn-1)+1:11*jn)=xnform(tab109(jbase+jn,j))
+<anchor xml:id="_xnmk09_8_f_source_1l00153"/>00153 &#32;&#32;130&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00154"/>00154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chtext,math,9,mth,nrecw)
+<anchor xml:id="_xnmk09_8_f_source_1l00155"/>00155 &#32;&#32;140&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00156"/>00156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,4)=ipoint(nsec,4)+nlints+nlines+1
+<anchor xml:id="_xnmk09_8_f_source_1l00157"/>00157 &#32;&#32;150&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00158"/>00158 <emphasis role="comment">*&#32;---&#32;now&#32;can&#32;make&#32;section&#32;3</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00159"/>00159 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipo3.le.0)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00160"/>00160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnm03v
+<anchor xml:id="_xnmk09_8_f_source_1l00161"/>00161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipo3=nsec
+<anchor xml:id="_xnmk09_8_f_source_1l00162"/>00162 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00163"/>00163 <emphasis role="comment">*&gt;</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00164"/>00164 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;170&#32;j=1,npo9-1
+<anchor xml:id="_xnmk09_8_f_source_1l00165"/>00165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;160&#32;l=j+1,npo9
+<anchor xml:id="_xnmk09_8_f_source_1l00166"/>00166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipo9(j).lt.ipo9(l))&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00167"/>00167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;itmp=ipo9(j)
+<anchor xml:id="_xnmk09_8_f_source_1l00168"/>00168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipo9(j)=ipo9(l)
+<anchor xml:id="_xnmk09_8_f_source_1l00169"/>00169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipo9(l)=itmp
+<anchor xml:id="_xnmk09_8_f_source_1l00170"/>00170 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00171"/>00171 &#32;&#32;160&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00172"/>00172 &#32;&#32;170&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00173"/>00173 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;180&#32;js=1,npo9
+<anchor xml:id="_xnmk09_8_f_source_1l00174"/>00174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipo9(js).lt.nsec)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00175"/>00175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(ipo9(js),1)=ipoint(nsec,1)
+<anchor xml:id="_xnmk09_8_f_source_1l00176"/>00176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(ipo9(js),2)=ipoint(nsec,2)
+<anchor xml:id="_xnmk09_8_f_source_1l00177"/>00177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(ipo9(js),3)=ipoint(nsec,3)
+<anchor xml:id="_xnmk09_8_f_source_1l00178"/>00178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(ipo9(js),4)=ipoint(nsec,4)
+<anchor xml:id="_xnmk09_8_f_source_1l00179"/>00179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(ipo9(js),5)=ipoint(nsec,5)
+<anchor xml:id="_xnmk09_8_f_source_1l00180"/>00180 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00181"/>00181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nsec=nsec-1
+<anchor xml:id="_xnmk09_8_f_source_1l00182"/>00182 &#32;&#32;180&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00183"/>00183 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmk09_8_f_source_1l00184"/>00184 10000&#32;<emphasis role="keyword">format</emphasis>(1x,a11,<emphasis role="stringliteral">&apos;,(&apos;</emphasis>,a,<emphasis role="stringliteral">&apos;),&apos;</emphasis>,a,<emphasis role="stringliteral">&apos;&#32;Lev&#32;EAF=&apos;</emphasis>,g10.3,<emphasis role="stringliteral">&apos;,&#32;EET=&apos;</emphasis>,g10.3)
+<anchor xml:id="_xnmk09_8_f_source_1l00185"/>00185 10100&#32;<emphasis role="keyword">format</emphasis>(2e11.4,22x,2i11)
+<anchor xml:id="_xnmk09_8_f_source_1l00186"/>00186 10200&#32;<emphasis role="keyword">format</emphasis>(6i11)
+<anchor xml:id="_xnmk09_8_f_source_1l00187"/>00187 10300&#32;<emphasis role="keyword">format</emphasis>(6e11.4)
+<anchor xml:id="_xnmk09_8_f_source_1l00188"/>00188 10400&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;x-sec&apos;</emphasis><emphasis role="stringliteral">&apos;s&#32;&apos;</emphasis>,6g14.7,3i11)
+<anchor xml:id="_xnmk09_8_f_source_1l00189"/>00189 10500&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNMK03:&#32;building&#32;section&#32;3&#32;for&#32;&apos;</emphasis>,a,<emphasis role="stringliteral">&apos;&#32;reac&#32;&apos;</emphasis>,a)
+<anchor xml:id="_xnmk09_8_f_source_1l00190"/>00190 10600&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNMK03:&#32;&apos;</emphasis>,i5,<emphasis role="stringliteral">&apos;&#32;points&#32;added&apos;</emphasis>)
+<anchor xml:id="_xnmk09_8_f_source_1l00191"/>00191 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">end</emphasis>
+</programlisting></section>

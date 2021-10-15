@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_convac9_2xnwfil_8_f_source" xml:lang="en-US">
+<title>xnwfil.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/convac9/xnwfil.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_convac9_2xnwfil_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/01&#32;01/12/95&#32;&#32;17.52.49&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">subroutine&#32;</emphasis>xnwfil
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00004"/>00004 <emphasis role="preprocessor">#include&#32;&quot;xceafi.inc&quot;</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00005"/>00005 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;parameter(itapd=98,itaps=99)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00006"/>00006 &#32;&#32;&#32;&#32;&#32;&#32;parameter(maxsum=100,maxcom=3*maxsum)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00007"/>00007 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;msumm(3,maxsum)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00008"/>00008 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*75</emphasis>&#32;chline
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00009"/>00009 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*9</emphasis>&#32;&#32;chelin
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00010"/>00010 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00012"/>00012 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;---&#32;Order&#32;the&#32;material&#32;numbers</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00014"/>00014 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;30&#32;j=1,nsec-1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;20&#32;i=j+1,nsec
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipoint(j,1).gt.ipoint(i,1))&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;10&#32;l=1,5
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;itmp=ipoint(i,l)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(i,l)=ipoint(j,l)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(j,l)=itmp
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00021"/>00021 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00022"/>00022 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00023"/>00023 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00024"/>00024 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00025"/>00025 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;---&#32;Order&#32;the&#32;section&#32;numbers</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;60&#32;j=1,nsec-1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;50&#32;i=j+1,nsec
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipoint(j,1).eq.ipoint(i,1))&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipoint(j,2).gt.ipoint(i,2))&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;40&#32;l=2,5
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;itmp=ipoint(i,l)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(i,l)=ipoint(j,l)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(j,l)=itmp
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00035"/>00035 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00036"/>00036 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00037"/>00037 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00038"/>00038 &#32;&#32;&#32;50&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00039"/>00039 &#32;&#32;&#32;60&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00040"/>00040 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00041"/>00041 <emphasis role="comment">*&#32;---&#32;Write&#32;summary&#32;file</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwsum
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00043"/>00043 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00044"/>00044 <emphasis role="comment">*&#32;---&#32;Now&#32;do&#32;output</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(itaps,10400)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;mfo=-1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;mto=-1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;izo=-1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;icount=0
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;120&#32;j=1,nsec
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mf=ipoint(j,2)/1000
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mt=mod(ipoint(j,2),1000)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izacur=ipoint(j,1)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(izacur.eq.izo.and.mt.eq.mto.and.mf.eq.mfo)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;MT=MTO!!!&apos;</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(mf.ne.mfo.and.j.gt.1)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;icount=icount+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(itaps,10800)&#32;chelin(1:4),0,0,icount
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00059"/>00059 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipoint(j,2).eq.1451)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00061"/>00061 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00062"/>00062 <emphasis role="comment">*&#32;---&#32;Starting&#32;a&#32;new&#32;section,&#32;some&#32;cleanup&#32;is&#32;needed</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(izacur.eq.izo)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;IZACUR=IZO!!!&apos;</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00065"/>00065 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;end&#32;if</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(j.gt.1)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;icount=icount+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(itaps,10900)&#32;0,0,0,icount
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;icount=0
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00070"/>00070 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=ipoint(j,3)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00072"/>00072 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00073"/>00073 <emphasis role="comment">*&#32;---&#32;Dump&#32;section&#32;1&#32;as&#32;far&#32;as&#32;possible</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;70&#32;i1=1,3
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=nrecr+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr,fmt=10200)&#32;chline
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;icount=icount+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(itaps,10300)&#32;chline,icount
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00079"/>00079 &#32;&#32;&#32;70&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chelin=chline(67:75)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00081"/>00081 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00082"/>00082 <emphasis role="comment">*&#32;---&#32;Now&#32;count&#32;sections&#32;and&#32;comment&#32;cards</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;msumm(1,1)=1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;msumm(2,1)=451
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;msumm(3,1)=ipoint(j,4)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nsesum=1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ncomm=0
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;80&#32;l=j+1,nsec
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipoint(l,1).eq.izacur)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(nsesum.ge.maxsum)&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MAXSUM&apos;</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nsesum=nsesum+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;msumm(1,nsesum)=ipoint(l,2)/1000
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;msumm(2,nsesum)=mod(ipoint(l,2),1000)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;msumm(3,nsesum)=ipoint(l,4)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00095"/>00095 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00096"/>00096 &#32;&#32;&#32;80&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00097"/>00097 <emphasis role="comment">*&#32;---&#32;All&#32;comment&#32;lines&#32;now</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=nrecr+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr,fmt=10200)&#32;chline
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(chline,10000)&#32;nwd,nxcold
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00101"/>00101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nxc=nsesum
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;msumm(3,1)=4+nwd+nxc
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(chline(45:66),10500)&#32;nwd,nxc
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;icount=icount+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00105"/>00105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(itaps,10300)&#32;chline,icount
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00106"/>00106 <emphasis role="comment">*&#32;---</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;90&#32;i1=1,nwd
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00108"/>00108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=nrecr+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr,fmt=10200)&#32;chline
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;icount=icount+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(itaps,10300)&#32;chline,icount
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00112"/>00112 &#32;&#32;&#32;90&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00113"/>00113 <emphasis role="comment">*&#32;---</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;100&#32;js=1,nsesum
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;icount=icount+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00116"/>00116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(itaps,10600)&#32;(msumm(ll,js),ll=1,3),0,chelin,icount
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00117"/>00117 &#32;&#32;100&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00119"/>00119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=ipoint(j,3)+ipoint(j,5)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00120"/>00120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr+1,fmt=10200)&#32;chline
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipoint(j,2)/1000.eq.3)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00122"/>00122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(chline(34:44),10100)&#32;0
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00123"/>00123 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00124"/>00124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;icount=icount+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(itaps,10300)&#32;chline,icount
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00126"/>00126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;110&#32;js=2,ipoint(j,4)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00127"/>00127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr+js,fmt=10200)&#32;chline
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00128"/>00128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;icount=icount+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00129"/>00129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(itaps,10300)&#32;chline,icount
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00130"/>00130 &#32;&#32;110&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00131"/>00131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chelin=chline(67:75)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00132"/>00132 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00133"/>00133 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00134"/>00134 <emphasis role="comment">*&#32;---&#32;end&#32;section</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00135"/>00135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;icount=icount+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00136"/>00136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(itaps,10700)&#32;chelin(1:6),0,icount
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00137"/>00137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mfo=mf
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00138"/>00138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mto=mt
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00139"/>00139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izo=izacur
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00140"/>00140 &#32;&#32;120&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00141"/>00141 &#32;&#32;&#32;&#32;&#32;&#32;icount=icount+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00142"/>00142 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(itaps,10800)&#32;chelin(1:4),0,0,icount
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00143"/>00143 &#32;&#32;&#32;&#32;&#32;&#32;icount=icount+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00144"/>00144 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(itaps,10900)&#32;0,0,0,icount
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00145"/>00145 &#32;&#32;&#32;&#32;&#32;&#32;icount=icount+1
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00146"/>00146 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(itaps,10900)&#32;-1,0,0,icount
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00147"/>00147 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00148"/>00148 10000&#32;<emphasis role="keyword">format</emphasis>(44x,2i11)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00149"/>00149 10100&#32;<emphasis role="keyword">format</emphasis>(i11)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00150"/>00150 10200&#32;<emphasis role="keyword">format</emphasis>(a75)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00151"/>00151 10300&#32;<emphasis role="keyword">format</emphasis>(a75,i5)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00152"/>00152 10400&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;EAF&#32;file&apos;</emphasis>)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00153"/>00153 10500&#32;<emphasis role="keyword">format</emphasis>(2i11)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00154"/>00154 10600&#32;<emphasis role="keyword">format</emphasis>(22x,4i11,a9,i5)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00155"/>00155 10700&#32;<emphasis role="keyword">format</emphasis>(66x,a6,i3,i5)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00156"/>00156 10800&#32;<emphasis role="keyword">format</emphasis>(66x,a4,i2,i3,i5)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00157"/>00157 10900&#32;<emphasis role="keyword">format</emphasis>(66x,i4,i2,i3,i5)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00158"/>00158 11000&#32;<emphasis role="keyword">format</emphasis>(i5)
+<anchor xml:id="_convac9_2xnwfil_8_f_source_1l00159"/>00159 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">end</emphasis>
+</programlisting></section>

@@ -1,0 +1,65 @@
+\hypertarget{xninit_8_f_source}{}\doxysection{xninit.\+F}
+\label{xninit_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xninit.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xninit.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/07 10/09/96  17.18.10  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   17/01/94}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xninit(MBSIZE,CHFILE)}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00006}00006 \textcolor{comment}{*     Initialise XNSECT package, mandatory system routine              *}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00008}00008 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00009}00009 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00010}00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcutil.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00011}00011 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00012}00012 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbas.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00013}00013 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00014}00014 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbna.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00015}00015 \textcolor{preprocessor}{}      dimension itabze(ntablr*mxmate)}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00016}00016       equivalence(itabze,imtabl)}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00017}00017       \textcolor{keywordtype}{CHARACTER*(*)} CHFILE}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00018}00018       \textcolor{keywordtype}{LOGICAL} FIRST}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00019}00019       \textcolor{keywordtype}{SAVE} first}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00020}00020       \textcolor{keyword}{DATA} first /.true./}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00021}00021 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00022}00022 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00023}00023 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00024}00024 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00025}00025 \textcolor{comment}{* -\/-\/-\/> Initialisation tasks: do only at first entry}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00026}00026       \textcolor{keywordflow}{IF}(first) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/> Current number of material = 0}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00028}00028          nmate = 0}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Available number of words in XNSTOR}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00030}00030          nbsize = mbsize-\/2}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> HiGh Water MarK}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00032}00032          ihgwmk = 1}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/> Number of XNSECT "{}histograms"{}}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00034}00034          nid = 0}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> First entry}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00036}00036          first = .false.}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Number of active temperature indexes}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00038}00038          nctemp = 1}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Default temperature}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00040}00040          \textcolor{keyword}{CALL }xntemp(293)}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Set to 0 index table for memory}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00042}00042          \textcolor{keywordflow}{DO} 10 j=1,mxmate*ntablr}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00043}00043             itabze(j)=0}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00044}00044    10    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Set current Cross Section database, default ENDF/B-\/VI}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00046}00046          \textcolor{keywordflow}{IF}(chfile.EQ.\textcolor{stringliteral}{' '}) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00047}00047             chdbas=chroot//\textcolor{stringliteral}{'e6r1nds3'}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00048}00048          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00049}00049             chdbas=chfile}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00050}00050 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/> Set default name for EET nuclear database}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00052}00052          chetdb=chroot//\textcolor{stringliteral}{'eetnucdb.dat'}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/> Set debug flag to false}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00054}00054          ldebug=.false.}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/> Print version number}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00056}00056          \textcolor{keyword}{CALL }eetver(2.03,\textcolor{stringliteral}{'XNSECT'},\textcolor{stringliteral}{'10-\/SEP-\/1996'})}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00057}00057 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00058}00058 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xninit_8_f_source_l00059}00059   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

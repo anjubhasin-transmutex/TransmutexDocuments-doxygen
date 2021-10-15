@@ -1,0 +1,666 @@
+\hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source}{}\doxysection{TMXkeff.\+cc}
+\label{_benchmark-4_2src_2_t_m_xkeff_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/4/src/TMXkeff.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/4/src/TMXkeff.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00001}00001 \textcolor{comment}{//  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄   ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄        ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄       ▄▄  ▄         ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄       ▄}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00002}00002 \textcolor{comment}{// ▐░░░░░░░░░░░▌▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░▌      ▐░▌▐░░░░░░░░░░░▌▐░░▌     ▐░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌     ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00003}00003 \textcolor{comment}{// ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀  ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌░▌     ▐░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░▌░▌   ▐░▐░▌▐░▌       ▐░▌ ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀  ▐░▌   ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00004}00004 \textcolor{comment}{// ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌               ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌▐░▌    ▐░▌▐░▌          ▐░▌▐░▌ ▐░▌▐░▌▐░▌       ▐░▌     ▐░▌     ▐░▌            ▐░▌ ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00005}00005 \textcolor{comment}{// ▐░█▄▄▄▄▄▄▄█░▌▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄▄▄      ▐░▌     ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌ ▐░▌   ▐░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░▌ ▐░▐░▌ ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░█▄▄▄▄▄▄▄▄▄    ▐░▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00006}00006 \textcolor{comment}{// ▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌     ▐░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌  ▐░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌  ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░░░░░░░░░░░▌    ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00007}00007 \textcolor{comment}{// ▐░█▀▀▀▀▀▀▀█░▌▐░▌       ▐░▌ ▀▀▀▀▀▀▀▀▀█░▌     ▐░▌     ▐░█▀▀▀▀█░█▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░▌   ▐░▌ ▐░▌ ▀▀▀▀▀▀▀▀▀█░▌▐░▌   ▀   ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░█▀▀▀▀▀▀▀▀▀    ▐░▌░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00008}00008 \textcolor{comment}{// ▐░▌       ▐░▌▐░▌       ▐░▌          ▐░▌     ▐░▌     ▐░▌     ▐░▌  ▐░▌       ▐░▌▐░▌    ▐░▌▐░▌          ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░▌            ▐░▌ ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00009}00009 \textcolor{comment}{// ▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄█░▌ ▄▄▄▄▄▄▄▄▄█░▌     ▐░▌     ▐░▌      ▐░▌ ▐░▌       ▐░▌▐░▌     ▐░▐░▌ ▄▄▄▄▄▄▄▄▄█░▌▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄█░▌     ▐░▌     ▐░█▄▄▄▄▄▄▄▄▄  ▐░▌   ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00010}00010 \textcolor{comment}{// ▐░▌       ▐░▌▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌     ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌      ▐░░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌     ▐░▌     ▐░░░░░░░░░░░▌▐░▌     ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00011}00011 \textcolor{comment}{//  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀   ▀▀▀▀▀▀▀▀▀▀▀       ▀       ▀         ▀  ▀         ▀  ▀        ▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀       ▀       ▀▀▀▀▀▀▀▀▀▀▀  ▀       ▀}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00012}00012 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00014}00014 \textcolor{comment}{}\textcolor{comment}{// \(\backslash\)brief Implementation of the TMXkeff class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00015}00015 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00016}00016 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00018}00018 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00019}00019 \textcolor{comment}{// TMXkeff}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00020}00020 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00021}00021 \textcolor{comment}{// Thomas Frosio, Transmutex, 07/12/2020}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00022}00022 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00024}00024 \textcolor{comment}{}\textcolor{comment}{// Class to compute keff with power iteration method}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00026}00026 \textcolor{comment}{}\textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00027}00027 \textcolor{comment}{ * The power iteration algorithm allows to find the largest eigenvalue}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00028}00028 \textcolor{comment}{ * of an endomorphism A as A(v) = lv, v eigenvector, l eigenvalue.}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00029}00029 \textcolor{comment}{ * Given a v0 vector being an approximation of v, the following recurrence}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00030}00030 \textcolor{comment}{ * relation is calculated: v[k+1] = A(v[k]) / norm(Av[k]).}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00031}00031 \textcolor{comment}{ * At each iteration, v is multiplied by the A matrix.}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00032}00032 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00034}00034 \textcolor{comment}{/********************************INCLUDES******************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00036}00036 \textcolor{preprocessor}{\#include "{}TMXkeff.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00038}00038 \textcolor{comment}{/**********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00039}00039 \textcolor{keyword}{namespace }\{ G4Mutex myHEPPrimGenMutex = G4MUTEX\_INITIALIZER; \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00045}00045 TMXkeff::TMXkeff()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00046}00046 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00047}00047     m\_currentCycle       = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00048}00048     m\_nbCycleToDiscard   = 10;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00049}00049     m\_nbTotCycle         = 50;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00050}00050     m\_nbParticlePerCycle = 10000;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00051}00051     m\_kFilename          = \textcolor{stringliteral}{"{}keff\_results.txt"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00052}00052     m\_sampler          = \textcolor{keyword}{new} G4FPYSamplingOps();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00053}00053 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00058}00058 TMXkeff::\string~TMXkeff()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00059}00059 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00060}00060 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00065}00065 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_a4e60e4c6d1e414caffbe72a8b7c78862}{TMXkeff::addFission}}(\textcolor{keywordtype}{double} nbFissions)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00066}00066 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00067}00067     m\_nbFissionPerCycle[m\_currentCycle] += nbFissions;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00068}00068     m\_nbFission += 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00069}00069 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00076}00076 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_a1279363d5cebeea6458de06fdaced6b9}{TMXkeff::addAbsorption}}(\textcolor{keywordtype}{double} absor)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00077}00077 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00078}00078     m\_nbAbsorptionPerCycle[m\_currentCycle] += absor;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00079}00079 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00086}00086 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_a8876825da0f637495c43f7dc1240beae}{TMXkeff::addCollision}}(\textcolor{keywordtype}{double} col)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00087}00087 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00088}00088     m\_nbCollisionsPerCycle[m\_currentCycle] += col;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00089}00089 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00095}00095 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_a9affe4ff695590d777be07f69cbb0813}{TMXkeff::addTrackLength}}(\textcolor{keywordtype}{double} trc)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00096}00096 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00097}00097     m\_nbTrckLengthPerCycle[m\_currentCycle] += trc;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00098}00098 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00100}00100 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00107}00107 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_ae93834e1f059ff3ab612c01d889df61f}{TMXkeff::addFissionSite}}(G4ThreeVector location, G4ThreeVector direction, \textcolor{keywordtype}{double} energy, G4ThreeVector momentum)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00108}00108 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00109}00109     m\_fissionSourceBank.\mbox{\hyperlink{class_t_m_x_fission_source_bank_aefb4150936e63ffedee312abd2fb8fe9}{addFissionSite}}(location, direction, energy,momentum);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00110}00110 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00116}00116 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_aeccad85894181d7944ee7fc82ac5d02d}{TMXkeff::addOriginPosition}}(G4ThreeVector position)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00117}00117 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00118}00118     m\_originPositions.push\_back(position);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00119}00119 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00125}00125 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_a1056716dc652be6766b69149741b01c6}{TMXkeff::computeKeffCycle}}()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00126}00126 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00127}00127     m\_fissionSourceBank.\mbox{\hyperlink{class_t_m_x_fission_source_bank_abe4cce26bc8c35c7789b300f3f195b4a}{nextCycle}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00128}00128     m\_nu.push\_back(m\_fissionSourceBank.\mbox{\hyperlink{class_t_m_x_fission_source_bank_a41a1a0a931384df67543dcacf68b9630}{getNumberOfFissionSites}}() / m\_nbFission);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00129}00129     \textcolor{keywordtype}{int} nxnAdd = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00130}00130 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00131}00131     m\_kgenPerCycle.push\_back( m\_nbFissionPerCycle[m\_currentCycle]         / ((\textcolor{keywordtype}{double})m\_nbParticlePerCycle + (\textcolor{keywordtype}{double})nxnAdd));}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00132}00132     m\_kcolPerCycle.push\_back( m\_nu[m\_currentCycle -\/ 1] * m\_nbCollisionsPerCycle[m\_currentCycle] / ((\textcolor{keywordtype}{double})m\_nbParticlePerCycle + (\textcolor{keywordtype}{double})nxnAdd));}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00133}00133     m\_ktrkPerCycle.push\_back( m\_nu[m\_currentCycle -\/ 1] * m\_nbTrckLengthPerCycle[m\_currentCycle] / ((\textcolor{keywordtype}{double})m\_nbParticlePerCycle + (\textcolor{keywordtype}{double})nxnAdd));}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00134}00134     m\_kabsPerCycle.push\_back( m\_nu[m\_currentCycle -\/ 1] * m\_nbAbsorptionPerCycle[m\_currentCycle] / ((\textcolor{keywordtype}{double})m\_nbParticlePerCycle + (\textcolor{keywordtype}{double})nxnAdd));}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00135}00135 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00136}00136     m\_energyFromFission.push\_back( m\_eperfiss / m\_countFission.back());}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00137}00137     m\_vecEPerFission.push\_back(m\_eperfiss);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00138}00138 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00139}00139     printCycleKeff();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00140}00140     \textcolor{keywordflow}{if} (m\_currentCycle == m\_nbTotCycle) \mbox{\hyperlink{class_t_m_xkeff_ac00e1c34b16dece17c7e1a4ac5e4a3ca}{printAll}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00141}00141     nextCycle();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00142}00142 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00143}00143 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00144}00144 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00151}00151 G4double TMXkeff::GetMaterialXS(\textcolor{keyword}{const} G4Step * theStep, std::string XSreaction)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00152}00152 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00153}00153     \textcolor{keyword}{const} G4DynamicParticle* particleDyn = theStep-\/>GetTrack()-\/>GetDynamicParticle();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00154}00154     particleDyn                          = \textcolor{keyword}{new} G4DynamicParticle(particleDyn-\/>GetParticleDefinition(),}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00155}00155                                                                  particleDyn-\/>GetMomentumDirection(),}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00156}00156                                                                  theStep-\/>GetPreStepPoint()-\/>GetKineticEnergy());}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00157}00157     G4Material *mat                      = theStep-\/>GetPreStepPoint()-\/>GetMaterial();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00158}00158     G4ParticleDefinition *particle       = G4ParticleTable::GetParticleTable()-\/>FindParticle(\textcolor{stringliteral}{"{}neutron"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00159}00159     G4HadronicProcess * process          = (G4HadronicProcess *)particle-\/>GetProcessManager()-\/>GetProcess(XSreaction);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00160}00160     G4double section = process-\/>GetCrossSectionDataStore()-\/>GetCrossSection(particleDyn, mat) * cm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00161}00161     \textcolor{keyword}{delete} particleDyn;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00162}00162     \textcolor{keywordflow}{return} section;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00163}00163 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00164}00164 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00165}00165 \textcolor{preprocessor}{\#include "{}G4RunManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00171}00171 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_a06e77cdfda5e3914f7b6b37b27bd5299}{TMXkeff::inGeneratePrimaries}}(G4ParticleGun * particleGun, G4Event * anEvent)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00172}00172 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00173}00173     \textcolor{comment}{// Add Wielandt acceleration}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00174}00174     \textcolor{keywordflow}{if} (m\_currentCycle <= 1)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00175}00175     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00176}00176         G4ThreeVector originPosition;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00177}00177         \textcolor{keywordflow}{if} (!m\_originPositions.empty()) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00178}00178             originPosition = m\_originPositions[rand() \% m\_originPositions.size()];}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00179}00179         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00180}00180         \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00181}00181             originPosition = G4ThreeVector();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00182}00182         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00183}00183         particleGun-\/>SetParticlePosition(originPosition);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00184}00184         \textcolor{comment}{// particleGun-\/>SetParticleEnergy(14. * MeV);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00185}00185         particleGun-\/>SetParticleEnergy(m\_sampler-\/>G4SampleWatt(92235, G4FFGEnumerations::NEUTRON\_INDUCED, 0.025*eV));  \textcolor{comment}{// THIS HAS TO BE TESTED AGAINST THE 14 MeV NEUTRONS AND VALIDATED}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00186}00186     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00187}00187     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00188}00188     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00189}00189         G4ThreeVector pos = m\_fissionSourceBank.getFissionSiteLoc(G4UniformRand());}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00190}00190         G4double ener     = m\_fissionSourceBank.getFissionSiteE(G4UniformRand());}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00191}00191         particleGun-\/>SetParticlePosition(pos);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00192}00192         particleGun-\/>SetParticleEnergy(ener);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00193}00193         \textcolor{keywordflow}{if}(m\_samplingSourceNumber == m\_nbParticlePerCycle || m\_samplingSourceNumber == \mbox{\hyperlink{class_t_m_xkeff_a02214a6041dbc06a867353a2ed8e121e}{getNumberOfFissionSites}}() -\/ 1)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00194}00194             m\_samplingSourceNumber = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00195}00195         \textcolor{keywordflow}{else} \{m\_samplingSourceNumber++;\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00196}00196     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00197}00197     G4double cosTheta = 2. * G4UniformRand() -\/ 1.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00198}00198     G4double phi      = twopi * G4UniformRand();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00199}00199     G4double sinTheta = std::sqrt(1. -\/ cosTheta * cosTheta);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00200}00200     G4double ux       = sinTheta * std::cos(phi);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00201}00201     G4double uy       = sinTheta * std::sin(phi);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00202}00202     G4double uz       = cosTheta;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00203}00203     particleGun-\/>SetParticleMomentumDirection(G4ThreeVector(ux, uy, uz));}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00204}00204     particleGun-\/>GeneratePrimaryVertex(anEvent);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00205}00205 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00206}00206 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00207}00207 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00208}00208 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00209}00209 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00210}00210 \textcolor{comment}{void TMXkeff::inUserSteppingAction(const G4Step * theStep)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00211}00211 \textcolor{comment}{\{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00212}00212 \textcolor{comment}{    if(theStep-\/>GetTrack()-\/>GetParticleDefinition() == G4Neutron::NeutronDefinition())}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00213}00213 \textcolor{comment}{    \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00214}00214 \textcolor{comment}{        addTrackLength(GetMaterialXS(theStep, "{}nFission"{}) * (theStep-\/>GetStepLength() / cm));}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00215}00215 \textcolor{comment}{    \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00216}00216 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00217}00217 \textcolor{comment}{    if(!theStep-\/>GetPostStepPoint()-\/>GetPhysicalVolume() || theStep-\/>GetTrack()-\/>GetParticleDefinition() != G4Neutron::NeutronDefinition())}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00218}00218 \textcolor{comment}{    \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00219}00219 \textcolor{comment}{        G4AutoLock lock(\&myHEPPrimGenMutex);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00220}00220 \textcolor{comment}{        theStep-\/>GetTrack()-\/>SetTrackStatus(fKillTrackAndSecondaries);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00221}00221 \textcolor{comment}{        return;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00222}00222 \textcolor{comment}{    \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00223}00223 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00224}00224 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00225}00225 \textcolor{comment}{    if(theStep-\/>GetPostStepPoint()-\/>GetPhysicalVolume())}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00226}00226 \textcolor{comment}{    \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00227}00227 \textcolor{comment}{        G4AutoLock lock(\&myHEPPrimGenMutex);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00228}00228 \textcolor{comment}{        G4Track* theTrack                  = theStep-\/>GetTrack();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00229}00229 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00230}00230 \textcolor{comment}{        G4StepPoint* thePostPoint          = theStep-\/>GetPostStepPoint();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00231}00231 \textcolor{comment}{        G4String processName               = thePostPoint-\/>GetProcessDefinedStep()-\/>GetProcessName();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00232}00232 \textcolor{comment}{        G4ParticleDefinition* particleType = theTrack-\/>GetDefinition();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00233}00233 \textcolor{comment}{        G4String particleName              = particleType-\/>GetParticleName();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00234}00234 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00235}00235 \textcolor{comment}{        G4double MaterialSigmaF            = GetMaterialXS(theStep, "{}nFission"{});}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00236}00236 \textcolor{comment}{        G4double MaterialSimaCap           = GetMaterialXS(theStep, "{}nCapture"{});}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00237}00237 \textcolor{comment}{        G4double MaterialSigmaAbs          = MaterialSigmaF}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00238}00238 \textcolor{comment}{                                           + MaterialSimaCap;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00239}00239 \textcolor{comment}{        G4double MaterialSigmaTot          = GetMaterialXS(theStep, "{}hadElastic"{})}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00240}00240 \textcolor{comment}{                                           + GetMaterialXS(theStep, "{}neutronInelastic"{})}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00241}00241 \textcolor{comment}{                                           + MaterialSigmaAbs;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00242}00242 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00243}00243 \textcolor{comment}{        if(processName == "{}nCapture"{} ) m\_countCapture[m\_currentCycle -\/ 1]++;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00244}00244 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00245}00245 \textcolor{comment}{        if(processName == "{}nFission"{} || processName == "{}nCapture"{})}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00246}00246 \textcolor{comment}{        \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00247}00247 \textcolor{comment}{            addAbsorption(MaterialSigmaF/MaterialSigmaAbs);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00248}00248 \textcolor{comment}{        \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00249}00249 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00250}00250 \textcolor{comment}{        if ( theStep-\/>GetPostStepPoint()-\/>GetStepStatus() != fGeomBoundary \&\& processName!= "{}ParallelScoringWorld"{} )}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00251}00251 \textcolor{comment}{        \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00252}00252 \textcolor{comment}{            addCollision( MaterialSigmaF / MaterialSigmaTot);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00253}00253 \textcolor{comment}{        \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00254}00254 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00255}00255 \textcolor{comment}{        if(processName == "{}nFission"{})}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00256}00256 \textcolor{comment}{        \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00257}00257 \textcolor{comment}{            const std::vector<const G4Track*> *secondaries = theStep-\/>GetSecondaryInCurrentStep();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00258}00258 \textcolor{comment}{            int countSecNeutrons = 0;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00259}00259 \textcolor{comment}{            for(G4int i=0; i<(G4int)secondaries-\/>size(); ++i)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00260}00260 \textcolor{comment}{            \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00261}00261 \textcolor{comment}{                G4String secondary\_particleName = (*secondaries)[i]-\/>GetDefinition()-\/>GetParticleName();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00262}00262 \textcolor{comment}{                if (secondary\_particleName == "{}neutron"{})}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00263}00263 \textcolor{comment}{                \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00264}00264 \textcolor{comment}{                        countSecNeutrons++;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00265}00265 \textcolor{comment}{                        addFissionSite(thePostPoint-\/>GetPosition(), (*secondaries)[i]-\/>GetMomentumDirection(), (*secondaries)[i]-\/>GetKineticEnergy(), (*secondaries)[i]-\/>GetMomentum());}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00266}00266 \textcolor{comment}{                        m\_fissionSourceBank.addEnergySite( (*secondaries)[i]-\/>GetKineticEnergy());}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00267}00267 \textcolor{comment}{                \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00268}00268 \textcolor{comment}{                m\_eperfiss += (*secondaries)[i]-\/>GetKineticEnergy() / MeV;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00269}00269 \textcolor{comment}{            \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00270}00270 \textcolor{comment}{            m\_fissionEnergy[m\_currentCycle -\/ 1] += theStep-\/>GetPreStepPoint()-\/>GetKineticEnergy() / MeV;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00271}00271 \textcolor{comment}{            m\_countFission[m\_currentCycle -\/ 1]++;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00272}00272 \textcolor{comment}{            m\_fissionSourceBank.addLocationSite(theStep-\/>GetPostStepPoint()-\/>GetPosition());}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00273}00273 \textcolor{comment}{            addFission(countSecNeutrons);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00274}00274 \textcolor{comment}{            theTrack-\/>SetTrackStatus(fKillTrackAndSecondaries);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00275}00275 \textcolor{comment}{            return;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00276}00276 \textcolor{comment}{            \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00277}00277 \textcolor{comment}{        \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00278}00278 \textcolor{comment}{\}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00279}00279 \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00280}00280 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00281}00281 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00282}00282 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00283}00283 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00288}00288 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_a33a603dcd2f64217c3e97ace0e62a110}{TMXkeff::inUserSteppingAction}}(\textcolor{keyword}{const} G4Step * theStep)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00289}00289 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00290}00290 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00291}00291     \textcolor{keywordflow}{if}(theStep-\/>GetTrack()-\/>GetParticleDefinition() == G4Neutron::NeutronDefinition())}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00292}00292     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00293}00293         \mbox{\hyperlink{class_t_m_xkeff_a9affe4ff695590d777be07f69cbb0813}{addTrackLength}}(GetMaterialXS(theStep, \textcolor{stringliteral}{"{}nFission"{}}) * (theStep-\/>GetStepLength() / cm));}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00294}00294     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00295}00295 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00296}00296 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00297}00297     \textcolor{keywordflow}{if}(theStep-\/>GetPostStepPoint()-\/>GetPhysicalVolume()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00298}00298     \&\& theStep-\/>GetTrack()-\/>GetParticleDefinition() == G4Neutron::NeutronDefinition() \textcolor{comment}{// changed on 14/04/2021: Addition of this condition for keff collision calculation that was not protected by the process name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00299}00299 \textcolor{comment}{// 1st modif: no effect on keff -\/> checked}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00300}00300     )}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00301}00301     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00302}00302         G4AutoLock lock(\&myHEPPrimGenMutex);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00303}00303         G4Track* theTrack                  = theStep-\/>GetTrack();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00304}00304 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00305}00305         G4StepPoint* thePostPoint          = theStep-\/>GetPostStepPoint();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00306}00306         G4String processName               = thePostPoint-\/>GetProcessDefinedStep()-\/>GetProcessName();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00307}00307         G4ParticleDefinition* particleType = theTrack-\/>GetDefinition();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00308}00308         G4String particleName              = particleType-\/>GetParticleName();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00309}00309 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00310}00310         G4double MaterialSigmaF            = GetMaterialXS(theStep, \textcolor{stringliteral}{"{}nFission"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00311}00311         G4double MaterialSimaCap           = GetMaterialXS(theStep, \textcolor{stringliteral}{"{}nCapture"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00312}00312         G4double MaterialSigmaAbs          = MaterialSigmaF}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00313}00313                                            + MaterialSimaCap;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00314}00314         G4double MaterialSigmaTot          = GetMaterialXS(theStep, \textcolor{stringliteral}{"{}hadElastic"{}})}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00315}00315                                            + GetMaterialXS(theStep, \textcolor{stringliteral}{"{}neutronInelastic"{}})}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00316}00316                                            + MaterialSigmaAbs;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00317}00317 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00318}00318         \textcolor{keywordflow}{if}(processName == \textcolor{stringliteral}{"{}nCapture"{}} ) m\_countCapture[m\_currentCycle -\/ 1]++;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00319}00319 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00320}00320         \textcolor{keywordflow}{if}(processName == \textcolor{stringliteral}{"{}nFission"{}} || processName == \textcolor{stringliteral}{"{}nCapture"{}})}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00321}00321         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00322}00322             \mbox{\hyperlink{class_t_m_xkeff_a1279363d5cebeea6458de06fdaced6b9}{addAbsorption}}(MaterialSigmaF/MaterialSigmaAbs);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00323}00323         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00324}00324 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00325}00325         \textcolor{keywordflow}{if} ( theStep-\/>GetPostStepPoint()-\/>GetStepStatus() != fGeomBoundary \&\& processName != \textcolor{stringliteral}{"{}ParallelScoringWorld"{}} \&\& processName != \textcolor{stringliteral}{"{}ParallelScoringWorld\_polar"{}})}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00326}00326         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00327}00327             \mbox{\hyperlink{class_t_m_xkeff_a8876825da0f637495c43f7dc1240beae}{addCollision}}( MaterialSigmaF / MaterialSigmaTot);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00328}00328         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00329}00329 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00330}00330         \textcolor{keywordflow}{if}(processName == \textcolor{stringliteral}{"{}nFission"{}})}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00331}00331         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00332}00332 \textcolor{comment}{//            std::cout<<"{}NOT "{} << theStep-\/>GetTrack()-\/>GetParticleDefinition()-\/>GetParticleName()<<"{} "{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00333}00333 \textcolor{comment}{//                     << theStep-\/>GetPostStepPoint()-\/>GetProcessDefinedStep()-\/>GetProcessName() << "{} "{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00334}00334     \textcolor{comment}{//                 << theStep-\/>GetTrack()-\/>GetCreatorProcess()-\/>GetProcessName()<< "{} "{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00335}00335 \textcolor{comment}{//                     << theStep-\/>GetTrack()-\/>GetCurrentStepNumber()}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00336}00336 \textcolor{comment}{//                     <<std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00337}00337              \textcolor{keyword}{const} std::vector<const G4Track*> *secondaries = theStep-\/>GetSecondaryInCurrentStep();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00338}00338             \textcolor{keywordtype}{int} countSecNeutrons = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00339}00339             \textcolor{keywordflow}{for}(G4int i=0; i<(G4int)secondaries-\/>size(); ++i)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00340}00340             \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00341}00341                 G4String secondary\_particleName = (*secondaries)[i]-\/>GetDefinition()-\/>GetParticleName();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00342}00342                 \textcolor{keywordflow}{if} (secondary\_particleName == \textcolor{stringliteral}{"{}neutron"{}})}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00343}00343                 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00344}00344                         countSecNeutrons++;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00345}00345                         \mbox{\hyperlink{class_t_m_xkeff_ae93834e1f059ff3ab612c01d889df61f}{addFissionSite}}(thePostPoint-\/>GetPosition(), (*secondaries)[i]-\/>GetMomentumDirection(), (*secondaries)[i]-\/>GetKineticEnergy(), (*secondaries)[i]-\/>GetMomentum());}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00346}00346                         m\_fissionSourceBank.addEnergySite( (*secondaries)[i]-\/>GetKineticEnergy());}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00347}00347                 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00348}00348                 m\_eperfiss += (*secondaries)[i]-\/>GetKineticEnergy() / MeV;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00349}00349            \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00350}00350             m\_fissionEnergy[m\_currentCycle -\/ 1] += theStep-\/>GetPreStepPoint()-\/>GetKineticEnergy() / MeV;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00351}00351             m\_countFission[m\_currentCycle -\/ 1]++;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00352}00352             m\_fissionSourceBank.addLocationSite(theStep-\/>GetPostStepPoint()-\/>GetPosition());}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00353}00353             \mbox{\hyperlink{class_t_m_xkeff_a4e60e4c6d1e414caffbe72a8b7c78862}{addFission}}(countSecNeutrons);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00354}00354 \textcolor{comment}{//             theTrack-\/>SetTrackStatus(fKillTrackAndSecondaries); // 4th modif : commented on 14/04/2021: secondary neutron will be killed at the beginning of next step}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00355}00355             \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00356}00356         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00357}00357     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00358}00358 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00359}00359 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00360}00360 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00365}00365 \textcolor{keywordtype}{double} TMXkeff::computeMeanStdev(std::vector<double> k)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00366}00366 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00367}00367     \textcolor{keywordtype}{double} sum         = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00368}00368     \textcolor{keywordtype}{double} sumSquare   = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00369}00369     \textcolor{keywordflow}{if} ((\textcolor{keywordtype}{int})k.size() <= m\_nbCycleToDiscard + 1) \textcolor{keywordflow}{return} 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00370}00370     \textcolor{keywordflow}{for} (std::vector<double>::size\_type i = m\_nbCycleToDiscard; i < k.size(); i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00371}00371     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00372}00372         sumSquare     += k[i] * k[i];}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00373}00373         sum           += k[i];}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00374}00374     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00375}00375     \textcolor{keywordtype}{double} mean        = sum / (k.size() -\/ m\_nbCycleToDiscard);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00376}00376     \textcolor{keywordtype}{double} mean2       = sumSquare / (k.size() -\/ m\_nbCycleToDiscard);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00377}00377     \textcolor{keywordflow}{return} std::sqrt((mean2 -\/ mean * mean) / (k.size() -\/ m\_nbCycleToDiscard -\/ 1));}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00378}00378 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00379}00379 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00380}00380 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00386}00386 \textcolor{keywordtype}{double} TMXkeff::computeMean(std::vector<double> k)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00387}00387 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00388}00388     \textcolor{keywordtype}{double} average = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00389}00389     \textcolor{keywordflow}{if} ((\textcolor{keywordtype}{int})k.size() <= m\_nbCycleToDiscard) \textcolor{keywordflow}{return} 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00390}00390     \textcolor{keywordflow}{for} (std::vector<double>::size\_type i = m\_nbCycleToDiscard; i < k.size(); i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00391}00391         average += k[i];}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00392}00392     \textcolor{keywordflow}{return} average / (k.size() -\/ m\_nbCycleToDiscard);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00393}00393 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00394}00394 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00395}00395 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00399}00399 \textcolor{keywordtype}{void} TMXkeff::nextCycle()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00400}00400 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00401}00401     m\_countFission.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00402}00402     m\_countCapture.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00403}00403     m\_fissionEnergy.push\_back(0.);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00404}00404 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00405}00405     m\_nbFissionPerCycle.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00406}00406     m\_nbCollisionsPerCycle.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00407}00407     m\_nbTrckLengthPerCycle.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00408}00408     m\_nbAbsorptionPerCycle.push\_back(0);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00409}00409     m\_nbFission = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00410}00410     m\_eperfiss = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00411}00411     m\_samplingSourceNumber = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00412}00412 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00413}00413     m\_currentCycle++;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00414}00414     std::cout<<scientific<<std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00415}00415 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00416}00416 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00417}00417 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00418}00418 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00419}00419 \textcolor{comment}{/***********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00420}00420 \textcolor{comment}{/*********************************GETTERS*******************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00421}00421 \textcolor{comment}{/***********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00422}00422 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00427}00427 \mbox{\hyperlink{class_t_m_xkeff}{TMXkeff}}* \mbox{\hyperlink{class_t_m_xkeff_ae1e9f4676a54a9533cfe95f2d3b38805}{TMXkeff::getInstance}}()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00428}00428 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00429}00429     \textcolor{keyword}{static} \mbox{\hyperlink{class_t_m_xkeff}{TMXkeff}} instance;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00430}00430     \textcolor{keywordflow}{return} \&instance;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00431}00431 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00432}00432 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00433}00433 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00438}00438 \textcolor{keywordtype}{int} \mbox{\hyperlink{class_t_m_xkeff_af95ebf42744dfb2899b0572925928140}{TMXkeff::getNbNeutronPerCycle}}()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00439}00439 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00440}00440     \textcolor{keywordflow}{return} m\_nbFissionPerCycle[0];}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00441}00441 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00442}00442 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00443}00443 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00448}00448 \textcolor{keywordtype}{int} \mbox{\hyperlink{class_t_m_xkeff_a6cea0290c806c883eb5f2c66ea9e0fbf}{TMXkeff::getNbCycleToDiscard}}()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00449}00449 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00450}00450     \textcolor{keywordflow}{return} m\_nbCycleToDiscard;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00451}00451 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00452}00452 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00453}00453 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00458}00458 \textcolor{keywordtype}{int} \mbox{\hyperlink{class_t_m_xkeff_af14b9d4217f4f1dfd681d65c10d7aa66}{TMXkeff::getNbTotCycle}}()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00459}00459 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00460}00460     \textcolor{keywordflow}{return} m\_nbTotCycle;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00461}00461 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00462}00462 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00463}00463 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00468}00468 \textcolor{keywordtype}{int} \mbox{\hyperlink{class_t_m_xkeff_a591552e13e6584c197ab53e7d0850dde}{TMXkeff::getCurrentCycle}}()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00469}00469 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00470}00470     \textcolor{keywordflow}{return} m\_currentCycle;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00471}00471 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00472}00472 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00473}00473 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00478}00478 \textcolor{keywordtype}{int} \mbox{\hyperlink{class_t_m_xkeff_a02214a6041dbc06a867353a2ed8e121e}{TMXkeff::getNumberOfFissionSites}}()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00479}00479 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00480}00480     \textcolor{keywordflow}{return} m\_fissionSourceBank.\mbox{\hyperlink{class_t_m_x_fission_source_bank_a41a1a0a931384df67543dcacf68b9630}{getNumberOfFissionSites}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00481}00481 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00482}00482 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00483}00483 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00489}00489 \mbox{\hyperlink{struct_fission_site}{FissionSite}} \mbox{\hyperlink{class_t_m_xkeff_a8933bf11f68f91bfb75ce7f5c610a2a8}{TMXkeff::getFissionSite}}(\textcolor{keywordtype}{int} num)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00490}00490 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00491}00491     \textcolor{keywordflow}{return} m\_fissionSourceBank.\mbox{\hyperlink{class_t_m_x_fission_source_bank_a7771aed69eefa0d2b546e06954cb6438}{getFissionSite}}(num);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00492}00492 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00493}00493 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00494}00494 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00495}00495 \textcolor{comment}{/***********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00496}00496 \textcolor{comment}{/*********************************SETTERS*******************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00497}00497 \textcolor{comment}{/***********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00498}00498 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00499}00499 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00504}00504 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_aa783282f552468837665d0b0bfec6f53}{TMXkeff::setOutputFileName}}(std::string output)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00505}00505 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00506}00506     m\_kFilename = output;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00507}00507 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00508}00508 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00513}00513 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_a211ef49bda3e8c994126533647add4c7}{TMXkeff::setNbParticlePerCycle}}(\textcolor{keywordtype}{int} nbParticlePerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00514}00514 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00515}00515     m\_nbFissionPerCycle.push\_back(nbParticlePerCycle);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00516}00516     m\_nbCollisionsPerCycle.push\_back(nbParticlePerCycle);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00517}00517     m\_nbTrckLengthPerCycle.push\_back(nbParticlePerCycle);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00518}00518     m\_nbAbsorptionPerCycle.push\_back(nbParticlePerCycle);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00519}00519     m\_nbParticlePerCycle = nbParticlePerCycle;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00520}00520     nextCycle();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00521}00521 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00522}00522 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00527}00527 \textcolor{keywordtype}{double} \mbox{\hyperlink{class_t_m_xkeff_a25ce9e029824552f1deedbc80bf3d10e}{TMXkeff::getNu}}()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00528}00528 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00529}00529     \textcolor{keywordflow}{return} computeMean(m\_nu);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00530}00530 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00531}00531 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00532}00532 \textcolor{keywordtype}{double} TMXkeff::getEnergyPerFission()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00533}00533 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00534}00534     \textcolor{keywordflow}{return} computeMean(m\_energyFromFission);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00535}00535 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00539}00539 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_a9739644a1e8af1ab9cc8ea6feeceb1d4}{TMXkeff::reinitialize}}()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00540}00540 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00541}00541     m\_currentCycle = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00542}00542 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00543}00543     m\_kcolPerCycle.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00544}00544     m\_kgenPerCycle.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00545}00545     m\_ktrkPerCycle.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00546}00546     m\_kabsPerCycle.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00547}00547 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00548}00548     m\_nbFissionPerCycle.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00549}00549     m\_nbAbsorptionPerCycle.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00550}00550     m\_nbCollisionsPerCycle.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00551}00551     m\_nbTrckLengthPerCycle.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00552}00552 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00553}00553     m\_vecEPerFission.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00554}00554     m\_energyFromFission.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00555}00555     m\_countCapture.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00556}00556     m\_countFission.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00557}00557 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00558}00558     m\_fissionEnergy.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00559}00559     m\_nu.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00560}00560 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00561}00561     \mbox{\hyperlink{class_t_m_xkeff_a211ef49bda3e8c994126533647add4c7}{setNbParticlePerCycle}}(m\_nbParticlePerCycle);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00562}00562 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00563}00563 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00568}00568 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_abd9cdf715d4500994915baf9bcfa4431}{TMXkeff::setNbCycleToDiscard}}(\textcolor{keywordtype}{int} nbCycleToDiscard)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00569}00569 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00570}00570     m\_nbCycleToDiscard = nbCycleToDiscard;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00571}00571 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00572}00572 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00573}00573 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00578}00578 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_a2465a20d6f7de66891cdf4e2c8f0fc46}{TMXkeff::setNbTotCycle}}(\textcolor{keywordtype}{int} nbTotCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00579}00579 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00580}00580     m\_nbTotCycle = nbTotCycle;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00581}00581 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00582}00582 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00583}00583 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00584}00584 \textcolor{comment}{/***********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00585}00585 \textcolor{comment}{/********************************PRINTERS*******************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00586}00586 \textcolor{comment}{/***********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00587}00587 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00591}00591 \textcolor{keywordtype}{void} TMXkeff::printCycleKeff()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00592}00592 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00593}00593     \mbox{\hyperlink{class_t_m_xkeff_a319ae6b7f3b269d44154753d39936706}{writeKResults}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00594}00594 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00595}00595         std::cout <<                                                                                                                          std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00596}00596         std::cout << \textcolor{stringliteral}{"{}**************************************************************"{}}                                                      << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00597}00597         std::cout << \textcolor{stringliteral}{"{}*********************  KEFF\_CALCULATION  *********************"{}}                                                      << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00598}00598         std::cout << \textcolor{stringliteral}{"{}**************************************************************"{}}                                                      << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00599}00599     \textcolor{keywordflow}{if} (m\_currentCycle > m\_nbCycleToDiscard )}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00600}00600     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00601}00601         std::cout << \textcolor{stringliteral}{"{}Cycle: "{}}        << m\_currentCycle                                                                                    << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00602}00602         std::cout << \textcolor{stringliteral}{"{} -\/-\/ "{}}                                                                                                                << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00603}00603         std::cout << fixed << setprecision(6);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00604}00604         std::cout << \textcolor{stringliteral}{"{}Kgen-\/Cycle: "{}}   << m\_kgenPerCycle[m\_currentCycle -\/ 1]                                                                << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00605}00605         std::cout << \textcolor{stringliteral}{"{}Kcol-\/Cycle: "{}}   << m\_kcolPerCycle[m\_currentCycle -\/ 1]                                                                << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00606}00606         std::cout << \textcolor{stringliteral}{"{}Ktrk-\/Cycle: "{}}   << m\_ktrkPerCycle[m\_currentCycle -\/ 1]                                                                << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00607}00607         std::cout << \textcolor{stringliteral}{"{}Kabs-\/Cycle: "{}}   << m\_kabsPerCycle[m\_currentCycle -\/ 1]                                                                << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00608}00608         std::cout << \textcolor{stringliteral}{"{} -\/-\/ "{}}                                                                                                                << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00609}00609         std::cout << \textcolor{stringliteral}{"{}Kgen: "{}}         << computeMean(m\_kgenPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00610}00610                   << \textcolor{stringliteral}{"{} Uncertainty: "{}}  << computeMeanStdev(m\_kgenPerCycle)                                                                 << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00611}00611         std::cout << \textcolor{stringliteral}{"{}kcol: "{}}        << computeMean(m\_kcolPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00612}00612                   << \textcolor{stringliteral}{"{} Uncertainty: "{}}  << computeMeanStdev(m\_kcolPerCycle)                                                                 << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00613}00613         std::cout << \textcolor{stringliteral}{"{}Ktrk: "{}}         << computeMean(m\_ktrkPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00614}00614                   << \textcolor{stringliteral}{"{} Uncertainty: "{}}  << computeMeanStdev(m\_ktrkPerCycle)                                                                 << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00615}00615         std::cout << \textcolor{stringliteral}{"{}Kabs: "{}}         << computeMean(m\_kabsPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00616}00616                   << \textcolor{stringliteral}{"{} Uncertainty: "{}}  << computeMeanStdev(m\_kabsPerCycle)                                                                 << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00617}00617         std::cout << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}}                                                      << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00618}00618         std::cout << fixed << setprecision(6);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00619}00619         std::cout << \textcolor{stringliteral}{"{}NuFiss   : "{}} << (double)m\_countFission[m\_currentCycle -\/ 1] / (\textcolor{keywordtype}{double})m\_nbParticlePerCycle * m\_nu[m\_currentCycle -\/ 1] << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00620}00620         std::cout << \textcolor{stringliteral}{"{}Nu       : "{}} << m\_nu[m\_currentCycle -\/ 1]                                                                             << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00621}00621         std::cout << \textcolor{stringliteral}{"{}Ener@Fiss: "{}} << (double)m\_fissionEnergy[m\_currentCycle -\/ 1] / (\textcolor{keywordtype}{double})m\_countFission[m\_currentCycle -\/ 1]             << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00622}00622         std::cout << \textcolor{stringliteral}{"{}EnPerFiss: "{}} << (double)m\_vecEPerFission[m\_currentCycle -\/ 1] / (\textcolor{keywordtype}{double})m\_countFission[m\_currentCycle -\/ 1]             << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00623}00623         std::cout << \textcolor{stringliteral}{"{}Fissions : "{}} << (double)m\_countFission[m\_currentCycle -\/ 1] / (\textcolor{keywordtype}{double})m\_nbParticlePerCycle                            << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00624}00624         std::cout << \textcolor{stringliteral}{"{}Captures : "{}} << (double)m\_countCapture[m\_currentCycle -\/ 1] / (\textcolor{keywordtype}{double})m\_nbParticlePerCycle                            << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00625}00625         std::cout << \textcolor{stringliteral}{"{} -\/-\/ "{}}                                                                                                                << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00626}00626         std::cout << fixed << setprecision(6);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00627}00627         std::cout << \textcolor{stringliteral}{"{}NuFiss   : "{}} << computeMean(m\_nu) * computeMean(m\_countFission) / (double)m\_nbParticlePerCycle}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00628}00628                   << \textcolor{stringliteral}{"{} Uncertainty: "{}}  << computeMeanStdev(multiplyVectors(m\_nu, m\_countFission)) / (\textcolor{keywordtype}{double})m\_nbParticlePerCycle           << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00629}00629         std::cout << \textcolor{stringliteral}{"{}Nu       : "{}} << computeMean(m\_nu)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00630}00630                   << \textcolor{stringliteral}{"{} Uncertainty: "{}}  << computeMeanStdev(m\_nu)                                                                           << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00631}00631         std::cout << \textcolor{stringliteral}{"{}Ener@Fiss: "{}} << computeMean(m\_fissionEnergy) / computeMean(m\_countFission)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00632}00632                   << \textcolor{stringliteral}{"{} Uncertainty: "{}}  << computeMeanStdev(divideVectors(m\_fissionEnergy, m\_countFission))                                 << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00633}00633         std::cout << \textcolor{stringliteral}{"{}EnPerFiss: "{}} << computeMean(m\_vecEPerFission) / computeMean(m\_countFission)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00634}00634                   << \textcolor{stringliteral}{"{} Uncertainty: "{}}  << computeMeanStdev(divideVectors(m\_vecEPerFission, m\_countFission))                                 << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00635}00635         std::cout << \textcolor{stringliteral}{"{}Fissions : "{}} << computeMean(m\_countFission) / (double)m\_nbParticlePerCycle}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00636}00636                   << \textcolor{stringliteral}{"{} Uncertainty: "{}}  << computeMeanStdev(m\_countFission) / (double)m\_nbParticlePerCycle                                  << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00637}00637         std::cout << \textcolor{stringliteral}{"{}Captures : "{}} << computeMean(m\_countCapture) / (double)m\_nbParticlePerCycle}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00638}00638                   << \textcolor{stringliteral}{"{} Uncertainty: "{}}  << computeMeanStdev(m\_countCapture) / (double)m\_nbParticlePerCycle                                  << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00639}00639     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00640}00640     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00641}00641     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00642}00642         std::cout << fixed << setprecision(6);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00643}00643         std::cout << \textcolor{stringliteral}{"{}Cycle: "{}}     << m\_currentCycle                                                                                       << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00644}00644         std::cout << \textcolor{stringliteral}{"{}Kgen-\/Cycle: "{}}<< m\_kgenPerCycle[m\_currentCycle -\/ 1]                                                                   << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00645}00645         std::cout << \textcolor{stringliteral}{"{}Kcol-\/Cycle: "{}}<< m\_kcolPerCycle[m\_currentCycle -\/ 1]                                                                   << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00646}00646         std::cout << \textcolor{stringliteral}{"{}Ktrk-\/Cycle: "{}}<< m\_ktrkPerCycle[m\_currentCycle -\/ 1]                                                                   << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00647}00647         std::cout << \textcolor{stringliteral}{"{}Kabs-\/Cycle: "{}}<< m\_kabsPerCycle[m\_currentCycle -\/ 1]                                                                   << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00648}00648         std::cout << \textcolor{stringliteral}{"{}**************************************************************"{}}                                                      << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00649}00649         std::cout << fixed         << setprecision(6);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00650}00650         std::cout << \textcolor{stringliteral}{"{}NuFiss   : "{}} << (double)m\_countFission[m\_currentCycle -\/ 1] / (\textcolor{keywordtype}{double})m\_nbParticlePerCycle * m\_nu[m\_currentCycle -\/ 1] << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00651}00651         std::cout << \textcolor{stringliteral}{"{}Nu       : "{}} << (double)m\_nu[m\_currentCycle -\/ 1]                                                                     << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00652}00652         std::cout << \textcolor{stringliteral}{"{}Ener@Fiss: "{}} << (double)m\_fissionEnergy[m\_currentCycle -\/ 1] / (\textcolor{keywordtype}{double})m\_countFission[m\_currentCycle -\/ 1]             << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00653}00653         std::cout << \textcolor{stringliteral}{"{}EnPerFiss: "{}} << (double)m\_vecEPerFission[m\_currentCycle -\/ 1] / (\textcolor{keywordtype}{double})m\_countFission[m\_currentCycle -\/ 1]             << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00654}00654         std::cout << \textcolor{stringliteral}{"{}Fissions : "{}} << (double)m\_countFission[m\_currentCycle -\/ 1] / (\textcolor{keywordtype}{double})m\_nbParticlePerCycle                            << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00655}00655         std::cout << \textcolor{stringliteral}{"{}Captures : "{}} << (double)m\_countCapture[m\_currentCycle -\/ 1] / (\textcolor{keywordtype}{double})m\_nbParticlePerCycle                            << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00656}00656     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00657}00657         std::cout << \textcolor{stringliteral}{"{}**************************************************************"{}}                                                      << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00658}00658         std::cout <<                                                                                                                          std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00659}00659 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00660}00660 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00661}00661 std::vector<double> TMXkeff::multiplyVectors(std::vector<double> V1, std::vector<double> V2)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00662}00662 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00663}00663     std::vector<double> v;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00664}00664     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} i = 0; i < V1.size(); i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00665}00665     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00666}00666         v.push\_back(V1[i] * V2[i]);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00667}00667     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00668}00668     \textcolor{keywordflow}{return} v;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00669}00669 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00670}00670 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00671}00671 std::vector<double> TMXkeff::divideVectors(std::vector<double> V1, std::vector<double> V2)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00672}00672 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00673}00673     std::vector<double> v;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00674}00674     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} i = 0; i < V1.size(); i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00675}00675     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00676}00676         v.push\_back(V1[i] / V2[i]);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00677}00677     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00678}00678     \textcolor{keywordflow}{return} v;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00679}00679 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00680}00680 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00684}00684 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_ac00e1c34b16dece17c7e1a4ac5e4a3ca}{TMXkeff::printAll}}()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00685}00685 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00686}00686     cout.precision(5);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00687}00687     std::cout << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/KEFF VALUES-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}}   << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00688}00688     std::cout << std::left << std::setw(12) << \textcolor{stringliteral}{"{}Cycle"{}}    << std::setw(12) << \textcolor{stringliteral}{"{}kgen"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00689}00689                                                           << std::setw(12) << \textcolor{stringliteral}{"{}kcol"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00690}00690                                                           << std::setw(12) << \textcolor{stringliteral}{"{}ktrk"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00691}00691                                                           << std::setw(12) << \textcolor{stringliteral}{"{}kabs"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00692}00692     \textcolor{keywordflow}{for} (std::vector<double>::size\_type i = 0; i < m\_kcolPerCycle.size(); i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00693}00693     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00694}00694         \textcolor{keywordflow}{if}((\textcolor{keywordtype}{int})i == m\_nbCycleToDiscard)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00695}00695             std::cout << \textcolor{stringliteral}{"{}================== ACTIVE CYCLES =================="{}} <<std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00696}00696         std::cout << fixed << setprecision(6) << std::left << std::setw(12) << i + 1  << std::setw(12) << m\_kgenPerCycle[i]}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00697}00697                                                            << std::setw(12) << m\_kcolPerCycle[i]}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00698}00698                                                            << std::setw(12) << m\_ktrkPerCycle[i]}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00699}00699                                                            << std::setw(12) << m\_kabsPerCycle[i] << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00700}00700     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00701}00701     std::cout << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00702}00702     std::cout << \textcolor{stringliteral}{"{}Calculation performed for "{}} << m\_nbTotCycle << \textcolor{stringliteral}{"{} cycles of "{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00703}00703               << m\_nbFissionPerCycle[0] << \textcolor{stringliteral}{"{} particles discarding "{}} << m\_nbCycleToDiscard << \textcolor{stringliteral}{"{} cycles"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00704}00704     std::cout << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00705}00705     std::cout << fixed << setprecision(6) << std::left << std::setw(12) << \textcolor{stringliteral}{"{}kgen: "{}}   << std::setw(12) << computeMean(m\_kgenPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00706}00706                                                           << \textcolor{stringliteral}{"{} ( "{}} << computeMeanStdev(m\_kgenPerCycle) << \textcolor{stringliteral}{"{} ) "{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00707}00707     std::cout << fixed << setprecision(6) << std::left << std::setw(12) << \textcolor{stringliteral}{"{}kcol: "{}}   << std::setw(12) << computeMean(m\_kcolPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00708}00708                                                           << \textcolor{stringliteral}{"{} ( "{}} << computeMeanStdev(m\_kcolPerCycle) << \textcolor{stringliteral}{"{} ) "{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00709}00709     std::cout << fixed << setprecision(6) << std::left << std::setw(12) << \textcolor{stringliteral}{"{}ktrk: "{}}   << std::setw(12) << computeMean(m\_ktrkPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00710}00710                                                           << \textcolor{stringliteral}{"{} ( "{}} << computeMeanStdev(m\_ktrkPerCycle) << \textcolor{stringliteral}{"{} ) "{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00711}00711     std::cout << fixed << setprecision(6) << std::left << std::setw(12) << \textcolor{stringliteral}{"{}kabs: "{}}   << std::setw(12) << computeMean(m\_kabsPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00712}00712                                                           << \textcolor{stringliteral}{"{} ( "{}} << computeMeanStdev(m\_kabsPerCycle) << \textcolor{stringliteral}{"{} ) "{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00713}00713     std::cout << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00714}00714 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00715}00715 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00716}00716 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00720}00720 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_t_m_xkeff_a319ae6b7f3b269d44154753d39936706}{TMXkeff::writeKResults}}()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00721}00721 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00722}00722     \textcolor{keywordflow}{if}(m\_currentCycle == 1)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00723}00723     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00724}00724         m\_File.open(m\_kFilename, std::ios::out);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00725}00725 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00726}00726 \textcolor{comment}{//        m\_File.setf( std::ios::dec, std::ios::floatfield );}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00727}00727 \textcolor{comment}{//        m\_File.precision(5);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00728}00728 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00729}00729         m\_File << \textcolor{stringliteral}{"{}**************************************************************"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00730}00730         m\_File << \textcolor{stringliteral}{"{}*********************  KEFF\_CALCULATION  *********************"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00731}00731         m\_File << \textcolor{stringliteral}{"{}**************************************************************"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00732}00732         m\_File <<                                                                     std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00733}00733         m\_File << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}}   << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00734}00734         m\_File << \textcolor{stringliteral}{"{}Calculation performed for "{}} << m\_nbTotCycle}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00735}00735                << \textcolor{stringliteral}{"{} cycles of "{}}                << m\_nbFissionPerCycle[0]}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00736}00736                << \textcolor{stringliteral}{"{} particles discarding "{}}     << m\_nbCycleToDiscard << \textcolor{stringliteral}{"{} cycles"{}}  << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00737}00737         m\_File <<                                                                     std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00738}00738         m\_File << std::left << std::setw(12) << \textcolor{stringliteral}{"{}Cycle"{}}  << std::setw(12) << \textcolor{stringliteral}{"{}kgenCycle"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00739}00739                                                          << std::setw(12) << \textcolor{stringliteral}{"{}kcolCycle"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00740}00740                                                          << std::setw(12) << \textcolor{stringliteral}{"{}kabsCycle"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00741}00741                                                          << std::setw(12) << \textcolor{stringliteral}{"{}ktrkCycle"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00742}00742                                                          << std::setw(12) << \textcolor{stringliteral}{"{}kgen"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00743}00743                                                          << std::setw(12) << \textcolor{stringliteral}{"{}Uncert."{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00744}00744                                                          << std::setw(12) << \textcolor{stringliteral}{"{}kcol"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00745}00745                                                          << std::setw(12) << \textcolor{stringliteral}{"{}Uncert."{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00746}00746                                                          << std::setw(12) << \textcolor{stringliteral}{"{}kabs"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00747}00747                                                          << std::setw(12) << \textcolor{stringliteral}{"{}Uncert."{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00748}00748                                                          << std::setw(12) << \textcolor{stringliteral}{"{}ktrk"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00749}00749                                                          << std::setw(12) << \textcolor{stringliteral}{"{}Uncert."{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00750}00750                                                                                    << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00751}00751         m\_File.close();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00752}00752     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00753}00753     m\_File.open(m\_kFilename, ios::app);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00754}00754 \textcolor{comment}{//    m\_File.setf( std::ios::dec, std::ios::floatfield );}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00755}00755 \textcolor{comment}{//    m\_File.precision(5);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00756}00756 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00757}00757     \textcolor{keywordflow}{if}(m\_currentCycle -\/ 1 == m\_nbCycleToDiscard)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00758}00758         m\_File << \textcolor{stringliteral}{"{}================== ACTIVE CYCLES =================="{}} <<std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00759}00759     m\_File << std::left << std::setw(12) << m\_currentCycle}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00760}00760                      << fixed << setprecision(6) << std::setw(12) << m\_kgenPerCycle[m\_currentCycle -\/ 1]}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00761}00761                                                  << std::setw(12) << m\_kcolPerCycle[m\_currentCycle -\/ 1]}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00762}00762                                                  << std::setw(12) << m\_kabsPerCycle[m\_currentCycle -\/ 1]}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00763}00763                                                  << std::setw(12) << m\_ktrkPerCycle[m\_currentCycle -\/ 1]}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00764}00764                                                  << std::setw(12) << computeMean(m\_kgenPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00765}00765                                                  << std::setw(12) << computeMeanStdev(m\_kgenPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00766}00766                                                  << std::setw(12) << computeMean(m\_kcolPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00767}00767                                                  << std::setw(12) << computeMeanStdev(m\_kcolPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00768}00768                                                  << std::setw(12) << computeMean(m\_kabsPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00769}00769                                                  << std::setw(12) << computeMeanStdev(m\_kabsPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00770}00770                                                  << std::setw(12) << computeMean(m\_ktrkPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00771}00771                                                  << std::setw(12) << computeMeanStdev(m\_ktrkPerCycle) << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00772}00772     \textcolor{keywordflow}{if}(m\_currentCycle == m\_nbTotCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00773}00773     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00774}00774 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00775}00775         m\_File << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00776}00776         m\_File << fixed << setprecision(6) << std::left << std::setw(12) << \textcolor{stringliteral}{"{}kgen: "{}}   << std::setw(12) << computeMean(m\_kgenPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00777}00777                                                               << \textcolor{stringliteral}{"{} ( "{}} << computeMeanStdev(m\_kgenPerCycle) << \textcolor{stringliteral}{"{} ) "{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00778}00778         m\_File << fixed << setprecision(6) << std::left << std::setw(12) << \textcolor{stringliteral}{"{}kcol: "{}}   << std::setw(12) << computeMean(m\_kcolPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00779}00779                                                               << \textcolor{stringliteral}{"{} ( "{}} << computeMeanStdev(m\_kcolPerCycle) << \textcolor{stringliteral}{"{} ) "{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00780}00780         m\_File << fixed << setprecision(6) << std::left << std::setw(12) << \textcolor{stringliteral}{"{}kabs: "{}}   << std::setw(12) << computeMean(m\_kabsPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00781}00781                                                               << \textcolor{stringliteral}{"{} ( "{}} << computeMeanStdev(m\_kabsPerCycle) << \textcolor{stringliteral}{"{} ) "{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00782}00782         m\_File << fixed << setprecision(6) << std::left << std::setw(12) << \textcolor{stringliteral}{"{}ktrk: "{}}   << std::setw(12) << computeMean(m\_ktrkPerCycle)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00783}00783                                                               << \textcolor{stringliteral}{"{} ( "{}} << computeMeanStdev(m\_ktrkPerCycle) << \textcolor{stringliteral}{"{} ) "{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00784}00784         m\_File << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00785}00785     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00786}00786     m\_File.close();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_t_m_xkeff_8cc_source_l00787}00787 \}}
+
+\end{DoxyCode}

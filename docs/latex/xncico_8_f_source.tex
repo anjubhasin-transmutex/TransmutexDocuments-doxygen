@@ -1,0 +1,127 @@
+\hypertarget{xncico_8_f_source}{}\doxysection{xncico.\+F}
+\label{xncico_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/cirene/xncico.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/cirene/xncico.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  0.05/00 28/04/94  12.13.23  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xncico(X,OUTP,SNEXT,SAFE,IHIT)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00004}00004 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00005}00005       \textcolor{keywordtype}{IMPLICIT DOUBLE PRECISION} (a-\/h,o-\/z)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00006}00006       parameter(half=0.5,three=3,one=1,zero=0)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00007}00007 \textcolor{preprocessor}{\#include "{}xccige.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00008}00008 \textcolor{preprocessor}{}\textcolor{keywordtype}{      REAL} X(6),OUTP(3),SNEXT,SAFE}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00009}00009       \textcolor{keywordtype}{LOGICAL} ROTATE}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00010}00010       lint(xx)=int(xx)-\/(half-\/sign(half,xx))}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00011}00011 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00012}00012 \textcolor{comment}{* -\/-\/-\/ Prepare for failure}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00013}00013       safe  = 1e10}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00014}00014       snext = 1e10}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00015}00015       ihit = 0}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00016}00016 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00017}00017 \textcolor{comment}{* -\/-\/-\/ Chose the right direction}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00018}00018       hnorm = one/sqrt(x(4)**2+x(5)**2)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00019}00019       \textcolor{keywordflow}{IF}(abs(x(4)).GE.abs(x(5))) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/ Normal configuration}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00021}00021          x0 = x(1)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00022}00022          y0 = x(2)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00023}00023          alpha = x(4)*hnorm}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00024}00024          beta  = x(5)*hnorm}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00025}00025          rotate=.false.}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00026}00026       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/ Inverted configuration -\/ no divide by 0 please}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00028}00028          x0 = x(2)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00029}00029          y0 = x(1)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00030}00030          alpha = x(5)*hnorm}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00031}00031          beta  = x(4)*hnorm}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00032}00032          rotate=.true.}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00033}00033 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00034}00034       shift = half*disbar}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00035}00035 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/ Find starting point and direction}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00037}00037       istart = nint((x0-\/shift)/disbar)+}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00038}00038      +          (sign(one,x0-\/shift)-\/sign(one,alpha))*half}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00039}00039       istart = min(max(-\/nbside,istart),nbside-\/1)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00040}00040       istep  = sign(one,alpha)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00041}00041       iend   = nbside*istep-\/(1+istep)/2}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00042}00042 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/ Some useful constants}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00044}00044       barrad=bardia*half}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00045}00045       barra2=barrad**2}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00046}00046       corrad=cordia*half}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00047}00047       corra2=corrad**2}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00048}00048       disbai=one/disbar}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00049}00049       alphai=one/alpha}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00050}00050 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/ Loop on planes}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00052}00052       \textcolor{keywordflow}{DO} 20 ix=istart,iend,istep}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00053}00053          xx=(ix+0.5)*disbar}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00054}00054 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/ Nogo if outside diameter of core}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00056}00056          \textcolor{keywordflow}{IF}(abs(xx).GT.corrad) \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00057}00057          xx2=xx**2}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00058}00058          delx2 = (x0-\/xx)**2}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00059}00059 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/ Compute y range -\/ gamma is the projection of the}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00061}00061 \textcolor{comment}{* -\/-\/-\/ y coordinate at the plane IX onto the normal to the line of}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/ flight}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00063}00063          gamma=beta*(xx-\/x0)+alpha*y0}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00064}00064          ya=(gamma-\/barrad)*alphai}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00065}00065          yb=(gamma+barrad)*alphai}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00066}00066          y1=min(ya,yb)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00067}00067          y2=max(ya,yb)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00068}00068 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/ Number of bars in current plane}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00070}00070          iymin  = -\/nbside}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00071}00071          iymax  =  nbside-\/1}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00072}00072          iy1=lint((y1-\/shift)*disbai)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00073}00073          iy2=lint((y2-\/shift)*disbai)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00074}00074 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00075}00075          \textcolor{keywordflow}{IF}(iy1.LT.iy2)\textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00076}00076             \textcolor{keywordflow}{DO} 10 iy=max(iy1,iymin),min(iy2,iymax)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00077}00077                y=(iy+0.5)*disbar}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00078}00078 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00079}00079 \textcolor{comment}{* -\/-\/-\/ If outside diameter of inner core, skip}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00080}00080                \textcolor{keywordflow}{IF}(xx2+y**2.GT.corra2) \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00081}00081                \textcolor{keywordflow}{IF}(y1.LE.y.AND.y.LE.y2)\textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00082}00082                   a=alpha*(x0-\/xx)+beta*(y0-\/y)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00083}00083                   d2=delx2+(y0-\/y)**2}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00084}00084                   det=max(a**2-\/(d2-\/barra2),zero)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00085}00085                   c=sqrt(det)}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00086}00086                   t1=-\/a-\/c}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00087}00087                   t2=-\/a+c}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00088}00088                   \textcolor{keywordflow}{IF}(t1.GT.0.0.AND.snext.GT.t1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00089}00089                      xhtbar = xx}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00090}00090                      yhtbar = y}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00091}00091                      snext=t1}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00092}00092                      ihit=1}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00093}00093                      \textcolor{keywordflow}{IF}(t1*t2.LT.0.0) ihit=-\/ihit}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00094}00094                   \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(t2.GT.0.0.AND.snext.GT.t2)\textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00095}00095                      xhtbar = xx}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00096}00096                      yhtbar = y}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00097}00097                      snext=t2}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00098}00098                      ihit=1}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00099}00099                      \textcolor{keywordflow}{IF}(t1*t2.LT.0.0) ihit=-\/ihit}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00100}00100 \textcolor{keywordflow}{                  END IF}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00101}00101 \textcolor{keywordflow}{               END IF}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00102}00102    10       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00103}00103 \textcolor{keywordflow}{         END IF}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00105}00105    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00106}00106 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00107}00107 \textcolor{comment}{* -\/-\/-\/ convert distance in 3 dim}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00108}00108       \textcolor{keywordflow}{IF}(ihit.NE.0.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00109}00109          snext=snext*sqrt((x(4)**2+x(5)**2+x(6)**2))*hnorm}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00110}00110          outp(1) = x(1)+x(4)*snext}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00111}00111          outp(2) = x(2)+x(5)*snext}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00112}00112          outp(3) = x(3)+x(6)*snext}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00113}00113          \textcolor{keywordflow}{IF}(rotate) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00114}00114             xtmp =  yhtbar}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00115}00115             ytmp =  xhtbar}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00116}00116             xhtbar = xtmp}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00117}00117             yhtbar = ytmp}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00118}00118 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00119}00119 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00120}00120 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncico_8_f_source_l00121}00121       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

@@ -1,0 +1,67 @@
+\hypertarget{_t_m_x_scoring_fluence_map_8cc_source}{}\doxysection{TMXScoring\+Fluence\+Map.\+cc}
+\label{_t_m_x_scoring_fluence_map_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/src/scoring/TMXScoringFluenceMap.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/src/scoring/TMXScoringFluenceMap.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00002}00002 \textcolor{comment}{// \(\backslash\)brief Implementation of the Scoring of Fluence in Map}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00006}00006 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00007}00007 \textcolor{comment}{// TMXScoringFluenceMap}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00009}00009 \textcolor{comment}{// Thomas Guilbaud, Transmutex, 15/07/2021}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{// Scoring of Fluence in Map}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00014}00014 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00015}00015 \textcolor{preprocessor}{\#include "{}TMXScoringFluenceMap.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00017}00017 \textcolor{comment}{// GEANT4 libraries}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00018}00018 \textcolor{preprocessor}{\#include "{}Analysis.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00021}00021 TMXScoringFluenceMap::TMXScoringFluenceMap(\mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* parameter)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00022}00022 :   \mbox{\hyperlink{class_t_m_x_abstract_scoring_map}{TMXAbstractScoringMap}}(parameter, \textcolor{stringliteral}{"{}FluenceMap"{}})}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00023}00023 \{\}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00025}00025 TMXScoringFluenceMap::\string~TMXScoringFluenceMap()}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00026}00026 \{\}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00028}00028 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00029}00029 \textcolor{comment}{// Scorer}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00030}00030 \textcolor{keywordtype}{void} TMXScoringFluenceMap::score(\textcolor{keyword}{const} G4Step* theStep) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00031}00031     \textcolor{keywordflow}{if} (theStep) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00032}00032         G4double stepLength = theStep-\/>GetStepLength()/cm;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00033}00033         G4double weight = theStep-\/>GetPreStepPoint()-\/>GetWeight();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00034}00034         \textcolor{keywordtype}{bool} isPerCubicVolume = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00035}00035         \textcolor{keywordflow}{if} (stepLength > 0. \&\& weight > 0.) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00036}00036             scoreMap(theStep, stepLength*weight, isPerCubicVolume);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00037}00037         \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00038}00038     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00039}00039 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00041}00041 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00042}00042 \textcolor{comment}{// Printer}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00044}00044 \textcolor{keywordtype}{void} TMXScoringFluenceMap::printAverage()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00045}00045     std::cout << \textcolor{stringliteral}{"{}Histogram printAverage (not yet implemented)"{}} << \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00046}00046     \textcolor{comment}{// auto analysisManager = G4AnalysisManager::Instance();}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00047}00047     \textcolor{comment}{// int histoId;}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00048}00048     \textcolor{comment}{// for (auto mapIndex = m\_mapPVHisto2DId.begin(); mapIndex != m\_mapPVHisto2DId.end(); mapIndex++) \{}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00049}00049     \textcolor{comment}{//     histoId = mapIndex-\/>second;}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00050}00050     \textcolor{comment}{//     //double nbins = analysisManager-\/>GetH1NBins(histoId);}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00051}00051     \textcolor{comment}{//     std::cout << analysisManager-\/>GetH1(histoId) << '\(\backslash\)n';}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00052}00052     \textcolor{comment}{//     // std::cout << mapIndex-\/>first << "{} ("{} << histoId << "{}) mean = "{} << analysisManager-\/>GetH1(histoId)-\/>get\_bin\_height(0) << '\(\backslash\)n';}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00053}00053     \textcolor{comment}{// \}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00054}00054 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00056}00056 \textcolor{keywordtype}{void} TMXScoringFluenceMap::printSummary() \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00057}00057     std::cout << \textcolor{stringliteral}{"{}Histogram Summary (not yet implemented)"{}} << \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00058}00058     \textcolor{comment}{// auto analysisManager = G4AnalysisManager::Instance();}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00059}00059     \textcolor{comment}{// std::string id;}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00060}00060     \textcolor{comment}{// for (auto mapIndex = m\_mapPVHisto2DId.begin(); mapIndex != m\_mapPVHisto2DId.end(); mapIndex++) \{}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00061}00061     \textcolor{comment}{//     id = mapIndex-\/>second;}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00062}00062     \textcolor{comment}{//     G4cout << "{}Histo "{} << id << "{} max value : "{} << analysisManager-\/>GetH2(std::stoi(id))-\/>max\_bin\_height() << G4endl;}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00063}00063     \textcolor{comment}{// \}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_scoring_fluence_map_8cc_source_l00064}00064 \}}
+
+\end{DoxyCode}

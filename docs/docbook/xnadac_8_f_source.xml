@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnadac_8_f_source" xml:lang="en-US">
+<title>xnadac.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/isomers/xnadac.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnadac_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.03/01&#32;14/06/96&#32;&#32;16.52.11&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnadac
+<anchor xml:id="_xnadac_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Once&#32;product&#32;isomer&#32;yield&#32;has&#32;been&#32;read&#32;and&#32;accepted,&#32;this&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;routine&#32;adds&#32;it&#32;in&#32;the&#32;isomer&#32;information&#32;common&#32;which&#32;will&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;be&#32;eventually&#32;dumped&#32;onto&#32;disk&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00010"/>00010 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00011"/>00011 <emphasis role="preprocessor">#include&#32;&quot;xcsbnl.inc&quot;</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00012"/>00012 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcsend.inc&quot;</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00013"/>00013 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcacti.inc&quot;</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00014"/>00014 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcatmp.inc&quot;</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00015"/>00015 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xctab1.inc&quot;</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00016"/>00016 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*11</emphasis>&#32;CHELFA,XNELNA,CHELSO
+<anchor xml:id="_xnadac_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*8</emphasis>&#32;CHREAC,XNRENA
+<anchor xml:id="_xnadac_8_f_source_1l00018"/>00018 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00019"/>00019 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00020"/>00020 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00021"/>00021 <emphasis role="comment">*&#32;---&gt;&#32;See&#32;whether&#32;same&#32;reaction&#32;already&#32;loaded</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jtmp=1,nmtpoi
+<anchor xml:id="_xnadac_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izatmp(jtmp).EQ.izamat)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(imtpoi(jtmp,1).EQ.mthl(iposec))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(idbtmp(jtmp).NE.idbcod)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;---&gt;&#32;Same&#32;reaction&#32;already&#32;loaded,&#32;from&#32;another&#32;ENDF&#32;database&#32;file,</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00027"/>00027 <emphasis role="comment">*&#32;---&gt;&#32;print&#32;information&#32;and&#32;do&#32;not&#32;load</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chelfa=xnelna(izamat)
+<anchor xml:id="_xnadac_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chreac=xnrena(mthl(iposec))
+<anchor xml:id="_xnadac_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)&#32;chelfa,chreac
+<anchor xml:id="_xnadac_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnadac_8_f_source_1l00032"/>00032 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00033"/>00033 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00034"/>00034 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00035"/>00035 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00036"/>00036 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;data&#32;if&#32;enough&#32;space&#32;is&#32;left</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nmtpoi.GE.mxmtpo)&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MXMTPO&apos;</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00038"/>00038 <emphasis role="comment">*&#32;---&gt;&#32;Update&#32;reaction&#32;pointer</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;nmtpoi=nmtpoi+1
+<anchor xml:id="_xnadac_8_f_source_1l00040"/>00040 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;database&#32;code</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;idbtmp(nmtpoi)&#32;=idbcod
+<anchor xml:id="_xnadac_8_f_source_1l00042"/>00042 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;target&#32;code</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;izatmp(nmtpoi)&#32;&#32;=izamat
+<anchor xml:id="_xnadac_8_f_source_1l00044"/>00044 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;reaction&#32;MT&#32;code</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;imtpoi(nmtpoi,1)=mthl(iposec)
+<anchor xml:id="_xnadac_8_f_source_1l00046"/>00046 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;product&#32;isomer&#32;code</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;imtpoi(nmtpoi,2)=izapl(iposec)
+<anchor xml:id="_xnadac_8_f_source_1l00048"/>00048 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;beginning&#32;of&#32;information</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;imtpoi(nmtpoi,3)=noacti
+<anchor xml:id="_xnadac_8_f_source_1l00050"/>00050 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;number&#32;of&#32;pairs&#32;(E,&#32;yield)</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;imtpoi(nmtpoi,4)=np
+<anchor xml:id="_xnadac_8_f_source_1l00052"/>00052 <emphasis role="comment">*&#32;---&gt;&#32;Now&#32;store&#32;yield,&#32;if&#32;enough&#32;space&#32;left</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(noacti+2*np.GE.mxacti)&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MXACTI&apos;</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;jact=1,np*2
+<anchor xml:id="_xnadac_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xactiv(noacti+jact)=xnrval(jact)
+<anchor xml:id="_xnadac_8_f_source_1l00056"/>00056 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00057"/>00057 <emphasis role="comment">*&#32;---&gt;&#32;Update&#32;high&#32;water&#32;mark</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;noacti=noacti+2*np
+<anchor xml:id="_xnadac_8_f_source_1l00059"/>00059 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnadac_8_f_source_1l00060"/>00060 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Targ&#32;&apos;</emphasis>,a,<emphasis role="stringliteral">&apos;&#32;reac&#32;&apos;</emphasis>,a,<emphasis role="stringliteral">&apos;&#32;already&#32;in&#32;memory,&#32;skip!&apos;</emphasis>)
+<anchor xml:id="_xnadac_8_f_source_1l00061"/>00061 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

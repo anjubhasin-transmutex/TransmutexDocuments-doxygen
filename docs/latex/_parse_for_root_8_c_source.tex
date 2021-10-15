@@ -1,0 +1,91 @@
+\hypertarget{_parse_for_root_8_c_source}{}\doxysection{Parse\+For\+Root.\+C}
+\label{_parse_for_root_8_c_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/tools/ParseForRoot.C@{/Users/Transmutex/Simulation/ADS\_SimulationCode/tools/ParseForRoot.C}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00001}00001 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00002}00002 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00003}00003 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00004}00004 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00005}00005 \textcolor{preprocessor}{\#include "{}TNtuple.h"{}}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00006}00006 \textcolor{preprocessor}{\#include "{}TFile.h"{}}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00007}00007 \textcolor{preprocessor}{\#include "{}TH1F.h"{}}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00008}00008 \textcolor{keyword}{using} std::cout;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00009}00009 \textcolor{keyword}{using} std::endl;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00011}00011 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00013}00013 \textcolor{keywordtype}{int} forYacine(\textcolor{keywordtype}{string} filename = \textcolor{stringliteral}{"{}history.dat.600MeV"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00014}00014   std::string line;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00015}00015   std::ifstream infile(filename);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00016}00016   std::istringstream iss;   }
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00017}00017   \textcolor{comment}{// skip header}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00018}00018   std::getline(infile, line);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00019}00019   std::getline(infile, line);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00020}00020   \textcolor{keywordtype}{double} px=0,py=0,pz=0,x=0,y=0,z=0,en=0;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00021}00021   TFile* outputFile = \textcolor{keyword}{new} TFile(\textcolor{stringliteral}{"{}exampleNtuple.root"{}},\textcolor{stringliteral}{"{}recreate"{}});}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00022}00022   TNtuple *ntuple = \textcolor{keyword}{new} TNtuple(\textcolor{stringliteral}{"{}ntuple"{}},\textcolor{stringliteral}{"{}history.dat"{}},\textcolor{stringliteral}{"{}x:y:z:px:py:pz:en"{}});}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00023}00023   TH1F *h = \textcolor{keyword}{new} TH1F(\textcolor{stringliteral}{"{}h"{}},\textcolor{stringliteral}{"{}Mult"{}},101,0,100);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00024}00024   \textcolor{keywordtype}{int} totev = 0;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00025}00025   \textcolor{keywordflow}{while} (std::getline(infile, line))}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00026}00026   \{}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00027}00027     \textcolor{keywordflow}{if}(line.substr(0,7) == \textcolor{stringliteral}{"{}End run"{}}) \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00028}00028     ++totev;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00029}00029 \textcolor{comment}{//    cout << line << endl;}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00030}00030     \textcolor{keywordflow}{if}(line.substr(0,11)==\textcolor{stringliteral}{"{}Begin event"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00031}00031 \textcolor{comment}{//      cout << "{}Begin event"{} << endl;}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00032}00032       std::getline(infile,line);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00033}00033       \textcolor{keywordflow}{if}(line.substr(0,19) == \textcolor{stringliteral}{"{}Neutron information"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00034}00034     iss.str(line.substr(20,80));}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00035}00035     \textcolor{keywordtype}{int} nneut;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00036}00036     sscanf(line.substr(20,80).c\_str(),\textcolor{stringliteral}{"{}\%d"{}},\&nneut);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00037}00037     h-\/>Fill(nneut);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00038}00038 \textcolor{comment}{//  iss >> nneut;}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00039}00039 \textcolor{comment}{//  cout << "{}\# neutrons "{} << nneut << endl;}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00040}00040     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i<nneut;++i) \{}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00041}00041       std::getline(infile,line);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00042}00042       sscanf(line.c\_str(),\textcolor{stringliteral}{"{}\%lf \%lf \%lf \%lf \%lf \%lf \%lf"{}},\&x,\&y,\&z,\&px,\&py,\&pz,\&en);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00043}00043 \textcolor{comment}{//    cout<< x << "{} "{} << y << "{} "{} << z << "{} "{}}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00044}00044 \textcolor{comment}{//         << px << "{} "{} << py << "{} "{} << pz << endl;}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00045}00045       ntuple-\/>Fill(x,y,z,px,py,pz,en);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00046}00046     \}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00047}00047       \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00048}00048     cout << \textcolor{stringliteral}{"{}No Neutron information"{}} << endl;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00049}00049     \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00050}00050       \}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00051}00051       std::getline(infile,line);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00052}00052       \textcolor{keywordflow}{if}(line.substr(0,21) == \textcolor{stringliteral}{"{}Fragments information"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00053}00053     iss.str(line.substr(22,80));}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00054}00054     \textcolor{keywordtype}{int} nfrag;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00055}00055     sscanf(line.substr(22,80).c\_str(),\textcolor{stringliteral}{"{}\%d"{}},\&nfrag);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00056}00056 \textcolor{comment}{//  cout << "{}\# fragments "{} << nfrag << endl;}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00057}00057     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i<nfrag;++i) \{}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00058}00058       std::getline(infile,line);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00059}00059     \}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00060}00060       \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00061}00061     cout << \textcolor{stringliteral}{"{}No Fragments information"{}} << endl;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00062}00062     \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00063}00063       \}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00064}00064       std::getline(infile,line);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00065}00065       std::getline(infile,line);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00066}00066       std::getline(infile,line);}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00067}00067       \textcolor{keywordflow}{if}(line.substr(0,9) != \textcolor{stringliteral}{"{}End event"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00068}00068     cout << \textcolor{stringliteral}{"{}No End event"{}} << endl;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00069}00069     \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00070}00070       \}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00071}00071     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00072}00072       cout << \textcolor{stringliteral}{"{}No Begin event"{}} << endl;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00073}00073       \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00074}00074     \}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00075}00075     }
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00076}00076   \}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00077}00077 \textcolor{comment}{//  ntuple-\/>Write();}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00078}00078 \textcolor{comment}{//  ntuple-\/>Print();}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00079}00079 \textcolor{comment}{//  h-\/>Write();}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00080}00080     cout << \textcolor{stringliteral}{"{}Total event "{}} << totev << endl;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00081}00081   outputFile-\/>Write();}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00082}00082   outputFile-\/>Close();}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00083}00083 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00084}00084   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{_parse_for_root_8_c_source_l00085}00085 \}}
+
+\end{DoxyCode}

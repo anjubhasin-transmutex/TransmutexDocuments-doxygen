@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xncirgo_8_f_source" xml:lang="en-US">
+<title>xncirgo.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/cirene/xncirgo.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xncirgo_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;0.05/00&#32;28/04/94&#32;&#32;13.25.16&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xncirgo(HINP,V,OUTP,SNEXT,SAFE,IHIT)
+<anchor xml:id="_xncirgo_8_f_source_1l00004"/>00004 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;---&#32;Where&#32;am&#32;I&#32;going&#32;for&#32;the&#32;cirene&#32;reactor</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00006"/>00006 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;HINP(3)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Input&#32;position</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;V(3)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Unnormalised&#32;direction</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;OUTP(3)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;End&#32;point&#32;on&#32;the&#32;boundary&#32;of&#32;a&#32;volume</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;SNEXT&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Flypath&#32;to&#32;the&#32;boundary</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;SAFE&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Distance&#32;to&#32;the&#32;nearest&#32;boundary</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;IHIT&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Hit&#32;flag:&#32;0&#32;no&#32;volume&#32;is&#32;hit</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&gt;0&#32;a&#32;volume&#32;is&#32;hit</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00014"/>00014 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00015"/>00015 <emphasis role="preprocessor">#include&#32;&quot;xccige.inc&quot;</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00016"/>00016 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;parameter(nmate=4)
+<anchor xml:id="_xncirgo_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;x(6),hinp(3),v(3),outp(3),c(2),outpt(3,5)
+<anchor xml:id="_xncirgo_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;ihitt(nmate),snextt(nmate),safet(nmate),imhitt(nmate)
+<anchor xml:id="_xncirgo_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;LIN
+<anchor xml:id="_xncirgo_8_f_source_1l00020"/>00020 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00021"/>00021 <emphasis role="comment">*&#32;---&#32;Normalize&#32;direction&#32;cosines</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;x(1)&#32;=&#32;hinp(1)
+<anchor xml:id="_xncirgo_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;x(2)&#32;=&#32;hinp(2)
+<anchor xml:id="_xncirgo_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;x(3)&#32;=&#32;hinp(3)
+<anchor xml:id="_xncirgo_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;hnorm&#32;=&#32;1/sqrt(v(1)**2+v(2)**2+v(3)**2)
+<anchor xml:id="_xncirgo_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;x(4)&#32;=&#32;v(1)*hnorm
+<anchor xml:id="_xncirgo_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;x(5)&#32;=&#32;v(2)*hnorm
+<anchor xml:id="_xncirgo_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;x(6)&#32;=&#32;v(3)*hnorm
+<anchor xml:id="_xncirgo_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;ntest&#32;=&#32;0
+<anchor xml:id="_xncirgo_8_f_source_1l00030"/>00030 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;---&#32;Intersection&#32;with&#32;steel</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;ntest=ntest+1
+<anchor xml:id="_xncirgo_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;imhitt(ntest)&#32;=&#32;1
+<anchor xml:id="_xncirgo_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;x(3)&#32;=&#32;hinp(3)&#32;-&#32;steshf
+<anchor xml:id="_xncirgo_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;c(1)&#32;=&#32;stedia*0.5
+<anchor xml:id="_xncirgo_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;c(2)&#32;=&#32;stelen*0.5
+<anchor xml:id="_xncirgo_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntubn(x(1),x(4),outpt(1,ntest),c,snextt(ntest),
+<anchor xml:id="_xncirgo_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;safet(ntest),ihitt(ntest))
+<anchor xml:id="_xncirgo_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;outpt(3,ntest)&#32;=&#32;outpt(3,ntest)&#32;+&#32;steshf
+<anchor xml:id="_xncirgo_8_f_source_1l00040"/>00040 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00041"/>00041 <emphasis role="comment">*&#32;---&#32;If&#32;intersecting&#32;from&#32;outside&#32;we&#32;are&#32;done</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ihitt(ntest).LE.0)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xncirgo_8_f_source_1l00043"/>00043 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00044"/>00044 <emphasis role="comment">*&#32;---&#32;Intersection&#32;with&#32;the&#32;moderator</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;ntest=ntest+1
+<anchor xml:id="_xncirgo_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;imhitt(ntest)&#32;=&#32;2
+<anchor xml:id="_xncirgo_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;x(3)&#32;=&#32;hinp(3)&#32;-&#32;watshf
+<anchor xml:id="_xncirgo_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;c(1)&#32;=&#32;watdia*0.5
+<anchor xml:id="_xncirgo_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;c(2)&#32;=&#32;watlen*0.5
+<anchor xml:id="_xncirgo_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntubn(x(1),x(4),outpt(1,ntest),c,snextt(ntest),
+<anchor xml:id="_xncirgo_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;safet(ntest),ihitt(ntest))
+<anchor xml:id="_xncirgo_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;outpt(3,ntest)&#32;=&#32;outpt(3,ntest)&#32;+&#32;watshf
+<anchor xml:id="_xncirgo_8_f_source_1l00053"/>00053 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00054"/>00054 <emphasis role="comment">*&#32;---&#32;If&#32;intersecting&#32;from&#32;outside&#32;we&#32;are&#32;done</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ihitt(ntest).LE.0)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xncirgo_8_f_source_1l00056"/>00056 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00057"/>00057 <emphasis role="comment">*&#32;---&#32;Intersection&#32;with&#32;outer&#32;core</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;x(3)&#32;=&#32;hinp(3)&#32;-&#32;corshf
+<anchor xml:id="_xncirgo_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;c(1)&#32;=&#32;cordia*0.5
+<anchor xml:id="_xncirgo_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;c(2)&#32;=&#32;corlen*0.5
+<anchor xml:id="_xncirgo_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntubn(x(1),x(4),outp,c,snextd,safed,ihitd)
+<anchor xml:id="_xncirgo_8_f_source_1l00062"/>00062 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00063"/>00063 <emphasis role="comment">*&#32;---&#32;If&#32;not&#32;intersecting&#32;we&#32;are&#32;done</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ihitd.EQ.0)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xncirgo_8_f_source_1l00065"/>00065 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00066"/>00066 <emphasis role="comment">*&#32;---&#32;Inside&#32;the&#32;outer&#32;core,&#32;here&#32;is&#32;more&#32;complicated!</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00067"/>00067 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00068"/>00068 <emphasis role="comment">*&#32;---&#32;Outer&#32;core&#32;bars</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;ntest=ntest+1
+<anchor xml:id="_xncirgo_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;imhitt(ntest)&#32;=&#32;3
+<anchor xml:id="_xncirgo_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xncico(x,outpt(1,ntest),snextt(ntest),
+<anchor xml:id="_xncirgo_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;safet(ntest),ihitt(ntest))
+<anchor xml:id="_xncirgo_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(abs(xhtbar).LT.2.5*disbar
+<anchor xml:id="_xncirgo_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.AND.abs(yhtbar).LT.2.5*disbar)&#32;imhitt(ntest)=4
+<anchor xml:id="_xncirgo_8_f_source_1l00075"/>00075 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00076"/>00076 &#32;&#32;10&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00077"/>00077 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00078"/>00078 <emphasis role="comment">*&#32;---&#32;Find&#32;minimum&#32;hit</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;snmin=1e10
+<anchor xml:id="_xncirgo_8_f_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;itest=1,ntest
+<anchor xml:id="_xncirgo_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(snextt(itest).LT.snmin)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iwin&#32;=&#32;itest
+<anchor xml:id="_xncirgo_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;snmin&#32;=&#32;snextt(itest)
+<anchor xml:id="_xncirgo_8_f_source_1l00084"/>00084 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00085"/>00085 &#32;&#32;20&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00086"/>00086 &#32;&#32;30&#32;&#32;snext&#32;=&#32;snextt(iwin)
+<anchor xml:id="_xncirgo_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;safe&#32;&#32;=&#32;safet(iwin)
+<anchor xml:id="_xncirgo_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;outp(1)&#32;=&#32;outpt(1,iwin)
+<anchor xml:id="_xncirgo_8_f_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;outp(2)&#32;=&#32;outpt(2,iwin)
+<anchor xml:id="_xncirgo_8_f_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;outp(3)&#32;=&#32;outpt(3,iwin)
+<anchor xml:id="_xncirgo_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;ihit&#32;=&#32;ihitt(iwin)
+<anchor xml:id="_xncirgo_8_f_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;imahit&#32;=&#32;imhitt(iwin)
+<anchor xml:id="_xncirgo_8_f_source_1l00093"/>00093 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncirgo_8_f_source_1l00094"/>00094 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

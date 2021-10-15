@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source" xml:lang="en-US">
+<title>SVBR100_HeatExchanger.cc</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/Benchmark-4/src/geometry/SVBR100/SVBR100_HeatExchanger.cc</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00001"/>00001 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00002"/>00002 <emphasis role="comment">//&#32;\brief&#32;Implementation&#32;of&#32;the&#32;SVBR100&apos;s&#32;Heat&#32;Exchanger&#32;class</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00003"/>00003 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00004"/>00004 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00006"/>00006 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00007"/>00007 <emphasis role="comment">//&#32;SVBR100_HeatExchanger</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00008"/>00008 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00009"/>00009 <emphasis role="comment">//&#32;Thomas&#32;Guilbaud,&#32;Transmutex,&#32;25/05/2021</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00010"/>00010 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00012"/>00012 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;Geometry&#32;represented&#32;the&#32;SVBR100&apos;s&#32;Heat&#32;Exchanger&#32;of&#32;AKME</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00014"/>00014 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00015"/>00015 <emphasis role="preprocessor">#include&#32;&quot;SVBR100_HeatExchanger.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00016"/>00016 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00017"/>00017 <emphasis role="comment">//&#32;Geant4&#32;Class</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00018"/>00018 <emphasis role="preprocessor">#include&#32;&quot;G4PhysicalConstants.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00019"/>00019 <emphasis role="preprocessor">#include&#32;&quot;G4PVPlacement.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00020"/>00020 <emphasis role="preprocessor">#include&#32;&quot;G4SystemOfUnits.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00021"/>00021 <emphasis role="preprocessor">#include&#32;&quot;G4Tubs.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00022"/>00022 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00023"/>00023 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00024"/>00024 SVBR100_HeatExchanger::SVBR100_HeatExchanger(<link linkend="_class_t_m_x_input_parameters">TMXInputParameters</link>*&#32;p,&#32;G4LogicalVolume*&#32;motherVolume)
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00025"/>00025 :&#32;&#32;&#32;m_p{p},
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00026"/>00026 &#32;&#32;&#32;&#32;m_overlap(p-&gt;Verbose&#32;&gt;=&#32;1),
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00027"/>00027 &#32;&#32;&#32;&#32;m_nbCopy(0),
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00028"/>00028 &#32;&#32;&#32;&#32;m_motherVolume(motherVolume),
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00029"/>00029 &#32;&#32;&#32;&#32;m_masterVolume(nullptr),
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00030"/>00030 &#32;&#32;&#32;&#32;m_translationVector(G4ThreeVector()),
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00031"/>00031 &#32;&#32;&#32;&#32;m_primaryCoolantMaterial(nullptr),
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00032"/>00032 &#32;&#32;&#32;&#32;m_organicCoolant(nullptr),
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00033"/>00033 &#32;&#32;&#32;&#32;m_mixPrimSecondCoolant(nullptr),
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00034"/>00034 &#32;&#32;&#32;&#32;m_metalicStructureMaterial(nullptr)
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00035"/>00035 {
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00036"/>00036 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00037"/>00037 }
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00038"/>00038 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00039"/>00039 <emphasis role="comment">//------------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00040"/>00040 <emphasis role="comment">//&#32;Builder</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00041"/>00041 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00042"/>00042 <emphasis role="keywordtype">void</emphasis>&#32;SVBR100_HeatExchanger::createGeometry(G4double&#32;halfLength_insideReactor)&#32;{
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00043"/>00043 &#32;&#32;&#32;&#32;createMaterials();
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00044"/>00044 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00045"/>00045 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(m_p-&gt;Verbose&#32;&gt;=&#32;2)&#32;{
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Length&#32;Inside&#32;Reactor&#32;:&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;2.&#32;*&#32;halfLength_insideReactor&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;mm&quot;</emphasis>&#32;&lt;&lt;&#32;G4endl;
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00047"/>00047 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00048"/>00048 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00049"/>00049 &#32;&#32;&#32;&#32;G4double&#32;outerRadius_envelope&#32;=&#32;521./2.&#32;*&#32;mm;
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00050"/>00050 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;G4double&#32;halfHeight_envelope&#32;=&#32;6645./2.&#32;*&#32;mm;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00051"/>00051 &#32;&#32;&#32;&#32;G4double&#32;thickness_envelope&#32;=&#32;5.&#32;*&#32;mm;&#32;<emphasis role="comment">//?</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00052"/>00052 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00053"/>00053 &#32;&#32;&#32;&#32;G4double&#32;outerRadius_primaryCoolantFlow&#32;=&#32;outerRadius_envelope&#32;-&#32;thickness_envelope;
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00054"/>00054 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00056"/>00056 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Simplified&#32;Secondary&#32;Coolant</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00057"/>00057 &#32;&#32;&#32;&#32;G4Tubs*&#32;sEnvelope&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4Tubs(<emphasis role="stringliteral">&quot;sHeatExchanger_envelope&quot;</emphasis>,&#32;0.,&#32;outerRadius_envelope,&#32;halfLength_insideReactor,&#32;0.,&#32;twopi);
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00058"/>00058 &#32;&#32;&#32;&#32;G4LogicalVolume*&#32;lEnvelope&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4LogicalVolume(sEnvelope,&#32;m_metalicStructureMaterial,&#32;<emphasis role="stringliteral">&quot;lHeatExchanger_envelope&quot;</emphasis>);
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00059"/>00059 &#32;&#32;&#32;&#32;m_masterVolume&#32;=&#32;lEnvelope;
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00060"/>00060 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00062"/>00062 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Simplified&#32;Secondary&#32;Coolant</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00063"/>00063 &#32;&#32;&#32;&#32;G4Tubs*&#32;sPrimaryCoolantFlow&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4Tubs(<emphasis role="stringliteral">&quot;sHeatExchanger_primaryCoolantFlow&quot;</emphasis>,&#32;0.,&#32;outerRadius_primaryCoolantFlow,&#32;halfLength_insideReactor,&#32;0.,&#32;twopi);
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00064"/>00064 &#32;&#32;&#32;&#32;G4LogicalVolume*&#32;lPrimaryCoolantFlow&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4LogicalVolume(sPrimaryCoolantFlow,&#32;m_mixPrimSecondCoolant,&#32;<emphasis role="stringliteral">&quot;lHeatExchanger_primaryCoolantFlow&quot;</emphasis>);
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00065"/>00065 &#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>&#32;G4PVPlacement(0,&#32;G4ThreeVector(),&#32;lPrimaryCoolantFlow,&#32;<emphasis role="stringliteral">&quot;pHeatExchanger_primaryCoolantFlow&quot;</emphasis>,&#32;lEnvelope,&#32;<emphasis role="keyword">false</emphasis>,&#32;0,&#32;m_overlap);
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00066"/>00066 }
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00067"/>00067 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00068"/>00068 <emphasis role="keywordtype">void</emphasis>&#32;SVBR100_HeatExchanger::createMaterials()&#32;{
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00069"/>00069 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;G4double&#32;temperature_secondaryCoolant&#32;=&#32;(0.5&#32;*&#32;(307.+241.)&#32;+&#32;273.15)&#32;*&#32;kelvin;
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00070"/>00070 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;G4double&#32;rho_secondaryCoolant&#32;=&#32;0.8*(g/cm3),
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rho_primaryCoolant&#32;&#32;&#32;=&#32;10.23*(g/cm3);
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00072"/>00072 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00074"/>00074 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Organic&#32;Coolant&#32;for&#32;the&#32;Secondary&#32;Circuit</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00075"/>00075 &#32;&#32;&#32;&#32;m_organicCoolant&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;<link linkend="_class_t_m_x_material">TMXMaterial</link>(
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;OrganicCoolant&quot;</emphasis>,
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rho_secondaryCoolant,&#32;4,&#32;kStateSolid,&#32;temperature_secondaryCoolant<emphasis role="comment">//&#32;900.0</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00078"/>00078 &#32;&#32;&#32;&#32;);
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00079"/>00079 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;C&#32;Nat&#32;-&#32;2&#32;Stable&#32;Isotopes&#32;-&#32;88%</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00080"/>00080 &#32;&#32;&#32;&#32;m_organicCoolant-&gt;AddElement(&#32;60120,&#32;0.88&#32;*&#32;0.989);&#32;<emphasis role="comment">//&#32;C_12</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00081"/>00081 &#32;&#32;&#32;&#32;m_organicCoolant-&gt;AddElement(&#32;60130,&#32;0.88&#32;*&#32;0.011);&#32;<emphasis role="comment">//&#32;C_13</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00082"/>00082 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;H&#32;Nat&#32;-&#32;2&#32;Stable&#32;Isotopes&#32;-&#32;12%</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00083"/>00083 &#32;&#32;&#32;&#32;m_organicCoolant-&gt;AddElement(&#32;10010,&#32;0.12&#32;*&#32;0.9998);&#32;<emphasis role="comment">//&#32;TS_H_of_Polyethylene</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00084"/>00084 &#32;&#32;&#32;&#32;m_organicCoolant-&gt;AddElement(&#32;10020,&#32;0.12&#32;*&#32;0.0002);&#32;<emphasis role="comment">//&#32;TS_H_of_Polyethylene</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00085"/>00085 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00087"/>00087 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Simplyfied&#32;Version&#32;with&#32;homogène&#32;mix&#32;of&#32;Primary&#32;and&#32;Sencondary&#32;Coolant</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00088"/>00088 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">double</emphasis>&#32;fracPrimary&#32;=&#32;0.5;&#32;<emphasis role="comment">//?</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00089"/>00089 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">double</emphasis>&#32;fracSecond&#32;&#32;=&#32;1.&#32;-&#32;fracPrimary;
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00090"/>00090 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;G4double&#32;rho_mix&#32;=&#32;rho_secondaryCoolant*fracSecond&#32;+&#32;rho_primaryCoolant*fracPrimary;
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00091"/>00091 &#32;&#32;&#32;&#32;m_mixPrimSecondCoolant&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;<link linkend="_class_t_m_x_material">TMXMaterial</link>(
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;MixPrimSecondCoolant&quot;</emphasis>,
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rho_mix,&#32;9,&#32;kStateSolid,&#32;temperature_secondaryCoolant<emphasis role="comment">//&#32;900.0</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00094"/>00094 &#32;&#32;&#32;&#32;);
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00096"/>00096 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Pb&#32;Nat&#32;-&#32;4&#32;Stable&#32;Isotopes&#32;-&#32;45%</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00097"/>00097 &#32;&#32;&#32;&#32;m_mixPrimSecondCoolant-&gt;AddElement(822040,&#32;fracPrimary&#32;*&#32;0.45&#32;*&#32;0.014);&#32;<emphasis role="comment">//&#32;Pb204</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00098"/>00098 &#32;&#32;&#32;&#32;m_mixPrimSecondCoolant-&gt;AddElement(822060,&#32;fracPrimary&#32;*&#32;0.45&#32;*&#32;0.241);&#32;<emphasis role="comment">//&#32;Pb206</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00099"/>00099 &#32;&#32;&#32;&#32;m_mixPrimSecondCoolant-&gt;AddElement(822070,&#32;fracPrimary&#32;*&#32;0.45&#32;*&#32;0.221);&#32;<emphasis role="comment">//&#32;Pb207</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00100"/>00100 &#32;&#32;&#32;&#32;m_mixPrimSecondCoolant-&gt;AddElement(822080,&#32;fracPrimary&#32;*&#32;0.45&#32;*&#32;0.524);&#32;<emphasis role="comment">//&#32;Pb208</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00101"/>00101 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Bi&#32;Nat&#32;-&#32;+&#32;Stable&#32;Isotope&#32;-&#32;55%</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00102"/>00102 &#32;&#32;&#32;&#32;m_mixPrimSecondCoolant-&gt;AddElement(832090,&#32;fracPrimary&#32;*&#32;0.55);&#32;<emphasis role="comment">//&#32;Bi209</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00104"/>00104 <emphasis role="comment"></emphasis>&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;C&#32;Nat&#32;-&#32;2&#32;Stable&#32;Isotopes&#32;-&#32;88%</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00105"/>00105 &#32;&#32;&#32;&#32;m_mixPrimSecondCoolant-&gt;AddElement(&#32;60120,&#32;fracSecond&#32;*&#32;0.88&#32;*&#32;0.989);&#32;<emphasis role="comment">//&#32;C_12</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00106"/>00106 &#32;&#32;&#32;&#32;m_mixPrimSecondCoolant-&gt;AddElement(&#32;60130,&#32;fracSecond&#32;*&#32;0.88&#32;*&#32;0.011);&#32;<emphasis role="comment">//&#32;C_13</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00107"/>00107 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;H&#32;Nat&#32;-&#32;2&#32;Stable&#32;Isotopes&#32;-&#32;12%</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00108"/>00108 &#32;&#32;&#32;&#32;m_mixPrimSecondCoolant-&gt;AddElement(&#32;10010,&#32;fracSecond&#32;*&#32;0.12&#32;*&#32;0.9998);&#32;<emphasis role="comment">//&#32;TS_H_of_Polyethylene</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00109"/>00109 &#32;&#32;&#32;&#32;m_mixPrimSecondCoolant-&gt;AddElement(&#32;10020,&#32;fracSecond&#32;*&#32;0.12&#32;*&#32;0.0002);&#32;<emphasis role="comment">//&#32;TS_H_of_Polyethylene</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00110"/>00110 }
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00111"/>00111 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00112"/>00112 <emphasis role="comment">//------------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00113"/>00113 <emphasis role="comment">//&#32;Placer</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00114"/>00114 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00115"/>00115 <emphasis role="keywordtype">void</emphasis>&#32;SVBR100_HeatExchanger::placeGeometry(G4ThreeVector&#32;translation,&#32;G4LogicalVolume*&#32;motherVolume)&#32;{
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00116"/>00116 &#32;&#32;&#32;&#32;m_translationVector&#32;=&#32;translation;
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00117"/>00117 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00118"/>00118 &#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>&#32;G4PVPlacement(0,&#32;translation,&#32;m_masterVolume,&#32;<emphasis role="stringliteral">&quot;pHeatExchanger_&quot;</emphasis>+std::to_string(m_nbCopy),&#32;motherVolume,&#32;<emphasis role="keyword">false</emphasis>,&#32;0,&#32;m_overlap);
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00119"/>00119 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00120"/>00120 &#32;&#32;&#32;&#32;m_nbCopy++;
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00121"/>00121 }
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00122"/>00122 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00123"/>00123 <emphasis role="keywordtype">void</emphasis>&#32;SVBR100_HeatExchanger::placeGeometry(G4ThreeVector&#32;translation)&#32;{
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00124"/>00124 &#32;&#32;&#32;&#32;placeGeometry(translation,&#32;m_motherVolume);
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00125"/>00125 }
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00126"/>00126 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00127"/>00127 <emphasis role="comment">//------------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00128"/>00128 <emphasis role="comment">//&#32;Setter</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00129"/>00129 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00130"/>00130 <emphasis role="keywordtype">void</emphasis>&#32;SVBR100_HeatExchanger::setMotherVolume(G4LogicalVolume*&#32;motherVolume)&#32;{
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00131"/>00131 &#32;&#32;&#32;&#32;m_motherVolume&#32;=&#32;motherVolume;
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00132"/>00132 }
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00133"/>00133 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00134"/>00134 <emphasis role="keywordtype">void</emphasis>&#32;SVBR100_HeatExchanger::setTranslation(G4ThreeVector&#32;translation)&#32;{
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00135"/>00135 &#32;&#32;&#32;&#32;m_translationVector&#32;=&#32;translation;
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00136"/>00136 }
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00137"/>00137 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00138"/>00138 <emphasis role="keywordtype">void</emphasis>&#32;SVBR100_HeatExchanger::setPrimaryCoolantMaterial(<link linkend="_class_t_m_x_material">TMXMaterial</link>*&#32;primaryCoolantMaterial)&#32;{
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00139"/>00139 &#32;&#32;&#32;&#32;m_primaryCoolantMaterial&#32;=&#32;primaryCoolantMaterial;
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00140"/>00140 }
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00141"/>00141 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00142"/>00142 <emphasis role="keywordtype">void</emphasis>&#32;SVBR100_HeatExchanger::setMetalicStructureMaterial(<link linkend="_class_t_m_x_material">TMXMaterial</link>*&#32;metalicStructureMaterial)&#32;{
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00143"/>00143 &#32;&#32;&#32;&#32;m_metalicStructureMaterial&#32;=&#32;metalicStructureMaterial;
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00144"/>00144 }
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00145"/>00145 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00146"/>00146 <emphasis role="comment">//------------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00147"/>00147 <emphasis role="comment">//&#32;Getter</emphasis>
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00148"/>00148 
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00149"/>00149 G4LogicalVolume*&#32;SVBR100_HeatExchanger::getMasterVolume()&#32;{
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00150"/>00150 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>(m_masterVolume);
+<anchor xml:id="__benchmark-4_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_1l00151"/>00151 }
+</programlisting></section>

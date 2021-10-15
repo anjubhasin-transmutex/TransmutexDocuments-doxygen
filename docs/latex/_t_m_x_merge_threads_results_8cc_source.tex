@@ -1,0 +1,276 @@
+\hypertarget{_t_m_x_merge_threads_results_8cc_source}{}\doxysection{TMXMerge\+Threads\+Results.\+cc}
+\label{_t_m_x_merge_threads_results_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/TMXElements/src/TMXMergeThreadsResults.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/TMXElements/src/TMXMergeThreadsResults.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00003}00003 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00006}00006 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00007}00007 \textcolor{comment}{// TMXMergeThreadsResults}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00009}00009 \textcolor{comment}{// Donovan Maire, Transmutex, 06/04/2020}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00014}00014 \textcolor{comment}{// Class}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00015}00015 \textcolor{preprocessor}{\#include "{}TMXMergeThreadsResults.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00017}00017 \textcolor{comment}{// GEANT4 libraries}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00018}00018 \textcolor{comment}{// \#include "{}G4ios.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00019}00019 \textcolor{comment}{// \#include "{}G4SystemOfUnits.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00020}00020 \textcolor{comment}{// \#include "{}G4Threading.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00021}00021 \textcolor{comment}{// \#include "{}globals.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00023}00023 \textcolor{comment}{// C++ Class}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00024}00024 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00025}00025 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00026}00026 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00027}00027 \textcolor{preprocessor}{\#include <cmath>}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00029}00029 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00030}00030 \textcolor{preprocessor}{\#include <iomanip>}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00032}\mbox{\hyperlink{class_t_m_x_merge_threads_results_a2e5a3f80616a82897a998b9d72f14362}{00032}} \mbox{\hyperlink{class_t_m_x_merge_threads_results_a2e5a3f80616a82897a998b9d72f14362}{TMXMergeThreadsResults::TMXMergeThreadsResults}}(\textcolor{keywordtype}{int} Nb\_Threads)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00033}00033  : MergedOutputVariables\{0\}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00034}00034 \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00035}00035     std::vector < double > OutputVariables(38, 0);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00036}00036     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i<Nb\_Threads; ++i) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00037}00037         MergedOutputVariables.push\_back(OutputVariables);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00038}00038         vect\_k.push\_back(OutputVariables);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00039}00039         vect\_sigma\_k.push\_back(OutputVariables);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00040}00040     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00041}00041 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00043}00043 TMXMergeThreadsResults::\string~TMXMergeThreadsResults()\{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00045}00045 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00047}00047 \textcolor{keywordtype}{void} TMXMergeThreadsResults::AddNewValues(\textcolor{keywordtype}{int} Thread\_Numb, \textcolor{keywordtype}{double} N0, \textcolor{keywordtype}{double} Ntot, \textcolor{keywordtype}{double} FissionByN0, \textcolor{keywordtype}{double} sigma\_FissionByN0, \textcolor{keywordtype}{double} NeutronFromFission, \textcolor{keywordtype}{double} NeutronFromInelastic,}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00048}00048                                        \textcolor{keywordtype}{double} AbsorptionInU235, \textcolor{keywordtype}{double} sigma\_AbsorptionInU235, \textcolor{keywordtype}{double} CaptureInU238, \textcolor{keywordtype}{double} sigma\_CaptureInU238, \textcolor{keywordtype}{double} k\_src, \textcolor{keywordtype}{double} sigma\_ksrc,}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00049}00049                                        \textcolor{keywordtype}{double} k\_eff, \textcolor{keywordtype}{double} sigma\_keff, \textcolor{keywordtype}{double} nu, \textcolor{keywordtype}{double} eta, \textcolor{keywordtype}{double} sigma\_eta, \textcolor{keywordtype}{double} epsilon, \textcolor{keywordtype}{double} sigma\_eps,}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00050}00050                                        \textcolor{keywordtype}{double} Cap\_abs, \textcolor{keywordtype}{double} sigma\_Cap\_Abs, \textcolor{keywordtype}{double} EtotEbeam\_perFission, \textcolor{keywordtype}{double} sigma\_EtotEbeam\_perFission, \textcolor{keywordtype}{double} Edep\_perFission, \textcolor{keywordtype}{double} sigma\_Edep\_perFission, \textcolor{keywordtype}{double} G0, \textcolor{keywordtype}{double} sigma\_G0, \textcolor{keywordtype}{double} G\_G0k, \textcolor{keywordtype}{double} sigma\_G\_G0k, \textcolor{keywordtype}{double} G\_Pth, \textcolor{keywordtype}{double} sigma\_G\_Pth, \textcolor{keywordtype}{double} Chi2, \textcolor{keywordtype}{double} sigma\_Chi2)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00051}00051 \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00052}00052     MergedOutputVariables[Thread\_Numb][ 0] = N0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00053}00053     MergedOutputVariables[Thread\_Numb][ 1] = 0.;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00054}00054     MergedOutputVariables[Thread\_Numb][ 2] = Ntot;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00055}00055     MergedOutputVariables[Thread\_Numb][ 3] = 0.;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00056}00056     MergedOutputVariables[Thread\_Numb][ 4] = FissionByN0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00057}00057     MergedOutputVariables[Thread\_Numb][ 5] = sigma\_FissionByN0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00058}00058     MergedOutputVariables[Thread\_Numb][ 6] = NeutronFromFission;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00059}00059     MergedOutputVariables[Thread\_Numb][ 7] = 0.;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00060}00060     MergedOutputVariables[Thread\_Numb][ 8] = NeutronFromInelastic;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00061}00061     MergedOutputVariables[Thread\_Numb][ 9] = 0.;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00062}00062     MergedOutputVariables[Thread\_Numb][10] = AbsorptionInU235;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00063}00063     MergedOutputVariables[Thread\_Numb][11] = sigma\_AbsorptionInU235;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00064}00064     MergedOutputVariables[Thread\_Numb][12] = CaptureInU238;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00065}00065     MergedOutputVariables[Thread\_Numb][13] = sigma\_CaptureInU238;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00066}00066     MergedOutputVariables[Thread\_Numb][14] = k\_src;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00067}00067     MergedOutputVariables[Thread\_Numb][15] = sigma\_ksrc;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00068}00068     MergedOutputVariables[Thread\_Numb][16] = k\_eff;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00069}00069     MergedOutputVariables[Thread\_Numb][17] = sigma\_keff;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00070}00070     MergedOutputVariables[Thread\_Numb][18] = nu;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00071}00071     MergedOutputVariables[Thread\_Numb][19] = 0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00072}00072     MergedOutputVariables[Thread\_Numb][20] = eta;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00073}00073     MergedOutputVariables[Thread\_Numb][21] = sigma\_eta;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00074}00074     MergedOutputVariables[Thread\_Numb][22] = epsilon;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00075}00075     MergedOutputVariables[Thread\_Numb][23] = sigma\_eps;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00076}00076     MergedOutputVariables[Thread\_Numb][24] = Cap\_abs;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00077}00077     MergedOutputVariables[Thread\_Numb][25] = sigma\_Cap\_Abs;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00078}00078     MergedOutputVariables[Thread\_Numb][26] = EtotEbeam\_perFission;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00079}00079     MergedOutputVariables[Thread\_Numb][27] = sigma\_EtotEbeam\_perFission;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00080}00080     MergedOutputVariables[Thread\_Numb][28] = Edep\_perFission;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00081}00081     MergedOutputVariables[Thread\_Numb][29] = sigma\_Edep\_perFission;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00082}00082     MergedOutputVariables[Thread\_Numb][30] = G0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00083}00083     MergedOutputVariables[Thread\_Numb][31] = sigma\_G0;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00084}00084     MergedOutputVariables[Thread\_Numb][32] = G\_G0k;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00085}00085     MergedOutputVariables[Thread\_Numb][33] = sigma\_G\_G0k;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00086}00086     MergedOutputVariables[Thread\_Numb][34] = G\_Pth;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00087}00087     MergedOutputVariables[Thread\_Numb][35] = sigma\_G\_Pth;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00088}00088     MergedOutputVariables[Thread\_Numb][36] = Chi2;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00089}00089     MergedOutputVariables[Thread\_Numb][37] = sigma\_Chi2;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00090}00090 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00091}00091 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00092}00092 \textcolor{keywordtype}{void} TMXMergeThreadsResults::AddNew\_k\_values(\textcolor{keywordtype}{int} Thread\_Numb, std::vector<double> k, std::vector<double> sigma\_k) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00093}00093     vect\_k[Thread\_Numb] = k;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00094}00094     vect\_sigma\_k[Thread\_Numb] = sigma\_k;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00095}00095 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00096}00096 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00097}00097 \textcolor{keywordtype}{void} TMXMergeThreadsResults::WriteResults(std::string str\_ROOTFileName, \textcolor{keywordtype}{int} int\_Option, \textcolor{keywordtype}{int} RunNumber)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00098}00098 \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00099}00099     std::cout << \textcolor{stringliteral}{"{}>>> Write results"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00100}00100     std::string ResultsFileName = \textcolor{stringliteral}{"{}results"{}};     \textcolor{comment}{// Name of the text file to fill with parameters value from every threads}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00101}00101     std::size\_t pos = str\_ROOTFileName.find(\textcolor{stringliteral}{"{}.root"{}});}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00102}00102     \textcolor{keywordflow}{if} (pos != std::string::npos)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00103}00103         ResultsFileName = str\_ROOTFileName.substr(0,pos) + \textcolor{stringliteral}{"{}\_results"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00105}00105     \textcolor{comment}{// Results file is used to record each following parameters from every every threads}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00106}00106     \textcolor{keywordtype}{int} gapTab = 24;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00107}00107     std::ofstream ResultsFile;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00108}00108     \textcolor{keywordflow}{if}(RunNumber == 0) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00109}00109         ResultsFile.open((ResultsFileName + (std::string)\textcolor{stringliteral}{"{}.txt"{}}).c\_str(), std::ios::out);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00110}00110         ResultsFile << std::left << std::setw(gapTab) << \textcolor{stringliteral}{"{}N0"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00111}00111                                  << std::setw(gapTab) << \textcolor{stringliteral}{"{}sig\_N0"{}} \textcolor{comment}{// σ}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00112}00112                                  << std::setw(gapTab) << \textcolor{stringliteral}{"{}Ntot"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00113}00113                                  << std::setw(gapTab) << \textcolor{stringliteral}{"{}sig\_Ntot"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00114}00114                                  << std::setw(gapTab) << \textcolor{stringliteral}{"{}FissionByN0"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00115}00115                                  << std::setw(gapTab) << \textcolor{stringliteral}{"{}sig\_N0fiss"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00116}00116                                  << std::setw(gapTab) << \textcolor{stringliteral}{"{}NeutronFromFission"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00117}00117                                  << std::setw(gapTab) << \textcolor{stringliteral}{"{}sig\_NeutronFromFission"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00118}00118                                  << std::setw(gapTab) << \textcolor{stringliteral}{"{}NeutronFromInelastic"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00119}00119                                  << std::setw(gapTab) << \textcolor{stringliteral}{"{}sig\_NeutronFromInelastic"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00120}00120                                  << std::setw(gapTab) << \textcolor{stringliteral}{"{}AbsorptionInU235"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00121}00121                                  << std::setw(gapTab) << \textcolor{stringliteral}{"{}sig\_AbsorptionInU235"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00122}00122                                  << std::setw(gapTab) << \textcolor{stringliteral}{"{}CaptureInU238"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00123}00123                                  << std::setw(gapTab) << \textcolor{stringliteral}{"{}sig\_CaptureInU238"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00124}00124         \textcolor{keywordflow}{if}(int\_Option != 4)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00125}00125             ResultsFile << std::setw(gapTab) << \textcolor{stringliteral}{"{}k\_src"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00126}00126                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}σk\_src"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00127}00127                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}k\_eff"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00128}00128                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}σk\_eff"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00129}00129                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}nu"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00130}00130                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}σ\_nu"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00131}00131                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}eta"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00132}00132                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}σ\_eta"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00133}00133                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}epsilon"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00134}00134                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}σ\_epsilon"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00135}00135                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}cap(U-\/238)/abs(U-\/235)"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00136}00136                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}σ\_cap(U-\/238)/abs(U-\/235)"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00137}00137                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}Etot-\/Ebeam\_perFission"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00138}00138                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}σ\_Etot-\/Ebeam\_perFission"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00139}00139                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}Edep\_perFission"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00140}00140                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}σ\_Edep\_perFission"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00141}00141                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}G0"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00142}00142                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}σ\_G0"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00143}00143                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}G\_G0k"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00144}00144                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}σ\_G"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00145}00145                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}G\_Pth"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00146}00146                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}σ\_G\_Pth"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00147}00147         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00148}00148             ResultsFile << std::setw(gapTab) << \textcolor{stringliteral}{"{}k\_eff"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00149}00149                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}sig\_k\_eff"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00150}00150                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}k\_eff\_direct"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00151}00151                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}sig\_k\_eff\_dir"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00152}00152                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}nu"{}} \textcolor{comment}{// nu}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00153}00153                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}sig\_nu"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00154}00154                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}G\_Pth"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00155}00155                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}sig\_G\_Pth"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00156}00156                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}Chi2"{}}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00157}00157                         << std::setw(gapTab) << \textcolor{stringliteral}{"{}sig\_Chi2"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00158}00158     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00159}00159     \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00160}00160         ResultsFile.open((ResultsFileName + (std::string)\textcolor{stringliteral}{"{}.txt"{}}).c\_str(), std::ios::app);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00161}00161         ResultsFile << \textcolor{stringliteral}{"{}\(\backslash\)n ***************** Run number "{}} << RunNumber << \textcolor{stringliteral}{"{} ***************** \(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00162}00162     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00163}00163 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00164}00164 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00165}00165     ResultsFile << std::left;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00166}00166     std::vector < double > OutputVariables(MergedOutputVariables[0].size(), 0);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00167}00167     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j=0; j < (int) MergedOutputVariables[0].size(); ++j) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00168}00168         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i < (int) MergedOutputVariables.size(); ++i) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00169}00169             \textcolor{keywordflow}{if}(j>9) \{ \textcolor{comment}{// Average value}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00170}00170                 \textcolor{keywordflow}{if}(j\%2 == 0) \textcolor{comment}{// pair}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00171}00171                     OutputVariables[j] += MergedOutputVariables[i][j] /(double) MergedOutputVariables.size();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00172}00172                 \textcolor{keywordflow}{else} \textcolor{comment}{// odd}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00173}00173                     OutputVariables[j] += MergedOutputVariables[i][j]*MergedOutputVariables[i][j] /(double) (MergedOutputVariables.size() * MergedOutputVariables.size());}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00174}00174             \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00175}00175             \textcolor{keywordflow}{else} \{  \textcolor{comment}{// Total sum}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00176}00176                 \textcolor{keywordflow}{if}(j\%2 == 0) \textcolor{comment}{// pair}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00177}00177                     OutputVariables[j] += MergedOutputVariables[i][j];}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00178}00178                 \textcolor{keywordflow}{else} \textcolor{comment}{// odd}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00179}00179                     OutputVariables[j] += MergedOutputVariables[i][j]*MergedOutputVariables[i][j];}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00180}00180             \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00181}00181         \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00182}00182         \textcolor{keywordflow}{if}(j\%2 != 0)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00183}00183             OutputVariables[j] = std::sqrt(OutputVariables[j]);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00184}00184         \textcolor{keywordflow}{if}(( int\_Option != 4 \&\& j<36) || ( (j<22 || j>35) \&\& int\_Option == 4 ) )}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00185}00185             ResultsFile << std::setw(gapTab) << OutputVariables[j];}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00186}00186     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00187}00187 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00188}00188     ResultsFile << \textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00190}00190     \textcolor{comment}{// Merge of k +-\/ sigma as a function of neutron generation}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00191}00191     std::vector < double > k, sigma\_k;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00192}00192     std::vector < int> counter;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00193}00193     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i < (int) vect\_k.size(); ++i) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00194}00194         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j=0; j < (int) vect\_k[i].size(); ++j) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00195}00195             \textcolor{keywordflow}{if}(j >= (\textcolor{keywordtype}{int}) k.size()) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00196}00196                 k.push\_back( vect\_k[i][j] );}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00197}00197                 \textcolor{keywordflow}{if}(vect\_sigma\_k[i][j] > 0)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00198}00198                     sigma\_k.push\_back( vect\_sigma\_k[i][j] * vect\_sigma\_k[i][j] );}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00199}00199                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00200}00200                     sigma\_k.push\_back( 0 );}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00201}00201                 counter.push\_back(1);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00202}00202             \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00203}00203             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00204}00204                 k[j] += vect\_k[i][j];}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00205}00205                 \textcolor{keywordflow}{if}(vect\_sigma\_k[i][j] > 0)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00206}00206                     sigma\_k[j] += vect\_sigma\_k[i][j] * vect\_sigma\_k[i][j];}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00207}00207                 ++counter[j];}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00208}00208             \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00209}00209         \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00210}00210     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00211}00211 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00212}00212     ResultsFile << std::left << std::setw(gapTab) << \textcolor{stringliteral}{"{}k"{}} << std::setw(gapTab) << \textcolor{stringliteral}{"{}sig\_k"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00213}00213     ResultsFile << std::left;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00214}00214     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i < (int) k.size(); ++i) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00215}00215         k[i]       =                 k[i] / counter[i];}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00216}00216         sigma\_k[i] = std::sqrt(sigma\_k[i])/ counter[i];}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00217}00217 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00218}00218         ResultsFile << std::setw(gapTab) << k[i] << std::setw(gapTab) << sigma\_k[i] << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00219}00219     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00220}00220 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00221}00221     ResultsFile.close();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00222}00222 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00223}00223 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00224}00224 std::vector < double > TMXMergeThreadsResults::GetKeffMerged()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00226}00226     \textcolor{comment}{// Calculate the k\_eff factor}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00227}00227     std::vector < double > OutputVariables(2, 0);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00228}00228     \textcolor{comment}{/*int j=16; // k\_eff variable}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00229}00229 \textcolor{comment}{    for(int i=0; i < (int) MergedOutputVariables.size(); ++i) \{}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00230}00230 \textcolor{comment}{        OutputVariables[0] += MergedOutputVariables[i][j] /(double) MergedOutputVariables.size();}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00231}00231 \textcolor{comment}{        OutputVariables[1] += MergedOutputVariables[i][j+1]*MergedOutputVariables[i][j+1] /(double) (MergedOutputVariables.size() * MergedOutputVariables.size());}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00232}00232 \textcolor{comment}{    \}*/}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00233}00233     \textcolor{comment}{// Merge of k +-\/ sigma as a function of neutron generation}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00234}00234     std::vector < double > k, sigma\_k;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00235}00235     std::vector < int> counter;}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00236}00236     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i < (int) vect\_k.size(); ++i) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00237}00237         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j=0; j < (int) vect\_k[i].size(); ++j) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00238}00238             \textcolor{keywordflow}{if}(j >= (\textcolor{keywordtype}{int}) k.size()) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00239}00239                 k.push\_back( vect\_k[i][j] );}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00240}00240                 \textcolor{keywordflow}{if}(vect\_sigma\_k[i][j] > 0)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00241}00241                     sigma\_k.push\_back( vect\_sigma\_k[i][j] * vect\_sigma\_k[i][j] );}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00242}00242                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00243}00243                     sigma\_k.push\_back( 0 );}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00244}00244                 counter.push\_back(1);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00245}00245             \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00246}00246             \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00247}00247                 k[j] += vect\_k[i][j];}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00248}00248                 \textcolor{keywordflow}{if}(vect\_sigma\_k[i][j] > 0)}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00249}00249                     sigma\_k[j] += vect\_sigma\_k[i][j] * vect\_sigma\_k[i][j];}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00250}00250                 ++counter[j];}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00251}00251             \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00252}00252         \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00253}00253     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00254}00254 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00255}00255     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i < (int) k.size(); ++i) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00256}00256         OutputVariables[0] += k[i] / counter[i];}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00257}00257         OutputVariables[1] += std::sqrt(sigma\_k[i])/ counter[i];}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00258}00258     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00259}00259     OutputVariables[0] /= k.size();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00260}00260     OutputVariables[1] /= k.size();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00261}00261     \textcolor{keywordflow}{return}(OutputVariables);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00262}00262 \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00263}00263 }
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00264}00264 \textcolor{keywordtype}{void} TMXMergeThreadsResults::Initialize(\textcolor{keywordtype}{int} Nb\_Threads) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00265}00265     MergedOutputVariables.clear();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00266}00266     vect\_k.clear();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00267}00267     vect\_sigma\_k.clear();}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00268}00268     std::vector < double > OutputVariables(38, 0);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00269}00269     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i<Nb\_Threads; ++i) \{}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00270}00270         MergedOutputVariables.push\_back(OutputVariables);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00271}00271         vect\_k.push\_back(OutputVariables);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00272}00272         vect\_sigma\_k.push\_back(OutputVariables);}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00273}00273     \}}
+\DoxyCodeLine{\Hypertarget{_t_m_x_merge_threads_results_8cc_source_l00274}00274 \}}
+
+\end{DoxyCode}

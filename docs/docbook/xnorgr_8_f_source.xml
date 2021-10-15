@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnorgr_8_f_source" xml:lang="en-US">
+<title>xnorgr.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnmake/xnorgr.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnorgr_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;31/05/96&#32;&#32;17.16.03&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnorgr
+<anchor xml:id="_xnorgr_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Orders&#32;the&#32;energy&#32;grid&#32;for&#32;a&#32;file&#32;5&#32;section&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00008"/>00008 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00009"/>00009 <emphasis role="preprocessor">#include&#32;&quot;xctab1.inc&quot;</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00010"/>00010 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcenes.inc&quot;</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00011"/>00011 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;xdumm(2*maxep)
+<anchor xml:id="_xnorgr_8_f_source_1l00012"/>00012 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00014"/>00014 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;---&gt;&#32;Order&#32;primary&#32;energies</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;50&#32;&#32;j1=1,nens-1
+<anchor xml:id="_xnorgr_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;40&#32;&#32;j2=j1+1,nens
+<anchor xml:id="_xnorgr_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(xengr(j1).GT.xengr(j2))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tmpen&#32;&#32;&#32;&#32;&#32;=&#32;xengr(j1)
+<anchor xml:id="_xnorgr_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xengr(j1)&#32;=&#32;xengr(j2)
+<anchor xml:id="_xnorgr_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xengr(j2)&#32;=&#32;tmpen
+<anchor xml:id="_xnorgr_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ntemp&#32;&#32;&#32;&#32;&#32;=&#32;neps(j1)
+<anchor xml:id="_xnorgr_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;neps(j1)&#32;&#32;=&#32;neps(j2)
+<anchor xml:id="_xnorgr_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;neps(j2)&#32;&#32;=&#32;ntemp
+<anchor xml:id="_xnorgr_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jdum=1,2*maxep
+<anchor xml:id="_xnorgr_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xdumm(jdum)=xenpb(jdum,j1)
+<anchor xml:id="_xnorgr_8_f_source_1l00027"/>00027 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;jdum=1,2*maxep
+<anchor xml:id="_xnorgr_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(jdum,j1)=xenpb(jdum,j2)
+<anchor xml:id="_xnorgr_8_f_source_1l00030"/>00030 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;jdum=1,2*maxep
+<anchor xml:id="_xnorgr_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(jdum,j2)=xdumm(jdum)
+<anchor xml:id="_xnorgr_8_f_source_1l00033"/>00033 &#32;&#32;&#32;30&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00034"/>00034 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00035"/>00035 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00036"/>00036 &#32;&#32;&#32;50&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00037"/>00037 <emphasis role="comment">*&#32;---&gt;&#32;Order&#32;outgoing&#32;energies</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;80&#32;&#32;jen=1,nens
+<anchor xml:id="_xnorgr_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;70&#32;j1=1,neps(jen)-1
+<anchor xml:id="_xnorgr_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;60&#32;j2=j1+1,neps(jen)
+<anchor xml:id="_xnorgr_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(xenpb(2*j1-1,jen).GT.xenpb(2*j2-1,jen))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tmp=xenpb(2*j1-1,jen)
+<anchor xml:id="_xnorgr_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*j1-1,jen)=xenpb(2*j2-1,jen)
+<anchor xml:id="_xnorgr_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*j2-1,jen)=tmp
+<anchor xml:id="_xnorgr_8_f_source_1l00045"/>00045 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00046"/>00046 &#32;&#32;&#32;60&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00047"/>00047 &#32;&#32;&#32;70&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00048"/>00048 &#32;&#32;&#32;80&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00049"/>00049 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnorgr_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

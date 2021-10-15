@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xntnuc_8_f_source" xml:lang="en-US">
+<title>xntnuc.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xntnuc.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xntnuc_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;04/06/96&#32;&#32;18.14.07&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;03/02/94</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xntnuc(A,Z,EV,T)
+<anchor xml:id="_xntnuc_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Computes&#32;the&#32;nuclear&#32;temperature&#32;using&#32;the&#32;Bethe&#32;formula&#32;with&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;a=A/8&#32;taking&#32;into&#32;account&#32;the&#32;surface&#32;effects&#32;on&#32;a&#32;as&#32;well&#32;as&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;their&#32;dependence&#32;in&#32;energy&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;A&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;mass&#32;number&#32;of&#32;the&#32;isomer&#32;in&#32;atomic&#32;unit&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Z&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;atomic&#32;number&#32;of&#32;the&#32;isomer&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;EV&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;incoming&#32;neutron&#32;energy&#32;in&#32;eV&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;T&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;nuclear&#32;temperature&#32;in&#32;eV&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00015"/>00015 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00016"/>00016 <emphasis role="keywordtype">&#32;&#32;&#32;&#32;&#32;&#32;REAL</emphasis>&#32;K,MN,MP,MA
+<anchor xml:id="_xntnuc_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;parameter(a1=15.677,a2=18.56,k=1.79,c3=.717,c4=1.21129)
+<anchor xml:id="_xntnuc_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;parameter(a1k=a1*k,a2k=a2*k,mn=8.07144,mp=7.28899,ma=2.425)
+<anchor xml:id="_xntnuc_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;parameter(qa=-28.3)
+<anchor xml:id="_xntnuc_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;ms(8),nshel1(250),nshel2(250)
+<anchor xml:id="_xntnuc_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;ms&#32;/2,8,14,28,50,82,126,184/
+<anchor xml:id="_xntnuc_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;LFIRST
+<anchor xml:id="_xntnuc_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">SAVE</emphasis>&#32;lfirst,&#32;nshel1,&#32;nshel2
+<anchor xml:id="_xntnuc_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;lfirst&#32;/&#32;.true./
+<anchor xml:id="_xntnuc_8_f_source_1l00025"/>00025 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;fnfsh(n)=.6*(nshel1(n)**1.6666-nshel2(n)**1.6666)*(n-nshel2(n))/
+<anchor xml:id="_xntnuc_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(nshel1(n)-nshel2(n))-.6*(n**1.6666-nshel2(n)**1.6666)
+<anchor xml:id="_xntnuc_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;fnshel(z,a)=5.8*((fnfsh(nint(a-z))+fnfsh(nint(z)))/(a/2.)**.6666
+<anchor xml:id="_xntnuc_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;-.26*a**.3333)
+<anchor xml:id="_xntnuc_8_f_source_1l00030"/>00030 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00032"/>00032 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00033"/>00033 <emphasis role="comment">*&#32;---&gt;&#32;Evaporation&#32;using&#32;the&#32;liquid&#32;drop&#32;formula&#32;of&#32;Myers&#32;and&#32;Swiatecki</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(lfirst)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;i=1,7
+<anchor xml:id="_xntnuc_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;j=ms(i),ms(i+1)
+<anchor xml:id="_xntnuc_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nshel1(j)=ms(i+1)
+<anchor xml:id="_xntnuc_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nshel2(j)=ms(i)
+<anchor xml:id="_xntnuc_8_f_source_1l00039"/>00039 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00040"/>00040 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lfirst=.false.
+<anchor xml:id="_xntnuc_8_f_source_1l00042"/>00042 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;e=ev*1e-6
+<anchor xml:id="_xntnuc_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;x=z**2*.717/(2.*18.56*(1-1.79*((a-2.*z)/a)**2)*a)
+<anchor xml:id="_xntnuc_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;scr=2.*a2*(1.-k*((a-2.*z)/a)**2)*.27**2*(1.-x)
+<anchor xml:id="_xntnuc_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;afg=a/8.
+<anchor xml:id="_xntnuc_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;couche=fnshel(z,a)
+<anchor xml:id="_xntnuc_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(couche.GT.scr)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;couche=scr+scr*log(couche/scr)
+<anchor xml:id="_xntnuc_8_f_source_1l00050"/>00050 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;ash=afg*(1.+(1-exp(-e/18.5))*couche/e)
+<anchor xml:id="_xntnuc_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;t=sqrt(e/ash)*1e6
+<anchor xml:id="_xntnuc_8_f_source_1l00053"/>00053 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xntnuc_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

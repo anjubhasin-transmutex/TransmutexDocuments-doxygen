@@ -1,0 +1,41 @@
+\hypertarget{xnpope_8_f_source}{}\doxysection{xnpope.\+F}
+\label{xnpope_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnpope.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnpope.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 31/05/96  18.32.10  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnpope(LEN)}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00006}00006 \textcolor{comment}{*     Initial population of a secondary energy grid for a file 5       *}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00008}00008 \textcolor{comment}{*     LEN    index of primary energy in XNENGR (input)                 *}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00009}00009 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00010}00010 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00011}00011 \textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00012}00012 \textcolor{preprocessor}{}      parameter(maxpop=50)}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00013}00013 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00014}00014 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00015}00015 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00016}00016 \textcolor{comment}{* -\/-\/-\/> Secondary energy grid, 50 points logarithmicalli spaced from}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00017}00017 \textcolor{comment}{*      1E-\/5 to 2E7}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00018}00018       emin = 1e-\/5}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00019}00019       emax = 2e7}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00020}00020       \textcolor{keywordflow}{IF}(emax.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00021}00021          fact = exp(log(emax/emin)/(maxpop-\/1))}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00022}00022          ef = emin/fact}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00023}00023       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00024}00024          \textcolor{keyword}{WRITE}(6,10000) len,xengr(len)}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00025}00025 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' XNPOPE: error in XENGR('},i4,\textcolor{stringliteral}{')='},g14.7)}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00026}00026          stop}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00027}00027 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00028}00028       neps(len)=maxpop}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00029}00029       \textcolor{keywordflow}{DO} 10 jeps=1,maxpop}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00030}00030          ef = ef*fact}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00031}00031          xenpb(2*jeps-\/1,len)=ef}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00032}00032          xenpb(2*jeps  ,len)=0}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00033}00033    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00034}00034 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnpope_8_f_source_l00035}00035       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

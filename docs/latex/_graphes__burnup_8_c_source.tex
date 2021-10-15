@@ -1,0 +1,421 @@
+\hypertarget{_graphes__burnup_8_c_source}{}\doxysection{Graphes\+\_\+burnup.\+C}
+\label{_graphes__burnup_8_c_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/Graphes\_burnup.C@{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/Graphes\_burnup.C}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00001}00001 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00002}00002 \textcolor{comment}{ * -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00003}00003 \textcolor{comment}{ * | Generation of graphes for burnup analysis    |}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00004}00004 \textcolor{comment}{ * -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00005}00005 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00006}00006 \textcolor{comment}{ * Read every Evolved material files in the directory}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00007}00007 \textcolor{comment}{ * and draw three types of histogram}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00008}00008 \textcolor{comment}{ *      -\/ 2D histogram representing the mass of each isotope with A = f(Z) in the last run}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00009}00009 \textcolor{comment}{ *      -\/ histogram representing the time evolution of the isotope mass  of every isotopes}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00010}00010 \textcolor{comment}{ *      -\/ histogram representing the time evolution of the mass fraction of every isotopes with fraction < threshold}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00011}00011 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00012}00012 \textcolor{comment}{ * @rg1: Threshold to draw isotope fraction evolution only with isotope fractions lower than value}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00013}00013 \textcolor{comment}{ * @rg2: Name of the material to be plotted (Initial name in the GEANT4 geometry). Value must be given between quotes.}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00014}00014 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00015}00015 \textcolor{comment}{ * Output1: root file "{}burnup.root"{} with all histograms}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00016}00016 \textcolor{comment}{ * Output2: text file "{}final\_inventory.txt"{} with total inventory in last run}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00017}00017 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00018}00018 \textcolor{comment}{ * Example to run the code from the directory containing burnup text files}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00019}00019 \textcolor{comment}{ * > root '../Graphes\_burnup.C(0.12,"{}fuel\_ThPuO2"{})'}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00020}00020 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00022}00022 \textcolor{comment}{// C++ libraries}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00023}00023 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00024}00024 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00025}00025 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00027}00027 \textcolor{comment}{// ROOT libraries}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00028}00028 \textcolor{preprocessor}{\#include <TFile.h>}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00030}00030 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00031}00031 \textcolor{comment}{ * Return a string corresponding to the expression between phrase\_before and phrase\_after}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00032}00032 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00033}00033 \textcolor{comment}{ * @rg1: current line}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00034}00034 \textcolor{comment}{ * @rg2: phrase before the expression we are looking for}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00035}00035 \textcolor{comment}{ * @rg3: phrase after  the expression we are looking for}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00036}00036 \textcolor{comment}{ * @rg4: the expression we are looking for}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00037}00037 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00038}00038 \textcolor{keywordtype}{bool} find\_expression\_betweenPhrases(std::string line, std::string phrase\_before\_value, std::string phrase\_after\_value, std::string\& expression) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00039}00039     std::size\_t pos = line.find(phrase\_before\_value);  }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00040}00040     \textcolor{keywordflow}{if}(pos!=std::string::npos) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00041}00041         expression = line.substr(pos+phrase\_before\_value.size(), line.find(phrase\_after\_value, pos+phrase\_before\_value.size()) -\/ (pos+phrase\_before\_value.size()));}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00042}00042         \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00043}00043     \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00044}00044     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00045}00045     \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00046}00046 \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00048}00048 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00049}00049 \textcolor{comment}{ * Return a double corresponding to the mass in g found in the current line of the text file}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00050}00050 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00051}00051 \textcolor{comment}{ * @rg1: current line}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00052}00052 \textcolor{comment}{ * @rg2: phrase to be found located just before the value}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00053}00053 \textcolor{comment}{ * @rg3: value in grams}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00054}00054 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00055}00055 \textcolor{keywordtype}{void} find\_mass\_in\_g(std::string line, std::string phrase\_before\_value, \textcolor{keywordtype}{double}\& mass) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00056}00056     std::string str\_mass =\textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00057}00057     find\_expression\_betweenPhrases(line, phrase\_before\_value, \textcolor{stringliteral}{"{} g and volume"{}}, str\_mass);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00058}00058     \textcolor{keywordflow}{if}(str\_mass != \textcolor{stringliteral}{"{}"{}}) mass = std::stod(str\_mass);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00059}00059 \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00061}00061 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00062}00062 \textcolor{comment}{ * Return a double corresponding to the time in s found in the current line of the text file}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00063}00063 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00064}00064 \textcolor{comment}{ * @rg1: current line}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00065}00065 \textcolor{comment}{ * @rg2: phrase to be found located just before the value}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00066}00066 \textcolor{comment}{ * @rg3: value in second}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00067}00067 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00068}00068 \textcolor{keywordtype}{void} find\_time\_in\_s(std::string line, std::string phrase\_before\_value, \textcolor{keywordtype}{double}\& time) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00069}00069     std::string str\_time =\textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00070}00070     find\_expression\_betweenPhrases(line, phrase\_before\_value, \textcolor{stringliteral}{"{}s"{}}, str\_time);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00071}00071     \textcolor{keywordflow}{if}(str\_time != \textcolor{stringliteral}{"{}"{}}) time = std::stod(str\_time);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00072}00072 \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00074}00074 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00075}00075 \textcolor{comment}{ * Read every lines of the text file}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00076}00076 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00077}00077 \textcolor{comment}{ * @rg1: stream of the text files}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00078}00078 \textcolor{comment}{ * @rg2: vector with timestamp of every runs}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00079}00079 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00080}00080 \textcolor{keywordtype}{void} read\_every\_lines(std::ifstream\& input\_file, std::vector<double>\& vtotal\_Run\_time) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00081}00081     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00082}00082     \textcolor{keywordtype}{double} current\_Run\_duration = 0; \textcolor{comment}{// s}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00083}00083     \textcolor{keywordtype}{double} total\_Run\_time = -\/10;       \textcolor{comment}{// s}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00084}00084     std::string material\_name =\textcolor{stringliteral}{"{}"{}};   \textcolor{comment}{// Name of current material}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00085}00085     std::map<std::string, double> map\_total\_mass; \textcolor{comment}{// Total mass of every materials}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00086}00086     \textcolor{keywordtype}{int} IZA;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00087}00087     \textcolor{keywordtype}{double} isotope\_mass, mass\_fraction;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00088}00088     TTree* IZA\_mass\_tree = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00089}00089     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00090}00090     std::string line;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00091}00091     \textcolor{keywordflow}{while}(std::getline(input\_file, line)) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00092}00092         }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00093}00093         \textcolor{comment}{// Get the duration of the current run}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00094}00094         find\_time\_in\_s(line, \textcolor{stringliteral}{"{}Step irradiation period:"{}}, current\_Run\_duration);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00095}00095         \textcolor{comment}{// Get the total time since the first run}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00096}00096         find\_time\_in\_s(line, \textcolor{stringliteral}{"{}Current irradiation time:"{}}, total\_Run\_time);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00097}00097         }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00098}00098         \textcolor{comment}{// Get material name}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00099}00099         \textcolor{keywordtype}{bool} newMaterial = find\_expression\_betweenPhrases(line,\textcolor{stringliteral}{"{}Material: "{}},\textcolor{stringliteral}{"{} appearing in"{}}, material\_name);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00100}00100         }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00101}00101         \textcolor{comment}{// Get total mass}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00102}00102         \textcolor{keywordtype}{double} mass = 0;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00103}00103         find\_mass\_in\_g(line, \textcolor{stringliteral}{"{}with mass: "{}}, mass);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00104}00104         map\_total\_mass[material\_name] += mass;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00105}00105         }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00106}00106         \textcolor{comment}{// Define new histo/ntuple if new material}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00107}00107         \textcolor{keywordflow}{if}(newMaterial) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00108}00108             \textcolor{keywordflow}{if}(IZA\_mass\_tree) IZA\_mass\_tree-\/>Write();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00109}00109             std::string tree\_name = \textcolor{stringliteral}{"{}IZA\_mass\_"{}} + material\_name.substr(0,material\_name.find(\textcolor{stringliteral}{"{}*"{}})) + \textcolor{stringliteral}{"{}\_"{}} + material\_name.substr(material\_name.find(\textcolor{stringliteral}{"{}*"{}})+1,material\_name.size());}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00110}00110             IZA\_mass\_tree = \textcolor{keyword}{new} TTree(tree\_name.c\_str(),\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00111}00111             IZA\_mass\_tree-\/>Branch(\textcolor{stringliteral}{"{}IZA"{}}, \&IZA);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00112}00112             IZA\_mass\_tree-\/>Branch(\textcolor{stringliteral}{"{}fraction"{}}, \&mass\_fraction);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00113}00113             IZA\_mass\_tree-\/>Branch(\textcolor{stringliteral}{"{}mass"{}}, \&isotope\_mass);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00114}00114         \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00115}00115         }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00116}00116         \textcolor{comment}{// Fill the ntuple with IZA and mass}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00117}00117         std::string str\_IZA =\textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00118}00118         find\_expression\_betweenPhrases(line,\textcolor{stringliteral}{"{}-\/>AddElement("{}},\textcolor{stringliteral}{"{},"{}}, str\_IZA);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00119}00119         std::string str\_mass\_fraction=\textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00120}00120         find\_expression\_betweenPhrases(line,\textcolor{stringliteral}{"{}-\/>AddElement("{}}+ str\_IZA +\textcolor{stringliteral}{"{},"{}}, \textcolor{stringliteral}{"{});"{}}, str\_mass\_fraction);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00121}00121         \textcolor{keywordflow}{if}(str\_IZA!=\textcolor{stringliteral}{"{}"{}} \&\& str\_mass\_fraction!=\textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00122}00122             IZA = std::stoi(str\_IZA);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00123}00123             mass\_fraction = std::stod(str\_mass\_fraction);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00124}00124             isotope\_mass = std::stod(str\_mass\_fraction) * map\_total\_mass[material\_name];}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00125}00125             IZA\_mass\_tree-\/>Fill();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00126}00126         \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00127}00127     \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00128}00128     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00129}00129     \textcolor{keywordflow}{if}(IZA\_mass\_tree) IZA\_mass\_tree-\/>Write();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00130}00130     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00131}00131     \textcolor{keywordflow}{if}( total\_Run\_time != -\/10 \&\& (vtotal\_Run\_time.size()==0 || vtotal\_Run\_time.back() != total\_Run\_time )) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00132}00132         vtotal\_Run\_time.push\_back(total\_Run\_time/3600.);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00133}00133     \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00134}00134 \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00135}00135 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00136}00136 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00137}00137 \textcolor{comment}{ * Read every text files on the current directory with the following name fileNamePattern + FileName\_index}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00138}00138 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00139}00139 \textcolor{comment}{ * @rg1: name of the text files}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00140}00140 \textcolor{comment}{ * @rg2: starting index to read the text files}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00141}00141 \textcolor{comment}{ * @rg3: vector with timestamp of every runs}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00142}00142 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00143}00143 \textcolor{keywordtype}{void} read\_every\_textfiles(std::string fileNamePattern, \textcolor{keywordtype}{int}\& FileName\_index, std::vector<double>\& vtotal\_Run\_time) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00144}00144 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00145}00145     \textcolor{comment}{// Open reading stream}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00146}00146     std::ifstream Evolved\_Materials\_File;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00147}00147     Evolved\_Materials\_File.open(fileNamePattern + std::to\_string(FileName\_index));}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00148}00148     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00149}00149     \textcolor{comment}{// Process every text files}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00150}00150     \textcolor{keywordflow}{while}(Evolved\_Materials\_File.is\_open()) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00151}00151         }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00152}00152         \textcolor{comment}{// Read every lines of the text file and fill histograms}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00153}00153         read\_every\_lines(Evolved\_Materials\_File, vtotal\_Run\_time);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00154}00154         }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00155}00155         \textcolor{comment}{// Close text file}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00156}00156         Evolved\_Materials\_File.close();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00157}00157         }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00158}00158         \textcolor{comment}{// Increase FileName\_index to search new file}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00159}00159         ++FileName\_index;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00160}00160          Evolved\_Materials\_File.open(fileNamePattern + std::to\_string(FileName\_index));}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00161}00161     \}   }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00162}00162     -\/-\/FileName\_index;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00163}00163 \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00164}00164 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00165}00165 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00166}00166 \textcolor{comment}{ * Get the maximum number of isotopes over the whole simulation}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00167}00167 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00168}00168 \textcolor{comment}{ * @rg1: pattern of the tree name}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00169}00169 \textcolor{comment}{ * @rg2: total number of Runs}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00170}00170 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00171}00171 \textcolor{keywordtype}{int} GetMax\_entries(std::string name\_pattern, \textcolor{keywordtype}{int} RunNumber) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00172}00172     \textcolor{keywordtype}{int} nentries = 0;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00173}00173     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=1; i< RunNumber+1; ++i) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00174}00174         std::string name = name\_pattern + std::to\_string(i);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00175}00175         TTree* tree\_histo = (TTree*) gDirectory-\/>GetObjectChecked((name.c\_str()), \textcolor{stringliteral}{"{}TTree"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00176}00176         \textcolor{keywordflow}{if}(tree\_histo \&\& nentries<tree\_histo-\/>GetEntries()) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00177}00177             nentries = (int)tree\_histo-\/>GetEntries();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00178}00178         \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00179}00179     \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00180}00180     \textcolor{keywordflow}{return} nentries;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00181}00181 \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00182}00182 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00183}00183 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00184}00184 \textcolor{comment}{ * Define drawing style}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00185}00185 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00186}00186 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00187}00187 \textcolor{keywordtype}{void} SetStyle() \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00188}00188     gErrorIgnoreLevel = kWarning;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00189}00189     gStyle-\/>SetOptStat(0);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00190}00190     gStyle-\/>SetStatX(1);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00191}00191     gStyle-\/>SetStatY(1);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00192}00192     gStyle-\/>SetStatH(0.22);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00193}00193     gStyle-\/>SetStatW(0.26);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00194}00194     gStyle-\/>SetLabelSize(0.04,\textcolor{stringliteral}{"{}X"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00195}00195     gStyle-\/>SetLabelSize(0.04,\textcolor{stringliteral}{"{}Y"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00196}00196 \textcolor{comment}{//     gStyle-\/>SetLabelSize(0.05,"{}Z"{});}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00197}00197     gStyle-\/>SetTitleXSize(0.05);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00198}00198     gStyle-\/>SetTitleYSize(0.05);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00199}00199     gStyle-\/>SetTitleXOffset(0.95);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00200}00200     gStyle-\/>SetTitleYOffset(1.20);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00201}00201 \textcolor{comment}{//     gStyle-\/>SetTitleZOffset(1.30);}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00202}00202     gStyle-\/>SetPadRightMargin (0.17);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00203}00203     gStyle-\/>SetPadLeftMargin  (0.12);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00204}00204     gStyle-\/>SetPadBottomMargin(0.1);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00205}00205     gStyle-\/>SetPadTopMargin   (0.01);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00206}00206     gStyle-\/>SetCanvasDefH(900);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00207}00207     gStyle-\/>SetCanvasDefW(1000);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00208}00208     gStyle-\/>SetPadGridX(kTRUE);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00209}00209     gStyle-\/>SetPadGridY(kTRUE);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00210}00210 \textcolor{comment}{//     gStyle-\/>SetPalette(105); // kThermometer}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00211}00211 \textcolor{comment}{//     gStyle-\/>SetPalette(55); // kRainBow}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00212}00212     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00213}00213 \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00214}00214 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00215}00215 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00216}00216 \textcolor{comment}{ * Find the tree corresponding to a given material and fill 3 types of histograms}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00217}00217 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00218}00218 \textcolor{comment}{ * @rg1: total number of Runs}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00219}00219 \textcolor{comment}{ * @rg2: vector with timestamp of every runs}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00220}00220 \textcolor{comment}{ * @rg3: name of the material}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00221}00221 \textcolor{comment}{ * @rg4: threshold to draw the mass fraction histogram}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00222}00222 \textcolor{comment}{ * @rg5: 2D histogram representing the mass of each isotope with A = f(Z) in the last run}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00223}00223 \textcolor{comment}{ * @rg6: vector of histograms representing time evolution of the mass fraction for each isotope with fraction < threshold}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00224}00224 \textcolor{comment}{ * @rg7: vector of histograms representing time evolution of the isotope mass  for each isotope}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00225}00225 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00226}00226 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00227}00227 \textcolor{keywordtype}{void} FillHistograms(\textcolor{keywordtype}{int} RunNumber, std::vector<double> vtotal\_Run\_time, std::string material\_name, \textcolor{keywordtype}{double} limit, TH2D* AZ\_mass\_histo, std::map<int, TH1D*>\& map\_fractionHisto, std::map<int, TH1D*>\& map\_massHisto) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00228}00228     \textcolor{keywordtype}{int} IZA;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00229}00229     \textcolor{keywordtype}{double} isotope\_mass, mass\_fraction;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00230}00230     \textcolor{keywordtype}{double}* binningRun = \&vtotal\_Run\_time[0];}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00231}00231     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=1; i< RunNumber+1; ++i) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00232}00232         std::string name = \textcolor{stringliteral}{"{}IZA\_mass\_"{}} + material\_name + \textcolor{stringliteral}{"{}\_"{}} + std::to\_string(i);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00233}00233         TTree* tree\_histo = (TTree*) gDirectory-\/>GetObjectChecked((name.c\_str()), \textcolor{stringliteral}{"{}TTree"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00234}00234         \textcolor{keywordtype}{double} total\_fraction = 1;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00235}00235         \textcolor{keywordflow}{if}(tree\_histo) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00236}00236             tree\_histo-\/>SetBranchAddress(\textcolor{stringliteral}{"{}IZA"{}},\&IZA);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00237}00237             tree\_histo-\/>SetBranchAddress(\textcolor{stringliteral}{"{}mass"{}},\&isotope\_mass);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00238}00238             tree\_histo-\/>SetBranchAddress(\textcolor{stringliteral}{"{}fraction"{}},\&mass\_fraction);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00239}00239             \textcolor{keywordtype}{int} nentries = (int)tree\_histo-\/>GetEntries();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00240}00240             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=0; k<nentries; k++) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00241}00241                 tree\_histo-\/>GetEntry(k);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00242}00242                 \textcolor{keywordflow}{if}(map\_fractionHisto.find(IZA) == map\_fractionHisto.end()) \{ }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00243}00243                     map\_fractionHisto[IZA] = \textcolor{keyword}{new} TH1D((std::to\_string(IZA)).c\_str(),(std::to\_string(IZA)).c\_str(),RunNumber, 1, RunNumber+1);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00244}00244                     map\_fractionHisto[IZA]-\/>SetBins(RunNumber, binningRun); \textcolor{comment}{// time binning}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00245}00245                 \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00246}00246                 \textcolor{keywordflow}{if}(mass\_fraction<limit) \{map\_fractionHisto[IZA]-\/>Fill(vtotal\_Run\_time[i-\/1], mass\_fraction);\}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00247}00247                 total\_fraction -\/= mass\_fraction;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00248}00248 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00249}00249                 \textcolor{keywordflow}{if}(map\_massHisto.find(IZA) == map\_massHisto.end()) \{ }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00250}00250                     map\_massHisto[IZA] = \textcolor{keyword}{new} TH1D((std::to\_string(IZA) + \textcolor{stringliteral}{"{}\_m"{}}).c\_str(),\textcolor{stringliteral}{"{}"{}},RunNumber, 1, RunNumber+1);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00251}00251                     map\_massHisto[IZA]-\/>SetBins(RunNumber, binningRun); \textcolor{comment}{// time binning}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00252}00252                 \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00253}00253                 map\_massHisto[IZA]-\/>Fill(vtotal\_Run\_time[i-\/1], isotope\_mass);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00254}00254                 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00255}00255                 \textcolor{keywordflow}{if}(i==RunNumber) \{ \textcolor{comment}{// Last Run only}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00256}00256                     \textcolor{keywordtype}{int} Z = IZA/10000;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00257}00257                     \textcolor{keywordtype}{int} A = IZA/10 -\/ Z*1000;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00258}00258                     AZ\_mass\_histo-\/>Fill(Z,A,isotope\_mass);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00259}00259                 \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00260}00260             \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00261}00261             \textcolor{keywordflow}{if}(total\_fraction != 0) \{ std::cout << \textcolor{stringliteral}{"{}Total Mass fraction < 1 (Missing : "{}} << total\_fraction << \textcolor{stringliteral}{"{}) in Run number : "{}} << i << std::endl; \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00262}00262         \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00263}00263     \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00264}00264 \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00265}00265 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00266}00266 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00267}00267 \textcolor{comment}{ * Draw and save the histogram representing time evolution of the isotope mass}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00268}00268 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00269}00269 \textcolor{comment}{ * @rg1: vector of histograms representing time evolution of the isotope mass for each isotope}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00270}00270 \textcolor{comment}{ * @rg2: Name of the material to be plotted (Initial name in the GEANT4 geometry)}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00271}00271 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00272}00272 \textcolor{keywordtype}{void} DrawMassEvolution(std::map<int, TH1D*>\& map\_massHisto, std::string Initial\_material\_Name) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00273}00273     \textcolor{keywordtype}{double} lowerYlimit = 1e-\/5;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00274}00274     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00275}00275     \textcolor{keyword}{auto} legend = \textcolor{keyword}{new} TLegend(0.85,0.01,0.99,0.99);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00276}00276     legend-\/>SetHeader(\textcolor{stringliteral}{"{}Isotopes"{}},\textcolor{stringliteral}{"{}C"{}}); \textcolor{comment}{// option "{}C"{} allows to center the header}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00277}00277     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00278}00278     \textcolor{keywordtype}{double} maximum = 0;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00279}00279     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \textcolor{keyword}{const}\& [IZA, histo1D] : map\_massHisto) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00280}00280         \textcolor{keywordflow}{if}( maximum < histo1D-\/>GetBinContent(histo1D-\/>GetMaximumBin()))}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00281}00281             maximum = histo1D-\/>GetBinContent(histo1D-\/>GetMaximumBin());}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00282}00282     \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00283}00283     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00284}00284     TCanvas* canvas\_mass = \textcolor{keyword}{new} TCanvas(\textcolor{stringliteral}{"{}mass\_evolution"{}},Initial\_material\_Name.c\_str());}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00285}00285     \textcolor{keywordtype}{int} color = 2;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00286}00286     map<int, TH1D*>::iterator it;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00287}00287     \textcolor{keywordflow}{for} (it = map\_massHisto.begin(); it != map\_massHisto.end(); it++)}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00288}00288     \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00289}00289         \textcolor{keywordflow}{if}(it == map\_massHisto.begin()) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00290}00290             it-\/>second-\/>GetYaxis()-\/>SetRangeUser(lowerYlimit,1.05*maximum);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00291}00291             it-\/>second-\/>Draw(\textcolor{stringliteral}{"{}hist"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00292}00292             it-\/>second-\/>GetXaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Time [hours]"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00293}00293             it-\/>second-\/>GetYaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Mass [g]"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00294}00294             legend-\/>AddEntry(it-\/>second,it-\/>second-\/>GetName(),\textcolor{stringliteral}{"{}l"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00295}00295         \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00296}00296         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (it-\/>second-\/>GetBinContent(it-\/>second-\/>GetMaximumBin()) > lowerYlimit) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00297}00297             it-\/>second-\/>Draw(\textcolor{stringliteral}{"{}hist same"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00298}00298             legend-\/>AddEntry(it-\/>second,it-\/>second-\/>GetName(),\textcolor{stringliteral}{"{}l"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00299}00299         \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00300}00300         it-\/>second-\/>SetLineColor(color); \textcolor{comment}{// color by position in map}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00301}00301         it-\/>second-\/>SetLineWidth(2); \textcolor{comment}{// color by position in map}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00302}00302         }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00303}00303         color += 10;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00304}00304         \textcolor{keywordflow}{if}(color > 49) \{ color -\/= 49;\}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00305}00305         \textcolor{keywordflow}{if}(color == 0 || color == 10) \{ color = 2;\}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00306}00306     \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00307}00307     legend-\/>Draw();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00308}00308     canvas\_mass-\/>SetLogy();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00309}00309     canvas\_mass-\/>Write();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00310}00310     canvas\_mass-\/>SaveAs((\textcolor{stringliteral}{"{}mass\_evolution\_"{}} + Initial\_material\_Name + \textcolor{stringliteral}{"{}.png"{}}).c\_str());}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00311}00311 \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00312}00312 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00313}00313 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00314}00314 \textcolor{comment}{ * Draw and save the histogram representing time evolution of the mass fraction with fraction < threshold}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00315}00315 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00316}00316 \textcolor{comment}{ * @rg1: vector of histograms representing time evolution of the mass fraction for each isotope with fraction < threshold}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00317}00317 \textcolor{comment}{ * @rg2: Name of the material to be plotted (Initial name in the GEANT4 geometry)}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00318}00318 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00319}00319 \textcolor{keywordtype}{void} DrawMassFractionEvolution(std::map<int, TH1D*>\& map\_fractionHisto, std::string Initial\_material\_Name) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00320}00320     \textcolor{keyword}{auto} legend = \textcolor{keyword}{new} TLegend(0.85,0.01,0.99,0.99);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00321}00321     legend-\/>SetHeader(\textcolor{stringliteral}{"{}Isotopes"{}},\textcolor{stringliteral}{"{}C"{}}); \textcolor{comment}{// option "{}C"{} allows to center the header}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00322}00322     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00323}00323     THStack* hs = \textcolor{keyword}{new} THStack((\textcolor{stringliteral}{"{}Stack\_"{}} + Initial\_material\_Name).c\_str(),\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00324}00324     \textcolor{keywordtype}{int} color = 2;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00325}00325     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \textcolor{keyword}{const}\& [IZA, histo1D] : map\_fractionHisto) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00326}00326         histo1D-\/>SetFillColor(color); \textcolor{comment}{// color by position in map}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00327}00327         hs-\/>Add(histo1D);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00328}00328         legend-\/>AddEntry(histo1D,histo1D-\/>GetName(),\textcolor{stringliteral}{"{}f"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00329}00329         }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00330}00330         color += 10;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00331}00331         \textcolor{keywordflow}{if}(color > 49) \{ color -\/= 49;\}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00332}00332         \textcolor{keywordflow}{if}(color == 0 || color == 10) \{ color = 2;\}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00333}00333     \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00334}00334     TCanvas* canvas\_fraction = \textcolor{keyword}{new} TCanvas(\textcolor{stringliteral}{"{}mass\_fraction\_histogram"{}},Initial\_material\_Name.c\_str());}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00335}00335     hs-\/>Write();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00336}00336     hs-\/>Draw(\textcolor{stringliteral}{"{}hist"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00337}00337     hs-\/>GetXaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Time [hours]"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00338}00338     hs-\/>GetYaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Mass fraction"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00339}00339     legend-\/>Draw();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00340}00340     canvas\_fraction-\/>Write();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00341}00341     canvas\_fraction-\/>SaveAs((\textcolor{stringliteral}{"{}mass\_fraction\_"{}} + Initial\_material\_Name + \textcolor{stringliteral}{"{}.png"{}}).c\_str());}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00342}00342 \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00343}00343 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00344}00344 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00345}00345 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00346}00346 \textcolor{comment}{ * Draw and save the histogram representing the mass of each isotope with A = f(Z) in the last run}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00347}00347 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00348}00348 \textcolor{comment}{ * @rg1: 2D histogram representing the mass of each isotope with A = f(Z) in the last run}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00349}00349 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00350}00350 \textcolor{keywordtype}{void} DrawLastRunComposition(TH2D* AZ\_mass\_histo) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00351}00351     TCanvas* canvas = \textcolor{keyword}{new} TCanvas(AZ\_mass\_histo-\/>GetName(),\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00352}00352     AZ\_mass\_histo-\/>Draw(\textcolor{stringliteral}{"{}colz"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00353}00353     AZ\_mass\_histo-\/>GetXaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Z"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00354}00354     AZ\_mass\_histo-\/>GetYaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}A"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00355}00355     AZ\_mass\_histo-\/>GetZaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Mass [g]"{}});}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00356}00356     AZ\_mass\_histo-\/>Write();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00357}00357     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00358}00358     std::ofstream final\_inventory\_file(\textcolor{stringliteral}{"{}final\_inventory.txt"{}},ios::trunc);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00359}00359     final\_inventory\_file << \textcolor{stringliteral}{"{}Z\(\backslash\)tA\(\backslash\)tmass [g]\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00360}00360     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} Z=1; Z<AZ\_mass\_histo-\/>GetNbinsX(); ++Z) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00361}00361         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} A=1; A<AZ\_mass\_histo-\/>GetNbinsY(); ++A) \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00362}00362             \textcolor{keywordflow}{if}( AZ\_mass\_histo-\/>GetBinContent(AZ\_mass\_histo-\/>GetBin(Z,A)) != 0)}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00363}00363                 final\_inventory\_file << Z << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << A << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << AZ\_mass\_histo-\/>GetBinContent(AZ\_mass\_histo-\/>GetBin(Z,A)) << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00364}00364         \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00365}00365     \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00366}00366     final\_inventory\_file.close();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00367}00367     canvas-\/>SaveAs((std::string(AZ\_mass\_histo-\/>GetName()) + \textcolor{stringliteral}{"{}.png"{}}).c\_str());}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00368}00368 \}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00369}00369 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00370}00370 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00371}00371 \textcolor{comment}{ * Main}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00372}00372 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00373}00373 \textcolor{comment}{ * Open a ROOT file}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00374}00374 \textcolor{comment}{ * Read every text files of burnup simulation}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00375}00375 \textcolor{comment}{ * Fill and draw histograms}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00376}00376 \textcolor{comment}{ * }}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00377}00377 \textcolor{comment}{ * @rg1: Threshold to draw isotope fraction evolution only with isotope fractions lower than value}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00378}00378 \textcolor{comment}{ * @rg2: Name of the material to be plotted (Initial name in the GEANT4 geometry). Value must be given between quotes.}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00379}00379 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00380}00380 \textcolor{keywordtype}{int} Graphes\_burnup(\textcolor{keywordtype}{double} Fraction\_Threshold, std::string Initial\_material\_Name)}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00381}00381 \{}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00382}00382     \textcolor{comment}{// Set drawing style}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00383}00383     SetStyle();}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00384}00384     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00385}00385     \textcolor{comment}{// Pattern of the text file containing burnup data}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00386}00386     std::string file\_name\_pattern = \textcolor{stringliteral}{"{}Evolved\_Materials\_Step"{}};}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00387}00387     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00388}00388     \textcolor{comment}{// Creation of ROOT file}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00389}00389     TFile *ROOT\_file = \textcolor{keyword}{new} TFile( \textcolor{stringliteral}{"{}burnup.root"{}}, \textcolor{stringliteral}{"{}RECREATE"{}} );}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00390}00390     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00391}00391     \textcolor{comment}{// Number of runs, starting at 1}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00392}00392     \textcolor{keywordtype}{int} RunNumber = 1;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00393}00393     \textcolor{comment}{// Vector of time stamp for each run}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00394}00394     std::vector<double> vtotal\_Run\_time(1,0); \textcolor{comment}{// in hours}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00395}00395     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00396}00396     \textcolor{comment}{// Reading of every burnup text files and fill trees containing the data}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00397}00397     read\_every\_textfiles(file\_name\_pattern, RunNumber, vtotal\_Run\_time);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00398}00398     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00399}00399     \textcolor{comment}{// Fill histo}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00400}00400     TH2D* AZ\_mass\_histo = \textcolor{keyword}{new} TH2D((\textcolor{stringliteral}{"{}AZ\_mass\_"{}} + Initial\_material\_Name).c\_str(),Initial\_material\_Name.c\_str(), 122,1,123,292,1,293);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00401}00401     std::map<int, TH1D*> map\_fractionHisto;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00402}00402     std::map<int, TH1D*> map\_massHisto;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00403}00403 \textcolor{comment}{//     FillHistograms(RunNumber, vtotal\_Run\_time, "{}fuel\_ThPuO2"{}, 0.12, AZ\_mass\_histo, map\_fractionHisto, map\_massHisto);}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00404}00404     FillHistograms(RunNumber, vtotal\_Run\_time, Initial\_material\_Name, Fraction\_Threshold, AZ\_mass\_histo, map\_fractionHisto, map\_massHisto);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00405}00405 }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00406}00406     \textcolor{comment}{// Draw histo}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00407}00407     DrawMassEvolution(map\_massHisto, Initial\_material\_Name);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00408}00408     DrawMassFractionEvolution(map\_fractionHisto, Initial\_material\_Name);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00409}00409     DrawLastRunComposition(AZ\_mass\_histo);}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00410}00410     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00411}00411     \textcolor{comment}{// Close ROOT file}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00412}00412 \textcolor{comment}{//     ROOT\_file-\/>Close();}}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00413}00413     }
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00414}00414     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{_graphes__burnup_8_c_source_l00415}00415 \}}
+
+\end{DoxyCode}

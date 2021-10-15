@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnffno_8_f_source" xml:lang="en-US">
+<title>xnffno.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnevol/xnffno.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnffno_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;0.05/00&#32;09/05/94&#32;&#32;17.24.30&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnffno(J,JA,JZ,ENE,FLX,NFX)
+<anchor xml:id="_xnffno_8_f_source_1l00004"/>00004 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00005"/>00005 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcfyid.inc&quot;</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00006"/>00006 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00007"/>00007 &#32;&#32;&#32;&#32;&#32;&#32;parameter(maxpoi=1000)
+<anchor xml:id="_xnffno_8_f_source_1l00008"/>00008 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;ene(nfx),flx(nfx),isopoi(maxpoi),hinf(nadinf)
+<anchor xml:id="_xnffno_8_f_source_1l00009"/>00009 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00010"/>00010 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00011"/>00011 &#32;&#32;&#32;&#32;&#32;&#32;totwei&#32;=&#32;0.
+<anchor xml:id="_xnffno_8_f_source_1l00012"/>00012 &#32;&#32;&#32;&#32;&#32;&#32;nfrags&#32;=&#32;0
+<anchor xml:id="_xnffno_8_f_source_1l00013"/>00013 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;40&#32;jfis=1,numfis
+<anchor xml:id="_xnffno_8_f_source_1l00014"/>00014 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jiso=j*10
+<anchor xml:id="_xnffno_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izapar(jfis).EQ.jiso)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00016"/>00016 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00017"/>00017 <emphasis role="comment">*&#32;---&#32;Data&#32;for&#32;this&#32;isotope</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nfrags.EQ.maxpoi)&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MAXPOI&apos;</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nfrags=nfrags+1
+<anchor xml:id="_xnffno_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;isopoi(nfrags)=jfis
+<anchor xml:id="_xnffno_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;brrfra(jfis)=0.
+<anchor xml:id="_xnffno_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;jen=1,maxenf
+<anchor xml:id="_xnffno_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;enef&#32;=&#32;enefra(jfis,jen)
+<anchor xml:id="_xnffno_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(enef.GT.0.)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xngetx(j,3018,enef,sec,&#32;hinf,ninfo)
+<anchor xml:id="_xnffno_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(enef.LE.ene(1))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hflux=flx(1)*(ene(2)-ene(1))
+<anchor xml:id="_xnffno_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSEIF</emphasis>(enef.GE.ene(nfx))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hflux=flx(nfx)*(ene(nfx)-ene(nfx-1))
+<anchor xml:id="_xnffno_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jflx=2,nfx
+<anchor xml:id="_xnffno_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(enef.LT.ene(jflx))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xrat&#32;=&#32;(ene(jflx)-enef)/(ene(jflx)-
+<anchor xml:id="_xnffno_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ene(jflx-1))
+<anchor xml:id="_xnffno_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hflux=(xrat*flx(jflx-1)+(1-xrat)*flx(jfl&#32;x))
+<anchor xml:id="_xnffno_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*(ene(jflx)-ene(jflx-1))
+<anchor xml:id="_xnffno_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;20
+<anchor xml:id="_xnffno_8_f_source_1l00038"/>00038 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00039"/>00039 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00040"/>00040 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00041"/>00041 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;wei=hflux*sec
+<anchor xml:id="_xnffno_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;brrfra(jfis)=brrfra(jfis)+&#32;xbrfra(jfis,jen)*wei
+<anchor xml:id="_xnffno_8_f_source_1l00043"/>00043 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00044"/>00044 &#32;&#32;&#32;30&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;totwei=totwei+brrfra(jfis)
+<anchor xml:id="_xnffno_8_f_source_1l00046"/>00046 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00047"/>00047 &#32;&#32;&#32;40&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00048"/>00048 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00049"/>00049 <emphasis role="comment">*&#32;---&#32;This&#32;is&#32;not&#32;entirely&#32;precise.&#32;We&#32;suppose&#32;that&#32;the&#32;total</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00050"/>00050 <emphasis role="comment">*&#32;---&#32;is&#32;2,&#32;but&#32;we&#32;have&#32;performed&#32;a&#32;cut&#32;on&#32;the&#32;probabilities&#32;&lt;1E-4</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00051"/>00051 <emphasis role="comment">*&#32;---&#32;in&#32;reading&#32;the&#32;file.&#32;The&#32;alternative&#32;would&#32;be&#32;rather&#32;painful.</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(totwei.GT.0.)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;brnorm=2/totwei
+<anchor xml:id="_xnffno_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;50&#32;jfra=1,nfrags
+<anchor xml:id="_xnffno_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;brrfra(isopoi(jfra))=brrfra(isopoi(jfra))&#32;*brnorm
+<anchor xml:id="_xnffno_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(brrfra(isopoi(jfra)).LT.1e-4)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00057"/>00057 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00058"/>00058 <emphasis role="comment">*&#32;---&#32;Kill&#32;branching&#32;ratios&#32;which&#32;have&#32;become&#32;too&#32;small</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izapar(isopoi(jfra))=0
+<anchor xml:id="_xnffno_8_f_source_1l00060"/>00060 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00061"/>00061 &#32;&#32;&#32;50&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00062"/>00062 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00063"/>00063 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffno_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

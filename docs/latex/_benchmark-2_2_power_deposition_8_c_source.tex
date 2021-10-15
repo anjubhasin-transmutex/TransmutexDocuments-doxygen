@@ -1,0 +1,123 @@
+\hypertarget{_benchmark-2_2_power_deposition_8_c_source}{}\doxysection{Power\+Deposition.\+C}
+\label{_benchmark-2_2_power_deposition_8_c_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/2/PowerDeposition.C@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/2/PowerDeposition.C}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00002}00002 \textcolor{comment}{// \(\backslash\)brief}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00006}00006 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00007}00007 \textcolor{comment}{// PowerDeposition}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00009}00009 \textcolor{comment}{// Thomas Guilbaud, Transmutex, 23/06/2021}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00014}00014 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00015}00015 \textcolor{preprocessor}{\#include <TCanvas.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00016}00016 \textcolor{preprocessor}{\#include <TFile.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00017}00017 \textcolor{preprocessor}{\#include <TH1F.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00018}00018 \textcolor{preprocessor}{\#include <TGraph.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00019}00019 \textcolor{preprocessor}{\#include <TTree.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00020}00020 \textcolor{preprocessor}{\#include <TLegend.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00022}00022 \textcolor{keywordtype}{void} marginCanvas(TCanvas* canvas, \textcolor{keywordtype}{double} margin) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00023}00023     canvas-\/>SetLeftMargin(margin);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00024}00024     canvas-\/>SetRightMargin(margin);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00025}00025     canvas-\/>SetBottomMargin(margin);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00026}00026     canvas-\/>SetTopMargin(margin);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00027}00027 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00029}00029 \textcolor{keywordtype}{double} ringVolume(\textcolor{keywordtype}{double} rMin, \textcolor{keywordtype}{double} rMax, \textcolor{keywordtype}{double} hz) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00030}00030     \textcolor{keywordflow}{return}(3.14159265 * (rMax*rMax -\/ rMin*rMin) * hz);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00031}00031 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00033}00033 \textcolor{keywordtype}{int} PowerDeposition(std::string inputFile) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00034}00034     \textcolor{comment}{// Reading name of the ROOT file}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00035}00035     \textcolor{keywordtype}{size\_t} last\_slash = inputFile.rfind(\textcolor{stringliteral}{"{}/"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00036}00036     \textcolor{keywordflow}{if} (last\_slash == std::string::npos) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00037}00037         last\_slash = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00038}00038     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00039}00039     std::string FileName = inputFile.substr(last\_slash, inputFile.rfind(\textcolor{stringliteral}{"{}.root"{}})-\/last\_slash);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00040}00040     TFile *f\_ROOT = \textcolor{keyword}{new} TFile( (inputFile).c\_str() );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00042}00042     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ Begin User Input -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00043}00043     \textcolor{comment}{// Physical Scale}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00044}00044     \textcolor{keywordtype}{double} beamPower = 1e3; \textcolor{comment}{// W}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00045}00045     \textcolor{keywordtype}{double} energyProtons = 600e6; \textcolor{comment}{// eV}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00046}00046     \textcolor{keywordtype}{double} nProtons = 100000.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00048}00048     \textcolor{keywordtype}{double} scalingFactor = beamPower/(energyProtons * nProtons) * 1e3; \textcolor{comment}{// mA}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00050}00050     \textcolor{comment}{// Power Range}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00051}00051     \textcolor{keywordtype}{double} minPower = 1., maxPower = 200.; \textcolor{comment}{// W}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00053}00053     \textcolor{comment}{// Histogram;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00054}00054     \textcolor{keywordtype}{double} rMin = -\/200, rMax = 200, rBin = 100; \textcolor{comment}{// mm}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00055}00055     \textcolor{keywordtype}{double} zMin =  -\/50, zMax = 700, zBin = 100; \textcolor{comment}{// mm}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00057}00057     \textcolor{comment}{// Canvas Setup}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00058}00058     \textcolor{keywordtype}{double} margin = 0.16;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00059}00059     \textcolor{keywordtype}{double} windowWidth = 1000;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00061}00061     \textcolor{keywordtype}{bool} isSaveHasPNG = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00062}00062     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ End User Input -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00064}00064     TTree* Proton = (TTree*)f\_ROOT-\/>GetObjectChecked((\textcolor{stringliteral}{"{}Proton"{}}), \textcolor{stringliteral}{"{}TTree"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00065}00065     \textcolor{keywordtype}{int} nEntries = (int)Proton-\/>GetEntries();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00067}00067     TCanvas* cPowerDeposition = \textcolor{keyword}{new} TCanvas(\textcolor{stringliteral}{"{}Proton Power Deposition"{}}, \textcolor{stringliteral}{"{}Proton Power Deposition"{}}, windowWidth, windowWidth);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00068}00068     cPowerDeposition-\/>SetLogz();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00069}00069     marginCanvas(cPowerDeposition, margin);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00071}00071     TH2D *powerDeposition = \textcolor{keyword}{new} TH2D(\textcolor{stringliteral}{"{}"{}}, \textcolor{stringliteral}{"{}"{}}, zBin, zMin, zMax, rBin, rMin, rMax);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00072}00072     powerDeposition-\/>SetTitle((\textcolor{stringliteral}{"{}Power Deposition for "{}}+std::to\_string((\textcolor{keywordtype}{int})(energyProtons/1e6))+\textcolor{stringliteral}{"{} MeV"{}}).c\_str());}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00073}00073     powerDeposition-\/>GetXaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Z (mm)"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00074}00074     powerDeposition-\/>GetYaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}R (mm)"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00075}00075     powerDeposition-\/>GetZaxis()-\/>SetTitleOffset(1.5);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00076}00076     powerDeposition-\/>GetZaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Power Deposition (W/cm\string^\{3\}/mA)"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00077}00077     powerDeposition-\/>GetZaxis()-\/>SetRangeUser(minPower, maxPower);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00078}00078     powerDeposition-\/>SetContour(10);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00079}00079     gStyle-\/>SetCanvasPreferGL(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00080}00080     gStyle-\/>SetPaintTextFormat(\textcolor{stringliteral}{"{}.2f"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00081}00081     gStyle-\/>SetOptStat(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00082}00082     gStyle-\/>SetPadGridX(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00083}00083     gStyle-\/>SetPadGridY(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00085}00085     \textcolor{keywordtype}{double} r, x, y, z, energy, hr, volume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00086}00086     \textcolor{keywordtype}{double} dz = (zMax-\/zMin)/zBin;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00087}00087     \textcolor{keywordtype}{double} dr = (rMax-\/rMin)/rBin;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00088}00088     \textcolor{comment}{// std::cout << dr << "{} "{} << dz << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00089}00089     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < nEntries; i++) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00090}00090         Proton-\/>GetEntry(i);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00091}00091         x = Proton-\/>GetLeaf(\textcolor{stringliteral}{"{}x"{}})-\/>GetValue(0);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00092}00092         y = Proton-\/>GetLeaf(\textcolor{stringliteral}{"{}y"{}})-\/>GetValue(0);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00093}00093         z = Proton-\/>GetLeaf(\textcolor{stringliteral}{"{}z"{}})-\/>GetValue(0);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00094}00094         r = sqrt(x*x+y*y);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00095}00095         hr = ((int)((r-\/rMin)/(rMax-\/rMin)*rBin)) * dr + rMin;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00096}00096         volume = ringVolume(hr, hr+dr, dz) * 1e-\/3; \textcolor{comment}{// cm3}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00097}00097         \textcolor{comment}{/*if (i <= 100) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00098}00098 \textcolor{comment}{            std::cout << r << "{} "{} << rMin << "{} "{} << hr << "{} "{} << hr+dr << "{} "{} << volume << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00099}00099 \textcolor{comment}{        \}*/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00100}00100         energy = Proton-\/>GetLeaf(\textcolor{stringliteral}{"{}energy"{}})-\/>GetValue(0) * scalingFactor / volume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00102}00102         powerDeposition-\/>Fill(z,  r, energy);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00103}00103         powerDeposition-\/>Fill(z, -\/r, energy);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00104}00104     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00106}00106     \textcolor{comment}{// Remove bin outside the power range}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00107}00107     \textcolor{comment}{/*double power;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00108}00108 \textcolor{comment}{    for(size\_t binX = 0; binX < powerDeposition-\/>GetNbinsX(); binX++) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00109}00109 \textcolor{comment}{        for(size\_t binY = 0; binY < powerDeposition-\/>GetNbinsY(); binY++) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00110}00110 \textcolor{comment}{            power = powerDeposition-\/>GetBinContent(powerDeposition-\/>GetBin(binX, binY));}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00111}00111 \textcolor{comment}{            if (minPower > power || power >= maxPower) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00112}00112 \textcolor{comment}{                powerDeposition-\/>SetBinContent(binX, binY, 0);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00113}00113 \textcolor{comment}{            \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00114}00114 \textcolor{comment}{        \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00115}00115 \textcolor{comment}{    \}*/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00116}00116     \textcolor{comment}{//powerDeposition-\/>Scale(scalingFactor);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00117}00117     powerDeposition-\/>Draw(\textcolor{stringliteral}{"{}CONTZ"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00118}00118 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00119}00119     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2_power_deposition_8_c_source_l00120}00120 \}}
+
+\end{DoxyCode}

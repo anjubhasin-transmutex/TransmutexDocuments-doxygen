@@ -1,0 +1,164 @@
+\hypertarget{convac3_2comain_8_f_source}{}\doxysection{comain.\+F}
+\label{convac3_2comain_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/convac3/comain.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/convac3/comain.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/07 27/09/96  18.21.56  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   23/08/95}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00003}00003       \textcolor{keyword}{program} comain}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00004}00004 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00005}00005 \textcolor{comment}{*     Convert European Activation File to ENDF/B-\/VI format}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00006}00006 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00007}00007 \textcolor{comment}{*     The EAF is a sequence of TAB1 records preceded by two lines of}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00008}00008 \textcolor{comment}{*     comment and a HEAD record with the format:}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00009}00009 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00010}00010 \textcolor{comment}{*                        (2e11.4,4i11,i4,i2,i3)}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00011}00011 \textcolor{comment}{*                        ZA, AWR, 0, ITAPS, 0, 0, MAT, MF, MT}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00012}00012 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00013}00013 \textcolor{comment}{*     ZA is correct, but AWR should be the atomic mass in neutron}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00014}00014 \textcolor{comment}{*     units, and this is only occasionally correct in the file. The}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00015}00015 \textcolor{comment}{*     material code is obtained as 100*Z+MOD(A,100) for the fundamental}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00016}00016 \textcolor{comment}{*     state. For isomeric states 30+LISO*20 is added to the}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00017}00017 \textcolor{comment}{*     mat number, where LISO is the metastable state number.}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00018}00018 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00019}00019 \textcolor{comment}{*     The reaction codes follow the ENDF/B-\/VI rule, but the isomeric}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00020}00020 \textcolor{comment}{*     state of the product is indicated adding 300*LISO to the reaction}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00021}00021 \textcolor{comment}{*     code.}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00023}00023 \textcolor{comment}{*     A proper ENDF/B-\/VI file cannot be made because FILE 2 will be}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00024}00024 \textcolor{comment}{*     completely absent, but the result of the following program can}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00025}00025 \textcolor{comment}{*     be passed through LINEAR and FIXUP programs to obtain linearised}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00026}00026 \textcolor{comment}{*     cross sections. From there on the file is (almost) an ordinary}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00027}00027 \textcolor{comment}{*     PENDF file from which group condensed cross sections can be}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00028}00028 \textcolor{comment}{*     derived.}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00029}00029 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00030}00030 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00031}00031 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xctb1c.inc"{}}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00032}00032 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbna.inc"{}}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00033}00033 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00034}00034 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcseet.inc"{}}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00035}00035 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xceafi.inc"{}}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00036}00036 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00037}00037       parameter(maxsto=500)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00038}00038       \textcolor{keyword}{common} / xcstor / hmem(maxsto)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00039}00039 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00040}00040       parameter(itapd=98,itaps=99)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00041}00041       parameter(itapa=12,neaff=5)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00042}00042       \textcolor{keywordtype}{character*255} chfili, chfilo}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00043}00043       \textcolor{keywordtype}{character*8} xnrena, chrena}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00044}00044       \textcolor{keywordtype}{character*11} xnelna}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00045}00045       \textcolor{keywordtype}{logical} lskipm}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00046}00046       \textcolor{keyword}{data} mathol / -\/99 /}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00047}00047 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00048}00048 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00049}00049 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00050}00050 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/ Init for filenames}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00052}00052       \textcolor{keyword}{call }xninit(maxsto,\textcolor{stringliteral}{' '})}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/ Load EET nuclear database, one entry per isotope}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00054}00054       \textcolor{keyword}{call }xnleet(chetdb)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00055}00055 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00056}00056 \textcolor{comment}{* -\/-\/-\/ Initialise cross sections}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00057}00057       \textcolor{keyword}{call }xninit(maxstr,\textcolor{stringliteral}{' '})}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00058}00058       \textcolor{keyword}{call }xntemp(323)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00059}00059 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/ Open file for storing info}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00061}00061       \textcolor{keyword}{open}(unit=itapd,file=\textcolor{stringliteral}{'eaf.scratch'},form=\textcolor{stringliteral}{'formatted'},recl=75,}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00062}00062      +access=\textcolor{stringliteral}{'direct'},status=\textcolor{stringliteral}{'unknown'})}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00063}00063       nrecw=0}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00064}00064 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00065}00065 \textcolor{comment}{* -\/-\/-\/ Open database file}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00066}00066       chfili=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00067}00067       \textcolor{keyword}{write}(6,10000)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00068}00068 10000 \textcolor{keyword}{format}(\textcolor{stringliteral}{' Please enter input filename'})}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00069}00069       \textcolor{keyword}{read}(5,\textcolor{stringliteral}{'(a)'}) chfili}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00070}00070       \textcolor{keyword}{write}(6,10100)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00071}00071 10100 \textcolor{keyword}{format}(\textcolor{stringliteral}{' Please enter output filename'})}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00072}00072       \textcolor{keyword}{read}(5,\textcolor{stringliteral}{'(a)'}) chfilo}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00073}00073       \textcolor{keyword}{open}(itapa,file=chfili,status=\textcolor{stringliteral}{'old'},action=\textcolor{stringliteral}{'read'})}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00074}00074       \textcolor{keyword}{write}(6,10500) chfili(:lnblnk(chfili))}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00075}00075 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00076}00076 \textcolor{comment}{* -\/-\/-\/ Read the two comment lines which begin a new section}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00077}00077    10 \textcolor{keyword}{read}(itapa,10900,\textcolor{keyword}{end}=40) chomme(1), matmp, mfh, mth}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00078}00078       \textcolor{keywordflow}{if}(matmp.le.0.or.mfh.le.0.or.mth.le.0) \textcolor{keywordflow}{goto} 10}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00079}00079       \textcolor{keyword}{read}(itapa,10900,\textcolor{keyword}{end}=40) chomme(2), matmp, mfh, mth}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00080}00080 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00081}00081 \textcolor{comment}{* -\/-\/-\/ Read the HEAD record of the section}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00082}00082       \textcolor{keyword}{read}(itapa,10400) c1,c2,l1,l2,n1,n2,matmp,mfh,mt}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00083}00083       l99=l2}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00084}00084       \textcolor{keywordflow}{if}(matmp.ne.mathol) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00085}00085 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00086}00086 \textcolor{comment}{* -\/-\/-\/ New material, here we create a file 1 header}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00087}00087          mathol=matmp}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00088}00088          math=matmp}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00089}00089          \textcolor{keyword}{call }xnmf01(lskipm)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00090}00090          \textcolor{keyword}{call }xnm03d}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00091}00091 \textcolor{keywordflow}{      endif}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00092}00092 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00093}00093 \textcolor{comment}{* -\/-\/-\/ Get the TAB1 record}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00094}00094       \textcolor{keyword}{call }xntb1c}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00095}00095 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00096}00096 \textcolor{comment}{* -\/-\/-\/ If this material was not found, keep on skipping}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00097}00097       \textcolor{keywordflow}{if}(lskipm) \textcolor{keywordflow}{goto} 10}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00098}00098       mtendf=mod(mth,300)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00099}00099       lisos=mth/300}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00100}00100       \textcolor{keywordflow}{if}(l99.eq.99.and.lisos.ne.0) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00101}00101          \textcolor{keyword}{write}(6,10200) l99,lisos}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00102}00102 10200 \textcolor{keyword}{format}(\textcolor{stringliteral}{' L99 = '},i2,\textcolor{stringliteral}{' and isomeric state = '},i1)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00103}00103 \textcolor{keywordflow}{      endif}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00104}00104       \textcolor{keywordflow}{if}(mtendf.eq.18) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00105}00105          lisos=0}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00106}00106          izason=0}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00107}00107          chrena=xnrena(mth)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00108}00108          chelns=\textcolor{stringliteral}{'Fiss Fragm'}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00109}00109          l99=0}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00110}00110          ipseet=0}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00111}00111          \textcolor{keywordflow}{goto} 30}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00112}00112 \textcolor{keywordflow}{      endif}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00113}00113       \textcolor{keyword}{call }xngson(izamat,mtendf,izason)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00114}00114       izason=izason+lisos}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00115}00115       chrena=xnrena(mth)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00116}00116       chelns=xnelna(izason)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00117}00117       \textcolor{keywordflow}{do} 20 j=1,ntoeet}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00118}00118          \textcolor{keywordflow}{if}(izason.eq.izaeet(j)) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00119}00119             ipseet=j}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00120}00120             \textcolor{keywordflow}{goto} 30}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00121}00121 \textcolor{keywordflow}{         endif}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00122}00122    20 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00123}00123       \textcolor{keyword}{write}(6,10300) chelns}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00124}00124 10300    \textcolor{keyword}{format}(\textcolor{stringliteral}{' Material '},a,\textcolor{stringliteral}{' not found in EET database, '},}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00125}00125      +          \textcolor{stringliteral}{'skipping reaction'})}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00126}00126       \textcolor{keywordflow}{goto} 10}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00127}00127    30 \textcolor{keywordflow}{if}(l99.eq.99) chelns(11:11)=\textcolor{stringliteral}{'*'}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00128}00128       \textcolor{keyword}{write}(6,10600) chrena,chelns}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00129}00129 }
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00130}00130 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00131}00131 \textcolor{comment}{* -\/-\/-\/ Check reaction code}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00132}00132       \textcolor{keywordflow}{if}(mfh.eq.3) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00133}00133 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00134}00134 \textcolor{comment}{* -\/-\/-\/ Make section 3}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00135}00135          \textcolor{keyword}{call }xnmf03}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00136}00136 \textcolor{keywordflow}{      endif}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00137}00137 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00138}00138       \textcolor{keywordflow}{goto} 10}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00139}00139 \textcolor{comment}{* -\/-\/-\/ End of processing}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00140}00140    40 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00141}00141       \textcolor{keyword}{close}(itapa)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00142}00142 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00143}00143 \textcolor{comment}{* -\/-\/-\/ Fix fission problem}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00144}00144       \textcolor{keyword}{call }xnfxfs}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00145}00145 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00146}00146 \textcolor{comment}{* -\/-\/-\/ Now write the file}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00147}00147       \textcolor{keyword}{open}(itaps,file=chfilo,status=\textcolor{stringliteral}{'UNKNOWN'})}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00148}00148       \textcolor{keyword}{call }xnwfil}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00149}00149       \textcolor{keyword}{close}(itaps)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00150}00150       \textcolor{keyword}{close}(itapd,status=\textcolor{stringliteral}{'DELETE'})}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00151}00151 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00152}00152 10400 \textcolor{keyword}{format}(2e11.4,4i11,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00153}00153 10500 \textcolor{keyword}{format}(\textcolor{stringliteral}{' Data from '},a)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00154}00154 10600 \textcolor{keyword}{format}(\textcolor{stringliteral}{' Reaction '},a,\textcolor{stringliteral}{' residual '},a)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00155}00155 10700 \textcolor{keyword}{format}(6e11.4,i4,i2,i3,i5)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00156}00156 10800 \textcolor{keyword}{format}(2e11.4,4i11,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00157}00157 10900 \textcolor{keyword}{format}(a66,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{convac3_2comain_8_f_source_l00158}00158       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

@@ -1,0 +1,339 @@
+\hypertarget{_extract_from_lis_fluka_8_c_source}{}\doxysection{Extract\+From\+Lis\+Fluka.\+C}
+\label{_extract_from_lis_fluka_8_c_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/tools/ExtractFromLisFluka.C@{/Users/Transmutex/Simulation/ADS\_SimulationCode/tools/ExtractFromLisFluka.C}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00001}00001 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00002}00002 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00003}00003 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00004}00004 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00005}00005 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00006}00006 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00007}00007 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00008}00008 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00009}00009 \textcolor{preprocessor}{\#define INF 100000000.}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00011}00011 \textcolor{keywordtype}{int} ExtractSpectraFromFluka(std::string inputFileName) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00012}00012     std::string line, lowBinE, uppBinE, value, error;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00013}00013     std::ifstream inputFile(inputFileName);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00015}00015     \textcolor{keywordtype}{int} lineCount = 0;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00016}00016     \textcolor{keywordtype}{double} result = 0.;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00017}00017     \textcolor{keywordtype}{double} rms = 0.;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00018}00018     \textcolor{keywordflow}{while} (std::getline(inputFile, line)) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00019}00019         std::istringstream iss(line);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00020}00020         iss >> lowBinE >> uppBinE >> value >> error;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00022}00022         \textcolor{keywordflow}{if} (lowBinE.find(\textcolor{stringliteral}{"{}\#"{}}) == std::string::npos \&\& lineCount >= 2) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00023}00023             \textcolor{keywordflow}{if} (std::stod(error) != 0.) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00024}00024                 rms += 1. / (std::stod(error)*0.01 * std::stod(error)*0.01);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00025}00025             \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00026}00026             \textcolor{comment}{// std::cout << rms << '\(\backslash\)n';}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00027}00027             result += std::stod(value) * (std::stod(uppBinE)-\/std::stod(lowBinE));}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00028}00028         \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00029}00029         \textcolor{keywordflow}{if} (lowBinE.find(\textcolor{stringliteral}{"{}\#"{}}) != std::string::npos \&\& lineCount >= 2) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00030}00030             \textcolor{comment}{// std::cout << "{}End"{} << '\(\backslash\)n';}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00031}00031             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00032}00032         \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00033}00033         lineCount++;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00034}00034     \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00036}00036     inputFile.close();}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00038}00038     rms = result/std::sqrt(rms);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00039}00039     std::cout << \textcolor{stringliteral}{"{}Result: "{}} << result << \textcolor{stringliteral}{"{} +-\/ "{}} << rms <<  \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00040}00040     \textcolor{keywordflow}{return}(0);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00041}00041 \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00043}00043 \textcolor{keywordtype}{double} norm(\textcolor{keywordtype}{double} x1, \textcolor{keywordtype}{double} x2, \textcolor{keywordtype}{double} y1, \textcolor{keywordtype}{double} y2) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00044}00044     \textcolor{keywordflow}{return}(std::sqrt((x1-\/x2)*(x1-\/x2) + (y1-\/y2)*(y1-\/y2)));}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00045}00045 \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00047}00047 \textcolor{keywordtype}{double} areaTriangle(\textcolor{keywordtype}{double} x1, \textcolor{keywordtype}{double} y1, \textcolor{keywordtype}{double} x2, \textcolor{keywordtype}{double} y2, \textcolor{keywordtype}{double} x3, \textcolor{keywordtype}{double} y3) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00048}00048     \textcolor{comment}{// Heron Formula}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00049}00049     \textcolor{keywordtype}{double} a = norm(x1, x2, y1, y2);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00050}00050     \textcolor{keywordtype}{double} b = norm(x1, x3, y1, y3);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00051}00051     \textcolor{keywordtype}{double} c = norm(x2, x3, y2, y3);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00052}00052     \textcolor{keywordtype}{double} s = (a+b+c)/2.;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00053}00053     \textcolor{keywordtype}{double} area = std::sqrt(s*(s-\/a)*(s-\/b)*(s-\/c));}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00054}00054     \textcolor{keywordflow}{return}(area);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00055}00055 \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00057}00057 \textcolor{keywordtype}{double} areaQuadrilateral(\textcolor{keywordtype}{double} x1, \textcolor{keywordtype}{double} x2, \textcolor{keywordtype}{double} x3, \textcolor{keywordtype}{double} x4, \textcolor{keywordtype}{double} y1, \textcolor{keywordtype}{double} y2, \textcolor{keywordtype}{double} y3, \textcolor{keywordtype}{double} y4) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00058}00058     \textcolor{keywordtype}{double} areaTrig1 = areaTriangle(x1, y1, x2, y2, x3, y3);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00059}00059     \textcolor{keywordtype}{double} areaTrig2 = areaTriangle(x1, y1, x3, y3, x4, y4);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00061}00061     \textcolor{keywordtype}{double} areaTrig3 = areaTriangle(x4, y4, x1, y1, x2, y2);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00062}00062     \textcolor{keywordtype}{double} areaTrig4 = areaTriangle(x4, y4, x3, y3, x2, y2);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00063}00063     \textcolor{keywordflow}{if} (areaTrig1 + areaTrig2 == areaTrig3 + areaTrig4) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00064}00064         \textcolor{keywordflow}{return}(areaTrig1+areaTrig2);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00065}00065     \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00067}00067     \textcolor{keywordflow}{return}(areaTriangle(x1, y1, x2, y2, x4, y4)+areaTriangle(x1, y1, x3, y3, x4, y4));}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00068}00068 \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00070}00070 \textcolor{keywordtype}{double} isInQuadrilateral(\textcolor{keywordtype}{double} x, \textcolor{keywordtype}{double} y, \textcolor{keywordtype}{double} x1, \textcolor{keywordtype}{double} x2, \textcolor{keywordtype}{double} x3, \textcolor{keywordtype}{double} x4, \textcolor{keywordtype}{double} y1, \textcolor{keywordtype}{double} y2, \textcolor{keywordtype}{double} y3, \textcolor{keywordtype}{double} y4) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00071}00071     \textcolor{keywordtype}{double} areaTrig1 = areaTriangle(x, y, x1, y1, x2, y2);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00072}00072     \textcolor{keywordtype}{double} areaTrig2 = areaTriangle(x, y, x2, y2, x3, y3);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00073}00073     \textcolor{keywordtype}{double} areaTrig3 = areaTriangle(x, y, x3, y3, x4, y4);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00074}00074     \textcolor{keywordtype}{double} areaTrig4 = areaTriangle(x, y, x4, y4, x1, y1);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00075}00075     \textcolor{keywordtype}{double} areaQuad0 = areaQuadrilateral(x1, x2, x3, x4, y1, y2, y3, y4);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00076}00076     \textcolor{keywordtype}{double} sumTrig = areaTrig1+areaTrig2+areaTrig3+areaTrig4;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00077}00077     \textcolor{keywordflow}{return}(areaQuad0 == sumTrig);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00078}00078 \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00080}00080 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00081}00081 \textcolor{comment}{// A C++ program to check if a given point lies inside a given polygon}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00082}00082 \textcolor{comment}{// Refer https://www.geeksforgeeks.org/check-\/if-\/two-\/given-\/line-\/segments-\/intersect/}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00083}00083 \textcolor{comment}{// for explanation of functions onSegment(), orientation() and doIntersect()}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00085}\mbox{\hyperlink{class_point}{00085}} \textcolor{keyword}{class }\mbox{\hyperlink{class_point}{Point}} \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00086}00086     \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00087}00087         \mbox{\hyperlink{class_point}{Point}}(\textcolor{keywordtype}{double} ix, \textcolor{keywordtype}{double} iy);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00089}00089         \textcolor{keywordtype}{double} x;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00090}00090         \textcolor{keywordtype}{double} y;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00091}00091 \};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00093}00093 \textcolor{keyword}{inline} Point::Point(\textcolor{keywordtype}{double} ix, \textcolor{keywordtype}{double} iy) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00094}00094     x = ix;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00095}00095     y = iy;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00096}00096 \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00099}00099 \textcolor{comment}{// Given three colinear points p, q, r, the function checks if}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00100}00100 \textcolor{comment}{// point q lies on line segment 'pr'}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00101}00101 \textcolor{keywordtype}{bool} onSegment(\mbox{\hyperlink{class_point}{Point}} p, \mbox{\hyperlink{class_point}{Point}} q, \mbox{\hyperlink{class_point}{Point}} r)}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00102}00102 \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00103}00103     \textcolor{keywordflow}{if} (q.x <= max(p.x, r.x) \&\& q.x >= min(p.x, r.x) \&\&}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00104}00104             q.y <= max(p.y, r.y) \&\& q.y >= min(p.y, r.y))}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00105}00105         \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00106}00106     \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00107}00107 \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00109}00109 \textcolor{comment}{// To find orientation of ordered triplet (p, q, r).}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00110}00110 \textcolor{comment}{// The function returns following values}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00111}00111 \textcolor{comment}{// 0 -\/-\/> p, q and r are colinear}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00112}00112 \textcolor{comment}{// 1 -\/-\/> Clockwise}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00113}00113 \textcolor{comment}{// 2 -\/-\/> Counterclockwise}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00114}00114 \textcolor{keywordtype}{int} orientation(\mbox{\hyperlink{class_point}{Point}} p, \mbox{\hyperlink{class_point}{Point}} q, \mbox{\hyperlink{class_point}{Point}} r)}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00115}00115 \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00116}00116     \textcolor{keywordtype}{int} val = (q.y -\/ p.y) * (r.x -\/ q.x) -\/}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00117}00117             (q.x -\/ p.x) * (r.y -\/ q.y);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00118}00118 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00119}00119     \textcolor{keywordflow}{if} (val == 0) \textcolor{keywordflow}{return} 0; \textcolor{comment}{// colinear}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00120}00120     \textcolor{keywordflow}{return} (val > 0)? 1: 2; \textcolor{comment}{// clock or counterclock wise}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00121}00121 \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00123}00123 \textcolor{comment}{// The function that returns true if line segment 'p1q1'}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00124}00124 \textcolor{comment}{// and 'p2q2' intersect.}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00125}00125 \textcolor{keywordtype}{bool} doIntersect(\mbox{\hyperlink{class_point}{Point}} p1, \mbox{\hyperlink{class_point}{Point}} q1, \mbox{\hyperlink{class_point}{Point}} p2, \mbox{\hyperlink{class_point}{Point}} q2)}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00126}00126 \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00127}00127     \textcolor{comment}{// Find the four orientations needed for general and}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00128}00128     \textcolor{comment}{// special cases}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00129}00129     \textcolor{keywordtype}{int} o1 = orientation(p1, q1, p2);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00130}00130     \textcolor{keywordtype}{int} o2 = orientation(p1, q1, q2);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00131}00131     \textcolor{keywordtype}{int} o3 = orientation(p2, q2, p1);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00132}00132     \textcolor{keywordtype}{int} o4 = orientation(p2, q2, q1);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00134}00134     \textcolor{comment}{// General case}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00135}00135     \textcolor{keywordflow}{if} (o1 != o2 \&\& o3 != o4)}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00136}00136         \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00138}00138     \textcolor{comment}{// Special Cases}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00139}00139     \textcolor{comment}{// p1, q1 and p2 are colinear and p2 lies on segment p1q1}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00140}00140     \textcolor{keywordflow}{if} (o1 == 0 \&\& onSegment(p1, p2, q1)) \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00141}00141 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00142}00142     \textcolor{comment}{// p1, q1 and p2 are colinear and q2 lies on segment p1q1}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00143}00143     \textcolor{keywordflow}{if} (o2 == 0 \&\& onSegment(p1, q2, q1)) \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00144}00144 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00145}00145     \textcolor{comment}{// p2, q2 and p1 are colinear and p1 lies on segment p2q2}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00146}00146     \textcolor{keywordflow}{if} (o3 == 0 \&\& onSegment(p2, p1, q2)) \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00147}00147 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00148}00148     \textcolor{comment}{// p2, q2 and q1 are colinear and q1 lies on segment p2q2}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00149}00149     \textcolor{keywordflow}{if} (o4 == 0 \&\& onSegment(p2, q1, q2)) \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00150}00150 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00151}00151     \textcolor{keywordflow}{return} \textcolor{keyword}{false}; \textcolor{comment}{// Doesn't fall in any of the above cases}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00152}00152 \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00153}00153 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00154}00154 \textcolor{comment}{// Returns true if the point p lies inside the polygon[] with n vertices}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00155}00155 \textcolor{keywordtype}{bool} isInside(std::vector<Point> polygon, \textcolor{keywordtype}{int} n, \mbox{\hyperlink{class_point}{Point}} p)}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00156}00156 \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00157}00157     \textcolor{comment}{// There must be at least 3 vertices in polygon[]}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00158}00158     \textcolor{keywordflow}{if} (n < 3) \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00159}00159 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00160}00160     \textcolor{comment}{// Create a point for line segment from p to infinite}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00161}00161     \mbox{\hyperlink{class_point}{Point}} extreme = \{INF, p.y\};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00162}00162 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00163}00163     \textcolor{comment}{// Count intersections of the above line with sides of polygon}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00164}00164     \textcolor{keywordtype}{int} count = 0, i = 0;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00165}00165     \textcolor{keywordflow}{do}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00166}00166     \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00167}00167         \textcolor{keywordtype}{int} next = (i+1)\%n;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00169}00169         \textcolor{comment}{// Check if the line segment from 'p' to 'extreme' intersects}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00170}00170         \textcolor{comment}{// with the line segment from 'polygon[i]' to 'polygon[next]'}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00171}00171         \textcolor{keywordflow}{if} (doIntersect(polygon[i], polygon[next], p, extreme))}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00172}00172         \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00173}00173             \textcolor{comment}{// If the point 'p' is colinear with line segment 'i-\/next',}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00174}00174             \textcolor{comment}{// then check if it lies on segment. If it lies, return true,}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00175}00175             \textcolor{comment}{// otherwise false}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00176}00176             \textcolor{keywordflow}{if} (orientation(polygon[i], p, polygon[next]) == 0)}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00177}00177             \textcolor{keywordflow}{return} onSegment(polygon[i], p, polygon[next]);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00178}00178 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00179}00179             count++;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00180}00180         \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00181}00181         i = next;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00182}00182     \} \textcolor{keywordflow}{while} (i != 0);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00183}00183 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00184}00184     \textcolor{comment}{// Return true if count is odd, false otherwise}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00185}00185     \textcolor{keywordflow}{return} count\&1; \textcolor{comment}{// Same as (count\%2 == 1)}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00186}00186 \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00187}00187 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00188}00188 \textcolor{keywordtype}{bool} isPointInBeamWindow(\textcolor{keywordtype}{double} r, \textcolor{keywordtype}{double} z) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00189}00189     \textcolor{keywordtype}{int} nOuter\_beamWindow = 29, nInner\_beamWindow = 29;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00191}00191     \textcolor{keywordtype}{double} *outerBeamWindowArray\_R = \textcolor{keyword}{new} \textcolor{keywordtype}{double}[nOuter\_beamWindow]\{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00192}00192         0., 5.62237292, 17.40127994, 26.52168659, 35.61478663, 43.09679687, 50.16920801, 53.03640172, 54.04674617, 54.5928783, 54.87405841,   54.87405841,   56.06743506,   58.85270895,   61.942226, 66.47125223,   71.44105465,   77.83080063,   82.69137662,   91.1291181, 98.20152924,  108.5780398,   116.688102,    124.44317831,  127.36498523, 128.8941552,  129.49490055, 130., 0.}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00193}00193     \};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00194}00194     \textcolor{keywordtype}{double} *outerBeamWindowArray\_Z = \textcolor{keyword}{new} \textcolor{keywordtype}{double}[nOuter\_beamWindow]\{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00195}00195         0., 6.15445179, 18.41241999, 30.64577981, 46.10131921, 63.4956277,   89.0819182,  110.5995243,  126.49196942, 144.78739592, 153.94809958, 420.56091873, 455.29082101, 472.38475682, 484.49358455, 499.82789658, 513.6996528,  527.29834295, 535.54493818, 547.77829799, 557.33561035, 573.69226778, 589.33895343, 609.81890848, 621.86112204, 632.18301938, 651.02457803, 675., 675.}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00196}00196     \};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00197}00197 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00198}00198     \textcolor{keywordtype}{double} *innerBeamWindowArray\_R = \textcolor{keyword}{new} \textcolor{keywordtype}{double}[nInner\_beamWindow]\{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00199}00199         0., 3.1403818262218817, 6.784843050009503, 11.666414964440676, 15.845842973371509, 23.288164756191573, 31.983839377202006, 38.920465315336415, 45.59157447114981, 48.24674229435909, 49.37661523646875, 49.77346379270455, 50., 0.}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00200}00200     \};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00201}00201     \textcolor{keywordtype}{double} *innerBeamWindowArray\_Z = \textcolor{keyword}{new} \textcolor{keywordtype}{double}[nInner\_beamWindow]\{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00202}00202         5.484541593287327, 9.011394136142396, 13.023645024716172, 19.042021357576765, 24.358253784936952, 34.919152933811475, 50.086799123894835, 66.61521882337331, 91.44103797038103, 112.01858860025379, 130.82357264052706, 165.1551346622316, 675., 675.}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00203}00203     \};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00204}00204 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00205}00205     std::vector<Point> innerBeamWindow\_polygon;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00206}00206     std::vector<Point> outerBeamWindow\_polygon;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00207}00207     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < nInner\_beamWindow; i++) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00208}00208         \mbox{\hyperlink{class_point}{Point}} p(innerBeamWindowArray\_R[i], innerBeamWindowArray\_Z[i]);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00209}00209         innerBeamWindow\_polygon.push\_back(p);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00210}00210     \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00211}00211     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < nOuter\_beamWindow; i++) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00212}00212         \mbox{\hyperlink{class_point}{Point}} p(outerBeamWindowArray\_R[i], outerBeamWindowArray\_Z[i]);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00213}00213         outerBeamWindow\_polygon.push\_back(p);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00214}00214     \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00215}00215 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00216}00216     \mbox{\hyperlink{class_point}{Point}} p(r, z);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00217}00217 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00218}00218     \textcolor{comment}{// delete[]outerBeamWindowArray\_R;}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00219}00219     \textcolor{comment}{// delete[]outerBeamWindowArray\_Z;}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00220}00220     \textcolor{comment}{// delete[]innerBeamWindowArray\_R;}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00221}00221     \textcolor{comment}{// delete[]innerBeamWindowArray\_Z;}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00222}00222 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00223}00223     \textcolor{keywordflow}{return}(isInside(outerBeamWindow\_polygon, nOuter\_beamWindow, p) \&\& !isInside(innerBeamWindow\_polygon, nInner\_beamWindow, p));}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00224}00224 \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00225}00225 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00226}00226 \textcolor{keywordtype}{int} ExtractDPAWindowsFromFluka(std::string inputFileName) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00227}00227 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00228}00228     \textcolor{keyword}{const} \textcolor{keywordtype}{double} binR = 105., minR = 0., maxR = 105.; \textcolor{comment}{// mm}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00229}00229     \textcolor{keyword}{const} \textcolor{keywordtype}{double} binZ = 1000., minZ = -\/630., maxZ = 370.; \textcolor{comment}{// mm}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00230}00230 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00231}00231     \textcolor{keyword}{const} \textcolor{keywordtype}{double} dr = (maxR-\/minR)/binR;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00232}00232     \textcolor{keyword}{const} \textcolor{keywordtype}{double} dz = (maxZ-\/minZ)/binZ;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00233}00233 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00234}00234     std::string line, DPA0, DPA1, DPA2, DPA3, DPA4;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00235}00235     std::ifstream inputFile(inputFileName);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00236}00236 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00237}00237     \textcolor{keywordtype}{double} dpa\_tot = 0.;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00238}00238 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00239}00239     \textcolor{keywordtype}{double} r0 = minR, r1, r2, r3, r4;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00240}00240     \textcolor{keywordtype}{double} z0 = minZ, z1 = minZ, z2 = minZ, z3 = minZ, z4 = minZ;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00241}00241     \textcolor{keywordtype}{double} dpa0, dpa1, dpa2, dpa3, dpa4;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00242}00242 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00243}00243     \textcolor{keywordtype}{bool} isCounting = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00244}00244     \textcolor{keywordtype}{int} lineCount = 0;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00245}00245     \textcolor{keywordtype}{int} countValues = 0;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00246}00246 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00247}00247     \textcolor{keywordflow}{while} (std::getline(inputFile, line)) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00248}00248         std::istringstream iss(line);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00249}00249         iss >> DPA0 >> DPA1 >> DPA2 >> DPA3 >> DPA4;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00250}00250         \textcolor{keywordflow}{try} \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00251}00251             \textcolor{keywordflow}{if} (lineCount == 0) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00252}00252                 r0 = minR;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00253}00253             \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00254}00254                 r0 += 5. * dr;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00255}00255             \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00256}00256             r1 = r0 + dr;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00257}00257             r2 = r1 + dr;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00258}00258             r3 = r2 + dr;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00259}00259             r4 = r3 + dr;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00260}00260 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00261}00261             \textcolor{keywordflow}{if} (r0 >= maxR) \{ r0 -\/= maxR; z0 += dz; \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00262}00262             \textcolor{keywordflow}{if} (r1 >= maxR) \{ r1 -\/= maxR; z1 += dz; \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00263}00263             \textcolor{keywordflow}{if} (r2 >= maxR) \{ r2 -\/= maxR; z2 += dz; \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00264}00264             \textcolor{keywordflow}{if} (r3 >= maxR) \{ r3 -\/= maxR; z3 += dz; \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00265}00265             \textcolor{keywordflow}{if} (r4 >= maxR) \{ r4 -\/= maxR; z4 += dz; \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00266}00266 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00267}00267             dpa0 = std::stod(DPA0);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00268}00268             dpa1 = std::stod(DPA1);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00269}00269             dpa2 = std::stod(DPA2);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00270}00270             dpa3 = std::stod(DPA3);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00271}00271             dpa4 = std::stod(DPA4);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00272}00272 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00273}00273             isCounting = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00274}00274         \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00275}00275         \textcolor{keywordflow}{catch} (\textcolor{keyword}{const} std::invalid\_argument\&) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00276}00276             \textcolor{comment}{// std::cerr << line << '\(\backslash\)n';}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00277}00277             isCounting = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00278}00278         \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00279}00279 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00280}00280         \textcolor{keywordflow}{if} (isCounting) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00281}00281             \textcolor{keywordflow}{if} (isPointInBeamWindow(r0 + dr/2., z0 + dz/2.)) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00282}00282                 dpa\_tot += dpa0;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00283}00283                 \textcolor{comment}{// std::cout << r0 << "{} "{} << z0 << "{} -\/> "{} << dpa0 << '\(\backslash\)n';}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00284}00284             \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00285}00285             \textcolor{keywordflow}{if} (isPointInBeamWindow(r1 + dr/2., z1 + dz/2.)) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00286}00286                 dpa\_tot += dpa1;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00287}00287                 \textcolor{comment}{// std::cout << r1 << "{} "{} << z1 << "{} -\/> "{} << dpa1 << '\(\backslash\)n';}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00288}00288             \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00289}00289             \textcolor{keywordflow}{if} (isPointInBeamWindow(r2 + dr/2., z2 + dz/2.)) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00290}00290                 dpa\_tot += dpa2;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00291}00291                 \textcolor{comment}{// std::cout << r2 << "{} "{} << z2 << "{} -\/> "{} << dpa2 << '\(\backslash\)n';}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00292}00292             \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00293}00293             \textcolor{keywordflow}{if} (isPointInBeamWindow(r3 + dr/2., z3 + dz/2.)) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00294}00294                 dpa\_tot += dpa3;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00295}00295                 \textcolor{comment}{// std::cout << r3 << "{} "{} << z3 << "{} -\/> "{} << dpa3 << '\(\backslash\)n';}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00296}00296             \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00297}00297             \textcolor{keywordflow}{if} (isPointInBeamWindow(r4 + dr/2., z4 + dz/2.)) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00298}00298                 dpa\_tot += dpa4;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00299}00299                 \textcolor{comment}{// std::cout << r4 << "{} "{} << z4 << "{} -\/> "{} << dpa4 << '\(\backslash\)n';}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00300}00300             \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00301}00301         \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00302}00302 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00303}00303         \textcolor{keywordflow}{if} (\textcolor{comment}{/*(lineCount > 15 \&\& !isCounting) ||*/} line.find(\textcolor{stringliteral}{"{}Percentage errors follow in a matrix"{}}) != std::string::npos || z0 > maxZ || z1 > maxZ || z2 > maxZ || z3 > maxZ || z4 > maxZ) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00304}00304             std::cout << line << \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00305}00305             std::cout << \textcolor{stringliteral}{"{}break "{}} << r0 << \textcolor{stringliteral}{"{} "{}} << r1 << \textcolor{stringliteral}{"{} "{}} << r2 << \textcolor{stringliteral}{"{} "{}} << r3 << \textcolor{stringliteral}{"{} "{}} << r4 << \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00306}00306             std::cout << \textcolor{stringliteral}{"{}break "{}} << z0 << \textcolor{stringliteral}{"{} "{}} << z1 << \textcolor{stringliteral}{"{} "{}} << z2 << \textcolor{stringliteral}{"{} "{}} << z3 << \textcolor{stringliteral}{"{} "{}} << z4 << \textcolor{stringliteral}{"{} "{}} << lineCount << \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00307}00307             std::cout << countValues << \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00308}00308             std::cout << \textcolor{stringliteral}{"{}Total DPA in the beam window after 1 week: "{}} << dpa\_tot << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00309}00309             isCounting = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00310}00310             dpa\_tot = 0.;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00311}00311             lineCount = 0;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00312}00312             countValues = 0;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00313}00313             z0 = minZ, z1 = minZ, z2 = minZ, z3 = minZ, z4 = minZ;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00314}00314         \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00315}00315         countValues += 5;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00316}00316         lineCount++;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00317}00317         \textcolor{keywordflow}{if} (line.find(\textcolor{stringliteral}{"{}Binning integral:"{}}) != std::string::npos) \{}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00318}00318             std::cout << \textcolor{stringliteral}{"{}Total Sumw2 DPA in the beam window after 1 week: "{}} << dpa\_tot << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00319}00319 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00320}00320             dpa\_tot = 0.;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00321}00321             lineCount = 0;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00322}00322             countValues = 0;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00323}00323             z0 = minZ, z1 = minZ, z2 = minZ, z3 = minZ, z4 = minZ;}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00324}00324         \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00325}00325 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00326}00326     \}}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00327}00327 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00328}00328     std::cout << \textcolor{stringliteral}{"{}Total Sumw2 DPA in the beam window after 1 week: "{}} << dpa\_tot << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00329}00329 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00330}00330     inputFile.close();}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00331}00331 }
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00332}00332     \textcolor{keywordflow}{return}(0);}
+\DoxyCodeLine{\Hypertarget{_extract_from_lis_fluka_8_c_source_l00333}00333 \}}
+
+\end{DoxyCode}

@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__benchmark-4_2src_2_event_action_8cc_source" xml:lang="en-US">
+<title>EventAction.cc</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/Benchmark-4/src/EventAction.cc</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00001"/>00001 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00002"/>00002 <emphasis role="comment">//&#32;********************************************************************</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00003"/>00003 <emphasis role="comment">//&#32;*&#32;License&#32;and&#32;Disclaimer&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00004"/>00004 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00005"/>00005 <emphasis role="comment">//&#32;*&#32;The&#32;&#32;Geant4&#32;software&#32;&#32;is&#32;&#32;copyright&#32;of&#32;the&#32;Copyright&#32;Holders&#32;&#32;of&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00006"/>00006 <emphasis role="comment">//&#32;*&#32;the&#32;Geant4&#32;Collaboration.&#32;&#32;It&#32;is&#32;provided&#32;&#32;under&#32;&#32;the&#32;terms&#32;&#32;and&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00007"/>00007 <emphasis role="comment">//&#32;*&#32;conditions&#32;of&#32;the&#32;Geant4&#32;Software&#32;License,&#32;&#32;included&#32;in&#32;the&#32;file&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00008"/>00008 <emphasis role="comment">//&#32;*&#32;LICENSE&#32;and&#32;available&#32;at&#32;&#32;http://cern.ch/geant4/license&#32;.&#32;&#32;These&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00009"/>00009 <emphasis role="comment">//&#32;*&#32;include&#32;a&#32;list&#32;of&#32;copyright&#32;holders.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00010"/>00010 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00011"/>00011 <emphasis role="comment">//&#32;*&#32;Neither&#32;the&#32;authors&#32;of&#32;this&#32;software&#32;system,&#32;nor&#32;their&#32;employing&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00012"/>00012 <emphasis role="comment">//&#32;*&#32;institutes,nor&#32;the&#32;agencies&#32;providing&#32;financial&#32;support&#32;for&#32;this&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00013"/>00013 <emphasis role="comment">//&#32;*&#32;work&#32;&#32;make&#32;&#32;any&#32;representation&#32;or&#32;&#32;warranty,&#32;express&#32;or&#32;implied,&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00014"/>00014 <emphasis role="comment">//&#32;*&#32;regarding&#32;&#32;this&#32;&#32;software&#32;system&#32;or&#32;assume&#32;any&#32;liability&#32;for&#32;its&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00015"/>00015 <emphasis role="comment">//&#32;*&#32;use.&#32;&#32;Please&#32;see&#32;the&#32;license&#32;in&#32;the&#32;file&#32;&#32;LICENSE&#32;&#32;and&#32;URL&#32;above&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00016"/>00016 <emphasis role="comment">//&#32;*&#32;for&#32;the&#32;full&#32;disclaimer&#32;and&#32;the&#32;limitation&#32;of&#32;liability.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00017"/>00017 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00018"/>00018 <emphasis role="comment">//&#32;*&#32;This&#32;&#32;code&#32;&#32;implementation&#32;is&#32;the&#32;result&#32;of&#32;&#32;the&#32;&#32;scientific&#32;and&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00019"/>00019 <emphasis role="comment">//&#32;*&#32;technical&#32;work&#32;of&#32;the&#32;GEANT4&#32;collaboration.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00020"/>00020 <emphasis role="comment">//&#32;*&#32;By&#32;using,&#32;&#32;copying,&#32;&#32;modifying&#32;or&#32;&#32;distributing&#32;the&#32;software&#32;(or&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00021"/>00021 <emphasis role="comment">//&#32;*&#32;any&#32;work&#32;based&#32;&#32;on&#32;the&#32;software)&#32;&#32;you&#32;&#32;agree&#32;&#32;to&#32;acknowledge&#32;its&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00022"/>00022 <emphasis role="comment">//&#32;*&#32;use&#32;&#32;in&#32;&#32;resulting&#32;&#32;scientific&#32;&#32;publications,&#32;&#32;and&#32;indicate&#32;your&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00023"/>00023 <emphasis role="comment">//&#32;*&#32;acceptance&#32;of&#32;all&#32;terms&#32;of&#32;the&#32;Geant4&#32;Software&#32;license.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00024"/>00024 <emphasis role="comment">//&#32;********************************************************************</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00025"/>00025 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00027"/>00027 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00028"/>00028 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00030"/>00030 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00031"/>00031 <emphasis role="comment">//&#32;EventAction</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00032"/>00032 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00033"/>00033 <emphasis role="comment">//&#32;Donovan&#32;Maire,&#32;Transmutex,&#32;18/10/2019</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00034"/>00034 <emphasis role="comment">//&#32;Copyright&#32;2020&#32;Transmutex&#32;SA&#32;--&#32;all&#32;rights&#32;reserved</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00036"/>00036 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00037"/>00037 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00038"/>00038 <emphasis role="comment">//&#32;Class</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00039"/>00039 <emphasis role="preprocessor">#include&#32;&quot;EventAction.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00040"/>00040 <emphasis role="preprocessor">#include&#32;&quot;Analysis.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00041"/>00041 <emphasis role="preprocessor">#include&#32;&quot;TMXRandomDistribution3D.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00042"/>00042 <emphasis role="preprocessor">#include&#32;&quot;TMXMergeThreadsResults.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00043"/>00043 <emphasis role="preprocessor">#include&#32;&quot;Run.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00044"/>00044 <emphasis role="preprocessor">#include&#32;&quot;TMXOption.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00045"/>00045 <emphasis role="preprocessor">#include&#32;&quot;TMXStopTheRun.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00046"/>00046 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00047"/>00047 <emphasis role="comment">//&#32;GEANT4&#32;libraries</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00048"/>00048 <emphasis role="preprocessor">#include&#32;&quot;G4Event.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00049"/>00049 <emphasis role="preprocessor">#include&#32;&quot;G4UImanager.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00050"/>00050 <emphasis role="preprocessor">#include&#32;&quot;G4Threading.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00051"/>00051 <emphasis role="preprocessor">#include&#32;&quot;G4PhysicalVolumeStore.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00052"/>00052 <emphasis role="preprocessor">#include&#32;&quot;G4VPhysicalVolume.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00053"/>00053 <emphasis role="preprocessor">#include&#32;&quot;G4SystemOfUnits.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00054"/>00054 <emphasis role="preprocessor">#include&#32;&quot;PrimaryGeneratorAction.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00055"/>00055 <emphasis role="preprocessor">#ifdef&#32;G4MULTITHREADED</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00056"/>00056 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#include&#32;&quot;G4MTRunManager.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00057"/>00057 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00058"/>00058 <emphasis role="preprocessor">#include&#32;&quot;G4RunManager.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00059"/>00059 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00060"/>00060 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00061"/>00061 <emphasis role="comment">//&#32;C++&#32;libraries</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00062"/>00062 <emphasis role="preprocessor">#include&#32;&lt;iostream&gt;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00063"/>00063 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00064"/>00064 <emphasis role="keyword">using</emphasis>&#32;std::sqrt;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00065"/>00065 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00066"/>00066 <emphasis role="preprocessor">#include&#32;&quot;G4AutoLock.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00067"/>00067 <emphasis role="keyword">namespace&#32;</emphasis>{&#32;G4Mutex&#32;myHEPPrimGenMutex&#32;=&#32;G4MUTEX_INITIALIZER;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00068"/>00068 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00070"/>00070 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00071"/>00071 EventAction::EventAction(<link linkend="_class_t_m_x_input_parameters">TMXInputParameters</link>*&#32;parameter,&#32;<link linkend="_class_t_m_x_random_distribution3_d">TMXRandomDistribution3D</link>&amp;&#32;RadiusAnglesHeight,&#32;<link linkend="_class_t_m_x_merge_threads_results">TMXMergeThreadsResults</link>&amp;&#32;mergedOutput,&#32;<link linkend="_class_t_m_x_bateman_decay">TMXBatemanDecay</link>&amp;&#32;batemanDecay):
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00072"/>00072 &#32;&#32;G4UserEventAction()
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00073"/>00073 {&#32;&#32;&#32;&#32;Initialize(0,&#32;parameter,&#32;RadiusAnglesHeight,&#32;mergedOutput,&#32;batemanDecay);&#32;}
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00074"/>00074 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00076"/>00076 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00077"/>00077 EventAction::~EventAction()
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00078"/>00078 {
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00079"/>00079 &#32;&#32;&#32;&#32;fmergedOutput&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00080"/>00080 &#32;&#32;&#32;&#32;fInputParam&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00081"/>00081 &#32;&#32;&#32;&#32;fRadiusAnglesHeight&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00082"/>00082 &#32;&#32;&#32;&#32;fbatemanDecay&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00083"/>00083 }
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00084"/>00084 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00086"/>00086 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00087"/>00087 <emphasis role="keywordtype">void</emphasis>&#32;EventAction::BeginOfEventAction(<emphasis role="keyword">const</emphasis>&#32;G4Event*&#32;<emphasis role="comment">/*evt*/</emphasis>)
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00088"/>00088 {
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00089"/>00089 <emphasis role="comment">//&#32;std::cout&#32;&lt;&lt;&#32;&quot;Begin&#32;of&#32;BeginOfEventAction&quot;&#32;&lt;&lt;&#32;std::endl;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00090"/>00090 &#32;&#32;TMXStopTheRun::getInstance()-&gt;UserBeginOfEventAction();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00091"/>00091 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00092"/>00092 <emphasis role="comment">//&#32;Increase&#32;number&#32;of&#32;events</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00093"/>00093 &#32;&#32;++fnEvt;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00094"/>00094 &#32;&#32;fEdep&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00095"/>00095 &#32;&#32;fNbFission&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00096"/>00096 &#32;&#32;fEperFission&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00097"/>00097 &#32;&#32;fNb_EperFission&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00098"/>00098 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00099"/>00099 &#32;&#32;<emphasis role="comment">//&#32;beginning&#32;of&#32;a&#32;new&#32;cycle&#32;-&gt;&#32;Reset&#32;of&#32;keff&#32;estimators</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00100"/>00100 &#32;&#32;fKeff_collision&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00101"/>00101 &#32;&#32;fKeff_analogAbs&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00102"/>00102 &#32;&#32;fKeff_implicitAbs&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00103"/>00103 &#32;&#32;fKeff_trackLength&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00104"/>00104 &#32;&#32;fNsourceNeutronPerEvent&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00105"/>00105 &#32;&#32;fVec_pos.clear();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00106"/>00106 &#32;&#32;fTimer.Start();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00107"/>00107 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00108"/>00108 &#32;&#32;<emphasis role="comment">//&#32;Initialize&#32;user&#32;actions</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00109"/>00109 &#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;fnEvt%fInputParam-&gt;PrintModulo&#32;==&#32;0&#32;)
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00110"/>00110 &#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_run">Run</link>*&#32;run&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_class_run">Run</link>*<emphasis role="keyword">&gt;</emphasis>(G4RunManager::GetRunManager()-&gt;GetNonConstCurrentRun());
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00112"/>00112 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;fRunNumber&#32;!=&#32;run-&gt;GetRunNumber()&#32;)&#32;{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fRunNumber&#32;&#32;=&#32;run-&gt;GetRunNumber();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Initialize(&#32;run-&gt;GetRunNumber(),&#32;fInputParam,&#32;*fRadiusAnglesHeight,&#32;*fmergedOutput,&#32;*fbatemanDecay);
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00116"/>00116 &#32;&#32;&#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;EventAction:&#32;Event&#32;#&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;fnEvt&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;started&quot;</emphasis>&#32;&lt;&lt;&#32;G4endl;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00117"/>00117 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fnEvt&#32;&gt;&#32;0)&#32;{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Time&#32;per&#32;event&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;fTotalTime&#32;/&#32;fnEvt&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;seconds&quot;</emphasis>&#32;&lt;&lt;&#32;G4endl;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00119"/>00119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fInputParam-&gt;nThreads&#32;&gt;&#32;0)
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00120"/>00120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Finishing&#32;in&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;(fInputParam-&gt;Nparticles&#32;-&#32;run-&gt;GetNumberOfEvent())&#32;/&#32;fInputParam-&gt;nThreads&#32;*&#32;fTotalTime&#32;/&#32;fnEvt&#32;/&#32;3600.&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;hours&quot;</emphasis>&#32;&lt;&lt;&#32;G4endl;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00122"/>00122 &#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00123"/>00123 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00124"/>00124 &#32;&#32;CalculationRelAbundU235_238();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00125"/>00125 <emphasis role="comment">//&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;&quot;End&#32;of&#32;BeginOfEventAction&quot;&#32;&lt;&lt;&#32;std::endl;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00126"/>00126 }
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00127"/>00127 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00129"/>00129 <emphasis role="comment">//&#32;At&#32;the&#32;end&#32;of&#32;the&#32;event</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00130"/>00130 <emphasis role="keywordtype">void</emphasis>&#32;EventAction::EndOfEventAction(&#32;<emphasis role="keyword">const</emphasis>&#32;G4Event*&#32;<emphasis role="comment">/*evt*/</emphasis>&#32;)
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00131"/>00131 {
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00132"/>00132 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;&quot;Begin&#32;of&#32;EndOfEventAction&quot;&#32;&lt;&lt;&#32;std::endl;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00133"/>00133 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00134"/>00134 &#32;&#32;<emphasis role="keywordflow">if</emphasis>(TMXOption::IsKeffCalculation(fInputParam-&gt;int_Option)&#32;<emphasis role="comment">/*&amp;&amp;&#32;fnEvt&lt;3e4*/</emphasis>)&#32;{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00135"/>00135 &#32;&#32;&#32;&#32;&#32;&#32;UpdateSpaceDistribution();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00136"/>00136 &#32;&#32;}&#32;&#32;<emphasis role="comment">//&#32;if&#32;dedicated&#32;keff&#32;calculation</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00137"/>00137 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00138"/>00138 &#32;&#32;<emphasis role="comment">//&#32;Update&#32;MCNP&#32;keff&#32;estimators&#32;at&#32;each&#32;cycle&#32;end</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00139"/>00139 &#32;&#32;<emphasis role="keywordflow">if</emphasis>(fNsourceNeutronPerEvent&gt;0)&#32;{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00140"/>00140 &#32;&#32;&#32;&#32;&#32;&#32;neutronicParam-&gt;UpdateKeffEstimators(fKeff_collision,&#32;fKeff_analogAbs,&#32;fKeff_implicitAbs,&#32;fKeff_trackLength,&#32;fNsourceNeutronPerEvent);
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00141"/>00141 &#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00142"/>00142 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00143"/>00143 &#32;&#32;<emphasis role="comment">//&#32;Do&#32;the&#32;calculation&#32;of&#32;neutronic&#32;parameters&#32;of&#32;interest</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00144"/>00144 &#32;&#32;neutronicParam-&gt;DoCalculationAndPrintValues(fN0abs,&#32;fFissionN,&#32;fInelasticN,&#32;fN_AbsU5,&#32;fRelativeAbundanceU235,&#32;&#32;fN_CapU8,&#32;fN_absTot,&#32;fRelativeAbundanceU238,&#32;fEdep,&#32;fEbeam,&#32;fNbFission,&#32;fEperFission,&#32;fNb_EperFission,&#32;fnu,&#32;fN0fission,&#32;*fRadiusAnglesHeight,&#32;fnEvt,&#32;fNbNperGeneration,&#32;fNf);
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00145"/>00145 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00146"/>00146 &#32;&#32;<emphasis role="comment">//std::cout&#32;&lt;&lt;&#32;&quot;Burn-up&#32;calculation&quot;&#32;&lt;&lt;&#32;std::endl;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00147"/>00147 &#32;&#32;<emphasis role="comment">//&#32;Burn-up&#32;calculation</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00148"/>00148 <emphasis role="comment">//&#32;&#32;G4AutoLock&#32;lock(&amp;myHEPPrimGenMutex);&#32;&#32;//&#32;if&#32;G4MULTITHREADED&#32;mode&#32;activated,&#32;it&#32;is&#32;necessary&#32;to&#32;lock&#32;other&#32;threads&#32;before&#32;Writing&#32;in&#32;the&#32;shared&#32;class</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00149"/>00149 <emphasis role="comment">//&#32;&#32;fbatemanDecay-&gt;AddTransmutedElement(vectorTransmutedElement);&#32;&#32;//&#32;Add&#32;Transmuted&#32;Elements&#32;to&#32;the&#32;global&#32;class</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00150"/>00150 <emphasis role="comment">//&#32;&#32;fbatemanDecay-&gt;AddTransmutedSrcElem(vectorSourceElement);&#32;&#32;//&#32;Add&#32;Transmuted&#32;Elements&#32;considered&#32;as&#32;source&#32;to&#32;the&#32;global&#32;class</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00151"/>00151 <emphasis role="comment">//&#32;&#32;vectorTransmutedElement.clear();</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00152"/>00152 <emphasis role="comment">//&#32;&#32;vectorSourceElement.clear();</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00153"/>00153 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00154"/>00154 &#32;&#32;<emphasis role="comment">//&#32;Stop&#32;timer&#32;to&#32;estimate&#32;the&#32;time&#32;per&#32;event</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00155"/>00155 &#32;&#32;fTimer.Stop();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00156"/>00156 &#32;&#32;fTotalTime&#32;+=&#32;fTimer.GetRealElapsed();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00157"/>00157 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00158"/>00158 &#32;&#32;<emphasis role="comment">//&#32;if&#32;the&#32;user&#32;press&#32;ctrl+c&#32;the&#32;calculation&#32;is&#32;stopped&#32;properly</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00159"/>00159 &#32;&#32;TMXStopTheRun::getInstance()-&gt;UserEndOfEventAction();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00160"/>00160 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00161"/>00161 <emphasis role="comment">//&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;&quot;End&#32;of&#32;EndOfEventAction&quot;&#32;&lt;&lt;&#32;std::endl;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00162"/>00162 }
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00163"/>00163 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00165"/>00165 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00166"/>00166 <emphasis role="keywordtype">void</emphasis>&#32;EventAction::AddWeight(G4double&#32;X,&#32;G4double&#32;Y,&#32;G4double&#32;Z)&#32;{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00167"/>00167 &#32;&#32;&#32;&#32;std::vector&lt;double&gt;&#32;pos{X,&#32;Y,&#32;Z};
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00168"/>00168 &#32;&#32;&#32;&#32;fVec_pos.push_back(pos);
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00169"/>00169 }
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00170"/>00170 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00171"/>00171 <emphasis role="keywordtype">void</emphasis>&#32;EventAction::UpdateSpaceDistribution()&#32;{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00172"/>00172 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Change&#32;the&#32;distribution&#32;to&#32;converge&#32;to&#32;eigenstate</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00173"/>00173 &#32;&#32;&#32;&#32;G4AutoLock&#32;lock(&amp;myHEPPrimGenMutex);
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00174"/>00174 &#32;&#32;&#32;&#32;fRadiusAnglesHeight-&gt;AddBinWeights(fVec_pos);
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00175"/>00175 }
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00176"/>00176 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00177"/>00177 <emphasis role="keywordtype">void</emphasis>&#32;EventAction::Initialize(G4int&#32;RunNumber,&#32;<link linkend="_class_t_m_x_input_parameters">TMXInputParameters</link>*&#32;parameter,&#32;<link linkend="_class_t_m_x_random_distribution3_d">TMXRandomDistribution3D</link>&amp;&#32;RadiusAnglesHeight,&#32;<link linkend="_class_t_m_x_merge_threads_results">TMXMergeThreadsResults</link>&amp;&#32;mergedOutput,&#32;<link linkend="_class_t_m_x_bateman_decay">TMXBatemanDecay</link>&amp;&#32;batemanDecay)&#32;{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00178"/>00178 <emphasis role="comment">//&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;&quot;EventAction&#32;Initialization&quot;&#32;&lt;&lt;&#32;std::endl;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00179"/>00179 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00180"/>00180 &#32;&#32;fUI&#32;=&#32;G4UImanager::GetUIpointer();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00181"/>00181 &#32;&#32;fInputParam&#32;=&#32;parameter;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00182"/>00182 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00183"/>00183 <emphasis role="preprocessor">&#32;&#32;#ifdef&#32;G4MULTITHREADED</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00184"/>00184 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;threadID&#32;=&#32;G4Threading::G4GetThreadId();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00185"/>00185 <emphasis role="preprocessor">&#32;&#32;#else</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00186"/>00186 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;threadID&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00187"/>00187 <emphasis role="preprocessor">&#32;&#32;#endif</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00188"/>00188 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00189"/>00189 &#32;&#32;<emphasis role="keywordflow">if</emphasis>(neutronicParam)
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00190"/>00190 &#32;&#32;&#32;&#32;&#32;&#32;neutronicParam-&gt;Initialize(RunNumber,&#32;mergedOutput,&#32;fInputParam,&#32;threadID);
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00191"/>00191 &#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00192"/>00192 &#32;&#32;&#32;&#32;&#32;&#32;neutronicParam&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;<link linkend="_class_t_m_x_neutronic_param">TMXNeutronicParam</link>(RunNumber,&#32;mergedOutput,&#32;fInputParam,&#32;threadID);
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00193"/>00193 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00194"/>00194 &#32;&#32;fmergedOutput&#32;=&#32;&amp;mergedOutput;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00195"/>00195 &#32;&#32;fRunNumber&#32;=&#32;RunNumber;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00196"/>00196 &#32;&#32;fnEvt&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00197"/>00197 &#32;&#32;fTotalTime&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00198"/>00198 &#32;&#32;fbool_First&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00199"/>00199 &#32;&#32;fNbFission&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00200"/>00200 &#32;&#32;fNf&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00201"/>00201 &#32;&#32;fN0abs&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00202"/>00202 &#32;&#32;fN0fission&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00203"/>00203 &#32;&#32;fInelasticN&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00204"/>00204 &#32;&#32;fFissionN&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00205"/>00205 &#32;&#32;fNbNperGeneration.clear();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00206"/>00206 &#32;&#32;fnu&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00207"/>00207 &#32;&#32;fRelativeAbundanceU235&#32;=&#32;1;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00208"/>00208 &#32;&#32;fRelativeAbundanceU238&#32;=&#32;1;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00209"/>00209 &#32;&#32;fN_AbsU5&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00210"/>00210 &#32;&#32;fN_CapU8&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00211"/>00211 &#32;&#32;fN_absTot=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00212"/>00212 &#32;&#32;fEdep&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00213"/>00213 &#32;&#32;fEperFission&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00214"/>00214 &#32;&#32;fNb_EperFission&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00215"/>00215 &#32;&#32;fN_primaryEscape&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00216"/>00216 &#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!fInputParam-&gt;ExtSourcePath.empty())
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00217"/>00217 &#32;&#32;&#32;&#32;&#32;&#32;fEbeam&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00218"/>00218 &#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00219"/>00219 &#32;&#32;&#32;&#32;&#32;&#32;fEbeam&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis><link linkend="_class_primary_generator_action">PrimaryGeneratorAction</link>*<emphasis role="keyword">&gt;</emphasis>&#32;(G4RunManager::GetRunManager()-&gt;GetUserPrimaryGeneratorAction())-&gt;GetBeamEnergy()/eV;&#32;<emphasis role="comment">//&#32;eV</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00220"/>00220 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00221"/>00221 &#32;&#32;<emphasis role="comment">//&#32;Random&#32;sampling&#32;of&#32;source&#32;neutron&#32;position&#32;for&#32;keff&#32;Calculation&#32;(fInputParam-&gt;int_Option&#32;=&#32;4)</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00222"/>00222 &#32;&#32;fVec_pos.clear();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00223"/>00223 &#32;&#32;fRadiusAnglesHeight&#32;=&#32;&amp;RadiusAnglesHeight;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00224"/>00224 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00225"/>00225 &#32;&#32;<emphasis role="comment">//&#32;Calculation&#32;of&#32;burn-up</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00226"/>00226 &#32;&#32;fbatemanDecay&#32;=&#32;&amp;batemanDecay;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00227"/>00227 &#32;&#32;vectorTransmutedElement.clear();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00228"/>00228 &#32;&#32;vectorSourceElement.clear();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00229"/>00229 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00230"/>00230 &#32;&#32;fEdep_fission&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00231"/>00231 &#32;&#32;fEkin_sec_fission&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00232"/>00232 &#32;&#32;fNtot_fission&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00233"/>00233 }
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00234"/>00234 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00235"/>00235 <emphasis role="keywordtype">void</emphasis>&#32;EventAction::CalculationRelAbundU235_238()&#32;{<emphasis role="comment">//&#32;Calculation&#32;of&#32;the&#32;relative&#32;abundance&#32;of&#32;U-235&#32;and&#32;U-238&#32;in&#32;the&#32;fuel&#32;to&#32;calculate&#32;the&#32;ratio&#32;between&#32;capture&#32;on&#32;U-238&#32;and&#32;fission&#32;on&#32;U-235&#32;(quality&#32;of&#32;the&#32;neutron&#32;energy&#32;spectrum)</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00236"/>00236 &#32;&#32;<emphasis role="keywordflow">if</emphasis>(fbool_First)&#32;{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00237"/>00237 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Relative&#32;abundance&#32;of&#32;U-235&#32;and&#32;U-238&#32;from&#32;the&#32;geometry</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00238"/>00238 &#32;&#32;&#32;&#32;&#32;&#32;G4VPhysicalVolume*&#32;Fuel&#32;=&#32;G4PhysicalVolumeStore::GetInstance()-&gt;GetVolume(<emphasis role="stringliteral">&quot;Fuel&quot;</emphasis>,<emphasis role="keyword">false</emphasis>);&#32;<emphasis role="comment">//&#32;WARNING&#32;the&#32;name&#32;of&#32;the&#32;physical&#32;volume&#32;is&#32;hard&#32;coded</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00239"/>00239 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(Fuel)&#32;{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00240"/>00240 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4Material*&#32;BreederMaterial&#32;=&#32;Fuel-&gt;GetLogicalVolume()-&gt;GetMaterial();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00241"/>00241 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<emphasis role="keywordtype">long</emphasis>&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;j=0;&#32;j&#32;&lt;&#32;BreederMaterial-&gt;GetNumberOfElements();&#32;++j)&#32;{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00242"/>00242 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;G4Element*&#32;Element&#32;=&#32;BreederMaterial-&gt;GetElement(j);
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00243"/>00243 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(Element-&gt;GetName()&#32;==&#32;<emphasis role="stringliteral">&quot;TS_U_of_Uranium_Dioxide&quot;</emphasis>)&#32;{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00244"/>00244 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if(Element-&gt;GetName()&#32;==&#32;&quot;enriched&#32;Uranium&quot;)&#32;{&#32;//&#32;WARNING&#32;the&#32;name&#32;of&#32;the&#32;element&#32;is&#32;hard&#32;coded</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00245"/>00245 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4double*&#32;RelativAbundanceVec=&#32;Element-&gt;GetRelativeAbundanceVector();
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00246"/>00246 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<emphasis role="keywordtype">long</emphasis>&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;i=0;&#32;i&#32;&lt;&#32;Element-&gt;GetNumberOfIsotopes();&#32;++i)&#32;{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00247"/>00247 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;G4Isotope*&#32;Isotope&#32;=&#32;Element-&gt;GetIsotope(i);
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00248"/>00248 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(Isotope-&gt;GetName()&#32;==&#32;<emphasis role="stringliteral">&quot;U235&quot;</emphasis>)&#32;{&#32;<emphasis role="comment">//&#32;WARNING&#32;the&#32;name&#32;of&#32;the&#32;isotope&#32;is&#32;hard&#32;coded</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00249"/>00249 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fRelativeAbundanceU235&#32;=&#32;RelativAbundanceVec[i]/Isotope-&gt;GetA();}
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00250"/>00250 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(Isotope-&gt;GetName()&#32;==&#32;<emphasis role="stringliteral">&quot;U238&quot;</emphasis>)&#32;{&#32;<emphasis role="comment">//&#32;WARNING&#32;the&#32;name&#32;of&#32;the&#32;isotope&#32;is&#32;hard&#32;coded</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00251"/>00251 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fRelativeAbundanceU238&#32;=&#32;RelativAbundanceVec[i]/Isotope-&gt;GetA();}
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00252"/>00252 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00253"/>00253 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00254"/>00254 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00255"/>00255 &#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00256"/>00256 &#32;&#32;&#32;&#32;&#32;&#32;fbool_First&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00257"/>00257 &#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00258"/>00258 }
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00259"/>00259 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00260"/>00260 G4double&#32;EventAction::GetNu(G4double&#32;en)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00261"/>00261 &#32;&#32;<emphasis role="keyword">using</emphasis>&#32;CLHEP::eV;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00262"/>00262 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00263"/>00263 &#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;nump&#32;=&#32;85;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00264"/>00264 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00265"/>00265 &#32;&#32;G4double&#32;nu235[170]&#32;=&#32;{
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00266"/>00266 &#32;1.000000e-5,2.429850e+0,2.000000e-1,2.429850e+0,3.000000e-1,2.433850e+0,1.500000e+0,2.433850e+0,2.040000e+0,2.405850e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00267"/>00267 &#32;2.500000e+0,2.446650e+0,3.610000e+0,2.449650e+0,4.850000e+0,2.398500e+0,6.390000e+0,2.420920e+0,7.080000e+0,2.423830e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00268"/>00268 &#32;8.790000e+0,2.417800e+0,9.300000e+0,2.417800e+0,1.016000e+1,2.398710e+0,1.239000e+1,2.410770e+0,1.545000e+1,2.410970e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00269"/>00269 &#32;1.610000e+1,2.407750e+0,1.667000e+1,2.417800e+0,1.805000e+1,2.410770e+0,1.930000e+1,2.408760e+0,2.110000e+1,2.417800e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00270"/>00270 &#32;2.295000e+1,2.423830e+0,2.365000e+1,2.420820e+0,2.555000e+1,2.425840e+0,2.648000e+1,2.424830e+0,3.086000e+1,2.383850e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00271"/>00271 &#32;3.207000e+1,2.400750e+0,3.352000e+1,2.409650e+0,3.439000e+1,2.433450e+0,3.520000e+1,2.420550e+0,3.830000e+1,2.415550e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00272"/>00272 &#32;3.941000e+1,2.392750e+0,4.460000e+1,2.358150e+0,5.126000e+1,2.418550e+0,5.222000e+1,2.443350e+0,5.345000e+1,2.456150e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00273"/>00273 &#32;5.506000e+1,2.418550e+0,5.868000e+1,2.359050e+0,7.240000e+1,2.432450e+0,7.457000e+1,2.360050e+0,1.000000e+2,2.433800e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00274"/>00274 &#32;1.000000e+3,2.431810e+0,2.250000e+3,2.427590e+0,7.000000e+3,2.417970e+0,2.000000e+4,2.417390e+0,5.000000e+4,2.418100e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00275"/>00275 &#32;6.000000e+4,2.419220e+0,7.000000e+4,2.422000e+0,8.000000e+4,2.430880e+0,1.700000e+5,2.461380e+0,2.000000e+5,2.468670e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00276"/>00276 &#32;3.000000e+5,2.474470e+0,4.000000e+5,2.478470e+0,6.000000e+5,2.488800e+0,7.000000e+5,2.498080e+0,8.500000e+5,2.514080e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00277"/>00277 &#32;9.000000e+5,2.518670e+0,1.000000e+6,2.529690e+0,1.200000e+6,2.549830e+0,1.600000e+6,2.599670e+0,1.800000e+6,2.623370e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00278"/>00278 &#32;2.400000e+6,2.690480e+0,2.600000e+6,2.720510e+0,3.500000e+6,2.827820e+0,4.000000e+6,2.892750e+0,4.500000e+6,2.967100e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00279"/>00279 &#32;5.000000e+6,3.045350e+0,5.500000e+6,3.132000e+0,6.000000e+6,3.222550e+0,6.500000e+6,3.317200e+0,7.000000e+6,3.405400e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00280"/>00280 &#32;7.500000e+6,3.476410e+0,8.000000e+6,3.544630e+0,9.000000e+6,3.689830e+0,9.500000e+6,3.761160e+0,1.050000e+7,3.899280e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00281"/>00281 &#32;1.200000e+7,4.101020e+0,1.250000e+7,4.169660e+0,1.300000e+7,4.241150e+0,1.450000e+7,4.462290e+0,1.600000e+7,4.690100e+0,
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00282"/>00282 &#32;1.650000e+7,4.763750e+0,1.700000e+7,4.833440e+0,1.800000e+7,4.964850e+0,1.900000e+7,5.090170e+0,3.000000e+7,6.249000e+0};
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00283"/>00283 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00284"/>00284 &#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;e&#32;=&#32;[&amp;]&#32;(<emphasis role="keywordtype">int</emphasis>&#32;i)&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;nu235[2*i];};
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00285"/>00285 &#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;nu&#32;=&#32;[&amp;]&#32;(<emphasis role="keywordtype">int</emphasis>&#32;i)&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;nu235[2*i+1];};
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00286"/>00286 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00287"/>00287 &#32;&#32;G4double&#32;enev&#32;=&#32;en/eV;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00288"/>00288 &#32;&#32;<emphasis role="keywordflow">if</emphasis>(enev&#32;&lt;=&#32;e(0))&#32;<emphasis role="keywordflow">return</emphasis>&#32;nu(0);
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00289"/>00289 &#32;&#32;<emphasis role="keywordflow">if</emphasis>(enev&#32;&gt;=&#32;e(nump-1))&#32;<emphasis role="keywordflow">return</emphasis>&#32;nu(nump-1);
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00290"/>00290 &#32;&#32;G4int&#32;ilow&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00291"/>00291 &#32;&#32;G4int&#32;ihig&#32;=&#32;nump-1;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00292"/>00292 &#32;&#32;G4int&#32;ihal=0;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00293"/>00293 &#32;&#32;<emphasis role="keywordflow">while</emphasis>(ihig-ilow&#32;&gt;&#32;1)
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00294"/>00294 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(enev&#32;&gt;&#32;e(ihal=(ilow+ihig)/2))&#32;ilow&#32;=&#32;ihal;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00295"/>00295 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;ihig&#32;=&#32;ihal;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00296"/>00296 &#32;&#32;<emphasis role="keywordflow">if</emphasis>(enev&#32;&lt;&#32;e(ilow)&#32;||&#32;enev&#32;&gt;&#32;e(ihig))&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;AAAAAAAAAAAAAAGH&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00297"/>00297 &#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;nu(ilow)&#32;+&#32;(nu(ihig)-nu(ilow))&#32;*&#32;(enev&#32;-&#32;e(ilow))&#32;/&#32;(e(ihig)-e(ilow));
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00298"/>00298 
+<anchor xml:id="__benchmark-4_2src_2_event_action_8cc_source_1l00299"/>00299 }
+</programlisting></section>

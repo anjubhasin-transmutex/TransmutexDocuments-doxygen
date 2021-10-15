@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source" xml:lang="en-US">
+<title>DPA_ROOT.C</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/Benchmark-3/DPA_ROOT.C</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00001"/>00001 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00002"/>00002 <emphasis role="comment">//&#32;\brief&#32;Implementation&#32;of&#32;a&#32;DPA&#32;Calculator</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00003"/>00003 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00004"/>00004 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00006"/>00006 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00007"/>00007 <emphasis role="comment">//&#32;DPA</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00008"/>00008 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00009"/>00009 <emphasis role="comment">//&#32;Thomas&#32;Guilbaud,&#32;Transmutex,&#32;15/06/2021</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00010"/>00010 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00012"/>00012 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00014"/>00014 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00015"/>00015 <emphasis role="preprocessor">#include&#32;&lt;TCanvas.h&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00016"/>00016 <emphasis role="preprocessor">#include&#32;&lt;TFile.h&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00017"/>00017 <emphasis role="preprocessor">#include&#32;&lt;TH1F.h&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00018"/>00018 <emphasis role="preprocessor">#include&#32;&lt;TGraph.h&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00019"/>00019 <emphasis role="preprocessor">#include&#32;&lt;TTree.h&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00020"/>00020 <emphasis role="preprocessor">#include&#32;&lt;TLegend.h&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00021"/>00021 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00022"/>00022 <emphasis role="keywordtype">double</emphasis>&#32;convertPKAtoDPA(<emphasis role="keywordtype">double</emphasis>&#32;E_dam)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00023"/>00023 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">double</emphasis>&#32;E_d&#32;=&#32;40.;&#32;<emphasis role="comment">//&#32;eV</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00024"/>00024 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">double</emphasis>&#32;k_d&#32;=&#32;0.8;&#32;<emphasis role="comment">//&#32;damage&#32;efficiency</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00025"/>00025 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(E_dam&#32;&lt;=&#32;E_d)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>(0.);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00027"/>00027 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00028"/>00028 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(E_d&#32;&lt;&#32;E_dam&#32;&amp;&amp;&#32;E_dam&#32;&lt;&#32;2.&#32;*&#32;E_d)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>(1.);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00030"/>00030 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00031"/>00031 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>(k_d*E_dam/(2.*E_d));
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00033"/>00033 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00034"/>00034 }
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00035"/>00035 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00036"/>00036 <emphasis role="keywordtype">void</emphasis>&#32;canvasSetup(TCanvas*&#32;canvas)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00037"/>00037 &#32;&#32;&#32;&#32;canvas-&gt;SetLogx();
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00038"/>00038 &#32;&#32;&#32;&#32;canvas-&gt;SetLogy();
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00039"/>00039 &#32;&#32;&#32;&#32;canvas-&gt;SetGridx();
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00040"/>00040 &#32;&#32;&#32;&#32;canvas-&gt;SetGridy();
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00041"/>00041 }
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00042"/>00042 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00043"/>00043 <emphasis role="keywordtype">int</emphasis>&#32;DPA_ROOT(std::string&#32;inputFile)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00044"/>00044 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Reading&#32;name&#32;of&#32;the&#32;ROOT&#32;file</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00045"/>00045 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;last_slash&#32;=&#32;inputFile.rfind(<emphasis role="stringliteral">&quot;/&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00046"/>00046 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(last_slash&#32;==&#32;std::string::npos)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;last_slash&#32;=&#32;0;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00048"/>00048 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00049"/>00049 &#32;&#32;&#32;&#32;std::string&#32;FileName&#32;=&#32;inputFile.substr(last_slash,&#32;inputFile.rfind(<emphasis role="stringliteral">&quot;.root&quot;</emphasis>)-last_slash);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00050"/>00050 &#32;&#32;&#32;&#32;TFile&#32;*f_ROOT&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TFile(&#32;(inputFile).c_str()&#32;);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00051"/>00051 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00052"/>00052 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;N_A&#32;=&#32;6.02214076e23;&#32;<emphasis role="comment">//&#32;Atoms/mol</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00053"/>00053 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;M_qe&#32;=&#32;1.602176634E-19;&#32;<emphasis role="comment">//&#32;C</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00054"/>00054 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;pi&#32;=&#32;3.14159265359;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00055"/>00055 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00056"/>00056 &#32;&#32;&#32;&#32;<emphasis role="comment">//----------------------------------&#32;Main&#32;----------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00057"/>00057 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;N_source&#32;=&#32;100000;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00058"/>00058 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;beamPower&#32;&#32;=&#32;4;&#32;<emphasis role="comment">//&#32;in&#32;MW</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00059"/>00059 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;beamEnergy&#32;=&#32;600.;&#32;<emphasis role="comment">//&#32;in&#32;MeV</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00060"/>00060 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;beamSigma&#32;=&#32;1.667;&#32;<emphasis role="comment">//&#32;cm</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00061"/>00061 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;thickness_beamWindow&#32;=&#32;0.5;&#32;<emphasis role="comment">//&#32;cm</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00062"/>00062 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;timeOfIrradiation&#32;=&#32;24.*3600.;&#32;<emphasis role="comment">//&#32;s</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00063"/>00063 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00064"/>00064 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;correctionFactor&#32;=&#32;1.+&#32;0.*6264.1/819.7;&#32;<emphasis role="comment">//&#32;Correction&#32;of&#32;the&#32;volume&#32;of&#32;the&#32;beam&#32;window</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00065"/>00065 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00066"/>00066 &#32;&#32;&#32;&#32;std::string&#32;spectraName&#32;=&#32;<emphasis role="stringliteral">&quot;dFlux_dlogE_beamWindow&quot;</emphasis>;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00067"/>00067 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00068"/>00068 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;rho&#32;=&#32;7.87;&#32;<emphasis role="comment">//&#32;g/cm3</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00069"/>00069 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;A&#32;=&#32;56.;&#32;<emphasis role="comment">//&#32;g/mol</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00070"/>00070 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00071"/>00071 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;N_atomsPerCm3&#32;=&#32;rho*N_A/A;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00072"/>00072 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Atomic&#32;density&#32;=&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;N_atomsPerCm3&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;atoms/cm3&quot;</emphasis>&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00073"/>00073 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00074"/>00074 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;isPlotDisplay&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00075"/>00075 &#32;&#32;&#32;&#32;<emphasis role="comment">//--------------------------------&#32;End&#32;Main&#32;--------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00076"/>00076 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00077"/>00077 &#32;&#32;&#32;&#32;<emphasis role="comment">//--------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00078"/>00078 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Extract&#32;the&#32;flux&#32;from&#32;a&#32;TMX&#32;Simulation</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00079"/>00079 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;int_nbins&#32;=&#32;1000;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00080"/>00080 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;dbl_Emin&#32;=&#32;1E-5;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00081"/>00081 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;dbl_Emax&#32;=&#32;1E9;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00082"/>00082 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;Emin_log&#32;=&#32;TMath::Log10(dbl_Emin);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00083"/>00083 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;Emax_log&#32;=&#32;TMath::Log10(dbl_Emax);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00084"/>00084 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;Ebin_width&#32;=&#32;(&#32;Emax_log&#32;-&#32;Emin_log)&#32;/(<emphasis role="keywordtype">double</emphasis>)&#32;int_nbins;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00085"/>00085 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;Ebins[int_nbins&#32;+&#32;1];
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00086"/>00086 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00087"/>00087 &#32;&#32;&#32;&#32;Ebins[0]&#32;=&#32;dbl_Emin;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00088"/>00088 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;i&#32;=&#32;1;&#32;i&#32;&lt;=&#32;int_nbins;&#32;i++)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Ebins[i]&#32;=&#32;dbl_Emin&#32;+&#32;TMath::Power(10,&#32;Emin_log&#32;+&#32;i&#32;*&#32;Ebin_width);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00090"/>00090 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00091"/>00091 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00092"/>00092 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(isPlotDisplay)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TCanvas*&#32;canvasFlux&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TCanvas(spectraName.c_str(),&#32;spectraName.c_str());
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;canvasSetup(canvasFlux);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00095"/>00095 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00096"/>00096 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00097"/>00097 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00098"/>00098 &#32;&#32;&#32;&#32;TH1D*&#32;histoFluxE_log&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TH1D;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00099"/>00099 &#32;&#32;&#32;&#32;histoFluxE_log-&gt;SetNameTitle(spectraName.c_str(),&#32;<emphasis role="stringliteral">&quot;&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00100"/>00100 &#32;&#32;&#32;&#32;histoFluxE_log-&gt;SetBins(int_nbins,&#32;Ebins);&#32;<emphasis role="comment">//&#32;Logarithmic&#32;binning</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00101"/>00101 &#32;&#32;&#32;&#32;TH1D*&#32;histoLog&#32;=&#32;(TH1D*)gDirectory-&gt;Get(spectraName.c_str());
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00102"/>00102 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;scaling_rawData&#32;=&#32;beamPower/(double)(beamEnergy*M_qe*N_source)&#32;*&#32;correctionFactor;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00103"/>00103 &#32;&#32;&#32;&#32;histoLog-&gt;Scale(scaling_rawData);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00104"/>00104 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00105"/>00105 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;errorFlux&#32;=&#32;0.;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00106"/>00106 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;integral&#32;=&#32;histoLog-&gt;IntegralAndError(0,&#32;(histoLog-&gt;GetNbinsX()&#32;+&#32;1),&#32;errorFlux,&#32;<emphasis role="stringliteral">&quot;&quot;</emphasis>);&#32;<emphasis role="comment">//&#32;eV</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00107"/>00107 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;relativeError&#32;=&#32;errorFlux/integral;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00108"/>00108 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;integral&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;errorFlux&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;relativeError&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00109"/>00109 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00110"/>00110 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;i=1;&#32;i&#32;&lt;&#32;histoLog-&gt;GetNbinsX();&#32;i++)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;d&#32;(Phi)&#32;/&#32;d&#32;(ln(E))</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00112"/>00112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;bin_histoFluxElog&#32;=&#32;(int)&#32;(int_nbins&#32;*&#32;(histoLog-&gt;GetXaxis()-&gt;GetBinCenter(i)&#32;-&#32;Emin_log)&#32;/&#32;(Emax_log&#32;-&#32;Emin_log));
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;histoFluxE_log-&gt;SetBinError(bin_histoFluxElog,&#32;TMath::Sqrt(&#32;TMath::Power(histoFluxE_log-&gt;GetBinError(i),2)&#32;+&#32;TMath::Power(histoLog-&gt;GetBinError(i)&#32;/&#32;(std::log(TMath::Power(10,&#32;histoLog-&gt;GetXaxis()-&gt;GetBinLowEdge(i+1)))-std::log(TMath::Power(10,&#32;histoLog-&gt;GetXaxis()-&gt;GetBinLowEdge(i)))),&#32;2)));
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;histoFluxE_log-&gt;SetBinContent(bin_histoFluxElog,&#32;histoFluxE_log-&gt;GetBinContent(bin_histoFluxElog)&#32;+&#32;histoLog-&gt;GetBinContent(i)&#32;/&#32;(std::log(TMath::Power(10,&#32;histoLog-&gt;GetXaxis()-&gt;GetBinLowEdge(i+1)))-std::log(TMath::Power(10,&#32;histoLog-&gt;GetXaxis()-&gt;GetBinLowEdge(i)))));
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00115"/>00115 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00116"/>00116 &#32;&#32;&#32;&#32;histoFluxE_log-&gt;SetLineColorAlpha(1,&#32;1);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00117"/>00117 &#32;&#32;&#32;&#32;histoFluxE_log-&gt;SetLineWidth(2);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00118"/>00118 &#32;&#32;&#32;&#32;histoFluxE_log-&gt;GetXaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;Neutron&#32;Energy&#32;[eV]&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00119"/>00119 &#32;&#32;&#32;&#32;histoFluxE_log-&gt;GetYaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;d{Phi}/d(ln(E))&#32;[cm^{-2}.s^{-1}]&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00120"/>00120 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(isPlotDisplay)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;histoFluxE_log-&gt;Draw(<emphasis role="stringliteral">&quot;HIST&#32;e&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00122"/>00122 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00123"/>00123 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00124"/>00124 &#32;&#32;&#32;&#32;<emphasis role="comment">//--------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00125"/>00125 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Extract&#32;the&#32;PKA&#32;data&#32;from&#32;a&#32;data&#32;file</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00126"/>00126 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(isPlotDisplay)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00127"/>00127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TCanvas*&#32;canvasPKA&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TCanvas(<emphasis role="stringliteral">&quot;PKA&quot;</emphasis>,&#32;<emphasis role="stringliteral">&quot;PKA&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00128"/>00128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;canvasSetup(canvasPKA);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00129"/>00129 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00130"/>00130 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00131"/>00131 &#32;&#32;&#32;&#32;TH1D*&#32;histoPKA_log&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TH1D;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00132"/>00132 &#32;&#32;&#32;&#32;histoPKA_log-&gt;SetNameTitle(<emphasis role="stringliteral">&quot;PKA&quot;</emphasis>,&#32;<emphasis role="stringliteral">&quot;&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00133"/>00133 &#32;&#32;&#32;&#32;histoPKA_log-&gt;SetBins(int_nbins,&#32;Ebins);&#32;<emphasis role="comment">//&#32;Logarithmic&#32;binning</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00134"/>00134 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00135"/>00135 &#32;&#32;&#32;&#32;std::string&#32;fileName&#32;=&#32;<emphasis role="stringliteral">&quot;../../../../../../Simulation/ADS_SimulationCode/DPA_data/26_56_Iron_MT444_incidentNeutrondata.csv&quot;</emphasis>;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00136"/>00136 &#32;&#32;&#32;&#32;std::string&#32;line,&#32;energyStr,&#32;crossSectionStr,&#32;delimiter;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00137"/>00137 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;energy,&#32;crossSection;&#32;<emphasis role="comment">//&#32;MeV,&#32;barn.eV</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00138"/>00138 &#32;&#32;&#32;&#32;std::ifstream&#32;file(fileName);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00139"/>00139 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;lineCount&#32;=&#32;0;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00140"/>00140 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(std::getline(file,&#32;line))&#32;{&#32;<emphasis role="comment">//&#32;Read&#32;by&#32;line</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00141"/>00141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::stringstream&#32;input(line);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00142"/>00142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(lineCount&#32;&gt;&#32;0)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00143"/>00143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;input&#32;&gt;&gt;&#32;energyStr&#32;&gt;&gt;&#32;delimiter&#32;&gt;&gt;&#32;crossSectionStr;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00144"/>00144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;energy&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;std::stod(energyStr);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00145"/>00145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;crossSection&#32;=&#32;std::stod(crossSectionStr);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00146"/>00146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;histoPKA_log-&gt;Fill(energy,&#32;crossSection);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00147"/>00147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00148"/>00148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lineCount++;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00149"/>00149 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00150"/>00150 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00151"/>00151 &#32;&#32;&#32;&#32;histoPKA_log-&gt;GetXaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;Neutron&#32;Energy&#32;[eV]&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00152"/>00152 &#32;&#32;&#32;&#32;histoPKA_log-&gt;GetYaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;PKA&#32;[eV.barn]&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00153"/>00153 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(isPlotDisplay)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00154"/>00154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;histoPKA_log-&gt;Draw(<emphasis role="stringliteral">&quot;HIST&#32;e&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00155"/>00155 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00156"/>00156 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00157"/>00157 &#32;&#32;&#32;&#32;<emphasis role="comment">//--------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00158"/>00158 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Convolution</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00159"/>00159 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(isPlotDisplay)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00160"/>00160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TCanvas*&#32;canvasConvolution&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TCanvas(<emphasis role="stringliteral">&quot;Convolution&quot;</emphasis>,&#32;<emphasis role="stringliteral">&quot;Convolution&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00161"/>00161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;canvasSetup(canvasConvolution);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00162"/>00162 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00163"/>00163 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00164"/>00164 &#32;&#32;&#32;&#32;TH1D*&#32;convolution&#32;=&#32;(TH1D*)histoPKA_log-&gt;Clone(<emphasis role="stringliteral">&quot;Convolution&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00165"/>00165 &#32;&#32;&#32;&#32;convolution-&gt;Multiply(histoFluxE_log);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00166"/>00166 &#32;&#32;&#32;&#32;<emphasis role="comment">/*for&#32;(int&#32;i&#32;=&#32;1;&#32;i&#32;&lt;&#32;convolution-&gt;GetNbinsX();&#32;i++)&#32;{</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00167"/>00167 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;d&#32;(Phi)&#32;/&#32;d&#32;(ln(E))</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00168"/>00168 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;convolution-&gt;SetBinContent(i,&#32;convertPKAtoDPA(convolution-&gt;GetBinContent(i)));</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00169"/>00169 <emphasis role="comment">&#32;&#32;&#32;&#32;}*/</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00170"/>00170 &#32;&#32;&#32;&#32;convolution-&gt;GetXaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;Neutron&#32;Energy&#32;[eV]&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00171"/>00171 &#32;&#32;&#32;&#32;convolution-&gt;GetYaxis()-&gt;SetTitle(<emphasis role="stringliteral">&quot;PKA&#32;[eV.barn.cm^{-2}.s^{-1}]&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00172"/>00172 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(isPlotDisplay)&#32;{
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00173"/>00173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;convolution-&gt;Draw(<emphasis role="stringliteral">&quot;HIST&#32;e&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00174"/>00174 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00175"/>00175 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00176"/>00176 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;errorDPA&#32;=&#32;0.;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00177"/>00177 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;totalEnergyLost&#32;=&#32;convolution-&gt;IntegralAndError(0,&#32;(convolution-&gt;GetNbinsX()&#32;+&#32;1),&#32;errorDPA,&#32;<emphasis role="stringliteral">&quot;&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00178"/>00178 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;relativeErrorDPA&#32;=&#32;errorDPA/totalEnergyLost;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00179"/>00179 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;totalEnergyLost&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;errorDPA&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;errorDPA/totalEnergyLost&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00180"/>00180 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00181"/>00181 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Total&#32;Energy&#32;Lost&#32;=&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;totalEnergyLost*1e-24&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;eV/s&quot;</emphasis>&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00182"/>00182 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;std::cout&#32;&lt;&lt;&#32;&quot;Total&#32;Energy&#32;Lost&#32;=&#32;&quot;&#32;&lt;&lt;&#32;totalEnergyLost*1e-24*beamEnergy*M_qe/beamPower&#32;&lt;&lt;&#32;&quot;&#32;eV/proton&quot;&#32;&lt;&lt;&#32;&apos;\n&apos;;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00183"/>00183 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00184"/>00184 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;double&#32;totalPKA&#32;=&#32;totalEnergyLost&#32;*&#32;beamEnergy*M_qe/beamPower;&#32;//&#32;eV/proton</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00185"/>00185 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;std::cout&#32;&lt;&lt;&#32;&quot;Total&#32;PKA&#32;=&#32;&quot;&#32;&lt;&lt;&#32;totalPKA&#32;&lt;&lt;&#32;&quot;&#32;eV/neutron&quot;&#32;&lt;&lt;&#32;&apos;\n&apos;;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00186"/>00186 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00187"/>00187 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;double&#32;maxGaussianFactor&#32;=&#32;1./(2.*pi*beamSigma*beamSigma*thickness_beamWindow);&#32;//&#32;/cm3</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00188"/>00188 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;totalDPA&#32;=&#32;convertPKAtoDPA(totalEnergyLost)*1e-24;&#32;<emphasis role="comment">//&#32;/N_atomsPerCm3*maxGaussianFactor;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00189"/>00189 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;At&#32;the&#32;maximum&#32;of&#32;the&#32;Gaussian:&quot;</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00190"/>00190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Total&#32;DPA&#32;=&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;totalDPA&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;±&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;totalDPA*relativeErrorDPA&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;DPA/s&quot;</emphasis>&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00191"/>00191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;totalDPA*60.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;±&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;totalDPA*60.*relativeErrorDPA&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;DPA/min&quot;</emphasis>&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00192"/>00192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;totalDPA*3600.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;±&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;totalDPA*3600.*relativeErrorDPA&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;DPA/hour&quot;</emphasis>&#32;&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00193"/>00193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;totalDPA*24.*3600.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;±&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;totalDPA*24.*3600.*relativeErrorDPA&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;DPA/day&quot;</emphasis>&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00194"/>00194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;totalDPA*30.*24.*3600.&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;±&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;totalDPA*30.*24.*3600.*relativeErrorDPA&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;DPA/month&quot;</emphasis>&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00195"/>00195 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;totalDPA*365.25*24.*3600.&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;±&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;totalDPA*365.25*24.*3600.*relativeErrorDPA&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;DPA/year&quot;</emphasis>&#32;&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>;
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00196"/>00196 
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00197"/>00197 &#32;&#32;&#32;&#32;<emphasis role="comment">//--------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00198"/>00198 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>(0);
+<anchor xml:id="__benchmark-3_2_d_p_a___r_o_o_t_8_c_source_1l00199"/>00199 }
+</programlisting></section>

@@ -1,0 +1,219 @@
+\hypertarget{test_bateman_8cc_source}{}\doxysection{test\+Bateman.\+cc}
+\label{test_bateman_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/TMXElements/src/testBateman.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/TMXElements/src/testBateman.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00001}00001 \textcolor{comment}{// Copyright 2020 Transmutex SA -\/-\/ all rights reserved}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00002}00002 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00003}00003 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00004}00004 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00005}00005 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00006}00006 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00007}00007 \textcolor{preprocessor}{\#include <cctype>}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00008}00008 \textcolor{preprocessor}{\#include <cmath>}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00009}00009 \textcolor{comment}{// \#include <boost/multiprecision/mpfr.hpp>}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00011}00011 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} IZA(\textcolor{keywordtype}{int} jz, \textcolor{keywordtype}{int} ja, \textcolor{keywordtype}{int} jso) \{\textcolor{keywordflow}{return} jz*10000+ja*10+jso;\};}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00013}00013 \textcolor{preprocessor}{\#include "{}TMXBatemanDecay.hh"{}}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00014}00014 \textcolor{preprocessor}{\#include "{}testBateman.hh"{}}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00016}00016 testBateman::testBateman() \{}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00017}00017   std::string ResultsFileName = \textcolor{stringliteral}{"{}TestTransmutation"{}};}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00018}00018   std::ofstream ResultsFile;}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00019}00019   ResultsFile.open((ResultsFileName + (std::string)\textcolor{stringliteral}{"{}.txt"{}}).c\_str(), std::ios::out);}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00020}00020     }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00021}00021   \textcolor{comment}{// Time of 1 run}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00022}00022   \textcolor{keywordtype}{double} Decayt = 1e7;  \textcolor{comment}{// [s]}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00023}00023   \textcolor{keywordtype}{int} nRun = 100; \textcolor{comment}{// Number of runs}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00024}00024   }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00025}00025   TMXElementStore::BuildElementDB();}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00026}00026   \mbox{\hyperlink{class_t_m_x_bateman_decay}{TMXBatemanDecay}} batemanDecay;}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00027}00027   std::unordered\_map <int, std::vector<long double>> MapVecNt;}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00028}00028   }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00029}00029   \textcolor{comment}{// 300 MeV proton beam with accelerator power of 30 kW}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00030}00030   \textcolor{keywordtype}{double} P\_beam = 0.03; \textcolor{comment}{// [MW] beam power}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00031}00031   \textcolor{keywordtype}{double} Nparticles = 10000;}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00032}00032   \textcolor{keywordtype}{double} e\_SI = 1.602e-\/19; \textcolor{comment}{// proton charge}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00033}00033   \textcolor{keywordtype}{double} BeamEnergy = 300; \textcolor{comment}{// [MeV]}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00034}00034   std::string LVName = \textcolor{stringliteral}{"{}Fuel"{}};}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00035}00035   \textcolor{keywordtype}{double} massU5 = 10000; \textcolor{comment}{// [g]}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00036}00036   \textcolor{keywordtype}{double} enrichmentU5 = 0.2; \textcolor{comment}{// in mass}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00037}00037   \textcolor{keywordtype}{double} Na = 6.022e23; \textcolor{comment}{// [mol-\/1]}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00038}00038   std::vector<std::pair<int,double>> vecFuelComposition = \{ \{922380, (1-\/enrichmentU5)/enrichmentU5 * massU5/238.*Na\}, }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00039}00039                                                             \{922350, massU5/235.*Na\}, }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00040}00040                                                             \{ 80160, 2* ((1-\/enrichmentU5)/enrichmentU5 * massU5/238.*Na + massU5/235.*Na)\}, }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00041}00041                                                             \{531310, 50 * Na\}, }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00042}00042                                                             \{430990, 10 * Na\}\};   \textcolor{comment}{// U-\/238, U-\/235, O-\/16 (stable), I-\/131 (short-\/lived), 99Tc (long-\/lived)}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00043}00043 \textcolor{comment}{//   std::vector<std::pair<int,double>> vecFuelComposition = \{ \{922380, (1-\/enrichmentU5)/enrichmentU5 * massU5/238.*Na\} \};}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00044}00044 \textcolor{comment}{//   std::vector<std::pair<int,double>> vecFuelComposition = \{ }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00045}00045 \textcolor{comment}{//                                                             \{922350, massU5/235.*Na\}, }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00046}00046 \textcolor{comment}{//                                                             \{ 80160, 2* ((1-\/enrichmentU5)/enrichmentU5 * massU5/238.*Na + massU5/235.*Na)\}, \};   // U-\/235, O-\/16 (stable)}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00047}00047 \textcolor{comment}{//   std::vector<std::pair<int,double>> vecFuelComposition = \{ }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00048}00048 \textcolor{comment}{//                                                             \{922380, (1-\/enrichmentU5)/enrichmentU5 * massU5/238.*Na\}, }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00049}00049 \textcolor{comment}{//                                                             \{ 80160, 2* ((1-\/enrichmentU5)/enrichmentU5 * massU5/238.*Na + massU5/235.*Na)\}, }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00050}00050 \textcolor{comment}{//                                                             \{430990, 10 * Na\}\};   // U-\/238, O-\/16 (stable), Tc-\/99}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00051}00051 \textcolor{comment}{//   std::vector<std::pair<int,double>> vecFuelComposition = \{ }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00052}00052 \textcolor{comment}{//                                                             \{922350, massU5/235.*Na\}, }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00053}00053 \textcolor{comment}{//                                                             \{ 80160, 2* ((1-\/enrichmentU5)/enrichmentU5 * massU5/238.*Na + massU5/235.*Na)\}, }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00054}00054 \textcolor{comment}{//                                                             \{531310, 10 * Na\} \};   // U-\/238, U-\/235, O-\/16 (stable)}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00055}00055 \textcolor{comment}{//   std::vector<std::pair<int,double>> vecFuelComposition = \{  }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00056}00056 \textcolor{comment}{//                                                          \{ 80160, 10 * Na\}, }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00057}00057 \textcolor{comment}{//                                                          \{531310, 10 * Na\}\};   // O-\/16 (stable), I-\/131 (short-\/lived)}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00058}00058 \textcolor{comment}{//   std::vector<std::pair<int,double>> vecFuelComposition = \{  }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00059}00059 \textcolor{comment}{//                                                          \{ 80160, 10 * Na\}, }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00060}00060 \textcolor{comment}{//                                                          \{832100, 10 * Na\}\};   // O-\/16 (stable), Bi-\/210 (short-\/lived)}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00061}00061 \textcolor{comment}{//   std::vector<std::pair<int,double>> vecFuelComposition = \{  }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00062}00062 \textcolor{comment}{//                                                          \{ 80160, 10 * Na\}, }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00063}00063 \textcolor{comment}{//                                                          \{822140, 10 * Na\}\};   // O-\/16 (stable), Pb-\/214 (short-\/lived)}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00064}00064 \textcolor{comment}{//   std::vector<std::pair<int,double>> vecFuelComposition = \{  }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00065}00065 \textcolor{comment}{//                                                          \{ 80160, 10 * Na\}, }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00066}00066 \textcolor{comment}{//                                                          \{882260, 10 * Na\}\};   // O-\/16 (stable), Ra-\/226 (long-\/lived)}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00067}00067 \textcolor{comment}{//   std::vector<std::pair<int,double>> vecFuelComposition = \{  }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00068}00068 \textcolor{comment}{//                                                          \{ 80160, 10 * Na\}, }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00069}00069 \textcolor{comment}{//                                                          \{922340, 10 * Na\}\};   // O-\/16 (stable), U-\/234 (long-\/lived)}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00070}00070 \textcolor{comment}{//   std::vector<std::pair<int,double>> vecFuelComposition = \{  }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00071}00071 \textcolor{comment}{//                                                          \{ 80160, 10 * Na\}, }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00072}00072 \textcolor{comment}{//                                                          \{902340, 10 * Na\}\};   // O-\/16 (stable), Th-\/234 (short-\/lived)}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00073}00073 \textcolor{comment}{//   std::vector<std::pair<int,long double>> vecFuelComposition = \{  }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00074}00074 \textcolor{comment}{//                                                          \{ 80160, 10 * Na\}, }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00075}00075 \textcolor{comment}{//                                                          \{922380, 10 * Na\}\};   // O-\/16 (stable), U-\/238 (long-\/lived)}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00076}00076 \textcolor{comment}{//   std::vector<std::pair<int,double>> vecFuelComposition = \{  }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00077}00077 \textcolor{comment}{//                                                          \{ 80160, 2* ((1-\/enrichmentU5)/enrichmentU5 * massU5/238.*Na + massU5/235.*Na)\}, }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00078}00078 \textcolor{comment}{//                                                          \{992541, 50 * Na\}\};   // O-\/16 (stable), Es-\/254m}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00079}00079 \textcolor{comment}{//   std::vector<std::pair<int,double>> vecFuelComposition = \{  }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00080}00080 \textcolor{comment}{//                                                          \{ 80160, 2* ((1-\/enrichmentU5)/enrichmentU5 * massU5/238.*Na + massU5/235.*Na)\}, }}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00081}00081 \textcolor{comment}{//                                                          \{882280, 10 * Na\}\};   // O-\/16 (stable), Ra-\/228}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00083}00083 \textcolor{comment}{// std::cout << vecFuelComposition[1].first << "{}\(\backslash\)t"{} << vecFuelComposition[1].second << std::endl;}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00086}00086   \textcolor{comment}{// Initial quantity N0 of elements in the material}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00088}00088 \textcolor{comment}{}  \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} element : vecFuelComposition) \{}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00089}00089       batemanDecay.ConstructMapN\_0(element.first, element.second); \textcolor{comment}{// Give initial amount of each isotope before decay (t=0)}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00090}00090 \textcolor{comment}{//       batemanDecay.ConstructChain(element.first, LVName);  // Construct linear decay paths for every isotopes in the volume}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00091}00091       }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00092}00092 \textcolor{comment}{//       ResultsFile << element.first << "{}\(\backslash\)t"{} << element.second << "{}\(\backslash\)t"{};}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00093}00093         MapVecNt[element.first].push\_back(0);}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00094}00094         MapVecNt[element.first].push\_back(element.second);}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00095}00095   \}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00096}00096   }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00097}00097 \textcolor{comment}{//   ResultsFile << "{}\(\backslash\)n"{};}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00098}00098   batemanDecay.DumpStoredChains();}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00099}00099   }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00101}00101   \textcolor{comment}{// Run the calculation for each run}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00103}00103 \textcolor{comment}{}  \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} iRun=0; iRun<nRun; ++iRun) \{}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00104}00104     ResultsFile << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << iRun;}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00105}00105     std::cout << \textcolor{stringliteral}{"{}Run "{}} << iRun << std::endl;}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00106}00106 }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00108}00108     \textcolor{comment}{// Elements produced during one run}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00110}00110 \textcolor{comment}{}    std::vector <TMXBatemanDecay::TransmutedElement> vectorTransmutedElement;  \textcolor{comment}{// Vector of transmuted Elements}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00111}00111     std::vector <TMXBatemanDecay::TransmutedElement> vectorSourceElement;      \textcolor{comment}{// Vector of transmuted Elements considered as source term (from proton source or from fission)}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00112}00112     }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00113}00113     \textcolor{keywordtype}{long} \textcolor{keywordtype}{double} Phi\_Times\_sigma\_capture = 5e-\/20; \textcolor{comment}{// number of captures}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00114}00114     \textcolor{comment}{// Capture of U-\/238}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00115}00115     \mbox{\hyperlink{struct_t_m_x_bateman_decay_1_1_transmuted_element}{TMXBatemanDecay::TransmutedElement}} TransmutedElementCaptureU;}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00116}00116     TransmutedElementCaptureU.IZAmother       = IZA(92,238,0);   \textcolor{comment}{// Mother = U-\/238}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00117}00117     TransmutedElementCaptureU.IZAdaughter     = IZA(92,239,0);   \textcolor{comment}{// Daughter = U-\/239}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00118}00118     TransmutedElementCaptureU.LogicVolumeName = LVName;          \textcolor{comment}{// Volume = Fuel}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00119}00119     \mbox{\hyperlink{struct_t_m_x_bateman_decay_1_1_transmuted_element}{TMXBatemanDecay::TransmutedElement}} TransmutedElementCaptureTc;}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00120}00120     TransmutedElementCaptureTc.IZAmother       = IZA(43, 99,0);   \textcolor{comment}{// Mother = Tc-\/99}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00121}00121     TransmutedElementCaptureTc.IZAdaughter     = IZA(43,100,0);   \textcolor{comment}{// Daughter = Tc-\/100}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00122}00122     TransmutedElementCaptureTc.LogicVolumeName = LVName;          \textcolor{comment}{// Volume = Fuel}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00123}00123     \mbox{\hyperlink{struct_t_m_x_bateman_decay_1_1_transmuted_element}{TMXBatemanDecay::TransmutedElement}} TransmutedElementCaptureO;}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00124}00124     TransmutedElementCaptureO.IZAmother       = IZA(8,16,0);   \textcolor{comment}{// Mother = O-\/16}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00125}00125     TransmutedElementCaptureO.IZAdaughter     = IZA(8,17,0);   \textcolor{comment}{// Daughter = O-\/17}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00126}00126     TransmutedElementCaptureO.LogicVolumeName = LVName;          \textcolor{comment}{// Volume = Fuel}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00127}00127     \mbox{\hyperlink{struct_t_m_x_bateman_decay_1_1_transmuted_element}{TMXBatemanDecay::TransmutedElement}} TransmutedElementCaptureI;}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00128}00128     TransmutedElementCaptureI.IZAmother       = IZA(53,131,0);   \textcolor{comment}{// Mother = I-\/131}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00129}00129     TransmutedElementCaptureI.IZAdaughter     = IZA(53,132,0);   \textcolor{comment}{// Daughter = I-\/132}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00130}00130     TransmutedElementCaptureI.LogicVolumeName = LVName;          \textcolor{comment}{// Volume = Fuel}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00131}00131     }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00132}00132 \textcolor{comment}{//     for(int icapture = 0; icapture < Phi\_Times\_sigma\_capture; ++icapture) \{vectorTransmutedElement.push\_back(TransmutedElementCaptureU);\}}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00133}00133 \textcolor{comment}{//     for(int icapture = 0; icapture < Phi\_Times\_sigma\_capture; ++icapture) \{vectorTransmutedElement.push\_back(TransmutedElementCaptureTc);\}}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00134}00134     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} icapture = 0; icapture < (int)(Phi\_Times\_sigma\_capture*batemanDecay.GetN\_0(922380)); ++icapture) \{vectorTransmutedElement.push\_back(TransmutedElementCaptureU);\}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00135}00135     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} icapture = 0; icapture < (int)(Phi\_Times\_sigma\_capture*batemanDecay.GetN\_0(430990)); ++icapture) \{vectorTransmutedElement.push\_back(TransmutedElementCaptureTc);\}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00136}00136 \textcolor{comment}{//     for(int icapture = 0; icapture < (int)(Phi\_Times\_sigma\_capture*batemanDecay.GetN\_0(531310)); ++icapture) \{vectorTransmutedElement.push\_back(TransmutedElementCaptureI);\}}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00137}00137 \textcolor{comment}{//     for(int icapture = 0; icapture < (int)(Phi\_Times\_sigma\_capture*batemanDecay.GetN\_0( 80160)); ++icapture) \{vectorTransmutedElement.push\_back(TransmutedElementCaptureO);\}}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00138}00138 }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00139}00139 \textcolor{comment}{// std::cout << "{}I-\/131 "{} << Phi\_Times\_sigma\_capture*batemanDecay.GetN\_0(531310) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00140}00140 \textcolor{comment}{// std::cout << "{}O-\/16  "{} << Phi\_Times\_sigma\_capture*batemanDecay.GetN\_0( 80160) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00141}00141 \textcolor{comment}{// std::cout << "{}o16 "{} << batemanDecay.GetN\_0(80160) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00142}00142     }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00143}00143     \textcolor{keywordtype}{int} Phi\_Times\_sigma\_fission = 0; \textcolor{comment}{//5e-\/15; // number of fissions}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00144}00144     \textcolor{comment}{// Fission of U-\/235 in Tc-\/99}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00145}00145     \mbox{\hyperlink{struct_t_m_x_bateman_decay_1_1_transmuted_element}{TMXBatemanDecay::TransmutedElement}} TransmutedElementFissionTc;}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00146}00146     TransmutedElementFissionTc.IZAmother       = IZA(92,235,0);   \textcolor{comment}{// Mother = U-\/235}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00147}00147     TransmutedElementFissionTc.IZAdaughter     = IZA(43,99,0);    \textcolor{comment}{// Daughter = Tc-\/99}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00148}00148     TransmutedElementFissionTc.LogicVolumeName = LVName;          \textcolor{comment}{// Volume = Fuel}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00149}00149     \textcolor{comment}{// Fission of U-\/235 in I-\/129}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00150}00150     \mbox{\hyperlink{struct_t_m_x_bateman_decay_1_1_transmuted_element}{TMXBatemanDecay::TransmutedElement}} TransmutedElementFissionI;}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00151}00151     TransmutedElementFissionI.IZAmother       = IZA(92,235,0);   \textcolor{comment}{// Mother = U-\/235}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00152}00152     TransmutedElementFissionI.IZAdaughter     = IZA(53,131,0);   \textcolor{comment}{// Daughter = I-\/129}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00153}00153     TransmutedElementFissionI.LogicVolumeName = LVName;          \textcolor{comment}{// Volume = Fuel}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00154}00154     }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00155}00155     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} ifission = 0; ifission < (int)(Phi\_Times\_sigma\_fission*batemanDecay.GetN\_0(922350)); ++ifission) \{}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00156}00156         vectorSourceElement.push\_back(TransmutedElementFissionTc);}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00157}00157         vectorSourceElement.push\_back(TransmutedElementFissionI);}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00158}00158     \}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00159}00159     }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00160}00160     batemanDecay.AddTransmutedElement(vectorTransmutedElement);  \textcolor{comment}{// Add Transmuted Elements to the global class}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00161}00161 \textcolor{comment}{//     batemanDecay.AddTransmutedSrcElem(vectorSourceElement);  // Add Transmuted Elements considered as source to the global class}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00162}00162     batemanDecay.MultiplyTransmutedElem( P\_beam/(Nparticles*e\_SI*BeamEnergy) );  \textcolor{comment}{// Number of elements converted in reaction rate [s-\/1] @ P\_beam}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00163}00163 \textcolor{comment}{//     std::cout << "{}P\_beam/(Nparticles*e\_SI*BeamEnergy) = "{} << P\_beam/(Nparticles*e\_SI*BeamEnergy) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00164}00164     }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00165}00165 \textcolor{comment}{//     batemanDecay.DumpTransmutedElements();}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00167}00167 \textcolor{comment}{}    }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00169}00169     \textcolor{comment}{// Normalization of the transmutation rate per number of element in the material}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00171}00171 \textcolor{comment}{}    }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00172}00172     \textcolor{comment}{// Construct decay chain}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00173}00173     \textcolor{keywordflow}{if}(iRun == 0) \{}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00174}00174         batemanDecay.ClearMapChains();}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00175}00175         \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} element : vecFuelComposition) \{}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00176}00176             batemanDecay.NormalizeTransmutedElem(element.first, LVName);}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00177}00177             batemanDecay.ConstructChain(element.first, LVName);  \textcolor{comment}{// Construct linear decay paths for every isotopes in the volume}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00178}00178         \}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00179}00179     \}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00180}00180   }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00182}00182     \textcolor{comment}{// Calculate the decay of element already present in the material or added by the proton beam or fissions}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00184}00184 \textcolor{comment}{}    batemanDecay.CalculateDecayNt(Decayt);}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00185}00185 \textcolor{comment}{//     batemanDecay.CalculateSourceNt(Decayt, LVName);}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00186}00186     }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00187}00187     std::unordered\_map <int, long double> MapNt = batemanDecay.GetMapNt(); \textcolor{comment}{// Get the amount of isotopes after decay}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00188}00188     }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00190}00190     \textcolor{comment}{// Preparation of next run}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00192}00192 \textcolor{comment}{}    \textcolor{comment}{// Clear N0 map}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00193}00193     batemanDecay.ClearMapN\_0();}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00194}00194     }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00195}00195     \textcolor{comment}{// Update N0 map}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00196}00196     batemanDecay.ClearMapChains();}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00197}00197     \textcolor{keywordflow}{for}(std::unordered\_map<int, long double>::iterator it=MapNt.begin(); it!=MapNt.end(); ++it) \{}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00198}00198 \textcolor{comment}{//         if(it-\/>first == 80160) \{std::cout << "{}N0 o16 "{} <<  it-\/>second << std::endl;\}}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00199}00199         batemanDecay.ConstructMapN\_0(it-\/>first, it-\/>second); \textcolor{comment}{// Give initial amount of each isotope before decay (t=0)}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00200}00200 \textcolor{comment}{//         if(it-\/>first == 80160) \{std::cout << "{}N0 o16 "{} <<  batemanDecay.GetN\_0(80160) << std::endl;\}}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00201}00201         batemanDecay.NormalizeTransmutedElem(it-\/>first, LVName);}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00202}00202         batemanDecay.ConstructChain(it-\/>first, LVName);  \textcolor{comment}{// Construct linear decay paths for every isotopes in the volume}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00203}00203         MapVecNt[it-\/>first].push\_back(iRun+1);}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00204}00204         MapVecNt[it-\/>first].push\_back(it-\/>second);}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00205}00205     \}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00206}00206 }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00207}00207     \textcolor{comment}{// Clear before next run}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00208}00208     batemanDecay.ClearMapNt();}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00209}00209     batemanDecay.ClearMapTransmutedSrcElem();}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00210}00210     batemanDecay.ClearMapTransmutedElement();}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00211}00211   \}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00212}00212 }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00213}00213   ResultsFile << \textcolor{stringliteral}{"{}\(\backslash\)t"{}} << nRun << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00214}00214   \textcolor{keywordflow}{for}(std::unordered\_map<\textcolor{keywordtype}{int}, std::vector<long double>>::iterator it=MapVecNt.begin(); it!=MapVecNt.end(); ++it) \{}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00215}00215       ResultsFile << it-\/>first << \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00216}00216       \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i<(int)it-\/>second[0];++i) \{ ResultsFile << 0 << \textcolor{stringliteral}{"{}\(\backslash\)t"{}}; \}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00217}00217       \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i<(int)it-\/>second.size()/2;++i) \{ ResultsFile << it-\/>second[2*i+1] << \textcolor{stringliteral}{"{}\(\backslash\)t"{}}; \}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00218}00218       \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=it-\/>second.size()/2-\/1; i<nRun-\/1;++i) \{ ResultsFile << 0 << \textcolor{stringliteral}{"{}\(\backslash\)t"{}}; \}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00219}00219       ResultsFile << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00220}00220   \}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00221}00221   }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00222}00222   ResultsFile.close(); }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00223}00223 \}}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00224}00224 }
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00225}00225 testBateman::\string~testBateman() \{}
+\DoxyCodeLine{\Hypertarget{test_bateman_8cc_source_l00226}00226 \}}
+
+\end{DoxyCode}

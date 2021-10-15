@@ -1,0 +1,239 @@
+\hypertarget{xnxfyi_8_f_source}{}\doxysection{xnxfyi.\+F}
+\label{xnxfyi_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnutil/src/xnxfyi.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnutil/src/xnxfyi.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :          23/05/2000  15.28.48  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00003}00003       \textcolor{keyword}{PROGRAM} xnxfyi}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00006}00006 \textcolor{comment}{*     Loads fission fragment indipendent yields and fission neutron    *}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00007}00007 \textcolor{comment}{*     multiplicities from ENDF-\/6 database files. The American,         *}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00008}00008 \textcolor{comment}{*     European and Japanese databases are scanned in turn to load      *}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00009}00009 \textcolor{comment}{*     fissile isotopes information in order of scan                    *}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00010}00010 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00011}00011 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00012}00012 \textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00013}00013 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcfisb.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00014}00014 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcroot.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00015}00015 \textcolor{preprocessor}{}      \textcolor{keywordtype}{CHARACTER*(2)} CHELSY(118) /\textcolor{stringliteral}{'H'},\textcolor{stringliteral}{'He'},\textcolor{stringliteral}{'Li'},\textcolor{stringliteral}{'Be'},\textcolor{stringliteral}{'B'},\textcolor{stringliteral}{'C'},\textcolor{stringliteral}{'N'},\textcolor{stringliteral}{'O'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00016}00016      +     \textcolor{stringliteral}{'F'},\textcolor{stringliteral}{'Ne'},\textcolor{stringliteral}{'Na'},\textcolor{stringliteral}{'Mg'},\textcolor{stringliteral}{'Al'},\textcolor{stringliteral}{'Si'},\textcolor{stringliteral}{'P'},\textcolor{stringliteral}{'S'},\textcolor{stringliteral}{'Cl'},\textcolor{stringliteral}{'Ar'},\textcolor{stringliteral}{'K'},\textcolor{stringliteral}{'Ca'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00017}00017      +     \textcolor{stringliteral}{'Sc'},\textcolor{stringliteral}{'Ti'},\textcolor{stringliteral}{'V'},\textcolor{stringliteral}{'Cr'},\textcolor{stringliteral}{'Mn'},\textcolor{stringliteral}{'Fe'},\textcolor{stringliteral}{'Co'},\textcolor{stringliteral}{'Ni'},\textcolor{stringliteral}{'Cu'},\textcolor{stringliteral}{'Zn'},\textcolor{stringliteral}{'Ga'},\textcolor{stringliteral}{'Ge'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00018}00018      +     \textcolor{stringliteral}{'As'},\textcolor{stringliteral}{'Se'},\textcolor{stringliteral}{'Br'},\textcolor{stringliteral}{'Kr'},\textcolor{stringliteral}{'Rb'},\textcolor{stringliteral}{'Sr'},\textcolor{stringliteral}{'Y'},\textcolor{stringliteral}{'Zr'},\textcolor{stringliteral}{'Nb'},\textcolor{stringliteral}{'Mo'},\textcolor{stringliteral}{'Tc'},\textcolor{stringliteral}{'Ru'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00019}00019      +     \textcolor{stringliteral}{'Rh'},\textcolor{stringliteral}{'Pd'},\textcolor{stringliteral}{'Ag'},\textcolor{stringliteral}{'Cd'},\textcolor{stringliteral}{'In'},\textcolor{stringliteral}{'Sn'},\textcolor{stringliteral}{'Sb'},\textcolor{stringliteral}{'Te'},\textcolor{stringliteral}{'I'},\textcolor{stringliteral}{'Xe'},\textcolor{stringliteral}{'Cs'},\textcolor{stringliteral}{'Ba'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00020}00020      +     \textcolor{stringliteral}{'La'},\textcolor{stringliteral}{'Ce'},\textcolor{stringliteral}{'Pr'},\textcolor{stringliteral}{'Nd'},\textcolor{stringliteral}{'Pm'},\textcolor{stringliteral}{'Sm'},\textcolor{stringliteral}{'Eu'},\textcolor{stringliteral}{'Gd'},\textcolor{stringliteral}{'Tb'},\textcolor{stringliteral}{'Dy'},\textcolor{stringliteral}{'Ho'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00021}00021      +     \textcolor{stringliteral}{'Er'},\textcolor{stringliteral}{'Tm'},\textcolor{stringliteral}{'Yb'},\textcolor{stringliteral}{'Lu'},\textcolor{stringliteral}{'Hf'},\textcolor{stringliteral}{'Ta'},\textcolor{stringliteral}{'W'},\textcolor{stringliteral}{'Re'},\textcolor{stringliteral}{'Os'},\textcolor{stringliteral}{'Ir'},\textcolor{stringliteral}{'Pt'},\textcolor{stringliteral}{'Au'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00022}00022      +     \textcolor{stringliteral}{'Hg'},\textcolor{stringliteral}{'Tl'},\textcolor{stringliteral}{'Pb'},\textcolor{stringliteral}{'Bi'},\textcolor{stringliteral}{'Po'},\textcolor{stringliteral}{'At'},\textcolor{stringliteral}{'Rn'},\textcolor{stringliteral}{'Fr'},\textcolor{stringliteral}{'Ra'},\textcolor{stringliteral}{'Ac'},\textcolor{stringliteral}{'Th'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00023}00023      +     \textcolor{stringliteral}{'Pa'},\textcolor{stringliteral}{'U'},\textcolor{stringliteral}{'Np'},\textcolor{stringliteral}{'Pu'},\textcolor{stringliteral}{'Am'},\textcolor{stringliteral}{'Cm'},\textcolor{stringliteral}{'Bk'},\textcolor{stringliteral}{'Cf'},\textcolor{stringliteral}{'Es'},\textcolor{stringliteral}{'Fm'},\textcolor{stringliteral}{'Md'},\textcolor{stringliteral}{'No'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00024}00024      +     \textcolor{stringliteral}{'Lr'},\textcolor{stringliteral}{'Rf'},\textcolor{stringliteral}{'Db'},\textcolor{stringliteral}{'Sg'},\textcolor{stringliteral}{'Bh'},\textcolor{stringliteral}{'Hs'},\textcolor{stringliteral}{'Mt'},\textcolor{stringliteral}{'Ds'},\textcolor{stringliteral}{'Rg'},\textcolor{stringliteral}{'Cn'},\textcolor{stringliteral}{'Nh'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00025}00025      +     \textcolor{stringliteral}{'Fl'},\textcolor{stringliteral}{'Mc'},\textcolor{stringliteral}{'Lv'},\textcolor{stringliteral}{'Ts'},\textcolor{stringliteral}{'Og'} /}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00026}00026       \textcolor{keywordtype}{CHARACTER*(14)} CHELNM(118) /\textcolor{stringliteral}{'Hydrogen'},\textcolor{stringliteral}{'Helium'},\textcolor{stringliteral}{'Lithium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00027}00027      +     \textcolor{stringliteral}{'Beryllium'},\textcolor{stringliteral}{'Boron'},\textcolor{stringliteral}{'Carbon'},\textcolor{stringliteral}{'Nitrogen'},\textcolor{stringliteral}{'Oxygen'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00028}00028      +     \textcolor{stringliteral}{'Fluorine'},\textcolor{stringliteral}{'Neon'},\textcolor{stringliteral}{'Sodium'},\textcolor{stringliteral}{'Magnesium'},\textcolor{stringliteral}{'Aluminium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00029}00029      +     \textcolor{stringliteral}{'Silicon'},\textcolor{stringliteral}{'Phosphorus'},\textcolor{stringliteral}{'Sulfur'},\textcolor{stringliteral}{'Chlorine'},\textcolor{stringliteral}{'Argon'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00030}00030      +     \textcolor{stringliteral}{'Potassium'},\textcolor{stringliteral}{'Calcium'},\textcolor{stringliteral}{'Scandium'},\textcolor{stringliteral}{'Titanium'},\textcolor{stringliteral}{'Vanadium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00031}00031      +     \textcolor{stringliteral}{'Chromium'},\textcolor{stringliteral}{'Manganese'},\textcolor{stringliteral}{'Iron'},\textcolor{stringliteral}{'Cobalt'},\textcolor{stringliteral}{'Nickel'},\textcolor{stringliteral}{'Copper'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00032}00032      +     \textcolor{stringliteral}{'Zinc'},\textcolor{stringliteral}{'Gallium'},\textcolor{stringliteral}{'Germanium'},\textcolor{stringliteral}{'Arsenic'},\textcolor{stringliteral}{'Selenium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00033}00033      +     \textcolor{stringliteral}{'Bromine'},\textcolor{stringliteral}{'Krypton'},\textcolor{stringliteral}{'Rubidium'},\textcolor{stringliteral}{'Strontium'},\textcolor{stringliteral}{'Yttrium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00034}00034      +     \textcolor{stringliteral}{'Zirconium'},\textcolor{stringliteral}{'Niobium'},\textcolor{stringliteral}{'Molybdenum'},\textcolor{stringliteral}{'Technetium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00035}00035      +     \textcolor{stringliteral}{'Ruthenium'},\textcolor{stringliteral}{'Rhodium'},\textcolor{stringliteral}{'Palladium'},\textcolor{stringliteral}{'Silver'},\textcolor{stringliteral}{'Cadmium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00036}00036      +     \textcolor{stringliteral}{'Indium'},\textcolor{stringliteral}{'Tin'},\textcolor{stringliteral}{'Antimony'},\textcolor{stringliteral}{'Tellurium'},\textcolor{stringliteral}{'Iodine'},\textcolor{stringliteral}{'Xenon'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00037}00037      +     \textcolor{stringliteral}{'Caesium'},\textcolor{stringliteral}{'Barium'},\textcolor{stringliteral}{'Lanthanum'},\textcolor{stringliteral}{'Cerium'},\textcolor{stringliteral}{'Praseodymium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00038}00038      +     \textcolor{stringliteral}{'Neodymium'},\textcolor{stringliteral}{'Promethium'},\textcolor{stringliteral}{'Samarium'},\textcolor{stringliteral}{'Europium'},\textcolor{stringliteral}{'Gadolinium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00039}00039      +     \textcolor{stringliteral}{'Terbium'},\textcolor{stringliteral}{'Dysprosium'},\textcolor{stringliteral}{'Holmium'},\textcolor{stringliteral}{'Erbium'},\textcolor{stringliteral}{'Thulium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00040}00040      +     \textcolor{stringliteral}{'Ytterbium'},\textcolor{stringliteral}{'Lutetium'},\textcolor{stringliteral}{'Hafnium'},\textcolor{stringliteral}{'Tantalum'},\textcolor{stringliteral}{'Tungsten'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00041}00041      +     \textcolor{stringliteral}{'Rhenium'},\textcolor{stringliteral}{'Osmium'},\textcolor{stringliteral}{'Iridium'},\textcolor{stringliteral}{'Platinum'},\textcolor{stringliteral}{'Gold'},\textcolor{stringliteral}{'Mercury'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00042}00042      +     \textcolor{stringliteral}{'Thallium'},\textcolor{stringliteral}{'Lead'},\textcolor{stringliteral}{'Bismuth'},\textcolor{stringliteral}{'Polonium'},\textcolor{stringliteral}{'Astatine'},\textcolor{stringliteral}{'Radon'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00043}00043      +     \textcolor{stringliteral}{'Francium'},\textcolor{stringliteral}{'Radium'},\textcolor{stringliteral}{'Actinium'},\textcolor{stringliteral}{'Thorium'},\textcolor{stringliteral}{'Protactinium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00044}00044      +     \textcolor{stringliteral}{'Uranium'},\textcolor{stringliteral}{'Neptunium'},\textcolor{stringliteral}{'Plutonium'},\textcolor{stringliteral}{'Americium'},\textcolor{stringliteral}{'Curium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00045}00045      +     \textcolor{stringliteral}{'Berkelium'},\textcolor{stringliteral}{'Californium'},\textcolor{stringliteral}{'Einsteinium'},\textcolor{stringliteral}{'Fermium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00046}00046      +     \textcolor{stringliteral}{'Mendelevium'},\textcolor{stringliteral}{'Nobelium'},\textcolor{stringliteral}{'Lawrencium'},\textcolor{stringliteral}{'Rutherfordium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00047}00047      +     \textcolor{stringliteral}{'Dubnium'},\textcolor{stringliteral}{'Seaborgium'},\textcolor{stringliteral}{'Bohrium'},\textcolor{stringliteral}{'Hassium'},\textcolor{stringliteral}{'Meitnerium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00048}00048      +     \textcolor{stringliteral}{'Darmstadtium'},\textcolor{stringliteral}{'Roentgenium'},\textcolor{stringliteral}{'Copernicium'},\textcolor{stringliteral}{'Nihonium'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00049}00049      +     \textcolor{stringliteral}{'Flerovium'},\textcolor{stringliteral}{'Moscovium'},\textcolor{stringliteral}{'Livermorium'},\textcolor{stringliteral}{'Tennessine'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00050}00050      +     \textcolor{stringliteral}{'Oganesson'}/}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00051}00051       }
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00052}00052       parameter(maxfyi=3,maxnuf=3)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00053}00053       \textcolor{keywordtype}{CHARACTER*124} CHFINP(MAXFYI), CHNINP(MAXNUF)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00054}00054       \textcolor{keywordtype}{CHARACTER*(*)} CHCOMP}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00055}00055       \textcolor{keywordtype}{CHARACTER*80} CLINE}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00056}00056       \textcolor{keywordtype}{CHARACTER*80} COUFIL}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00057}00057       parameter(maxbnl=3500)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00058}00058 \textcolor{comment}{* -\/-\/-\/> Minimum yield accepted}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00059}00059 \textcolor{comment}{*         Allowing smaller yields makes little sense as the}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00060}00060 \textcolor{comment}{*         cumulative probability sum is performed in a single}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00061}00061 \textcolor{comment}{*         precision variable. Even if this variable were}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00062}00062 \textcolor{comment}{*         double precision, still a double precision random}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00063}00063 \textcolor{comment}{*         number generator would be needed to disentangle}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00064}00064 \textcolor{comment}{*         smaller fission yields.}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00065}00065 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00066}00066       parameter(fyitol=1e-\/6)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00067}00067       parameter(chcomp=\textcolor{stringliteral}{'xnnloa.dat'})}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00068}00068       dimension izabnl(maxbnl)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00069}00069       \textcolor{keywordtype}{LOGICAL} LDEBUG,LCOMP}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00070}00070       \textcolor{keyword}{DATA} ldebug /.true./}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00071}00071       \textcolor{keywordtype}{LOGICAL} LFIRST}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00072}00072       \textcolor{keywordtype}{SAVE} lfirst}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00073}00073       \textcolor{keyword}{DATA} lfirst / .true. /}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00074}00074 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00075}00075 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00076}00076 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00077}00077       \textcolor{keywordtype}{CHARACTER*255} ARG(100) /100*\textcolor{stringliteral}{''}/}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00079}00079       nfiles = iargc()}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00080}00080       \textcolor{keywordflow}{IF}(nfiles .GE. 100) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00081}00081          \textcolor{keyword}{WRITE}(*,*) \textcolor{stringliteral}{'Can convert only 100 files at a time'}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00082}00082          stop}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00083}00083 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00084}00084       \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00085}00085          \textcolor{keywordflow}{DO} i = 1, nfiles}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00086}00086             \textcolor{keyword}{CALL }getarg(i, arg(i))}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00087}00087             \textcolor{keyword}{WRITE} (*,*) arg(i)(1:lnblnk(arg(i)))}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00088}00088 \textcolor{keywordflow}{         END DO}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00089}00089 \textcolor{keywordflow}{      END IF}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00090}00090 \textcolor{comment}{* -\/-\/-\/> Loop over all databases}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00091}00091       \textcolor{keywordflow}{DO} 220 ifile = 1, nfiles}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00092}00092          lfinp=lnblnk(arg(ifile))}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00093}00093 \textcolor{comment}{* -\/-\/-\/> Check whether compressed file is there}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00094}00094          \textcolor{keyword}{INQUIRE}(file=arg(ifile),exist=lcomp)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00095}00095          \textcolor{keywordflow}{IF}(.NOT.lcomp) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00096}00096             \textcolor{keyword}{WRITE}(*,*) \textcolor{stringliteral}{'File '},arg(ifile)(:lfinp),}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00097}00097      +           \textcolor{stringliteral}{' does not exist'}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00098}00098             \textcolor{keywordflow}{GOTO} 220}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00099}00099 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00100}00100 \textcolor{comment}{* -\/-\/-\/> Close files (should not be needed, but it does not harm)}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00101}00101          \textcolor{keyword}{CLOSE}(12)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00102}00102          \textcolor{keyword}{CLOSE}(14)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00103}00103          \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00104}00104             \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Now opening '}\textcolor{stringliteral}{',A)'}) arg(ifile)(:lfinp)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00105}00105 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00106}00106 \textcolor{comment}{* -\/-\/-\/> Open database}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00107}00107          \textcolor{keyword}{OPEN}(12,file=arg(ifile)(:lfinp),status=\textcolor{stringliteral}{'OLD'},action=\textcolor{stringliteral}{'READ'})}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00108}00108 \textcolor{comment}{* -\/-\/-\/> Preset previous mat code}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00109}00109          mathol = -\/1}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00110}00110 \textcolor{comment}{* -\/-\/-\/> Read a new section in ENDF 6 format}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00111}00111  40      \textcolor{keyword}{CALL }xnnews(c1, c2, l1, l2, n1, n2, math, mfh, mth)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00112}00112 \textcolor{comment}{* -\/-\/-\/> If end of file exit loop}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00113}00113          \textcolor{keywordflow}{IF}(math.LT.0) \textcolor{keywordflow}{GOTO} 220}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00114}00114          \textcolor{keywordflow}{IF}(math.NE.mathol) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00115}00115 \textcolor{comment}{* -\/-\/-\/> Reading new material}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00116}00116             \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00117}00117                \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Loading Z='}\textcolor{stringliteral}{',I3,'}\textcolor{stringliteral}{' A='}\textcolor{stringliteral}{',I3)'}) nint(c1/}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00118}00118      +              1000.) ,nint(mod(c1,1000.))}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00119}00119 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00120}00120             mathol=math}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00121}00121             izap = nint(c1)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00122}00122 \textcolor{comment}{* -\/-\/-\/> Independent Fission Yield section}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00123}00123             izp = izap/1000-\/85}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00124}00124             iap = mod(izap,1000)-\/2*izap/1000}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00125}00125             \textcolor{keywordflow}{IF}((izp.LT.1.OR.izp.GT.maxizp).OR.}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00126}00126 \textcolor{comment}{* -\/-\/-\/> If Z smaller than 85 or A smaller than 2*Z skip element}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00127}00127      +           (iap.LT.1.OR.iap.GT.maxiap)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00128}00128                \textcolor{keyword}{WRITE}(6,10100) izap/1000,mod(izap,1000),izp,iap}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00129}00129 \textcolor{comment}{* -\/-\/-\/> If Z smaller than 85 or A smaller than 2*Z skip element}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00130}00130                \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00131}00131 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00132}00132             \textcolor{keyword}{WRITE}(coufil,\textcolor{stringliteral}{'(I4,'}\textcolor{stringliteral}{'\_'}\textcolor{stringliteral}{',I4'}\textcolor{stringliteral}{'\_'}\textcolor{stringliteral}{',A,'}\textcolor{stringliteral}{'.dat'}\textcolor{stringliteral}{')'}) izap/1000,}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00133}00133      +           mod(izap,1000),chelnm(izap/1000)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00134}00134             ic=1}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00135}00135             \textcolor{keywordflow}{DO} j=1,lnblnk(coufil)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00136}00136                \textcolor{keywordflow}{IF}(coufil(j:j) .NE. \textcolor{stringliteral}{' '}) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00137}00137                   coufil(ic:ic)=coufil(j:j)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00138}00138                   ic = ic+1}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00139}00139                   coufil(j:j)=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00140}00140 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00141}00141 \textcolor{keywordflow}{            ENDDO}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00142}00142             \textcolor{keyword}{WRITE}(*,*) coufil(:lnblnk(coufil))}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00143}00143             \textcolor{keyword}{OPEN}(14,file=coufil(:lnblnk(coufil)),status=\textcolor{stringliteral}{'NEW'},action=\textcolor{stringliteral}{'WRITE'}\textcolor{comment}{)}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00144}00144 \textcolor{comment}{}            \textcolor{keyword}{WRITE}(14,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{'G4NDL'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00145}00145 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00146}00146 \textcolor{comment}{* -\/-\/-\/> Analyse section just read}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00147}00147          \textcolor{keywordflow}{IF}(mfh.EQ.1.AND.mth.EQ.451) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00148}00148 \textcolor{comment}{* -\/-\/-\/> Comment section, get the isomeric state}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00149}00149             \textcolor{keyword}{READ}(12,11000) elis,sta,lis,liso,idumm,nfor}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00150}00150             izap=10*izap+liso}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00151}00151 \textcolor{comment}{* -\/-\/-\/> Write version of the file}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00152}00152             \textcolor{keywordflow}{DO} j=1,5}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00153}00153                \textcolor{keyword}{READ}(12,\textcolor{stringliteral}{'(A)'}) cline}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00154}00154 \textcolor{keywordflow}{            END DO}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00155}00155             \textcolor{keyword}{WRITE}(14,\textcolor{stringliteral}{'(A)'}) cline(5:22)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00156}00156             \textcolor{keywordflow}{GO TO} 40}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00157}00157          \textcolor{keywordflow}{ELSEIF}(mfh.EQ.8.AND.(mth.EQ.454.OR.mth.EQ.459)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00158}00158             \textcolor{keyword}{WRITE}(14,\textcolor{stringliteral}{'(I14)'}) mth}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00159}00159             \textcolor{keyword}{WRITE}(14,\textcolor{stringliteral}{'(I14)'}) mfh}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00160}00160             \textcolor{keyword}{WRITE}(14,\textcolor{stringliteral}{'(ES14.6)'}) c2}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00161}00161 \textcolor{comment}{* -\/-\/-\/> Load number of input energies}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00162}00162             le1=l1}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00163}00163 \textcolor{comment}{* -\/-\/-\/> This is a mess. For some reason L1 on the following line is LE1-\/1}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00164}00164 \textcolor{comment}{*      so G4 wants L1 of the second line, which is the header of the LIST}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00165}00165 \textcolor{comment}{*      record -\/-\/ we oblige}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00166}00166             \textcolor{keyword}{WRITE}(14,\textcolor{stringliteral}{'(I14)'}) le1-\/1}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00167}00167 \textcolor{comment}{* -\/-\/-\/> Load number of energy points for every fission product}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00168}00168             izapnt(izp,iap,2) = le1}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00169}00169             \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00170}00170                \textcolor{keyword}{WRITE}(6,10300) le1}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00171}00171 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00172}00172 \textcolor{comment}{* -\/-\/-\/> Set number of fission products to 0}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00173}00173             ndata = 0}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00174}00174 \textcolor{comment}{* -\/-\/-\/> Set lost probability to 0}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00175}00175             bnlost = 0.}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00176}00176 \textcolor{comment}{* -\/-\/-\/> Loop over different energy yield lists}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00177}00177             \textcolor{keywordflow}{DO} 110 jene=1,le1}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00178}00178                \textcolor{keyword}{CALL }xnlist}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00179}00179 \textcolor{comment}{* -\/-\/-\/> Load energy}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00180}00180                \textcolor{keywordflow}{IF}(le1-\/1 .NE. l1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00181}00181                   \textcolor{keyword}{WRITE}(6,}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00182}00182      +      \textcolor{stringliteral}{'('}\textcolor{stringliteral}{'File '}\textcolor{stringliteral}{',A,'}\textcolor{stringliteral}{' MTH '}\textcolor{stringliteral}{',I4,'}\textcolor{stringliteral}{' Energy no '}\textcolor{stringliteral}{',I4,'}\textcolor{stringliteral}{' LE1='}\textcolor{stringliteral}{',I4,}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00183}00183 \textcolor{stringliteral}{}\textcolor{stringliteral}{     +      '}\textcolor{stringliteral}{' and L1='}\textcolor{stringliteral}{',I4)'})}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00184}00184      +                 coufil(:lnblnk(coufil)),mth,jene,le1,l1}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00185}00185                   stop}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00186}00186 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00187}00187                \textcolor{keyword}{WRITE}(14,\textcolor{stringliteral}{'(ES14.6)'}) c1}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00188}00188                \textcolor{keyword}{WRITE}(14,\textcolor{stringliteral}{'(I14)'}) np}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00189}00189                \textcolor{keyword}{WRITE}(14,\textcolor{stringliteral}{'(I14)'}) l1}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00190}00190                \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00191}00191                   \textcolor{keyword}{WRITE}(6,10400) jene,c1,n1,np}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00192}00192 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00193}00193 \textcolor{comment}{* -\/-\/-\/> Loop over all fission fragments}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00194}00194                \textcolor{keywordflow}{DO} 100 je=1,n1-\/3,4}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00195}00195 \textcolor{comment}{* -\/-\/-\/> Get IZA of FF}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00196}00196                   zafp= xnrval(je )}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00197}00197 \textcolor{comment}{* -\/-\/-\/> Floating point (iso) state designator}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00198}00198                   fps = xnrval(je+1)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00199}00199 \textcolor{comment}{* -\/-\/-\/> Get yield}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00200}00200                   yi  = xnrval(je+2)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00201}00201 \textcolor{comment}{* -\/-\/-\/> Get also error on yield, not used}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00202}00202                   dyi = xnrval(je+3)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00203}00203 \textcolor{comment}{* -\/-\/-\/> Build composed isomer code of fission fragment}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00204}00204                   izam = nint(zafp*10+fps)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00205}00205  100           \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00206}00206                \textcolor{keyword}{WRITE}(14,\textcolor{stringliteral}{'(2(I14,I14,ES14.6))'}) (nint(xnrval(4*(j-\/1)+1)),}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00207}00207      +              nint(xnrval(4*(j-\/1)+2)),xnrval(4*(j-\/1)+3),j=1,np)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00208}00208  110        \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00209}00209 \textcolor{comment}{* -\/-\/-\/> Loop back to next ENDF-\/6 section}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00210}00210             \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00211}00211 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00212}00212 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00213}00213  220  \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00214}00214       stop}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00215}00215 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNLOAN: Space used '},i6,\textcolor{stringliteral}{' words '})}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00216}00216 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00217}00217 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Out-\/of-\/bound fission yield! Z/A '},i2.2,\textcolor{stringliteral}{'/'},i3.3,}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00218}00218      +\textcolor{stringliteral}{' IZP/IAP '},i4,\textcolor{stringliteral}{'/'},i4)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00219}00219 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Fissionable nuclide '},i2,\textcolor{stringliteral}{'-\/'},i3,\textcolor{stringliteral}{' already in table'})}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00220}00220 10300 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Apparently found '},i4,\textcolor{stringliteral}{' sections '})}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00221}00221 10400 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Section '},i4,\textcolor{stringliteral}{' with energy '},e11.4,\textcolor{stringliteral}{' Sec = '},i5,}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00222}00222      +  \textcolor{stringliteral}{' Points = '},i5)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00223}00223 10500 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Now loaded '},i10,\textcolor{stringliteral}{' points'})}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00224}00224 10600 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Points reduced to '},i10)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00225}00225 10700 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Out-\/of-\/bound neutron multiplicity! Z/A '},i2.2,\textcolor{stringliteral}{'/'},}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00226}00226      +       i3.3,\textcolor{stringliteral}{' IZP/IAP '},i4,\textcolor{stringliteral}{'/'},i4)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00227}00227 10800 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Fissionable nuclide '},i2,\textcolor{stringliteral}{'-\/'},i3,\textcolor{stringliteral}{' already in table'})}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00228}00228 10900 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Apparently found section '},i4,\textcolor{stringliteral}{' with '},i6,\textcolor{stringliteral}{' points'})}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00229}00229 11000 \textcolor{keyword}{FORMAT}(2e11.4,4i11,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00230}00230 11100 \textcolor{keyword}{FORMAT}(6e11.4,i4,i2,i3,i5)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00231}00231 11200 \textcolor{keyword}{FORMAT}(i10,10x,i10,50x)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00232}00232 11300 \textcolor{keyword}{FORMAT}(8i10)}
+\DoxyCodeLine{\Hypertarget{xnxfyi_8_f_source_l00233}00233   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

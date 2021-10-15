@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="convac9_2comain_8_f" kind="file" language="Fortran">
+    <compoundname>comain.F</compoundname>
+    <includes refid="xcmxse_8inc" local="yes">xcmxse.inc</includes>
+    <includes refid="convac9_2xctb1c_8inc" local="yes">xctb1c.inc</includes>
+    <includes refid="xcnamf_8inc" local="yes">xcnamf.inc</includes>
+    <includes refid="convac9_2xcseet_8inc" local="yes">xcseet.inc</includes>
+    <includes refid="convac9_2xceafi_8inc" local="yes">xceafi.inc</includes>
+    <includes refid="convac9_2xcmf01_8inc" local="yes">xcmf01.inc</includes>
+    <includes refid="xcdbna_8inc" local="yes">xcdbna.inc</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/convac9/comain.F</label>
+        <link refid="convac9_2comain_8_f"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>xceafi.inc</label>
+        <link refid="convac9_2xceafi_8inc_source"/>
+      </node>
+      <node id="7">
+        <label>xcmf01.inc</label>
+        <link refid="convac9_2xcmf01_8inc_source"/>
+      </node>
+      <node id="5">
+        <label>xcseet.inc</label>
+        <link refid="convac9_2xcseet_8inc_source"/>
+      </node>
+      <node id="3">
+        <label>xctb1c.inc</label>
+        <link refid="convac9_2xctb1c_8inc_source"/>
+      </node>
+      <node id="8">
+        <label>xcdbna.inc</label>
+        <link refid="xcdbna_8inc_source"/>
+      </node>
+      <node id="2">
+        <label>xcmxse.inc</label>
+        <link refid="xcmxse_8inc_source"/>
+      </node>
+      <node id="4">
+        <label>xcnamf.inc</label>
+        <link refid="xcnamf_8inc_source"/>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="convac9_2comain_8_f_1a0c5776b21e37f8d42b4e20ec19bb372e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>program</type>
+        <definition>program comain</definition>
+        <argsstring></argsstring>
+        <name>comain</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/convac9/comain.F" line="3" column="1" bodyfile="/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/convac9/comain.F" bodystart="3" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">*CMZ<sp/>:<sp/><sp/>2.03/07<sp/>27/09/96<sp/><sp/>15.19.10<sp/><sp/>by<sp/><sp/>Federico<sp/>Carminati</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">*--<sp/>Author<sp/>:<sp/><sp/><sp/><sp/>Federico<sp/>Carminati<sp/><sp/><sp/>23/08/95</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">program</highlight><highlight class="normal"><sp/>comain</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>Convert<sp/>European<sp/>Activation<sp/>File<sp/>to<sp/>ENDF/B-VI<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>The<sp/>EAF<sp/>is<sp/>a<sp/>sequence<sp/>of<sp/>TAB1<sp/>records<sp/>preceded<sp/>by<sp/>two<sp/>lines<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>comment<sp/>and<sp/>a<sp/>HEAD<sp/>record<sp/>with<sp/>the<sp/>format:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(2e11.4,4i11,i4,i2,i3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ZA,<sp/>AWR,<sp/>0,<sp/>ITAPS,<sp/>0,<sp/>0,<sp/>MAT,<sp/>MF,<sp/>MT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>ZA<sp/>is<sp/>correct,<sp/>but<sp/>AWR<sp/>should<sp/>be<sp/>the<sp/>atomic<sp/>mass<sp/>in<sp/>neutron</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>units,<sp/>and<sp/>this<sp/>is<sp/>only<sp/>occasionally<sp/>correct<sp/>in<sp/>the<sp/>file.<sp/>The</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>material<sp/>code<sp/>is<sp/>obtained<sp/>as<sp/>100*Z+MOD(A,100)<sp/>for<sp/>the<sp/>fundamental</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>state.<sp/>For<sp/>isomeric<sp/>states<sp/>30+LISO*20<sp/>is<sp/>added<sp/>to<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>mat<sp/>number,<sp/>where<sp/>LISO<sp/>is<sp/>the<sp/>metastable<sp/>state<sp/>number.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>The<sp/>reaction<sp/>codes<sp/>follow<sp/>the<sp/>ENDF/B-VI<sp/>rule,<sp/>but<sp/>the<sp/>isomeric</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>state<sp/>of<sp/>the<sp/>product<sp/>is<sp/>indicated<sp/>adding<sp/>300*LISO<sp/>to<sp/>the<sp/>reaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>code.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>A<sp/>proper<sp/>ENDF/B-VI<sp/>file<sp/>cannot<sp/>be<sp/>made<sp/>because<sp/>FILE<sp/>2<sp/>will<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>absent,<sp/>but<sp/>the<sp/>result<sp/>of<sp/>the<sp/>following<sp/>program<sp/>can<sp/>be<sp/>passed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>through<sp/>LINEAR<sp/>and<sp/>SIGMA1<sp/>programs<sp/>to<sp/>obtain<sp/>linearised<sp/>Doppler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>broadened<sp/>cross<sp/>sections.<sp/>From<sp/>there<sp/>on<sp/>the<sp/>file<sp/>is<sp/>(almost)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>an<sp/>ordinary<sp/>PENDF<sp/>file<sp/>from<sp/>which<sp/>group<sp/>condensed<sp/>cross<sp/>sections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">*<sp/><sp/><sp/><sp/><sp/>can<sp/>be<sp/>derived.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xcmxse.inc&quot;</highlight></codeline>
+<codeline lineno="31"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#include<sp/>&quot;xctb1c.inc&quot;</highlight></codeline>
+<codeline lineno="32"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#include<sp/>&quot;xcnamf.inc&quot;</highlight></codeline>
+<codeline lineno="33"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#include<sp/>&quot;xcseet.inc&quot;</highlight></codeline>
+<codeline lineno="34"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#include<sp/>&quot;xceafi.inc&quot;</highlight></codeline>
+<codeline lineno="35"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#include<sp/>&quot;xcmf01.inc&quot;</highlight></codeline>
+<codeline lineno="36"><highlight class="preprocessor"></highlight><highlight class="preprocessor">#include<sp/>&quot;xcdbna.inc&quot;</highlight></codeline>
+<codeline lineno="37"><highlight class="preprocessor"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>parameter(maxsto=500)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">common</highlight><highlight class="normal"><sp/>/<sp/>xcstor<sp/>/<sp/>hmem(maxsto)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>parameter(itapd=98,itaps=99)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>parameter(itapa=12,neaff=5)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">character*8</highlight><highlight class="normal"><sp/>xnrena,<sp/>chrena</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">character*11</highlight><highlight class="normal"><sp/>xnelna</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">character*66</highlight><highlight class="normal"><sp/>chtext</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">character*255</highlight><highlight class="normal"><sp/>chfili,<sp/>chfilo</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">logical</highlight><highlight class="normal"><sp/>lskips</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">data</highlight><highlight class="normal"><sp/>mathol<sp/>/<sp/>-99<sp/>/</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">*-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>Init<sp/>for<sp/>filenames</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">xninit(maxsto,</highlight><highlight class="stringliteral">&apos;<sp/>&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>Load<sp/>EET<sp/>nuclear<sp/>database,<sp/>one<sp/>entry<sp/>per<sp/>isomer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">xnleet(chetdb)</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>Open<sp/>temporary<sp/>direct<sp/>access<sp/>file<sp/>for<sp/>storing<sp/>info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">open</highlight><highlight class="normal">(unit=itapd,file=</highlight><highlight class="stringliteral">&apos;eaf.scratch&apos;</highlight><highlight class="normal">,form=</highlight><highlight class="stringliteral">&apos;formatted&apos;</highlight><highlight class="normal">,recl=75,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>+access=</highlight><highlight class="stringliteral">&apos;direct&apos;</highlight><highlight class="normal">,status=</highlight><highlight class="stringliteral">&apos;unknown&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>Initialise<sp/>pointers<sp/>and<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>nrecw=0</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>nrecwo=0</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>nrecs=0</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>matho=-1</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>mfho=-1</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>mtho=-1</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>nsec=0</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">write</highlight><highlight class="normal">(6,10000)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">10000<sp/></highlight><highlight class="keyword">format</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&apos;<sp/>Please<sp/>enter<sp/>the<sp/>name<sp/>of<sp/>the<sp/>input<sp/>file&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">read</highlight><highlight class="normal">(5,</highlight><highlight class="stringliteral">&apos;(a)&apos;</highlight><highlight class="normal">)<sp/>chfili</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">write</highlight><highlight class="normal">(6,10100)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">10100<sp/></highlight><highlight class="keyword">format</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&apos;<sp/>Please<sp/>enter<sp/>the<sp/>name<sp/>of<sp/>the<sp/>output<sp/>file&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">read</highlight><highlight class="normal">(5,</highlight><highlight class="stringliteral">&apos;(a)&apos;</highlight><highlight class="normal">)<sp/>chfilo</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>Open<sp/>input<sp/>database<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">open</highlight><highlight class="normal">(itapa,file=chfili,status=</highlight><highlight class="stringliteral">&apos;old&apos;</highlight><highlight class="normal">,action=</highlight><highlight class="stringliteral">&apos;read&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>Reading<sp/>loop,<sp/>to<sp/>the<sp/>end<sp/>of<sp/>the<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/>10<sp/></highlight><highlight class="keyword">read</highlight><highlight class="normal">(itapa,11300,</highlight><highlight class="keyword">end</highlight><highlight class="normal">=30)<sp/>chtext,<sp/>math,<sp/>mfh,<sp/>mth</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>If<sp/>MEND<sp/>or<sp/>FEND<sp/>record<sp/>read<sp/>again</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(math.le.0.or.mfh.le.0)<sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>10</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>If<sp/>SEND<sp/>record,<sp/>cleanup<sp/>previous<sp/>section,<sp/>if<sp/>any,<sp/>and<sp/>read<sp/>again</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(mth.le.0.and.nsec.gt.0)<sp/></highlight><highlight class="keywordflow">then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ipoint(nsec,4)<sp/>=<sp/>nrecs</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ipoint(nsec,5)<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>10</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(math.ne.matho.or.mfh.ne.mfho.or.mth.ne.mtho)<sp/></highlight><highlight class="keywordflow">then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>A<sp/>new<sp/>section</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nrecwi=nrecw</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mfho=mfh</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mtho=mth</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mfmt=mfh*1000+mth</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nrecs=0</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">read</highlight><highlight class="normal">(chtext,10600)<sp/>za,awr,l99</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(math.ne.matho</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>+<sp/><sp/><sp/><sp/><sp/><sp/>.or.(za.gt.99000.and.mfh.eq.1.and.mth.eq.451))<sp/></highlight><highlight class="keywordflow">then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>If<sp/>Z&gt;=99<sp/>math<sp/>numbers<sp/>are<sp/>the<sp/>same<sp/>for<sp/>all<sp/>isomers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>If<sp/>new<sp/>material<sp/>load<sp/>isomer<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">xnwtxt(itapd,chtext,math,<sp/>mfh,<sp/>mth,<sp/>nrecw)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nrecs=nrecs+1</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">read</highlight><highlight class="normal">(itapa,11300,</highlight><highlight class="keyword">end</highlight><highlight class="normal">=30)<sp/>chtext,<sp/>math,<sp/>mfh,<sp/>mth</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">read</highlight><highlight class="normal">(chtext,10300)<sp/>liso</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>izamat=nint(za)*10+liso</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chelna=xnelna(izamat)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">write</highlight><highlight class="normal">(6,10500)<sp/>chelna</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>matho=math</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(mfh.eq.3)<sp/></highlight><highlight class="keywordflow">then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>If<sp/>section<sp/>3,<sp/>check<sp/>that<sp/>it<sp/>is<sp/>not<sp/>repeated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">do</highlight><highlight class="normal"><sp/>20<sp/>js=1,nsec</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(ipoint(js,1).eq.izamat.and.ipoint(js,2).eq.mfmt)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>+<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">write</highlight><highlight class="normal">(6,10400)<sp/>chelna,<sp/>ipoint(js,2)</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stop<sp/></highlight><highlight class="stringliteral">&apos;Repeated<sp/>section&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/>20<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>Real<sp/>reaction<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mtendf=mod(mth,300)</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>LISO<sp/>of<sp/>product</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lisos=mth/300</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">((l99.eq.99.and.lisos.ne.0).or.</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>+<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(lisos.ne.l99.and.l99.ne.99))<sp/></highlight><highlight class="keywordflow">then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>This<sp/>should<sp/>never<sp/>happen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">write</highlight><highlight class="normal">(6,10700)<sp/>l99,lisos</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(mtendf.eq.18)<sp/></highlight><highlight class="keywordflow">then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>Treat<sp/>son<sp/>isomer<sp/>of<sp/>fission<sp/>separately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(mth.ne.mtendf.or.l99.ne.99)<sp/></highlight><highlight class="keywordflow">then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">write</highlight><highlight class="normal">(6,10200)<sp/>chelna,mth,l99</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>izason=0</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chelns=</highlight><highlight class="stringliteral">&apos;Fiss<sp/>Fragm&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>Find<sp/>son<sp/>isomer<sp/>for<sp/>reaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">xngson(izamat,mtendf,izason)</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>izason=izason+lisos</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chelns=xnelna(izason)</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(l99.eq.99)<sp/>chelns(11:11)=</highlight><highlight class="stringliteral">&apos;*&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chrena=xnrena(mth)</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">write</highlight><highlight class="normal">(6,11000)<sp/>chrena,chelns</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(l99.eq.0.or.lisos.gt.0)<sp/></highlight><highlight class="keywordflow">then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>If<sp/>reaction<sp/>leads<sp/>to<sp/>a<sp/>specific<sp/>isomer,<sp/>find<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mtmp=mth</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mth=mtendf</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(mtendf.ne.18)<sp/></highlight><highlight class="keywordflow">then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">xnckis(lskips)</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>If<sp/>son<sp/>isomer<sp/>not<sp/>there,<sp/>skip<sp/>reaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(lskips)<sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>10</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mth=mtmp</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(nsec.ge.maxsec)<sp/>stop<sp/></highlight><highlight class="stringliteral">&apos;Increase<sp/>MAXSEC&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>New<sp/>section<sp/>can<sp/>be<sp/>added</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nsec=nsec+1</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ipoint(nsec,1)=izamat</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ipoint(nsec,2)=mfmt</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ipoint(nsec,3)=nrecwi</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>Add<sp/>record<sp/>to<sp/>temporary<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">xnwtxt(itapd,chtext,math,<sp/>mfh,<sp/>mth,<sp/>nrecw)</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>nrecs=nrecs+1</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>10</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>End<sp/>of<sp/>file<sp/>processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/>30<sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">close</highlight><highlight class="normal">(itapa)</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>Add<sp/>files<sp/>3<sp/>for<sp/>as<sp/>sum<sp/>of<sp/>separate<sp/>isotopes<sp/>productions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>not<sp/>ideal,<sp/>but<sp/>the<sp/>best<sp/>we<sp/>can<sp/>do...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">xnf3ad</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">*<sp/>---<sp/>Now<sp/>write<sp/>finally<sp/>the<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">open</highlight><highlight class="normal">(itaps,file=chfilo,status=</highlight><highlight class="stringliteral">&apos;UNKNOWN&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">xnwfil</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">close</highlight><highlight class="normal">(itaps)</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">close</highlight><highlight class="normal">(itapd,status=</highlight><highlight class="stringliteral">&apos;DELETE&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">10200<sp/></highlight><highlight class="keyword">format</highlight><highlight class="normal">(1x,a,</highlight><highlight class="stringliteral">&apos;<sp/>for<sp/>fission<sp/>found<sp/>mth<sp/>&apos;</highlight><highlight class="normal">,i4,</highlight><highlight class="stringliteral">&apos;<sp/>L99<sp/>&apos;</highlight><highlight class="normal">,i6)</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">10300<sp/></highlight><highlight class="keyword">format</highlight><highlight class="normal">(33x,i11)</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">10400<sp/></highlight><highlight class="keyword">format</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&apos;<sp/>Material<sp/>&apos;</highlight><highlight class="normal">,a,</highlight><highlight class="stringliteral">&apos;<sp/>section<sp/>&apos;</highlight><highlight class="normal">,i4,</highlight><highlight class="stringliteral">&apos;<sp/>repeated&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">10500<sp/></highlight><highlight class="keyword">format</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&apos;<sp/>Now<sp/>processing<sp/>&apos;</highlight><highlight class="normal">,a)</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">10600<sp/></highlight><highlight class="keyword">format</highlight><highlight class="normal">(2e11.4,11x,i11)</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">10700<sp/></highlight><highlight class="keyword">format</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&apos;<sp/>L99<sp/>=<sp/>&apos;</highlight><highlight class="normal">,i2,</highlight><highlight class="stringliteral">&apos;<sp/>and<sp/>isomeric<sp/>state<sp/>=<sp/>&apos;</highlight><highlight class="normal">,i1)</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">10800<sp/></highlight><highlight class="keyword">format</highlight><highlight class="normal">(2e11.4,4i11,i4,i2,i3)</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">10900<sp/></highlight><highlight class="keyword">format</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&apos;<sp/>Data<sp/>from<sp/>&apos;</highlight><highlight class="normal">,a)</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">11000<sp/></highlight><highlight class="keyword">format</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&apos;<sp/>Reaction<sp/>&apos;</highlight><highlight class="normal">,a,</highlight><highlight class="stringliteral">&apos;<sp/>residual<sp/>&apos;</highlight><highlight class="normal">,a)</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">11100<sp/></highlight><highlight class="keyword">format</highlight><highlight class="normal">(6e11.4,i4,i2,i3,i5)</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">11200<sp/></highlight><highlight class="keyword">format</highlight><highlight class="normal">(2e11.4,4i11,i4,i2,i3)</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">11300<sp/></highlight><highlight class="keyword">format</highlight><highlight class="normal">(a66,i4,i2,i3)</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">END</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/convac9/comain.F"/>
+  </compounddef>
+</doxygen>

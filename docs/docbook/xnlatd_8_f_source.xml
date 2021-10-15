@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnlatd_8_f_source" xml:lang="en-US">
+<title>xnlatd.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xngeom/xnlatd.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnlatd_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;05/06/96&#32;&#32;09.38.14&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;30/01/95</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnlatd(PARAM,HINP,V,SNMAX,IEX,SNEXT,OUTP,IHIT)
+<anchor xml:id="_xnlatd_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Finds&#32;intersection&#32;of&#32;a&#32;particle&#32;with&#32;a&#32;lattice&#32;(hexagonal&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;or&#32;square)&#32;of&#32;bars&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;PARAM&#32;&#32;&#32;&#32;&#32;(input)&#32;array&#32;of&#32;3&#32;with&#32;the&#32;parameters&#32;of&#32;the&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lattice:&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PARAM(1)&#32;=&#32;X&#32;distance&#32;of&#32;the&#32;bars&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PARAM(2)&#32;=&#32;radius&#32;of&#32;bars&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PARAM(3)&#32;=&#32;Z&#32;half&#32;dimension&#32;of&#32;the&#32;lattice&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;HINP&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;array&#32;of&#32;3&#32;with&#32;the&#32;coordinates&#32;of&#32;the&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;particle&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;V&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;array&#32;of&#32;3&#32;with&#32;the&#32;particle&#32;speed&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00017"/>00017 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;SNMAX&#32;&#32;&#32;&#32;&#32;(input)&#32;maximum&#32;distance&#32;that&#32;the&#32;particle&#32;is&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00018"/>00018 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;allowed&#32;to&#32;travel&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00019"/>00019 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IEX&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;lattice&#32;structure&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00020"/>00020 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;1&#32;=&#32;hexagonal&#32;lattice&#32;with&#32;rows&#32;of&#32;bars&#32;parallel&#32;to&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00021"/>00021 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;the&#32;X&#32;axis&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00022"/>00022 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;0&#32;=&#32;square&#32;lattice&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00023"/>00023 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;SNEXT&#32;&#32;&#32;&#32;&#32;(output)&#32;distance&#32;to&#32;the&#32;intersection&#32;with&#32;the&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00024"/>00024 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sphere&#32;along&#32;the&#32;particle&#32;direction&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00025"/>00025 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IHIT&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;intersection&#32;flag&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;1&#32;bar&#32;is&#32;hit&#32;from&#32;inside&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00027"/>00027 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;-1&#32;bar&#32;is&#32;hit&#32;from&#32;outside&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00028"/>00028 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;0&#32;bar&#32;is&#32;not&#32;hit&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00029"/>00029 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;OUTP&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;array&#32;of&#32;3&#32;with&#32;the&#32;final&#32;position&#32;of&#32;the&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00030"/>00030 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;particle&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00032"/>00032 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">IMPLICIT&#32;DOUBLE&#32;PRECISION</emphasis>&#32;(a-h,o-z)
+<anchor xml:id="_xnlatd_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;parameter(one=1,zero=0,half=one/2,hmprec=1e-15,
+<anchor xml:id="_xnlatd_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqrt3h=0.866025403784438597)
+<anchor xml:id="_xnlatd_8_f_source_1l00036"/>00036 <emphasis role="keywordtype">&#32;&#32;&#32;&#32;&#32;&#32;REAL</emphasis>&#32;HINP(3),PARAM(3),OUTP(3),V(3),SNMAX,SNEXT
+<anchor xml:id="_xnlatd_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;ROTATE
+<anchor xml:id="_xnlatd_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;x(6)
+<anchor xml:id="_xnlatd_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;lint(xy)=int(xy)-(half-sign(half,xy))
+<anchor xml:id="_xnlatd_8_f_source_1l00040"/>00040 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00041"/>00041 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00042"/>00042 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00043"/>00043 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;particle&#32;direction</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xndirv(hinp,v,x,costh,sinth,cosph,sinph,rotate)
+<anchor xml:id="_xnlatd_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xnlatd_8_f_source_1l00046"/>00046 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;entry&#32;xnltnd(param,hinp,v,snmax,iex,snext,outp,inter)
+<anchor xml:id="_xnlatd_8_f_source_1l00048"/>00048 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00049"/>00049 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00050"/>00050 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Same&#32;as&#32;previous&#32;entry,&#32;but&#32;particle&#32;velocity&#32;is&#32;normalised&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00051"/>00051 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;to&#32;1&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00052"/>00052 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00053"/>00053 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00054"/>00054 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00055"/>00055 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00056"/>00056 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00057"/>00057 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;particle&#32;position&#32;and&#32;direction&#32;in&#32;double&#32;precision</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;x(1)&#32;=&#32;hinp(1)
+<anchor xml:id="_xnlatd_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;x(2)&#32;=&#32;hinp(2)
+<anchor xml:id="_xnlatd_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;x(3)&#32;=&#32;hinp(3)
+<anchor xml:id="_xnlatd_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;x(4)&#32;=&#32;v(1)
+<anchor xml:id="_xnlatd_8_f_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;x(5)&#32;=&#32;v(2)
+<anchor xml:id="_xnlatd_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;x(6)&#32;=&#32;v(3)
+<anchor xml:id="_xnlatd_8_f_source_1l00064"/>00064 <emphasis role="comment">*&#32;---&gt;&#32;Suppose&#32;we&#32;do&#32;not&#32;hit&#32;any&#32;bar</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00065"/>00065 &#32;&#32;&#32;10&#32;dnext&#32;=&#32;snmax
+<anchor xml:id="_xnlatd_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;ihit&#32;=&#32;0
+<anchor xml:id="_xnlatd_8_f_source_1l00067"/>00067 <emphasis role="comment">*&#32;---&gt;&#32;Prepare&#32;some&#32;useful&#32;constants</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00068"/>00068 <emphasis role="comment">*&#32;---&gt;&#32;Distance&#32;of&#32;bars&#32;along&#32;X</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;disbar&#32;=&#32;param(1)
+<anchor xml:id="_xnlatd_8_f_source_1l00070"/>00070 <emphasis role="comment">*&#32;---&gt;&#32;Its&#32;inverse</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;disbai&#32;=&#32;one/param(1)
+<anchor xml:id="_xnlatd_8_f_source_1l00072"/>00072 <emphasis role="comment">*&#32;---&gt;&#32;Distance&#32;of&#32;bar&#32;planes&#32;along&#32;Y</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iex.EQ.1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;displa&#32;=&#32;param(1)*sqrt3h
+<anchor xml:id="_xnlatd_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;displa&#32;=&#32;param(1)
+<anchor xml:id="_xnlatd_8_f_source_1l00077"/>00077 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00078"/>00078 <emphasis role="comment">*&#32;---&gt;&#32;Its&#32;inverse</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;displi&#32;=&#32;one/displa
+<anchor xml:id="_xnlatd_8_f_source_1l00080"/>00080 <emphasis role="comment">*&#32;---&gt;&#32;Bar&#32;radius&#32;and&#32;its&#32;square</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;barrad&#32;=&#32;param(2)
+<anchor xml:id="_xnlatd_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;barra2&#32;=&#32;barrad**2
+<anchor xml:id="_xnlatd_8_f_source_1l00083"/>00083 <emphasis role="comment">*&#32;---&gt;&#32;Now&#32;find&#32;the&#32;axis&#32;in&#32;the&#32;plane&#32;X-Y&#32;which&#32;is&#32;closer&#32;to&#32;the</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00084"/>00084 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;particles&#32;direction&#32;and&#32;call&#32;it&#32;X</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00085"/>00085 <emphasis role="comment">*&#32;---&gt;&#32;The&#32;algorithm&#32;work&#32;with&#32;inverted&#32;X&#32;and&#32;Y&#32;for&#32;historical&#32;reasons</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;x0&#32;=&#32;x(2)
+<anchor xml:id="_xnlatd_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;y0&#32;=&#32;x(1)
+<anchor xml:id="_xnlatd_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;hnorm&#32;=&#32;one/sqrt(x(4)**2+x(5)**2)
+<anchor xml:id="_xnlatd_8_f_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;alpha&#32;=&#32;x(5)*hnorm
+<anchor xml:id="_xnlatd_8_f_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;beta&#32;&#32;=&#32;x(4)*hnorm
+<anchor xml:id="_xnlatd_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;rotate=.false.
+<anchor xml:id="_xnlatd_8_f_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(abs(alpha).LT.half)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iex.EQ.1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00094"/>00094 <emphasis role="comment">*&#32;---&gt;&#32;Rotate&#32;everything&#32;by&#32;60&#32;degrees,&#32;the&#32;distance&#32;stays&#32;the&#32;same</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y0&#32;=&#32;x(1)*half&#32;+x(2)*sqrt3h
+<anchor xml:id="_xnlatd_8_f_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;x0&#32;=&#32;-x(1)*sqrt3h+x(2)*half
+<anchor xml:id="_xnlatd_8_f_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;beta&#32;=&#32;(&#32;x(4)*half&#32;+x(5)*sqrt3h)*hnorm
+<anchor xml:id="_xnlatd_8_f_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;alpha&#32;=&#32;(-x(4)*sqrt3h+x(5)*half&#32;)*hnorm
+<anchor xml:id="_xnlatd_8_f_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rotate=.true.
+<anchor xml:id="_xnlatd_8_f_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00101"/>00101 <emphasis role="comment">*&#32;---&gt;&#32;Rotate&#32;everything&#32;by&#32;90&#32;degrees</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;x0&#32;=&#32;x(1)
+<anchor xml:id="_xnlatd_8_f_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y0&#32;=&#32;x(2)
+<anchor xml:id="_xnlatd_8_f_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;alpha&#32;=&#32;x(4)*hnorm
+<anchor xml:id="_xnlatd_8_f_source_1l00105"/>00105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;beta&#32;=&#32;x(5)*hnorm
+<anchor xml:id="_xnlatd_8_f_source_1l00106"/>00106 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00107"/>00107 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00108"/>00108 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;starting&#32;point&#32;and&#32;direction&#32;for&#32;the&#32;scan&#32;of&#32;the&#32;bar&#32;planes</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;istart&#32;=&#32;(nint(x0*displi)+
+<anchor xml:id="_xnlatd_8_f_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(sign(one,x0)-sign(one,alpha))*half)
+<anchor xml:id="_xnlatd_8_f_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;istep&#32;&#32;=&#32;sign(one,alpha)
+<anchor xml:id="_xnlatd_8_f_source_1l00112"/>00112 &#32;&#32;&#32;&#32;&#32;&#32;iend&#32;&#32;&#32;=&#32;istart+istep*(snmax*displi+1)
+<anchor xml:id="_xnlatd_8_f_source_1l00113"/>00113 <emphasis role="comment">*&#32;---&gt;&#32;Some&#32;more&#32;useful&#32;constants</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;alphai=one/alpha
+<anchor xml:id="_xnlatd_8_f_source_1l00115"/>00115 <emphasis role="comment">*&#32;---&gt;&#32;Loop&#32;on&#32;planes&#32;of&#32;bars</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00116"/>00116 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;ix=istart,iend,istep
+<anchor xml:id="_xnlatd_8_f_source_1l00117"/>00117 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;X&#32;of&#32;bar&#32;plane</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xx=ix*displa
+<anchor xml:id="_xnlatd_8_f_source_1l00119"/>00119 <emphasis role="comment">*&#32;---&gt;&#32;Prepare&#32;for&#32;further&#32;calculations</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00120"/>00120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xx2=xx**2
+<anchor xml:id="_xnlatd_8_f_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;delx2&#32;=&#32;(x0-xx)**2
+<anchor xml:id="_xnlatd_8_f_source_1l00122"/>00122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iex.EQ.1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00123"/>00123 <emphasis role="comment">*&#32;---&gt;&#32;Slightly&#32;more&#32;complicated...&#32;we&#32;need&#32;the&#32;shift&#32;for&#32;the&#32;odd&#32;planes</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00124"/>00124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shift=disbar*half*mod(ix,2)
+<anchor xml:id="_xnlatd_8_f_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00126"/>00126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shift=0
+<anchor xml:id="_xnlatd_8_f_source_1l00127"/>00127 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00128"/>00128 <emphasis role="comment">*&#32;---&gt;&#32;Compute&#32;y&#32;range&#32;-&#32;gamma&#32;is&#32;the&#32;projection&#32;of&#32;the</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00129"/>00129 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;y&#32;coordinate&#32;at&#32;the&#32;plane&#32;IX&#32;onto&#32;the&#32;normal&#32;to&#32;the&#32;line&#32;of</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00130"/>00130 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;flight</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00131"/>00131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;gamma=beta*(xx-x0)+alpha*y0
+<anchor xml:id="_xnlatd_8_f_source_1l00132"/>00132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ya=(gamma-barrad)*alphai
+<anchor xml:id="_xnlatd_8_f_source_1l00133"/>00133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yb=(gamma+barrad)*alphai
+<anchor xml:id="_xnlatd_8_f_source_1l00134"/>00134 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;a&#32;bar&#32;centre&apos;s&#32;Y&#32;coordinate&#32;is&#32;between&#32;Y1&#32;and&#32;Y2&#32;we&#32;may&#32;hit&#32;it</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00135"/>00135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y1=min(ya,yb)
+<anchor xml:id="_xnlatd_8_f_source_1l00136"/>00136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y2=max(ya,yb)
+<anchor xml:id="_xnlatd_8_f_source_1l00137"/>00137 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;possible&#32;bar&#32;centres&#32;in&#32;this&#32;range</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00138"/>00138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iy1=lint((y1-shift)*disbai)
+<anchor xml:id="_xnlatd_8_f_source_1l00139"/>00139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iy2=lint((y2-shift)*disbai)
+<anchor xml:id="_xnlatd_8_f_source_1l00140"/>00140 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;at&#32;least&#32;one&#32;bar&#32;centre</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00141"/>00141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iy1.LT.iy2)<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00142"/>00142 <emphasis role="comment">*&#32;---&gt;&#32;Loop&#32;on&#32;candidate&#32;bars</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00143"/>00143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;iy=iy1,iy2
+<anchor xml:id="_xnlatd_8_f_source_1l00144"/>00144 <emphasis role="comment">*&#32;---&gt;&#32;In&#32;case&#32;of&#32;hex,&#32;shift&#32;bars</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00145"/>00145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y=iy*disbar+shift
+<anchor xml:id="_xnlatd_8_f_source_1l00146"/>00146 <emphasis role="comment">*&#32;---&gt;&#32;Still&#32;check&#32;that&#32;bar&#32;centre&#32;is&#32;in&#32;the&#32;right&#32;interval</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00147"/>00147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(y1.LE.y.AND.y.LE.y2)<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00148"/>00148 <emphasis role="comment">*&#32;---&gt;&#32;Test&#32;for&#32;intersection</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00149"/>00149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;a=alpha*(x0-xx)+beta*(y0-y)
+<anchor xml:id="_xnlatd_8_f_source_1l00150"/>00150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;d2=delx2+(y0-y)**2
+<anchor xml:id="_xnlatd_8_f_source_1l00151"/>00151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;det=max(a**2-(d2-barra2),zero)
+<anchor xml:id="_xnlatd_8_f_source_1l00152"/>00152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;c=sqrt(det)
+<anchor xml:id="_xnlatd_8_f_source_1l00153"/>00153 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;two&#32;points&#32;of&#32;intersection</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00154"/>00154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;t1=-a-c
+<anchor xml:id="_xnlatd_8_f_source_1l00155"/>00155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;t2=-a+c
+<anchor xml:id="_xnlatd_8_f_source_1l00156"/>00156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(t1.GT.0.0.AND.dnext.GT.t1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00157"/>00157 <emphasis role="comment">*&#32;---&gt;&#32;Accept&#32;first&#32;distance</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00158"/>00158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xhtbar&#32;=&#32;y
+<anchor xml:id="_xnlatd_8_f_source_1l00159"/>00159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yhtbar&#32;=&#32;xx
+<anchor xml:id="_xnlatd_8_f_source_1l00160"/>00160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dnext=t1
+<anchor xml:id="_xnlatd_8_f_source_1l00161"/>00161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ihit=1
+<anchor xml:id="_xnlatd_8_f_source_1l00162"/>00162 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;both&#32;distances&#32;positive,&#32;hit&#32;is&#32;from&#32;outside</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00163"/>00163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(t1*t2.GT.0.0)&#32;ihit=-ihit
+<anchor xml:id="_xnlatd_8_f_source_1l00164"/>00164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSEIF</emphasis>(t2.GT.0.0.AND.dnext.GT.t2)<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00165"/>00165 <emphasis role="comment">*&#32;---&gt;&#32;Accept&#32;second&#32;distance</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00166"/>00166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xhtbar&#32;=&#32;y
+<anchor xml:id="_xnlatd_8_f_source_1l00167"/>00167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yhtbar&#32;=&#32;xx
+<anchor xml:id="_xnlatd_8_f_source_1l00168"/>00168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dnext=t2
+<anchor xml:id="_xnlatd_8_f_source_1l00169"/>00169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ihit=1
+<anchor xml:id="_xnlatd_8_f_source_1l00170"/>00170 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;both&#32;distances&#32;positive,&#32;hit&#32;is&#32;from&#32;outside</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00171"/>00171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(t1*t2.GT.0.0)&#32;ihit=-ihit
+<anchor xml:id="_xnlatd_8_f_source_1l00172"/>00172 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;END&#32;IF</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00173"/>00173 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;END&#32;IF</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00174"/>00174 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00175"/>00175 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;END&#32;IF</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00176"/>00176 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;we&#32;got&#32;a&#32;hit,&#32;stop&#32;searching</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00177"/>00177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ihit.NE.0)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;40
+<anchor xml:id="_xnlatd_8_f_source_1l00178"/>00178 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00179"/>00179 <emphasis role="comment">*&#32;---&gt;&#32;convert&#32;distance&#32;in&#32;3D</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00180"/>00180 &#32;&#32;&#32;40&#32;<emphasis role="keywordflow">IF</emphasis>(ihit.NE.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00181"/>00181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dnext=dnext*sqrt((x(4)**2+x(5)**2+x(6)**2))*hnorm
+<anchor xml:id="_xnlatd_8_f_source_1l00182"/>00182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(dnext.LT.snmax)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00183"/>00183 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;end&#32;point</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00184"/>00184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;outp(1)&#32;=&#32;x(1)+x(4)*dnext
+<anchor xml:id="_xnlatd_8_f_source_1l00185"/>00185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;outp(2)&#32;=&#32;x(2)+x(5)*dnext
+<anchor xml:id="_xnlatd_8_f_source_1l00186"/>00186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;outp(3)&#32;=&#32;x(3)+x(6)*dnext
+<anchor xml:id="_xnlatd_8_f_source_1l00187"/>00187 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00188"/>00188 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00189"/>00189 <emphasis role="comment">*&#32;---&gt;&#32;No&#32;interaction&#32;before&#32;max&#32;distance</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00190"/>00190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ihit=0
+<anchor xml:id="_xnlatd_8_f_source_1l00191"/>00191 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00192"/>00192 &#32;&#32;&#32;&#32;&#32;&#32;snext&#32;=&#32;dnext
+<anchor xml:id="_xnlatd_8_f_source_1l00193"/>00193 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnlatd_8_f_source_1l00194"/>00194 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

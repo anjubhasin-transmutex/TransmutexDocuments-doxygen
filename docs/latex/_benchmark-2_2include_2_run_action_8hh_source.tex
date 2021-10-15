@@ -1,0 +1,96 @@
+\hypertarget{_benchmark-2_2include_2_run_action_8hh_source}{}\doxysection{Run\+Action.\+hh}
+\label{_benchmark-2_2include_2_run_action_8hh_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/2/include/RunAction.hh@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/2/include/RunAction.hh}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00005}00005 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00006}00006 \textcolor{comment}{// RunAction}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00007}00007 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00008}00008 \textcolor{comment}{// Donovan Maire, Transmutex, 18/10/2019}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00009}00009 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00011}00011 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00013}00013 \textcolor{preprocessor}{\#ifndef RunAction\_h}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00014}00014 \textcolor{preprocessor}{\#define RunAction\_h 1}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00016}00016 \textcolor{comment}{// Class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00017}00017 \textcolor{preprocessor}{\#include "{}Run.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00018}00018 \textcolor{preprocessor}{\#include "{}TMXInputParameters.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00019}00019 \textcolor{preprocessor}{\#include "{}TMXMergeThreadsResults.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00020}00020 \textcolor{preprocessor}{\#include "{}TMXScoringPowerDensityMap.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00021}00021 \textcolor{preprocessor}{\#include "{}TMXScoringSurfaceCurrentSpectrum.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00022}00022 \textcolor{preprocessor}{\#include "{}TMXScoringSurfaceFluenceSpectrum.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00023}00023 \textcolor{preprocessor}{\#include "{}TMXScoringVolumeFluenceSpectrum.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00025}00025 \textcolor{comment}{// GEANT4 libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00026}00026 \textcolor{preprocessor}{\#include "{}G4UserRunAction.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00027}00027 \textcolor{preprocessor}{\#include "{}G4Run.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00028}00028 \textcolor{preprocessor}{\#include "{}globals.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00029}00029 \textcolor{preprocessor}{\#include "{}G4ThreeVector.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00030}00030 \textcolor{preprocessor}{\#include "{}map"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00031}00031 \textcolor{preprocessor}{\#include "{}zlib.h"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00032}00032 \textcolor{comment}{//\#include "{}TMXNeutronicParam.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00034}00034 \textcolor{comment}{// C++ libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00035}00035 \textcolor{preprocessor}{\#include <time.h>}       \textcolor{comment}{/* clock\_t, clock, CLOCKS\_PER\_SEC */}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00037}00037 \textcolor{keyword}{class }\mbox{\hyperlink{class_run_action}{RunAction}} : \textcolor{keyword}{public} G4UserRunAction}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00038}00038 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00039}00039 \textcolor{keyword}{public}: \textcolor{comment}{// Without description}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00040}00040   \mbox{\hyperlink{class_run_action}{RunAction}}(\mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}\& parameter, \mbox{\hyperlink{class_t_m_x_merge_threads_results}{TMXMergeThreadsResults}} *mergedResultsinTextFile);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00041}00041   \textcolor{keyword}{virtual} \mbox{\hyperlink{class_run_action}{\string~RunAction}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00043}00043 \textcolor{keyword}{public}: \textcolor{comment}{// With description}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00044}00044   G4Run* GenerateRun();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00045}00045   clock\_t    fTimerPublic;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00046}00046   \textcolor{keywordtype}{double} m\_timePassed;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00047}00047   \mbox{\hyperlink{class_t_m_x_scoring_power_density_map}{TMXScoringPowerDensityMap}}* m\_scoringPowerDensityMap;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00048}00048   \mbox{\hyperlink{class_t_m_x_scoring_surface_current_spectrum}{TMXScoringSurfaceCurrentSpectrum}}* m\_scoringSurfaceCurrentSpectrum;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00049}00049   \mbox{\hyperlink{class_t_m_x_scoring_surface_fluence_spectrum}{TMXScoringSurfaceFluenceSpectrum}}* m\_scoringSurfaceFluenceSpectrum;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00050}00050   \mbox{\hyperlink{class_t_m_x_scoring_volume_fluence_spectrum}{TMXScoringVolumeFluenceSpectrum}}* m\_scoringVolumeFluenceSpectrum;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00052}00052   \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} BeginOfRunAction(\textcolor{keyword}{const} G4Run*);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00053}00053   \textcolor{comment}{// In this method histogramms are booked}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00055}00055   \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} EndOfRunAction(\textcolor{keyword}{const} G4Run*);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00056}00056   \textcolor{comment}{// In this method bookHisto method is called in which histogramms are filled}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00058}00058   \textcolor{keywordtype}{void} Initialize(G4int RunNumber, \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}\& parameter, \mbox{\hyperlink{class_t_m_x_merge_threads_results}{TMXMergeThreadsResults}} *mergedResultsinTextFile);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00059}00059   \textcolor{comment}{// Initialization of both variables}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00061}00061   \textcolor{keywordtype}{void} BuildHistogramsAndNtuple();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00062}00062   \textcolor{comment}{// Construct ROOT histograms and Ntuples for ROOT file (post analysis)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00064}00064 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00065}00065     \textcolor{keywordtype}{void} ReadCartesianMesh(\textcolor{keyword}{const} G4Run*, \textcolor{keywordtype}{int} , \textcolor{keywordtype}{double});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00066}00066     \textcolor{keywordtype}{void} ReadPolarMesh(\textcolor{keyword}{const} G4Run*, \textcolor{keywordtype}{int} , \textcolor{keywordtype}{double});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00067}00067     \textcolor{keywordtype}{void} ReadHexagonalMesh(\textcolor{keyword}{const} G4Run* run, \textcolor{keywordtype}{int}, \textcolor{keywordtype}{double});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00068}00068     \textcolor{keywordtype}{void} PrintSimulationTime();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00069}00069     \textcolor{keywordtype}{void} UseABLAmodel();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00070}00070     \textcolor{keywordtype}{void} PrintRunStart(\textcolor{keyword}{const} G4Run* aRun);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00071}00071     G4ThreeVector CalculateCartesianPos(\textcolor{keywordtype}{double} Radius, \textcolor{keywordtype}{double} Theta, \textcolor{keywordtype}{double} Zpos);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00072}00072     \textcolor{keywordtype}{void} writeNeutronicCalcResultsInTextFile();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00074}00074     clock\_t    fTimer;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00075}00075     G4int      fRunNumber;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00076}00076     G4int      fStepNumber;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00077}00077     G4int      fnThreads;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00078}00078     \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* m\_p;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00079}00079     \mbox{\hyperlink{class_t_m_x_merge_threads_results}{TMXMergeThreadsResults}} *fmergedResultsinTextFile;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00081}00081     \mbox{\hyperlink{class_run}{Run}}*       fRun;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00083}00083     \textcolor{keywordtype}{int} m\_accNumOfEvent;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00084}00084     \textcolor{keywordtype}{void} Merge(std::map<\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}*, std::map<G4int,G4int>>\&,}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00085}00085                     \textcolor{keyword}{const} std::map<\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}*, std::map<G4int,G4int>>\&) \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00086}00086     std::map<TMXMaterial*, std::map<G4int, G4int>> m\_SourceTerm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00089}00089 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00090}00090 \};}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00091}00091 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_run_action_8hh_source_l00092}00092 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

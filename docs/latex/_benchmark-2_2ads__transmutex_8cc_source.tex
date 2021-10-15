@@ -1,0 +1,546 @@
+\hypertarget{_benchmark-2_2ads__transmutex_8cc_source}{}\doxysection{ads\+\_\+transmutex.\+cc}
+\label{_benchmark-2_2ads__transmutex_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/2/ads\_transmutex.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/2/ads\_transmutex.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00002}00002 \textcolor{comment}{// ********************************************************************}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00003}00003 \textcolor{comment}{// * License and Disclaimer                                           *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00004}00004 \textcolor{comment}{// *                                                                  *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00005}00005 \textcolor{comment}{// * The  Geant4 software  is  copyright of the Copyright Holders  of *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00006}00006 \textcolor{comment}{// * the Geant4 Collaboration.  It is provided  under  the terms  and *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00007}00007 \textcolor{comment}{// * conditions of the Geant4 Software License,  included in the file *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00008}00008 \textcolor{comment}{// * LICENSE and available at  http://cern.ch/geant4/license .  These *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00009}00009 \textcolor{comment}{// * include a list of copyright holders.                             *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00010}00010 \textcolor{comment}{// *                                                                  *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00011}00011 \textcolor{comment}{// * Neither the authors of this software system, nor their employing *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00012}00012 \textcolor{comment}{// * institutes,nor the agencies providing financial support for this *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00013}00013 \textcolor{comment}{// * work  make  any representation or  warranty, express or implied, *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00014}00014 \textcolor{comment}{// * regarding  this  software system or assume any liability for its *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00015}00015 \textcolor{comment}{// * use.  Please see the license in the file  LICENSE  and URL above *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00016}00016 \textcolor{comment}{// * for the full disclaimer and the limitation of liability.         *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00017}00017 \textcolor{comment}{// *                                                                  *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00018}00018 \textcolor{comment}{// * This  code  implementation is the result of  the  scientific and *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00019}00019 \textcolor{comment}{// * technical work of the GEANT4 collaboration.                      *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00020}00020 \textcolor{comment}{// * By using,  copying,  modifying or  distributing the software (or *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00021}00021 \textcolor{comment}{// * any work based  on the software)  you  agree  to acknowledge its *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00022}00022 \textcolor{comment}{// * use  in  resulting  scientific  publications,  and indicate your *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00023}00023 \textcolor{comment}{// * acceptance of all terms of the Geant4 Software license.          *}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00024}00024 \textcolor{comment}{// ********************************************************************}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00025}00025 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00027}00027 \textcolor{comment}{}\textcolor{comment}{//  experimental setup}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00028}00028 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00030}00030 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00031}00031 \textcolor{comment}{// Main}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00032}00032 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00033}00033 \textcolor{comment}{// Donovan Maire, Transmutex, 18/10/2019}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00034}00034 \textcolor{comment}{// Copyright 2020 Transmutex SA -\/-\/ all rights reserved}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00036}00036 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00038}00038 \textcolor{preprocessor}{\#define G4VIS\_USE 1}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00039}00039 \textcolor{preprocessor}{\#define G4UI\_USE 1}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00041}00041 \textcolor{comment}{// Class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00042}00042 \textcolor{preprocessor}{\#include "{}DetectorConstruction.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00043}00043 \textcolor{preprocessor}{\#include "{}PhysicsList.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00044}00044 \textcolor{preprocessor}{\#include "{}PrimaryGeneratorAction.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00045}00045 \textcolor{preprocessor}{\#include "{}ActionInitialization.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00046}00046 \textcolor{preprocessor}{\#include "{}SteppingAction.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00047}00047 \textcolor{preprocessor}{\#include "{}RunAction.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00048}00048 \textcolor{preprocessor}{\#include "{}EventAction.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00049}00049 \textcolor{preprocessor}{\#include "{}StackingAction.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00050}00050 \textcolor{preprocessor}{\#include "{}Randomize.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00051}00051 \textcolor{preprocessor}{\#include "{}ScoringParallelWorld.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00052}00052 \textcolor{preprocessor}{\#include "{}ScoringParallelWorld\_polar.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00053}00053 \textcolor{preprocessor}{\#include "{}ScoringParallelWorld\_hexagonal.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00054}00054 \textcolor{preprocessor}{\#include "{}Analysis.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00055}00055 \textcolor{preprocessor}{\#include "{}TMXBatemanDecay.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00056}00056 \textcolor{preprocessor}{\#include "{}TMXBurnup.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00057}00057 \textcolor{preprocessor}{\#include "{}TMXExternalSource.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00058}00058 \textcolor{preprocessor}{\#include "{}TMXInputParameters.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00059}00059 \textcolor{preprocessor}{\#include "{}TMXkeff.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00060}00060 \textcolor{preprocessor}{\#include "{}TMXMCCubicVolume.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00061}00061 \textcolor{preprocessor}{\#include "{}TMXMergeThreadsResults.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00062}00062 \textcolor{preprocessor}{\#include "{}TMXOption.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00063}00063 \textcolor{preprocessor}{\#include "{}TMXRandomDistribution3D.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00065}00065 \textcolor{comment}{// GEANT4 libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00066}00066 \textcolor{preprocessor}{\#include "{}G4RunManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00067}00067 \textcolor{preprocessor}{\#include "{}G4MTRunManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00068}00068 \textcolor{preprocessor}{\#include "{}G4UImanager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00069}00069 \textcolor{preprocessor}{\#include "{}G4PhysListFactory.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00070}00070 \textcolor{preprocessor}{\#include "{}G4VModularPhysicsList.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00071}00071 \textcolor{preprocessor}{\#include "{}G4NeutronKillerMessenger.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00072}00072 \textcolor{preprocessor}{\#include "{}G4NeutronKiller.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00073}00073 \textcolor{preprocessor}{\#include "{}G4RadioactiveDecayPhysics.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00074}00074 \textcolor{comment}{// \#include "{}G4RadioactiveDecaymessenger.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00075}00075 \textcolor{preprocessor}{\#include "{}G4VisExecutive.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00076}00076 \textcolor{preprocessor}{\#include "{}G4UIExecutive.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00077}00077 \textcolor{preprocessor}{\#include "{}G4ScoringManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00078}00078 \textcolor{preprocessor}{\#include "{}G4SystemOfUnits.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00079}00079 \textcolor{preprocessor}{\#include "{}G4ParallelWorldPhysics.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00080}00080 \textcolor{preprocessor}{\#include "{}G4ParallelWorldScoringProcess.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00081}00081 \textcolor{preprocessor}{\#include "{}G4PhysicalConstants.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00082}00082 \textcolor{preprocessor}{\#include "{}G4RegionStore.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00083}00083 \textcolor{comment}{// \#include "{}G4NuclearLevelData.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00084}00084 \textcolor{preprocessor}{\#include "{}G4PhysicalVolumeStore.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00085}00085 \textcolor{preprocessor}{\#include "{}G4GeometryManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00086}00086 \textcolor{preprocessor}{\#include "{}G4NistManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00087}00087 \textcolor{preprocessor}{\#include "{}G4Element.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00088}00088 \textcolor{preprocessor}{\#include "{}G4Material.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00089}00089 \textcolor{preprocessor}{\#include "{}G4PVPlacement.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00090}00090 \textcolor{preprocessor}{\#include "{}G4LogicalVolumeStore.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00091}00091 \textcolor{preprocessor}{\#include "{}G4ThermalNeutrons.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00092}00092 \textcolor{preprocessor}{\#include "{}G4StateManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00093}00093 \textcolor{preprocessor}{\#include "{}G4ParticleHPManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00095}00095 \textcolor{comment}{// \#include "{}GammaNuclearPhysics.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00096}00096 \textcolor{preprocessor}{\#include "{}G4EmExtraPhysics.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00098}00098 \textcolor{preprocessor}{\#include "{}G4EmPenelopePhysics.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00099}00099 \textcolor{preprocessor}{\#include "{}G4EmLivermorePhysics.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00100}00100 \textcolor{preprocessor}{\#include "{}G4EmDNAPhysics.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00101}00101 \textcolor{preprocessor}{\#include "{}G4EmStandardPhysics.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00103}00103 \textcolor{comment}{// C++ libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00104}00104 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00105}00105 \textcolor{preprocessor}{\#include <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00106}00106 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00107}00107 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}** argv)}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00108}00108 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00109}00109   std::string fileName;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00110}00110   \textcolor{keywordflow}{if} ( argc == 1 )}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00111}00111     fileName = \textcolor{stringliteral}{"{}./param.csv"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00112}00112   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00113}00113     fileName = argv[1];}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00115}00115   \textcolor{keywordflow}{if}(access( fileName.c\_str(), F\_OK ) != -\/1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00118}00118     \textcolor{comment}{// Read the input file}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00119}00119     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00120}00120     \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}} p;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00121}00121     p.read(fileName);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00123}00123     \textcolor{keywordflow}{if}(p.Verbose >= 1)}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00124}00124         p.verbose();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00127}00127     \textcolor{comment}{// Detect interactive mode and define UI session}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00128}00128     G4UIExecutive* ui = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00129}00129     \textcolor{keywordflow}{if} ( p.boolVisualization )}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00130}00130 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00131}00131         ui = \textcolor{keyword}{new} G4UIExecutive(argc, argv);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00132}00132 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00134}00134     \textcolor{comment}{// Choose the Random engine}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00135}00135     CLHEP::HepRandom::setTheEngine(\textcolor{keyword}{new} CLHEP::RanecuEngine());}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00136}00136 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00138}00138     \textcolor{comment}{// Construct the default run manager}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00139}00139     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00140}00140 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00141}00141     \textcolor{keywordtype}{int} n\_Threads = 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00142}00142 \textcolor{preprocessor}{    \#ifdef G4MULTITHREADED}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00143}00143         G4MTRunManager* runManager = \textcolor{keyword}{new} G4MTRunManager;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00144}00144 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00145}00145         \textcolor{comment}{// Number of threads can be defined via parameter file}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00146}00146         n\_Threads = p.nThreads;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00147}00147         \textcolor{keywordflow}{if} ( n\_Threads <=0 || n\_Threads > G4Threading::G4GetNumberOfCores()) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00148}00148             n\_Threads = G4Threading::G4GetNumberOfCores();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00149}00149         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00150}00150         runManager-\/>SetNumberOfThreads(n\_Threads);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00151}00151 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00152}00152         \textcolor{keywordflow}{if}(p.Verbose >= 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00153}00153             G4cout << \textcolor{stringliteral}{"{}===== mtinrtest is started with "{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00154}00154                 <<  runManager-\/>GetNumberOfThreads() << \textcolor{stringliteral}{"{} threads =====\(\backslash\)n"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00155}00155         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00156}00156 \textcolor{preprocessor}{    \#else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00157}00157         G4RunManager* runManager = \textcolor{keyword}{new} G4RunManager;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00158}00158 \textcolor{preprocessor}{    \#endif}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00159}00159 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00160}00160 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00161}00161     \textcolor{comment}{// To merge output results from eventAction}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00162}00162     \mbox{\hyperlink{class_t_m_x_merge_threads_results}{TMXMergeThreadsResults}} mergedOutput(n\_Threads);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00163}00163 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00166}00166     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00167}00167     \textcolor{comment}{//  set mandatory initialization classes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00168}00168     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00171}00171 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00174}00174     \textcolor{comment}{// Definition of the Geometry}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00175}00175     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00176}00176     G4double AssemblyLength = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00177}00177 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00178}00178     \mbox{\hyperlink{class_detector_construction}{DetectorConstruction}}* realWorld = \textcolor{keyword}{new} \mbox{\hyperlink{class_detector_construction}{DetectorConstruction}}(p.int\_Option, p, AssemblyLength);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00179}00179     \textcolor{keywordflow}{if} (p.TypeOfMesh == \textcolor{stringliteral}{"{}cartesian"{}}) \{ \textcolor{comment}{// Cartesian Mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00180}00180         \mbox{\hyperlink{class_scoring_parallel_world}{ScoringParallelWorld}}* parallelWorld = \textcolor{keyword}{new} \mbox{\hyperlink{class_scoring_parallel_world}{ScoringParallelWorld}}(\textcolor{stringliteral}{"{}ParallelScoringWorld"{}}, \&p);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00181}00181         realWorld-\/>RegisterParallelWorld(parallelWorld);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00182}00182     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00183}00183     \textcolor{keywordflow}{if} (p.TypeOfMesh == \textcolor{stringliteral}{"{}hexagonal"{}}) \{ \textcolor{comment}{// Hexagonal Mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00184}00184         \mbox{\hyperlink{class_scoring_parallel_world__hexagonal}{ScoringParallelWorld\_hexagonal}}* parallelWorld\_hexagonal = \textcolor{keyword}{new} \mbox{\hyperlink{class_scoring_parallel_world__hexagonal}{ScoringParallelWorld\_hexagonal}}(\textcolor{stringliteral}{"{}ParallelScoringWorld\_hexagonal"{}}, \&p);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00185}00185         realWorld-\/>RegisterParallelWorld(parallelWorld\_hexagonal);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00186}00186     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00187}00187     \textcolor{keywordflow}{if} (p.TypeOfMesh == \textcolor{stringliteral}{"{}polar"{}}) \{ \textcolor{comment}{// Polar Mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00188}00188         \mbox{\hyperlink{class_scoring_parallel_world__polar}{ScoringParallelWorld\_polar}}* parallelWorld\_polar = \textcolor{keyword}{new} \mbox{\hyperlink{class_scoring_parallel_world__polar}{ScoringParallelWorld\_polar}}(\textcolor{stringliteral}{"{}ParallelScoringWorld\_polar"{}}, \&p);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00189}00189         realWorld-\/>RegisterParallelWorld(parallelWorld\_polar);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00190}00190     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00191}00191 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00192}00192     \textcolor{comment}{// Initialize the geometry}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00193}00193     runManager-\/>SetUserInitialization( realWorld );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00194}00194 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00195}00195     \textcolor{comment}{// Define 3D space distribution of neutron birth position to estimate the keff}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00196}00196     \textcolor{keywordtype}{int} nbinsTheta = 1, nbinsZ = 1, nbinsR2 = 1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00197}00197     G4double R\_min=0, R\_max = p.Rpos\_fuel + AssemblyLength, theta\_min=0, theta\_max=0, Zmin=0, Zmax=0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00198}00198     \textcolor{keywordflow}{if}(TMXOption::IsKeffCalculation(p.int\_Option)) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00199}00199         nbinsR2 = p.keff\_nbinsR2; nbinsTheta = p.keff\_nbinsTheta; nbinsZ = p.keff\_nbinsZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00200}00200         \textcolor{keywordflow}{if}(p.Geometry == 0) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00201}00201             \textcolor{keywordflow}{if}(p.CoreShape == \textcolor{stringliteral}{"{}Hexagonal"{}}) \{R\_max = R\_max/cos(twopi/12.);\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00202}00202             theta\_min = 0; theta\_max = twopi; Zmin = -\/250; Zmax = 250;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00203}00203             R\_min = p.Rpos\_fuel*p.Rpos\_fuel; R\_max = R\_max*R\_max;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00204}00204         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00205}00205         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(p.Geometry == 1) \{ \textcolor{comment}{// Rez geom with cartesian coordinates}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00206}00206             R\_min     = -\/3*71.5*mm; R\_max     = 4*71.5*mm;  \textcolor{comment}{// X}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00207}00207             theta\_min = -\/3*71.5*mm; theta\_max = 1*71.5*mm;  \textcolor{comment}{// Y}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00208}00208             Zmin = -\/330*mm; Zmax = 330*mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00209}00209         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00210}00210         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (p.Geometry == 4) \{ \textcolor{comment}{// SVBR Reactor}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00211}00211             nbinsTheta = 1; nbinsZ = 6; nbinsR2 = 4;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00212}00212             R\_min     = 0.3*0.3*m*m;    R\_max     = 0.90*0.90*m*m;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00213}00213             theta\_min = 0.;       theta\_max = twopi*rad;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00214}00214             Zmin      = -\/1.305*m;  Zmax      = -\/0.405*m;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00215}00215         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00216}00216         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (p.Geometry == 7 || p.Geometry == 8) \{ \textcolor{comment}{// GeomSVBR\_AKME geometry 7}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00217}00217             nbinsTheta = 1; nbinsZ = 6; nbinsR2 = 4;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00218}00218             R\_min     = 0.283*0.283*m*m;    R\_max     = 0.85129*0.85129*m*m;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00219}00219             theta\_min = 0.;       theta\_max = twopi*rad;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00220}00220             Zmin      = -\/1.52*m;  Zmax      = -\/0.243*m;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00221}00221         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00222}00222     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00223}00223 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00224}00224 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00225}00225     \mbox{\hyperlink{class_t_m_x_random_distribution3_d}{TMXRandomDistribution3D}} RadiusAnglesHeight(nbinsR2, R\_min, R\_max, nbinsTheta, theta\_min, theta\_max, nbinsZ, Zmin, Zmax);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00226}00226 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00229}00229     \textcolor{comment}{// Definition of the Physics to use in the simulation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00230}00230     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00231}00231 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00232}00232     \textcolor{comment}{// G4NuclearLevelData::GetInstance()-\/>GetParameters()-\/>SetLevelDensity(0.125);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00233}00233     G4PhysListFactory         factory;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00234}00234     G4VModularPhysicsList*    phys = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00235}00235 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00236}00236     \textcolor{comment}{// Physics List name defined via environment variable}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00237}00237     \textcolor{keywordflow}{if}( \textcolor{stringliteral}{"{}"{}} == p.physName ) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00238}00238         \textcolor{keywordtype}{char}* path = getenv(\textcolor{stringliteral}{"{}PHYSLIST"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00239}00239         \textcolor{keywordflow}{if} (path) \{  p.physName = G4String(path);\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00240}00240     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00241}00241 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00242}00242     \textcolor{comment}{// reference PhysicsList via its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00243}00243     \textcolor{keywordflow}{if}(\textcolor{stringliteral}{"{}"{}} != p.physName \&\& factory.IsReferencePhysList( p.physName ) )}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00244}00244     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00245}00245         phys = factory.GetReferencePhysList( p.physName );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00246}00246         phys-\/>RegisterPhysics( \textcolor{keyword}{new} G4ThermalNeutrons( p.Verbose ));}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00247}00247         phys-\/>RemovePhysics( \textcolor{stringliteral}{"{}G4RadioactiveDecay"{}} );  \textcolor{comment}{// Removing radioactive decay from the physics list}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00248}00248 \textcolor{comment}{//         if (p.isLEND) phys-\/>RegisterPhysics( new GammaNuclearPhysics("{}gamma"{}));}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00249}00249 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00250}00250         \textcolor{keywordflow}{if}(p.TypeOfMesh == \textcolor{stringliteral}{"{}cartesian"{}}) \{phys-\/>RegisterPhysics( \textcolor{keyword}{new} G4ParallelWorldPhysics( \textcolor{stringliteral}{"{}ParallelScoringWorld"{}},           \textcolor{keyword}{false}) );\} \textcolor{comment}{// cartesian mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00251}00251         \textcolor{keywordflow}{if}(p.TypeOfMesh == \textcolor{stringliteral}{"{}hexagonal"{}}) \{phys-\/>RegisterPhysics( \textcolor{keyword}{new} G4ParallelWorldPhysics( \textcolor{stringliteral}{"{}ParallelScoringWorld\_hexagonal"{}}, \textcolor{keyword}{false}) );\} \textcolor{comment}{// hexagonal mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00252}00252         \textcolor{keywordflow}{if}(p.TypeOfMesh == \textcolor{stringliteral}{"{}polar"{}})     \{phys-\/>RegisterPhysics( \textcolor{keyword}{new} G4ParallelWorldPhysics( \textcolor{stringliteral}{"{}ParallelScoringWorld\_polar"{}},     \textcolor{keyword}{false}) );\} \textcolor{comment}{// polar     mesh}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00253}00253 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00254}00254         \textcolor{comment}{// Print cut values}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00255}00255         phys-\/>DumpCutValuesTable();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00256}00256     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00257}00257 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00258}00258     \textcolor{comment}{// define physics}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00259}00259     runManager-\/>SetUserInitialization(phys);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00260}00260 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00261}00261     \textcolor{comment}{// High Precision environment variables}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00262}00262     G4ParticleHPManager::GetInstance()-\/>SetSkipMissingIsotopes(     \textcolor{keyword}{true} );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00263}00263     G4ParticleHPManager::GetInstance()-\/>SetDoNotAdjustFinalState(   \textcolor{keyword}{true} );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00264}00264     G4ParticleHPManager::GetInstance()-\/>SetUseOnlyPhotoEvaporation( \textcolor{keyword}{false} );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00265}00265     G4ParticleHPManager::GetInstance()-\/>SetNeglectDoppler(          \textcolor{keyword}{false} );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00266}00266     G4ParticleHPManager::GetInstance()-\/>SetProduceFissionFragments( \textcolor{keyword}{true} );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00267}00267     G4ParticleHPManager::GetInstance()-\/>SetUseWendtFissionModel(    \textcolor{keyword}{false} );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00268}00268     G4ParticleHPManager::GetInstance()-\/>SetUseNRESP71Model(         \textcolor{keyword}{false} );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00269}00269     G4ParticleHPManager::GetInstance()-\/>SetVerboseLevel(2);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00270}00270 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00271}00271     std::cout << std::left << \textcolor{stringliteral}{"{}\(\backslash\)n*********\(\backslash\)n * G4NEUTRONHP\_SKIP\_MISSING\_ISOTOPES:      "{}} << std::setw(6) << G4ParticleHPManager::GetInstance()-\/>GetSkipMissingIsotopes()     <<\textcolor{stringliteral}{"{}\(\backslash\)n*********"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00272}00272     std::cout << std::left << \textcolor{stringliteral}{"{}\(\backslash\)n*********\(\backslash\)n * G4NEUTRONHP\_DO\_NOT\_ADJUST\_FINAL\_STATE:  "{}} << std::setw(6) << G4ParticleHPManager::GetInstance()-\/>GetDoNotAdjustFinalState()   <<\textcolor{stringliteral}{"{}\(\backslash\)n*********"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00273}00273     std::cout << std::left << \textcolor{stringliteral}{"{}\(\backslash\)n*********\(\backslash\)n * G4NEUTRONHP\_USE\_ONLY\_PHOTO\_EVAPORATION: "{}} << std::setw(6) << G4ParticleHPManager::GetInstance()-\/>GetUseOnlyPhotoEvaporation() <<\textcolor{stringliteral}{"{}\(\backslash\)n*********"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00274}00274     std::cout << std::left << \textcolor{stringliteral}{"{}\(\backslash\)n*********\(\backslash\)n * G4NEUTRONHP\_NEGLECT\_DOPPLER:            "{}} << std::setw(6) << G4ParticleHPManager::GetInstance()-\/>GetNeglectDoppler()          <<\textcolor{stringliteral}{"{}\(\backslash\)n*********"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00275}00275     std::cout << std::left << \textcolor{stringliteral}{"{}\(\backslash\)n*********\(\backslash\)n * G4NEUTRONHP\_PRODUCE\_FISSION\_FRAGMENTS:  "{}} << std::setw(6) << G4ParticleHPManager::GetInstance()-\/>GetProduceFissionFragments() <<\textcolor{stringliteral}{"{}\(\backslash\)n*********"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00276}00276     std::cout << std::left << \textcolor{stringliteral}{"{}\(\backslash\)n*********\(\backslash\)n * G4NEUTRON\_HP\_USE\_WENDT\_FISSION\_MODEL:   "{}} << std::setw(6) << G4ParticleHPManager::GetInstance()-\/>GetUseWendtFissionModel()    <<\textcolor{stringliteral}{"{}\(\backslash\)n*********"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00277}00277     std::cout << std::left << \textcolor{stringliteral}{"{}\(\backslash\)n*********\(\backslash\)n * G4NEUTRONHP\_USE\_NRESP71\_MODEL:          "{}} << std::setw(6) << G4ParticleHPManager::GetInstance()-\/>GetUseNRESP71Model()         <<\textcolor{stringliteral}{"{}\(\backslash\)n*********\(\backslash\)n\(\backslash\)n"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00278}00278 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00282}00282     \textcolor{comment}{// Initialization of all other classes to use in the simulation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00283}00283     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00284}00284     \mbox{\hyperlink{class_t_m_x_bateman_decay}{TMXBatemanDecay}} batemanDecay; \textcolor{comment}{// This object (class) is used to perform decay of radionuclides following Bateman equations}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00285}00285 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00286}00286 \textcolor{preprocessor}{    \#ifdef G4MULTITHREADED }\textcolor{comment}{// MT mode via action initialization}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00287}00287         \mbox{\hyperlink{class_t_m_x_external_source}{TMXExternalSource}} sourceExt;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00288}00288         runManager-\/>SetUserInitialization( \textcolor{keyword}{new} \mbox{\hyperlink{class_action_initialization}{ActionInitialization}}(RadiusAnglesHeight, mergedOutput, batemanDecay, p, sourceExt) );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00289}00289 \textcolor{preprocessor}{    \#else   }\textcolor{comment}{// sequential mode}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00290}00290         runManager-\/>SetUserAction( \textcolor{keyword}{new} \mbox{\hyperlink{class_primary_generator_action}{PrimaryGeneratorAction}}(1, \&p, RadiusAnglesHeight));  \textcolor{comment}{// Number of primary proton per event (=1) at a given energy}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00291}00291 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00292}00292         \textcolor{comment}{//set user action classes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00293}00293         \mbox{\hyperlink{class_run_action}{RunAction}}* runAction = \textcolor{keyword}{new} \mbox{\hyperlink{class_run_action}{RunAction}}  (p, \&mergedOutput);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00294}00294         runManager-\/>SetUserAction( runAction );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00295}00295         \mbox{\hyperlink{class_event_action}{EventAction}}* eventAction = \textcolor{keyword}{new} \mbox{\hyperlink{class_event_action}{EventAction}}(\&p, RadiusAnglesHeight, mergedOutput, batemanDecay);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00296}00296         runManager-\/>SetUserAction( eventAction );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00297}00297         runManager-\/>SetUserAction( \textcolor{keyword}{new} \mbox{\hyperlink{class_stacking_action}{StackingAction}}() );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00298}00298         runManager-\/>SetUserAction( \textcolor{keyword}{new} \mbox{\hyperlink{class_stepping_action}{SteppingAction}}(eventAction, runAction, p));}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00299}00299 \textcolor{preprocessor}{    \#endif}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00300}00300 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00301}00301 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00305}00305     \textcolor{comment}{// Initialization of the User Interface}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00306}00306     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00307}00307     G4VisManager* visManager;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00308}00308     \textcolor{keywordflow}{if}( p.Verbose == 0) \{ visManager = \textcolor{keyword}{new} G4VisExecutive(\textcolor{stringliteral}{"{}Quiet"{}}); \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00309}00309     \textcolor{keywordflow}{else} \{ visManager = \textcolor{keyword}{new} G4VisExecutive(); \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00310}00310     visManager-\/>Initialize();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00311}00311 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00316}00316     \textcolor{comment}{// Manage batch mode or Graphical mode}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00317}00317     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00318}00318     \textcolor{comment}{// Process macro or start UI session}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00319}00319 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00320}00320     \textcolor{keywordflow}{if} ( ! ui ) \{ \textcolor{comment}{// batch mode}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00321}00321         \textcolor{comment}{// Initialization of GEANT4}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00322}00322         runManager-\/>Initialize();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00323}00323 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00324}00324         \textcolor{keywordflow}{if}(TMXOption::IsPIMKeffCalculation(p.int\_Option))}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00325}00325         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00326}00326             \mbox{\hyperlink{class_t_m_xkeff}{TMXkeff}} *keff = \mbox{\hyperlink{class_t_m_xkeff_ae1e9f4676a54a9533cfe95f2d3b38805}{TMXkeff::getInstance}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00327}00327             keff-\/>\mbox{\hyperlink{class_t_m_xkeff_abd9cdf715d4500994915baf9bcfa4431}{setNbCycleToDiscard}}(p.NbDiscardCycle);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00328}00328             keff-\/>\mbox{\hyperlink{class_t_m_xkeff_a211ef49bda3e8c994126533647add4c7}{setNbParticlePerCycle}}(p.Nparticles);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00329}00329             keff-\/>\mbox{\hyperlink{class_t_m_xkeff_a2465a20d6f7de66891cdf4e2c8f0fc46}{setNbTotCycle}}(p.Ncycle);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00330}00330             \textcolor{keywordflow}{if} (p.originKeff.size() > 0) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00331}00331                 keff-\/>\mbox{\hyperlink{class_t_m_xkeff_aeccad85894181d7944ee7fc82ac5d02d}{addOriginPosition}}(G4ThreeVector(p.originKeff[0], p.originKeff[1], p.originKeff[2]));}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00332}00332             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00333}00333 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00334}00334             \textcolor{keywordflow}{if}(p.TimeOfRun == 0)}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00335}00335             \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00336}00336                 keff-\/>\mbox{\hyperlink{class_t_m_xkeff_aa783282f552468837665d0b0bfec6f53}{setOutputFileName}}(p.str\_ROOTFileName+\textcolor{stringliteral}{"{}\_keff.txt"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00337}00337                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < keff-\/>\mbox{\hyperlink{class_t_m_xkeff_af14b9d4217f4f1dfd681d65c10d7aa66}{getNbTotCycle}}(); i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00338}00338                 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00339}00339                     std::cout<<\textcolor{stringliteral}{"{}Simulation of: "{}}<<keff-\/>\mbox{\hyperlink{class_t_m_xkeff_af95ebf42744dfb2899b0572925928140}{getNbNeutronPerCycle}}() << \textcolor{stringliteral}{"{} particles"{}}<<std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00340}00340                     runManager-\/>BeamOn(keff-\/>\mbox{\hyperlink{class_t_m_xkeff_af95ebf42744dfb2899b0572925928140}{getNbNeutronPerCycle}}());}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00341}00341                 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00342}00342             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00343}00343             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00344}00344             \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00345}00345                 \textcolor{keywordtype}{double} irradiationTimePassed = 0.;\textcolor{keywordtype}{int} count = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00346}00346                 \textcolor{keywordflow}{while}(irradiationTimePassed < p.TimeOfRun)}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00347}00347                 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00348}00348                     count++;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00349}00349                     G4GeometryManager::GetInstance()-\/>CloseGeometry();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00350}00350 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00351}00351                     keff-\/>\mbox{\hyperlink{class_t_m_xkeff_aa783282f552468837665d0b0bfec6f53}{setOutputFileName}}(p.str\_ROOTFileName+\textcolor{stringliteral}{"{}\_keff"{}}+to\_string(count)+\textcolor{stringliteral}{"{}.txt"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00352}00352                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < keff-\/>\mbox{\hyperlink{class_t_m_xkeff_af14b9d4217f4f1dfd681d65c10d7aa66}{getNbTotCycle}}(); i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00353}00353                     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00354}00354                         std::cout<<\textcolor{stringliteral}{"{}Simulation of: "{}}<<keff-\/>\mbox{\hyperlink{class_t_m_xkeff_af95ebf42744dfb2899b0572925928140}{getNbNeutronPerCycle}}() << \textcolor{stringliteral}{"{} particles"{}}<<std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00355}00355                         runManager-\/>BeamOn(keff-\/>\mbox{\hyperlink{class_t_m_xkeff_af95ebf42744dfb2899b0572925928140}{getNbNeutronPerCycle}}());}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00356}00356                     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00357}00357                     \textcolor{keyword}{const} \mbox{\hyperlink{class_run_action}{RunAction}} *runaction = \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const }\mbox{\hyperlink{class_run_action}{RunAction}}*\textcolor{keyword}{>} (runManager-\/>GetUserRunAction());}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00358}00358                     irradiationTimePassed = runaction-\/>m\_timePassed;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00359}00359                     keff-\/>\mbox{\hyperlink{class_t_m_xkeff_a9739644a1e8af1ab9cc8ea6feeceb1d4}{reinitialize}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00360}00360                     runManager-\/>GeometryHasBeenModified();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00361}00361                     runManager-\/>PhysicsHasBeenModified();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00362}00362                 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00363}00363             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00364}00364             \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00365}00365         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00366}00366         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TMXOption::IsMCCubicVolumeCalculation(p.int\_Option)) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00367}00367             G4Navigator *navigator = \textcolor{keyword}{new} G4Navigator();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00368}00368             \mbox{\hyperlink{class_t_m_x_m_c_cubic_volume}{TMXMCCubicVolume}} *MCCubicVolume = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_m_c_cubic_volume}{TMXMCCubicVolume}}(\&p);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00369}00369             MCCubicVolume-\/>setNumberOfPoints(p.Nparticles);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00370}00370             MCCubicVolume-\/>setErrorLimit(p.ErrorLimitMCCubicVolume);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00371}00371             MCCubicVolume-\/>setNavigator(navigator);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00372}00372             \textcolor{keywordflow}{if} (p.MCCubicVolumeLVname.length() > 0) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00373}00373                 MCCubicVolume-\/>setSlicedLogicalVolume(p.MCCubicVolumeLVname);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00374}00374                 MCCubicVolume-\/>setSliceBoundariesZ(p.minZ, p.maxZ, p.nbinsZ);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00375}00375             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00376}00376             MCCubicVolume-\/>run();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00377}00377             \textcolor{keywordflow}{return}(0);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00378}00378         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00379}00379         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00380}00380         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00381}00381 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00382}00382             \textcolor{comment}{// Simulation of multiple run with evolution of the materials}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00383}00383 \textcolor{comment}{//            runManager-\/>Initialize();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00384}00384 \textcolor{comment}{//            runManager-\/>BeamOn(p.Nparticles);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00385}00385 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00386}00386             runManager-\/>Initialize();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00387}00387             \textcolor{keywordtype}{double} irradiationTimePassed = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00388}00388             \textcolor{keywordflow}{if}(p.TimeOfRun == 0)}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00389}00389             \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00390}00390                 G4GeometryManager::GetInstance()-\/>CloseGeometry();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00391}00391 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00392}00392                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i<p.Nrun; i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00393}00393                     runManager-\/>BeamOn(p.Nparticles);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00394}00394             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00395}00395             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00396}00396             \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00397}00397                 \textcolor{keywordflow}{while}(irradiationTimePassed < p.TimeOfRun)}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00398}00398                 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00399}00399                     G4GeometryManager::GetInstance()-\/>CloseGeometry();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00400}00400 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00401}00401                     runManager-\/>BeamOn(p.Nparticles);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00402}00402                     \textcolor{keyword}{const} \mbox{\hyperlink{class_run_action}{RunAction}} *runaction = \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const }\mbox{\hyperlink{class_run_action}{RunAction}}*\textcolor{keyword}{>} (runManager-\/>GetUserRunAction());}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00403}00403                     irradiationTimePassed = runaction-\/>m\_timePassed;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00404}00404 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00405}00405                     runManager-\/>GeometryHasBeenModified();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00406}00406                     runManager-\/>PhysicsHasBeenModified();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00407}00407                 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00408}00408             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00409}00409 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00410}00410 \textcolor{comment}{//             // Merging results of neutronic calculation (ksrc, keff, G0, G, etc.) in a results file .txt}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00411}00411 \textcolor{comment}{//             for( int i\_step = 0; i\_step<p.Nrun; ++i\_step) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00412}00412 \textcolor{comment}{//                 std::cout << "{}Start Merge "{} << G4StateManager::GetStateManager()-\/>GetStateString(G4StateManager::GetStateManager()-\/>GetCurrentState()) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00413}00413 \textcolor{comment}{//                 if (n\_Threads > 1) \{// Merge threads results in one file}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00414}00414 \textcolor{comment}{//                     mergedOutput.WriteResults(p.str\_ROOTFileName + "{}\_"{} + std::to\_string(0), p.int\_Option, i\_step);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00415}00415 \textcolor{comment}{//                 \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00416}00416 \textcolor{comment}{//             \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00417}00417 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00418}00418 \textcolor{comment}{//            runManager-\/>Initialize();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00419}00419 \textcolor{comment}{//            BurnupManager* burnup = BurnupManager::getInstance();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00420}00420 \textcolor{comment}{//            burnup-\/>setParameters(p);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00421}00421 \textcolor{comment}{//            burnup-\/>start(runManager);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00422}00422 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00423}00423 \textcolor{comment}{/*        TMXBurnup burnup;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00424}00424 \textcolor{comment}{        for(int i\_step = 0; i\_step<p.Nrun; ++i\_step) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00425}00425 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00426}00426 \textcolor{comment}{            std::cout << "{}Run "{} << i\_step << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00427}00427 \textcolor{comment}{//             runManager-\/>Initialize();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00428}00428 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00429}00429 \textcolor{comment}{            // Run the simulation with p.Nparticles events}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00430}00430 \textcolor{comment}{            // Initialization of GEANT4}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00431}00431 \textcolor{comment}{//             std::cout << "{}intialize"{} << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00432}00432 \textcolor{comment}{//             runManager-\/>SetUserInitialization(phys);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00433}00433 \textcolor{comment}{//             runManager-\/>Initialize();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00434}00434 \textcolor{comment}{//             std::cout << "{}RunInitialization"{} << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00435}00435 \textcolor{comment}{//             runManager-\/>RunInitialization();  // Does not work in this context}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00436}00436 \textcolor{comment}{//             std::cout << "{}InitializePhysics"{} << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00437}00437 \textcolor{comment}{//             G4GeometryManager::GetInstance()-\/>OpenGeometry(G4PhysicalVolumeStore::GetInstance()-\/>GetVolume("{}Universe"{}));}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00438}00438 \textcolor{comment}{//             runManager-\/>InitializePhysics();  // Does not work in this context}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00439}00439 \textcolor{comment}{//             G4GeometryManager::GetInstance()-\/>CloseGeometry(G4PhysicalVolumeStore::GetInstance()-\/>GetVolume("{}Universe"{}));}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00440}00440 \textcolor{comment}{            std::cout << "{}Close geom "{} << G4StateManager::GetStateManager()-\/>GetStateString(G4StateManager::GetStateManager()-\/>GetCurrentState()) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00441}00441 \textcolor{comment}{            G4GeometryManager::GetInstance()-\/>CloseGeometry();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00442}00442 \textcolor{comment}{            std::cout << "{}BeamOn "{} << G4StateManager::GetStateManager()-\/>GetStateString(G4StateManager::GetStateManager()-\/>GetCurrentState()) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00443}00443 \textcolor{comment}{            runManager-\/>BeamOn(p.Nparticles);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00444}00444 \textcolor{comment}{            std::cout << "{}open geom "{} << G4StateManager::GetStateManager()-\/>GetStateString(G4StateManager::GetStateManager()-\/>GetCurrentState()) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00445}00445 \textcolor{comment}{            G4GeometryManager::GetInstance()-\/>OpenGeometry();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00446}00446 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00447}00447 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00448}00448 \textcolor{comment}{            std::cout << "{}Start Burnup "{} << G4StateManager::GetStateManager()-\/>GetStateString(G4StateManager::GetStateManager()-\/>GetCurrentState()) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00449}00449 \textcolor{comment}{            if(p.TimeOfRun > 0) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00450}00450 \textcolor{comment}{                // Set New Materials to logical volumes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00451}00451 \textcolor{comment}{                G4LogicalVolumeStore *LVStore = G4LogicalVolumeStore::GetInstance();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00452}00452 \textcolor{comment}{                burnup.ChangeMaterial(p, LVStore, batemanDecay, i\_step);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00453}00453 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00454}00454 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00455}00455 \textcolor{comment}{                // Change the geometry with new materials}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00456}00456 \textcolor{comment}{                std::cout << "{}GeometryHasBeenModified "{} << G4StateManager::GetStateManager()-\/>GetStateString(G4StateManager::GetStateManager()-\/>GetCurrentState()) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00457}00457 \textcolor{comment}{                runManager-\/>GeometryHasBeenModified();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00458}00458 \textcolor{comment}{                std::cout << "{}PhysicsHasBeenModified "{} << G4StateManager::GetStateManager()-\/>GetStateString(G4StateManager::GetStateManager()-\/>GetCurrentState()) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00459}00459 \textcolor{comment}{                runManager-\/>PhysicsHasBeenModified();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00460}00460 \textcolor{comment}{//                 std::cout << "{}CutOffHasBeenModified "{} << G4StateManager::GetStateManager()-\/>GetStateString(G4StateManager::GetStateManager()-\/>GetCurrentState()) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00461}00461 \textcolor{comment}{//                 runManager-\/>CutOffHasBeenModified();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00462}00462 \textcolor{comment}{// //             runManager-\/>RunInitialization();  // Does not work in this context}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00463}00463 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00464}00464 \textcolor{comment}{//                 std::cout << "{}InitializePhysics "{} << G4StateManager::GetStateManager()-\/>GetStateString(G4StateManager::GetStateManager()-\/>GetCurrentState()) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00465}00465 \textcolor{comment}{//             runManager-\/>InitializePhysics();  //}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00466}00466 \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00467}00467 \textcolor{comment}{/*                std::cout << "{}\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****"{} << (G4Material::GetNumberOfMaterials()) << "{}\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****"{} << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00468}00468 \textcolor{comment}{// //                 G4RunManagerKernel::GetRunManagerKernel()-\/>UpdateRegion();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00469}00469 \textcolor{comment}{// //                   CheckRegions(); -\/> private of G4RunManagerKernel, if necessary -\/> change state flag in GetRunManagerKernel()-\/>UpdateRegion() to Idle to call these methods}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00470}00470 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00471}00471 \textcolor{comment}{//                         G4RegionStore::GetInstance()-\/>UpdateMaterialList(parallelWorld-\/>GiveWorld());}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00472}00472 \textcolor{comment}{//                         G4ProductionCutsTable::GetProductionCutsTable()-\/>UpdateCoupleTable(parallelWorld-\/>GiveWorld());}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00473}00473 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00474}00474 \textcolor{comment}{                std::cout << "{}\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t**** "{} << (G4Element::GetNumberOfElements()) << "{} \(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****"{} << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00475}00475 \textcolor{comment}{                std::cout << "{}\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t**** "{} << (G4Isotope::GetNumberOfIsotopes()) << "{} \(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****\(\backslash\)n\(\backslash\)t****"{} << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00476}00476 \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00477}00477 \textcolor{comment}{/*                std::cout<<"{}\(\backslash\)n Inside MAIN"{}<<std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00478}00478 \textcolor{comment}{                for (G4LogicalVolumeStore::iterator it\_LV=LVStore-\/>begin(); it\_LV!=LVStore-\/>end(); ++it\_LV) \{ // Read the logical volume store}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00479}00479 \textcolor{comment}{                    G4LogicalVolume *LV = *it\_LV; // Define the logical volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00480}00480 \textcolor{comment}{                    std::string LVName = LV-\/>GetName();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00481}00481 \textcolor{comment}{                    if(LVName.find("{}Scoring"{}) == std::string::npos ) \{  // Do not consider the parallel Scoring World or the Scoring world}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00482}00482 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00483}00483 \textcolor{comment}{                        if (LVName == "{}lfuelmat23"{})}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00484}00484 \textcolor{comment}{                        \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00485}00485 \textcolor{comment}{                            G4Material* LVMaterial = LV-\/>GetMaterial();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00486}00486 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00487}00487 \textcolor{comment}{                            double LVMass = LV-\/>GetMass()/g;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00488}00488 \textcolor{comment}{                            const G4double* MassFractionVector    = LVMaterial-\/>GetFractionVector();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00489}00489 \textcolor{comment}{                            for(long unsigned int j=0; j < LVMaterial-\/>GetNumberOfElements(); ++j) \{  // Read every elements in the material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00490}00490 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00491}00491 \textcolor{comment}{                                const G4Element* Element = LVMaterial-\/>GetElement(j);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00492}00492 \textcolor{comment}{                                G4double* RelativAbundanceVec= Element-\/>GetRelativeAbundanceVector();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00493}00493 \textcolor{comment}{                                for(long unsigned int i=0; i < Element-\/>GetNumberOfIsotopes(); ++i) \{ // Read every isotopes in the element}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00494}00494 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00495}00495 \textcolor{comment}{                                    const G4Isotope* Isotope = Element-\/>GetIsotope(i);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00496}00496 \textcolor{comment}{                                    int IZA = Isotope-\/>GetZ()*10000 + Isotope-\/>GetN()*10 + Isotope-\/>Getm();  // IZA identifier}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00497}00497 \textcolor{comment}{                                    double MolarMass = Isotope-\/>GetN(); // Isotope-\/>GetA()/(g/(mole*amu\_c2));}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00498}00498 \textcolor{comment}{                                    long double N0 = MassFractionVector[j] * RelativAbundanceVec[i] * LVMass / MolarMass * CLHEP::Avogadro;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00499}00499 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00500}00500 \textcolor{comment}{                                    std::cout<<IZA<<"{} "{}<< N0<<std::endl; // Store N0 for post-\/analysis}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00501}00501 \textcolor{comment}{                                \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00502}00502 \textcolor{comment}{                            \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00503}00503 \textcolor{comment}{                        \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00504}00504 \textcolor{comment}{                    \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00505}00505 \textcolor{comment}{                \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00506}00506 \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00507}00507 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00508}00508 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00509}00509 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00510}00510 \textcolor{comment}{                burnup.WriteResultsPerRun(p.str\_ROOTFileName, i\_step);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00511}00511 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00512}00512 \textcolor{comment}{            \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00513}00513 \textcolor{comment}{         \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00514}00514 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00515}00515 \textcolor{comment}{        if(p.TimeOfRun > 0)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00516}00516 \textcolor{comment}{        \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00517}00517 \textcolor{comment}{            G4LogicalVolumeStore *LVStore = G4LogicalVolumeStore::GetInstance();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00518}00518 \textcolor{comment}{            burnup.ChangeMaterial(p, LVStore, batemanDecay, p.Nrun);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00519}00519 \textcolor{comment}{            std::cout << "{}GeometryHasBeenModified "{} << G4StateManager::GetStateManager()-\/>GetStateString(G4StateManager::GetStateManager()-\/>GetCurrentState()) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00520}00520 \textcolor{comment}{            runManager-\/>GeometryHasBeenModified();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00521}00521 \textcolor{comment}{            std::cout << "{}PhysicsHasBeenModified "{} << G4StateManager::GetStateManager()-\/>GetStateString(G4StateManager::GetStateManager()-\/>GetCurrentState()) << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00522}00522 \textcolor{comment}{            runManager-\/>PhysicsHasBeenModified();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00523}00523 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00524}00524 \textcolor{comment}{            burnup.WriteResultsPerRun(p.str\_ROOTFileName, p.Nrun);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00525}00525 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00526}00526 \textcolor{comment}{            if(p.CoolingTime > 0)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00527}00527 \textcolor{comment}{            \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00528}00528 \textcolor{comment}{                burnup.ChangeMaterial(p, LVStore, batemanDecay, p.Nrun+1);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00529}00529 \textcolor{comment}{                burnup.WriteResultsPerRun(p.str\_ROOTFileName, p.Nrun+1);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00530}00530 \textcolor{comment}{            \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00531}00531 \textcolor{comment}{        \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00532}00532 \textcolor{comment}{//      burnup.WriteDecayedResultsPerRun(p.str\_ROOTFileName, p.Nrun);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00533}00533 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00534}00534 \textcolor{comment}{        // Results file is used to record evolution of the composition}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00535}00535 \textcolor{comment}{        // Write transmutation results}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00536}00536 \textcolor{comment}{//         if(p.Nrun > 1) \{ burnup.WriteResults(p.str\_ROOTFileName);\}*/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00537}00537         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00538}00538     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00539}00539     \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00540}00540         runManager-\/>SetNumberOfThreads(1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00541}00541 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00542}00542         \textcolor{comment}{//get the pointer to the User Interface manager}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00543}00543         G4UImanager* UImanager = G4UImanager::GetUIpointer();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00544}00544 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00545}00545         \textcolor{comment}{// interactive mode}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00546}00546         UImanager-\/>ApplyCommand(\textcolor{stringliteral}{"{}/control/execute init\_vis.mac"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00547}00547         ui-\/>SessionStart();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00548}00548         \textcolor{keyword}{delete} ui;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00549}00549     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00550}00550 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00551}00551 \textcolor{comment}{//     delete runManager;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00552}00552     \textcolor{keyword}{delete} visManager;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00553}00553   \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00554}00554   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00555}00555       std::cerr << \textcolor{stringliteral}{"{}The default input parameter file "{}} << fileName << \textcolor{stringliteral}{"{} does not exist.\(\backslash\)nPlease specify explicitly the input file.\(\backslash\)nEnd of the execution."{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00556}00556 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00557}00557   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00558}00558 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00559}00559 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00560}00560     \textcolor{comment}{// G4Random::SetSeed(0) to change the seed if statistical variation calculation is needed}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00561}00561 \textcolor{comment}{//     CLHEP::RanluxEngine defaultEngine( 1234567, 4 );}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00562}00562 \textcolor{comment}{//     G4Random::setTheEngine( \&defaultEngine );}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00563}00563 \textcolor{comment}{//     G4int seed = time( NULL );}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00564}00564 \textcolor{comment}{//     G4Random::setTheSeed( seed );}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2ads__transmutex_8cc_source_l00565}00565     \textcolor{comment}{// Define a phase/space file for the spallation source and not to simulate the neutron source each time?}}
+
+\end{DoxyCode}

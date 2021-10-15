@@ -1,0 +1,49 @@
+\hypertarget{xn6int_8_f_source}{}\doxysection{xn6int.\+F}
+\label{xn6int_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6int.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6int.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 31/05/96  18.32.10  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xn6int(EIN,EMIN,EMAX,HINT)}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00006}00006 \textcolor{comment}{*     Integrates file6 distribution from EMIN to EMAX and from         *}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00007}00007 \textcolor{comment}{*     cost -\/1 to +1                                                    *}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00009}00009 \textcolor{comment}{*     EIN    incoming neutron energy in eV (input)                     *}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00010}00010 \textcolor{comment}{*     EMIN   minimum outgoing neutron energy in eV (input)             *}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00011}00011 \textcolor{comment}{*     EMAX   maximum outgoing neutron energy in eV (input)             *}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00012}00012 \textcolor{comment}{*     HINT   value of the integral (output)                            *}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00013}00013 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00014}00014 \textcolor{comment}{*     all energy values are in the LAB system                          *}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00015}00015 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00016}00016 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00017}00017       \textcolor{keywordtype}{DOUBLE PRECISION} S1,S2,H,HALF}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00018}00018       parameter(nsimps=100)}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00019}00019       parameter(half=5d-\/1)}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00020}00020 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00021}00021 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00023}00023 \textcolor{comment}{* -\/-\/-\/> Do Simpson's Rule integration}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00024}00024       h=half*(emax-\/emin)/nsimps}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00025}00025       \textcolor{keyword}{CALL }xn6to5(ein,emin,prob1)}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00026}00026       \textcolor{keyword}{CALL }xn6to5(ein,emax,prob2)}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00027}00027       e3=emax-\/h}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00028}00028       \textcolor{keyword}{CALL }xn6to5(ein,e3,prob3)}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Simpson's rule}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00030}00030       s1=0}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00031}00031       s2=0}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00032}00032       \textcolor{keywordflow}{DO} 10 jsimps=1,nsimps-\/1}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00033}00033          eodd=emin+(2*jsimps-\/1)*h}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00034}00034          eeve=emin+ 2*jsimps   *h}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00035}00035          \textcolor{keyword}{CALL }xn6to5(ein,eodd,podd)}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00036}00036          \textcolor{keyword}{CALL }xn6to5(ein,eeve,peve)}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00037}00037          s1=s1+podd}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00038}00038          s2=s2+peve}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00039}00039    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00040}00040       s1=s1+prob3}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00041}00041       hint=h*(prob1+prob2+4*s1+2*s2)/3.}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00042}00042 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6int_8_f_source_l00043}00043       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

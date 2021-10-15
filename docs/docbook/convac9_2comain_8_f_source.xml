@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_convac9_2comain_8_f_source" xml:lang="en-US">
+<title>comain.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/convac9/comain.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_convac9_2comain_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.03/07&#32;27/09/96&#32;&#32;15.19.10&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;23/08/95</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">program</emphasis>&#32;comain
+<anchor xml:id="_convac9_2comain_8_f_source_1l00004"/>00004 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Convert&#32;European&#32;Activation&#32;File&#32;to&#32;ENDF/B-VI&#32;format</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00006"/>00006 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;The&#32;EAF&#32;is&#32;a&#32;sequence&#32;of&#32;TAB1&#32;records&#32;preceded&#32;by&#32;two&#32;lines&#32;of</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;comment&#32;and&#32;a&#32;HEAD&#32;record&#32;with&#32;the&#32;format:</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00009"/>00009 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(2e11.4,4i11,i4,i2,i3)</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ZA,&#32;AWR,&#32;0,&#32;ITAPS,&#32;0,&#32;0,&#32;MAT,&#32;MF,&#32;MT</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00012"/>00012 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;ZA&#32;is&#32;correct,&#32;but&#32;AWR&#32;should&#32;be&#32;the&#32;atomic&#32;mass&#32;in&#32;neutron</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;units,&#32;and&#32;this&#32;is&#32;only&#32;occasionally&#32;correct&#32;in&#32;the&#32;file.&#32;The</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;material&#32;code&#32;is&#32;obtained&#32;as&#32;100*Z+MOD(A,100)&#32;for&#32;the&#32;fundamental</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;state.&#32;For&#32;isomeric&#32;states&#32;30+LISO*20&#32;is&#32;added&#32;to&#32;the</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00017"/>00017 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;mat&#32;number,&#32;where&#32;LISO&#32;is&#32;the&#32;metastable&#32;state&#32;number.</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00018"/>00018 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00019"/>00019 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;The&#32;reaction&#32;codes&#32;follow&#32;the&#32;ENDF/B-VI&#32;rule,&#32;but&#32;the&#32;isomeric</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00020"/>00020 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;state&#32;of&#32;the&#32;product&#32;is&#32;indicated&#32;adding&#32;300*LISO&#32;to&#32;the&#32;reaction</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00021"/>00021 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;code.</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00022"/>00022 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00023"/>00023 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;A&#32;proper&#32;ENDF/B-VI&#32;file&#32;cannot&#32;be&#32;made&#32;because&#32;FILE&#32;2&#32;will&#32;be</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00024"/>00024 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;absent,&#32;but&#32;the&#32;result&#32;of&#32;the&#32;following&#32;program&#32;can&#32;be&#32;passed</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00025"/>00025 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;through&#32;LINEAR&#32;and&#32;SIGMA1&#32;programs&#32;to&#32;obtain&#32;linearised&#32;Doppler</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;broadened&#32;cross&#32;sections.&#32;From&#32;there&#32;on&#32;the&#32;file&#32;is&#32;(almost)</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00027"/>00027 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;an&#32;ordinary&#32;PENDF&#32;file&#32;from&#32;which&#32;group&#32;condensed&#32;cross&#32;sections</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00028"/>00028 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;can&#32;be&#32;derived.</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00029"/>00029 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00030"/>00030 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00031"/>00031 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xctb1c.inc&quot;</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00032"/>00032 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcnamf.inc&quot;</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00033"/>00033 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcseet.inc&quot;</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00034"/>00034 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xceafi.inc&quot;</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00035"/>00035 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcmf01.inc&quot;</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00036"/>00036 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcdbna.inc&quot;</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00037"/>00037 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;parameter(maxsto=500)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">common</emphasis>&#32;/&#32;xcstor&#32;/&#32;hmem(maxsto)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00040"/>00040 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;parameter(itapd=98,itaps=99)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;parameter(itapa=12,neaff=5)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*8</emphasis>&#32;xnrena,&#32;chrena
+<anchor xml:id="_convac9_2comain_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*11</emphasis>&#32;xnelna
+<anchor xml:id="_convac9_2comain_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*66</emphasis>&#32;chtext
+<anchor xml:id="_convac9_2comain_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*255</emphasis>&#32;chfili,&#32;chfilo
+<anchor xml:id="_convac9_2comain_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">logical</emphasis>&#32;lskips
+<anchor xml:id="_convac9_2comain_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">data</emphasis>&#32;mathol&#32;/&#32;-99&#32;/
+<anchor xml:id="_convac9_2comain_8_f_source_1l00049"/>00049 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00050"/>00050 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00051"/>00051 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00052"/>00052 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00053"/>00053 <emphasis role="comment">*&#32;---&#32;Init&#32;for&#32;filenames</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xninit(maxsto,<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00055"/>00055 <emphasis role="comment">*&#32;---&#32;Load&#32;EET&#32;nuclear&#32;database,&#32;one&#32;entry&#32;per&#32;isomer</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnleet(chetdb)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00057"/>00057 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00058"/>00058 <emphasis role="comment">*&#32;---&#32;Open&#32;temporary&#32;direct&#32;access&#32;file&#32;for&#32;storing&#32;info</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">open</emphasis>(unit=itapd,file=<emphasis role="stringliteral">&apos;eaf.scratch&apos;</emphasis>,form=<emphasis role="stringliteral">&apos;formatted&apos;</emphasis>,recl=75,
+<anchor xml:id="_convac9_2comain_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;+access=<emphasis role="stringliteral">&apos;direct&apos;</emphasis>,status=<emphasis role="stringliteral">&apos;unknown&apos;</emphasis>)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00061"/>00061 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00062"/>00062 <emphasis role="comment">*&#32;---&#32;Initialise&#32;pointers&#32;and&#32;counters</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;nrecw=0
+<anchor xml:id="_convac9_2comain_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;nrecwo=0
+<anchor xml:id="_convac9_2comain_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;nrecs=0
+<anchor xml:id="_convac9_2comain_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;matho=-1
+<anchor xml:id="_convac9_2comain_8_f_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;mfho=-1
+<anchor xml:id="_convac9_2comain_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;mtho=-1
+<anchor xml:id="_convac9_2comain_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;nsec=0
+<anchor xml:id="_convac9_2comain_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(6,10000)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00071"/>00071 10000&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;Please&#32;enter&#32;the&#32;name&#32;of&#32;the&#32;input&#32;file&apos;</emphasis>)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(5,<emphasis role="stringliteral">&apos;(a)&apos;</emphasis>)&#32;chfili
+<anchor xml:id="_convac9_2comain_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(6,10100)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00074"/>00074 10100&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;Please&#32;enter&#32;the&#32;name&#32;of&#32;the&#32;output&#32;file&apos;</emphasis>)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(5,<emphasis role="stringliteral">&apos;(a)&apos;</emphasis>)&#32;chfilo
+<anchor xml:id="_convac9_2comain_8_f_source_1l00076"/>00076 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00077"/>00077 <emphasis role="comment">*&#32;---&#32;Open&#32;input&#32;database&#32;file</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">open</emphasis>(itapa,file=chfili,status=<emphasis role="stringliteral">&apos;old&apos;</emphasis>,action=<emphasis role="stringliteral">&apos;read&apos;</emphasis>)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00079"/>00079 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00080"/>00080 <emphasis role="comment">*&#32;---&#32;Reading&#32;loop,&#32;to&#32;the&#32;end&#32;of&#32;the&#32;file</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00081"/>00081 &#32;&#32;&#32;10&#32;<emphasis role="keyword">read</emphasis>(itapa,11300,<emphasis role="keyword">end</emphasis>=30)&#32;chtext,&#32;math,&#32;mfh,&#32;mth
+<anchor xml:id="_convac9_2comain_8_f_source_1l00082"/>00082 <emphasis role="comment">*&#32;---&#32;If&#32;MEND&#32;or&#32;FEND&#32;record&#32;read&#32;again</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(math.le.0.or.mfh.le.0)&#32;<emphasis role="keywordflow">goto</emphasis>&#32;10
+<anchor xml:id="_convac9_2comain_8_f_source_1l00084"/>00084 <emphasis role="comment">*&#32;---&#32;If&#32;SEND&#32;record,&#32;cleanup&#32;previous&#32;section,&#32;if&#32;any,&#32;and&#32;read&#32;again</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(mth.le.0.and.nsec.gt.0)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,4)&#32;=&#32;nrecs
+<anchor xml:id="_convac9_2comain_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,5)&#32;=&#32;0
+<anchor xml:id="_convac9_2comain_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">goto</emphasis>&#32;10
+<anchor xml:id="_convac9_2comain_8_f_source_1l00089"/>00089 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(math.ne.matho.or.mfh.ne.mfho.or.mth.ne.mtho)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00091"/>00091 <emphasis role="comment">*&#32;---&#32;A&#32;new&#32;section</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecwi=nrecw
+<anchor xml:id="_convac9_2comain_8_f_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mfho=mfh
+<anchor xml:id="_convac9_2comain_8_f_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mtho=mth
+<anchor xml:id="_convac9_2comain_8_f_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mfmt=mfh*1000+mth
+<anchor xml:id="_convac9_2comain_8_f_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecs=0
+<anchor xml:id="_convac9_2comain_8_f_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(chtext,10600)&#32;za,awr,l99
+<anchor xml:id="_convac9_2comain_8_f_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(math.ne.matho
+<anchor xml:id="_convac9_2comain_8_f_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;.or.(za.gt.99000.and.mfh.eq.1.and.mth.eq.451))&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00100"/>00100 <emphasis role="comment">*&#32;---&#32;If&#32;Z&gt;=99&#32;math&#32;numbers&#32;are&#32;the&#32;same&#32;for&#32;all&#32;isomers.</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00101"/>00101 <emphasis role="comment">*&#32;---&#32;If&#32;new&#32;material&#32;load&#32;isomer&#32;information</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chtext,math,&#32;mfh,&#32;mth,&#32;nrecw)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecs=nrecs+1
+<anchor xml:id="_convac9_2comain_8_f_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapa,11300,<emphasis role="keyword">end</emphasis>=30)&#32;chtext,&#32;math,&#32;mfh,&#32;mth
+<anchor xml:id="_convac9_2comain_8_f_source_1l00105"/>00105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(chtext,10300)&#32;liso
+<anchor xml:id="_convac9_2comain_8_f_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izamat=nint(za)*10+liso
+<anchor xml:id="_convac9_2comain_8_f_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chelna=xnelna(izamat)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00108"/>00108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(6,10500)&#32;chelna
+<anchor xml:id="_convac9_2comain_8_f_source_1l00109"/>00109 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;matho=math
+<anchor xml:id="_convac9_2comain_8_f_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(mfh.eq.3)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00112"/>00112 <emphasis role="comment">*&#32;---&#32;If&#32;section&#32;3,&#32;check&#32;that&#32;it&#32;is&#32;not&#32;repeated</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;20&#32;js=1,nsec
+<anchor xml:id="_convac9_2comain_8_f_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipoint(js,1).eq.izamat.and.ipoint(js,2).eq.mfmt)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00116"/>00116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(6,10400)&#32;chelna,&#32;ipoint(js,2)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00117"/>00117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;Repeated&#32;section&apos;</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00118"/>00118 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00119"/>00119 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00120"/>00120 <emphasis role="comment">*&#32;---&#32;Real&#32;reaction&#32;code</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mtendf=mod(mth,300)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00122"/>00122 <emphasis role="comment">*&#32;---&#32;LISO&#32;of&#32;product</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00123"/>00123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lisos=mth/300
+<anchor xml:id="_convac9_2comain_8_f_source_1l00124"/>00124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>((l99.eq.99.and.lisos.ne.0).or.
+<anchor xml:id="_convac9_2comain_8_f_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(lisos.ne.l99.and.l99.ne.99))&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00126"/>00126 <emphasis role="comment">*&#32;---&#32;This&#32;should&#32;never&#32;happen</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00127"/>00127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(6,10700)&#32;l99,lisos
+<anchor xml:id="_convac9_2comain_8_f_source_1l00128"/>00128 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00129"/>00129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(mtendf.eq.18)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00130"/>00130 <emphasis role="comment">*&#32;---&#32;Treat&#32;son&#32;isomer&#32;of&#32;fission&#32;separately</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00131"/>00131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(mth.ne.mtendf.or.l99.ne.99)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00132"/>00132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(6,10200)&#32;chelna,mth,l99
+<anchor xml:id="_convac9_2comain_8_f_source_1l00133"/>00133 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00134"/>00134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izason=0
+<anchor xml:id="_convac9_2comain_8_f_source_1l00135"/>00135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chelns=<emphasis role="stringliteral">&apos;Fiss&#32;Fragm&apos;</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00136"/>00136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00137"/>00137 <emphasis role="comment">*&#32;---&#32;Find&#32;son&#32;isomer&#32;for&#32;reaction</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00138"/>00138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xngson(izamat,mtendf,izason)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00139"/>00139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izason=izason+lisos
+<anchor xml:id="_convac9_2comain_8_f_source_1l00140"/>00140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chelns=xnelna(izason)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00141"/>00141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(l99.eq.99)&#32;chelns(11:11)=<emphasis role="stringliteral">&apos;*&apos;</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00142"/>00142 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00143"/>00143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chrena=xnrena(mth)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00144"/>00144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(6,11000)&#32;chrena,chelns
+<anchor xml:id="_convac9_2comain_8_f_source_1l00145"/>00145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(l99.eq.0.or.lisos.gt.0)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00146"/>00146 <emphasis role="comment">*&#32;---&#32;If&#32;reaction&#32;leads&#32;to&#32;a&#32;specific&#32;isomer,&#32;find&#32;it</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00147"/>00147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mtmp=mth
+<anchor xml:id="_convac9_2comain_8_f_source_1l00148"/>00148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mth=mtendf
+<anchor xml:id="_convac9_2comain_8_f_source_1l00149"/>00149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(mtendf.ne.18)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00150"/>00150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnckis(lskips)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00151"/>00151 <emphasis role="comment">*&#32;---&#32;If&#32;son&#32;isomer&#32;not&#32;there,&#32;skip&#32;reaction</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00152"/>00152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(lskips)&#32;<emphasis role="keywordflow">goto</emphasis>&#32;10
+<anchor xml:id="_convac9_2comain_8_f_source_1l00153"/>00153 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00154"/>00154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mth=mtmp
+<anchor xml:id="_convac9_2comain_8_f_source_1l00155"/>00155 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00156"/>00156 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00157"/>00157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(nsec.ge.maxsec)&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MAXSEC&apos;</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00158"/>00158 <emphasis role="comment">*&#32;---&#32;New&#32;section&#32;can&#32;be&#32;added</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00159"/>00159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nsec=nsec+1
+<anchor xml:id="_convac9_2comain_8_f_source_1l00160"/>00160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,1)=izamat
+<anchor xml:id="_convac9_2comain_8_f_source_1l00161"/>00161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,2)=mfmt
+<anchor xml:id="_convac9_2comain_8_f_source_1l00162"/>00162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,3)=nrecwi
+<anchor xml:id="_convac9_2comain_8_f_source_1l00163"/>00163 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00164"/>00164 <emphasis role="comment">*&#32;---&#32;Add&#32;record&#32;to&#32;temporary&#32;file</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00165"/>00165 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chtext,math,&#32;mfh,&#32;mth,&#32;nrecw)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00166"/>00166 &#32;&#32;&#32;&#32;&#32;&#32;nrecs=nrecs+1
+<anchor xml:id="_convac9_2comain_8_f_source_1l00167"/>00167 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">goto</emphasis>&#32;10
+<anchor xml:id="_convac9_2comain_8_f_source_1l00168"/>00168 <emphasis role="comment">*&#32;---&#32;End&#32;of&#32;file&#32;processing</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00169"/>00169 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00170"/>00170 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">close</emphasis>(itapa)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00171"/>00171 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00172"/>00172 <emphasis role="comment">*&#32;---&#32;Add&#32;files&#32;3&#32;for&#32;as&#32;sum&#32;of&#32;separate&#32;isotopes&#32;productions</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00173"/>00173 <emphasis role="comment">*&#32;---&#32;not&#32;ideal,&#32;but&#32;the&#32;best&#32;we&#32;can&#32;do...</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00174"/>00174 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnf3ad
+<anchor xml:id="_convac9_2comain_8_f_source_1l00175"/>00175 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00176"/>00176 <emphasis role="comment">*&#32;---&#32;Now&#32;write&#32;finally&#32;the&#32;file</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00177"/>00177 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">open</emphasis>(itaps,file=chfilo,status=<emphasis role="stringliteral">&apos;UNKNOWN&apos;</emphasis>)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00178"/>00178 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwfil
+<anchor xml:id="_convac9_2comain_8_f_source_1l00179"/>00179 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">close</emphasis>(itaps)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00180"/>00180 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">close</emphasis>(itapd,status=<emphasis role="stringliteral">&apos;DELETE&apos;</emphasis>)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00181"/>00181 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_convac9_2comain_8_f_source_1l00182"/>00182 10200&#32;<emphasis role="keyword">format</emphasis>(1x,a,<emphasis role="stringliteral">&apos;&#32;for&#32;fission&#32;found&#32;mth&#32;&apos;</emphasis>,i4,<emphasis role="stringliteral">&apos;&#32;L99&#32;&apos;</emphasis>,i6)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00183"/>00183 10300&#32;<emphasis role="keyword">format</emphasis>(33x,i11)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00184"/>00184 10400&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;Material&#32;&apos;</emphasis>,a,<emphasis role="stringliteral">&apos;&#32;section&#32;&apos;</emphasis>,i4,<emphasis role="stringliteral">&apos;&#32;repeated&apos;</emphasis>)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00185"/>00185 10500&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;Now&#32;processing&#32;&apos;</emphasis>,a)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00186"/>00186 10600&#32;<emphasis role="keyword">format</emphasis>(2e11.4,11x,i11)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00187"/>00187 10700&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;L99&#32;=&#32;&apos;</emphasis>,i2,<emphasis role="stringliteral">&apos;&#32;and&#32;isomeric&#32;state&#32;=&#32;&apos;</emphasis>,i1)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00188"/>00188 10800&#32;<emphasis role="keyword">format</emphasis>(2e11.4,4i11,i4,i2,i3)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00189"/>00189 10900&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;Data&#32;from&#32;&apos;</emphasis>,a)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00190"/>00190 11000&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;Reaction&#32;&apos;</emphasis>,a,<emphasis role="stringliteral">&apos;&#32;residual&#32;&apos;</emphasis>,a)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00191"/>00191 11100&#32;<emphasis role="keyword">format</emphasis>(6e11.4,i4,i2,i3,i5)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00192"/>00192 11200&#32;<emphasis role="keyword">format</emphasis>(2e11.4,4i11,i4,i2,i3)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00193"/>00193 11300&#32;<emphasis role="keyword">format</emphasis>(a66,i4,i2,i3)
+<anchor xml:id="_convac9_2comain_8_f_source_1l00194"/>00194 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

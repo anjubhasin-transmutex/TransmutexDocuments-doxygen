@@ -1,0 +1,94 @@
+\hypertarget{xnsphe_8_f_source}{}\doxysection{xnsphe.\+F}
+\label{xnsphe_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xngeom/xnsphe.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xngeom/xnsphe.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  09.38.14  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   17/02/94}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnsphe(HINP,V,OUTP,SC,SNEXT,SAFE,IHIT)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00006}00006 \textcolor{comment}{*     Finds intesection of a particle with a sphere centred in the     *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00007}00007 \textcolor{comment}{*     origin of coordinates:                                           *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00009}00009 \textcolor{comment}{*     HINP      (input) array of 3 with the coordinates of the         *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00010}00010 \textcolor{comment}{*               particle                                               *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00011}00011 \textcolor{comment}{*     V         (input) array of 3 with the particle speed             *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00012}00012 \textcolor{comment}{*     OUTP      (output) array of 3 with the final coordinates         *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00013}00013 \textcolor{comment}{*               of the particle                                        *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00014}00014 \textcolor{comment}{*     SC        (input) sphere radius                                  *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00015}00015 \textcolor{comment}{*     SNEXT     (output) distance to the intersection with the         *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00016}00016 \textcolor{comment}{*               sphere along the particle direction                    *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00017}00017 \textcolor{comment}{*     SAFE      (output) minimum distance to sphere boundary           *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00018}00018 \textcolor{comment}{*     IHIT      (output) intersection flag                             *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00019}00019 \textcolor{comment}{*               = 1 sphere is hit from inside                          *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00020}00020 \textcolor{comment}{*               = -\/1 sphere is hit from outside                        *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00021}00021 \textcolor{comment}{*               = 0 sphere is not hit                                  *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00022}00022 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00023}00023 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00024}00024       \textcolor{keywordtype}{IMPLICIT DOUBLE PRECISION} (a-\/h,o-\/z)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00025}00025       parameter(zero=0,small=1e-\/14)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00026}00026       \textcolor{keywordtype}{LOGICAL} ROTATE}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00027}00027 \textcolor{keywordtype}{      REAL} SC,SNEXT,SAFE,HINP(3),V(3),OUTP(3)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00028}00028       dimension x(6)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00029}00029 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00031}00031 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> Find particle direction}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00033}00033       \textcolor{keyword}{CALL }xndirv(hinp,v,x,costh,sinth,cosph,sinph,rotate)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00034}00034       \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00035}00035 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00036}00036       entry xnsphn(hinp,v,outp,sc,snext,safe,ihit)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00037}00037 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00038}00038 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00039}00039 \textcolor{comment}{*     Same as main entry, but particle speed normalised to 1           *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00040}00040 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00041}00041 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00042}00042 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00044}00044 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Load particle direction}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00046}00046       x(1) = hinp(1)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00047}00047       x(2) = hinp(2)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00048}00048       x(3) = hinp(3)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00049}00049       x(4) = v(1)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00050}00050       x(5) = v(2)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00051}00051       x(6) = v(3)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00052}00052 \textcolor{comment}{* -\/-\/-\/> Here real work starts}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00053}00053    10 c=sc}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00054}00054 \textcolor{comment}{* -\/-\/-\/> Find minimum distance from sphere}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00055}00055       r2   = x(1)**2+x(2)**2+x(3)**2}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00056}00056       safe = abs(c-\/sqrt(r2))}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/> Find scalar product between particle direction and position}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00058}00058       bbh=x(1)*x(4)+x(2)*x(5)+x(3)*x(6)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00059}00059 \textcolor{comment}{* -\/-\/-\/> Find where we are}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00060}00060       cc=r2-\/c**2}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00061}00061       \textcolor{keywordflow}{IF}(cc.LT.zero) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> We are inside the sphere, there is always a non negative distance}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00063}00063 \textcolor{comment}{*      to boundary}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00064}00064          ihit=1}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00065}00065          dnext = -\/bbh+sqrt(bbh**2-\/cc)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00066}00066       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00067}00067 \textcolor{comment}{* -\/-\/-\/> We are outside the sphere, discriminant will tell us}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00068}00068 \textcolor{comment}{*      whether we hit the sphere or not}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00069}00069          delta = bbh**2-\/cc}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00070}00070          \textcolor{keywordflow}{IF}(delta.GE.zero.AND.bbh.LE.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00071}00071 \textcolor{comment}{* -\/-\/-\/> Wo do hit the sphere, take smallest distance to boundary}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00072}00072             ihit=-\/1}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00073}00073             dnext = -\/bbh-\/sqrt(delta)}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00074}00074          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00075}00075 \textcolor{comment}{* -\/-\/-\/> We do not hit the sphere}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00076}00076             ihit=0}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00077}00077             dnext=1e10}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00078}00078 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00079}00079 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00080}00080       \textcolor{keywordflow}{IF}(ihit.NE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00081}00081 \textcolor{comment}{* -\/-\/-\/> If we hit the sphere, propagate particle to boundary}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00082}00082          outp(1) = x(1)+x(4)*dnext}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00083}00083          outp(2) = x(2)+x(5)*dnext}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00084}00084          outp(3) = x(3)+x(6)*dnext}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00085}00085 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00086}00086       snext=dnext}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00087}00087 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnsphe_8_f_source_l00088}00088       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

@@ -1,0 +1,120 @@
+\hypertarget{xnm03v_8_f_source}{}\doxysection{xnm03v.\+F}
+\label{xnm03v_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/convac9/xnm03v.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/convac9/xnm03v.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/01 17/11/95  12.22.49  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00003}00003       \textcolor{keyword}{subroutine }xnm03v}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00004}00004 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00005}00005 \textcolor{comment}{*          Creates a file 3}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00006}00006 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00007}00007 \textcolor{preprocessor}{\#include "{}xctb1c.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00008}00008 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcmk09.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00009}00009 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcmf01.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00010}00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcmf03.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00011}00011 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xceafi.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00012}00012 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcseet.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00013}00013 \textcolor{preprocessor}{}      \textcolor{keywordtype}{character*11} xnform}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00014}00014       \textcolor{keywordtype}{character*66} chtext}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00015}00015       dimension tab3(2*maxpnt)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00016}00016       parameter(itapd=98,itaps=99)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00017}00017 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00018}00018 \textcolor{comment}{* -\/-\/-\/ Writes a section 3 file}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00019}00019       mfh=3}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00020}00020       mfmt=mfh*1000+mth}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00021}00021       \textcolor{keywordflow}{do} 10 js=1,nsec}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00022}00022          \textcolor{keywordflow}{if}(ipoint(js,1).eq.izamat.and.ipoint(js,2).eq.mfmt) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00023}00023             \textcolor{keyword}{write}(6,10000) chelna, ipoint(js,2)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00024}00024 10000 \textcolor{keyword}{format}(\textcolor{stringliteral}{' repeated section for '},a10,\textcolor{stringliteral}{' mfh/mth '},i5)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00025}00025             \textcolor{keywordflow}{goto} 999}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00026}00026 \textcolor{keywordflow}{         endif}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00027}00027    10 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00029}00029       \textcolor{keywordflow}{if}(nsec.ge.maxsec) stop \textcolor{stringliteral}{'Increase MAXMAT'}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00030}00030       nsec=nsec+1}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00031}00031       ipoint(nsec,1)=izamat}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00032}00032       ipoint(nsec,2)=mfmt}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00033}00033       ipoint(nsec,3)=nrecw}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00034}00034 \textcolor{comment}{* Output text for later}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00035}00035       \textcolor{keyword}{call }xnwhea(itapd,za,awr,0,99,0,0,math,3,mth,nrecw)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00036}00036 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/ make sure that all points in section 9 are also in sec 3}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00038}00038       \textcolor{keywordflow}{do} 20 jp=1,np03}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00039}00039          tab3(2*jp-\/1)=tab103(2*jp-\/1)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00040}00040          tab3(2*jp  )=tab103(2*jp  )}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00041}00041    20 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00042}00042       np3=np03}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00043}00043       \textcolor{keyword}{call }xnthin(tab103,np03,npt03,perthi)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00044}00044       np03=npt03}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00045}00045       nbt03(1)=np03}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00046}00046       \textcolor{keywordflow}{do} 60 j=1,npo9}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00047}00047 \textcolor{comment}{* For every every section 9 ...}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00048}00048          \textcolor{keywordflow}{do} 50 jp=1,np09(j)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00049}00049 \textcolor{comment}{* For every energy ...}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00050}00050             xe=tab109(2*jp-\/1,j)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00051}00051 \textcolor{comment}{* See whether it is in section 3}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00052}00052             \textcolor{keywordflow}{do} 30 j3=1,np03}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00053}00053 \textcolor{comment}{* If yes, go to the next energy}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00054}00054                \textcolor{keywordflow}{if}(xe.eq.tab103(2*j3-\/1)) \textcolor{keywordflow}{goto} 50}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00055}00055    30       \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00056}00056 \textcolor{comment}{* If not add it}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00057}00057             np03=np03+1}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00058}00058             \textcolor{keywordflow}{if}(np03.gt.maxpnt) stop \textcolor{stringliteral}{' *** XNMK09: increase maxpnt'}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00059}00059 \textcolor{comment}{* See whether it was in the original section 3}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00060}00060             \textcolor{keywordflow}{do} 40 jj=1,np3}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00061}00061                \textcolor{keywordflow}{if}(xe.eq.tab3(2*jj-\/1)) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00062}00062 \textcolor{comment}{* If yes add it and go to the next energy}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00063}00063                   tab103(2*np03-\/1)=xe}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00064}00064                   tab103(2*np03  )=tab3(2*jj)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00065}00065                   \textcolor{keywordflow}{goto} 50}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00066}00066 \textcolor{keywordflow}{               endif}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00067}00067    40       \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00068}00068 \textcolor{comment}{* If not simply interpolate old table 3}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00069}00069             \textcolor{keyword}{call }xnterp(nbt03,int03,nr03, tab3, np3,xe,xs3)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00070}00070             tab103(2*np03-\/1)=xe}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00071}00071             tab103(2*np03  )=xs3}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00072}00072    50    \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00073}00073    60 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00074}00074       nbt03(1)=np03}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00075}00075 \textcolor{comment}{* -\/-\/-\/ order points}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00076}00076       \textcolor{keywordflow}{do} 80 j=1,np03-\/1}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00077}00077          \textcolor{keywordflow}{do} 70 k=j+1,np03}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00078}00078             \textcolor{keywordflow}{if}(tab103(2*j-\/1).gt.tab103(2*k-\/1)) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00079}00079                tmp=tab103(2*j-\/1)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00080}00080                tab103(2*j-\/1)=tab103(2*k-\/1)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00081}00081                tab103(2*k-\/1)=tmp}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00082}00082                tmp=tab103(2*j )}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00083}00083                tab103(2*j )=tab103(2*k )}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00084}00084                tab103(2*k )=tmp}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00085}00085 \textcolor{keywordflow}{            endif}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00086}00086    70    \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00087}00087    80 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00088}00088 \textcolor{comment}{* -\/-\/-\/ no complex breakup}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00089}00089       qi=qm}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00090}00090       lr=0}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00091}00091       nr=nr03}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00092}00092       np3=np03}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00093}00093       nlints=(nr-\/1)/3+1}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00094}00094       \textcolor{keyword}{call }xnwhea(itapd,qm,qi,0,lr,nr,np3,math,3,mth,nrecw)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00095}00095       \textcolor{keywordflow}{do} 90 jl=1,nlints}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00096}00096          chtext=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00097}00097          \textcolor{keyword}{write}(chtext,10100) (nbt03(n),int03(n),}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00098}00098      +                            n=3*(jl-\/1)+1,min(nr,3*jl))}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00099}00099          \textcolor{keyword}{call }xnwtxt(itapd,chtext,math,3,mth,nrecw)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00100}00100    90 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00101}00101 10100 \textcolor{keyword}{format}(6i11)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00102}00102       nlines=(np3-\/1)/3+1}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00103}00103       \textcolor{keywordflow}{do} 110 j=1,nlines}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00104}00104          ioff=6*(j-\/1)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00105}00105          chtext=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00106}00106          \textcolor{keywordflow}{do} 100 jn=1,min(2*np03-\/ioff,6)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00107}00107             chtext(11*(jn-\/1)+1:11*jn)=xnform(tab103(ioff+jn))}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00108}00108   100    \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00109}00109          \textcolor{keyword}{call }xnwtxt(itapd,chtext,math,3,mth,nrecw)}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00110}00110   110 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00111}00111       ipoint(nsec,4)=2+nlints+nlines}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00112}00112       ipoint(nsec,5)=0}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00113}00113 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnm03v_8_f_source_l00114}00114   999 \textcolor{keyword}{end}}
+
+\end{DoxyCode}

@@ -1,0 +1,46 @@
+\hypertarget{xnfasn_8_f_source}{}\doxysection{xnfasn.\+F}
+\label{xnfasn_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnfasn.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnfasn.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  12.15.41  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   03/05/96}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00003}00003       \textcolor{keyword}{FUNCTION }xnfasn(MTH)}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00006}00006 \textcolor{comment}{*     This logical function returns true if the reaction is one of     *}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00007}00007 \textcolor{comment}{*     the reactions currently retained and if there is at least one    *}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00008}00008 \textcolor{comment}{*     neutron among the outgoing particles                             *}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00009}00009 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00010}00010 \textcolor{comment}{*     MT        (input) ENDF-\/6 reaction code. For its meaning, see     *}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00011}00011 \textcolor{comment}{*               the arrays CHNAME and NBMFT below                      *}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00012}00012 \textcolor{comment}{*     XNFASN    (output LOGICAL) function output                       *}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00013}00013 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00014}00014 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00015}00015 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00016}00016 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00017}00017 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00018}00018 \textcolor{preprocessor}{}      \textcolor{keywordtype}{LOGICAL} XNFASN}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00019}00019       dimension l5dist(mxreac)}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/> L5DIST = 1 if there is at least a neutron in the final state}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00021}00021 \textcolor{comment}{*      reactions here correspond to array CHNAME}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00022}00022       \textcolor{keyword}{DATA} l5dist / 0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00023}00023      +0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00024}00024      +1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0/}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00025}00025 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00027}00027 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Suppose result is false}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00029}00029       xnfasn=.false.}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00030}00030       \textcolor{keywordflow}{DO} 10 jj=1,mxreac}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00031}00031          \textcolor{keywordflow}{IF}(nbmft(jj).EQ.mth.AND.l5dist(jj).EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> If reaction is amongst the one currently in use and if there}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00033}00033 \textcolor{comment}{*      is a neutron in the final state, set function to .TRUE. and}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00034}00034 \textcolor{comment}{*      exit}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00035}00035             xnfasn=.true.}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00036}00036             \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00037}00037 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00038}00038    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00039}00039 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnfasn_8_f_source_l00040}00040   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

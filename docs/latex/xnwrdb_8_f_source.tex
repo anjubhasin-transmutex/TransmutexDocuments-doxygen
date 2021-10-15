@@ -1,0 +1,38 @@
+\hypertarget{xnwrdb_8_f_source}{}\doxysection{xnwrdb.\+F}
+\label{xnwrdb_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmkdb/xnwrdb.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmkdb/xnwrdb.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  16.28.28  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00003}00003       \textcolor{keyword}{subroutine }xnwrdb}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00006}00006 \textcolor{comment}{*     Reads from scratch file and writes to output ENDF file           *}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00008}00008 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00009}00009 \textcolor{preprocessor}{\#include "{}xcsind.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00010}00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcsele.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00011}00011 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdnam.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00012}00012 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcluni.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00013}00013 \textcolor{preprocessor}{}      \textcolor{keywordtype}{CHARACTER*66} CHLINE}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00014}00014 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00015}00015 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00016}00016 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00017}00017 \textcolor{comment}{* -\/-\/-\/> Loop on all isomers in the scratch file}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00018}00018       \textcolor{keywordflow}{DO} 20 j=1,npoint}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00019}00019 \textcolor{comment}{* -\/-\/-\/> Last record before section}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00020}00020          nrecr=ipoint(2,j)}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00021}00021 \textcolor{comment}{* -\/-\/-\/> Write section}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00022}00022          \textcolor{keywordflow}{DO} 10 jr=1,ipoint(3,j)}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00023}00023             \textcolor{keyword}{READ}(itapd,rec=nrecr+jr,fmt=10000) chline,math,mfh,mth}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00024}00024             \textcolor{keyword}{WRITE}(itapa,10000) chline,math,mfh,mth,jr}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00025}00025    10    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Writen End Of Material record}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00027}00027          chline=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00028}00028          \textcolor{keyword}{WRITE}(itapa,10000) chline,0,0,0,jr}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00029}00029    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00030}00030 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00031}00031 10000 \textcolor{keyword}{FORMAT}(a66,i4,i2,i3,i5)}
+\DoxyCodeLine{\Hypertarget{xnwrdb_8_f_source_l00032}00032       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

@@ -1,0 +1,50 @@
+\hypertarget{epspec_2xnlf11_8_f_source}{}\doxysection{xnlf11.\+F}
+\label{epspec_2xnlf11_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/epspec/xnlf11.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/epspec/xnlf11.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  12.39.37  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnlf11(ENS,PB,NEN,PE,A,B,ENERGY,U)}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00006}00006 \textcolor{comment}{*     Calculate probability for Energy dependent Watt spectrum         *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00007}00007 \textcolor{comment}{*     on an array of outgoing energy values                            *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00009}00009 \textcolor{comment}{*     ENS       (input) array of energy values of outgoing neutron     *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00010}00010 \textcolor{comment}{*               in eV                                                  *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00011}00011 \textcolor{comment}{*     PB        (output) array of probabilities corresponding to       *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00012}00012 \textcolor{comment}{*               the values in ENS                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00013}00013 \textcolor{comment}{*     NEN       (input) number of energy values in ENS                 *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00014}00014 \textcolor{comment}{*     PE        (input) weight of the section                          *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00015}00015 \textcolor{comment}{*     A         (input) a parameter of Watt spectrum                   *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00016}00016 \textcolor{comment}{*     B         (input) b parameter of Watt spectrum                   *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00017}00017 \textcolor{comment}{*     ENERGY    (input) incoming neutron energy in eV                  *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00018}00018 \textcolor{comment}{*     U         (input) -\/Q value of the reaction in eV                 *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00019}00019 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00020}00020 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00021}00021 \textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00022}00022 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xc5dat.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00023}00023 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00024}00024 \textcolor{preprocessor}{}      parameter(sqrpi=1.7724539)}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00025}00025       dimension ens(nen), pb(nen)}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00026}00026 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00028}00028 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00029}00029 \textcolor{comment}{*     WRITE(6,10000)}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00030}00030 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Energy dependent Watt spectrum'})}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Now add probability to grid}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00032}00032       \textcolor{keywordflow}{DO} 10 jen=1,nen}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00033}00033          ab4=0.25*a*b}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00034}00034          sab4=sqrt(ab4)}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00035}00035          elim = energy-\/u}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00036}00036          rede=elim/a}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00037}00037          srede=sqrt(rede)}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00038}00038          hnorm = 0.5*a*sqrpi*sab4*exp(ab4)*(erf(srede-\/sab4)+}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00039}00039      +             erf(srede+sab4))-\/a*exp(-\/rede)*sinh(sqrt(b*elim))}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00040}00040          ppp=exp(-\/ens(jen)/a)*sinh(sqrt(b*ens(jen)))/hnorm}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00041}00041          pb(jen)=pb(jen)+pe*ppp}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00042}00042    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00043}00043 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf11_8_f_source_l00044}00044       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

@@ -1,0 +1,87 @@
+\hypertarget{xn6ssc_8_f_source}{}\doxysection{xn6ssc.\+F}
+\label{xn6ssc_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6ssc.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6ssc.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/01 26/06/96  18.04.31  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xn6ssc(LANG,LEP,IEP,EIN,EOU,COST,PROB)}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00006}00006 \textcolor{comment}{*     For a given fixed value of EIN, incoming energy, calculates      *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00007}00007 \textcolor{comment}{*     the probability for any value of EOU, outgoing energy and        *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00008}00008 \textcolor{comment}{*     COST, cosinus of the outgoing angle for file6 LAW=1              *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00009}00009 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00010}00010 \textcolor{comment}{*     LANG    angular distribution flag (input)                        *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00011}00011 \textcolor{comment}{*     LEP     interpolation law between outgoing energies (input)      *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00012}00012 \textcolor{comment}{*     IEP     pointer to data for a given incoming energy (input)      *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00013}00013 \textcolor{comment}{*     EIN     incoming energy in eV (input)                            *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00014}00014 \textcolor{comment}{*     EOU     outgoing energy in eV (input)                            *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00015}00015 \textcolor{comment}{*     COST    outgoing cos (theta) (input)                             *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00016}00016 \textcolor{comment}{*     PROB    differential prob (d2Pb/dE dcost) (output)               *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00017}00017 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00018}00018 \textcolor{comment}{*     The incoming energy is in the LAB system                         *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00019}00019 \textcolor{comment}{*     The outgoing energy and angle are in the LAB or CMS system       *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00020}00020 \textcolor{comment}{*     depending on the evaluator choiche (LCT parameter)               *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00021}00021 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00022}00022 \textcolor{comment}{*     Note, this is an internal routine where EIN is only passed       *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00023}00023 \textcolor{comment}{*     because it is needed by the algorithm, but IEP already points    *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00024}00024 \textcolor{comment}{*     to the data related to EIN, which means that a binary search     *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00025}00025 \textcolor{comment}{*     has already been performed on incoming energies                  *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00026}00026 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00027}00027 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00028}00028 \textcolor{preprocessor}{\#include "{}xcmfh6.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00029}00029 \textcolor{preprocessor}{}      dimension vect(4)}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00030}00030 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00032}00032 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/> Number of parameters for secondary energy angle distribution}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00034}00034       na=i6stor(iep-\/2)}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Number of discrete secondary energies}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00036}00036       nd=i6stor(iep-\/1)}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Number of secondary energies}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00038}00038       nep=i6stor(iep)}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Words for each secondary energy}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00040}00040       id=na+2}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Suppose we fail}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00042}00042       prob=0}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> If there are only discrete lines, skip}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00044}00044       \textcolor{keywordflow}{IF}(nd.LT.nep) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Now interpolate}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00046}00046          emin=r6stor(iep+nd*id+1)}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00047}00047          emax=r6stor(iep+(nep-\/1)*id+1)}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00048}00048 \textcolor{comment}{* -\/-\/-\/> If outgoing energy smaller than minimum or larger than}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00049}00049 \textcolor{comment}{*      maximum for this reaction, suppose ENDF files correct,}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00050}00050 \textcolor{comment}{*      exit with probability 0}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00051}00051          \textcolor{keywordflow}{IF}(emin.LE.eou.AND.eou.LE.emax) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00052}00052 \textcolor{comment}{* -\/-\/-\/> Do binary search}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00053}00053             ip1=nd+1}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00054}00054             ip2=nep}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00055}00055    10       \textcolor{keywordflow}{IF}(ip2-\/ip1.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00056}00056                iph=(ip1+ip2)/2}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00057}00057                \textcolor{keywordflow}{IF}(eou.LT.r6stor(iep+(iph-\/1)*id+1)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00058}00058                   ip2=iph}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00059}00059                \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00060}00060                   ip1=iph}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00061}00061 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00062}00062                \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00063}00063 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00064}00064             ip1=iep+(ip1-\/1)*id+1}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00065}00065             ip2=ip1+id}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00066}00066             vect(1)=r6stor(ip1)}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00067}00067             vect(3)=r6stor(ip2)}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00068}00068 \textcolor{comment}{* -\/-\/-\/> Sanity check for binary search}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00069}00069             \textcolor{keywordflow}{IF}(eou.LT.vect(1).OR.eou.GT.vect(3).OR.ip2.EQ.ip1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00070}00070                stop \textcolor{stringliteral}{'*** XN6SSC: Error in binary search'}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00071}00071 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00072}00072 \textcolor{comment}{* -\/-\/-\/> Probability for lower outgoing energy}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00073}00073             \textcolor{keyword}{CALL }xn6le1(ip1,lang,na,ein,eou,cost,vect(2))}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00074}00074 \textcolor{comment}{* -\/-\/-\/> Probability for upper outgoing energy}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00075}00075             \textcolor{keyword}{CALL }xn6le1(ip2,lang,na,ein,eou,cost,vect(4))}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00076}00076 \textcolor{comment}{* -\/-\/-\/> Interpolate between secondary energies}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00077}00077             \textcolor{keyword}{CALL }xntrpi(vect,lep,eou,prob)}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00078}00078 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00079}00079 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00080}00080 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6ssc_8_f_source_l00081}00081       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

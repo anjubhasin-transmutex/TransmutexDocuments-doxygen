@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source" xml:lang="en-US">
+<title>TMXAbstractScoring.hh</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/G4-NeutronTransport/include/scoring/TMXAbstractScoring.hh</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00001"/>00001 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00002"/>00002 <emphasis role="comment">//&#32;\brief&#32;Implementation&#32;of&#32;a&#32;General&#32;Abstract&#32;Scoring</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00003"/>00003 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00004"/>00004 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00006"/>00006 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00007"/>00007 <emphasis role="comment">//&#32;TMXAbstractScoring</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00008"/>00008 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00009"/>00009 <emphasis role="comment">//&#32;Thomas&#32;Guilbaud,&#32;Transmutex,&#32;05/07/2021</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00010"/>00010 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00012"/>00012 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;General&#32;Abstract&#32;Scoring</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00014"/>00014 <emphasis role="comment"></emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00015"/>00015 <emphasis role="preprocessor">#ifndef&#32;TMXAbstractScoring_H</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00016"/>00016 <emphasis role="preprocessor">#define&#32;TMXAbstractScoring_H</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00017"/>00017 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00018"/>00018 <emphasis role="comment">//&#32;ROOT&#32;libraries</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00019"/>00019 <emphasis role="preprocessor">#include&#32;&quot;TH1D.h&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00020"/>00020 <emphasis role="preprocessor">#include&#32;&quot;TH2D.h&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00021"/>00021 <emphasis role="preprocessor">#include&#32;&quot;TObjArray.h&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00022"/>00022 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00023"/>00023 <emphasis role="comment">//&#32;TMX&#32;Class</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00024"/>00024 <emphasis role="preprocessor">#include&#32;&quot;TMXInputParameters.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00025"/>00025 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00026"/>00026 <emphasis role="comment">//&#32;GEANT4&#32;libraries</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00027"/>00027 <emphasis role="preprocessor">#include&#32;&quot;G4LogicalVolume.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00028"/>00028 <emphasis role="preprocessor">#include&#32;&quot;G4PhysicalConstants.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00029"/>00029 <emphasis role="preprocessor">#include&#32;&quot;G4Step.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00030"/>00030 <emphasis role="preprocessor">#include&#32;&quot;G4SystemOfUnits.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00031"/>00031 <emphasis role="preprocessor">#include&#32;&quot;G4Types.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00032"/>00032 <emphasis role="preprocessor">#include&#32;&quot;G4VSolid.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00033"/>00033 <emphasis role="preprocessor">#include&#32;&quot;G4VUserParallelWorld.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00034"/>00034 <emphasis role="preprocessor">#include&#32;&quot;globals.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00035"/>00035 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00036"/>00036 <emphasis role="comment">//&#32;C++&#32;libraries</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00037"/>00037 <emphasis role="preprocessor">#include&#32;&lt;iomanip&gt;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00038"/>00038 <emphasis role="preprocessor">#include&#32;&quot;unordered_map&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00039"/>00039 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00040"/>00040 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_t_m_x_abstract_scoring">TMXAbstractScoring</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;G4VUserParallelWorld&#32;{
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00041"/>00041 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_t_m_x_abstract_scoring">TMXAbstractScoring</link>(<link linkend="_class_t_m_x_input_parameters">TMXInputParameters</link>*&#32;parameter,&#32;std::string&#32;name);
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<link linkend="_class_t_m_x_abstract_scoring">~TMXAbstractScoring</link>();
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00044"/>00044 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Initializer</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Initialize();
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00047"/>00047 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Builder</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Construct();
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;buildParallelScoringVolumes();
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;buildPVDaughters();
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00052"/>00052 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Scorer</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;score(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep)&#32;=&#32;0;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00055"/>00055 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Getter</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4double&#32;getKineticEnergy_eV(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep);
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;std::string&gt;&#32;getRecursivePV(G4VPhysicalVolume*&#32;PV);
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TH1D*&#32;GetTH1D()&#32;<emphasis role="keyword">const</emphasis>;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TH2D*&#32;GetTH2D()&#32;<emphasis role="keyword">const</emphasis>;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string&#32;GetName()&#32;<emphasis role="keyword">const</emphasis>;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00062"/>00062 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Setter</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetParticleToScore(std::string&#32;particle);
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetPVtoScore(std::string&#32;PVtoScore);
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetTH1D(<emphasis role="keywordtype">int</emphasis>&#32;nbin,&#32;<emphasis role="keywordtype">double</emphasis>&#32;min,&#32;<emphasis role="keywordtype">double</emphasis>&#32;max,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;isSumw2,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;isLogX&#32;=&#32;<emphasis role="keyword">false</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetTH2D(<emphasis role="keywordtype">int</emphasis>&#32;nbinX,&#32;<emphasis role="keywordtype">double</emphasis>&#32;minX,&#32;<emphasis role="keywordtype">double</emphasis>&#32;maxX,&#32;<emphasis role="keywordtype">int</emphasis>&#32;nbinY,&#32;<emphasis role="keywordtype">double</emphasis>&#32;minY,&#32;<emphasis role="keywordtype">double</emphasis>&#32;maxY,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;isSumw2);
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetTH2D(std::vector&lt;double&gt;&#32;binning,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;isSumw2);
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00069"/>00069 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Adder</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;AddHistograms(<link linkend="_class_t_m_x_abstract_scoring">TMXAbstractScoring</link>*&#32;AbstractScoring);
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;AddToRootArray(TObjArray*&#32;histogramRootList)&#32;<emphasis role="keyword">const</emphasis>;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00073"/>00073 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Boolean</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsInParticleAndPVconditions(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep)&#32;<emphasis role="keyword">const</emphasis>;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsInPVconditions(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep)&#32;<emphasis role="keyword">const</emphasis>;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00077"/>00077 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Utilitaries</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;std::vector&lt;std::string&gt;&#32;split(const&#32;std::string&#32;string,&#32;std::string&#32;delimiter);</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00080"/>00080 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Writer</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Write();
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00083"/>00083 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Printer</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;printAverage()&#32;<emphasis role="keyword">const</emphasis>&#32;=&#32;0;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00086"/>00086 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00087"/>00087 &#32;&#32;&#32;&#32;<emphasis role="keyword">protected</emphasis>:
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_t_m_x_input_parameters">TMXInputParameters</link>*&#32;m_p;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00089"/>00089 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string&#32;m_name;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TH1D*&#32;m_TH1D;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TH2D*&#32;m_TH2D;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;double&gt;&#32;m_binning;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;m_isRecursivePV;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string&#32;m_particleToScore;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;std::string&gt;&#32;m_vectorPVtoScore;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;std::string&gt;&#32;m_vectorPVDaughtersToScore;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00098"/>00098 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00099"/>00099 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4VSolid*&#32;sScoringMesh;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00101"/>00101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4LogicalVolume*&#32;lScoringMesh;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::unordered_map&lt;std::string,&#32;G4LogicalVolume*&gt;&#32;m_mapPVSensitiveLV;
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00103"/>00103 };
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00104"/>00104 
+<anchor xml:id="__g4-_neutron_transport_2include_2scoring_2_t_m_x_abstract_scoring_8hh_source_1l00105"/>00105 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;TMXAbstractScoring_H</emphasis>
+</programlisting></section>

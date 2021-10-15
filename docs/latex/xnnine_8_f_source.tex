@@ -1,0 +1,82 @@
+\hypertarget{xnnine_8_f_source}{}\doxysection{xnnine.\+F}
+\label{xnnine_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnnine.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnnine.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  17.00.58  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   18/01/94}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnnine(IZAMAT,E,SECN,N,EP)}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00006}00006 \textcolor{comment}{*     Samples secondary energy for inelastic (n,n') reaction           *}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00008}00008 \textcolor{comment}{*     IZAMAT    (input) isomer code                                    *}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00009}00009 \textcolor{comment}{*     E         (input) incoming neutron energy in eV                  *}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00010}00010 \textcolor{comment}{*     SECN      (output) cross section of partial channel chosen       *}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00011}00011 \textcolor{comment}{*               in barns                                               *}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00012}00012 \textcolor{comment}{*     N         (output) channel chosen                                *}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00013}00013 \textcolor{comment}{*     EP        (output) energy of outcoming neutron in eV             *}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00014}00014 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00015}00015 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00016}00016 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00017}00017 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00018}00018 \textcolor{preprocessor}{}      dimension hinfo(nadinf)}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00019}00019       \textcolor{keywordtype}{CHARACTER*11} XNELNA, CHELNA}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00020}00020 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00021}00021 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00023}00023 \textcolor{comment}{* -\/-\/-\/> Prepare for failure}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00024}00024       ep = e}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00025}00025       secn = 0.}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00026}00026       n = 0}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/> Get normalisation cross section}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00028}00028       \textcolor{keyword}{CALL }xngetx(izamat,3004,e,secine,hinfo,ninfo)}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Something wrong, no cross section}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00030}00030       \textcolor{keywordflow}{IF}(ninfo.LT.0) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Below threshold for (n,n') (?)}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00032}00032       \textcolor{keywordflow}{IF}(secine.LE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00033}00033          chelna=xnelna(izamat)}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00034}00034          \textcolor{keyword}{WRITE}(6,10000) e, chelna}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00035}00035          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00036}00036 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Here do sampling}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00038}00038    10 \textcolor{keyword}{CALL }xnrand(rntest,1)}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Test value}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00040}00040       rntest=rntest*secine}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Running sum}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00042}00042       sectot=0.0}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> There are at most 40 discrete levels}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00044}00044       \textcolor{keywordflow}{DO} 20 jexcit=1,40}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> ENDF-\/6 code of discrete level cross section}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00046}00046          mfmt = 3050+jexcit}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> Calculate cross section}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00048}00048          \textcolor{keyword}{CALL }xngetx(izamat,mfmt,e,sec,hinfo,ninfo)}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Perform running sum}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00050}00050          sectot=sectot+sec}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/> Test sampling value}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00052}00052          \textcolor{keywordflow}{IF}(sectot.GE.rntest) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/> This cross section is chosen, load output values}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00054}00054             n=jexcit}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00055}00055             secn=sec}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00056}00056 \textcolor{comment}{* -\/-\/-\/> Secondary energy = primary + Q-\/value}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00057}00057             ep=e+hinfo(1)}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00058}00058             \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00059}00059 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00060}00060    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00061}00061 \textcolor{comment}{* -\/-\/-\/> No discrete channel is sampled, chose continuous channel}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00062}00062       \textcolor{keyword}{CALL }xngetx(izamat,3091,e,sec,hinfo,ninfo)}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00063}00063       n=41}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/> Sample continuous spectrum}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00065}00065       \textcolor{keyword}{CALL }xncont(izamat,hinfo,e,ep)}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00066}00066 \textcolor{comment}{* -\/-\/-\/> Sanity check on EP}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00067}00067       \textcolor{keywordflow}{IF}(ep.LE.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00068}00068          \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' *** XNNINE: EP = '}\textcolor{stringliteral}{',G10.3,'}\textcolor{stringliteral}{' from XNCONT'}\textcolor{stringliteral}{')'}) ep}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00069}00069          \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00070}00070 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00071}00071 \textcolor{comment}{* -\/-\/-\/> Load continuum cross section}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00072}00072       secn=sec}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00073}00073 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00074}00074 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNNINE: Energy '},e10.3,\textcolor{stringliteral}{' is below threshold for'},}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00075}00075      +\textcolor{stringliteral}{' (n,n'}\textcolor{stringliteral}{') on '},a)}
+\DoxyCodeLine{\Hypertarget{xnnine_8_f_source_l00076}00076   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

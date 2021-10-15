@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnopen_8_f_source" xml:lang="en-US">
+<title>xnopen.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xnopen.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnopen_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;24/05/2000&#32;&#32;17.45.52&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;17/01/94</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnopen
+<anchor xml:id="_xnopen_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Opens&#32;current&#32;Cross&#32;Section&#32;database&#32;file&#32;and&#32;reads&#32;file&#32;index&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00008"/>00008 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00009"/>00009 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00010"/>00010 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcdbas.inc&quot;</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00011"/>00011 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcutil.inc&quot;</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00012"/>00012 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcindx.inc&quot;</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00013"/>00013 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcpoin.inc&quot;</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00014"/>00014 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcroot.inc&quot;</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00015"/>00015 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*(*)</emphasis>&#32;CHFORM
+<anchor xml:id="_xnopen_8_f_source_1l00016"/>00016 #ifdef&#32;XSASCII
+<anchor xml:id="_xnopen_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;parameter(chform=<emphasis role="stringliteral">&apos;FORMATTED&apos;</emphasis>)
+<anchor xml:id="_xnopen_8_f_source_1l00018"/>00018 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00019"/>00019 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;parameter(chform=<emphasis role="stringliteral">&apos;UNFORMATTED&apos;</emphasis>)
+<anchor xml:id="_xnopen_8_f_source_1l00020"/>00020 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00021"/>00021 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*254</emphasis>&#32;CHOLDF,CURREF
+<anchor xml:id="_xnopen_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;mindex(2)
+<anchor xml:id="_xnopen_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;equivalence(mindex,lindex)
+<anchor xml:id="_xnopen_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;LEXIST
+<anchor xml:id="_xnopen_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">SAVE</emphasis>&#32;choldf
+<anchor xml:id="_xnopen_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;choldf/<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>/
+<anchor xml:id="_xnopen_8_f_source_1l00027"/>00027 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00028"/>00028 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00029"/>00029 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ldebug)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10100)&#32;chdbas(:index(chdbas,<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)-1),
+<anchor xml:id="_xnopen_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chtemp(:index(chtemp,<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)-1)
+<anchor xml:id="_xnopen_8_f_source_1l00033"/>00033 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00034"/>00034 <emphasis role="comment">*&#32;---&gt;&#32;Build&#32;filename&#32;with&#32;current&#32;temperature</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;curref=chdbas(:index(chdbas,<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)-1)//chtemp(:index(chtemp,<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)-1)
+<anchor xml:id="_xnopen_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">INQUIRE</emphasis>(file=curref,exist=lexist)
+<anchor xml:id="_xnopen_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(.NOT.lexist)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00038"/>00038 <emphasis role="comment">*&#32;---&gt;&#32;Check&#32;that&#32;the&#32;file&#32;exists</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10200)&#32;curref(:index(curref,<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)-1)
+<anchor xml:id="_xnopen_8_f_source_1l00040"/>00040 <emphasis role="comment">*&#32;---&gt;&#32;Invalid&#32;information&#32;...&#32;the&#32;file&#32;was&#32;not&#32;there</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nindex=0
+<anchor xml:id="_xnopen_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnopen_8_f_source_1l00043"/>00043 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00044"/>00044 <emphasis role="comment">*&#32;---&gt;&#32;File&#32;is&#32;there,&#32;open&#32;it</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(itape,file=curref,status=<emphasis role="stringliteral">&apos;OLD&apos;</emphasis>,&#32;access=<emphasis role="stringliteral">&apos;DIRECT&apos;</emphasis>,recl=80,
+<anchor xml:id="_xnopen_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;+form=chform,action=<emphasis role="stringliteral">&apos;READ&apos;</emphasis>)
+<anchor xml:id="_xnopen_8_f_source_1l00047"/>00047 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;a&#32;new&#32;file,&#32;read&#32;file&#32;index</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(curref.NE.choldf)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00049"/>00049 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;from&#32;first&#32;record&#32;index&#32;length&#32;and&#32;location</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00050"/>00050 <emphasis role="preprocessor">#ifdef&#32;XSASCII</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00051"/>00051 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(itape,rec=1,fmt=10300)&#32;nindex,&#32;indrec
+<anchor xml:id="_xnopen_8_f_source_1l00052"/>00052 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00053"/>00053 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(itape,rec=1)&#32;nindex,&#32;indrec
+<anchor xml:id="_xnopen_8_f_source_1l00054"/>00054 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00055"/>00055 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*&#32;---&gt;&#32;Calculate&#32;total&#32;number&#32;of&#32;words&#32;to&#32;be&#32;read</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mxindx=mxsect*ninden
+<anchor xml:id="_xnopen_8_f_source_1l00057"/>00057 <emphasis role="comment">*&#32;---&gt;&#32;Enough&#32;space&#32;in&#32;memory?</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nindex.GT.mxindx)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)&#32;nindex,mxindx
+<anchor xml:id="_xnopen_8_f_source_1l00060"/>00060 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNOPEN:&#32;Not&#32;enough&#32;space&#32;to&#32;store&#32;file&#32;index&apos;</emphasis>,
+<anchor xml:id="_xnopen_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;+&#32;<emphasis role="stringliteral">&apos;&#32;need:&#32;&apos;</emphasis>,i10,<emphasis role="stringliteral">&apos;&#32;have:&#32;&apos;</emphasis>,i10)
+<anchor xml:id="_xnopen_8_f_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nindex=0
+<anchor xml:id="_xnopen_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;choldf=<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00065"/>00065 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;index</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00066"/>00066 <emphasis role="preprocessor">#ifdef&#32;XSASCII</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00067"/>00067 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;j=0,(nindex-1)/8
+<anchor xml:id="_xnopen_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(11,rec=j+indrec,fmt=10400)
+<anchor xml:id="_xnopen_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(mindex(l),l=8*j+1,8*(j+1))
+<anchor xml:id="_xnopen_8_f_source_1l00070"/>00070 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00071"/>00071 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00072"/>00072 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;j=0,(nindex-1)/20
+<anchor xml:id="_xnopen_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(11,rec=j+indrec)
+<anchor xml:id="_xnopen_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(mindex(l),l=20*j+1,20*(j+1))
+<anchor xml:id="_xnopen_8_f_source_1l00075"/>00075 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00076"/>00076 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00077"/>00077 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*&#32;---&gt;&#32;Save&#32;filename&#32;of&#32;current&#32;index</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;choldf=curref
+<anchor xml:id="_xnopen_8_f_source_1l00079"/>00079 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00080"/>00080 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00081"/>00081 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnopen_8_f_source_1l00082"/>00082 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNSECT:&#32;Opening&#32;&apos;</emphasis>,2a)
+<anchor xml:id="_xnopen_8_f_source_1l00083"/>00083 10200&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNSECT:&#32;File&#32;does&#32;not&#32;exist:&#32;&apos;</emphasis>,a)
+<anchor xml:id="_xnopen_8_f_source_1l00084"/>00084 10300&#32;<emphasis role="keyword">FORMAT</emphasis>(i10,10x,i10,50x)
+<anchor xml:id="_xnopen_8_f_source_1l00085"/>00085 10400&#32;<emphasis role="keyword">FORMAT</emphasis>(8i10)
+<anchor xml:id="_xnopen_8_f_source_1l00086"/>00086 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

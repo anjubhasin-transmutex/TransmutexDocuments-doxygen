@@ -1,0 +1,137 @@
+\hypertarget{xnwiso_8_f_source}{}\doxysection{xnwiso.\+F}
+\label{xnwiso_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/isomers/xnwiso.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/isomers/xnwiso.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  15.21.56  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnwiso}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00006}00006 \textcolor{comment}{*     Reorder data and write them to disk                              *}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00008}00008 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00009}00009 \textcolor{preprocessor}{\#include "{}xcacti.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00010}00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcatmp.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00011}00011 \textcolor{preprocessor}{}      \textcolor{keywordtype}{CHARACTER*11} XNELNA,CHFATN,CHSONN}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00012}00012       \textcolor{keywordtype}{CHARACTER*8}  XNRENA,CHREAC}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00013}00013       \textcolor{keywordtype}{CHARACTER*66} CHLINE}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00014}00014       \textcolor{keywordtype}{CHARACTER*11} XNFORM}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00015}00015       dimension iposcr(4)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00016}00016 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00017}00017 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00018}00018 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00019}00019 \textcolor{comment}{* -\/-\/-\/> Order target codes in ascending order}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00020}00020       \textcolor{keywordflow}{DO} 50 jt1=1,nmtpoi-\/1}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00021}00021          \textcolor{keywordflow}{DO} 40 jt2=jt1+1,nmtpoi}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00022}00022             \textcolor{keywordflow}{IF}(izatmp(jt1).GT.izatmp(jt2)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00023}00023                itmp=izatmp(jt1)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00024}00024                \textcolor{keywordflow}{DO} 10 j=1,4}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00025}00025                   iposcr(j)=imtpoi(jt1,j)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00026}00026    10          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00027}00027 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00028}00028                izatmp(jt1)=izatmp(jt2)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00029}00029                \textcolor{keywordflow}{DO} 20 j=1,4}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00030}00030                   imtpoi(jt1,j)=imtpoi(jt2,j)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00031}00031    20          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00032}00032 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00033}00033                izatmp(jt2)=itmp}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00034}00034                \textcolor{keywordflow}{DO} 30 j=1,4}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00035}00035                   imtpoi(jt2,j)=iposcr(j)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00036}00036    30          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00037}00037 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00038}00038    40    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00039}00039    50 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> Order reaction codes for each target}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00041}00041       \textcolor{keywordflow}{DO} 100 jt1=1,nmtpoi-\/1}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00042}00042          \textcolor{keywordflow}{DO} 90 jt2=jt1+1,nmtpoi}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00043}00043             \textcolor{keywordflow}{IF}(izatmp(jt1).NE.izatmp(jt2)) \textcolor{keywordflow}{GOTO} 100}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00044}00044             \textcolor{keywordflow}{IF}(imtpoi(jt1,1).GT.imtpoi(jt2,1)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00045}00045                \textcolor{keywordflow}{DO} 60 j=1,4}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00046}00046                   iposcr(j)=imtpoi(jt1,j)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00047}00047    60          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00048}00048                \textcolor{keywordflow}{DO} 70 j=1,4}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00049}00049                   imtpoi(jt1,j)=imtpoi(jt2,j)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00050}00050    70          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00051}00051                \textcolor{keywordflow}{DO} 80 j=1,4}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00052}00052                   imtpoi(jt2,j)=iposcr(j)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00053}00053    80          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00054}00054 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00055}00055    90    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00056}00056   100 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/> Order product isomer codes for each target and reaction}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00058}00058       \textcolor{keywordflow}{DO} 150 jt1=1,nmtpoi-\/1}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00059}00059          \textcolor{keywordflow}{DO} 140 jt2=jt1+1,nmtpoi}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00060}00060             \textcolor{keywordflow}{IF}((izatmp(jt1).NE.izatmp(jt2)).OR.}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00061}00061      +        (imtpoi(jt1,1).NE.imtpoi(jt2,1))) \textcolor{keywordflow}{GOTO} 150}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00062}00062             \textcolor{keywordflow}{IF}(imtpoi(jt1,2).GT.imtpoi(jt2,2)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00063}00063                \textcolor{keywordflow}{DO} 110 j=2,4}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00064}00064                   iposcr(j)=imtpoi(jt1,j)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00065}00065   110          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00066}00066                \textcolor{keywordflow}{DO} 120 j=2,4}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00067}00067                   imtpoi(jt1,j)=imtpoi(jt2,j)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00068}00068   120          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00069}00069                \textcolor{keywordflow}{DO} 130 j=2,4}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00070}00070                   imtpoi(jt2,j)=iposcr(j)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00071}00071   130          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00072}00072 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00073}00073   140    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00074}00074   150 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00075}00075 \textcolor{comment}{* -\/-\/-\/> Print summary table}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00076}00076       \textcolor{keywordflow}{DO} 160 jt=1,nmtpoi}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00077}00077          chfatn=xnelna(izatmp(jt))}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00078}00078          chreac=xnrena(imtpoi(jt,1))}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00079}00079          chsonn=xnelna(imtpoi(jt,2))}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00080}00080          nbeg=imtpoi(jt,3)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00081}00081          npoin=imtpoi(jt,4)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00082}00082          \textcolor{keyword}{WRITE}(6,10000) chfatn,chreac,chsonn,nbeg,npoin}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00083}00083   160 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00084}00084 \textcolor{comment}{* -\/-\/-\/> Now fill auxiliary table to speed up search}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00085}00085 \textcolor{comment}{*      For target IZACTI(i,1) the information in IMTPOI}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00086}00086 \textcolor{comment}{*      goes from IZACTI(i,2) to IZACTI(i,3)}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00087}00087       izaold=-\/1}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00088}00088       \textcolor{keywordflow}{DO} 170 jt=1,nmtpoi}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00089}00089          \textcolor{keywordflow}{IF}(izatmp(jt).NE.izaold) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00090}00090             \textcolor{keywordflow}{IF}(nizact.GE.mxizac) stop \textcolor{stringliteral}{'Increase MXIZAC'}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00091}00091             nizact=nizact+1}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00092}00092             izacti(nizact,1)=izatmp(jt)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00093}00093             izacti(nizact,2)=jt}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00094}00094             izaold=izatmp(jt)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00095}00095 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00096}00096          izacti(nizact,3)=jt}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00097}00097   170 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00098}00098 \textcolor{comment}{* -\/-\/-\/> Re-\/print list for checking that the new index table did not}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00099}00099 \textcolor{comment}{*      destroy information}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00100}00100       \textcolor{keywordflow}{DO} 190 jz=1,nizact}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00101}00101          \textcolor{keywordflow}{DO} 180 jm=izacti(jz,2),izacti(jz,3)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00102}00102             chfatn=xnelna(izacti(jz,1))}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00103}00103             chreac=xnrena(imtpoi(jm,1))}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00104}00104             chsonn=xnelna(imtpoi(jm,2))}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00105}00105             nbeg=imtpoi(jm,3)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00106}00106             npoin=imtpoi(jm,4)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00107}00107             \textcolor{keyword}{WRITE}(6,10000) chfatn,chreac,chsonn,nbeg,npoin}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00108}00108   180    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00109}00109   190 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00110}00110 \textcolor{comment}{* -\/-\/-\/> Open output file}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00111}00111       \textcolor{keyword}{OPEN}(20,file=\textcolor{stringliteral}{'isomers.dat'},status=\textcolor{stringliteral}{'UNKNOWN'})}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00112}00112 \textcolor{comment}{* -\/-\/-\/> Finally write to disk}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00113}00113       \textcolor{keyword}{WRITE}(20,10100) nizact,((izacti(i1,i2),i1=1,nizact),i2=1,3)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00114}00114       \textcolor{keyword}{WRITE}(20,10100) nmtpoi,((imtpoi(i1,i2),i1=1,nmtpoi),i2=1,4)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00115}00115       \textcolor{keyword}{WRITE}(20,10100) noacti}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00116}00116       \textcolor{keywordflow}{DO} 210 jxa=0,noacti,6}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00117}00117          chline=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00118}00118          \textcolor{keywordflow}{DO} 200 jl=jxa+1,min(noacti,jxa+6)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00119}00119             jj=jl-\/jxa}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00120}00120             chline((jj-\/1)*11:jj*11)=xnform(xactiv(jl))}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00121}00121   200    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00122}00122          \textcolor{keyword}{WRITE}(20,10200) chline}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00123}00123   210 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00124}00124       \textcolor{keyword}{CLOSE}(20)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00125}00125 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00126}00126 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Targ '},a,\textcolor{stringliteral}{' Reac '},a,\textcolor{stringliteral}{' Product '},a,\textcolor{stringliteral}{' Beg '},i6,}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00127}00127      +                                               \textcolor{stringliteral}{' NP '},i6)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00128}00128 10100 \textcolor{keyword}{FORMAT}(9i8)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00129}00129 10200 \textcolor{keyword}{FORMAT}(a)}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00130}00130       \textcolor{keyword}{END}}
+\DoxyCodeLine{\Hypertarget{xnwiso_8_f_source_l00131}00131 +patch,convac9.}
+
+\end{DoxyCode}

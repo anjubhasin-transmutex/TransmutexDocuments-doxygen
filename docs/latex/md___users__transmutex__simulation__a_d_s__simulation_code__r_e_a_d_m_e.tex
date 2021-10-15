@@ -1,0 +1,340 @@
+This is the code repository for Transmutex. This code is used to simulate an Accelerator Driven System (ADS). This code is the property of Transmutex SA. All rights reserved.
+
+\DoxyHorRuler{0}
+
+
+In the root directory, you will find source files .cc and the header files .hh respectively in the following directories ./\+TMXElements/src/ and ./\+TMXElements/include/ These files constitutes general classes which are used to simulate specific features of a nuclear reactor (such as burn-\/up).
+
+In the root directory, you will find source files .cc and the header files .hh respectively in the following directories ./\+G4-\/\+Neutron\+Transport/src/ and ./\+G4-\/\+Neutron\+Transport/include/ These files constitutes a GEANT4 simulation which is used to design the Transmutex\textquotesingle{}s ADS. The main file of this simulation is ./\+G4-\/\+Neutron\+Transport/ads\+\_\+transmutex.cc
+
+\DoxyHorRuler{0}
+\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md40}{}\doxysection{Build and run the code}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md40}
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! !! HOW TO LAUNCH THE CALCULATION \+: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md41}{}\doxysubsection{Make build directory}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md41}
+If the directory ./build/ does not exist, make a directory named \char`\"{}build\char`\"{} with the following command\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir build}
+
+\end{DoxyCode}
+
+
+Go in the directory \char`\"{}build\char`\"{} with the following command\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd build}
+
+\end{DoxyCode}
+\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md42}{}\doxysubsection{Configure cmake files}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md42}
+Configure CMake to build the application 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cmake ..}
+
+\end{DoxyCode}
+
+
+If an error occur during the configuration, edit and correct the CMake\+File with 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ccmake ..}
+
+\end{DoxyCode}
+ Then hit {\ttfamily c} and {\ttfamily g} to configure and generate the files\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md43}{}\doxysubsection{Build the application}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md43}
+Build the application with the following command\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make -\/jN}
+
+\end{DoxyCode}
+ With N = number of available cores\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md44}{}\doxysubsection{Launch the application}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md44}
+Launch the application from the {\ttfamily build/} directory with the following command\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./bin/ads\_transmutex ../G4-\/NeutronTransport/param.csv}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md45}{}\doxysection{The parameter file}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md45}
+The parameter file param.\+csv has to be configured by the user before each run. ~\newline
+ This file defines the parameters of the simulation, it is located in {\ttfamily G4-\/\+Neutron\+Transport/} ~\newline
+\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md46}{}\doxysubsection{Description of the parameter file}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md46}
+The parameter file can be visualized with MS Excel or a text file. ~\newline
+ It consists in table organized as follows\+: ~\newline
+ $\vert$\+Parameter name$\vert$\+Value$\vert$\+Units$\vert$\+Parameter description$\vert$\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md47}{}\doxysubsection{Reading of the file}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md47}
+The separators used to read the file are\+: ~\newline
+
+\begin{DoxyItemize}
+\item {\ttfamily ,} to separate each element ~\newline
+
+\item {\ttfamily \textbackslash{}n},{\ttfamily \textbackslash{}r},{\ttfamily \textbackslash{}n\textbackslash{}r} or empty string {\ttfamily \char`\"{}\char`\"{}} to detect the end of a line ~\newline
+
+\end{DoxyItemize}
+
+One line corresponds to a single parameter except for the core configuration or a position vector (X,Y,Z) ~\newline
+ To link a line to a specific parameter, the code reads the first element of each line which correspond to the parameter name. ~\newline
+ The parameter name is hard-\/coded in the code {\ttfamily \mbox{\hyperlink{_t_m_x_input_parameters_8cc_source}{TMXInput\+Parameters.\+cc}}} that can be found in {\ttfamily ./\+TMXElements/src/}. ~\newline
+ Thus, the parameter name in the parameter file must not be changed without changing its name in {\ttfamily \mbox{\hyperlink{_t_m_x_input_parameters_8cc_source}{TMXInput\+Parameters.\+cc}}}.\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md48}{}\doxysubsection{Parameters description}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md48}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Value   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Units   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-5}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Value   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Units   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-5}
+\endhead
+bool\+Visualization   &\PBS\centering boolean   &\PBS\centering no   &Activation of the visualization   &\PBS\centering yes    \\\cline{1-5}
+n\+Threads   &\PBS\centering integer   &\PBS\centering no   &Number of thread per run   &\PBS\centering yes    \\\cline{1-5}
+is\+Thread\+Merging   &\PBS\centering boolean   &\PBS\centering no   &(Default\+: true) Activation of merging of thread\textquotesingle{}s ROOT file into master\textquotesingle{}s ROOT file per run   &\PBS\centering no    \\\cline{1-5}
+int\+\_\+\+Option   &\PBS\centering integer   &\PBS\centering no   &The code will run in different modes following this option\+:~\newline
+   &\PBS\centering yes   \\\cline{1-5}
+\end{longtabu}
+$\vert$ $\vert$ $\vert$ $\vert$ 0 = Simulate all the geometry,~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 1 = Target only,~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 2 = Target + Surroundings (no core),~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 3 = Homogenous geometry,~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 4 = keff calculation with dedicated method,~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 5 = Transmutation calculation,~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 6 = reflector skin w/o water (Troïtsk),~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 7 = the multiplication is killed,~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 8 = Calculation of ksource without (n,Xn)),~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 9 = Old version (Energy Amplifier) of k\+\_\+source with E\texorpdfstring{$<$}{<}20MeV,~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 20 = Calculation of k with power iteration method $\vert$ $\vert$ $\vert$ $\vert$ 30 = Monte Carlo Volume Estimator $\vert$ Verbose $\vert$ 0 or 1 $\vert$ no $\vert$ Verbose of the code $\vert$ yes $\vert$ ~\newline
+ $\vert$ Beam\+Energy $\vert$ double $\vert$ \mbox{[}GeV, MeV, keV, eV\mbox{]} $\vert$ Energy of source particles $\vert$ yes $\vert$ ~\newline
+ $\vert$ Nparticles $\vert$ integer $\vert$ no $\vert$ Number of events to simulate. In most of cases there is 1 source particle/event. In case of a k\+\_\+\{eff\} calculation there are $\sim$120 source particles/event. $\vert$ yes $\vert$ ~\newline
+ $\vert$ Nrun $\vert$ integer $\vert$ no $\vert$ Number of runs to consider for burn-\/up calculations $\vert$ yes $\vert$ ~\newline
+ $\vert$ Time\+Of\+Run $\vert$ double $\vert$ \mbox{[}ns, um, ms, s, mn, h, d, m, y\mbox{]} $\vert$ Real time of 1 run to consider for burn-\/up calculations $\vert$ yes $\vert$ ~\newline
+ $\vert$ P\+\_\+beam $\vert$ double $\vert$ \mbox{[}mW, W, kW, MW, GW, TW\mbox{]} $\vert$ Beam power $\vert$ yes $\vert$ ~\newline
+ $\vert$ Geometry $\vert$ integer $\vert$ no $\vert$ Geometry to be used in the calculation $\vert$ yes $\vert$ ~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 0 = Troïtsk~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 1 = CVR Rez~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 2 = Test~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 4 = EAP80 Simplified~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 5 = Sandbox (burnup tests, LBE test, criticality benchmarks, ...)~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 6 = KIPT~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 7 = EAP80 Subcritical~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 8 = EAP80 Critical~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 9 = Rez2011 Subcritical~\newline
+ $\vert$ $\vert$ $\vert$ $\vert$ 10 = SVBR100 + \mbox{\hyperlink{class_t_m_x_target}{TMXTarget}}~\newline
+ $\vert$ str\+\_\+\+ROOTFile\+Name $\vert$ string $\vert$ no $\vert$ Name of the output ROOT files (ex\+: {\ttfamily myfile.\+root}). This name will be used to produce any other output files with the appropriate extension. $\vert$ yes $\vert$ ~\newline
+ $\vert$ phys\+Name $\vert$ string $\vert$ no $\vert$ Name of the physical model to use (QGSP\+\_\+\+BIC\+\_\+\+HP, FTFP\+\_\+\+BERT\+\_\+\+HP, etc.) $\vert$ yes $\vert$ ~\newline
+ $\vert$ is\+Abla $\vert$ boolean $\vert$ no $\vert$ Use of ABLA v3 model $\vert$ yes $\vert$ ~\newline
+ $\vert$ Print\+Modulo $\vert$ integer $\vert$ no $\vert$ Print the calculation status every Print\+Modulo events $\vert$ yes $\vert$ ~\newline
+ $\vert$ Temperature\+World $\vert$ double $\vert$ {\ttfamily K} $\vert$ Temperature of every material except the fuel (20°C = 293.\+15 K) $\vert$ yes $\vert$ ~\newline
+ $\vert$ Temperature\+Fuel $\vert$ double $\vert$ {\ttfamily K} $\vert$ Temperature of the fuel (20°C = 293.\+15 K) $\vert$ yes $\vert$ ~\newline
+ $\vert$ Nb\+Discard\+Cycle $\vert$ integer $\vert$ no $\vert$ Number of cycle to discard from the keff calculation with {\bfseries{option 20}} $\vert$ Error\+Limit\+MCCubic\+Volume $\vert$ double $\vert$ no $\vert$ Error (\%) upper limit on the estimation of the volume with the Monte Carlo method with {\bfseries{option 30}} $\vert$ $\vert$ MCCubic\+Volume\+LVname $\vert$ string $\vert$ no $\vert$ (Optional, not use if no string provided) Logical Volume cubic volume estimation by slice along Z axis using parallel\+World definition {\bfseries{option 30}} with a logical volume name $\vert$ no $\vert$ $\vert$ Ext\+Source\+Path $\vert$ string $\vert$ no $\vert$ Path to an external source file (example\+: ./\+EAP80\+\_\+\+TMXSource.txt ) $\vert$ no $\vert$ $\vert$ worldR $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Radius of the world volume $\vert$ yes $\vert$ ~\newline
+ $\vert$ worldZ $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Half height of the world volume $\vert$ yes $\vert$ ~\newline
+ $\vert$ h0 $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Height between the bottom of the pit and the center of the world volume (concrete) in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Xtarget\+Position $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Position of the target along the beam axis (0 = center of the driver fuel) in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Check\+Gap $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Target tube thickness $\vert$ no $\vert$ ~\newline
+ $\vert$ check1r $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Tube internal radius $\vert$ no $\vert$ ~\newline
+ $\vert$ x\+Target $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ half Target thickness in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ y\+Target $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ half Target width in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ z\+Target\+Height $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ half Target height (Oz) in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ nT $\vert$ integer $\vert$ no $\vert$ n\+T+1 = number of the target placing in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ x\+Variable $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Distance between 2 target plates in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Target\+\_\+\+Al\+\_\+\+Xgap $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Gap between target plates and Aluminium parts along X-\/axis in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Target\+\_\+\+Al\+\_\+\+Ygap $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Gap between target plates and Aluminium parts along Y-\/axis in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Al\+\_\+thickness $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Thickness of Aluminium part (empty structure) in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Al\+\_\+\+Tube\+\_\+gap $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Gap between Aluminium parts and the tube containing the target (f\+Logic\+Check1U) in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ airtopR $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Radius of the air cylinder in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Air\+Top\+Zdistance\+From\+Bottomto\+Top $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Distance between the bottom of the pit and the top of the air cylinder in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ reflector\+Zdistance\+From\+Bottomto\+Top $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Distance between the bottom of the pit and the top of the water-\/cooled heat shield (reflector) in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ fetopZ $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Half Height (thickness) of the iron part on the top of the water-\/cooled heat shield (reflector) in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Cool10\+Zdistance\+From\+Bottomto\+Bottom $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Distance between the bottom of the pit and the bottom of the experimental area ($\sim$reflector bottom thickness) $\vert$ no $\vert$ ~\newline
+ $\vert$ cool10R $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Radius of the experimental area in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ cool10\+Bottom\+Gap $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Air gap at the bottom between the water-\/cooled heat shield (reflector) and the lead volume in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Core\+Shape $\vert$ string $\vert$ Hexagonal or Cylindrical $\vert$ Shape of sub-\/critical core (Hexagonal or Cylindrical) in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Fuel\+Placement $\vert$ string $\vert$ Hexagonal or Cylindrical $\vert$ placement of the fuel in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Rpos\+\_\+fuel $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Radial position of the first rod in the fuel assembly (from 0 to external rod side) in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Fuel\+Name $\vert$ string $\vert$ \mbox{[}VVR-\/\+M5, VVR-\/\+M2-\/20p, VVR-\/\+M2-\/36p, IBR-\/2M\mbox{]} $\vert$ Name of the fuel rods in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ int\+\_\+\+Nreplicate $\vert$ integer $\vert$ no $\vert$ Number of fuel elements per layer in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ int\+\_\+\+Nlayer $\vert$ double $\vert$ no $\vert$ Number of layers for fuel assembly (double because 1.\+5 layer is ok) in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ dbl\+\_\+r\+Rods\+Gap $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Gap between 2 fuel rods in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Graphite\+Thickness $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Thickness of the graphite reflector by the lead in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Absorber\+Thickness $\vert$ double $\vert$ \mbox{[}nm, um, mm, cm, dm, m\mbox{]} $\vert$ Thickness of the neutron absorber between the lead and the Fuel driver in Troïtsk $\vert$ no $\vert$ ~\newline
+ $\vert$ Path\+To\+Core\+Lattice\+File $\vert$ string $\vert$ no $\vert$ Path to the lattice configuration of the Core $\vert$ no $\vert$ ~\newline
+ $\vert$ Path\+To\+Assembly\+Lattice\+File $\vert$ string $\vert$ no $\vert$ Path to the lattice configuration of the Assembly $\vert$ no $\vert$ ~\newline
+\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md49}{}\doxysection{Scoring}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md49}
+\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md50}{}\doxysubsection{Scoring Parallel World}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md50}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Value   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Units   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-5}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Value   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Units   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-5}
+\endhead
+Type\+Of\+Mesh   &\PBS\centering string   &\PBS\centering no   &polar or cartesian   &\PBS\centering no    \\\cline{1-5}
+polar\+Axis   &\PBS\centering string   &\PBS\centering no   &X or Y or Z   &\PBS\centering no    \\\cline{1-5}
+origin\+\_\+\+Polar\+Mesh   &\PBS\centering 0,0,0   &\PBS\centering mm   &origin of the scoring mesh (X;Y;Z)   &\PBS\centering no    \\\cline{1-5}
+nbinsR   &\PBS\centering integer   &\PBS\centering no   &number of bins in the Radial direction   &\PBS\centering no    \\\cline{1-5}
+minR   &\PBS\centering double   &\PBS\centering \mbox{[}nm, um, mm, cm, dm, m\mbox{]}   &Minimum value along R-\/axis   &\PBS\centering no    \\\cline{1-5}
+maxR   &\PBS\centering double   &\PBS\centering \mbox{[}nm, um, mm, cm, dm, m\mbox{]}   &Maximum value along R-\/axis   &\PBS\centering no    \\\cline{1-5}
+nbins\+Theta   &\PBS\centering integer   &\PBS\centering no   &number of bins in the Theta-\/axis   &\PBS\centering no    \\\cline{1-5}
+min\+Theta   &\PBS\centering double   &\PBS\centering \mbox{[}nm, um, mm, cm, dm, m\mbox{]}   &Minimum value along Theta-\/axis   &\PBS\centering no    \\\cline{1-5}
+max\+Theta   &\PBS\centering double   &\PBS\centering \mbox{[}nm, um, mm, cm, dm, m\mbox{]}   &Maximum value along Theta-\/axis   &\PBS\centering no    \\\cline{1-5}
+nbinsX   &\PBS\centering integer   &\PBS\centering no   &number of bins in the X-\/axis   &\PBS\centering yes    \\\cline{1-5}
+minX   &\PBS\centering double   &\PBS\centering \mbox{[}nm, um, mm, cm, dm, m\mbox{]}   &Minimum value along X-\/axis   &\PBS\centering yes    \\\cline{1-5}
+maxX   &\PBS\centering double   &\PBS\centering \mbox{[}nm, um, mm, cm, dm, m\mbox{]}   &Maximum value along X-\/axis   &\PBS\centering yes    \\\cline{1-5}
+nbinsY   &\PBS\centering integer   &\PBS\centering no   &number of bins in the Y-\/axis   &\PBS\centering yes    \\\cline{1-5}
+minY   &\PBS\centering double   &\PBS\centering \mbox{[}nm, um, mm, cm, dm, m\mbox{]}   &Minimum value along Y-\/axis   &\PBS\centering yes    \\\cline{1-5}
+maxY   &\PBS\centering double   &\PBS\centering \mbox{[}nm, um, mm, cm, dm, m\mbox{]}   &Maximum value along Y-\/axis   &\PBS\centering yes    \\\cline{1-5}
+nbinsZ   &\PBS\centering integer   &\PBS\centering no   &number of bins in the Z-\/axis   &\PBS\centering yes    \\\cline{1-5}
+minZ   &\PBS\centering double   &\PBS\centering \mbox{[}nm, um, mm, cm, dm, m\mbox{]}   &Minimum value along Z-\/axis   &\PBS\centering yes    \\\cline{1-5}
+maxZ   &\PBS\centering double   &\PBS\centering \mbox{[}nm, um, mm, cm, dm, m\mbox{]}   &Maximum value along Z-\/axis   &\PBS\centering yes   \\\cline{1-5}
+\end{longtabu}
+\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md51}{}\doxysubsection{Scoring Scalar}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md51}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter Name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Particle\+Name\+To\+Score   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-5}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter Name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Particle\+Name\+To\+Score   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-5}
+\endhead
+\PBS\centering {\ttfamily Energy\+Deposited}   &\PBS\centering \char`\"{}\char`\"{}, Geant4 syntax   &\PBS\centering Physical\+Volume\+Name or PVname+   &Score the energy deposit in eV in the PV\textquotesingle{}s volume   &\PBS\centering no   \\\cline{1-5}
+\end{longtabu}
+\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md52}{}\doxysubsection{Scoring Spectrum}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md52}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter Name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Particle\+Name\+To\+Score   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-5}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter Name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Particle\+Name\+To\+Score   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-5}
+\endhead
+\PBS\centering {\ttfamily Surface\+Current\+Spectrum}   &\PBS\centering \char`\"{}\char`\"{}, Geant4 syntax   &\PBS\centering Physical\+Volume\+Name   &Score the surface current of the PV\textquotesingle{} surface   &\PBS\centering no    \\\cline{1-5}
+\PBS\centering {\ttfamily Surface\+Fluence\+Spectrum}   &\PBS\centering \char`\"{}\char`\"{}, Geant4 syntax   &\PBS\centering Physical\+Volume\+Name   &Score the surface fluence of the PV\textquotesingle{} surface in particle/cm2   &\PBS\centering no    \\\cline{1-5}
+\PBS\centering {\ttfamily Volume\+Fluence\+Spectrum}   &\PBS\centering \char`\"{}\char`\"{}, Geant4 syntax   &\PBS\centering Physical\+Volume\+Name or PVname+   &Score the volume fluence in the PV\textquotesingle{}s volume in particle/cm2   &\PBS\centering no   \\\cline{1-5}
+\end{longtabu}
+
+
+
+\begin{DoxyItemize}
+\item {\ttfamily Particle\+Name} must be in G4 syntax (ex\+: neutron, proton, Pb208, ...), empty = score all particles ~\newline
+
+\item {\ttfamily Particle\+Name\+To\+Score} can be an union of Physical Volumes. Place a {\ttfamily +} between each PV (ex\+: {\ttfamily PV1+\+PV2})
+\item {\ttfamily PVname+} score in PVname and all the volumes inside of PVname. It is recommended to set one PVname (ex\+: {\ttfamily PV1+})
+\end{DoxyItemize}\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md53}{}\doxysubsection{Scoring Spatial Distribution}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md53}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{7}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter Name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Particle\+Name\+To\+Score   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Distribution Type   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Binning   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Binning Unit   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-7}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter Name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Particle\+Name\+To\+Score   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Distribution Type   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Binning   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Binning Unit   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-7}
+\endhead
+\PBS\centering {\ttfamily Power\+Density\+Map}   &\PBS\centering \char`\"{}\char`\"{}, Geant4 syntax   &\PBS\centering \mbox{[}RZ\mbox{]}   &\PBS\centering bin1, min1, max1, bin2, min2, max2   &\PBS\centering \mbox{[}mm\mbox{]}   &\PBS\centering Score the energy deposition per volume unit in e\+V/cm3   &\PBS\centering no   \\\cline{1-7}
+\end{longtabu}
+
+
+
+\begin{DoxyItemize}
+\item The user can add numbers to the distribution type (for example {\ttfamily RZ8}) to differentiate the spatial scoring with different binning.
+\end{DoxyItemize}\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md54}{}\doxysubsection{Example of Scoring}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md54}
+Suppose a Sphere 1 named S1 which contains two smaller spheres S2\+:1 and S2\+:2. Each of these spheres contains a single sphere S3\+:1 and S3\+:2 respectively. Structure\+:
+\begin{DoxyItemize}
+\item S1
+\begin{DoxyItemize}
+\item S2\+:1
+\begin{DoxyItemize}
+\item S3\+:1
+\end{DoxyItemize}
+\item S2\+:2
+\begin{DoxyItemize}
+\item S3\+:2
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item Scoring
+\begin{DoxyItemize}
+\item Overall volume fluence spectrum of neutron\+: {\ttfamily Volume\+Fluence\+Spectrum,neutron,S1+,}
+\item Overall volume fluence spectrum in S2\+:1\+: {\ttfamily Volume\+Fluence\+Spectrum,,S2\+:1+S3\+:1,} or {\ttfamily Volume\+Fluence\+Spectrum,,S2\+:1+,}
+\item Overall volume fluence spectrum in S2\+:1 and S2\+:2\+: {\ttfamily Volume\+Fluence\+Spectrum,,S2\+:1+S3\+:1+S2\+:2+S3\+:2,} or {\ttfamily Volume\+Fluence\+Spectrum,,S2\+:1+S2\+:2+,}
+\item Volume fluence spectrum in S2\+:1 only (without S3\+:1)\+: {\ttfamily Volume\+Fluence\+Spectrum,,S2\+:1,}
+\item Surface fluence spectrum of neutrons across S2\+:1 and S2\+:2\+: {\ttfamily Surface\+Fluence\+Spectrum,neutron,S2\+:1+S2\+:2}
+\item If S2\+:1 and S2\+:2 are copies, it is possible to score S3 (S3\+:1 and S3\+:2 if PVname is S3) in one score\+: {\ttfamily Volume\+Fluence\+Spectrum,,S3,}
+\begin{DoxyItemize}
+\item In this case, the user has to be very careful on the volume calculation and on the volumes scored.
+\item In this case, it is not possible to score only the S3 contained in S2\+:1 for example.
+\item It is recommended to avoid copy when each copy needs to be scored individually.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md55}{}\doxysubsection{Ntuple}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md55}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Value   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Units   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-5}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Value   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Units   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-5}
+\endhead
+is\+Everything\+Ntuple   &\PBS\centering true of false   &\PBS\centering -\/   &Score information of neutrons into an ntuple   &\PBS\centering No   \\\cline{1-5}
+\end{longtabu}
+\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md56}{}\doxysubsection{keff Mesh Dimensions}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md56}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Value   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Units   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-5}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Value   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Units   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-5}
+\endhead
+origin\+Keff   &\PBS\centering 0,0,0   &\PBS\centering \mbox{[}nm, um, mm, cm, dm, m\mbox{]}   &Origin of keff source   &\PBS\centering no (set to 0,0,0 if not provided)    \\\cline{1-5}
+keff\+\_\+nbins\+R2   &\PBS\centering integer   &\PBS\centering no   &number of bins in the X or R dimension   &\PBS\centering yes    \\\cline{1-5}
+keff\+\_\+nbins\+Theta   &\PBS\centering integer   &\PBS\centering no   &number of bins in the Y or Theta dimension   &\PBS\centering yes    \\\cline{1-5}
+keff\+\_\+nbinsZ   &\PBS\centering integer   &\PBS\centering no   &number of bins in the Z-\/axis   &\PBS\centering yes   \\\cline{1-5}
+\end{longtabu}
+\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md57}{}\doxysubsection{Energy Cutoff Definition}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md57}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Value   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Units   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-5}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter name   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Value   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Units   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter description   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Always required    }\\\cline{1-5}
+\endhead
+Ecutp\+\_\+target   &\PBS\centering double   &\PBS\centering \mbox{[}eV, keV, MeV, GeV\mbox{]}   &Proton energy cutoff in target region   &\PBS\centering yes    \\\cline{1-5}
+Ecutg\+\_\+target   &\PBS\centering double   &\PBS\centering \mbox{[}eV, keV, MeV, GeV\mbox{]}   &Gamma energy cutoff in target region   &\PBS\centering yes    \\\cline{1-5}
+Ecute\+\_\+target   &\PBS\centering double   &\PBS\centering \mbox{[}eV, keV, MeV, GeV\mbox{]}   &e-\//e+ energy cutoff in target region   &\PBS\centering yes    \\\cline{1-5}
+Ecutp\+\_\+lead   &\PBS\centering double   &\PBS\centering \mbox{[}eV, keV, MeV, GeV\mbox{]}   &Proton energy cutoff in lead region   &\PBS\centering yes    \\\cline{1-5}
+Ecutg\+\_\+lead   &\PBS\centering double   &\PBS\centering \mbox{[}eV, keV, MeV, GeV\mbox{]}   &Gamma energy cutoff in lead region   &\PBS\centering yes    \\\cline{1-5}
+Ecute\+\_\+lead   &\PBS\centering double   &\PBS\centering \mbox{[}eV, keV, MeV, GeV\mbox{]}   &e-\//e+ energy cutoff in lead region   &\PBS\centering yes    \\\cline{1-5}
+Ecutp\+\_\+fuel   &\PBS\centering double   &\PBS\centering \mbox{[}eV, keV, MeV, GeV\mbox{]}   &Proton energy cutoff in fuel region   &\PBS\centering yes    \\\cline{1-5}
+Ecutg\+\_\+fuel   &\PBS\centering double   &\PBS\centering \mbox{[}eV, keV, MeV, GeV\mbox{]}   &Gamma energy cutoff in fuel region   &\PBS\centering yes    \\\cline{1-5}
+Ecute\+\_\+fuel   &\PBS\centering double   &\PBS\centering \mbox{[}eV, keV, MeV, GeV\mbox{]}   &e-\//e+ energy cutoff in fuel region   &\PBS\centering yes    \\\cline{1-5}
+Ecutp\+\_\+world   &\PBS\centering double   &\PBS\centering \mbox{[}eV, keV, MeV, GeV\mbox{]}   &Proton energy cutoff in world region   &\PBS\centering yes    \\\cline{1-5}
+Ecutg\+\_\+world   &\PBS\centering double   &\PBS\centering \mbox{[}eV, keV, MeV, GeV\mbox{]}   &Gamma energy cutoff in world region   &\PBS\centering yes    \\\cline{1-5}
+Ecute\+\_\+world   &\PBS\centering double   &\PBS\centering \mbox{[}eV, keV, MeV, GeV\mbox{]}   &e-\//e+ energy cutoff in world region   &\PBS\centering yes   \\\cline{1-5}
+\end{longtabu}
+\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md58}{}\doxysubsection{Source definition}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md58}
+$\vert$ Source\+Type $\vert$ string $\vert$ no $\vert$ Type of source \+: which reactor (e.\+g. KIPT, Rez), which generation of neutrons (e.\+g. ADS, Rad), which variant (e.\+g. 1, 2), what place in the reactor (e.\+g. center, channel). All attached, not ordered. Only the type of reactor and the type of neutron generation are necessary. $\vert$ no $\vert$ $\vert$ Source\+Number $\vert$ integer $\vert$ no $\vert$ number of sources followed by the vectors of direction and position in mm $\vert$ no $\vert$ ~\newline
+ $\vert$ src\+\_\+\+XYZdirection $\vert$ double $\vert$ (X1,Y1,Z1),(X2,Y2,Z2),etc. in mm $\vert$ Direction vector of the source and beam pipe $\vert$ no $\vert$ ~\newline
+ $\vert$ src\+\_\+\+XYZdirection $\vert$ double $\vert$ (X1,Y1,Z1),(X2,Y2,Z2),etc. in mm $\vert$ Position vector of the center of the spallation target $\vert$ no $\vert$ ~\newline
+ $\vert$ src\+\_\+slab\+Thicknesses $\vert$ double $\vert$ e1, e2, etc. in mm $\vert$ Thickness if each slab $\vert$ no $\vert$\hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md59}{}\doxysubsection{Detection chamber definition}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md59}
+Geometrical definition and scoring of the neutron flux are separate \+: The scoring has to be added to the parameters on top of the geometry. For Detectors having a detection media (e.\+g. fissile coating for fission chambers) \hypertarget{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md60}{}\doxysubsection{Core definition (\+WDISPL, REFL, IRT4\+M6\+T, IRT4\+M8\+T, LEAD, VOID)}\label{md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e_autotoc_md60}
+$\vert$ Path\+To\+Burnup\+File $\vert$ string $\vert$ no $\vert$ Path to the file containing fuel composition related to its burnup $\vert$ no $\vert$ ~\newline
+ $\vert$ Core\+Config,A,B,C,D,E,F,G,H $\vert$ $\vert$ $\vert$ $\vert$ $\vert$ ~\newline
+ $\vert$ Core\+Config $\vert$ string $\vert$ A,B,C,D,E,F,G,H $\vert$ $\vert$ $\vert$ ~\newline
+ $\vert$ Core\+Config\+\_\+\+Raw10 $\vert$ string $\vert$ WDISPL/\+EWDISPL, REFL/\+EREFL, IRT4\+M6T, IRT4\+M8T, LEAD, VOID, FAST $\vert$ 8 elements to be defines ; \+\_\+14.\+5 search the closest fuel burnup composition in a file given by CVR ; \+\_\+\+CR0.\+65 add a control rod in the middle;EREFL/\+EWDISPL are analog to REFL/\+WDISPL but with an empty cylinder in the middle; to place detection chamber inside \+\_\+\+DCTYP0 add a detection chamber of type TYP at height 0 in cm in the assembly; $\vert$ no $\vert$ ~\newline
+ $\vert$ Core\+Config\+\_\+\+Raw9 $\vert$ string $\vert$ WDISPL/\+EWDISPL, REFL/\+EREFL, IRT4\+M6T, IRT4\+M8T, LEAD, VOID, FAST $\vert$ 8 elements to be defines $\vert$ no $\vert$ ~\newline
+ $\vert$ Core\+Config\+\_\+\+Raw8 $\vert$ string $\vert$ WDISPL/\+EWDISPL, REFL/\+EREFL, IRT4\+M6T, IRT4\+M8T, LEAD, VOID, FAST $\vert$ 8 elements to be defines $\vert$ no $\vert$ ~\newline
+ $\vert$ Core\+Config\+\_\+\+Raw7 $\vert$ string $\vert$ WDISPL/\+EWDISPL, REFL/\+EREFL, IRT4\+M6T, IRT4\+M8T, LEAD, VOID, FAST $\vert$ 8 elements to be defines $\vert$ no $\vert$ ~\newline
+ $\vert$ Core\+Config\+\_\+\+Raw6 $\vert$ string $\vert$ WDISPL/\+EWDISPL, REFL/\+EREFL, IRT4\+M6T, IRT4\+M8T, LEAD, VOID, FAST $\vert$ 8 elements to be defines $\vert$ no $\vert$ ~\newline
+ $\vert$ Core\+Config\+\_\+\+Raw5 $\vert$ string $\vert$ WDISPL/\+EWDISPL, REFL/\+EREFL, IRT4\+M6T, IRT4\+M8T, LEAD, VOID, FAST $\vert$ 8 elements to be defines $\vert$ no $\vert$ ~\newline
+ $\vert$ Core\+Config\+\_\+\+Raw4 $\vert$ string $\vert$ WDISPL/\+EWDISPL, REFL/\+EREFL, IRT4\+M6T, IRT4\+M8T, LEAD, VOID, FAST $\vert$ 8 elements to be defines $\vert$ no $\vert$ ~\newline
+ $\vert$ Core\+Config\+\_\+\+Raw3 $\vert$ string $\vert$ WDISPL/\+EWDISPL, REFL/\+EREFL, IRT4\+M6T, IRT4\+M8T, LEAD, VOID, FAST $\vert$ 8 elements to be defines $\vert$ no $\vert$ ~\newline
+ $\vert$ Core\+Config\+\_\+\+Raw2 $\vert$ string $\vert$ WDISPL/\+EWDISPL, REFL/\+EREFL, IRT4\+M6T, IRT4\+M8T, LEAD, VOID, FAST $\vert$ 8 elements to be defines $\vert$ no $\vert$ ~\newline
+ $\vert$ Core\+Config\+\_\+\+Raw1 $\vert$ string $\vert$ WDISPL/\+EWDISPL, REFL/\+EREFL, IRT4\+M6T, IRT4\+M8T, LEAD, VOID, FAST $\vert$ 8 elements to be defines $\vert$ no $\vert$ ~\newline
+ 

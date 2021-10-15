@@ -1,0 +1,260 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnmake_2xn5gte_8_f_source" xml:lang="en-US">
+<title>xn5gte.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnmake/xn5gte.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;31/05/96&#32;&#32;12.51.00&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xn5gte
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;This&#32;routine&#32;creates&#32;the&#32;grid&#32;of&#32;incoming&#32;neutron&#32;energies&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;which&#32;will&#32;then&#32;be&#32;used&#32;to&#32;build&#32;the&#32;inverse&#32;probability&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;tables.&#32;All&#32;the&#32;information&#32;is&#32;then&#32;written&#32;on&#32;scratch&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;file&#32;99&#32;to&#32;be&#32;used&#32;subsequently.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00011"/>00011 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00012"/>00012 <emphasis role="preprocessor">#include&#32;&quot;xcenes.inc&quot;</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00013"/>00013 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xctab1.inc&quot;</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00014"/>00014 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xc5dat.inc&quot;</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00015"/>00015 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;parameter(maxpop=50)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;parameter(maxet=1000)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;et(maxet),nbtt(10),intt(10)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00018"/>00018 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00019"/>00019 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00020"/>00020 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00021"/>00021 <emphasis role="comment">*&#32;---&gt;&#32;Set&#32;to&#32;0&#32;number&#32;of&#32;incoming&#32;energies</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;nens=0
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00023"/>00023 <emphasis role="comment">*&#32;---&gt;&#32;For&#32;all&#32;the&#32;subsections</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;150&#32;jsubs=1,nsubs
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00025"/>00025 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;pe&apos;s</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00027"/>00027 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WRITE(6,10800)&#32;JSUBS,&#32;N1,&#32;NP</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00028"/>00028 <emphasis role="comment">*&#32;---&gt;&#32;Scratch</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(99)&#32;math,mfh,mth,c1,c2,l1,l2,n1,n2,&#32;(nbt(n),int(n),n=1,
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;n1),(xnrval(n),n=1,2*n2)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;energy&#32;dependent&#32;weight&#32;for&#32;this&#32;section&#32;(hereon&#32;PE&apos;s)</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;npes=n2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(npes*2.GT.maxpes)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;XN5GTE:&#32;Increase&#32;MAXPES&apos;</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00035"/>00035 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jpe=1,2*npes
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pes(jpe)=xnrval(jpe)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00038"/>00038 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrpes=n1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00040"/>00040 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;interpolation&#32;law&#32;for&#32;PE&apos;s</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;jpr=1,nrpes
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;intpe(jpr)=int(jpr)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nbtpe(jpr)=nbt(jpr)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00044"/>00044 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00045"/>00045 <emphasis role="comment">*&#32;---&gt;&#32;Now&#32;read&#32;distribution&#32;and&#32;save&#32;it&#32;on&#32;scratch&#32;file</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00046"/>00046 <emphasis role="comment">*&#32;---&gt;&#32;-Q&#32;value&#32;of&#32;the&#32;reaction</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;u&#32;=&#32;c1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00048"/>00048 <emphasis role="comment">*&#32;---&gt;&#32;Interpolation&#32;LAW</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lf&#32;=&#32;l2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(lf.EQ.1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00051"/>00051 <emphasis role="comment">*&#32;======================================================================</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00053"/>00053 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Arbitrary&#32;tabulated&#32;function&apos;</emphasis>)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00055"/>00055 <emphasis role="comment">*&#32;---&gt;&#32;Scratch</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(99)&#32;math,mfh,mth,c1,c2,l1,l2,n1,n2,&#32;(nbt(n),int(n),n=
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;1,n1)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00058"/>00058 <emphasis role="comment">*&#32;---&gt;&#32;Number&#32;of&#32;incoming</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nep=n2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;90&#32;jsub=1,nep
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00061"/>00061 <emphasis role="comment">*&#32;---&gt;&#32;For&#32;each&#32;incoming&#32;energy&#32;a&#32;tabulated&#32;probability&#32;as&#32;a&#32;function</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00062"/>00062 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;of&#32;the&#32;secondary&#32;energy</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00064"/>00064 <emphasis role="comment">*&#32;---&gt;&#32;Interpolation&#32;must&#32;be&#32;linear,&#32;if&#32;it&#32;is&#32;&apos;histogram-like&apos;&#32;it&#32;should</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00065"/>00065 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;be&#32;linearised&#32;to&#32;simplify&#32;further&#32;tratment</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnhlin
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00067"/>00067 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;an&#32;upper&#32;threshold&#32;value</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(xnrval(2*n2).GT.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xnrval(2*n2+1)&#32;=&#32;xnrval(2*n2-1)*(1+1e-4)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xnrval(2*n2+2)&#32;=&#32;1e-10
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;n2=n2+1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nbt(n1)=nbt(n1)+1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00073"/>00073 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00074"/>00074 <emphasis role="comment">*&#32;---&gt;&#32;Scratch</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(99)&#32;math,mfh,mth,c1,c2,l1,l2,n1,n2,&#32;(nbt(n),int(n)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,n=1,n1),(xnrval(n),n=1,2*n2)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00077"/>00077 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;point&#32;to&#32;energy&#32;grid&#32;only&#32;if&#32;weight&#32;of&#32;this&#32;distribution&#32;is</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00078"/>00078 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;non&#32;zero&#32;at&#32;this&#32;incoming&#32;energy</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tmpen=c2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00080"/>00080 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;weight&#32;of&#32;distribution&#32;at&#32;energy&#32;TMPEN</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnterp(nbtpe,intpe,nrpes,pes,npes,tmpen,ppe)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ppe.LE.0)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;90
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00083"/>00083 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;incoming&#32;energy&#32;if&#32;not&#32;already&#32;there</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;jen=1,nens
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(tmpen.EQ.xengr(jen))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;len=jen
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;40
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00088"/>00088 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00089"/>00089 &#32;&#32;&#32;30&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nens=nens+1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;len=nens
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xengr(len)=tmpen
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00093"/>00093 <emphasis role="comment">*&#32;---&gt;&#32;Set&#32;to&#32;0&#32;number&#32;of&#32;secondary&#32;energies&#32;for&#32;this&#32;primary&#32;one</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;neps(len)&#32;=&#32;0
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00095"/>00095 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CALL&#32;XNPOPE(LEN)</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00096"/>00096 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00097"/>00097 <emphasis role="comment">*&#32;---&gt;&#32;Populate&#32;grid&#32;of&#32;secondary&#32;energies&#32;for&#32;this&#32;incoming&#32;one,</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00098"/>00098 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;a&#32;logarithmically&#32;spaced&#32;grid&#32;of&#32;MAXPOP&#32;energies&#32;between&#32;min&#32;and</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00099"/>00099 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;max&#32;incoming&#32;energy.</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;emin&#32;=&#32;max(xnrval(1)*(1-1e-5),1e-5)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00101"/>00101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;emax&#32;=&#32;xnrval(2*n2-1)*(1+1e-5)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fact&#32;=&#32;exp(log(emax/emin)/(maxpop-1))
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ef&#32;=&#32;emin/fact
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;60&#32;jef=1,maxpop
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00105"/>00105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ef&#32;=&#32;ef*fact
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;50&#32;keps=1,neps(len)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(xenpb(2*keps-1,len).eq.ef)&#32;<emphasis role="keywordflow">goto</emphasis>&#32;60
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00108"/>00108 &#32;&#32;&#32;50&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;neps(len)=neps(len)+1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*neps(len)-1,len)=ef
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*neps(len)&#32;&#32;,len)=0
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00112"/>00112 &#32;&#32;&#32;60&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00113"/>00113 <emphasis role="comment">*&#32;---&gt;&#32;Now&#32;add&#32;secondary&#32;energies&#32;from&#32;the&#32;tabulated&#32;function</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;80&#32;jeps=1,n2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ef&#32;=&#32;xnrval(2*jeps-1)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00116"/>00116 <emphasis role="comment">*&#32;---&gt;&#32;A&#32;threshold&#32;behaviour&#32;in&#32;the&#32;outgoing&#32;energy&#32;is&#32;represented&#32;as</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00117"/>00117 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;a&#32;couple&#32;of&#32;energy,&#32;probability&#32;pairs&#32;with&#32;the&#32;same&#32;energy&#32;but</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00118"/>00118 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;different&#32;probabilities.&#32;This&#32;poses&#32;problems&#32;for&#32;the&#32;interpolation,</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00119"/>00119 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;so&#32;we&#32;move&#32;slightly&#32;the&#32;two&#32;points&#32;apart&#32;by&#32;machine&#32;precision.</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00120"/>00120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(jeps.LT.n2.AND.ef.EQ.xnrval(2*jeps+1))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ef=ef*(1-5e-6)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00122"/>00122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xnrval(2*jeps+1)=xnrval(2*jeps+1)*(1+5e-6)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00123"/>00123 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00124"/>00124 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;secondary&#32;energy&#32;only&#32;if&#32;not&#32;already&#32;there</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;70&#32;keps=1,neps(len)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00126"/>00126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(xenpb(2*keps-1,len).EQ.ef)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;80
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00127"/>00127 &#32;&#32;&#32;70&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00128"/>00128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;neps(len)=neps(len)+1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00129"/>00129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*neps(len)-1,len)=ef
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00130"/>00130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*neps(len)&#32;&#32;,len)=0
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00131"/>00131 &#32;&#32;&#32;80&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00132"/>00132 &#32;&#32;&#32;90&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00133"/>00133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(lf.EQ.5)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00134"/>00134 <emphasis role="comment">*&#32;======================================================================</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00135"/>00135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10100)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00136"/>00136 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;General&#32;evaporation&#32;spectrum&apos;</emphasis>)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00137"/>00137 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;incoming&#32;energy&#32;values&#32;and&#32;corresponding&#32;nuclear</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00138"/>00138 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;temperatures</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00139"/>00139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00140"/>00140 <emphasis role="comment">*&#32;---&#32;Scratch</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00141"/>00141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(99)&#32;math,mfh,mth,c1,c2,l1,l2,n1,n2,
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00142"/>00142 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(nbt(n),int(n),n=1,n1),(xnrval(n),n=1,2*n2)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00143"/>00143 <emphasis role="comment">*&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00144"/>00144 <emphasis role="comment">*&#32;---&gt;&#32;Save&#32;incoming&#32;energy&#32;and&#32;temperatures&#32;in&#32;new&#32;variables</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00145"/>00145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(2*n2.gt.maxet)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00146"/>00146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;XN5GTE:&#32;increase&#32;MAXET&apos;</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00147"/>00147 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00148"/>00148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;100&#32;jj=1,2*n2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00149"/>00149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;et(jj)=xnrval(jj)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00150"/>00150 &#32;&#32;100&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00151"/>00151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;110&#32;jj=1,n1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00152"/>00152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nbtt(jj)=nbt(jj)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00153"/>00153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;intt(jj)=int(jj)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00154"/>00154 &#32;&#32;110&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00155"/>00155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;net=n2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00156"/>00156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nit=n1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00157"/>00157 <emphasis role="comment">*&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00158"/>00158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ne=n2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00159"/>00159 <emphasis role="comment">*&#32;---&gt;&#32;Populate&#32;the&#32;outcoming&#32;energy&#32;grid&#32;for&#32;each&#32;incoming&#32;energy</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00160"/>00160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnengr(u,ne)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00161"/>00161 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;and&#32;write&#32;Pb&#32;values&#32;as&#32;a&#32;function&#32;of&#32;the&#32;ratio&#32;between</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00162"/>00162 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;outgoing&#32;energy&#32;and&#32;nuclear&#32;temperature</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00163"/>00163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00164"/>00164 <emphasis role="comment">*&#32;---&#32;Scratch</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00165"/>00165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(99)&#32;math,mfh,mth,c1,c2,l1,l2,n1,n2,
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00166"/>00166 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(nbt(n),int(n),n=1,n1),(xnrval(n),n=1,2*n2)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00167"/>00167 <emphasis role="comment">*&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00168"/>00168 <emphasis role="comment">*&#32;---&gt;&#32;Populate&#32;secondary&#32;grid</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00169"/>00169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;140&#32;len=1,nens
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00170"/>00170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;energy&#32;=&#32;xengr(len)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00171"/>00171 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;temperature&#32;corresponding&#32;to&#32;given&#32;incoming&#32;energy</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00172"/>00172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnterp(nbtt,intt,nit,et,net,energy,tet)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00173"/>00173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;130&#32;jef=1,n2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00174"/>00174 <emphasis role="comment">*&#32;---&gt;&#32;Convert&#32;to&#32;outcoming&#32;energy</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00175"/>00175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ef&#32;=&#32;tet*xnrval(2*jef-1)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00176"/>00176 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;outcoming&#32;energy&#32;only&#32;if&#32;not&#32;there</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00177"/>00177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;120&#32;keps=1,neps(len)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00178"/>00178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(xenpb(2*keps-1,len).eq.ef)&#32;<emphasis role="keywordflow">goto</emphasis>&#32;130
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00179"/>00179 &#32;&#32;120&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00180"/>00180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;neps(len)=neps(len)+1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00181"/>00181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(neps(len).gt.maxep)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00182"/>00182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;XN5GTE:&#32;increase&#32;MAXEP&apos;</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00183"/>00183 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00184"/>00184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*neps(len)-1,len)=ef
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00185"/>00185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*neps(len)&#32;&#32;,len)=0
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00186"/>00186 &#32;&#32;130&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00187"/>00187 &#32;&#32;140&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00188"/>00188 <emphasis role="comment">*&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00189"/>00189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(lf.EQ.7)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00190"/>00190 <emphasis role="comment">*&#32;======================================================================</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00191"/>00191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10200)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00192"/>00192 10200&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Simple&#32;fission&#32;spectrum&#32;(Maxwellian)&apos;</emphasis>)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00193"/>00193 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;nuclear&#32;temperature&#32;as&#32;a&#32;function&#32;of&#32;incoming&#32;energy</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00194"/>00194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00195"/>00195 <emphasis role="comment">*&#32;---&gt;&#32;Scratch</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00196"/>00196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(99)&#32;math,mfh,mth,c1,c2,l1,l2,n1,n2,
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00197"/>00197 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(nbt(n),int(n),n=1,n1),(xnrval(n),n=1,2*n2)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00198"/>00198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ne=n2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00199"/>00199 <emphasis role="comment">*&#32;---&gt;&#32;Populate&#32;secondary&#32;energy&#32;grid</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00200"/>00200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnengr(u,ne)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00201"/>00201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(lf.EQ.9)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00202"/>00202 <emphasis role="comment">*&#32;======================================================================</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00203"/>00203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10300)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00204"/>00204 10300&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Evaporation&#32;spectrum&apos;</emphasis>)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00205"/>00205 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;nuclear&#32;temperature&#32;as&#32;a&#32;function&#32;of&#32;incoming&#32;energy</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00206"/>00206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00207"/>00207 <emphasis role="comment">*&#32;---&gt;&#32;Scratch</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00208"/>00208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(99)&#32;math,mfh,mth,c1,c2,l1,l2,n1,n2,
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00209"/>00209 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(nbt(n),int(n),n=1,n1),(xnrval(n),n=1,2*n2)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00210"/>00210 <emphasis role="comment">*&#32;---&gt;&#32;Populate&#32;secondary&#32;energy&#32;grid</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00211"/>00211 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ne=n2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00212"/>00212 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnengr(u,ne)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00213"/>00213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(lf.EQ.11)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00214"/>00214 <emphasis role="comment">*&#32;======================================================================</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00215"/>00215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10400)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00216"/>00216 10400&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Energy&#32;dependent&#32;Watt&#32;spectrum&apos;</emphasis>)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00217"/>00217 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;a&#32;parameter&#32;of&#32;Watt&#32;spectrum&#32;as&#32;a&#32;function&#32;of&#32;incoming&#32;E</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00218"/>00218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00219"/>00219 <emphasis role="comment">*&#32;---&gt;&#32;Scratch</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00220"/>00220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(99)&#32;math,mfh,mth,c1,c2,l1,l2,n1,n2,
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00221"/>00221 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(nbt(n),int(n),n=1,n1),(xnrval(n),n=1,2*n2)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00222"/>00222 <emphasis role="comment">*&#32;---&gt;&#32;Populate&#32;secondary&#32;energy&#32;grid</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00223"/>00223 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ne=n2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00224"/>00224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnengr(u,ne)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00225"/>00225 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;b&#32;parameter&#32;of&#32;Watt&#32;spectrum&#32;as&#32;a&#32;function&#32;of&#32;incoming&#32;E</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00226"/>00226 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00227"/>00227 <emphasis role="comment">*&#32;---&gt;&#32;Scratch</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00228"/>00228 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(99)&#32;math,mfh,mth,c1,c2,l1,l2,n1,n2,
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00229"/>00229 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(nbt(n),int(n),n=1,n1),(xnrval(n),n=1,2*n2)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00230"/>00230 <emphasis role="comment">*&#32;---&gt;&#32;Populate&#32;secondary&#32;energy&#32;grid</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00231"/>00231 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ne=n2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00232"/>00232 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnengr(u,ne)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00233"/>00233 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(lf.EQ.12)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00234"/>00234 <emphasis role="comment">*&#32;======================================================================</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00235"/>00235 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10500)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00236"/>00236 10500&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Energy&#32;dependent&#32;fission&#32;neutron&#32;spectrum&#32;(Madland&amp;Nix)&apos;</emphasis>)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00237"/>00237 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;maximum&#32;temperature&#32;parameter&#32;as&#32;a&#32;function&#32;of&#32;incoming&#32;energy</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00238"/>00238 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00239"/>00239 <emphasis role="comment">*&#32;---&gt;&#32;Scratch</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00240"/>00240 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(99)&#32;math,mfh,mth,c1,c2,l1,l2,n1,n2,
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00241"/>00241 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(nbt(n),int(n),n=1,n1),(xnrval(n),n=1,2*n2)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00242"/>00242 <emphasis role="comment">*&#32;---&gt;&#32;Populate&#32;secondary&#32;energy&#32;grid</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00243"/>00243 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ne=n2
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00244"/>00244 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnengr(u,ne)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00245"/>00245 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00246"/>00246 &#32;&#32;150&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00247"/>00247 <emphasis role="comment">*&#32;---&gt;&#32;Clean&#32;up&#32;energy&#32;grids</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00248"/>00248 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnorgr
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00249"/>00249 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00250"/>00250 10600&#32;<emphasis role="keyword">FORMAT</emphasis>(1x,i3,<emphasis role="stringliteral">&apos;&#32;Subsections&#32;found&apos;</emphasis>)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00251"/>00251 10700&#32;<emphasis role="keyword">FORMAT</emphasis>(1x,i5,<emphasis role="stringliteral">&apos;&#32;Found&#32;energy&#32;distribution&#32;for&#32;&apos;</emphasis>,i2,<emphasis role="stringliteral">&apos;-&apos;</emphasis>,i3)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00252"/>00252 10800&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Subsection&#32;&apos;</emphasis>,i3,<emphasis role="stringliteral">&apos;&#32;number&#32;of&#32;int&#32;ranges&#32;&apos;</emphasis>,i3,
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00253"/>00253 &#32;&#32;&#32;&#32;&#32;+<emphasis role="stringliteral">&apos;&#32;number&#32;of&#32;p(E)&#32;&apos;</emphasis>,i3)
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00254"/>00254 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmake_2xn5gte_8_f_source_1l00255"/>00255 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

@@ -1,0 +1,159 @@
+\hypertarget{xnnfis_8_f_source}{}\doxysection{xnnfis.\+F}
+\label{xnnfis_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnnfis.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnnfis.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :          15/04/97  09.25.10  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnnfis(IZAMAT,E0,IA1,IZ1,IS1,IA2,IZ2,IS2)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00006}00006 \textcolor{comment}{*     Samples two fission fragments from the Independent Yield         *}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00007}00007 \textcolor{comment}{*     distribution. Distributions are taken from the American,         *}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00008}00008 \textcolor{comment}{*     Japanes, European and Russian databases in the order.            *}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00009}00009 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00010}00010 \textcolor{comment}{*     IZAMAT    (input) code of the fissile nuclide                    *}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00011}00011 \textcolor{comment}{*     E0        (input) energy of the incoming neutron in eV           *}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00012}00012 \textcolor{comment}{*     IA1       (output) mass number of the first fission fragment     *}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00013}00013 \textcolor{comment}{*     IZ1       (output) atomic number of the first fission fragment   *}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00014}00014 \textcolor{comment}{*     IS1       (output) isomer code of the first fission fragment     *}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00015}00015 \textcolor{comment}{*     IA2       (output) mass number of the second fission fragment    *}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00016}00016 \textcolor{comment}{*     IZ2       (output) atomic number of the second fission fragment  *}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00017}00017 \textcolor{comment}{*     IS2       (output) isomer code of the second fission fragment    *}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00018}00018 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00019}00019 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00020}00020 \textcolor{preprocessor}{\#include "{}xcfisb.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00021}00021 \textcolor{preprocessor}{}      dimension xt(2)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00022}00022       \textcolor{keywordtype}{LOGICAL} LFIRST}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00023}00023       \textcolor{keywordtype}{SAVE} lfirst}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00024}00024       \textcolor{keyword}{DATA} lfirst / .true. /}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00025}00025 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00026}00026 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00027}00027 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Make sure we read only once from disk fission fragments yield}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00029}00029 \textcolor{comment}{*      and fission neutron multiplicity}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00030}00030       \textcolor{keywordflow}{IF}(lfirst) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00031}00031          \textcolor{keyword}{CALL }xnnloa}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00032}00032          lfirst = .false.}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00033}00033 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> Convert from external to internal material code,}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00035}00035 \textcolor{comment}{*      stripping temperature code}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00036}00036       izap=mod(izamat,10000000)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Suppose we fail, set everything to 0}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00038}00038       ia1=0}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00039}00039       iz1=0}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00040}00040       is1=0}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00041}00041       ia2=0}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00042}00042       iz2=0}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00043}00043       is2=0}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00044}00044 \textcolor{comment}{* -\/-\/-\/> Find reduced IZZ and IAP for IZAPNT array}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00045}00045       izz = izap/10000}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00046}00046       izp = izz-\/85}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00047}00047       iap = mod(izap/10,1000)-\/2*izz}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00048}00048       \textcolor{keywordflow}{IF}((izp.LT.1.OR.izp.GT.maxizp).OR. (iap.LT.1.OR.iap.GT.maxiap))}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00049}00049      +\textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00050}00050 \textcolor{comment}{* -\/-\/-\/> Check that nuclide is a fissionable one}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00051}00051          \textcolor{keyword}{WRITE}(6,10000) izap/10000,mod(izap/10,1000),izp,iap}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00052}00052          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00053}00053 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00054}00054 \textcolor{comment}{* -\/-\/-\/> Load pointers}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/> Beginning of information in XFISB}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00056}00056       ip = izapnt(izp,iap,1)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/> Number of incoming energy points}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00058}00058       ne = izapnt(izp,iap,2)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00059}00059 \textcolor{comment}{* -\/-\/-\/> Total number of data}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00060}00060       nd = izapnt(izp,iap,3)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00061}00061       \textcolor{keywordflow}{IF}(nd.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> No data present, exit}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00063}00063          \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' No fission information on '}\textcolor{stringliteral}{',I6)'}) izap}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00064}00064          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00065}00065 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00066}00066 \textcolor{comment}{* -\/-\/-\/> Find energy interval for linear interpolation of yields}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00067}00067       \textcolor{keywordflow}{IF}(e0.LE.xfisb(ip+1)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00068}00068 \textcolor{comment}{* -\/-\/-\/> Underflow, take thermal value}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00069}00069          indi=1}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00070}00070          inde=1}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00071}00071          xrai=1}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00072}00072          xrae=0}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00073}00073       \textcolor{keywordflow}{ELSEIF}(e0.GE.xfisb(ip+ne)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00074}00074 \textcolor{comment}{* -\/-\/-\/> Overflow, take high energy value}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00075}00075          indi=ne}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00076}00076          inde=ne}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00077}00077          xrai=0}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00078}00078          xrae=1}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00079}00079       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00080}00080 \textcolor{comment}{* -\/-\/-\/> Case of several energies (can only be 3)}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00081}00081          \textcolor{keywordflow}{IF}(e0.LT.xfisb(ip+2)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00082}00082 \textcolor{comment}{* -\/-\/-\/> In the first (and may be only) energy interval}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00083}00083             indi=1}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00084}00084             inde=2}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00085}00085             xrai=(xfisb(ip+2)-\/e0)*xfisb(ip+ne+1)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00086}00086          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00087}00087 \textcolor{comment}{* -\/-\/-\/> In the second energy interval}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00088}00088             indi=2}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00089}00089             inde=3}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00090}00090             xrai=(xfisb(ip+3)-\/e0)*xfisb(ip+ne+2)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00091}00091 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00092}00092          xrae = 1-\/xrai}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00093}00093 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00094}00094 \textcolor{comment}{* -\/-\/-\/> Do sampling}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00095}00095       \textcolor{keyword}{CALL }xnrand(xt,2)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00096}00096       ibas = ip+2*ne-\/1+1}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00097}00097       indi = indi+ibas}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00098}00098       inde = inde+ibas}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00099}00099       nw = ne+1}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00100}00100       xxt=xt(1)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00101}00101 \textcolor{comment}{* -\/-\/-\/> Sample low mass fission fragment via binary search in the}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00102}00102 \textcolor{comment}{*      cumulative probability distribution}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00103}00103       k1=0}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00104}00104       k2=nd-\/1}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00105}00105    10 \textcolor{keywordflow}{IF}(k2-\/k1.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00106}00106          khalf=(k2+k1)/2}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00107}00107 \textcolor{comment}{* -\/-\/-\/> Pointer to "{}middle"{} fission fragment}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00108}00108          indha=nw*khalf}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00109}00109 \textcolor{comment}{* -\/-\/-\/> Interpolated cumulative value}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00110}00110          phalf=xfisb(indha+indi)*xrai+xfisb(indha+inde)*xrae}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00111}00111          \textcolor{keywordflow}{IF}(xxt.GT.phalf) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00112}00112             k1=khalf}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00113}00113          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00114}00114             k2=khalf}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00115}00115 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00116}00116          \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00117}00117 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00118}00118 \textcolor{comment}{* -\/-\/-\/> Found first FF, decode Isomer, A and Z}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00119}00119       i2=ibas+nw*k2}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00120}00120       izap=mfisb(i2)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00121}00121       is1 = mod(izap,10)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00122}00122       izap= izap/10}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00123}00123       ia1 = mod(izap,1000)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00124}00124       iz1 = izap/1000}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00125}00125 \textcolor{comment}{* -\/-\/-\/> Look for second FF}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00126}00126       xxt=xt(2)+1}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00127}00127 \textcolor{comment}{* -\/-\/-\/ Sample high mass fission fragment}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00128}00128       k1=k2}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00129}00129       k2=nd-\/1}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00130}00130    20 \textcolor{keywordflow}{IF}(k2-\/k1.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00131}00131          khalf=(k2+k1)/2}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00132}00132 \textcolor{comment}{* -\/-\/-\/> Pointer to "{}middle"{} fission fragment}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00133}00133          indha=nw*khalf}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00134}00134 \textcolor{comment}{* -\/-\/-\/> Interpolated cumulative value}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00135}00135          phalf=xfisb(indha+indi)*xrai+xfisb(indha+inde)*xrae}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00136}00136          \textcolor{keywordflow}{IF}(xxt.GT.phalf) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00137}00137             k1=khalf}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00138}00138          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00139}00139             k2=khalf}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00140}00140 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00141}00141          \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00142}00142 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00143}00143 \textcolor{comment}{* -\/-\/-\/> Found second FF, decode Isomer, A and Z}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00144}00144       i2=ibas+nw*k2}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00145}00145       izap=mfisb(i2)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00146}00146       is2 = mod(izap,10)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00147}00147       izap= izap/10}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00148}00148       ia2 = mod(izap,1000)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00149}00149       iz2 = izap/1000}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00150}00150 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00151}00151 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Out-\/of-\/bound fission yield! Z/A '},i2.2,\textcolor{stringliteral}{'/'},i3.3,}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00152}00152      +\textcolor{stringliteral}{' IZP/IAP '},i4,\textcolor{stringliteral}{'/'},i4)}
+\DoxyCodeLine{\Hypertarget{xnnfis_8_f_source_l00153}00153   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

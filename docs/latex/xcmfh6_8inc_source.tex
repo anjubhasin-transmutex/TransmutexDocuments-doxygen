@@ -1,0 +1,89 @@
+\hypertarget{xcmfh6_8inc_source}{}\doxysection{xcmfh6.\+inc}
+\label{xcmfh6_8inc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/include/xcmfh6.inc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/include/xcmfh6.inc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00001}00001 * -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ File 6 information -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00002}00002       PARAMETER (MXREA6=20)}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00003}00003       PARAMETER (MAXSE6=20)}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00004}00004       PARAMETER (MXSTO6=200000)}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00005}00005       COMMON / XC6MFH / NSECT, IZAMAT, ZA, AWR, LCT, NK, QI,}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00006}00006      + ISECPN(MAXSE6), R6STOR(MXSTO6), QIV(MXREA6), MTQIV(MXREA6),}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00007}00007      + NQIV, NEUTYI}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00008}00008       DIMENSION I6STOR(MXSTO6)}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00009}00009       EQUIVALENCE (I6STOR,R6STOR)}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00010}00010 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00011}00011 *               NSECT            number of sections retained}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00012}00012 *               ZA               ZA of target}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00013}00013 *               AWR              Mass in neutron units of target}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00014}00014 *               LCT              Reference system used 1=LAB 2=CM}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00015}00015 *               NK               number of sections of this MT}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00016}00016 *               QI               Q value of the current reaction}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00017}00017 *               ISECPN           pointer to sections in (R/I)6STOR}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00018}00018 *               (R/I)6STOR       storage for MF6 data}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00019}00019 *               QIV              vector of Q values}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00020}00020 *               MTQIV            reaction codes of the Q values in QIV}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00021}00021 *               NQIV             number of Q values}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00022}00022 *               NEUTYI           neutron yield of the reaction}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00023}00023 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00024}00024 *   Data for a section are in the format:}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00025}00025 *     LAW, NR, NP, INT(NR), NBT(NR), y(2*NP)          for all laws}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00026}00026 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00027}00027 * -\/-\/-\/ For LAW = 0 -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00028}00028 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00029}00029 *    Unknowm law, no other information stored.}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00030}00030 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00031}00031 * -\/-\/-\/ For LAW = 1 -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00032}00032 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00033}00033 *    Continuum energy angle distribution, assume no discrete lines}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00034}00034 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00035}00035 *    LANG, LEP, NR, NE, INT(NR), NBT(NR), Ein(NE), IP(NE),}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00036}00036 *    NA\{ 1\}, NED\{ 1\}, NEP\{ 1\},}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00037}00037 *    Eou\{  1\}, b\{0\}(Ein\{ 1\},Eou\{  1\})... b\{NA\}(Ein\{ 1\},Eou\{  1\})}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00038}00038 *    Eou\{NEP\}, b\{0\}(Ein\{ 1\},Eou\{NEP\})... b\{NA\}(Ein\{ 1\},Eou\{NEP\})}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00039}00039 *    .}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00040}00040 *    .}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00041}00041 *    .}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00042}00042 *    NA\{NE\}, NED\{NE\}, NEP\{NE\},}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00043}00043 *    Eou\{  1\}, b\{0\}(Ein\{NE\},Eou\{  1\})... b\{NA\}(Ein\{NE\},Eou\{  1\})}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00044}00044 *    Eou\{NEP\}, b\{0\}(Ein\{NE\},Eou\{NEP\})... b\{NA\}(Ein\{NE\},Eou\{NEP\})}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00045}00045 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00046}00046 *    Where IP(IE)+1 points to NEP(IE)}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00047}00047 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00048}00048 * -\/-\/-\/ For LAW = 3 -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00049}00049 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00050}00050 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00051}00051 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00052}00052 * -\/-\/-\/ For LAW = 6 -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00053}00053 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00054}00054 *    Phase space distribution}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00055}00055 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00056}00056 *    APSX, NPSX}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00057}00057 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00058}00058 *    Where IP(IE)+1 points to NEP(IE)}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00059}00059 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00060}00060 * -\/-\/-\/ For LAW = 7 -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00061}00061 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00062}00062 *    Laboratory angle distribution}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00063}00063 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00064}00064 *    NR, NE, INTE(NR), NBTE(NR), Ein(NE), IP(NE),}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00065}00065 *    Where IP(IE)+1 points to NRM(IE)}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00066}00066 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00067}00067 *    NRM\{  1\}, NMU\{  1\}, INTM(NRM)\{  1\}, NBTM(NRM)\{  1\}, Muin(NRM)\{  1\},}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00068}00068 *    IPM(NRM)\{  1\}}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00069}00069 *    Where IPM(Imu)+1 points to NRP(Imu)}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00070}00070 *    NRP\{  1,  1\}, NEP\{  1,  1\}, TAB1\{  1,  1\}}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00071}00071 *    .}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00072}00072 *    NRP\{  1,NRM\}, NEP\{  1,NRM\}, TAB1\{  1,NRM\}}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00073}00073 *    .}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00074}00074 *    .}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00075}00075 *    .}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00076}00076 *    NRM\{NMU\}, NMU\{NMU\}, INTM(NRM)\{NMU\}, NBTM(NRM)\{NMU\}, Muin(NRM)\{NMU\},}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00077}00077 *    IPM(NRM)\{NMU\}}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00078}00078 *    Where IPM(Imu)+1 points to NRP(Imu)}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00079}00079 *    NRP\{NMU,  1\}, NEP\{NMU,  1\}, TAB1\{NMU,  1\}}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00080}00080 *    .}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00081}00081 *    NRP\{NMU,NRM\}, NEP\{NMU,NRM\}, TAB1\{NMU,NRM\}}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00082}00082 *}
+\DoxyCodeLine{\Hypertarget{xcmfh6_8inc_source_l00083}00083 * >}
+
+\end{DoxyCode}

@@ -1,0 +1,67 @@
+\hypertarget{xninfo_8_f_source}{}\doxysection{xninfo.\+F}
+\label{xninfo_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xninfo.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xninfo.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  13.01.36  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   18/01/94}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xninfo(IZAMAT,HMASS,CHNAML)}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00006}00006 \textcolor{comment}{*     Returns symbol and mass value for a given isotope                *}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00008}00008 \textcolor{comment}{*     IZAMAT    (input) isomer code                                    *}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00009}00009 \textcolor{comment}{*     HMASS     (output) isomer mass in GeV                            *}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00010}00010 \textcolor{comment}{*     CHNAML    (output CHARACTER*2) isomer symbol                     *}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00011}00011 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00012}00012 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00013}00013 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00014}00014 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00015}00015 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00016}00016 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcelna.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00017}00017 \textcolor{preprocessor}{}      \textcolor{keywordtype}{CHARACTER*2} CHNAML}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00018}00018       dimension hinfo(nadinf)}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00019}00019 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00020}00020 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00021}00021 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00022}00022 \textcolor{comment}{* -\/-\/-\/> Prepare for failure}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00023}00023       hmass = 0.0}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> Get rid of temperature code}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00025}00025       \textcolor{keyword}{CALL }xngtmp(izamat,izain,itcod)}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Get isomer symbol}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00027}00027       chnaml = chelna(izain/10/1000)}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Load total cross section, the header information is the}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00029}00029 \textcolor{comment}{*      element mass in GeV}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00030}00030       \textcolor{keyword}{CALL }xntabl(izamat,3001,imate)}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Check if cross section has been loaded}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00032}00032       \textcolor{keywordflow}{DO} 10 jmate=1,nmate}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00033}00033          \textcolor{keywordflow}{IF}(izamat.EQ.imtabl(1,jmate)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00034}00034             imate = jmate}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00035}00035             \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00036}00036 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00037}00037    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Cross section has not been loaded, print message and leave}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00039}00039       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' *** XNINFO: Material '}\textcolor{stringliteral}{',I5,'}\textcolor{stringliteral}{' not in memory'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00040}00040      +        izamat}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00041}00041       \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00042}00042    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> Check if total cross section has been loaded}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00044}00044       \textcolor{keywordflow}{DO} 30 jreac=1,mxreac}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00045}00045          \textcolor{keywordflow}{IF}(1.EQ.nbmft(jreac)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00046}00046             ireac=jreac}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00047}00047             \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00048}00048 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00049}00049    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00050}00050 \textcolor{comment}{* -\/-\/-\/> Total cross section has not been loaded, print message and leave}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00051}00051       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' ** XNINFO: Total cross section not in memory'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00052}00052       \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00053}00053    40 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00054}00054 \textcolor{comment}{* -\/-\/-\/> Load header}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00055}00055       \textcolor{keywordflow}{DO} 50 jinf=1,nadinf}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00056}00056          hinfo(jinf)=hmtabl(1+nreinf*(ireac-\/1)+2+jinf,imate)}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00057}00057    50 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00058}00058 \textcolor{comment}{* -\/-\/-\/> Return mass in GeV}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00059}00059       hmass=hinfo(1)}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00060}00060 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xninfo_8_f_source_l00061}00061   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

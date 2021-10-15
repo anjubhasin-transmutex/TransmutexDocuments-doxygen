@@ -1,0 +1,40 @@
+\hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source}{}\doxysection{test\+LOG.\+C}
+\label{_g4-_neutron_transport_2test_l_o_g_8_c_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/testLOG.C@{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/testLOG.C}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00001}00001 \textcolor{preprocessor}{\#include <TCanvas.h>}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00002}00002 \textcolor{preprocessor}{\#include <TH1F.h>}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00004}00004 \textcolor{keywordtype}{int} testLOG() \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00005}00005     }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00006}00006     \textcolor{keywordtype}{double} dbl\_min = 1e-\/9;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00007}00007     \textcolor{keywordtype}{double} dbl\_max = 1e+8;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00008}00008     \textcolor{keywordtype}{int} int\_nbinsLog = 1000;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00009}00009     \textcolor{keywordtype}{double} min\_log = TMath::Log10(dbl\_min);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00010}00010     \textcolor{keywordtype}{double} max\_log = TMath::Log10(dbl\_max);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00011}00011     \textcolor{keywordtype}{double} bin\_width = ( max\_log -\/ min\_log) /(\textcolor{keywordtype}{double}) int\_nbinsLog;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00012}00012     \textcolor{keywordtype}{double} logbins[int\_nbinsLog + 1];}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00013}00013     logbins[0] = dbl\_min;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00014}00014     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k = 1; k <= int\_nbinsLog; ++k)}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00015}00015         logbins[k] = dbl\_min + TMath::Power(10, min\_log + k * bin\_width);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00016}00016     }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00017}00017     std::string str\_CanvaName = \textcolor{stringliteral}{"{}test"{}};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00018}00018     std::string str\_histoName = \textcolor{stringliteral}{"{}test"{}};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00019}00019     std::string str\_drawOption = \textcolor{stringliteral}{"{}hist e"{}};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00020}00020     TCanvas* canvas = \textcolor{keyword}{new} TCanvas(str\_CanvaName.c\_str(),str\_CanvaName.c\_str());}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00021}00021     canvas-\/>SetLogx();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00022}00022     canvas-\/>SetLogy();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00023}00023     }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00024}00024     TH1D* histo = \textcolor{keyword}{new} TH1D();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00025}00025     histo-\/>SetBins(int\_nbinsLog, logbins); \textcolor{comment}{// Logarithmic binning}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00026}00026     histo-\/>SetNameTitle(str\_CanvaName.c\_str(), \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00027}00027     }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00028}00028     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j=1; j < histo-\/>GetNbinsX(); ++j)}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00029}00029         histo-\/>Fill(TMath::Power(10, j*17./1000.), j);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00030}00030     }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00031}00031     histo-\/>Draw(str\_drawOption.c\_str());}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00032}00032     }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00033}00033     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2test_l_o_g_8_c_source_l00034}00034 \}        }
+
+\end{DoxyCode}

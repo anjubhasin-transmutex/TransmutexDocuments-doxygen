@@ -1,0 +1,118 @@
+\hypertarget{xnscdb_8_f_source}{}\doxysection{xnscdb.\+F}
+\label{xnscdb_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmkdb/xnscdb.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmkdb/xnscdb.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  16.28.28  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnscdb(CHCDBA)}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00006}00006 \textcolor{comment}{*     Process one full database storing selected information in the    *}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00007}00007 \textcolor{comment}{*     scratch file                                                     *}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00009}00009 \textcolor{comment}{*     CHCDBA    (input CHARACTER*(*)) database name                    *}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00010}00010 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00011}00011 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00012}00012 \textcolor{preprocessor}{\#include "{}xcsind.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00013}00013 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcsele.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00014}00014 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdnam.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00015}00015 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcluni.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00016}00016 \textcolor{preprocessor}{}      \textcolor{keywordtype}{CHARACTER*(*)} CHCDBA}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00017}00017       \textcolor{keywordtype}{CHARACTER*11} XNELNA, CHELNA}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00018}00018       \textcolor{keywordtype}{CHARACTER*66} CHLINE,CHLIN1,CHLIN2}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00019}00019 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00021}00021 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00022}00022 \textcolor{comment}{* -\/-\/-\/> New material}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00023}00023    10 \textcolor{keywordflow}{IF}(ldump) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> If we were dumping the previous material, record the}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00025}00025 \textcolor{comment}{*      length of the section just written}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00026}00026          ipoint(3,npoint)=nrecw-\/ipoint(2,npoint)}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00027}00027 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Read sectio header}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00029}00029       \textcolor{keyword}{READ}(itapa,10400) chlin1,math,mfh,mth,nseq}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00030}00030       \textcolor{keyword}{READ}(chlin1,10500) c1,c2,l1,l2,n1,n2}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00031}00031       \textcolor{keywordflow}{IF}(math.LT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> If EoF exit}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00033}00033          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00034}00034 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Find isomer code}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00036}00036       izamat=nint(c1)*10}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00037}00037       \textcolor{keyword}{READ}(itapa,10400) chlin2,math,mfh,mth,nseq}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00038}00038       \textcolor{keyword}{READ}(chlin2,10500) c1,c2,l1,l2,n1,n2}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00039}00039       liso=l2}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00040}00040       izamat=izamat+liso}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00041}00041       \textcolor{keywordflow}{IF}(izamat.LE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00042}00042 \textcolor{comment}{* -\/-\/-\/> If isomer code = 0 do not dump and skip}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00043}00043          ldump=.false.}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00044}00044          \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00045}00045 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00046}00046       chelna=xnelna(izamat)}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00047}00047       ldump=.true.}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00048}00048 \textcolor{comment}{* -\/-\/-\/> See whether it is in list}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00049}00049       \textcolor{keywordflow}{do} 30 jelem=1,nselec}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00050}00050          \textcolor{keywordflow}{IF}(izamat.EQ.izasel(jelem)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/> Element is in list}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00052}00052             \textcolor{keywordflow}{IF}(chcdba.EQ.chfsel(jelem)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/> This is the correct file}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00054}00054                \textcolor{keywordflow}{DO} 20 j=1,npoint}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/> This element should not have been already loaded}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00056}00056                   \textcolor{keywordflow}{IF}(izamat.EQ.ipoint(1,j).AND.chfnam(j).NE.chcdba) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00057}00057                      stop \textcolor{stringliteral}{'Element in list already loaded'}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00058}00058 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00059}00059    20          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> Load the pointers and store the element}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00061}00061                npoint=npoint+1}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00062}00062                ipoint(1,npoint)=izamat}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00063}00063                ipoint(2,npoint)=nrecw}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00064}00064                chfnam(npoint)=chcdba}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00065}00065                \textcolor{keyword}{WRITE}(itapl,10000) chelna}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00066}00066 10000 \textcolor{keyword}{FORMAT}(1x,a11,\textcolor{stringliteral}{' loaded from selection'})}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00067}00067                \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00068}00068             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/> Not the correct file, skip section}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00070}00070                ldump=.false.}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00071}00071                \textcolor{keyword}{WRITE}(itapl,10100) chelna}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00072}00072 10100 \textcolor{keyword}{FORMAT}(1x,a11,\textcolor{stringliteral}{' skipped'})}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00073}00073                \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00074}00074 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00075}00075 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00076}00076    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00077}00077 \textcolor{comment}{* -\/-\/-\/> Element not in list, dump anyhow if not already done}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00078}00078       \textcolor{keywordflow}{DO} 40 j=1,npoint}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00079}00079          \textcolor{keywordflow}{IF}(izamat.EQ.ipoint(1,j)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00080}00080             ldump=.false.}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00081}00081             \textcolor{keyword}{WRITE}(itapl,10200) chelna}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00082}00082 10200 \textcolor{keyword}{FORMAT}(1x,a11,\textcolor{stringliteral}{' already in file'})}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00083}00083             \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00084}00084 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00085}00085    40 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00086}00086 \textcolor{comment}{* -\/-\/-\/> Load isomer}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00087}00087       \textcolor{keyword}{WRITE}(itapl,10300) chelna}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00088}00088 10300 \textcolor{keyword}{FORMAT}(1x,a11,\textcolor{stringliteral}{' loaded from default'})}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00089}00089       npoint=npoint+1}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00090}00090       ipoint(1,npoint)=izamat}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00091}00091       ipoint(2,npoint)=nrecw}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00092}00092       chfnam(npoint)=chcdba}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00093}00093    50 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00094}00094 \textcolor{comment}{* -\/-\/-\/> Write in scratch file the first two lines if isomer is good}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00095}00095       \textcolor{keywordflow}{IF}(ldump) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00096}00096          nrecw=nrecw+1}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00097}00097          \textcolor{keyword}{WRITE}(1,rec=nrecw,fmt=10400) chlin1,math,mfh,mth}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00098}00098          nrecw=nrecw+1}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00099}00099          \textcolor{keyword}{WRITE}(1,rec=nrecw,fmt=10400) chlin2,math,mfh,mth}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00100}00100 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00101}00101 \textcolor{comment}{* -\/-\/-\/> Get to the end of isomer}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00102}00102    60 \textcolor{keyword}{READ}(itapa,10400) chline,math,mfh,mth}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00103}00103       \textcolor{keywordflow}{IF}(math+mfh+mth.EQ.0) \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00104}00104       \textcolor{keywordflow}{IF}(ldump) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00105}00105          nrecw=nrecw+1}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00106}00106          \textcolor{keyword}{WRITE}(itapd,rec=nrecw,fmt=10400) chline, math, mfh, mth}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00107}00107 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00108}00108       \textcolor{keywordflow}{GOTO} 60}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00109}00109 10400 \textcolor{keyword}{FORMAT}(a66,i4,i2,i3,i5)}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00110}00110 10500 \textcolor{keyword}{FORMAT}(2e11.4,4i11,i4,i2,i3,i5)}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00111}00111 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnscdb_8_f_source_l00112}00112   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

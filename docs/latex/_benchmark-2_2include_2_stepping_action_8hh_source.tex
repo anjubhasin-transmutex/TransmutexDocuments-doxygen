@@ -1,0 +1,218 @@
+\hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source}{}\doxysection{Stepping\+Action.\+hh}
+\label{_benchmark-2_2include_2_stepping_action_8hh_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/2/include/SteppingAction.hh@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/2/include/SteppingAction.hh}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00005}00005 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00006}00006 \textcolor{comment}{// SteppingAction}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00007}00007 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00008}00008 \textcolor{comment}{// Donovan Maire, Transmutex, 18/10/2019}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00009}00009 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00011}00011 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00013}00013 \textcolor{preprocessor}{\#ifndef SteppingAction\_H}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00014}00014 \textcolor{preprocessor}{\#define SteppingAction\_H 1}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00016}00016 \textcolor{preprocessor}{\#include "{}EventAction.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00017}00017 \textcolor{preprocessor}{\#include "{}RunAction.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00018}00018 \textcolor{preprocessor}{\#include "{}TMXInputParameters.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00019}00019 \textcolor{preprocessor}{\#include "{}Analysis.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00020}00020 \textcolor{preprocessor}{\#include "{}TMXNeutronGenerationCounting.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00022}00022 \textcolor{comment}{// GEANT4 libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00023}00023 \textcolor{preprocessor}{\#include "{}globals.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00024}00024 \textcolor{preprocessor}{\#include "{}G4UserSteppingAction.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00025}00025 \textcolor{preprocessor}{\#include "{}G4ThreeVector.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00026}00026 \textcolor{preprocessor}{\#include "{}G4StepPoint.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00027}00027 \textcolor{preprocessor}{\#include "{}G4Track.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00028}00028 \textcolor{preprocessor}{\#include "{}G4VSolid.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00029}00029 \textcolor{preprocessor}{\#include "{}G4HadronicProcess.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00031}00031 \textcolor{comment}{// C++ libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00032}00032 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00033}00033 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00035}00035 \textcolor{keyword}{class }\mbox{\hyperlink{class_stepping_action}{SteppingAction}} : \textcolor{keyword}{public} G4UserSteppingAction}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00036}00036 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00037}00037   \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00038}00038     \mbox{\hyperlink{class_stepping_action}{SteppingAction}}(\mbox{\hyperlink{class_event_action}{EventAction}}* eventAction, \mbox{\hyperlink{class_run_action}{RunAction}}* runAction, \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}\& parameter);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00039}00039     \textcolor{keyword}{virtual} \mbox{\hyperlink{class_stepping_action}{\string~SteppingAction}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00040}00040     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} UserSteppingAction(\textcolor{keyword}{const} G4Step*);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00041}00041     \textcolor{keywordtype}{void} Initialize(\mbox{\hyperlink{class_event_action}{EventAction}}* eventAction, \mbox{\hyperlink{class_run_action}{RunAction}}* runAction, \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}\& parameter);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00043}00043 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00044}00044     \textcolor{keywordtype}{void} NeutronGenerationCounting(\textcolor{keyword}{const} G4Step* theStep, \textcolor{keyword}{const} G4Track* secondary,}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00045}00045                                                 \textcolor{keywordtype}{int} nNeutrons, \textcolor{keywordtype}{int}\& Nb\_inelastic);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00046}00046     \textcolor{keywordtype}{void} CountSecondaries(\textcolor{keyword}{const} G4Step* theStep, \textcolor{keywordtype}{int} nNeutrons);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00047}00047     \textcolor{keywordtype}{void} ChangeStatusFlag(\textcolor{keyword}{const} G4Step * theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00048}00048     \textcolor{keywordtype}{void} InitializeGenerationFlag(\textcolor{keyword}{const} G4Step * theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00050}00050     \textcolor{keywordtype}{void} FillHistoTimeEnergyFlux(\textcolor{keyword}{const} G4Step* theStep, \textcolor{keywordtype}{bool} BoundaryStatus, G4int nNeutrons);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00051}00051     \textcolor{keywordtype}{void} FillNtuple1(G4double PosX, G4double PosY, G4double PosZ, G4int reasonID, G4int EveryVol,}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00052}00052                                  G4int FissionVol, G4int CaptureVol, G4int InelasticVol, G4int nnPrimeVol, G4int nXnVol}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00053}00053                                  , G4int pID, G4int OutPhysVol\textcolor{comment}{/*, G4double energyK, G4int InPhysVol, G4double GlobalTime, G4double StepLength*/});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00054}00054     \textcolor{keywordtype}{void} FillNtuple2(G4double PosX, G4double PosY, G4double PosZ, G4double energyK, G4int FissionVol,}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00055}00055                      G4int CaptureVol, G4double StepLength, G4double CubicVolume, G4int A, G4int Z);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00056}00056     \textcolor{keywordtype}{void} FillNtupleDepositedPower(\textcolor{keyword}{const} G4Step* theStep\textcolor{comment}{/*G4ThreeVector N0\_Pos, G4double N0\_Energy*/});}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00057}00057     \textcolor{keywordtype}{void} FillNtupleNeutronSource(G4ThreeVector N0\_Pos, G4ThreeVector N0\_Momentum, G4double N0\_Energy);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00058}00058     \textcolor{keywordtype}{void} FillNtupleProton(G4ThreeVector N0\_Pos, G4ThreeVector N0\_Momentum, G4double N0\_Energy);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00059}00059     \textcolor{keywordtype}{void} FillNdensityVStimeHisto(\textcolor{keywordtype}{double} time);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00060}00060     \textcolor{keywordtype}{void} FillEdepInStepHisto(\textcolor{keyword}{const} G4Step * theStep, \textcolor{keywordtype}{double} dbl\_Ibeam=1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00061}00061     \textcolor{keywordtype}{bool} IsInReactorVes(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00062}00062     \textcolor{keywordtype}{bool} IsSecondCoolant(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00063}00063     \textcolor{keywordtype}{bool} IsIncineration(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00064}00064     \textcolor{keywordtype}{bool} IsTargetRegion(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00065}00065     \textcolor{keywordtype}{bool} IsTarget(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00066}00066     \textcolor{keywordtype}{bool} IsHeatShieldRegion(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00067}00067     \textcolor{keywordtype}{bool} IsLeadRegion(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00068}00068     \textcolor{keywordtype}{bool} IsWaterCoreRegion(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00069}00069     \textcolor{keywordtype}{bool} IsBeamPipe(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00070}00070     \textcolor{keywordtype}{bool} IsBeamWindow(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00071}00071     \textcolor{keywordtype}{bool} IsNeutronAbsorber(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00072}00072     \textcolor{keywordtype}{bool} IsLead(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00073}00073     \textcolor{keywordtype}{bool} IsSpentFuel(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00074}00074     \textcolor{keywordtype}{bool} IsFuel(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00075}00075     \textcolor{keywordtype}{bool} IsCoolantRegion(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00076}00076     \textcolor{keywordtype}{bool} IsCoolantInCoreRegion(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00077}00077     \textcolor{keywordtype}{bool} IsReflector(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00078}00078     \textcolor{keywordtype}{bool} IsSamplesInLead(\textcolor{keywordtype}{int} VolNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00080}00080     \textcolor{keywordtype}{bool} IsEscapingTarget();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00081}00081     \textcolor{keywordtype}{bool} IsFissionProduct(std::string particleType);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00082}00082     \textcolor{keywordtype}{bool} IsPrimaryProton(std::string particleName, \textcolor{keywordtype}{int} ID\_track);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00083}00083     \textcolor{keywordtype}{void} FillBeamProfile(G4Track\& theTrack, \textcolor{keywordtype}{int} stepnumber, G4ThreeVector\& PrePos, G4AnalysisManager\& analysisManager);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00084}00084     \textcolor{keywordtype}{void} FillEdepPrimaries(\textcolor{keyword}{const} G4Step* theStep\textcolor{comment}{/*G4ThreeVector\& PostPos, double Tot\_Edep*/}, \textcolor{keywordtype}{double} dbl\_Ibeam, G4AnalysisManager\& analysisManager);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00085}00085     \textcolor{keywordtype}{void} AccumulateMeanEperFission(\textcolor{keyword}{const} G4Step* theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00086}00086     \textcolor{keywordtype}{void} FillTimeEnergyFissionProducts(\textcolor{keyword}{const} G4Step* theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00087}00087     \textcolor{keywordtype}{double} KineticEnergy\_eV(\textcolor{keyword}{const} G4Step * theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00088}00088     \textcolor{keywordtype}{void} ManageNeutronBirth(\textcolor{keyword}{const} G4Step * theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00089}00089     \textcolor{keywordtype}{void} FillHistoSourceN(\textcolor{keywordtype}{double} energyAtBirth, G4ThreeVector posAtBirth, \textcolor{keywordtype}{double} energyAtCounting, G4ThreeVector posAtCounting, G4ThreeVector dirAtCounting, \textcolor{keywordtype}{int} nbNeutrons);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00090}00090     \textcolor{keyword}{const} G4Isotope* GetTargetIsotope(G4StepPoint* thePostPoint);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00091}00091     \textcolor{keywordtype}{void} ManageNeutronScoring(\textcolor{keyword}{const} G4Step* theStep, \textcolor{keywordtype}{int}\& nNeutrons);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00092}00092     \textcolor{keywordtype}{void} ManageFission(\textcolor{keyword}{const} G4Step* theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00093}00093     \textcolor{keywordtype}{void} ManageCapture(\textcolor{keyword}{const} G4Step* theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00094}00094     \textcolor{keywordtype}{void} ManageNInelastic(\textcolor{keyword}{const} G4Step* theStep, \textcolor{keywordtype}{int}\& nNeutrons);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00095}00095     \textcolor{keywordtype}{void} ManageNeutronEscape(\textcolor{keyword}{const} G4Step* theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00096}00096     \textcolor{keywordtype}{void} ManagePrimaryProtonEscape(\textcolor{keyword}{const} G4Step* theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00098}00098     \textcolor{keywordtype}{void} CountN0\_leavingTarget(\textcolor{keyword}{const} G4Step * theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00099}00099     \textcolor{keywordtype}{void} CountN0\_FromPrimaries(\textcolor{keyword}{const} G4Step* theStep, \textcolor{keywordtype}{double} SecondEnergy, G4ThreeVector\& SecondPos, G4ThreeVector\& SecondMom);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00100}00100     \textcolor{keywordtype}{void} CountNeutronSource\_DefEAP(\textcolor{keyword}{const} G4Step* theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00101}00101     \textcolor{keywordtype}{void} CountNeutronGeneration\_FromInelastic(\textcolor{keywordtype}{int} MotherNeutronGeneration, \textcolor{keywordtype}{int} Nb\_inelastic);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00102}00102     \textcolor{keywordtype}{void} CountNeutronGeneration\_FromFission(\textcolor{keywordtype}{int} NeutronGeneration);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00103}00103     \textcolor{keywordtype}{void} ScoreNeutronGeneration(\textcolor{keywordtype}{int} NeutronGeneration, \textcolor{keywordtype}{int} NeutronNumber);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00104}00104     \textcolor{keywordtype}{void} k\_calculation(\textcolor{keyword}{const} G4Step* theStep, \textcolor{keywordtype}{int} nNeutrons);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00105}00105     \textcolor{keywordtype}{void} k\_initialization(\textcolor{keyword}{const} G4Step* theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00106}00106     \textcolor{keywordtype}{void} GetNeutronHadronicProcesses();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00107}00107     G4double GetElementElasticCrossSection( \textcolor{keyword}{const} G4Step*, G4Element*, G4Material* );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00108}00108     G4double GetElementInelastCrossSection( \textcolor{keyword}{const} G4Step*, G4Element*, G4Material* );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00109}00109     G4double GetElementCaptureCrossSection( \textcolor{keyword}{const} G4Step*, G4Element*, G4Material* );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00110}00110     G4double GetElementFissionCrossSection( \textcolor{keyword}{const} G4Step*, G4Element*, G4Material* );}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00111}00111     G4double GetElementInelastChannelCrossSection( \textcolor{keyword}{const} G4Step*, G4Element*, G4int);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00112}00112     G4double GetMaterialElasticCrossSection(\textcolor{keyword}{const} G4Step*, G4Material*);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00113}00113     G4double GetMaterialInelastCrossSection(\textcolor{keyword}{const} G4Step*, G4Material*);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00114}00114     G4double GetMaterialCaptureCrossSection(\textcolor{keyword}{const} G4Step*, G4Material*);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00115}00115     G4double GetMaterialFissionCrossSection(\textcolor{keyword}{const} G4Step*, G4Material*);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00116}00116     \textcolor{keywordtype}{void} MCNP\_Keff\_estimators\_ori(\textcolor{keyword}{const} G4Step theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00117}00117     \textcolor{keywordtype}{void} MCNP\_Keff\_estimators(\textcolor{keyword}{const} G4Step \&theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00118}00118     \textcolor{keywordtype}{void} RecursiveVolumeCalculation(G4VPhysicalVolume*, \textcolor{keywordtype}{int} replicate\_number=1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00119}00119     \textcolor{keywordtype}{void} RecursiveMassCalculation(G4VPhysicalVolume*, \textcolor{keywordtype}{int} replicate\_number=1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00120}00120     \textcolor{keywordtype}{void} GetPhysicalVolumeNumber(\textcolor{keyword}{const} G4Step * theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00121}00121     \textcolor{keywordtype}{void} InitializeNeutronGenerationFlag (\textcolor{keyword}{const} G4Step * theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00122}00122     \textcolor{keywordtype}{int} GetRegionNumber(std::string PhyicalVolume\_name, G4StepStatus stepStatus);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00123}00123     \textcolor{keywordtype}{void} ScorePrimaryProtons(\textcolor{keyword}{const} G4Step* theStep, \textcolor{keywordtype}{double} dbl\_Ibeam);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00124}00124     \textcolor{keywordtype}{void} Initialize\_userDefinedRegions();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00125}00125     \textcolor{keywordtype}{void} Initialize\_userDefinedVariables();}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00126}00126     \textcolor{keywordtype}{void} keff\_Mesh\_scoring(\textcolor{keyword}{const} G4Step* theStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00127}00127 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00128}00128     \textcolor{comment}{// member variables}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00129}00129     \textcolor{keywordtype}{bool} fIsSourceNeutron;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00130}00130     std::vector<bool> vStatus\_secondaries;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00131}00131     G4int fNeutronGeneration;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00132}00132     std::vector<G4int> v\_NeutronGeneration;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00133}00133     \textcolor{keywordtype}{long} N0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00134}00134     \textcolor{keywordtype}{long} Nf;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00135}00135     \textcolor{keywordtype}{long} Nfission;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00136}00136     \textcolor{keywordtype}{long} Nnfission;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00137}00137     \textcolor{keywordtype}{long} fN0Absorber;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00138}00138     \mbox{\hyperlink{class_event_action}{EventAction}}*  fEventAction;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00139}00139     \mbox{\hyperlink{class_run_action}{RunAction}}* fRunAction;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00140}00140     G4double fEnergyAtBirth;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00141}00141     G4ThreeVector fPosAtBirth;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00142}00142     G4double fBirthTime;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00143}00143     G4bool fPromptN;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00144}00144     G4double fDeltat;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00145}00145     G4double f\_tBin;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00146}00146     G4int fRunNumber;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00147}00147     G4bool fFromFission;     \textcolor{comment}{// Flag commes to true if a fission occurs and remains true for the secondaries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00148}00148     G4long fID\_firstfission; \textcolor{comment}{// particle ID when the first fission occurs}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00149}00149     G4long fNfission\_fromFission; \textcolor{comment}{// Number of fissions since the first fission}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00150}00150     G4double fEperFission;   \textcolor{comment}{// Mean energy deposited per fission in eV}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00151}00151     G4double fLeadCubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00152}00152     G4double fWaterInCoreCubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00153}00153     G4double fTargetTubeCubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00154}00154     G4double fTargetBeamWindowCubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00155}00155     G4double fFuelUnionCubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00156}00156     G4HadronicProcess* fProcessElas;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00157}00157     G4HadronicProcess* fProcessInel;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00158}00158     G4HadronicProcess* fProcessCap;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00159}00159     G4HadronicProcess* fProcessFis;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00160}00160     G4double fLengthBetweenCollision;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00161}00161     \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* p;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00162}00162     std::unordered\_map<int        , double> fmap\_Region\_volume;  \textcolor{comment}{// Volume in cm3 of every listed regions}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00163}00163     std::unordered\_map<int        , double> fmap\_Region\_mass;  \textcolor{comment}{// Mass in g of every listed regions}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00164}00164     std::unordered\_map<std::string, double> fmap\_LV\_volume;   \textcolor{comment}{// Volume in cm3 of every logical volumes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00165}00165     std::unordered\_map<std::string, double> fmap\_LV\_mass;   \textcolor{comment}{// Mass in g of every logical volumes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00166}00166     std::unordered\_map<std::string, double> fmap\_mat\_volume; \textcolor{comment}{// Volume in cm3 of every material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00167}00167     std::unordered\_map<std::string, double> fmap\_mat\_mass; \textcolor{comment}{// Mass in g of every material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00168}00168     std::unordered\_map<std::string, double> fmap\_PV\_name\_number; \textcolor{comment}{// Name of Physical Volume associated to an unique number defined by the user}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00169}00169     G4int fPostPhysicalVolumeNumber; \textcolor{comment}{// ID of the physical volume of the poststep}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00170}00170     G4int fPrePhysicalVolumeNumber; \textcolor{comment}{// ID of the physical volume of the prestep}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00171}00171     G4int fPhysicalVolumeNumber; \textcolor{comment}{// ID of the physical volume to be used}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00172}00172     std::string fPrePhysicalVolumeName;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00173}00173 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00175}00175     \textcolor{comment}{// Do not use anymore}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00176}00176     std::vector<int> strPhysVolNumber;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00177}00177     std::vector<std::string> strPhysVolName;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00178}00178     G4int fN\_fuelrods;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00179}00179     G4int fN\_FastRods;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00180}00180     G4ThreeVector fTargetPosition;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00181}00181     G4VSolid*   fTargetTubeSolid;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00182}00182     G4double    fTargetZdistanceToBottom;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00183}00183     G4double    fh0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00185}00185 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00186}00186     \textcolor{comment}{// GeomSVBR\_AKME Cubic Volumes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00187}00187     G4double fPrimaryCoolantCubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00188}00188     G4double fPrimaryCoolantCoreCubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00189}00189     G4double fSecondaryCoolantCubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00190}00190     G4double fIncinerationCubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00191}00191     G4double fSpallationTargetCubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00192}00192     G4double fReactorOuterVesselCubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00193}00193     G4double fReactorInnerVesselCubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00194}00194 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00195}00195     G4double fFuelBlkt1CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00196}00196     G4double fFuel1CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00197}00197     G4double fFuel2CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00198}00198     G4double fFuel3CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00199}00199     G4double fFuelGrid2CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00200}00200     G4double fFuel4CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00201}00201     G4double fFuel5CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00202}00202     G4double fFuel6CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00203}00203     G4double fFuel7CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00204}00204     G4double fFuel8CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00205}00205     G4double fFuelGrid3CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00206}00206     G4double fFuel9CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00207}00207     G4double fFuel10CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00208}00208     G4double fFuel11CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00209}00209     G4double fFuelBlkt2CubicVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00210}00210 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00211}00211     \mbox{\hyperlink{class_t_m_x_neutron_generation_counting}{TMXNeutronGenerationCounting}}* fGenerationCounter;}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00212}00212     \textcolor{keywordtype}{void} computeSourceTerm(\textcolor{keyword}{const} G4Step*);}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00213}00213 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00214}00214 \};}
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00215}00215 }
+\DoxyCodeLine{\Hypertarget{_benchmark-2_2include_2_stepping_action_8hh_source_l00216}00216 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

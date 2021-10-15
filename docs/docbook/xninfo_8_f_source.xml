@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xninfo_8_f_source" xml:lang="en-US">
+<title>xninfo.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xninfo.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xninfo_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;03/06/96&#32;&#32;13.01.36&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;18/01/94</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xninfo(IZAMAT,HMASS,CHNAML)
+<anchor xml:id="_xninfo_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Returns&#32;symbol&#32;and&#32;mass&#32;value&#32;for&#32;a&#32;given&#32;isotope&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IZAMAT&#32;&#32;&#32;&#32;(input)&#32;isomer&#32;code&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;HMASS&#32;&#32;&#32;&#32;&#32;(output)&#32;isomer&#32;mass&#32;in&#32;GeV&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;CHNAML&#32;&#32;&#32;&#32;(output&#32;CHARACTER*2)&#32;isomer&#32;symbol&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00012"/>00012 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00013"/>00013 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00014"/>00014 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcpoin.inc&quot;</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00015"/>00015 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcnamf.inc&quot;</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00016"/>00016 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcelna.inc&quot;</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00017"/>00017 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*2</emphasis>&#32;CHNAML
+<anchor xml:id="_xninfo_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;hinfo(nadinf)
+<anchor xml:id="_xninfo_8_f_source_1l00019"/>00019 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00020"/>00020 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00021"/>00021 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00022"/>00022 <emphasis role="comment">*&#32;---&gt;&#32;Prepare&#32;for&#32;failure</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;hmass&#32;=&#32;0.0
+<anchor xml:id="_xninfo_8_f_source_1l00024"/>00024 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;rid&#32;of&#32;temperature&#32;code</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xngtmp(izamat,izain,itcod)
+<anchor xml:id="_xninfo_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;isomer&#32;symbol</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;chnaml&#32;=&#32;chelna(izain/10/1000)
+<anchor xml:id="_xninfo_8_f_source_1l00028"/>00028 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;total&#32;cross&#32;section,&#32;the&#32;header&#32;information&#32;is&#32;the</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00029"/>00029 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;element&#32;mass&#32;in&#32;GeV</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntabl(izamat,3001,imate)
+<anchor xml:id="_xninfo_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;---&gt;&#32;Check&#32;if&#32;cross&#32;section&#32;has&#32;been&#32;loaded</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jmate=1,nmate
+<anchor xml:id="_xninfo_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izamat.EQ.imtabl(1,jmate))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;imate&#32;=&#32;jmate
+<anchor xml:id="_xninfo_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;20
+<anchor xml:id="_xninfo_8_f_source_1l00036"/>00036 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00037"/>00037 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00038"/>00038 <emphasis role="comment">*&#32;---&gt;&#32;Cross&#32;section&#32;has&#32;not&#32;been&#32;loaded,&#32;print&#32;message&#32;and&#32;leave</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;***&#32;XNINFO:&#32;Material&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;,I5,&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;not&#32;in&#32;memory&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)
+<anchor xml:id="_xninfo_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izamat
+<anchor xml:id="_xninfo_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xninfo_8_f_source_1l00042"/>00042 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00043"/>00043 <emphasis role="comment">*&#32;---&gt;&#32;Check&#32;if&#32;total&#32;cross&#32;section&#32;has&#32;been&#32;loaded</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;jreac=1,mxreac
+<anchor xml:id="_xninfo_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(1.EQ.nbmft(jreac))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ireac=jreac
+<anchor xml:id="_xninfo_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;40
+<anchor xml:id="_xninfo_8_f_source_1l00048"/>00048 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00049"/>00049 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00050"/>00050 <emphasis role="comment">*&#32;---&gt;&#32;Total&#32;cross&#32;section&#32;has&#32;not&#32;been&#32;loaded,&#32;print&#32;message&#32;and&#32;leave</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;**&#32;XNINFO:&#32;Total&#32;cross&#32;section&#32;not&#32;in&#32;memory&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)
+<anchor xml:id="_xninfo_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xninfo_8_f_source_1l00053"/>00053 &#32;&#32;&#32;40&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00054"/>00054 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;header</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;50&#32;jinf=1,nadinf
+<anchor xml:id="_xninfo_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hinfo(jinf)=hmtabl(1+nreinf*(ireac-1)+2+jinf,imate)
+<anchor xml:id="_xninfo_8_f_source_1l00057"/>00057 &#32;&#32;&#32;50&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00058"/>00058 <emphasis role="comment">*&#32;---&gt;&#32;Return&#32;mass&#32;in&#32;GeV</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;hmass=hinfo(1)
+<anchor xml:id="_xninfo_8_f_source_1l00060"/>00060 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xninfo_8_f_source_1l00061"/>00061 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

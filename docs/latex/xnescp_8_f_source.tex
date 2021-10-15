@@ -1,0 +1,113 @@
+\hypertarget{xnescp_8_f_source}{}\doxysection{xnescp.\+F}
+\label{xnescp_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnescp.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnescp.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :          02/09/97  17.18.51  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   01/09/97}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnescp(IZAMAT,EMIN,EMAX,PROB)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00004}00004 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00005}00005 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00006}00006 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00007}00007 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcerro.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00008}00008 \textcolor{preprocessor}{}      parameter(challe=\textcolor{stringliteral}{'XNESCP'})}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00009}00009 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00010}00010       \textcolor{keywordtype}{CHARACTER*11} XNELNA, CHELNA}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00011}00011       parameter(kcapt=6,ktota=1)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00012}00012       \textcolor{keywordtype}{DOUBLE PRECISION} AA,ALPHA,CSI,ONE,HINT,A,B,C,D}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00013}00013       parameter(one=1)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00014}00014       \textcolor{keywordtype}{LOGICAL} LCALC}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00015}00015 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00016}00016 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00017}00017 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00018}00018 \textcolor{comment}{* -\/-\/-\/> Suppose we fail}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00019}00019       prob=0}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/> Find pointer}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00021}00021       \textcolor{keywordflow}{DO} k=1,nmate}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00022}00022          \textcolor{keywordflow}{IF}(izamat.EQ.imtabl(1,k)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00023}00023             imate=k}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00024}00024             \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00025}00025 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00026}00026 \textcolor{keywordflow}{      ENDDO}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00027}00027       \textcolor{keyword}{CALL }xngtmp(izamat,izaint,itcode)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00028}00028       itemp=ltemp(itcode)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00029}00029       chelna=xnelna(izamat)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00030}00030       \textcolor{keyword}{WRITE}(cherro,10000) chelna,itemp}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00031}00031       \textcolor{keyword}{CALL }xnerro(challe,cherro,\textcolor{stringliteral}{'E'})}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00032}00032       \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/> Found material}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00034}00034    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Calculate alpha, csi}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00036}00036       aa=hmtabl(1+3,imate)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00037}00037       alpha=((aa-\/one)/(aa+one))**2}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00038}00038       csi=one+alpha*log(alpha)/(one-\/alpha)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00039}00039       print*, \textcolor{stringliteral}{'Material mass='},aa,\textcolor{stringliteral}{'Alpha='},alpha,\textcolor{stringliteral}{'csi='},csi}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> Find pointers and initialise total}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00041}00041       iptota=imtabl(1+(ktota-\/1)*nreinf+1,imate)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00042}00042       nttota=imtabl(1+(ktota-\/1)*nreinf+2,imate)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00043}00043       \textcolor{keywordflow}{IF}(iptota.LE.0.OR.nttota.LE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00044}00044          \textcolor{keyword}{WRITE}(cherro,10100)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00045}00045          \textcolor{keyword}{CALL }xnerro(challe,cherro,\textcolor{stringliteral}{'E'})}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00046}00046 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00047}00047       ictota=iptota-\/1}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00048}00048       iltota=iptota+2*nttota-\/1}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Find pointers and initialise capture}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00050}00050       ipcapt=imtabl(1+(kcapt-\/1)*nreinf+1,imate)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00051}00051       ntcapt=imtabl(1+(kcapt-\/1)*nreinf+2,imate)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00052}00052       \textcolor{keywordflow}{IF}(ipcapt.LE.0.OR.ntcapt.LE.0.OR.iptota.LE.0.OR.nttota.LE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00053}00053          \textcolor{keyword}{WRITE}(cherro,10200)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00054}00054          \textcolor{keyword}{CALL }xnerro(challe,cherro,\textcolor{stringliteral}{'E'})}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00055}00055 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00056}00056       iccapt=ipcapt-\/1}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00057}00057       ilcapt=ipcapt+2*ntcapt-\/1}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00058}00058       ec2=1e-\/5}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00059}00059       hint=0d0}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00060}00060       lcalc=.false.}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00061}00061    20 \textcolor{keywordflow}{IF}(ictota.LT.iltota) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00062}00062    30    ictota=ictota+2}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00063}00063          et1=xstore(ictota)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00064}00064          et2=xstore(ictota+2)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00065}00065          \textcolor{keywordflow}{IF}(et1.EQ.et2) \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00066}00066          \textcolor{keywordflow}{IF}(et2.GT.ec2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00067}00067    40       iccapt=iccapt+2}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00068}00068             ec1=xstore(iccapt)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00069}00069             ec2=xstore(iccapt+2)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00070}00070             \textcolor{keywordflow}{IF}(ec1.EQ.ec2) \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00071}00071             lcalc=.true.}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00072}00072             \textcolor{keywordflow}{IF}(ec1.NE.et1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00073}00073                print *, \textcolor{stringliteral}{'Energy screw-\/up'},et1,ec1}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00074}00074 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00075}00075             \textcolor{keywordflow}{IF}(iccapt.GE.ilcapt) print *,\textcolor{stringliteral}{'Capture index overflow'}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00076}00076 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00077}00077          \textcolor{keywordflow}{IF}(emin.LE.et2.AND.emax.GT.et1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00078}00078 \textcolor{comment}{* -\/-\/-\/> Find C \& D for total}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00079}00079             xst1=xstore(ictota+1)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00080}00080             xst2=xstore(ictota+3)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00081}00081             d=(xst2-\/xst1)/(et2-\/et1)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00082}00082             c=xst1-\/et1*d}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00083}00083 \textcolor{comment}{* -\/-\/-\/> Find A \& B for capture}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00084}00084 \textcolor{comment}{*            IF(LCALC) THEN}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00085}00085                xsc1=xstore(iccapt+1)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00086}00086                xsc2=xstore(iccapt+3)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00087}00087                b=(xsc2-\/xsc1)/(ec2-\/ec1)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00088}00088                a=xsc1-\/ec1*b}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00089}00089 \textcolor{comment}{*            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00090}00090 \textcolor{comment}{* -\/-\/-\/> Calculate integral}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00091}00091             ebeg=max(et1,emin)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00092}00092             eend=min(et2,emax)}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00093}00093             \textcolor{keywordflow}{IF}(d.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00094}00094                hint=hint+(b*(eend-\/ebeg)+a*log(eend/ebeg))/c}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00095}00095             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00096}00096                hint=hint+(log((c+d*eend)/(c+d*ebeg))*(b/d-\/a/c)+a/c}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00097}00097      \$              *log(eend/ebeg))}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00098}00098 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00099}00099 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00100}00100          \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00101}00101 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00102}00102       prob=hint/csi}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00103}00103 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00104}00104 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{'Material '},a,\textcolor{stringliteral}{'@'},i6,\textcolor{stringliteral}{' not in memory'})}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00105}00105 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{'Total cross section is missing'})}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00106}00106 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{'Capture cross section is missing'})}
+\DoxyCodeLine{\Hypertarget{xnescp_8_f_source_l00107}00107   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

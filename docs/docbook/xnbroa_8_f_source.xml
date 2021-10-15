@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnbroa_8_f_source" xml:lang="en-US">
+<title>xnbroa.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xnbroa.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnbroa_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.03/05&#32;18/07/96&#32;&#32;18.44.08&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;16/07/96</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnbroa(XIN,NIN,XOU,NOU,TEMP1,TEMP2,AWR,HPERC)
+<anchor xml:id="_xnbroa_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&quot;Broadens&quot;&#32;an&#32;input&#32;cross&#32;section&#32;and&#32;returns&#32;in&#32;output&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;the&#32;result&#32;after&#32;thinning.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;XIN&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;array&#32;containing&#32;the&#32;tabulated&#32;cross&#32;section&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;in&#32;pairs&#32;(energy,&#32;cross&#32;section)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;NIN&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;number&#32;of&#32;pairs&#32;in&#32;input&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;XOU&#32;&#32;&#32;&#32;&#32;&#32;&#32;(outout)&#32;array&#32;containing&#32;&#32;the&#32;broadened&#32;and&#32;thinned&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cross&#32;section&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;NOU&#32;&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;number&#32;of&#32;pairs&#32;in&#32;output&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;TEMP1&#32;&#32;&#32;&#32;&#32;(input)&#32;temperature&#32;of&#32;the&#32;input&#32;cross&#32;section&#32;in&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;degree&#32;Kelvin&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00017"/>00017 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;TEMP2&#32;&#32;&#32;&#32;&#32;(input)&#32;temperature&#32;of&#32;the&#32;output&#32;cross&#32;section&#32;in&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00018"/>00018 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;degree&#32;Kelvin&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00019"/>00019 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;AWR&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;mass&#32;of&#32;the&#32;isotope&#32;in&#32;neutron&#32;units&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00020"/>00020 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;HPERC&#32;&#32;&#32;&#32;&#32;(input)&#32;relative&#32;precision&#32;desired&#32;for&#32;the&#32;cross&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00021"/>00021 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;section&#32;both&#32;in&#32;broadening&#32;and&#32;in&#32;thinning&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00022"/>00022 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00023"/>00023 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Please&#32;note&#32;the&#32;following:&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00024"/>00024 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;There&#32;is&#32;very&#32;little&#32;chance&#32;to&#32;understand&#32;this&#32;routine&#32;from&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00025"/>00025 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;the&#32;code&#32;or&#32;the&#32;comments.&#32;The&#32;interested&#32;user&#32;is&#32;suggested&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;to&#32;read&#32;the&#32;following&#32;publications:&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00027"/>00027 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00028"/>00028 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;D.E.Cullen&#32;and&#32;C.R.Weisbin,&#32;Exact&#32;Doppler&#32;Broadening&#32;of&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00029"/>00029 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Tabulated&#32;Cross&#32;Sections,&#32;Nuclear&#32;Science&#32;and&#32;Engineering&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00030"/>00030 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;60,&#32;199-229,&#32;(1976)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00032"/>00032 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;D.E.Cullen,&#32;Program&#32;SIGMA1&#32;(Version&#32;79-1):&#32;Doppler&#32;broaden&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00033"/>00033 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;evaluated&#32;cross&#32;sections&#32;in&#32;the&#32;evaluated&#32;nuclear&#32;data&#32;file/&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00034"/>00034 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;version&#32;B&#32;(ENDF/B)&#32;format,&#32;UCRL&#32;50400,&#32;Volume&#32;17&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00035"/>00035 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00036"/>00036 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">IMPLICIT&#32;DOUBLE&#32;PRECISION</emphasis>&#32;(a-h,o-z)
+<anchor xml:id="_xnbroa_8_f_source_1l00038"/>00038 <emphasis role="comment">*&#32;---&gt;&#32;Arguments</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00039"/>00039 <emphasis role="keywordtype">&#32;&#32;&#32;&#32;&#32;&#32;REAL</emphasis>&#32;XIN(2*NIN),&#32;XOU(*),&#32;TEMP1,&#32;TEMP2,&#32;AWR,&#32;HPERC
+<anchor xml:id="_xnbroa_8_f_source_1l00040"/>00040 <emphasis role="comment">*&#32;---&gt;&#32;Numerical&#32;Parameters</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;parameter(one=1,two=2,thh=3/two,tw3=two/3,zero=0,half=one/two)
+<anchor xml:id="_xnbroa_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;parameter(pi=3.14159265358979312,ovsqpi=0.564189583547756279)
+<anchor xml:id="_xnbroa_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;parameter(zlimi=4)
+<anchor xml:id="_xnbroa_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;parameter(boltz=8.617385e-5)
+<anchor xml:id="_xnbroa_8_f_source_1l00045"/>00045 <emphasis role="comment">*&#32;---&gt;&#32;Internal&#32;functions:</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00046"/>00046 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;maximum&#32;error&#32;for&#32;broadening</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;xnepsm(s)=abs(one-tw3*sqrt(one/3)*(one+s*(one+s))**thh
+<anchor xml:id="_xnbroa_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/(s*(one+s)))
+<anchor xml:id="_xnbroa_8_f_source_1l00049"/>00049 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Doppler&#32;integral&#32;with&#32;constant&#32;cross&#32;section</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;ftail(x,y)=ovsqpi*((1+2*y**2)*sqrt(pi)*half*(derf(x-y)-derf(x+y))-
+<anchor xml:id="_xnbroa_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(x+y)*exp(-(x-y)**2)+(x-y)*exp(-(x+y)**2))
+<anchor xml:id="_xnbroa_8_f_source_1l00052"/>00052 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00053"/>00053 <emphasis role="comment">*&#32;-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00054"/>00054 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00055"/>00055 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;too&#32;few&#32;points&#32;copy&#32;from&#32;input&#32;to&#32;output</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nin.LE.2)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)&#32;nin
+<anchor xml:id="_xnbroa_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;&#32;jj=1,2*nin
+<anchor xml:id="_xnbroa_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xou(jj)=xin(jj)
+<anchor xml:id="_xnbroa_8_f_source_1l00060"/>00060 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nou=nin
+<anchor xml:id="_xnbroa_8_f_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnbroa_8_f_source_1l00063"/>00063 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00064"/>00064 <emphasis role="comment">*&#32;---&gt;&#32;Can&#32;only&#32;broaden&#32;and&#32;not&#32;shrink,&#32;i.e.&#32;temperature&#32;must&#32;increase</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(temp2.LE.temp1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10100)&#32;temp1,&#32;temp2
+<anchor xml:id="_xnbroa_8_f_source_1l00067"/>00067 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00068"/>00068 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;maximum&#32;ratio&#32;between&#32;two&#32;energies&#32;to&#32;obtain&#32;a&#32;precision</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00069"/>00069 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;of&#32;HPERC&#32;in&#32;broadening.&#32;The&#32;zero&#32;of&#32;a&#32;function&#32;is&#32;found&#32;via</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00070"/>00070 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;bisection</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;ratlow=1
+<anchor xml:id="_xnbroa_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;rathig=2
+<anchor xml:id="_xnbroa_8_f_source_1l00073"/>00073 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">IF</emphasis>(rathig-ratlow.GT.1d-7)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rathlf=half*(ratlow+rathig)
+<anchor xml:id="_xnbroa_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;htest=xnepsm(rathlf)
+<anchor xml:id="_xnbroa_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(htest.LT.hperc)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ratlow=rathlf
+<anchor xml:id="_xnbroa_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rathig=rathlf
+<anchor xml:id="_xnbroa_8_f_source_1l00080"/>00080 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;20
+<anchor xml:id="_xnbroa_8_f_source_1l00082"/>00082 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;END&#32;IF</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00083"/>00083 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;the&#32;ratio&#32;for&#32;energies&#32;from&#32;the&#32;one&#32;for&#32;speeds</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;ratmax=ratlow**2
+<anchor xml:id="_xnbroa_8_f_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;emax=xin(2*nin-1)
+<anchor xml:id="_xnbroa_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;emin=xin(1)
+<anchor xml:id="_xnbroa_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10200)&#32;ratmax,xnepsm(ratlow),
+<anchor xml:id="_xnbroa_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int(log(emax/emin)/log(ratmax)+1)
+<anchor xml:id="_xnbroa_8_f_source_1l00089"/>00089 <emphasis role="comment">*&#32;---&gt;&#32;Make&#32;sure&#32;that&#32;the&#32;output&#32;grid&#32;does&#32;not&#32;contain&#32;two&#32;energies</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00090"/>00090 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;with&#32;a&#32;ratio&#32;larger&#32;than&#32;RATMAX</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;xou(1)=xin(1)
+<anchor xml:id="_xnbroa_8_f_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;nouraw=1
+<anchor xml:id="_xnbroa_8_f_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;40&#32;jp=2,nin
+<anchor xml:id="_xnbroa_8_f_source_1l00094"/>00094 &#32;&#32;&#32;30&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(xin(2*jp-1).GT.xou(2*nouraw-1)*ratmax)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00095"/>00095 <emphasis role="comment">*&#32;---&gt;&#32;An&#32;additional&#32;point&#32;is&#32;needed</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nouraw=nouraw+1
+<anchor xml:id="_xnbroa_8_f_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xou(2*nouraw-1)=xou(2*nouraw-3)*ratmax
+<anchor xml:id="_xnbroa_8_f_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;30
+<anchor xml:id="_xnbroa_8_f_source_1l00099"/>00099 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00100"/>00100 <emphasis role="comment">*&#32;---&gt;&#32;Copy&#32;over&#32;original&#32;points</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00101"/>00101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nouraw=nouraw+1
+<anchor xml:id="_xnbroa_8_f_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xou(2*nouraw-1)=xin(2*jp-1)
+<anchor xml:id="_xnbroa_8_f_source_1l00103"/>00103 &#32;&#32;&#32;40&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10300)&#32;nin,nouraw
+<anchor xml:id="_xnbroa_8_f_source_1l00105"/>00105 <emphasis role="comment">*&#32;---&gt;&#32;Now&#32;perform&#32;the&#32;integral</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;temp=temp2-temp1
+<anchor xml:id="_xnbroa_8_f_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;alpha=awr/(boltz*temp)
+<anchor xml:id="_xnbroa_8_f_source_1l00108"/>00108 <emphasis role="comment">*&#32;---&gt;&#32;Pointer&#32;to&#32;beginning&#32;of&#32;integration&#32;region</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;ipp=1
+<anchor xml:id="_xnbroa_8_f_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;jp=1,nouraw
+<anchor xml:id="_xnbroa_8_f_source_1l00111"/>00111 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IF(MOD(JP,NOURAW/100).EQ.1)&#32;PRINT&#32;*,&apos;Now&#32;at&#32;&apos;,JP</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00112"/>00112 <emphasis role="comment">*&#32;---&gt;&#32;Reduced&#32;integration&#32;variable</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y2=xou(2*jp-1)*alpha
+<anchor xml:id="_xnbroa_8_f_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y=sqrt(y2)
+<anchor xml:id="_xnbroa_8_f_source_1l00115"/>00115 <emphasis role="comment">*&#32;---&gt;&#32;See&#32;whether&#32;we&#32;can&#32;move&#32;the&#32;beginning&#32;of&#32;the&#32;integration&#32;region</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00116"/>00116 &#32;&#32;&#32;50&#32;&#32;&#32;&#32;zkt=sqrt(xin(ipp+2)*alpha)-y
+<anchor xml:id="_xnbroa_8_f_source_1l00117"/>00117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(zkt.LT.-zlimi)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00118"/>00118 <emphasis role="comment">*&#32;---&gt;&#32;Move&#32;beginning&#32;of&#32;integration&#32;region&#32;by&#32;one</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00119"/>00119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipp=ipp+2
+<anchor xml:id="_xnbroa_8_f_source_1l00120"/>00120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;50
+<anchor xml:id="_xnbroa_8_f_source_1l00121"/>00121 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00122"/>00122 <emphasis role="comment">*&#32;---&gt;&#32;Start&#32;integral</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00123"/>00123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xsum=0
+<anchor xml:id="_xnbroa_8_f_source_1l00124"/>00124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;kpp=ipp
+<anchor xml:id="_xnbroa_8_f_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;e2=xin(kpp)
+<anchor xml:id="_xnbroa_8_f_source_1l00126"/>00126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s2=xin(kpp+1)
+<anchor xml:id="_xnbroa_8_f_source_1l00127"/>00127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;zk2=sqrt(e2*alpha)-y
+<anchor xml:id="_xnbroa_8_f_source_1l00128"/>00128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;zk22=zk2**2
+<anchor xml:id="_xnbroa_8_f_source_1l00129"/>00129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;expa=exp(-zk22)
+<anchor xml:id="_xnbroa_8_f_source_1l00130"/>00130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f0k2=derf(zk2)
+<anchor xml:id="_xnbroa_8_f_source_1l00131"/>00131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f1k2=ovsqpi*(one-expa)
+<anchor xml:id="_xnbroa_8_f_source_1l00132"/>00132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f2k2=half*f0k2-ovsqpi*zk2*expa
+<anchor xml:id="_xnbroa_8_f_source_1l00133"/>00133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f3k2=ovsqpi*(one-(1+zk22)*expa)
+<anchor xml:id="_xnbroa_8_f_source_1l00134"/>00134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f4k2=half*thh*f0k2-ovsqpi*zk2*(thh+zk22)*expa
+<anchor xml:id="_xnbroa_8_f_source_1l00135"/>00135 <emphasis role="comment">*&#32;---&gt;&#32;See&#32;whether&#32;the&#32;second&#32;term&#32;of&#32;the&#32;integral&#32;has&#32;to&#32;be&#32;included</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00136"/>00136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(y.LT.zlimi)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00137"/>00137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;zk2p=zk2+2*y
+<anchor xml:id="_xnbroa_8_f_source_1l00138"/>00138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;zk22p=zk2p**2
+<anchor xml:id="_xnbroa_8_f_source_1l00139"/>00139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;expap=exp(-zk22p)
+<anchor xml:id="_xnbroa_8_f_source_1l00140"/>00140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f0k2p=derf(zk2p)
+<anchor xml:id="_xnbroa_8_f_source_1l00141"/>00141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f1k2p=ovsqpi*(one-expap)
+<anchor xml:id="_xnbroa_8_f_source_1l00142"/>00142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f2k2p=half*f0k2p-ovsqpi*zk2p*expap
+<anchor xml:id="_xnbroa_8_f_source_1l00143"/>00143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f3k2p=ovsqpi*(one-(1+zk22p)*expap)
+<anchor xml:id="_xnbroa_8_f_source_1l00144"/>00144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f4k2p=half*thh*f0k2p-ovsqpi*zk2p*(thh+zk22p)*expap
+<anchor xml:id="_xnbroa_8_f_source_1l00145"/>00145 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00146"/>00146 &#32;&#32;&#32;60&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(zk2.LT.zlimi)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00147"/>00147 <emphasis role="comment">*&#32;---&gt;&#32;Continue&#32;to&#32;sum&#32;terms&#32;till&#32;the&#32;second&#32;end&#32;of&#32;the&#32;region</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00148"/>00148 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;is&#32;within&#32;ZLIMI</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00149"/>00149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;e1=e2
+<anchor xml:id="_xnbroa_8_f_source_1l00150"/>00150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s1=s2
+<anchor xml:id="_xnbroa_8_f_source_1l00151"/>00151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;kpp=kpp+2
+<anchor xml:id="_xnbroa_8_f_source_1l00152"/>00152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;e2=xin(kpp)
+<anchor xml:id="_xnbroa_8_f_source_1l00153"/>00153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s2=xin(kpp+1)
+<anchor xml:id="_xnbroa_8_f_source_1l00154"/>00154 <emphasis role="comment">*&#32;---&gt;&#32;Avoid&#32;two&#32;points&#32;with&#32;the&#32;same&#32;energy</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00155"/>00155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(e1.EQ.e2)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;60
+<anchor xml:id="_xnbroa_8_f_source_1l00156"/>00156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;zk1=zk2
+<anchor xml:id="_xnbroa_8_f_source_1l00157"/>00157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f0k1=f0k2
+<anchor xml:id="_xnbroa_8_f_source_1l00158"/>00158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f1k1=f1k2
+<anchor xml:id="_xnbroa_8_f_source_1l00159"/>00159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f2k1=f2k2
+<anchor xml:id="_xnbroa_8_f_source_1l00160"/>00160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f3k1=f3k2
+<anchor xml:id="_xnbroa_8_f_source_1l00161"/>00161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f4k1=f4k2
+<anchor xml:id="_xnbroa_8_f_source_1l00162"/>00162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;zk2=sqrt(e2*alpha)-y
+<anchor xml:id="_xnbroa_8_f_source_1l00163"/>00163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;zk22=zk2**2
+<anchor xml:id="_xnbroa_8_f_source_1l00164"/>00164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;expa=exp(-zk22)
+<anchor xml:id="_xnbroa_8_f_source_1l00165"/>00165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f0k2=derf(zk2)
+<anchor xml:id="_xnbroa_8_f_source_1l00166"/>00166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f1k2=ovsqpi*(one-expa)
+<anchor xml:id="_xnbroa_8_f_source_1l00167"/>00167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f2k2=half*f0k2-ovsqpi*zk2*expa
+<anchor xml:id="_xnbroa_8_f_source_1l00168"/>00168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f3k2=ovsqpi*(one-(1+zk22)*expa)
+<anchor xml:id="_xnbroa_8_f_source_1l00169"/>00169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f4k2=half*thh*f0k2-ovsqpi*zk2*(thh+zk22)*expa
+<anchor xml:id="_xnbroa_8_f_source_1l00170"/>00170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fact=one/(e2-e1)
+<anchor xml:id="_xnbroa_8_f_source_1l00171"/>00171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ak=(e2*s1-e1*s2)*fact
+<anchor xml:id="_xnbroa_8_f_source_1l00172"/>00172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ck=(s2-s1)*fact/alpha
+<anchor xml:id="_xnbroa_8_f_source_1l00173"/>00173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cky=ck*y
+<anchor xml:id="_xnbroa_8_f_source_1l00174"/>00174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cky2=ck*y2
+<anchor xml:id="_xnbroa_8_f_source_1l00175"/>00175 <emphasis role="comment">*&#32;---&gt;&#32;Here&#32;perform&#32;the&#32;sum</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00176"/>00176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xsum=xsum+ck*(f4k2-f4k1)+4*cky*(f3k2-f3k1)+
+<anchor xml:id="_xnbroa_8_f_source_1l00177"/>00177 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(ak+6*cky2)*(f2k2-f2k1)+2*y*(ak+2*cky2)*(f1k2-f1k1)+
+<anchor xml:id="_xnbroa_8_f_source_1l00178"/>00178 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y2*(ak+cky2)*(f0k2-f0k1)
+<anchor xml:id="_xnbroa_8_f_source_1l00179"/>00179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(y.LT.zlimi)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00180"/>00180 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;second&#32;part&#32;of&#32;the&#32;integral</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00181"/>00181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;zk1p=zk2p
+<anchor xml:id="_xnbroa_8_f_source_1l00182"/>00182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f0k1p=f0k2p
+<anchor xml:id="_xnbroa_8_f_source_1l00183"/>00183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f1k1p=f1k2p
+<anchor xml:id="_xnbroa_8_f_source_1l00184"/>00184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f2k1p=f2k2p
+<anchor xml:id="_xnbroa_8_f_source_1l00185"/>00185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f3k1p=f3k2p
+<anchor xml:id="_xnbroa_8_f_source_1l00186"/>00186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f4k1p=f4k2p
+<anchor xml:id="_xnbroa_8_f_source_1l00187"/>00187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;zk2p=zk2+2*y
+<anchor xml:id="_xnbroa_8_f_source_1l00188"/>00188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;zk22p=zk2p**2
+<anchor xml:id="_xnbroa_8_f_source_1l00189"/>00189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;expap=exp(-zk22p)
+<anchor xml:id="_xnbroa_8_f_source_1l00190"/>00190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f0k2p=derf(zk2p)
+<anchor xml:id="_xnbroa_8_f_source_1l00191"/>00191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f1k2p=ovsqpi*(one-expap)
+<anchor xml:id="_xnbroa_8_f_source_1l00192"/>00192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f2k2p=half*f0k2p-ovsqpi*zk2p*expap
+<anchor xml:id="_xnbroa_8_f_source_1l00193"/>00193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f3k2p=ovsqpi*(one-(1+zk22p)*expap)
+<anchor xml:id="_xnbroa_8_f_source_1l00194"/>00194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f4k2p=half*thh*f0k2p-ovsqpi*zk2p*(thh+zk22p)*expap
+<anchor xml:id="_xnbroa_8_f_source_1l00195"/>00195 <emphasis role="comment">*&#32;---&gt;&#32;Here&#32;perform&#32;the&#32;sum</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00196"/>00196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xsum=xsum-(ck*(f4k2p-f4k1p)-4*cky*(f3k2p-f3k1p)+
+<anchor xml:id="_xnbroa_8_f_source_1l00197"/>00197 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(ak+6*cky2)*(f2k2p-f2k1p)-2*y*(ak+2*cky2)*
+<anchor xml:id="_xnbroa_8_f_source_1l00198"/>00198 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(f1k2p-f1k1p)+y2*(ak+cky2)*(f0k2p-f0k1p))
+<anchor xml:id="_xnbroa_8_f_source_1l00199"/>00199 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;integral&#32;from&#32;0&#32;to&#32;minimum&#32;energy&#32;with&#32;constant&#32;cross&#32;section</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00200"/>00200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ftail1=xin(2)*(ftail(sqrt(xin(1)*alpha),y)-ftail(zero,y))
+<anchor xml:id="_xnbroa_8_f_source_1l00201"/>00201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xsum=xsum+ftail1
+<anchor xml:id="_xnbroa_8_f_source_1l00202"/>00202 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00203"/>00203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(kpp.LT.2*nin-1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00204"/>00204 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;this&#32;is&#32;not&#32;the&#32;last&#32;point,&#32;continue&#32;to&#32;add&#32;the&#32;contributions</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00205"/>00205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;60
+<anchor xml:id="_xnbroa_8_f_source_1l00206"/>00206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00207"/>00207 <emphasis role="comment">*&#32;---&gt;&#32;Else&#32;add&#32;integral&#32;from&#32;2E7&#32;to&#32;infinity&#32;(actually&#32;100MeV)&#32;and&#32;exit</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00208"/>00208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ftail2=xin(2*nin)*(ftail(sqrt(100d6*alpha),y)-
+<anchor xml:id="_xnbroa_8_f_source_1l00209"/>00209 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ftail(sqrt(xin(2*nin-1)*alpha),y))
+<anchor xml:id="_xnbroa_8_f_source_1l00210"/>00210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xsum=xsum+ftail2
+<anchor xml:id="_xnbroa_8_f_source_1l00211"/>00211 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00212"/>00212 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00213"/>00213 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;result&#32;of&#32;integral</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00214"/>00214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xou(2*jp)=half*xsum/y2
+<anchor xml:id="_xnbroa_8_f_source_1l00215"/>00215 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDDO</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00216"/>00216 <emphasis role="comment">*&#32;---&gt;&#32;Thin&#32;result</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00217"/>00217 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnthin(xou,nouraw,nou,hperc)
+<anchor xml:id="_xnbroa_8_f_source_1l00218"/>00218 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnbroa_8_f_source_1l00219"/>00219 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNBROA:&#32;Only&#32;&apos;</emphasis>,i2,<emphasis role="stringliteral">&apos;&#32;points,&#32;no&#32;broadening&apos;</emphasis>)
+<anchor xml:id="_xnbroa_8_f_source_1l00220"/>00220 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNBROA:&#32;Cannot&#32;reduce&#32;temp&#32;from&#32;&apos;</emphasis>,f10.2,
+<anchor xml:id="_xnbroa_8_f_source_1l00221"/>00221 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;&#32;to&#32;&apos;</emphasis>,f10.2,<emphasis role="stringliteral">&apos;:&#32;nothing&#32;done&apos;</emphasis>)
+<anchor xml:id="_xnbroa_8_f_source_1l00222"/>00222 10200&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNBROA:&#32;Ratio&#32;&apos;</emphasis>,g10.3,<emphasis role="stringliteral">&apos;&#32;max&#32;er&#32;&apos;</emphasis>,g10.3,<emphasis role="stringliteral">&apos;&#32;points&#32;&apos;</emphasis>,i5)
+<anchor xml:id="_xnbroa_8_f_source_1l00223"/>00223 10300&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNBROA:&#32;Total&#32;points&#32;was&#32;&apos;</emphasis>,i6,<emphasis role="stringliteral">&apos;&#32;is&#32;now&#32;&apos;</emphasis>,i6)
+<anchor xml:id="_xnbroa_8_f_source_1l00224"/>00224 10400&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNBROA:&#32;Energy&#32;width&#32;of&#32;integration&#32;=&#32;&apos;</emphasis>,g10.3)
+<anchor xml:id="_xnbroa_8_f_source_1l00225"/>00225 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

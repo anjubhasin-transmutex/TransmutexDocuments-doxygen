@@ -1,0 +1,93 @@
+\hypertarget{xnperc_8_f_source}{}\doxysection{xnperc.\+F}
+\label{xnperc_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnperc.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnperc.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 31/05/96  18.32.10  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   26/01/94}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnperc(RVAL,NPOINT,PERC)}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00006}00006 \textcolor{comment}{*     Build the inverse probability distribution from the energy       *}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00007}00007 \textcolor{comment}{*     grid for a file 5                                                *}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00009}00009 \textcolor{comment}{*     RVAL     tabulation of the probability function (input)          *}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00010}00010 \textcolor{comment}{*     NPOINT   number of pairs (E(eV),Pb) in RVAL (input)              *}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00011}00011 \textcolor{comment}{*     PERC     inverse probability function (output)                   *}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00012}00012 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00013}00013 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00014}00014 \textcolor{preprocessor}{\#include "{}xcperc.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00015}00015 \textcolor{preprocessor}{}      dimension rval(2*npoint),perc(nperc+1)}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00016}00016       \textcolor{keywordtype}{DOUBLE PRECISION} DELE,DELF,ONE,TEMP,HINTEG,HINTOL,PERCEN}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00017}00017       \textcolor{keywordtype}{DOUBLE PRECISION} E1,E2,F1,F2}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00018}00018       parameter(one=1)}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00019}00019 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00020}00020 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00021}00021 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00022}00022       ipoint=0}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00023}00023       hintno=0.}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> Calculate normalisation integral, trapezoidal rule}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00025}00025       \textcolor{keywordflow}{DO} 10 jp=1,npoint-\/1}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00026}00026          hintno=hintno+0.5*(one*rval(2*jp  )+rval(2*jp+2))*}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00027}00027      +                     (one*rval(2*jp+1)-\/rval(2*jp-\/1))}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00028}00028    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Check normalisation integral}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00030}00030       \textcolor{keywordflow}{IF}(abs(hintno-\/1).GT.2e-\/2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00031}00031          \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' N-\/integ= '}\textcolor{stringliteral}{',E11.4)'}) hintno}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00032}00032 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00033}00033       \textcolor{keywordflow}{IF}(hintno.LE.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00034}00034          \textcolor{keywordflow}{DO} 20 jp=1,nperc+1}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00035}00035             perc(jp)=0.}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00036}00036    20    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00037}00037       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Find first and last point greater than 0}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00039}00039          \textcolor{keywordflow}{DO} 30 np=1,npoint-\/1}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00040}00040             \textcolor{keywordflow}{IF}(rval(2*np+2).GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00041}00041                perc(1) = rval(2*np-\/1)}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00042}00042                ibeg=np}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00043}00043                \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00044}00044 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00045}00045    30    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00046}00046          stop \textcolor{stringliteral}{' XNPERC: No first point different from 0'}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> Find last point equal to 0}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00048}00048    40    \textcolor{keywordflow}{DO} 50 np=npoint,1,-\/1}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00049}00049             \textcolor{keywordflow}{IF}(rval(2*np-\/2).GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00050}00050                perc(nperc+1) = rval(2*np-\/1)}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00051}00051                iend=np}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00052}00052                \textcolor{keywordflow}{GOTO} 60}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00053}00053 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00054}00054    50    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00055}00055          stop \textcolor{stringliteral}{' XNPERC: No last point different from 0'}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00056}00056    60    hinteg = 0.}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00057}00057          ipoint=ibeg-\/1}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00058}00058 \textcolor{comment}{* -\/-\/-\/> Build inverse probability table}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00059}00059          \textcolor{keywordflow}{DO} 80 jperc=1,nperc-\/1}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00060}00060             percen=1.*jperc/nperc}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00061}00061    70       \textcolor{keywordflow}{IF}(hinteg.LT.percen) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00062}00062                hintol=hinteg}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00063}00063                ipoint=ipoint+1}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00064}00064                hinteg=hinteg+0.5*(one*rval(2*ipoint )+rval(2*ipoint+2))}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00065}00065      +         * (one*rval(2*ipoint+1)-\/rval(2*ipoint-\/1))/hintno}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00066}00066                \textcolor{keywordflow}{IF}(ipoint.LT.iend) \textcolor{keywordflow}{GOTO} 70}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00067}00067 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00068}00068 \textcolor{comment}{* -\/-\/-\/> Value of energy between last and next point, interpolate with}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00069}00069 \textcolor{comment}{*      a parabola}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00070}00070             f1 = rval(2*ipoint)/hintno}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00071}00071             f2 = rval(2*ipoint+2)/hintno}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00072}00072             e1 = rval(2*ipoint-\/1)}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00073}00073             e2 = rval(2*ipoint+1)}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00074}00074             delf = f2-\/f1}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00075}00075             \textcolor{keywordflow}{IF}(delf.NE.0.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00076}00076                dele = e2-\/e1}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00077}00077                temp=2*(percen-\/hintol)*delf/dele}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00078}00078                hintrp = e1+dele*(sqrt(f1**2+temp)-\/f1)/delf}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00079}00079             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00080}00080 \textcolor{comment}{* -\/-\/-\/> Parabola degenerates to a straight line}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00081}00081                hintrp = e1 + (percen-\/hintol)/f1}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00082}00082 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00083}00083             perc(jperc+1) = hintrp}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00084}00084    80    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00085}00085 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00086}00086 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnperc_8_f_source_l00087}00087       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

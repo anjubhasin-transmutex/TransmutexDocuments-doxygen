@@ -1,0 +1,56 @@
+\hypertarget{xnarea_8_f_source}{}\doxysection{xnarea.\+F}
+\label{xnarea_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnarea.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnarea.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  09.41.48  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   10/03/95}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnarea(LUNI)}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00006}00006 \textcolor{comment}{*     Routine to retrieve from a disk file the cross sections          *}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00007}00007 \textcolor{comment}{*     written by the XNAWRI subroutine.                                *}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00009}00009 \textcolor{comment}{*     LUNI      (input) ABS(LUNI) is the FORTRAN logical unit          *}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00010}00010 \textcolor{comment}{*               where the cross sections are stored. If LUNI < 0       *}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00011}00011 \textcolor{comment}{*               the file is rewound before the read                    *}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00012}00012 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00013}00013 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00014}00014 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00015}00015 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00016}00016 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00017}00017 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00018}00018 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00019}00019 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00020}00020       lun=abs(luni)}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00021}00021 \textcolor{comment}{* -\/-\/-\/> See whether the file has to be rewound}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00022}00022       \textcolor{keywordflow}{IF}(luni.LT.0) rewind(lun)}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00023}00023 \textcolor{comment}{* -\/-\/-\/> Read dimensions of arrays stored}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00024}00024       \textcolor{keyword}{READ}(lun,10100) nid,nmate,ltemp,nctemp,nbsiz1,ihgwmk}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00025}00025 \textcolor{comment}{* -\/-\/-\/> If not enough space signal and stop}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00026}00026       \textcolor{keywordflow}{IF}(ihgwmk.GT.nbsize) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00027}00027          \textcolor{keyword}{WRITE}(6,10000) ihgwmk+2}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00028}00028          stop \textcolor{stringliteral}{'Increase XCSTOR'}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00029}00029 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Read XNSECT index}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00031}00031       \textcolor{keyword}{READ}(lun,10100) ((idl(iid,kk),iid=1,nid),kk=1,3)}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> Read Cross sections index table}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00033}00033       \textcolor{keywordflow}{DO} 10 mm=1,nmate}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00034}00034          \textcolor{keyword}{READ}(lun,10200) imtabl(1,mm),}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00035}00035      +   (((imtabl(1+(if-\/1)*nreinf*mxreac+(ir-\/1)*nreinf+ii,mm),ii=1,2),}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00036}00036      +   (hmtabl(1+(if-\/1)*nreinf*mxreac+(ir-\/1)*nreinf+2+ia,mm),}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00037}00037      +   ia=1,nadinf),ir=1,mxreac),if=1,maxmfi)}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00038}00038   10  \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Read Cross section values}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00040}00040       \textcolor{keyword}{READ}(lun,10300) (xstore(ll),ll=1,ihgwmk)}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Print amount of data read}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00042}00042       \textcolor{keyword}{WRITE}(6,10400) ihgwmk, lun}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00043}00043 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00044}00044 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Current common XCSTOR too small, need at least '},i10,}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00045}00045      +       \textcolor{stringliteral}{' words'})}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00046}00046 10100 \textcolor{keyword}{FORMAT}(13i10)}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00047}00047 10200 \textcolor{keyword}{FORMAT}(i10,/(4(2i10,g12.5)))}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00048}00048 10300 \textcolor{keyword}{FORMAT}(10e13.6)}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00049}00049 10400 \textcolor{keyword}{FORMAT}(i10,\textcolor{stringliteral}{' words of x-\/sections read from unit '},i2)}
+\DoxyCodeLine{\Hypertarget{xnarea_8_f_source_l00050}00050       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

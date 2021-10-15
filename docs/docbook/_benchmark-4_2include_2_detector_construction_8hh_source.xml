@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__benchmark-4_2include_2_detector_construction_8hh_source" xml:lang="en-US">
+<title>DetectorConstruction.hh</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/Benchmark-4/include/DetectorConstruction.hh</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00001"/>00001 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00002"/>00002 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00003"/>00003 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00005"/>00005 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00006"/>00006 <emphasis role="comment">//&#32;DetectorConstruction</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00007"/>00007 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00008"/>00008 <emphasis role="comment">//&#32;Donovan&#32;Maire,&#32;Transmutex,&#32;18/10/2019</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00009"/>00009 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00010"/>00010 <emphasis role="comment">//&#32;Thomas&#32;Frosio,&#32;15/09/2020:&#32;First&#32;draft&#32;of&#32;REZ&#32;geometry</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00012"/>00012 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00013"/>00013 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00014"/>00014 <emphasis role="preprocessor">#ifndef&#32;DetectorConstruction_h</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00015"/>00015 <emphasis role="preprocessor">#define&#32;DetectorConstruction_h&#32;1</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00016"/>00016 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00017"/>00017 <emphasis role="comment">//&#32;Class</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00018"/>00018 <emphasis role="preprocessor">#include&#32;&quot;TMXInputParameters.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00019"/>00019 <emphasis role="preprocessor">#include&#32;&quot;../include/GeomRez.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00020"/>00020 <emphasis role="preprocessor">#include&#32;&quot;../include/GeomKIPT.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00021"/>00021 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00022"/>00022 <emphasis role="comment">//&#32;GEANT4&#32;classes</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00023"/>00023 <emphasis role="preprocessor">#include&#32;&quot;G4VUserDetectorConstruction.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00024"/>00024 <emphasis role="preprocessor">#include&#32;&quot;globals.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00025"/>00025 <emphasis role="preprocessor">#include&#32;&quot;G4Material.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00026"/>00026 <emphasis role="preprocessor">#include&#32;&quot;G4VSolid.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00027"/>00027 <emphasis role="preprocessor">#include&#32;&quot;G4Tubs.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00028"/>00028 <emphasis role="preprocessor">#include&#32;&quot;G4Box.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00029"/>00029 <emphasis role="preprocessor">#include&#32;&quot;G4RotationMatrix.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00030"/>00030 <emphasis role="preprocessor">#include&#32;&quot;G4ThreeVector.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00031"/>00031 <emphasis role="preprocessor">#include&#32;&quot;GeomEAP80Simplified.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00032"/>00032 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00033"/>00033 <emphasis role="keyword">class&#32;</emphasis>G4LogicalVolume;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00034"/>00034 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00036"/>00036 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00037"/>00037 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_detector_construction">DetectorConstruction</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;G4VUserDetectorConstruction
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00038"/>00038 {
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00039"/>00039 <emphasis role="keyword">public</emphasis>:
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00040"/>00040 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00041"/>00041 &#32;&#32;<link linkend="_class_detector_construction">DetectorConstruction</link>(G4int&#32;int_Option,&#32;<link linkend="_class_t_m_x_input_parameters">TMXInputParameters</link>&amp;&#32;parameter,&#32;G4double&amp;&#32;AssemblyLength);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00042"/>00042 &#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<link linkend="_class_detector_construction">~DetectorConstruction</link>();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00043"/>00043 &#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;G4VPhysicalVolume*&#32;Construct();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00044"/>00044 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00045"/>00045 &#32;&#32;G4Material*&#32;GetTargetMaterial(){&#32;<emphasis role="keywordflow">return</emphasis>&#32;fTargetMaterial;&#32;};
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00046"/>00046 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetWorldMaterial&#32;(<emphasis role="keyword">const</emphasis>&#32;G4String&amp;);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00047"/>00047 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetTargetMaterial(<emphasis role="keyword">const</emphasis>&#32;G4String&amp;);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00048"/>00048 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetTargetRadius&#32;&#32;(G4double&#32;val);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00049"/>00049 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetDiffusorGap&#32;&#32;&#32;(G4double&#32;val);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00050"/>00050 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetBreederGap&#32;&#32;&#32;&#32;(G4double&#32;val);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00051"/>00051 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetReflectorGap&#32;&#32;(G4double&#32;val);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00052"/>00052 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetShieldGap&#32;&#32;&#32;&#32;&#32;(G4double&#32;val);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00053"/>00053 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetWorldGap&#32;&#32;&#32;&#32;&#32;&#32;(G4double&#32;val);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00054"/>00054 &#32;&#32;G4VSolid*&#32;GetTargetTubeSolid()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;fcheck1S;&#32;}
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00055"/>00055 &#32;&#32;G4double&#32;Geth0&#32;()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;p-&gt;h0;&#32;}
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00056"/>00056 &#32;&#32;G4ThreeVector&#32;GetTargetPosition&#32;()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;G4ThreeVector(p-&gt;XtargetPosition,&#32;0.,&#32;0.);&#32;}
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00057"/>00057 &#32;&#32;G4double&#32;GetTargetZdistanceToBottom&#32;()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;fTargetZdistanceToBottom;&#32;}
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00058"/>00058 &#32;&#32;G4double&#32;GetFuelInnerRadius&#32;()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;fbreeder_r;&#32;}
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00059"/>00059 &#32;&#32;G4double&#32;GetFuelOuterRadius&#32;()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;fbreeder_R;&#32;}
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00060"/>00060 &#32;&#32;G4int&#32;GetNreplicate&#32;()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;(G4int)p-&gt;int_Nreplicate;&#32;}
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00061"/>00061 &#32;&#32;G4Material*&#32;GetFuelDriverMaterial&#32;()<emphasis role="keyword">&#32;const&#32;</emphasis>{<emphasis role="keywordflow">return</emphasis>&#32;fBreederMaterial;}
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00062"/>00062 &#32;&#32;G4double&#32;Rod_radius(G4int&#32;copyNo)&#32;<emphasis role="keyword">const</emphasis>;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00063"/>00063 &#32;&#32;G4double&#32;Rod_theta(G4int&#32;copyNo)&#32;<emphasis role="keyword">const</emphasis>;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00064"/>00064 &#32;&#32;G4int&#32;&#32;&#32;&#32;Rod_subLayer(G4double&#32;subAssembly_r)&#32;<emphasis role="keyword">const</emphasis>;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00065"/>00065 &#32;&#32;G4int&#32;&#32;&#32;&#32;GetTotalCopyNumberFuelRods()&#32;<emphasis role="keyword">const</emphasis>;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00066"/>00066 &#32;&#32;<link linkend="_class_geom_e_a_p80_simplified">GeomEAP80Simplified</link>*&#32;getGeomSVBR()&#32;<emphasis role="keyword">const</emphasis>;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00067"/>00067 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00068"/>00068 <emphasis role="keyword">private</emphasis>:
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00069"/>00069 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00070"/>00070 &#32;&#32;<link linkend="_class_detector_construction">DetectorConstruction</link>&#32;&amp;&#32;operator=(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_detector_construction">DetectorConstruction</link>&#32;&amp;right);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00071"/>00071 &#32;&#32;<link linkend="_class_detector_construction">DetectorConstruction</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_detector_construction">DetectorConstruction</link>&amp;);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00072"/>00072 &#32;&#32;G4VPhysicalVolume*&#32;ConstructGeomRez();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00073"/>00073 &#32;&#32;G4VPhysicalVolume*&#32;ConstructGeomTestBurnup();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00074"/>00074 &#32;&#32;G4VPhysicalVolume*&#32;ConstructGeomEA();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00075"/>00075 &#32;&#32;G4VPhysicalVolume*&#32;ConstructGeomINR_Troitsk();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00076"/>00076 &#32;&#32;G4VPhysicalVolume*&#32;ConstructGeomKIPT();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00077"/>00077 &#32;&#32;G4VPhysicalVolume*&#32;ConstructGeomEAP80();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00078"/>00078 &#32;&#32;G4VPhysicalVolume*&#32;ConstructGeomSVBR_AKME();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00079"/>00079 &#32;&#32;G4VPhysicalVolume*&#32;ConstructGeomSVBR100();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00080"/>00080 &#32;&#32;G4VPhysicalVolume*&#32;ConstructGeomTestThermalScattering();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00081"/>00081 &#32;&#32;G4VPhysicalVolume*&#32;ConstructGeomCleanWay();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00082"/>00082 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_define_materials">DefineMaterials</link>();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00083"/>00083 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;DefineTargetAndBeamPipeRez(G4bool&#32;overlap,&#32;std::vector&#32;&lt;&#32;std::pair&lt;G4VSolid*,&#32;G4ThreeVector&gt;&#32;&gt;&amp;&#32;SolidsToSubstract,&#32;G4double&amp;&#32;beamPipeWidth);&#32;<emphasis role="comment">//&#32;Define&#32;target&#32;and&#32;beam&#32;pipe&#32;of&#32;Rez&#32;geometry&#32;and&#32;return&#32;a&#32;G4VSolid&#32;to&#32;substract&#32;to&#32;other&#32;volumes</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00084"/>00084 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Cladding_Fuel_1hexa4cyl(G4double&#32;RotAnglePolygon);&#32;&#32;<emphasis role="comment">//&#32;Definition&#32;of&#32;the&#32;logical&#32;volumes&#32;for&#32;cladding&#32;and&#32;Fuel&#32;in&#32;the&#32;active&#32;area&#32;VVR-M5</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00085"/>00085 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Cladding_Fuel_1hexa2cyl(G4double&#32;RotAnglePolygon);&#32;&#32;<emphasis role="comment">//&#32;Definition&#32;of&#32;the&#32;logical&#32;volumes&#32;for&#32;cladding&#32;and&#32;Fuel&#32;in&#32;the&#32;active&#32;area&#32;VVR-M2</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00086"/>00086 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;WWR_M2(G4double&#32;RotAnglePolygon);&#32;&#32;<emphasis role="comment">//&#32;Definition&#32;of&#32;the&#32;logical&#32;volumes&#32;for&#32;cladding&#32;and&#32;Fuel&#32;in&#32;the&#32;active&#32;area&#32;VVR-M2</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00087"/>00087 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;IBR2M();&#32;<emphasis role="comment">//&#32;Definition&#32;of&#32;the&#32;logical&#32;volumes&#32;for&#32;cladding&#32;and&#32;Fuel&#32;in&#32;IBR-2M</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00088"/>00088 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;VisualisationConfig();&#32;<emphasis role="comment">//&#32;Configuration&#32;of&#32;the&#32;visualisation&#32;(colors,&#32;transparency,&#32;et.)&#32;for&#32;the&#32;Geometry</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00089"/>00089 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;RodsCylindricalPlacement(G4int&#32;copyNo,&#32;G4double&#32;startR,&#32;G4double&#32;startTheta,&#32;G4double&#32;dbl_rRodsGap,&#32;G4bool&#32;overlap,&#32;G4int&#32;&amp;Counter_unplaced,&#32;G4double&#32;cool7V);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00090"/>00090 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;RodsHexagonalPlacementInCylindricalCore(G4bool&#32;overlap,&#32;G4int&#32;&amp;Counter_unplaced,&#32;G4int&#32;&amp;N_fuelrods,&#32;G4double&#32;cool7V);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00091"/>00091 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;RodsHexagonalPlacementInHexagonalCore(G4bool&#32;overlap,&#32;G4int&#32;&amp;Counter_unplaced,&#32;G4int&#32;&amp;N_fuelrods,&#32;G4double&#32;cool7V);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00092"/>00092 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;RodsHexagonalPlacementInHexagonalCore_v2(G4bool&#32;overlap,&#32;G4int&#32;&amp;Counter_unplaced,&#32;G4int&#32;&amp;N_fuelrods,&#32;G4double&#32;cool7V);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00093"/>00093 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;DefineCuts();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00094"/>00094 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;DefineElements();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00095"/>00095 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;DefineMaterials_v2();
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00096"/>00096 &#32;&#32;G4Element*&#32;DefineElement(<emphasis role="keywordtype">int</emphasis>,&#32;std::string);
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00097"/>00097 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00098"/>00098 &#32;&#32;G4int&#32;fint_Option;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00099"/>00099 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00100"/>00100 &#32;&#32;G4double&#32;fTargetRadius;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00101"/>00101 &#32;&#32;G4double&#32;fDiffusorGap;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00102"/>00102 &#32;&#32;G4double&#32;fBreederGap;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00103"/>00103 &#32;&#32;G4double&#32;fReflectorGap;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00104"/>00104 &#32;&#32;G4double&#32;fShieldGap;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00105"/>00105 &#32;&#32;G4double&#32;fWorldGap;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00106"/>00106 &#32;&#32;G4double&#32;fTargetZdistanceToBottom;&#32;<emphasis role="comment">//&#32;Heigth&#32;between&#32;the&#32;bottom&#32;of&#32;the&#32;well&#32;and&#32;the&#32;center&#32;of&#32;the&#32;target</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00107"/>00107 &#32;&#32;G4double&#32;fbreeder_r;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00108"/>00108 &#32;&#32;G4double&#32;fbreeder_R;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00109"/>00109 &#32;&#32;G4int&#32;fN_fuelrods;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00110"/>00110 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00112"/>00112 &#32;&#32;<emphasis role="comment">//&#32;Materials&#32;used&#32;in&#32;the&#32;simulation</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00114"/>00114 <emphasis role="comment"></emphasis>&#32;&#32;G4Material*&#32;&#32;fWorldMaterial;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;either&#32;galactic,&#32;or&#32;concrete</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00115"/>00115 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00116"/>00116 &#32;&#32;G4Material*&#32;&#32;fFebotMaterial;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00117"/>00117 &#32;&#32;G4Material*&#32;&#32;fAirtopMaterial;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00118"/>00118 &#32;&#32;G4Material*&#32;&#32;fShieldMaterial;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00119"/>00119 &#32;&#32;G4Material*&#32;&#32;fReflectorMaterial;&#32;&#32;<emphasis role="comment">//&#32;Material&#32;of&#32;the&#32;water-cooled&#32;heat&#32;shield</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00120"/>00120 &#32;&#32;G4Material*&#32;&#32;fReflecSkinMaterial;&#32;<emphasis role="comment">//&#32;Material&#32;of&#32;the&#32;water-cooled&#32;heat&#32;shield&#32;without&#32;water</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00121"/>00121 &#32;&#32;G4Material*&#32;&#32;fDiffusorMaterial;&#32;&#32;&#32;<emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00122"/>00122 &#32;&#32;G4Material*&#32;&#32;fB4CMaterial;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00123"/>00123 &#32;&#32;G4Material*&#32;&#32;fReflectorCMaterial;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00124"/>00124 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00125"/>00125 &#32;&#32;G4Material*&#32;&#32;fWaterFuelMaterial;&#32;<emphasis role="comment">//&#32;Water&#32;surrounding&#32;cladding+fuel&#32;elements</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00126"/>00126 &#32;&#32;G4Material*&#32;&#32;fBreederMaterial;&#32;&#32;&#32;<emphasis role="comment">//&#32;235/238UO2</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00127"/>00127 &#32;&#32;G4Material*&#32;&#32;fThoriumMaterial;&#32;&#32;&#32;<emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00128"/>00128 &#32;&#32;G4Material*&#32;&#32;fCladdingMaterial;&#32;&#32;<emphasis role="comment">//&#32;Mainly&#32;Aluminium</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00129"/>00129 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00130"/>00130 &#32;&#32;G4Material*&#32;&#32;fAlMaterial;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;This&#32;is&#32;to&#32;declare&#32;Altop&#32;material&#32;used&#32;in&#32;Al&#32;based&#32;volume&#32;above/below&#32;the&#32;target</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00131"/>00131 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00132"/>00132 &#32;&#32;G4Material*&#32;&#32;fFetopMaterial;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00133"/>00133 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00134"/>00134 &#32;&#32;G4Material*&#32;&#32;fCool10Material;&#32;&#32;&#32;&#32;<emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00135"/>00135 &#32;&#32;G4Material*&#32;&#32;fAirsideMaterial;&#32;&#32;&#32;<emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00136"/>00136 &#32;&#32;G4Material*&#32;&#32;fTubeMaterial;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Al+Fe+H2O</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00137"/>00137 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00138"/>00138 &#32;&#32;G4Material*&#32;&#32;fCaptureMaterial;&#32;&#32;&#32;<emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00139"/>00139 &#32;&#32;G4Material*&#32;&#32;fCool7Material;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00140"/>00140 &#32;&#32;G4Material*&#32;&#32;fCheckMaterial;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;galactic</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00141"/>00141 &#32;&#32;G4Material*&#32;&#32;fTargetMaterial;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;W</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00142"/>00142 &#32;&#32;G4Material*&#32;&#32;fTargetMaterial2;&#32;&#32;&#32;<emphasis role="comment">//&#32;H2O</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00143"/>00143 &#32;&#32;G4Material*&#32;&#32;fTargetMaterial3;&#32;&#32;&#32;<emphasis role="comment">//&#32;Tantalum</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00144"/>00144 &#32;&#32;G4Material*&#32;&#32;fHeInTargetMaterial;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00145"/>00145 &#32;&#32;G4Material*&#32;&#32;fOuterMaterial;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Outer&#32;layer&#32;material&#32;=&#32;stainless&#32;steel&#32;from&#32;NIST</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00146"/>00146 &#32;&#32;G4Material*&#32;&#32;fAroundFuelMaterial;&#32;<emphasis role="comment">//&#32;Material&#32;between&#32;the&#32;fuel&#32;rods</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00147"/>00147 &#32;&#32;G4Material*&#32;&#32;fVacuumMaterial;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00148"/>00148 &#32;&#32;G4Material*&#32;&#32;fTransmuteMaterial;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00149"/>00149 &#32;&#32;G4Material*&#32;&#32;fUniverseMaterial;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00150"/>00150 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00152"/>00152 &#32;&#32;<emphasis role="comment">//&#32;Logical&#32;volumes</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00154"/>00154 <emphasis role="comment"></emphasis>&#32;&#32;G4LogicalVolume*&#32;fLogicWorld;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00155"/>00155 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00156"/>00156 &#32;&#32;G4LogicalVolume*&#32;fLogicShield;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00157"/>00157 &#32;&#32;G4LogicalVolume*&#32;fLogicFebot;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00158"/>00158 &#32;&#32;G4LogicalVolume*&#32;fLogicAirtop;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00159"/>00159 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00160"/>00160 &#32;&#32;G4LogicalVolume*&#32;fLogicReflector;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00161"/>00161 &#32;&#32;G4LogicalVolume*&#32;fLogicReflecSkin;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00162"/>00162 &#32;&#32;G4LogicalVolume*&#32;fLogicFetop;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00163"/>00163 &#32;&#32;G4LogicalVolume*&#32;fLogicCool10;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00164"/>00164 &#32;&#32;G4LogicalVolume*&#32;fLogicAirside;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00165"/>00165 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00166"/>00166 &#32;&#32;G4LogicalVolume*&#32;fLogicDiffusor;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00167"/>00167 &#32;&#32;G4LogicalVolume*&#32;fLogicLeadLayer[5];
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00168"/>00168 &#32;&#32;G4LogicalVolume*&#32;fLogicAbsorberLayer;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00169"/>00169 &#32;&#32;G4LogicalVolume*&#32;fLogicSpentFuel;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00170"/>00170 &#32;&#32;G4LogicalVolume*&#32;fLogicControlRod;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00171"/>00171 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00172"/>00172 &#32;&#32;G4LogicalVolume*&#32;fLogicReflectorC;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00173"/>00173 <emphasis role="comment">//&#32;&#32;&#32;G4LogicalVolume*&#32;fLogicCapture;</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00174"/>00174 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00175"/>00175 &#32;&#32;G4LogicalVolume*&#32;fLogicBreeder;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Lead&#32;around&#32;the&#32;fuel&#32;assembly</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00176"/>00176 &#32;&#32;G4LogicalVolume*&#32;fLogicPartBreeder;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Part&#32;of&#32;the&#32;breeder&#32;to&#32;be&#32;repeated&#32;(rotation&#32;in&#32;fLogicBreeder)</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00177"/>00177 &#32;&#32;G4LogicalVolume*&#32;fLogicCladdingUnion;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Cladding&#32;surrounding&#32;the&#32;fuel&#32;+&#32;central&#32;rod</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00178"/>00178 &#32;&#32;G4LogicalVolume*&#32;fLogicFuelUnion;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Fuel&#32;inside&#32;the&#32;cladding&#32;(UO2)</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00179"/>00179 &#32;&#32;std::vector&lt;G4LogicalVolume*&gt;&#32;fLogicFuel;&#32;<emphasis role="comment">//&#32;Fuel&#32;inside&#32;the&#32;cladding&#32;i&#32;(UO2)&#32;;&#32;0&#32;=&#32;outter&#32;;&#32;N&#32;=&#32;center</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00180"/>00180 &#32;&#32;G4LogicalVolume*&#32;fLogicCentralHole;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Central&#32;hole&#32;in&#32;the&#32;Fuel&#32;assembly&#32;(empty&#32;or&#32;Al&#32;?)</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00181"/>00181 &#32;&#32;G4LogicalVolume*&#32;fLogicWaterFuelCladding;&#32;<emphasis role="comment">//&#32;Water&#32;flowing&#32;in&#32;the&#32;fuel&#32;assembly&#32;to&#32;be&#32;repeated&#32;(Translation&#32;in&#32;fLogicFuelBoxLayer)</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00182"/>00182 &#32;&#32;G4LogicalVolume&#32;*fLogicFuelBoxLayer;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Box&#32;containing&#32;int_layer&#32;of&#32;fuel&#32;assembly</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00183"/>00183 &#32;&#32;G4LogicalVolume*&#32;fLogicCool7;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00184"/>00184 &#32;&#32;G4LogicalVolume*&#32;fLogicCool7_water;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00185"/>00185 &#32;&#32;G4LogicalVolume*&#32;fLogicCool7_tub;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00186"/>00186 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00187"/>00187 &#32;&#32;G4LogicalVolume*&#32;fLogicCheck1;&#32;<emphasis role="comment">//&#32;g2</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00188"/>00188 &#32;&#32;G4LogicalVolume*&#32;fLogicCheck3U;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00189"/>00189 &#32;&#32;G4LogicalVolume*&#32;fLogicCheck;&#32;<emphasis role="comment">//&#32;for&#32;g1&#32;box,&#32;orb</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00190"/>00190 &#32;&#32;G4LogicalVolume*&#32;fLogicSubtract1;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00191"/>00191 &#32;&#32;G4LogicalVolume*&#32;fLogicSubtract_Al_Empty;&#32;&#32;<emphasis role="comment">//&#32;Empty&#32;volume&#32;inside&#32;Aluminium&#32;part&#32;in&#32;the&#32;target</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00192"/>00192 &#32;&#32;G4LogicalVolume*&#32;fLogicTarget;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00193"/>00193 &#32;&#32;G4LogicalVolume*&#32;fLogicTarget2;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00194"/>00194 &#32;&#32;G4LogicalVolume*&#32;fLogicTarget3;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00195"/>00195 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00196"/>00196 &#32;&#32;G4LogicalVolume*&#32;fLogicWorld1;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00197"/>00197 &#32;&#32;G4LogicalVolume*&#32;fLogicCheck1U;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00198"/>00198 &#32;&#32;G4LogicalVolume*&#32;fLogTargetTube;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00199"/>00199 &#32;&#32;std::vector&lt;G4LogicalVolume*&gt;&#32;fLogicTargetSlabs;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00200"/>00200 &#32;&#32;std::vector&lt;G4LogicalVolume*&gt;&#32;fLogicTargetCoating;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00201"/>00201 &#32;&#32;G4LogicalVolume*&#32;fLogicTargetLeft;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00202"/>00202 &#32;&#32;G4LogicalVolume*&#32;fLogicTargetCentre;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00203"/>00203 &#32;&#32;G4LogicalVolume*&#32;fLogicAirtopSubtract;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00204"/>00204 &#32;&#32;G4LogicalVolume*&#32;fLogicReflectorSubtract;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00205"/>00205 &#32;&#32;G4LogicalVolume*&#32;fLogicFetopSubtract;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00206"/>00206 &#32;&#32;G4LogicalVolume*&#32;fLogicCool10Subtract;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00207"/>00207 &#32;&#32;G4LogicalVolume*&#32;fLogBeamPipe;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00208"/>00208 &#32;&#32;G4LogicalVolume*&#32;fLogBeamWindow;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00209"/>00209 &#32;&#32;G4LogicalVolume*&#32;fLogVacuumBeamPipe;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00210"/>00210 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00211"/>00211 &#32;&#32;G4VSolid*&#32;fcheck1S;&#32;<emphasis role="comment">//&#32;Target&#32;tube</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00212"/>00212 &#32;&#32;G4Box*&#32;fCenterPlateS;&#32;<emphasis role="comment">//&#32;Target&#32;tube</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00213"/>00213 &#32;&#32;G4RotationMatrix*&#32;fZRotation;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00214"/>00214 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00215"/>00215 &#32;&#32;std::vector&#32;&lt;G4String&gt;&#32;vec_LVname;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00216"/>00216 &#32;&#32;G4double*&#32;fFuelAssemblyLength;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00217"/>00217 &#32;&#32;G4double&#32;IBR2M_FuelposZ;&#32;&#32;<emphasis role="comment">//&#32;position&#32;of&#32;the&#32;fuel&#32;for&#32;IBR-2M&#32;conditions</emphasis>
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00218"/>00218 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00219"/>00219 &#32;&#32;<link linkend="_class_t_m_x_input_parameters">TMXInputParameters</link>*&#32;p;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00220"/>00220 &#32;&#32;<link linkend="_class_geom_e_a_p80_simplified">GeomEAP80Simplified</link>&#32;*&#32;m_geomSVBR;
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00221"/>00221 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00222"/>00222 };
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00223"/>00223 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00225"/>00225 
+<anchor xml:id="__benchmark-4_2include_2_detector_construction_8hh_source_1l00226"/>00226 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

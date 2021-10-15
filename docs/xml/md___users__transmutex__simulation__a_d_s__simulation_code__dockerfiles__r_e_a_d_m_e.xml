@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="md___users__transmutex__simulation__a_d_s__simulation_code__dockerfiles__r_e_a_d_m_e" kind="page">
+    <compoundname>md__Users_Transmutex_Simulation_ADS_SimulationCode_Dockerfiles_README</compoundname>
+    <title>README</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>The Dockerfiles contains in this folder are linked.</para>
+<para>You need to build them in the correct order since there are dependent.</para>
+<para>Create Docker image following this order: root -&gt; geant4 -&gt; tmx -&gt; data</para>
+<para>If an image didn&apos;t change you don&apos;t need to rebuild the previous images. For example, if root and geant4 didn&apos;t change, you only need to rebuild tmx and data.</para>
+<para>root image contain:<itemizedlist>
+<listitem><para>environnement variables</para>
+</listitem><listitem><para>the installation of tools for building (g++, libs...)</para>
+</listitem><listitem><para>the creation of geant4 user</para>
+</listitem><listitem><para>the installation of root</para>
+</listitem></itemizedlist>
+</para>
+<para>geant4 image contain:<itemizedlist>
+<listitem><para>everything from root</para>
+</listitem><listitem><para>the installation of geant4</para>
+</listitem></itemizedlist>
+</para>
+<para>tmx image contain:<itemizedlist>
+<listitem><para>everything from geant4</para>
+</listitem><listitem><para>the installation of tmx</para>
+</listitem></itemizedlist>
+</para>
+<para>data image contain:<itemizedlist>
+<listitem><para>everything from tmx</para>
+</listitem><listitem><para>the installation of the databases</para>
+</listitem></itemizedlist>
+</para>
+<para>You will only use the europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/data image.</para>
+<para>The multistage was a test to reduce the size of the last image. After a quick try root was not working well.</para>
+<para>Below the command you should launch in the root folder of this repository in order to build the dockerimages.</para>
+<para><programlisting><codeline><highlight class="normal">docker<sp/>build<sp/>-f<sp/>Dockerfiles/Dockerfile.root<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/root<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/root</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">docker<sp/>build<sp/>-f<sp/>Dockerfiles/Dockerfile.geant4<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/geant4<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/geant4</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">docker<sp/>build<sp/>-f<sp/>Dockerfiles/Dockerfile.tmx<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/tmx<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/tmx</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>docker<sp/>build<sp/>-f<sp/>Dockerfiles/Dockerfile.multistage<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/multistage<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/multistage</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">docker<sp/>build<sp/>-f<sp/>Dockerfiles/Dockerfile.data<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/data<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/data</highlight></codeline>
+</programlisting></para>
+<para><programlisting filename=".bash"><codeline><highlight class="normal">docker<sp/>build<sp/>-f<sp/>Dockerfiles/root.Dockerfile<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/root-v2<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/root-v2</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">docker<sp/>build<sp/>-f<sp/>Dockerfiles/geant4.Dockerfile<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/geant4-v2<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/geant4-v2</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">docker<sp/>build<sp/>-f<sp/>Dockerfiles/geant4-tmx.Dockerfile<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/geant4-tmx-v2<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/geant4-tmx-v2</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="/Users/Transmutex/Simulation/ADS_SimulationCode/Dockerfiles/README.md"/>
+  </compounddef>
+</doxygen>

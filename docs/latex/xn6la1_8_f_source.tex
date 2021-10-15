@@ -1,0 +1,244 @@
+\hypertarget{xn6la1_8_f_source}{}\doxysection{xn6la1.\+F}
+\label{xn6la1_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6la1.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6la1.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :          28/03/97  17.01.42  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xn6la1(ILAWP,EINO,EOU,COST,PROB)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00006}00006 \textcolor{comment}{*     Probability calculation for LAW=1 in file6, steering routine     *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00008}00008 \textcolor{comment}{*     ILAWP   pointer to the LAW data in R/I6STOR (input)              *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00009}00009 \textcolor{comment}{*     EINO    incoming neutron energy in eV (input)                    *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00010}00010 \textcolor{comment}{*     EOU     outcoming neutron energy in eV (input)                   *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00011}00011 \textcolor{comment}{*     COST    outcoming neutron cosin (theta) (input)                  *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00012}00012 \textcolor{comment}{*     PROB    differential prob (d2Pb/dE dcost) (output)               *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00013}00013 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00014}00014 \textcolor{comment}{*     The incoming energy is in the LAB system                         *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00015}00015 \textcolor{comment}{*     The outgoing energy and angle are in the LAB or CMS system       *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00016}00016 \textcolor{comment}{*     depending on the evaluator choiche (LCT parameter)               *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00017}00017 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00018}00018 \textcolor{comment}{*     Discrete energy lines are skipped for the moment                 *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00019}00019 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00020}00020 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00021}00021 \textcolor{preprocessor}{\#include "{}xcmfh6.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00022}00022 \textcolor{preprocessor}{}      dimension vect(4),vect1(4)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00023}00023 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00025}00025 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Find relevant variables}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00027}00027       lang=i6stor(ilawp+1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00028}00028       lep =i6stor(ilawp+2)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00029}00029       nr  =i6stor(ilawp+3)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00030}00030       ne  =i6stor(ilawp+4)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00031}00031       ein =eino}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> Find energy range}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00033}00033       ipoen=ilawp+4+2*nr}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00034}00034       \textcolor{keywordflow}{IF}(ein.LT.r6stor(ipoen+1)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Incoming energy lower than threshold for this reaction}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00036}00036 \textcolor{comment}{*      suppose ENDF data consistent and set probability to 0}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00037}00037          prob=0}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00038}00038          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00039}00039       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(ein.GE.r6stor(ipoen+ne)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> Incoming energy larger than max incoming energy, reset it}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00041}00041 \textcolor{comment}{*      so that the value is equal to the max energy one.}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00042}00042          ein =r6stor(ipoen+ne)*0.99999}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00043}00043          ip1 =ne-\/1}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00044}00044          ip2 =ne}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00045}00045       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00046}00046 \textcolor{comment}{* -\/-\/-\/> Binary search, input energies}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00047}00047          ip1 =1}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00048}00048          ip2 =ne}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00049}00049    10    \textcolor{keywordflow}{IF}(ip2-\/ip1.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00050}00050             iph =(ip1+ip2)/2}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00051}00051             \textcolor{keywordflow}{IF}(ein.LT.r6stor(ipoen+iph)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00052}00052                ip2 =iph}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00053}00053             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00054}00054                ip1 =iph}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00055}00055 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00056}00056             \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00057}00057 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00058}00058 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00059}00059 \textcolor{comment}{* -\/-\/-\/> Fill interpolation array}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00060}00060       vect(1)=r6stor(ipoen+ip1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00061}00061       vect(3)=r6stor(ipoen+ip2)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> Check that binary search was ok}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00063}00063       \textcolor{keywordflow}{IF}(ein.LT.vect(1).OR.ein.GT.vect(3).OR.ip2.EQ.ip1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00064}00064          stop \textcolor{stringliteral}{'*** XN6LA1: Error in binary search'}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00065}00065 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00066}00066 \textcolor{comment}{* -\/-\/-\/> Find the interpolation law for primary energies}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00067}00067       \textcolor{keywordflow}{DO} 20 jr=1,nr}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00068}00068          \textcolor{keywordflow}{IF}(ip2.LE.i6stor(ilawp+4+jr)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00069}00069             int =i6stor(ilawp+4+nr+jr)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00070}00070             intl=mod(int,10)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00071}00071             intm=int/10}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00072}00072             \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00073}00073 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00074}00074    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00075}00075       stop \textcolor{stringliteral}{'*** XN6LA1: Error in interpolation range'}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00076}00076    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00077}00077 \textcolor{comment}{* -\/-\/-\/> Find pointers to distributions for the two primary}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00078}00078 \textcolor{comment}{*      energies VECT(1)<EIN<VECT(3)}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00079}00079       iep1=i6stor(ilawp+4+2*nr+ne+ip1)+3}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00080}00080       iep2=i6stor(ilawp+4+2*nr+ne+ip2)+3}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00081}00081 \textcolor{comment}{* -\/-\/-\/> Now according to the interpolation method do interpolate}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00082}00082       \textcolor{keywordflow}{IF}(intm.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00083}00083 \textcolor{comment}{* -\/-\/-\/> Cartesian interpolation}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00084}00084 \textcolor{comment}{* -\/-\/-\/> Calculate value for lower primary energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00085}00085          \textcolor{keyword}{CALL }xn6ssc(lang,lep,iep1,ein,eou,cost,vect(2))}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00086}00086 \textcolor{comment}{* -\/-\/-\/> Calculate value for upper primary energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00087}00087          \textcolor{keyword}{CALL }xn6ssc(lang,lep,iep2,ein,eou,cost,vect(4))}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00088}00088 \textcolor{comment}{* -\/-\/-\/> Interpolate the two}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00089}00089          \textcolor{keyword}{CALL }xntrpi(vect,intl,ein,prob)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00090}00090       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(intm.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00091}00091 \textcolor{comment}{* -\/-\/-\/> Corresponding points interpolation}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00092}00092 \textcolor{comment}{* -\/-\/-\/> Find the corresponding point interval}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00093}00093          na1=i6stor(iep1-\/2)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00094}00094          na2=i6stor(iep2-\/2)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00095}00095 \textcolor{comment}{* -\/-\/-\/> Number of discrete lines}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00096}00096          nd1=i6stor(iep1-\/1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00097}00097          nd2=i6stor(iep2-\/1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00098}00098 \textcolor{comment}{* -\/-\/-\/> Number of secondary energies}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00099}00099          nep1=i6stor(iep1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00100}00100          nep2=i6stor(iep2)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00101}00101 \textcolor{comment}{* -\/-\/-\/> If there are only discrete lines in one of the two}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00102}00102 \textcolor{comment}{*      tabulation, set probability to 0 and skip!}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00103}00103          \textcolor{keywordflow}{IF}(nep1.GT.nd1.AND.nep2.GT.nd2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00104}00104 \textcolor{comment}{* -\/-\/-\/> Number of data for each secondary energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00105}00105             id1=na1+2}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00106}00106             id2=na2+2}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00107}00107 \textcolor{comment}{* -\/-\/-\/> Move IEP1 and IEP2 after discrete lines}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00108}00108             iep1=iep1+nd1*id1}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00109}00109             iep2=iep2+nd2*id2}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00110}00110 \textcolor{comment}{* -\/-\/-\/> Subtract discrete lines from total}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00111}00111             nep1=nep1-\/nd1}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00112}00112             nep2=nep2-\/nd2}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00113}00113 \textcolor{comment}{* -\/-\/-\/> Number of points for lower primary energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00114}00114             nep=nep1}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00115}00115             xrat=(vect(3)-\/ein)/(vect(3)-\/vect(1))}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00116}00116 \textcolor{comment}{* -\/-\/-\/> Find 'corresponding point' energy interval limits}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00117}00117             elow=xrat*r6stor(iep1+1)+}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00118}00118      +       (1-\/xrat)*r6stor(iep2+1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00119}00119             ehig=xrat*r6stor(iep1+(nep-\/1)*id1+1)+}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00120}00120      +       (1-\/xrat)*r6stor(iep2+(nep-\/1)*id2+1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00121}00121             \textcolor{keywordflow}{IF}(eou.LT.elow.OR.eou.GT.ehig) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00122}00122 \textcolor{comment}{* -\/-\/-\/> Outgoing energy below minimum or above max}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00123}00123                prob=0}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00124}00124             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00125}00125 \textcolor{comment}{* -\/-\/-\/> Do binary search}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00126}00126                ip1=1}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00127}00127                ip2=nep}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00128}00128    40          \textcolor{keywordflow}{IF}(ip2-\/ip1.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00129}00129                   iph=(ip1+ip2)/2}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00130}00130                   ehalf= xrat*r6stor(iep1+(iph-\/1)*id1+1)+ (1-\/xrat)*}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00131}00131      +            r6stor(iep2+(iph-\/1)*id2+1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00132}00132                   \textcolor{keywordflow}{IF}(eou.LT.ehalf) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00133}00133                      ehig=ehalf}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00134}00134                      ip2=iph}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00135}00135                   \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00136}00136                      elow=ehalf}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00137}00137                      ip1=iph}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00138}00138 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00139}00139                   \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00140}00140 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00141}00141 \textcolor{comment}{* -\/-\/-\/> Sanity check on binary search}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00142}00142                \textcolor{keywordflow}{IF}(eou.LT.elow.OR.eou.GT.ehig.OR.ip2.EQ.ip1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00143}00143                   stop \textcolor{stringliteral}{'*** XN6LA1: Error in binary search'}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00144}00144 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00145}00145 \textcolor{comment}{* -\/-\/-\/> Now find where we are in relative terms in the interval}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00146}00146 \textcolor{comment}{*      projecting the point back in the corresponding intervals for}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00147}00147 \textcolor{comment}{*      the lower and the upper incoming energies}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00148}00148                xxrat=(ehig-\/eou)/(ehig-\/elow)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00149}00149 \textcolor{comment}{* -\/-\/-\/> Lower incoming energy first}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00150}00150 \textcolor{comment}{* -\/-\/-\/> Lower outgoing energy pointer}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00151}00151                ipp1=iep1+(ip1-\/1)*id1+1}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00152}00152 \textcolor{comment}{* -\/-\/-\/> Upper outgoing energy pointer}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00153}00153                ipp2=ipp1+id1}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00154}00154 \textcolor{comment}{* -\/-\/-\/> Equivalent outgoing energy for lower incoming energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00155}00155                eou1=xxrat*r6stor(ipp1)+(1-\/xxrat)*r6stor(ipp2)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00156}00156                vect1(1)=r6stor(ipp1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00157}00157 \textcolor{comment}{* -\/-\/-\/> Calculate probability for given value of cost for lower}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00158}00158 \textcolor{comment}{*      outgoing energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00159}00159                \textcolor{keyword}{CALL }xn6le1(ipp1,lang,na1,ein,eou1,cost,vect1(2))}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00160}00160                vect1(3)=r6stor(ipp2)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00161}00161 \textcolor{comment}{* -\/-\/-\/> Calculate probability for given value of cost for upper}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00162}00162 \textcolor{comment}{*      outgoing energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00163}00163                \textcolor{keyword}{CALL }xn6le1(ipp2,lang,na1,ein,eou1,cost,vect1(4))}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00164}00164 \textcolor{comment}{* -\/-\/-\/> Interpolate to find probability for lower incoming energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00165}00165                \textcolor{keyword}{CALL }xntrpi(vect1,lep,eou1,vect(2))}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00166}00166 \textcolor{comment}{* -\/-\/-\/> Upper incoming energy second}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00167}00167 \textcolor{comment}{* -\/-\/-\/> Lower outgoing energy pointer}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00168}00168                ipp1=iep2+(ip1-\/1)*id2+1}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00169}00169 \textcolor{comment}{* -\/-\/-\/> Upper outgoing energy pointer}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00170}00170                ipp2=ipp1+id2}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00171}00171 \textcolor{comment}{* -\/-\/-\/> Equivalent outgoing energy for upper incoming energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00172}00172                eou2=xxrat*r6stor(ipp1)+(1-\/xxrat)*r6stor(ipp2)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00173}00173                vect1(1)=r6stor(ipp1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00174}00174 \textcolor{comment}{* -\/-\/-\/> Calculate probability for given value of cost for lower}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00175}00175 \textcolor{comment}{*      outgoing energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00176}00176                \textcolor{keyword}{CALL }xn6le1(ipp1,lang,na2,ein,eou2,cost,vect1(2))}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00177}00177                vect1(3)=r6stor(ipp2)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00178}00178 \textcolor{comment}{* -\/-\/-\/> Calculate probability for given value of cost for upper}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00179}00179 \textcolor{comment}{*      outgoing energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00180}00180                \textcolor{keyword}{CALL }xn6le1(ipp2,lang,na2,ein,eou2,cost,vect1(4))}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00181}00181 \textcolor{comment}{* -\/-\/-\/> Interpolate to find probability for upper incoming energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00182}00182                \textcolor{keyword}{CALL }xntrpi(vect1,lep,eou2,vect(4))}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00183}00183 \textcolor{comment}{* -\/-\/-\/> Interpolate between incoming energies to find probability}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00184}00184                \textcolor{keyword}{CALL }xntrpi(vect,intl,ein,prob)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00185}00185 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00186}00186        \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00187}00187 \textcolor{comment}{* -\/-\/-\/> Only discrete lines in one of the two tabulation, skip}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00188}00188 \textcolor{comment}{*      section and set probability to 0}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00189}00189             \textcolor{keyword}{WRITE}(6,10000) nep1, nd1, nep2, nd2}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00190}00190             prob=0}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00191}00191 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00192}00192       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(intm.EQ.2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00193}00193 \textcolor{comment}{* -\/-\/-\/> Unit base interpolation}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00194}00194          na1=i6stor(iep1-\/2)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00195}00195          na2=i6stor(iep2-\/2)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00196}00196 \textcolor{comment}{* -\/-\/-\/> Number of discrete lines}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00197}00197          nd1=i6stor(iep1-\/1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00198}00198          nd2=i6stor(iep2-\/1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00199}00199 \textcolor{comment}{* -\/-\/-\/> Number of outgoing energies, lower and upper incoming energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00200}00200          nep1=i6stor(iep1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00201}00201          nep2=i6stor(iep2)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00202}00202          \textcolor{keywordflow}{IF}(nep1.GT.nd1.AND.nep2.GT.nd2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00203}00203 \textcolor{comment}{* -\/-\/-\/> Number of words for each value of outgoing energy, lower and}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00204}00204 \textcolor{comment}{*      upper incoming energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00205}00205             id1=na1+2}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00206}00206             id2=na2+2}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00207}00207 \textcolor{comment}{* -\/-\/-\/> Max outgoing energy, lower and upper incoming}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00208}00208             ehig1=r6stor(iep1+(nep1-\/1)*id1+1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00209}00209             ehig2=r6stor(iep2+(nep2-\/1)*id2+1)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00210}00210             xrat=(vect(3)-\/ein)/(vect(3)-\/vect(1))}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00211}00211 \textcolor{comment}{* -\/-\/-\/> Find interpolated max of outgoing energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00212}00212             ehig=xrat*ehig1+(1-\/xrat)*ehig2}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00213}00213 \textcolor{comment}{* -\/-\/-\/> Shrink energy distribution to max and reexpand to lower max}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00214}00214             eou1=eou*ehig1/ehig}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00215}00215 \textcolor{comment}{* -\/-\/-\/> Find probability unit-\/base for lower incoming energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00216}00216             \textcolor{keyword}{CALL }xn6ssc(lang,lep,iep1,ein,eou1,cost,vect(2))}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00217}00217 \textcolor{comment}{* -\/-\/-\/> Shrink energy distribution to max and reexpand to upper max}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00218}00218             eou2=eou*ehig2/ehig}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00219}00219 \textcolor{comment}{* -\/-\/-\/> Find probability unit-\/base for lower incoming energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00220}00220             \textcolor{keyword}{CALL }xn6ssc(lang,lep,iep2,ein,eou2,cost,vect(4))}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00221}00221 \textcolor{comment}{* -\/-\/-\/> Beware of normalisation}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00222}00222             vect(2)=vect(2)*ehig1}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00223}00223             vect(4)=vect(4)*ehig2}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00224}00224 \textcolor{comment}{* -\/-\/-\/> Interpolate probabilities for upper and lower incoming energy}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00225}00225             \textcolor{keyword}{CALL }xntrpi(vect,intl,ein,prob)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00226}00226 \textcolor{comment}{* -\/-\/-\/> Renormalise probability}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00227}00227             prob=prob/ehig}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00228}00228          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00229}00229 \textcolor{comment}{* -\/-\/-\/> Only discrete lines in one of the two tabulation, skip}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00230}00230 \textcolor{comment}{*      section and set probability to 0}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00231}00231             \textcolor{keyword}{WRITE}(6,10000) nep1, nd1, nep2, nd2}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00232}00232             prob=0}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00233}00233 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00234}00234 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00235}00235 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00236}00236 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XN6LA1: No continuous distribution for this'},}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00237}00237      +\textcolor{stringliteral}{' section '},4i10)}
+\DoxyCodeLine{\Hypertarget{xn6la1_8_f_source_l00238}00238   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

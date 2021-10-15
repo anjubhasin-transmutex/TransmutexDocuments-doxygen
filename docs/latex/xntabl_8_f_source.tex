@@ -1,0 +1,160 @@
+\hypertarget{xntabl_8_f_source}{}\doxysection{xntabl.\+F}
+\label{xntabl_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xntabl.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xntabl.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :          22/08/97  18.44.22  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   17/01/94}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xntabl(IZAMAT,MFMT,IMATE)}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00006}00006 \textcolor{comment}{*     Looks in the index of the currently open Cross Section           *}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00007}00007 \textcolor{comment}{*     database for a reaction on a given target isomer and loads       *}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00008}00008 \textcolor{comment}{*     it in memory. If the reaction is already in memory it is not     *}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00009}00009 \textcolor{comment}{*     read again.                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00010}00010 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00011}00011 \textcolor{comment}{*     IZAMAT    (input) isomer code                                    *}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00012}00012 \textcolor{comment}{*     MFMT      (input) ENDF-\/6 reaction code MT. To see valid MT       *}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00013}00013 \textcolor{comment}{*               codes, see arrays CHNAME and NBMFT below. If MFMT=0    *}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00014}00014 \textcolor{comment}{*               all reactions relative to the isomer are loaded        *}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00015}00015 \textcolor{comment}{*     IMATE     (output) pointer to the "{}row"{} of the index table       *}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00016}00016 \textcolor{comment}{*               IMTABL where the pointers to the data are stored       *}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00017}00017 \textcolor{comment}{*               for this isomer. If IMATE=0 no data has been loaded    *}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00018}00018 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00019}00019 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00020}00020 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00021}00021 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcutil.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00022}00022 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00023}00023 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00024}00024 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbas.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00025}00025 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00026}00026 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00027}00027 \textcolor{preprocessor}{}      \textcolor{keywordtype}{LOGICAL} LREAD,LNEWMA}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00028}00028       \textcolor{keywordtype}{CHARACTER*11} XNELNA,CHELNA}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00029}00029       \textcolor{keywordtype}{CHARACTER*8} XNRENA,CHRENA}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00030}00030 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00031}00031 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00032}00032 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/> Suppose we fail}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00034}00034       imate = 0}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> See whether this isomer is already in memory or not}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00036}00036       lnewma=.false.}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00037}00037       \textcolor{keywordflow}{DO} 10 jmate=1,nmate}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00038}00038          \textcolor{keywordflow}{IF}(izamat.EQ.imtabl(1,jmate)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Isomer already in memory, save index of "{}row"{} in IMTABL}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00040}00040             imate = jmate}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00041}00041             \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00042}00042 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00043}00043    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00044}00044 \textcolor{comment}{* -\/-\/-\/> Isomer not in index, do we still have space ?}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00045}00045       \textcolor{keywordflow}{IF}(nmate.GE.mxmate) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00046}00046          \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' *** XNTABL: No more space in material index'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00047}00047          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00048}00048 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Initialise new "{}row"{} of IMTABL index}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00050}00050       nmate = nmate+1}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00051}00051       imate = nmate}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00052}00052       imtabl(1,imate)=izamat}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00053}00053       \textcolor{keywordflow}{DO} 20 jt=2,ntablr}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00054}00054          imtabl(jt,imate) = 0}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00055}00055    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00056}00056       lnewma=.true.}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00057}00057    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00058}00058 \textcolor{comment}{* -\/-\/-\/> Get rid of temperature index}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00059}00059       \textcolor{keyword}{CALL }xngtmp(izamat,izaint,itpos)}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> Set default temperature}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00061}00061       \textcolor{keyword}{CALL }xntmpi(ltemp(itpos+1))}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> Open current Cross Section database and load index}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00063}00063       \textcolor{keyword}{CALL }xnopen}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/> Set read flag to false}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00065}00065       lread=.false.}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00066}00066 \textcolor{comment}{* -\/-\/-\/> Decode MF and MT ENDF-\/6 codes}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00067}00067       mt = mod(mfmt,1000)}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00068}00068       mf = mfmt/1000}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/> Loop on all allowed reaction}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00070}00070       \textcolor{keywordflow}{DO} 60 kreac=1,mxreac}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00071}00071          imt = nbmft(kreac)}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00072}00072          \textcolor{keywordflow}{IF}(imt.EQ.mt.OR.mt.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00073}00073 \textcolor{comment}{* -\/-\/-\/> This is the reaction requested or all reactions have been requested}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00074}00074             \textcolor{keywordflow}{DO} 50 jmfil=1,maxmfi}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00075}00075                imf=lmfile(jmfil)}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00076}00076                \textcolor{keywordflow}{IF}(mf.EQ.0.OR.imf.EQ.mf) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00077}00077 \textcolor{comment}{* -\/-\/-\/> This is the ENDF-\/6 "{}file"{} requested or all reactions have}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00078}00078 \textcolor{comment}{*      been requested}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00079}00079 \textcolor{comment}{* -\/-\/-\/> Find pointer to reaction "{}column"{} in IMTABL}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00080}00080                   ireac=(jmfil-\/1)*mxreac+kreac}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00081}00081 \textcolor{comment}{* -\/-\/-\/> Build combined reaction code}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00082}00082                   imfmt = 1000*imf+imt}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00083}00083 \textcolor{comment}{* -\/-\/-\/> See whether reaction is already in memory or if we need to}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00084}00084 \textcolor{comment}{*      read it from disk}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00085}00085                   \textcolor{keywordflow}{IF}(imtabl(1+nreinf*(ireac-\/1)+1,imate).EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00086}00086 \textcolor{comment}{* -\/-\/-\/> Reaction is not in memory, we have to read it from disk}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00087}00087 \textcolor{comment}{* -\/-\/-\/> Store pointer to data: in fact last used location}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00088}00088                      imtabl(1+nreinf*(ireac-\/1)+1,imate) = ihgwmk}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00089}00089                      \textcolor{keywordflow}{DO} 40 jindex=1,nindex/ninden}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00090}00090 \textcolor{comment}{* -\/-\/-\/> Scan Cross Section database index in search of reaction}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00091}00091                         \textcolor{keywordflow}{IF}(izaint.EQ.lindex(1,jindex)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00092}00092 \textcolor{comment}{* -\/-\/-\/> Found isomer}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00093}00093                            \textcolor{keywordflow}{IF}(imfmt.EQ.lindex(2,jindex)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00094}00094 \textcolor{comment}{* -\/-\/-\/> Found reaction, load data length}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00095}00095                               ilen = lindex(4,jindex)}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00096}00096 \textcolor{comment}{* -\/-\/-\/> Make sure we have enough space}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00097}00097                               \textcolor{keywordflow}{IF}(ihgwmk+ilen.LE.nbsize) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00098}00098                                  \textcolor{keywordflow}{IF}(imfmt/1000.EQ.3) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00099}00099 \textcolor{comment}{* -\/-\/-\/> If cross section file, store number of pairs}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00100}00100                                     imtabl(1+nreinf*(ireac-\/1)+2,imate)=}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00101}00101      +                              ilen/ 2}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00102}00102                                  \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00103}00103 \textcolor{comment}{* -\/-\/-\/> Otherwise store number of data}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00104}00104                                     imtabl(1+nreinf*(ireac-\/1)+2,imate)=}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00105}00105      +                              ilen}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00106}00106 \textcolor{keywordflow}{                                 ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00107}00107 \textcolor{comment}{* -\/-\/-\/> Actually read reaction from disk}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00108}00108                                  \textcolor{keyword}{CALL }xngetd(jindex,imate,ireac)}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00109}00109 \textcolor{comment}{* -\/-\/-\/> Update High water Mark}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00110}00110                                  ihgwmk = ihgwmk+ilen}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00111}00111 \textcolor{comment}{* -\/-\/-\/> Remember that we have read data}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00112}00112                                  lread=.true.}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00113}00113                               \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00114}00114 \textcolor{comment}{* -\/-\/-\/> No more space, print message}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00115}00115                                  \textcolor{keyword}{WRITE}(6,10000)}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00116}00116 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNTABL: No more space in the XCSTOR common'})}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00117}00117 \textcolor{keywordflow}{                              ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00118}00118                               \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00119}00119 \textcolor{keywordflow}{                           ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00120}00120 \textcolor{keywordflow}{                        ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00121}00121    40                \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00122}00122 \textcolor{comment}{* -\/-\/-\/> If loading one reaction at a time, signal when reaction not there}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00123}00123                      \textcolor{keywordflow}{IF}(mf.NE.0.AND.mt.NE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00124}00124                         chelna=xnelna(izaint)}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00125}00125                         chrena=xnrena(mt)}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00126}00126                         \textcolor{keyword}{WRITE}(6,10100) chelna,mf,chrena}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00127}00127 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNTABL: '},a,\textcolor{stringliteral}{' File='},i1,\textcolor{stringliteral}{' Reaction '},a,}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00128}00128      +       \textcolor{stringliteral}{' not in database'})}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00129}00129 \textcolor{keywordflow}{                     ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00130}00130 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00131}00131 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00132}00132    50       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00133}00133 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00134}00134    60 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00135}00135 \textcolor{comment}{* -\/-\/-\/> Close Cross Sections database file}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00136}00136       \textcolor{keyword}{CALL }xnclos}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00137}00137 \textcolor{comment}{* -\/-\/-\/> If we have read from disk print summary}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00138}00138       \textcolor{keywordflow}{IF}(lread) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00139}00139          chelna=xnelna(izaint)}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00140}00140          \textcolor{keyword}{WRITE}(6,10200) chelna,mfmt,100.*ihgwmk/nbsize,}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00141}00141      +   chdbas(: index(chdbas,\textcolor{stringliteral}{' '})-\/1),chtemp(:index(chtemp,\textcolor{stringliteral}{' '})-\/1)}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00142}00142 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNTABL: '},a,\textcolor{stringliteral}{' Reac='},i4,}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00143}00143      +   \textcolor{stringliteral}{'; '},f5.1,\textcolor{stringliteral}{'\% space used, file '},2a)}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00144}00144       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lnewma) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00145}00145 \textcolor{comment}{* -\/-\/-\/> If we booked a new material but we did not read anything,}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00146}00146 \textcolor{comment}{*      release space in the index and cleanup}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00147}00147          nmate=nmate-\/1}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00148}00148          \textcolor{keywordflow}{DO} 70 jpos=1,ntablr}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00149}00149             imtabl(jpos,imate)=0}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00150}00150    70    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00151}00151          imate=0}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00152}00152 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00153}00153 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntabl_8_f_source_l00154}00154   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

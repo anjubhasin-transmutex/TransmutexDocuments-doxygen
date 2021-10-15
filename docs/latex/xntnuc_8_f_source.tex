@@ -1,0 +1,60 @@
+\hypertarget{xntnuc_8_f_source}{}\doxysection{xntnuc.\+F}
+\label{xntnuc_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xntnuc.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xntnuc.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 04/06/96  18.14.07  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   03/02/94}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xntnuc(A,Z,EV,T)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00006}00006 \textcolor{comment}{*     Computes the nuclear temperature using the Bethe formula with    *}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00007}00007 \textcolor{comment}{*     a=A/8 taking into account the surface effects on a as well as    *}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00008}00008 \textcolor{comment}{*     their dependence in energy                                       *}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00009}00009 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00010}00010 \textcolor{comment}{*     A         (input) mass number of the isomer in atomic unit       *}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00011}00011 \textcolor{comment}{*     Z         (input) atomic number of the isomer                    *}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00012}00012 \textcolor{comment}{*     EV        (input) incoming neutron energy in eV                  *}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00013}00013 \textcolor{comment}{*     T         (output) nuclear temperature in eV                     *}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00014}00014 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00015}00015 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00016}00016 \textcolor{keywordtype}{      REAL} K,MN,MP,MA}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00017}00017       parameter(a1=15.677,a2=18.56,k=1.79,c3=.717,c4=1.21129)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00018}00018       parameter(a1k=a1*k,a2k=a2*k,mn=8.07144,mp=7.28899,ma=2.425)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00019}00019       parameter(qa=-\/28.3)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00020}00020       dimension ms(8),nshel1(250),nshel2(250)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00021}00021       \textcolor{keyword}{DATA} ms /2,8,14,28,50,82,126,184/}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00022}00022       \textcolor{keywordtype}{LOGICAL} LFIRST}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00023}00023       \textcolor{keywordtype}{SAVE} lfirst, nshel1, nshel2}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00024}00024       \textcolor{keyword}{DATA} lfirst / .true./}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00025}00025 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00026}00026       fnfsh(n)=.6*(nshel1(n)**1.6666-\/nshel2(n)**1.6666)*(n-\/nshel2(n))/}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00027}00027      +         (nshel1(n)-\/nshel2(n))-\/.6*(n**1.6666-\/nshel2(n)**1.6666)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00028}00028       fnshel(z,a)=5.8*((fnfsh(nint(a-\/z))+fnfsh(nint(z)))/(a/2.)**.6666}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00029}00029      +            -\/.26*a**.3333)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00030}00030 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00032}00032 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/> Evaporation using the liquid drop formula of Myers and Swiatecki}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00034}00034       \textcolor{keywordflow}{IF}(lfirst) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00035}00035          \textcolor{keywordflow}{DO} 20 i=1,7}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00036}00036             \textcolor{keywordflow}{DO} 10 j=ms(i),ms(i+1)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00037}00037                nshel1(j)=ms(i+1)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00038}00038                nshel2(j)=ms(i)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00039}00039    10       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00040}00040    20    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00041}00041          lfirst=.false.}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00042}00042 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00043}00043       e=ev*1e-\/6}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00044}00044       x=z**2*.717/(2.*18.56*(1-\/1.79*((a-\/2.*z)/a)**2)*a)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00045}00045       scr=2.*a2*(1.-\/k*((a-\/2.*z)/a)**2)*.27**2*(1.-\/x)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00046}00046       afg=a/8.}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00047}00047       couche=fnshel(z,a)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00048}00048       \textcolor{keywordflow}{IF}(couche.GT.scr) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00049}00049          couche=scr+scr*log(couche/scr)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00050}00050 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00051}00051       ash=afg*(1.+(1-\/exp(-\/e/18.5))*couche/e)}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00052}00052       t=sqrt(e/ash)*1e6}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00053}00053 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntnuc_8_f_source_l00054}00054       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

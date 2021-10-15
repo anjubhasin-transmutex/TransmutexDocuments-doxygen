@@ -1,0 +1,148 @@
+\hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source}{}\doxysection{SVBR100\+\_\+\+Heat\+Exchanger.\+cc}
+\label{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/src/geometry/SVBR100/SVBR100\_HeatExchanger.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/src/geometry/SVBR100/SVBR100\_HeatExchanger.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00002}00002 \textcolor{comment}{// \(\backslash\)brief Implementation of the SVBR100's Heat Exchanger class}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00006}00006 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00007}00007 \textcolor{comment}{// SVBR100\_HeatExchanger}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00009}00009 \textcolor{comment}{// Thomas Guilbaud, Transmutex, 25/05/2021}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{// Geometry represented the SVBR100's Heat Exchanger of AKME}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00014}00014 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00015}00015 \textcolor{preprocessor}{\#include "{}SVBR100\_HeatExchanger.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00017}00017 \textcolor{comment}{// Geant4 Class}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00018}00018 \textcolor{preprocessor}{\#include "{}G4PhysicalConstants.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00019}00019 \textcolor{preprocessor}{\#include "{}G4PVPlacement.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00020}00020 \textcolor{preprocessor}{\#include "{}G4SystemOfUnits.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00021}00021 \textcolor{preprocessor}{\#include "{}G4Tubs.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00023}00023 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00024}00024 SVBR100\_HeatExchanger::SVBR100\_HeatExchanger(\mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* p, G4LogicalVolume* motherVolume)}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00025}00025 :   m\_p\{p\},}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00026}00026     m\_overlap(p-\/>Verbose >= 1),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00027}00027     m\_nbCopy(0),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00028}00028     m\_motherVolume(motherVolume),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00029}00029     m\_masterVolume(nullptr),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00030}00030     m\_translationVector(G4ThreeVector()),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00031}00031     m\_primaryCoolantMaterial(nullptr),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00032}00032     m\_organicCoolant(nullptr),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00033}00033     m\_mixPrimSecondCoolant(nullptr),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00034}00034     m\_metalicStructureMaterial(nullptr)}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00035}00035 \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00037}00037 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00039}00039 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00040}00040 \textcolor{comment}{// Builder}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00042}00042 \textcolor{keywordtype}{void} SVBR100\_HeatExchanger::createGeometry(G4double halfLength\_insideReactor) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00043}00043     createMaterials();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00045}00045     \textcolor{keywordflow}{if} (m\_p-\/>Verbose >= 2) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00046}00046         G4cout << \textcolor{stringliteral}{"{}Length Inside Reactor : "{}} << 2. * halfLength\_insideReactor << \textcolor{stringliteral}{"{} mm"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00047}00047     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00049}00049     G4double outerRadius\_envelope = 521./2. * mm;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00050}00050     \textcolor{comment}{// G4double halfHeight\_envelope = 6645./2. * mm;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00051}00051     G4double thickness\_envelope = 5. * mm; \textcolor{comment}{//?}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00053}00053     G4double outerRadius\_primaryCoolantFlow = outerRadius\_envelope -\/ thickness\_envelope;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00056}00056     \textcolor{comment}{// Simplified Secondary Coolant}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00057}00057     G4Tubs* sEnvelope = \textcolor{keyword}{new} G4Tubs(\textcolor{stringliteral}{"{}sHeatExchanger\_envelope"{}}, 0., outerRadius\_envelope, halfLength\_insideReactor, 0., twopi);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00058}00058     G4LogicalVolume* lEnvelope = \textcolor{keyword}{new} G4LogicalVolume(sEnvelope, m\_metalicStructureMaterial, \textcolor{stringliteral}{"{}lHeatExchanger\_envelope"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00059}00059     m\_masterVolume = lEnvelope;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00062}00062     \textcolor{comment}{// Simplified Secondary Coolant}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00063}00063     G4Tubs* sPrimaryCoolantFlow = \textcolor{keyword}{new} G4Tubs(\textcolor{stringliteral}{"{}sHeatExchanger\_primaryCoolantFlow"{}}, 0., outerRadius\_primaryCoolantFlow, halfLength\_insideReactor, 0., twopi);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00064}00064     G4LogicalVolume* lPrimaryCoolantFlow = \textcolor{keyword}{new} G4LogicalVolume(sPrimaryCoolantFlow, m\_mixPrimSecondCoolant, \textcolor{stringliteral}{"{}lHeatExchanger\_primaryCoolantFlow"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00065}00065     \textcolor{keyword}{new} G4PVPlacement(0, G4ThreeVector(), lPrimaryCoolantFlow, \textcolor{stringliteral}{"{}pHeatExchanger\_primaryCoolantFlow"{}}, lEnvelope, \textcolor{keyword}{false}, 0, m\_overlap);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00066}00066 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00068}00068 \textcolor{keywordtype}{void} SVBR100\_HeatExchanger::createMaterials() \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00069}00069     \textcolor{keyword}{const} G4double temperature\_secondaryCoolant = (0.5 * (307.+241.) + 273.15) * kelvin;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00070}00070     \textcolor{keyword}{const} G4double rho\_secondaryCoolant = 0.8*(g/cm3),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00071}00071                    rho\_primaryCoolant   = 10.23*(g/cm3);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00074}00074     \textcolor{comment}{// Organic Coolant for the Secondary Circuit}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00075}00075     m\_organicCoolant = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00076}00076         \textcolor{stringliteral}{"{}OrganicCoolant"{}},}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00077}00077         rho\_secondaryCoolant, 4, kStateSolid, temperature\_secondaryCoolant\textcolor{comment}{// 900.0}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00078}00078     );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00079}00079     \textcolor{comment}{// C Nat -\/ 2 Stable Isotopes -\/ 88\%}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00080}00080     m\_organicCoolant-\/>AddElement( 60120, 0.88 * 0.989); \textcolor{comment}{// C\_12}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00081}00081     m\_organicCoolant-\/>AddElement( 60130, 0.88 * 0.011); \textcolor{comment}{// C\_13}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00082}00082     \textcolor{comment}{// H Nat -\/ 2 Stable Isotopes -\/ 12\%}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00083}00083     m\_organicCoolant-\/>AddElement( 10010, 0.12 * 0.9998); \textcolor{comment}{// TS\_H\_of\_Polyethylene}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00084}00084     m\_organicCoolant-\/>AddElement( 10020, 0.12 * 0.0002); \textcolor{comment}{// TS\_H\_of\_Polyethylene}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00087}00087     \textcolor{comment}{// Simplyfied Version with homogène mix of Primary and Sencondary Coolant}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00088}00088     \textcolor{keyword}{const} \textcolor{keywordtype}{double} fracPrimary = 0.5; \textcolor{comment}{//?}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00089}00089     \textcolor{keyword}{const} \textcolor{keywordtype}{double} fracSecond  = 1. -\/ fracPrimary;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00090}00090     \textcolor{keyword}{const} G4double rho\_mix = rho\_secondaryCoolant*fracSecond + rho\_primaryCoolant*fracPrimary;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00091}00091     m\_mixPrimSecondCoolant = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00092}00092         \textcolor{stringliteral}{"{}MixPrimSecondCoolant"{}},}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00093}00093         rho\_mix, 9, kStateSolid, temperature\_secondaryCoolant\textcolor{comment}{// 900.0}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00094}00094     );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00096}00096     \textcolor{comment}{// Pb Nat -\/ 4 Stable Isotopes -\/ 45\%}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00097}00097     m\_mixPrimSecondCoolant-\/>AddElement(822040, fracPrimary * 0.45 * 0.014); \textcolor{comment}{// Pb204}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00098}00098     m\_mixPrimSecondCoolant-\/>AddElement(822060, fracPrimary * 0.45 * 0.241); \textcolor{comment}{// Pb206}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00099}00099     m\_mixPrimSecondCoolant-\/>AddElement(822070, fracPrimary * 0.45 * 0.221); \textcolor{comment}{// Pb207}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00100}00100     m\_mixPrimSecondCoolant-\/>AddElement(822080, fracPrimary * 0.45 * 0.524); \textcolor{comment}{// Pb208}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00101}00101     \textcolor{comment}{// Bi Nat -\/ + Stable Isotope -\/ 55\%}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00102}00102     m\_mixPrimSecondCoolant-\/>AddElement(832090, fracPrimary * 0.55); \textcolor{comment}{// Bi209}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00104}00104 \textcolor{comment}{}    \textcolor{comment}{// C Nat -\/ 2 Stable Isotopes -\/ 88\%}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00105}00105     m\_mixPrimSecondCoolant-\/>AddElement( 60120, fracSecond * 0.88 * 0.989); \textcolor{comment}{// C\_12}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00106}00106     m\_mixPrimSecondCoolant-\/>AddElement( 60130, fracSecond * 0.88 * 0.011); \textcolor{comment}{// C\_13}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00107}00107     \textcolor{comment}{// H Nat -\/ 2 Stable Isotopes -\/ 12\%}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00108}00108     m\_mixPrimSecondCoolant-\/>AddElement( 10010, fracSecond * 0.12 * 0.9998); \textcolor{comment}{// TS\_H\_of\_Polyethylene}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00109}00109     m\_mixPrimSecondCoolant-\/>AddElement( 10020, fracSecond * 0.12 * 0.0002); \textcolor{comment}{// TS\_H\_of\_Polyethylene}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00110}00110 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00112}00112 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00113}00113 \textcolor{comment}{// Placer}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00115}00115 \textcolor{keywordtype}{void} SVBR100\_HeatExchanger::placeGeometry(G4ThreeVector translation, G4LogicalVolume* motherVolume) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00116}00116     m\_translationVector = translation;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00117}00117 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00118}00118     \textcolor{keyword}{new} G4PVPlacement(0, translation, m\_masterVolume, \textcolor{stringliteral}{"{}pHeatExchanger\_"{}}+std::to\_string(m\_nbCopy), motherVolume, \textcolor{keyword}{false}, 0, m\_overlap);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00120}00120     m\_nbCopy++;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00121}00121 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00123}00123 \textcolor{keywordtype}{void} SVBR100\_HeatExchanger::placeGeometry(G4ThreeVector translation) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00124}00124     placeGeometry(translation, m\_motherVolume);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00125}00125 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00126}00126 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00127}00127 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00128}00128 \textcolor{comment}{// Setter}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00129}00129 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00130}00130 \textcolor{keywordtype}{void} SVBR100\_HeatExchanger::setMotherVolume(G4LogicalVolume* motherVolume) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00131}00131     m\_motherVolume = motherVolume;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00132}00132 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00134}00134 \textcolor{keywordtype}{void} SVBR100\_HeatExchanger::setTranslation(G4ThreeVector translation) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00135}00135     m\_translationVector = translation;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00136}00136 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00138}00138 \textcolor{keywordtype}{void} SVBR100\_HeatExchanger::setPrimaryCoolantMaterial(\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* primaryCoolantMaterial) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00139}00139     m\_primaryCoolantMaterial = primaryCoolantMaterial;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00140}00140 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00141}00141 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00142}00142 \textcolor{keywordtype}{void} SVBR100\_HeatExchanger::setMetalicStructureMaterial(\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* metalicStructureMaterial) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00143}00143     m\_metalicStructureMaterial = metalicStructureMaterial;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00144}00144 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00145}00145 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00146}00146 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00147}00147 \textcolor{comment}{// Getter}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00148}00148 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00149}00149 G4LogicalVolume* SVBR100\_HeatExchanger::getMasterVolume() \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00150}00150     \textcolor{keywordflow}{return}(m\_masterVolume);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2geometry_2_s_v_b_r100_2_s_v_b_r100___heat_exchanger_8cc_source_l00151}00151 \}}
+
+\end{DoxyCode}

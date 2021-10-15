@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__benchmark_3_src_lattice_map__r_e_a_d_m_e" xml:lang="en-US">
+
+<para>Copyright 2021 Transmutex SA &#8211; all rights reserved</para>
+
+<para>Author : Thomas Guilbaud 
+<literallayout>&#160;&#xa;</literallayout>
+ Date : 4th May 2021 
+<literallayout>&#160;&#xa;</literallayout>
+ Updated: 9th June 2021</para>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__benchmark_3_src_lattice_map__r_e_a_d_m_e_1autotoc_md17">
+<title>Structure</title>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__benchmark_3_src_lattice_map__r_e_a_d_m_e_1autotoc_md18">
+<title>General Use</title>
+
+<para>Each lattice must be written in square shape map. The first row must include the lattice type. The second row must include x and y limits. For example, a symmetric lattice centered to (0,0) could look like this: <computeroutput>-2 2 -2 2</computeroutput>. It is also possible to include the pitch of the lattice by adding a number and its unit (ex: <computeroutput>-2 5 -3 3 5 cm</computeroutput>). It is important to separate the elements by at least one space.</para>
+
+<para>The next rows includes the structure of the lattice. Each assembly must be separated by at least one space. The number of rows and columns must corresponds to the lattice limits given in the first line. The example above must have a square of 5 rows and 5 columns. To fill the gaps, one can use the number <computeroutput>0</computeroutput> and no assembly will be placed.</para>
+
+<para>To help writing an hexagonal shape lattice, one can place spaces before the rows (see the example below).</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__benchmark_3_src_lattice_map__r_e_a_d_m_e_1autotoc_md19">
+<title>Special Use</title>
+
+<para>With <link linkend="_class_t_m_x_lattice">TMXLattice</link>, it is possible to add a special value to the assembly (<computeroutput>addDaughterAction</computeroutput>). For example, if an element in the lattice map is written like <computeroutput>FA:100</computeroutput>, the callback function given with <computeroutput>addDaughterAction</computeroutput> will be called and the value <computeroutput>100</computeroutput> will be pass in this callback function. It can be use for changing parameter like the insertion of a control rod, a change in temperature, a new material, ...</para>
+
+<para>If a few element have the same <computeroutput>id</computeroutput>, the same callback function will be applied on each of these elements. If a few element have the same <computeroutput>id</computeroutput> and a action parameter, the callback function will be called and it might create some confusion. It is recommanded to apply an action once for each element id type.</para>
+</section>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__benchmark_3_src_lattice_map__r_e_a_d_m_e_1autotoc_md20">
+<title>Syntax</title>
+
+<para><itemizedlist>
+<listitem>
+<para>Lattice Type:<itemizedlist>
+<listitem>
+<para><computeroutput>Hexagonal</computeroutput></para>
+</listitem><listitem>
+<para><computeroutput>Square</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para>Pitch:<itemizedlist>
+<listitem>
+<para><computeroutput>Number Unit</computeroutput></para>
+</listitem><listitem>
+<para>Units allowed: nm, um, mm, cm, dm, m</para>
+</listitem><listitem>
+<para><emphasis role="bold">Important</emphasis>: if a pitch is given in the map file, it will overwrite the value set in the code.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para>With <link linkend="_class_t_m_x_lattice">TMXLattice</link>: 
+<literallayout>&#160;&#xa;</literallayout>
+<itemizedlist>
+<listitem>
+<para><computeroutput>0</computeroutput> = void, no assembly</para>
+</listitem><listitem>
+<para><computeroutput>anyName</computeroutput> = assembly (use <computeroutput>addDaughterVolume(&quot;anyName&quot;, assemblyVolume)</computeroutput> to add an element with reference <emphasis>anyName</emphasis>)</para>
+</listitem><listitem>
+<para><computeroutput>anyName:number</computeroutput> = assembly with a special value. The <computeroutput>:</computeroutput> must be used to separate without space between (use <computeroutput>addDaughterAction(&quot;id&quot;, std::bind(&amp;class::member, obj, _1))</computeroutput>)</para>
+</listitem><listitem>
+<para><computeroutput>//</computeroutput> to add comments</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__benchmark_3_src_lattice_map__r_e_a_d_m_e_1autotoc_md21">
+<title>Simple example: Square Lattice</title>
+
+<para>This lattice is made in a 5x5 square with a pitch of 15 mm. The center of the lattice is (0, 0).</para>
+
+<para><literallayout><computeroutput>Square&#32;&#32;
+-2&#32;2&#32;&#32;&#32;-2&#32;2&#32;&#32;15&#32;mm&#32;&#32;//&#32;Shape&#32;limits&#32;and&#32;pitch
+0&#32;0&#32;0&#32;0&#32;0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;y=-2&#32;;&#32;x=[-2;&#32;2]
+0&#32;0&#32;F&#32;0&#32;0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;y=-1&#32;;&#32;x=[-2;&#32;2]
+0&#32;F&#32;F&#32;F&#32;0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;y=&#32;0&#32;;&#32;x=[-2;&#32;2]
+0&#32;0&#32;F&#32;0&#32;0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;y=&#32;1&#32;;&#32;x=[-2;&#32;2]
+0&#32;0&#32;0&#32;0&#32;0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;y=&#32;2&#32;;&#32;x=[-2;&#32;2]
+</computeroutput></literallayout></para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__benchmark_3_src_lattice_map__r_e_a_d_m_e_1autotoc_md22">
+<title>Hexagonal Lattice with numbers</title>
+
+<para>This lattice is made in a 5x5 square. The center of the lattice is (-1, 2). Here one element has an action (<computeroutput>F:1</computeroutput>). This action will be applied on each <computeroutput>F</computeroutput> element once. It is recommended to write this action once to avoid any error.</para>
+
+<para><literallayout><computeroutput>Hexagonal&#32;&#32;
+-3&#32;1&#32;&#32;&#32;0&#32;4&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;Shape&#32;limits&#32;&#32;
+0&#32;&#32;&#32;0&#32;&#32;&#32;0&#32;&#32;&#32;0&#32;&#32;&#32;0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;y=0&#32;;&#32;x=[-3;&#32;1]
+&#32;&#32;0&#32;&#32;&#32;0&#32;&#32;&#32;F&#32;&#32;&#32;F&#32;&#32;&#32;0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;y=1&#32;;&#32;x=[-3;&#32;1]
+&#32;&#32;&#32;&#32;0&#32;&#32;&#32;F&#32;&#32;&#32;F:1&#32;F&#32;&#32;&#32;0&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;y=2&#32;;&#32;x=[-3;&#32;1]
+&#32;&#32;&#32;&#32;&#32;&#32;0&#32;&#32;&#32;F&#32;&#32;&#32;F&#32;&#32;&#32;0&#32;&#32;&#32;0&#32;&#32;&#32;&#32;&#32;//&#32;y=3&#32;;&#32;x=[-3;&#32;1]
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;0&#32;&#32;&#32;0&#32;&#32;&#32;0&#32;&#32;&#32;0&#32;&#32;&#32;0&#32;&#32;&#32;//&#32;y=4&#32;;&#32;x=[-3;&#32;1]
+</computeroutput></literallayout></para>
+</section>
+<section xml:id="_md___users__transmutex__simulation__a_d_s__simulation_code__benchmark_3_src_lattice_map__r_e_a_d_m_e_1autotoc_md23">
+<title>How to use TMXLattice</title>
+
+<para>First declare the <link linkend="_class_t_m_x_lattice">TMXLattice</link> object the following argument:</para>
+
+<para><informaltable frame="all">
+    <tgroup cols="3" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+      <colspec colname='c3'/>
+<thead>
+      <row  class='markdownTableHead'>
+<entry>
+<para>Argument   </para>
+</entry><entry>
+<para>Member   </para>
+</entry><entry>
+<para>Description    </para>
+</entry></row>
+</thead><tbody>
+      <row  class='markdownTableRowOdd'>
+<entry>
+<para>Pitch   </para>
+</entry><entry>
+<para><computeroutput>setPitch(double)</computeroutput>   </para>
+</entry><entry>
+<para>Set the picth between elements. Optional if the pitch is given in the map file    </para>
+</entry></row>
+      <row  class='markdownTableRowEven'>
+<entry>
+<para>Element Rotation   </para>
+</entry><entry>
+<para><computeroutput>setElementRotation(G4RotationMatrix*)</computeroutput>   </para>
+</entry><entry>
+<para><emphasis role="bold">Optional</emphasis>   </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</informaltable>
+| Lattice Map | <computeroutput>setLatticeMap(std::string filepath)</computeroutput> | | Add Daughter Volume | <computeroutput>addDaughterVolume(&quot;id&quot;, G4LogicalVolume*)</computeroutput> | Add a new element, <computeroutput>id</computeroutput> must the same used in the lattice map | | Add Daughter Action | <computeroutput>addDaughterAction(&quot;id&quot;, std::function&lt;void(double)&gt; action)</computeroutput> | (<emphasis role="bold">Optional</emphasis>) Add a special callback function when an element is written with a number (for example: FA:100) [<link xlink:href="https://stackoverflow.com/questions/12662891/how-can-i-pass-a-member-function-where-a-free-function-is-expected">1</link>]. Example: <computeroutput>m_coreLattice-&gt;addDaughterAction(&quot;CR&quot;, std::bind(&amp;SVBR100_FuelAssembly::placeControlRod, m_fuelAssembly, _1));</computeroutput> from <computeroutput>SVBR100_FuelAssembly.cc</computeroutput> because <computeroutput>placeControlRod</computeroutput> is a member function of <computeroutput><link linkend="_class_s_v_b_r100___fuel_assembly">SVBR100_FuelAssembly</link></computeroutput> | | Mother Volume | <computeroutput>setMotherVolume(G4LogicalVolume*)</computeroutput> | The volume in which the element lust be placed | | Element Translation | <computeroutput>setElementTranslation(G4ThreeVector)</computeroutput> | <emphasis role="bold">Optional</emphasis> | | Lattice Placement | <computeroutput>placeLattice(bool overlap)</computeroutput> | Build the lattice | </para>
+</section>
+</section>

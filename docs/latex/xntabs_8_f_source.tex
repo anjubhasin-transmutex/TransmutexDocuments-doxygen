@@ -1,0 +1,70 @@
+\hypertarget{xntabs_8_f_source}{}\doxysection{xntabs.\+F}
+\label{xntabs_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xntabs.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xntabs.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 04/06/96  18.14.07  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   08/11/95}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xntabs(IZAEXT,MFMT,IMATE)}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00006}00006 \textcolor{comment}{*     Same as XNTABL, but all isomers are loaded from a specific       *}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00007}00007 \textcolor{comment}{*     database according to the selection officially adopted by        *}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00008}00008 \textcolor{comment}{*     the EET group (JAR selection)                                    *}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00009}00009 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00010}00010 \textcolor{comment}{*     IZAMAT    (input) isomer code                                    *}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00011}00011 \textcolor{comment}{*     MFMT      (input) ENDF-\/6 reaction code MT. To see valid MT       *}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00012}00012 \textcolor{comment}{*               codes, see arrays CHNAME and NBMFT below. If MFMT=0    *}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00013}00013 \textcolor{comment}{*               all reactions relative to the isomer are loaded        *}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00014}00014 \textcolor{comment}{*     IMATE     (output) pointer to the "{}row"{} of the index table       *}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00015}00015 \textcolor{comment}{*               IMTABL where the pointers to the data are stored       *}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00016}00016 \textcolor{comment}{*               for this isomer. If IMATE=0 no data has been loaded    *}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00017}00017 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00018}00018 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00019}00019       \textcolor{keywordtype}{CHARACTER*256} CURFIL}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00020}00020 \#include \textcolor{stringliteral}{"{}xcdbas.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00021}00021 \#include \textcolor{stringliteral}{"{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00022}00022 \#include \textcolor{stringliteral}{"{}xcdbna.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00023}00023 \#include \textcolor{stringliteral}{"{}xcjars.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00024}00024 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00025}00025 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00026}00026 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/> Get rid of temperature code}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00028}00028       \textcolor{keyword}{CALL }xngtmp(izaext,izaint,itpos)}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Search all databases}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00030}00030       ibeg=1}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00031}00031       iend=nfdbas}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> Check if the isomer is in EET selection}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00033}00033       \textcolor{keywordflow}{DO} 10 jz=1,2*mxizdb,2}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00034}00034          \textcolor{keywordflow}{IF}(izaint.EQ.izdbas(jz)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Isomer is in EET selection, restrict search to selected database}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00036}00036             ibeg=izdbas(jz+1)}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00037}00037             iend=ibeg}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00038}00038             \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00039}00039          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(izaint.LT.izdbas(jz)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00040}00040             \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00041}00041 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00042}00042    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> Save current Cross Section Database}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00044}00044    20 curfil=chdbas}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Save current high water mark}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00046}00046       ihgold=ihgwmk}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> Set to null name of the file where isomer is found}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00048}00048       chfoun=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Loop on the database file(s)}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00050}00050       \textcolor{keywordflow}{DO} 30 jfile=ibeg,iend}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00051}00051          chdbas=chroot//chfiln(jfile)}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00052}00052 \textcolor{comment}{* -\/-\/-\/> Try to load}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00053}00053          \textcolor{keyword}{CALL }xntabl(izaext,0,imate)}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00054}00054 \textcolor{comment}{* -\/-\/-\/> See whether load was successful}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00055}00055          \textcolor{keywordflow}{IF}(ihgwmk.GT.ihgold) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00056}00056 \textcolor{comment}{* -\/-\/-\/> Found data, exit loop}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00057}00057             chfoun=chdbas}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00058}00058             \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00059}00059 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00060}00060    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00061}00061 \textcolor{comment}{* -\/-\/-\/> Reset current Cross Section database name}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00062}00062    40 chdbas=curfil}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00063}00063 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntabs_8_f_source_l00064}00064       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

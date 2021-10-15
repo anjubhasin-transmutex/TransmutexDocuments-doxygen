@@ -1,0 +1,76 @@
+\hypertarget{xnlatp_8_f_source}{}\doxysection{xnlatp.\+F}
+\label{xnlatp_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xngeom/xnlatp.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xngeom/xnlatp.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  09.38.14  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   17/02/94}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnlatp(PARAM,HINP,IEX,IPOS)}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00006}00006 \textcolor{comment}{*     Finds position in a bar lattice (hexagonal or square)            *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00008}00008 \textcolor{comment}{*     PARAM     (input) array of 3 with the parameters of the          *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00009}00009 \textcolor{comment}{*               lattice:                                               *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00010}00010 \textcolor{comment}{*               PARAM(1) = X distance of the bars                      *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00011}00011 \textcolor{comment}{*               PARAM(2) = radius of bars                              *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00012}00012 \textcolor{comment}{*               PARAM(3) = Z half dimension of the lattice             *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00013}00013 \textcolor{comment}{*     HINP      (input) array of 3 with the coordinates of the         *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00014}00014 \textcolor{comment}{*               particle                                               *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00015}00015 \textcolor{comment}{*     IEX       (input) lattice structure                              *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00016}00016 \textcolor{comment}{*               1 = hexagonal lattice with rows of bars parallel to    *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00017}00017 \textcolor{comment}{*                   the X axis                                         *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00018}00018 \textcolor{comment}{*               0 = square lattice                                     *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00019}00019 \textcolor{comment}{*     IPOS      (output) position flag                                 *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00020}00020 \textcolor{comment}{*               = 1 inside bar                                         *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00021}00021 \textcolor{comment}{*               = 0 bar outside bar                                    *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00022}00022 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00023}00023 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00024}00024       \textcolor{keywordtype}{IMPLICIT DOUBLE PRECISION} (a-\/h,o-\/z)}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00025}00025       parameter(one=1,zero=0,half=one/2,hmprec=1e-\/15,}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00026}00026      +           sqrt3h=0.866025403784438597)}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00027}00027 \textcolor{keywordtype}{      REAL} HINP(3),PARAM(3)}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00028}00028       dimension x(3)}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00029}00029 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00031}00031 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> Convert position to double precision}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00033}00033       x(1) = hinp(1)}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00034}00034       x(2) = hinp(2)}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00035}00035       x(3) = hinp(3)}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/> Suppose we are not in bars}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00037}00037       ipos = 0}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Prepare some useful constants}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Bar distance along X}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00040}00040       disbar = param(1)}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Distance between bar planes along Y}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00042}00042       \textcolor{keywordflow}{IF}(iex.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00043}00043          displa = param(1)*sqrt3h}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00044}00044       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00045}00045          displa = param(1)}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00046}00046 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> Bar radius and its square}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00048}00048       barrad = param(2)}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00049}00049       barra2 = barrad**2}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00050}00050 \textcolor{comment}{* -\/-\/-\/> Bar plane along Y to which we are nearer}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00051}00051       iplan = nint(x(2)/displa)}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00052}00052       \textcolor{keywordflow}{IF}(iex.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/> Shift only for odd plans of bars}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00054}00054          shift=disbar*0.5*abs(mod(iplan,2))}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00055}00055       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00056}00056          shift=0}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00057}00057 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00058}00058 \textcolor{comment}{* -\/-\/-\/> Bar centre X integer coordinate to which we are nearer}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00059}00059       ibar = nint((x(1)-\/shift)/disbar)}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> Find real X and Y of bar centre}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00061}00061       xbar = ibar*disbar+shift}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00062}00062       ybar = iplan*displa}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00063}00063 \textcolor{comment}{* -\/-\/-\/> Find distance with our point}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00064}00064       dista2 = (xbar-\/x(1))**2+(ybar-\/x(2))**2}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00065}00065 \textcolor{comment}{* -\/-\/-\/> Are we in the bar?}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00066}00066       \textcolor{keywordflow}{IF}(dista2.LE.barra2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00067}00067          ipos = 1}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00068}00068 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00069}00069 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnlatp_8_f_source_l00070}00070       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

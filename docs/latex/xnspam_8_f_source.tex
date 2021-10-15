@@ -1,0 +1,71 @@
+\hypertarget{xnspam_8_f_source}{}\doxysection{xnspam.\+F}
+\label{xnspam_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/spanish/xnspam.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/spanish/xnspam.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  0.05/00 31/03/94  15.24.13  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnspam(X,IMATE)}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00004}00004 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00005}00005 \textcolor{comment}{* -\/-\/-\/ Where am I for Spanish reactor}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00006}00006 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00007}00007 \textcolor{comment}{*       IMATE           -\/1 out of the reactor}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00008}00008 \textcolor{comment}{*                        1 in the steel}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00009}00009 \textcolor{comment}{*                        2 in the core}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00010}00010 \textcolor{comment}{*                        3 in one of the bars}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00011}00011 \textcolor{comment}{*                        4 in the central bar}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00012}00012 \textcolor{comment}{*                        5 in the reflector}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00013}00013 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00014}00014 \textcolor{preprocessor}{\#include "{}xcsgeo.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00015}00015 \textcolor{preprocessor}{}      dimension x(3)}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00016}00016       \textcolor{keywordtype}{LOGICAL} LIN}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00017}00017 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00018}00018 \textcolor{comment}{* -\/-\/-\/ See whether we are outside the tank}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00019}00019       imate = -\/1}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00020}00020       \textcolor{keyword}{CALL }xnintu(x,stedia,stelen,steshf,lin)}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00021}00021       \textcolor{keywordflow}{IF}(.NOT.lin) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00023}00023 \textcolor{comment}{* -\/-\/-\/ See whether we are outside the water}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00024}00024       imate = 1}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00025}00025       \textcolor{keyword}{CALL }xnintu(x,watdia,watlen,watshf,lin)}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00026}00026       \textcolor{keywordflow}{IF}(.NOT.lin) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00027}00027 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/ See wheter we are in the water outside the core}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00029}00029       imate = 5}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00030}00030       \textcolor{keyword}{CALL }xnintu(x,cordia,corlen,corshf,lin)}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00031}00031       \textcolor{keywordflow}{IF}(.NOT.lin) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00032}00032 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/ Inner core, find the plane}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00034}00034       imate=2}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00035}00035       displa=disbar*sqrt(3.)*0.5}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00036}00036       iplan = nint(x(2)/displa)}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00037}00037       \textcolor{keywordflow}{IF}(abs(iplan).GT.nbside-\/1) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00038}00038 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/ Shift only for odd plans of bars}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00040}00040       shift=disbar*0.5*abs(mod(iplan,2))}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00041}00041       ibar = nint((x(1)-\/shift)/disbar)}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00042}00042 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/ Number of bars in a plane}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00044}00044       nbars = 2*nbside-\/1-\/abs(iplan)}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00045}00045       jbar = ibar+nbars/2+1}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00046}00046       \textcolor{keywordflow}{IF}(jbar.LT.1.OR.jbar.GT.nbars) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00047}00047       xbar = ibar*disbar+shift}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00048}00048       ybar = iplan*displa}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00049}00049       \textcolor{keywordflow}{IF}(xbar**2+ybar**2.GE.cordia**2*0.25) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00050}00050       dista2 = (xbar-\/x(1))**2+(ybar-\/x(2))**2}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00051}00051       \textcolor{keywordflow}{IF}(abs(ibar).LE.1.AND.abs(iplan).LE.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00052}00052 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/ Check against central bar}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00054}00054          \textcolor{keyword}{CALL }xnintu(x,cendia,cenlen,censhf,lin)}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00055}00055          \textcolor{keywordflow}{IF}(lin) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00056}00056             imate = 4}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00057}00057             \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00058}00058 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00059}00059 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00060}00060       \textcolor{keywordflow}{IF}(dista2.LE.bardia**2*0.25) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00061}00061          imate = 3}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00062}00062          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00063}00063 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00064}00064 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnspam_8_f_source_l00065}00065   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

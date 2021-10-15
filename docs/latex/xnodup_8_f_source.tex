@@ -1,0 +1,78 @@
+\hypertarget{xnodup_8_f_source}{}\doxysection{xnodup.\+F}
+\label{xnodup_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/convac9/xnodup.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/convac9/xnodup.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :          30/09/96  13.44.18  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00003}00003       \textcolor{keyword}{subroutine }xnodup(ITAPD,js)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00004}00004 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00006}00006 \textcolor{comment}{*       Eliminates duplicated points                                   *}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00008}00008 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00009}00009 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00010}00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xceafi.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00011}00011 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xctb1c.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00012}00012 \textcolor{preprocessor}{}      parameter(maxpnt=20000)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00013}00013       dimension intl(maxran), nbtl(maxran), xlrval(maxpnt*2)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00014}00014       \textcolor{keywordtype}{character*66} chtext}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00015}00015       \textcolor{keywordtype}{character*11} xnform}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00016}00016 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00017}00017 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00018}00018 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00019}00019       nreco=ipoint(js,3)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00020}00020       nrecr=nreco+2}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00021}00021       \textcolor{keyword}{read}(itapd,rec=nrecr,fmt=10200) c1l, c2l, l1l, l2l, nrl, npl}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00022}00022       \textcolor{keywordflow}{if}(npl.gt.maxpnt) stop \textcolor{stringliteral}{' *** XNODUP: increase MAXPNT'}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00023}00023       \textcolor{keywordflow}{if}(nrl.gt.maxran) stop \textcolor{stringliteral}{' *** XNODUP: Increase MAXRAN'}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00024}00024       nlints=(nrl-\/1)/3+1}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00025}00025       \textcolor{keywordflow}{do} 10 jl=1,nlints}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00026}00026          nrecr=nrecr+1}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00027}00027          \textcolor{keyword}{read}(itapd,rec=nrecr,fmt=10300) (nbtl(n),intl(n),}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00028}00028      +   n=3* (jl-\/1)+1,min(nrl,3*jl))}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00029}00029    10 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/ All should be linear with one interpolation law, if not}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00031}00031 \textcolor{comment}{*     scream and get out of here}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00032}00032       \textcolor{keywordflow}{if}(nrl.ne.1.or.nbtl(1).ne.npl.or.intl(1).ne.2) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00033}00033          \textcolor{keyword}{write}(6,10000)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00034}00034          \textcolor{keyword}{write}(6,10100) math, mfh, mth, nrl, nbtl(1), intl(1)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00035}00035          stop}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00036}00036 \textcolor{keywordflow}{      endif}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00037}00037       nlines=(npl-\/1)/3+1}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00038}00038       \textcolor{keywordflow}{do} 20 jl=1,nlines}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00039}00039          nrecr=nrecr+1}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00040}00040          \textcolor{keyword}{read}(itapd,rec=nrecr,fmt=10400) (xlrval(n),n=6* (jl-\/1)+1,}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00041}00041      +   min(2*npl,6*jl))}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00042}00042    20 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00043}00043       \textcolor{keyword}{call }xndupl(xlrval,npl,npout)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00044}00044       npl=npout}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00045}00045       nrecw=nreco+1}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00046}00046       \textcolor{keyword}{call }xnwhea(itapd,c1l,c2l,l1l,l2l,nrl,npl,math,mfh,mth,nrecw)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00047}00047       nlints=(nrl-\/1)/3+1}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00048}00048       \textcolor{keywordflow}{do} 30 jl=1,nlints}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00049}00049          chtext=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00050}00050          \textcolor{keyword}{write}(chtext,10300) (nbtl(n),intl(n), n=3*(jl-\/1)+1, min(nrl,3*}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00051}00051      +   jl))}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00052}00052          \textcolor{keyword}{call }xnwtxt(itapd,chtext,math,mfh,mth,nrecw)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00053}00053    30 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00054}00054       nlines=(npl-\/1)/3+1}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00055}00055       \textcolor{keywordflow}{do} 50 jl=1,nlines}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00056}00056          chtext=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00057}00057          jbase=(jl-\/1)*6}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00058}00058          \textcolor{keywordflow}{do} 40 jn=1,min(2*npl-\/jbase,6)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00059}00059             chtext(11*(jn-\/1)+1:11*jn)=xnform(xlrval(jbase+jn))}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00060}00060    40    \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00061}00061          \textcolor{keyword}{call }xnwtxt(itapd,chtext,math,mfh,mth,nrecw)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00062}00062    50 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00063}00063       ipoint(js,4)=ipoint(js,5)+nlints+nlines+2}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00064}00064    60 \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00066}00066 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00067}00067 10000 \textcolor{keyword}{format}(\textcolor{stringliteral}{' *** XNODUP: LINEAR did not do its job:'})}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00068}00068 10100 \textcolor{keyword}{format}(\textcolor{stringliteral}{'             math, mfh, mth, nr, nbt(1), int(1) = '},6i10)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00069}00069 10200 \textcolor{keyword}{format}(2e11.4,4i11)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00070}00070 10300 \textcolor{keyword}{format}(6i11)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00071}00071 10400 \textcolor{keyword}{format}(6e11.4)}
+\DoxyCodeLine{\Hypertarget{xnodup_8_f_source_l00072}00072       \textcolor{keyword}{end}}
+
+\end{DoxyCode}

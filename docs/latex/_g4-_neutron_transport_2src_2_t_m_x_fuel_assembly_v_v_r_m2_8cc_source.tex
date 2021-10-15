@@ -1,0 +1,441 @@
+\hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source}{}\doxysection{TMXFuel\+Assembly\+VVRM2.\+cc}
+\label{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/src/TMXFuelAssemblyVVRM2.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/src/TMXFuelAssemblyVVRM2.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00001}00001 \textcolor{comment}{//  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄   ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄        ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄       ▄▄  ▄         ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄       ▄}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00002}00002 \textcolor{comment}{// ▐░░░░░░░░░░░▌▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░▌      ▐░▌▐░░░░░░░░░░░▌▐░░▌     ▐░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌     ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00003}00003 \textcolor{comment}{// ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀  ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌░▌     ▐░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░▌░▌   ▐░▐░▌▐░▌       ▐░▌ ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀  ▐░▌   ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00004}00004 \textcolor{comment}{// ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌               ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌▐░▌    ▐░▌▐░▌          ▐░▌▐░▌ ▐░▌▐░▌▐░▌       ▐░▌     ▐░▌     ▐░▌            ▐░▌ ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00005}00005 \textcolor{comment}{// ▐░█▄▄▄▄▄▄▄█░▌▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄▄▄      ▐░▌     ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌ ▐░▌   ▐░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░▌ ▐░▐░▌ ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░█▄▄▄▄▄▄▄▄▄    ▐░▐░▌}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00006}00006 \textcolor{comment}{// ▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌     ▐░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌  ▐░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌  ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░░░░░░░░░░░▌    ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00007}00007 \textcolor{comment}{// ▐░█▀▀▀▀▀▀▀█░▌▐░▌       ▐░▌ ▀▀▀▀▀▀▀▀▀█░▌     ▐░▌     ▐░█▀▀▀▀█░█▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░▌   ▐░▌ ▐░▌ ▀▀▀▀▀▀▀▀▀█░▌▐░▌   ▀   ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░█▀▀▀▀▀▀▀▀▀    ▐░▌░▌}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00008}00008 \textcolor{comment}{// ▐░▌       ▐░▌▐░▌       ▐░▌          ▐░▌     ▐░▌     ▐░▌     ▐░▌  ▐░▌       ▐░▌▐░▌    ▐░▌▐░▌          ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░▌            ▐░▌ ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00009}00009 \textcolor{comment}{// ▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄█░▌ ▄▄▄▄▄▄▄▄▄█░▌     ▐░▌     ▐░▌      ▐░▌ ▐░▌       ▐░▌▐░▌     ▐░▐░▌ ▄▄▄▄▄▄▄▄▄█░▌▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄█░▌     ▐░▌     ▐░█▄▄▄▄▄▄▄▄▄  ▐░▌   ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00010}00010 \textcolor{comment}{// ▐░▌       ▐░▌▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌     ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌      ▐░░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌     ▐░▌     ▐░░░░░░░░░░░▌▐░▌     ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00011}00011 \textcolor{comment}{//  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀   ▀▀▀▀▀▀▀▀▀▀▀       ▀       ▀         ▀  ▀         ▀  ▀        ▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀       ▀       ▀▀▀▀▀▀▀▀▀▀▀  ▀       ▀}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00012}00012 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00014}00014 \textcolor{comment}{}\textcolor{comment}{// \(\backslash\)brief Implementation of the TMXFuelAssemblyVVRM2 class}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00015}00015 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00016}00016 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00018}00018 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00019}00019 \textcolor{comment}{// TMXFuelAssemblyVVRM2}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00020}00020 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00021}00021 \textcolor{comment}{// Thomas Guilbaud, Transmutex, 24/03/2021}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00022}00022 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00024}00024 \textcolor{comment}{}\textcolor{comment}{// Class to manage the different fuel types}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00026}00026 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00028}00028 \textcolor{comment}{// TMX Class}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00029}00029 \textcolor{preprocessor}{\#include "{}TMXInputParameters.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00030}00030 \textcolor{preprocessor}{\#include "{}TMXFuelAssemblyVVRM2.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00031}00031 \textcolor{preprocessor}{\#include "{}TMXMaterial.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00033}00033 \textcolor{comment}{// GEANT4 libraries}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00034}00034 \textcolor{comment}{//\#include "{}G4Material.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00035}00035 \textcolor{preprocessor}{\#include "{}G4LogicalVolume.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00036}00036 \textcolor{preprocessor}{\#include "{}G4NistManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00037}00037 \textcolor{preprocessor}{\#include "{}G4PVPlacement.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00038}00038 \textcolor{preprocessor}{\#include "{}G4VisAttributes.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00039}00039 \textcolor{preprocessor}{\#include "{}G4Colour.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00042}00042 \textcolor{comment}{// C++ libraries}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00043}00043 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00044}00044 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00046}00046 \textcolor{keyword}{static} G4String fuelType = \textcolor{stringliteral}{"{}VVR-\/M2"{}};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00048}00048 TMXFuelAssemblyVVRM2::TMXFuelAssemblyVVRM2(\textcolor{keyword}{const} std::string\& FuelAssemblyName, \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* parameter, G4double rodInsertion )}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00049}00049 :   \mbox{\hyperlink{class_t_m_x_abstract_fuel_assembly}{TMXAbstractFuelAssembly}}(FuelAssemblyName, parameter, rodInsertion),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00050}00050     fOuterRadius\_assembly\{0.\}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00051}00051 \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00052}00052     createMaterial();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00053}00053     createGeometry();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00054}00054     visualisationConfig();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00055}00055 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00058}00058 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00059}00059 \textcolor{comment}{// Construction of the material compositions}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00060}00060 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00061}00061 \textcolor{keywordtype}{void} TMXFuelAssemblyVVRM2::createMaterial()}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00062}00062 \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00063}00063   G4double temperature\_fuel = m\_p-\/>TemperatureFuel;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00065}00065   G4double Na     = 6.02e+23;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00066}00066   G4double mmU5   = 235.0439281;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00067}00067   G4double mmU8   = 238.05079;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00069}00069   G4double massU5 = 41.85;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00070}00070   G4double massU  = 211.6;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00071}00071   G4double massUAl= 406.1;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00072}00072   G4double massU8 = massU -\/ massU5;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00073}00073   G4double massO  = ( massU5 / mmU5 * Na + massU8 / mmU8 * Na ) / Na;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00074}00074   G4double massFuel = massUAl + massO;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00075}00075   G4double massAlu= massUAl -\/ massU;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00077}00077   G4double volFuel  = 95.709;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00078}00078   G4double densityFuel = massFuel / volFuel;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00080}00080   \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* \_VVR\_M2 = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(\textcolor{stringliteral}{"{}VVR-\/M2 "{}}+m\_assemblyName, \textcolor{comment}{/*9.8*/}densityFuel*(g/cm3), 4, kStateSolid, temperature\_fuel); \textcolor{comment}{// !!! Temperature}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00081}00081   \_VVR\_M2-\/>AddElement(922350, massU5 / massFuel, \textcolor{stringliteral}{"{}U\_235"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00082}00082   \_VVR\_M2-\/>AddElement(922380, massU8 / massFuel, \textcolor{stringliteral}{"{}U\_238"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00083}00083   \_VVR\_M2-\/>AddElement( 80160, massO / massFuel, \textcolor{stringliteral}{"{}O\_16"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00084}00084   \_VVR\_M2-\/>AddElement(130270, massAlu / massFuel, \textcolor{stringliteral}{"{}Al27"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00086}00086 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00088}00088 \textcolor{comment}{/*  G4double massUO2     = 0.313;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00089}00089 \textcolor{comment}{  G4double massAl      = 1. -\/ massUO2; // 0.687}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00090}00090 \textcolor{comment}{  //G4double X\_vol\_Al    = 0.888;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00091}00091 \textcolor{comment}{  G4double massU235pc  = 0.1975;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00092}00092 \textcolor{comment}{  G4double massU238pc  = 1. -\/ massU235pc; // 0.8025}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00093}00093 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00095}00095 \textcolor{comment}{  // Dioxyde Uranium -\/ Enrichement 19.7\% U235}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00096}00096 \textcolor{comment}{  TMXMaterial* \_VVR\_M2 = new TMXMaterial("{}VVR-\/M2 "{}+m\_assemblyName, 9.8*(g/cm3), 4, kStateSolid, temperature\_fuel); // !!! Temperature}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00097}00097 \textcolor{comment}{  \_VVR\_M2-\/>AddElement(922350, massUO2 * 0.881 * massU235pc, "{}U\_235"{});}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00098}00098 \textcolor{comment}{  \_VVR\_M2-\/>AddElement(922380, massUO2 * 0.881 * massU238pc, "{}U\_238"{});}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00099}00099 \textcolor{comment}{  \_VVR\_M2-\/>AddElement( 80160, massUO2 * 0.119,              "{}O\_16"{});}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00100}00100 \textcolor{comment}{  \_VVR\_M2-\/>AddElement(130270, massAl,                       "{}Al27"{});}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00101}00101 \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00104}00104   \textcolor{comment}{// Demineralised Water -\/ Coolant}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00105}00105   \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* \_DemineralizedWater = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(\textcolor{stringliteral}{"{}Demineralised Water "{}}+m\_assemblyName, 1.0*(g/cm3), 2, kStateLiquid, temperature\_fuel);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00106}00106   \_DemineralizedWater-\/>AddElement(80160, 1, \textcolor{stringliteral}{"{}O\_16"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00107}00107   \_DemineralizedWater-\/>AddElement(10010, 2, \textcolor{stringliteral}{"{}H\_1"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00110}00110   \textcolor{comment}{// Cladding in Aluminum}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00111}00111   \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* \_Aluminium = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(\textcolor{stringliteral}{"{}Aluminium "{}}+m\_assemblyName, 2.7*(g/cm3), 1, kStateSolid, temperature\_fuel);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00112}00112   \_Aluminium-\/>AddElement(130270, 1, \textcolor{stringliteral}{"{}Al27"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00115}00115   m\_FuelMaterial = \_VVR\_M2;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00116}00116   m\_WaterMaterial = \_DemineralizedWater;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00117}00117   m\_CladMaterial = \_Aluminium;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00118}00118 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00120}00120 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00121}00121 \textcolor{comment}{// Construction of the logical volumes for cladding, Fuel and water in the active area}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00122}00122 \textcolor{comment}{// IRT-\/4M-\/8T fuel assembly}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00123}00123 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00124}00124 \textcolor{comment}{// Sources}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00125}00125 \textcolor{comment}{// https://www.ipen.br/biblioteca/slr/cel/0059}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00126}00126 \textcolor{comment}{// https://www.researchgate.net/publication/263485134\_Thermal\_hydraulic\_calculations\_of\_the\_IRT-\/Sofia\_research\_reactor\_with\_leu\_fuel\_IRT-\/4M\_Sofia}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00127}00127 \textcolor{comment}{// https://www.researchgate.net/publication/238658698\_A\_neutronic\_feasibility\_study\_for\_LEU\_conversion\_of\_the\_IR8\_research\_reactor/figures?lo=1}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00128}00128 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00129}00129 \textcolor{keywordtype}{void} TMXFuelAssemblyVVRM2::createGeometry()}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00130}00130 \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00132}00132     \textcolor{comment}{// Fuel Design -\/ WWR-\/M2 LEU Fuel Assembly from Source Doc (KIPT Presentation 7-\/9 February 2016)}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00133}00133     \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00134}00134 \textcolor{comment}{    Hexagonal shape}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00135}00135 \textcolor{comment}{    Fuel + Cladding width = 2.5 mm}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00136}00136 \textcolor{comment}{    Fuel width = 1.0 mm}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00137}00137 \textcolor{comment}{    Cladding width = (2.5 -\/ 1.0)/2 = 0.75 mm}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00138}00138 \textcolor{comment}{    FuelCell1 (Tubs): radius outer = 11.0 mm}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00139}00139 \textcolor{comment}{    FuelCell2 (Tubs): radius outer = 22.0 mm}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00140}00140 \textcolor{comment}{    FuelCell3 (Hexa): radius outer = 32.0 mm}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00141}00141 \textcolor{comment}{    Bound (Hexa):   radius outer = 35.0 mm}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00142}00142 \textcolor{comment}{                    radius inner = 32.0 mm}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00143}00143 \textcolor{comment}{    */}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00144}00144 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00145}00145     G4bool overlap = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00146}00146     \textcolor{keywordflow}{if} (m\_p-\/>Verbose == 1) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00147}00147         overlap = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00148}00148     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00149}00149 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00153}00153 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00155}00155     \textcolor{keyword}{const} G4double width\_clad = 0.75 * mm; \textcolor{comment}{// = (2.5 -\/ 1.0)/2}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00156}00156 \textcolor{comment}{//    const G4double width\_clad = 0.65 * mm; // = (2.5 -\/ 1.0)/2}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00157}00157     \textcolor{keyword}{const} G4double width\_fuel = 1.0 * mm;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00158}00158 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00160}00160     fOuterRadius\_assembly = 32.0 / 2. * mm;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00161}00161     \textcolor{keyword}{const} G4double outerRadius\_fuelAssembly = fOuterRadius\_assembly;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00162}00162 \textcolor{comment}{//    const G4double outerRadius\_fuelCell3 = 32.0 / 2. * mm; // Cell = Fuel + Clad}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00163}00163 \textcolor{comment}{//    const G4double outerRadius\_fuelCell2 = 22.0 / 2. * mm;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00164}00164 \textcolor{comment}{//    const G4double outerRadius\_fuelCell1 = 11.0 / 2. * mm;}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00165}00165 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00166}00166     \textcolor{keyword}{const} G4double outerRadius\_fuelCell3 = 1.525 * cm + 0.75 * mm; \textcolor{comment}{// Cell = Fuel + Clad}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00167}00167     \textcolor{keyword}{const} G4double outerRadius\_fuelCell2 = 1.025 * cm + 0.75 * mm;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00168}00168     \textcolor{keyword}{const} G4double outerRadius\_fuelCell1 = 0.475 * cm + 0.75 * mm;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00169}00169 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00171}00171     \textcolor{keyword}{const} G4double halfHeightAssembly = 50.5/2. * cm; \textcolor{comment}{// Active height of fuel (source: prod medical radio iso)}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00172}00172 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00176}00176 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00178}00178     \textcolor{keyword}{const} G4double outerRadius\_outerClad3 = outerRadius\_fuelCell3;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00179}00179     \textcolor{keyword}{const} G4double innerRadius\_outerClad3 = outerRadius\_outerClad3 -\/ width\_clad;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00180}00180     \textcolor{keyword}{const} G4double outerRadius\_fuel3 = innerRadius\_outerClad3;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00181}00181     \textcolor{keyword}{const} G4double innerRadius\_fuel3 = outerRadius\_fuel3 -\/ width\_fuel;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00182}00182     \textcolor{keyword}{const} G4double outerRadius\_innerClad3 = innerRadius\_fuel3;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00183}00183     \textcolor{keyword}{const} G4double innerRadius\_innerClad3 = outerRadius\_innerClad3 -\/ width\_clad;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00184}00184 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00186}00186     \textcolor{keyword}{const} G4double outerRadius\_outerClad2 = outerRadius\_fuelCell2;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00187}00187     \textcolor{keyword}{const} G4double innerRadius\_outerClad2 = outerRadius\_outerClad2 -\/ width\_clad;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00188}00188     \textcolor{keyword}{const} G4double outerRadius\_fuel2 = innerRadius\_outerClad2;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00189}00189     \textcolor{keyword}{const} G4double innerRadius\_fuel2 = outerRadius\_fuel2 -\/ width\_fuel;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00190}00190     \textcolor{keyword}{const} G4double outerRadius\_innerClad2 = innerRadius\_fuel2;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00191}00191     \textcolor{keyword}{const} G4double innerRadius\_innerClad2 = outerRadius\_innerClad2 -\/ width\_clad;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00192}00192 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00194}00194     \textcolor{keyword}{const} G4double outerRadius\_outerClad1 = outerRadius\_fuelCell1;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00195}00195     \textcolor{keyword}{const} G4double innerRadius\_outerClad1 = outerRadius\_outerClad1 -\/ width\_clad;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00196}00196     \textcolor{keyword}{const} G4double outerRadius\_fuel1 = innerRadius\_outerClad1;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00197}00197     \textcolor{keyword}{const} G4double innerRadius\_fuel1 = outerRadius\_fuel1 -\/ width\_fuel;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00198}00198     \textcolor{keyword}{const} G4double outerRadius\_innerClad1 = innerRadius\_fuel1;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00199}00199     \textcolor{keyword}{const} G4double innerRadius\_innerClad1 = outerRadius\_innerClad1 -\/ width\_clad;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00200}00200 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00201}00201 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00205}00205 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00206}00206     G4Polyhedra* sMaster = \textcolor{keyword}{new} G4Polyhedra(}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00207}00207         \textcolor{stringliteral}{"{}sMaster"{}},        \textcolor{comment}{// name}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00208}00208         0.,                 \textcolor{comment}{// phiStart}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00209}00209         360. * deg,         \textcolor{comment}{// phiTotal}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00210}00210         6,                  \textcolor{comment}{// numSide}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00211}00211         2,                  \textcolor{comment}{// numZPlanes}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00212}00212         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{-\/halfHeightAssembly, halfHeightAssembly\}, \textcolor{comment}{// zPlane[]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00213}00213         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{0., 0.\},                                \textcolor{comment}{// rInner[]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00214}00214         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{outerRadius\_fuelAssembly, outerRadius\_fuelAssembly\}    \textcolor{comment}{// rOuter[]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00215}00215     );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00216}00216     m\_Solids.push\_back(sMaster);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00217}00217 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00218}00218     m\_masterVolume = \textcolor{keyword}{new} G4LogicalVolume(sMaster, m\_WaterMaterial, \textcolor{stringliteral}{"{}lMaster"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00219}00219     m\_waterLogicalVolumes.push\_back(m\_masterVolume);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00220}00220 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00224}00224     \textcolor{comment}{// Outer Clad}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00225}00225     G4Polyhedra* sCladOuter3 = \textcolor{keyword}{new} G4Polyhedra(}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00226}00226         \textcolor{stringliteral}{"{}sMaster"{}},        \textcolor{comment}{// name}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00227}00227         0.,                 \textcolor{comment}{// phiStart}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00228}00228         360. * deg,         \textcolor{comment}{// phiTotal}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00229}00229         6,                  \textcolor{comment}{// numSide}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00230}00230         2,                  \textcolor{comment}{// numZPlanes}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00231}00231         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{-\/halfHeightAssembly, halfHeightAssembly\},      \textcolor{comment}{// zPlane[]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00232}00232         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{innerRadius\_outerClad3, innerRadius\_outerClad3\}, \textcolor{comment}{// rInner[]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00233}00233         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{outerRadius\_outerClad3, outerRadius\_outerClad3\}  \textcolor{comment}{// rOuter[]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00234}00234     );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00235}00235     m\_Solids.push\_back(sCladOuter3);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00236}00236 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00237}00237     G4LogicalVolume* lCladOuter3 = \textcolor{keyword}{new} G4LogicalVolume(sCladOuter3, m\_CladMaterial, \textcolor{stringliteral}{"{}lCladOuter3"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00238}00238     m\_cladLogicalVolumes.push\_back(lCladOuter3);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00239}00239 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00240}00240     \textcolor{keyword}{new} G4PVPlacement( 0, G4ThreeVector(), lCladOuter3, \textcolor{stringliteral}{"{}pCladOuter3"{}}, m\_masterVolume, \textcolor{keyword}{false}, 0, overlap );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00241}00241 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00243}00243     \textcolor{comment}{// Fuel}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00244}00244     G4Polyhedra* sFuel3 = \textcolor{keyword}{new} G4Polyhedra(}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00245}00245         \textcolor{stringliteral}{"{}sMaster"{}},        \textcolor{comment}{// name}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00246}00246         0.,                 \textcolor{comment}{// phiStart}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00247}00247         360. * deg,         \textcolor{comment}{// phiTotal}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00248}00248         6,                  \textcolor{comment}{// numSide}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00249}00249         2,                  \textcolor{comment}{// numZPlanes}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00250}00250         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{-\/halfHeightAssembly, halfHeightAssembly\},      \textcolor{comment}{// zPlane[]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00251}00251         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{innerRadius\_fuel3, innerRadius\_fuel3\}, \textcolor{comment}{// rInner[]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00252}00252         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{outerRadius\_fuel3, outerRadius\_fuel3\}  \textcolor{comment}{// rOuter[]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00253}00253     );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00254}00254     m\_Solids.push\_back(sFuel3);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00255}00255 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00256}00256     G4LogicalVolume* lFuel3 = \textcolor{keyword}{new} G4LogicalVolume(sFuel3, m\_FuelMaterial, \textcolor{stringliteral}{"{}lFuel3"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00257}00257     m\_fuelLogicalVolumes.push\_back(lFuel3);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00258}00258 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00259}00259     \textcolor{keyword}{new} G4PVPlacement( 0, G4ThreeVector(), lFuel3, \textcolor{stringliteral}{"{}pFuel3"{}}, m\_masterVolume, \textcolor{keyword}{false}, 0, overlap );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00260}00260 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00262}00262     \textcolor{comment}{// Inner Clad}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00263}00263     G4Polyhedra* sCladInner3 = \textcolor{keyword}{new} G4Polyhedra(}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00264}00264         \textcolor{stringliteral}{"{}sMaster"{}},        \textcolor{comment}{// name}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00265}00265         0.,                 \textcolor{comment}{// phiStart}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00266}00266         360. * deg,         \textcolor{comment}{// phiTotal}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00267}00267         6,                  \textcolor{comment}{// numSide}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00268}00268         2,                  \textcolor{comment}{// numZPlanes}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00269}00269         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{-\/halfHeightAssembly, halfHeightAssembly\},      \textcolor{comment}{// zPlane[]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00270}00270         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{innerRadius\_innerClad3, innerRadius\_innerClad3\}, \textcolor{comment}{// rInner[]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00271}00271         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{outerRadius\_innerClad3, outerRadius\_innerClad3\}  \textcolor{comment}{// rOuter[]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00272}00272     );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00273}00273     m\_Solids.push\_back(sCladInner3);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00274}00274 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00275}00275     G4LogicalVolume* lCladInner3 = \textcolor{keyword}{new} G4LogicalVolume(sCladInner3, m\_CladMaterial, \textcolor{stringliteral}{"{}lCladInner3"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00276}00276     m\_cladLogicalVolumes.push\_back(lCladInner3);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00277}00277 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00278}00278     \textcolor{keyword}{new} G4PVPlacement( 0, G4ThreeVector(), lCladInner3, \textcolor{stringliteral}{"{}pCladInner3"{}}, m\_masterVolume, \textcolor{keyword}{false}, 0, overlap );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00279}00279 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00280}00280 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00284}00284     \textcolor{comment}{// Outer Clad}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00285}00285     G4Tubs* sCladOuter2 = \textcolor{keyword}{new} G4Tubs(}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00286}00286         \textcolor{stringliteral}{"{}sCladOuter2"{}},          \textcolor{comment}{// name}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00287}00287         innerRadius\_outerClad2, \textcolor{comment}{// RMin}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00288}00288         outerRadius\_outerClad2, \textcolor{comment}{// RMax}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00289}00289         halfHeightAssembly,  \textcolor{comment}{// Dz}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00290}00290         0.,                     \textcolor{comment}{// SPhi}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00291}00291         360. * deg              \textcolor{comment}{// DPhi}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00292}00292     );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00293}00293     m\_Solids.push\_back(sCladOuter2);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00294}00294 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00295}00295     G4LogicalVolume* lCladOuter2 = \textcolor{keyword}{new} G4LogicalVolume(sCladOuter2, m\_CladMaterial, \textcolor{stringliteral}{"{}lCladOuter2"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00296}00296     m\_cladLogicalVolumes.push\_back(lCladOuter2);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00297}00297 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00298}00298     \textcolor{keyword}{new} G4PVPlacement( 0, G4ThreeVector(), lCladOuter2, \textcolor{stringliteral}{"{}pCladOuter2"{}}, m\_masterVolume, \textcolor{keyword}{false}, 0, overlap );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00299}00299 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00301}00301     \textcolor{comment}{// Fuel}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00302}00302     G4Tubs* sFuel2 = \textcolor{keyword}{new} G4Tubs(}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00303}00303         \textcolor{stringliteral}{"{}sFuel2"{}},          \textcolor{comment}{// name}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00304}00304         innerRadius\_fuel2, \textcolor{comment}{// RMin}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00305}00305         outerRadius\_fuel2, \textcolor{comment}{// RMax}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00306}00306         halfHeightAssembly,  \textcolor{comment}{// Dz}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00307}00307         0.,                     \textcolor{comment}{// SPhi}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00308}00308         360. * deg              \textcolor{comment}{// DPhi}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00309}00309     );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00310}00310     m\_Solids.push\_back(sFuel2);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00311}00311 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00312}00312     G4LogicalVolume* lFuel2 = \textcolor{keyword}{new} G4LogicalVolume(sFuel2, m\_FuelMaterial, \textcolor{stringliteral}{"{}lFuel2"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00313}00313     m\_fuelLogicalVolumes.push\_back(lFuel2);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00314}00314 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00315}00315     \textcolor{keyword}{new} G4PVPlacement( 0, G4ThreeVector(), lFuel2, \textcolor{stringliteral}{"{}pFuel2"{}}, m\_masterVolume, \textcolor{keyword}{false}, 0, overlap );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00316}00316 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00318}00318     \textcolor{comment}{// Inner Clad}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00319}00319     G4Tubs* sCladInner2 = \textcolor{keyword}{new} G4Tubs(}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00320}00320         \textcolor{stringliteral}{"{}sCladOuter2"{}},          \textcolor{comment}{// name}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00321}00321         innerRadius\_innerClad2, \textcolor{comment}{// RMin}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00322}00322         outerRadius\_innerClad2, \textcolor{comment}{// RMax}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00323}00323         halfHeightAssembly,  \textcolor{comment}{// Dz}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00324}00324         0.,                     \textcolor{comment}{// SPhi}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00325}00325         360. * deg              \textcolor{comment}{// DPhi}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00326}00326     );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00327}00327     m\_Solids.push\_back(sCladInner2);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00328}00328 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00329}00329     G4LogicalVolume* lCladInner2 = \textcolor{keyword}{new} G4LogicalVolume(sCladInner2, m\_CladMaterial, \textcolor{stringliteral}{"{}lCladInner2"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00330}00330     m\_cladLogicalVolumes.push\_back(lCladInner2);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00331}00331 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00332}00332     \textcolor{keyword}{new} G4PVPlacement( 0, G4ThreeVector(), lCladInner2, \textcolor{stringliteral}{"{}pCladInner2"{}}, m\_masterVolume, \textcolor{keyword}{false}, 0, overlap );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00333}00333 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00334}00334 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00338}00338     \textcolor{comment}{// Outer Clad}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00339}00339     G4Tubs* sCladOuter1 = \textcolor{keyword}{new} G4Tubs(}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00340}00340         \textcolor{stringliteral}{"{}sCladOuter1"{}},          \textcolor{comment}{// name}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00341}00341         innerRadius\_outerClad1, \textcolor{comment}{// RMin}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00342}00342         outerRadius\_outerClad1, \textcolor{comment}{// RMax}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00343}00343         halfHeightAssembly,  \textcolor{comment}{// Dz}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00344}00344         0.,                     \textcolor{comment}{// SPhi}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00345}00345         360. * deg              \textcolor{comment}{// DPhi}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00346}00346     );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00347}00347     m\_Solids.push\_back(sCladOuter1);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00348}00348 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00349}00349     G4LogicalVolume* lCladOuter1 = \textcolor{keyword}{new} G4LogicalVolume(sCladOuter1, m\_CladMaterial, \textcolor{stringliteral}{"{}lCladOuter1"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00350}00350     m\_cladLogicalVolumes.push\_back(lCladOuter1);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00351}00351 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00352}00352     \textcolor{keyword}{new} G4PVPlacement( 0, G4ThreeVector(), lCladOuter1, \textcolor{stringliteral}{"{}pCladOuter1"{}}, m\_masterVolume, \textcolor{keyword}{false}, 0, overlap );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00353}00353 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00355}00355     \textcolor{comment}{// Fuel}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00356}00356     G4Tubs* sFuel1 = \textcolor{keyword}{new} G4Tubs(}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00357}00357         \textcolor{stringliteral}{"{}sFuel1"{}},          \textcolor{comment}{// name}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00358}00358         innerRadius\_fuel1, \textcolor{comment}{// RMin}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00359}00359         outerRadius\_fuel1, \textcolor{comment}{// RMax}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00360}00360         halfHeightAssembly,  \textcolor{comment}{// Dz}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00361}00361         0.,                     \textcolor{comment}{// SPhi}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00362}00362         360. * deg              \textcolor{comment}{// DPhi}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00363}00363     );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00364}00364     m\_Solids.push\_back(sFuel1);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00365}00365 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00366}00366     G4LogicalVolume* lFuel1 = \textcolor{keyword}{new} G4LogicalVolume(sFuel1, m\_FuelMaterial, \textcolor{stringliteral}{"{}lFuel1"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00367}00367     m\_fuelLogicalVolumes.push\_back(lFuel1);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00368}00368 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00369}00369     \textcolor{keyword}{new} G4PVPlacement( 0, G4ThreeVector(), lFuel1, \textcolor{stringliteral}{"{}pFuel1"{}}, m\_masterVolume, \textcolor{keyword}{false}, 0, overlap );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00370}00370 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00372}00372     \textcolor{comment}{// Inner Clad}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00373}00373     G4Tubs* sCladInner1 = \textcolor{keyword}{new} G4Tubs(}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00374}00374         \textcolor{stringliteral}{"{}sCladOuter2"{}},          \textcolor{comment}{// name}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00375}00375         innerRadius\_innerClad1, \textcolor{comment}{// RMin}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00376}00376         outerRadius\_innerClad1, \textcolor{comment}{// RMax}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00377}00377         halfHeightAssembly,  \textcolor{comment}{// Dz}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00378}00378         0.,                     \textcolor{comment}{// SPhi}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00379}00379         360. * deg              \textcolor{comment}{// DPhi}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00380}00380     );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00381}00381     m\_Solids.push\_back(sCladInner1);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00382}00382 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00383}00383     G4LogicalVolume* lCladInner1 = \textcolor{keyword}{new} G4LogicalVolume(sCladInner1, m\_CladMaterial, \textcolor{stringliteral}{"{}lCladInner1"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00384}00384     m\_cladLogicalVolumes.push\_back(lCladInner1);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00385}00385 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00386}00386     \textcolor{keyword}{new} G4PVPlacement( 0, G4ThreeVector(), lCladInner1, \textcolor{stringliteral}{"{}pCladInner1"{}}, m\_masterVolume, \textcolor{keyword}{false}, 0, overlap );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00387}00387 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00388}00388 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00389}00389 \textcolor{keywordtype}{void} TMXFuelAssemblyVVRM2::placeGeometry(\textcolor{keywordtype}{bool} overlap, G4ThreeVector position, G4RotationMatrix* rotation, G4LogicalVolume* masterVolume) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00390}00390     \textcolor{keyword}{new} G4PVPlacement(rotation, position, m\_masterVolume, \textcolor{stringliteral}{"{}pFuelAssemblyVVRM2"{}}, masterVolume, \textcolor{keyword}{false}, 0, overlap);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00391}00391 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00392}00392 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00393}00393 \textcolor{keywordtype}{void} TMXFuelAssemblyVVRM2::visualisationConfig() \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00394}00394     \textcolor{comment}{//if(m\_p-\/>Verbose == 1) \{ std::cout << "{}\(\backslash\)nConfiguration of the visualisation"{} << std::endl;\}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00395}00395 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00397}00397     \textcolor{comment}{// visualisation colors configured by DL}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00399}00399 \textcolor{comment}{}    G4Colour  black   ( .0      ,  .0        ,  .0        ); \textcolor{comment}{// black}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00400}00400     G4Colour  lblack  ( .0      ,  .0        ,  .0        , 0.6); \textcolor{comment}{// light black}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00401}00401     G4Colour  vlblack ( .0      ,  .0        ,  .0        , 0.2); \textcolor{comment}{// very light black}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00402}00402     G4Colour  white   (1.0      , 1.0        , 1.0        , 0.3); \textcolor{comment}{// white}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00403}00403     G4Colour  grayD3l (211      , 211        , 211             ); \textcolor{comment}{// gray D3 (light)}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00404}00404     G4Colour  grayC   (0.5      , 0.5        , 0.5             ); \textcolor{comment}{// gray}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00405}00405     G4Colour  flgrayC (0.5      , 0.5        , 0.5        , 0.8); \textcolor{comment}{// few light gray}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00406}00406     G4Colour  lgrayC  (0.5      , 0.5        , 0.5        , 0.4); \textcolor{comment}{// light gray}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00407}00407     G4Colour  vlgrayC (0.5      , 0.5        , 0.5        , 0.2); \textcolor{comment}{// very ligth gray}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00408}00408     G4Colour  red     (1.0      , 0.0        , 0.0             ); \textcolor{comment}{// red}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00409}00409     G4Colour  violet  (1.0      , 0.0        , 1.0             ); \textcolor{comment}{// violet}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00410}00410     G4Colour  orange  (1.0      , 0.65       , 0.0             ); \textcolor{comment}{// orange}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00411}00411     G4Colour  green   (0.0      , 1.0        , 0.0             ); \textcolor{comment}{// green}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00412}00412     G4Colour  lgreen  (0.0      , 1.0        , 0.0        , 0.4); \textcolor{comment}{// light green}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00413}00413     G4Colour  blue    (0.0      , 0.0        , 1.0             ); \textcolor{comment}{// blue}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00414}00414     G4Colour  yellow  (1.0      , 1.0        , 0.0        ); \textcolor{comment}{// yellow}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00415}00415     G4Colour  lyellow (1.0      , 1.0        , 0.0        , 0.2); \textcolor{comment}{// light yellow}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00416}00416     G4Colour  cyan    (0.0      , 1.0        , 1.0        , 0.2); \textcolor{comment}{// cya}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00417}00417     G4Colour  sky     (0.0/255.0, 191.0/255.0, 255.0/255.0, 0.2); \textcolor{comment}{// sky}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00418}00418     G4Colour  dgreen  (0.0      , 153.0/255.0, 153.0/255.0, 0.2); \textcolor{comment}{// dark green}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00419}00419     G4Colour  cyangr  (0.0      , 204.0/255.0, 204.0/255.0     ); \textcolor{comment}{// cyan+green colour for different colour of h20}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00420}00420     G4Colour  lblue   (0        , 0          , 1.0        , 0.4); \textcolor{comment}{// light blue}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00421}00421     G4Colour  grayblu (0.4      , 0.6        , 0.8        , 0.6); \textcolor{comment}{// light gray blue}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00422}00422     G4Colour  wcolour (0.3      , 0.3        , 0.3             );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00423}00423     G4Colour  Ccolour (0.       , 0.3        , 0.7             );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00424}00424 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00426}00426     G4bool bool\_visible = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00427}00427 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00429}00429     G4VisAttributes* visWorld = \textcolor{keyword}{new} G4VisAttributes(white);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00430}00430     visWorld-\/>SetVisibility(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00431}00431     \textcolor{keywordflow}{if}(m\_masterVolume) \{m\_masterVolume-\/>SetVisAttributes(visWorld);\}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00432}00432 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00434}00434     G4VisAttributes* visAbsorber = \textcolor{keyword}{new} G4VisAttributes(yellow);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00435}00435     visAbsorber-\/>SetVisibility(bool\_visible);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00436}00436     std::vector<G4LogicalVolume*> listAbsorLV = getAbsorLogicalVolumes();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00437}00437     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i=0; i<listAbsorLV.size(); i++) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00438}00438         \textcolor{keywordflow}{if} (listAbsorLV[i]) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00439}00439             listAbsorLV[i]-\/>SetVisAttributes(visAbsorber);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00440}00440         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00441}00441     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00442}00442 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00444}00444     G4VisAttributes* visWater = \textcolor{keyword}{new} G4VisAttributes(blue);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00445}00445     visWater-\/>SetVisibility(bool\_visible);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00446}00446     std::vector<G4LogicalVolume*> listWaterLV = getWaterLogicalVolumes();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00447}00447     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i=0; i<listWaterLV.size(); i++) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00448}00448         \textcolor{keywordflow}{if} (listWaterLV[i]) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00449}00449             listWaterLV[i]-\/>SetVisAttributes(visWater);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00450}00450         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00451}00451     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00452}00452 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00454}00454     G4VisAttributes* visClad = \textcolor{keyword}{new} G4VisAttributes(orange);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00455}00455     visClad-\/>SetVisibility(bool\_visible);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00456}00456     std::vector<G4LogicalVolume*> listCladLV = getCladLogicalVolumes();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00457}00457     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i=0; i<listCladLV.size(); i++) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00458}00458         \textcolor{keywordflow}{if} (listCladLV[i]) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00459}00459             listCladLV[i]-\/>SetVisAttributes(visClad);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00460}00460         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00461}00461     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00462}00462 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00464}00464     G4VisAttributes* visFuel = \textcolor{keyword}{new} G4VisAttributes(red);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00465}00465     visFuel-\/>SetVisibility(bool\_visible);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00466}00466     std::vector<G4LogicalVolume*> listFuelLV = getFuelLogicalVolumes();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00467}00467     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i=0; i<listFuelLV.size(); i++) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00468}00468         \textcolor{keywordflow}{if} (listFuelLV[i]) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00469}00469             listFuelLV[i]-\/>SetVisAttributes(visFuel);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00470}00470         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00471}00471     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00472}00472 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00473}00473     \textcolor{comment}{//if(m\_p-\/>Verbose == 1) \{ std::cout << "{}End of visualisationConfig"{} << std::endl;\}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00474}00474 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00475}00475 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00476}00476 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00478}00478 \textcolor{comment}{// Getter}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00480}00480 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00481}00481 G4double TMXFuelAssemblyVVRM2::GetOuterRadius() \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00482}00482     \textcolor{keywordflow}{return}(fOuterRadius\_assembly);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_fuel_assembly_v_v_r_m2_8cc_source_l00483}00483 \}}
+
+\end{DoxyCode}

@@ -1,0 +1,125 @@
+\hypertarget{xnkama_8_f_source}{}\doxysection{xnkama.\+F}
+\label{xnkama_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnkama.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnkama.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  13.01.36  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   03/05/96}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnkama(AWR,IZAT,R,EIN,EOU,COST,PROB)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00006}00006 \textcolor{comment}{*     Kalbach-\/Mann distribution for incoming and outgoing neutrons     *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00007}00007 \textcolor{comment}{*     See SIXPAK code for details and a more general version of        *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00008}00008 \textcolor{comment}{*     this code. Notation is taken from the ENDF/B-\/VI manual page      *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00009}00009 \textcolor{comment}{*     6.7 with the well known bug of the factor 0.5 missing correct.   *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00010}00010 \textcolor{comment}{*     Reaction is:                                                     *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00011}00011 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00012}00012 \textcolor{comment}{*                A + a -\/-\/> c -\/-\/> B + b                                 *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00013}00013 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00014}00014 \textcolor{comment}{*     and in our case a=b=neutron.                                     *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00015}00015 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00016}00016 \textcolor{comment}{*     AWR       (input) Target mass in neutron units                   *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00017}00017 \textcolor{comment}{*     IZAT      (input) 10000*Z*10*A+ISO of target                     *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00018}00018 \textcolor{comment}{*     R         (input) r(E',E) factor of Kalbach-\/Mann distribution    *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00019}00019 \textcolor{comment}{*     EIN       (input) LAB incoming neutron energy in eV              *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00020}00020 \textcolor{comment}{*     EOU       (input) CM outgoing neutron energy in eV               *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00021}00021 \textcolor{comment}{*     COST      (input) CM cost theta of outgoing neutron              *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00022}00022 \textcolor{comment}{*     PROB      (output) probability                                   *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00023}00023 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00024}00024 \textcolor{comment}{*     In case of natural elements use the average A, not very good     *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00025}00025 \textcolor{comment}{*     indeed                                                           *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00026}00026 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00027}00027 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00028}00028       \textcolor{keywordtype}{IMPLICIT DOUBLE PRECISION} (a-\/h,o-\/z)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00029}00029 \textcolor{keywordtype}{      REAL} AWR,R,EIN,EOU,COST,PROB}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00030}00030       parameter(mxavea=109)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Average A for natural elements}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00032}00032       dimension avea(mxavea)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00033}00033       \textcolor{keyword}{DATA} avea /}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00034}00034      +  1.0001,  4.0000,  6.9250,  9.0000, 10.8010, 12.0110, 14.0031,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00035}00035      + 16.0044, 19.0000, 20.1937, 23.0000, 24.3202, 27.0000, 28.1087,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00036}00036      + 31.0000, 32.0925, 35.4846, 39.9853, 39.1347, 40.1156, 45.0000,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00037}00037      + 47.9300, 50.9975, 52.0554, 55.0000, 55.9155, 59.0000, 58.7541,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00038}00038      + 63.6166, 65.4690, 69.7980, 72.7100, 75.0000, 79.0700, 79.9862,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00039}00039      + 83.8880, 85.5567, 87.7104, 89.0000, 91.3184, 93.0000, 96.0255,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00040}00040      + 97.5000,101.1646,103.0000,106.5111,107.9632,112.5080,114.9140,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00041}00041      +118.8078,121.8540,127.6811,127.0000,131.3882,133.0000,137.4216,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00042}00042      +138.9991,140.2090,141.0000,144.3312,146.0000,150.4420,152.0440,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00043}00043      +157.3281,159.0000,162.5696,165.0000,167.3237,169.0000,173.0960,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00044}00044      +175.0259,178.5416,180.9783,183.8978,186.2520,190.2806,192.2540,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00045}00045      +195.1158,197.0000,200.6278,204.4095,207.2410,209.0000,208.0000,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00046}00046      +210.0000,222.0000,223.0000,226.0000,227.0000,232.0000,231.0000,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00047}00047      +237.9782,237.0000,244.0000,243.0000,247.0000,247.0000,251.0000,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00048}00048      +252.0000,257.0000,258.0000,259.0000,262.0000,260.0000,263.0000,}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00049}00049      +263.0000,262.0000,265.0000,266.0000/}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00050}00050 \textcolor{comment}{* -\/-\/-\/> Kalbach Mann parameters}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00051}00051       parameter(c1=0.04,c2=1.8d-\/6,c3=6.7d-\/7,et1=130,et3=41)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00052}00052       parameter(one=1,half=one/2,onetrd=one/3,twotrd=2*one/3)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00053}00053       parameter(fortrd=4*one/3)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00054}00054       parameter(hlmn=one,hsmn=half)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/> Fix parameters for incoming and outgoing neutron}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00056}00056       parameter(asa=one,zsa=0,hsa=one,asb=one,zsb=0,hsb=0)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/> For speed do not recalculate separation energies if the isomer}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00058}00058 \textcolor{comment}{*      is the same}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00059}00059       \textcolor{keyword}{DATA} izold / -\/1 /}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00060}00060       \textcolor{keywordtype}{SAVE} sa, sb}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00061}00061 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00063}00063 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/> If new isomer calculate separation energies, liquid drop model}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00065}00065       \textcolor{keywordflow}{IF}(izat.NE.izold) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00066}00066 \textcolor{comment}{* -\/-\/-\/> Target (A Large A, Z Large A, H Large A)}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00067}00067          ala=mod(izat/10,1000)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00068}00068          zla=izat/10000}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00069}00069          \textcolor{keywordflow}{IF}(ala.LE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00070}00070 \textcolor{comment}{* -\/-\/-\/> Natural element, find average A}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00071}00071             ala=avea(nint(zla))}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00072}00072 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00073}00073          hla=ala-\/zla}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00074}00074 \textcolor{comment}{* -\/-\/-\/> Compound nucleus (A Small C, Z Small C, H Small C)}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00075}00075          asc=ala+1}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00076}00076          zsc=zla}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00077}00077          hsc=hla+1}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00078}00078 \textcolor{comment}{* -\/-\/-\/> Pseudo residual nucleus (A Large B, Z Large B, H Large B)}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00079}00079          alb=ala}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00080}00080          zlb=zla}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00081}00081          hlb=hla}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00082}00082 \textcolor{comment}{* -\/-\/-\/> Calculate SA and SB parameters (no breakup energy of target or}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00083}00083 \textcolor{comment}{*      emitted particle because it is a neutron!)}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00084}00084          sa=15.68*(asc-\/ala)-\/28.07*((hsc-\/zsc)**2/asc-\/(hla-\/zla)**2/ala)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00085}00085      +   -\/18.56*(asc**twotrd-\/ala**twotrd) +33.22*((hsc-\/zsc)**2/asc**}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00086}00086      +   fortrd-\/(hla-\/zla)**2/ala**fortrd) -\/0.717*(zsc**2/asc**}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00087}00087      +   onetrd-\/zla**2/ala**onetrd) +1.211*(zsc**2/asc-\/zla**2/ala)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00088}00088          sb=15.68*(asc-\/alb)-\/28.07*((hsc-\/zsc)**2/asc-\/(hlb-\/zlb)**2/alb)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00089}00089      +   -\/18.56*(asc**twotrd-\/alb**twotrd) +33.22*((hsc-\/zsc)**2/asc**}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00090}00090      +   fortrd-\/(hlb-\/zlb)**2/alb**fortrd) -\/0.717*(zsc**2/asc**}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00091}00091      +   onetrd-\/zlb**2/alb**onetrd) +1.211*(zsc**2/asc-\/zlb**2/alb)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00092}00092          izold=izat}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00093}00093 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00094}00094 \textcolor{comment}{* -\/-\/-\/> Calculate CM incoming energy}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00095}00095       ecm=ein*(awr/(1+awr))**2}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00096}00096       epcm=eou}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00097}00097 \textcolor{comment}{* -\/-\/-\/> Calculate a parameter of Kalbach-\/Mann}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00098}00098       ea=ecm*1d-\/6+sa}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00099}00099       eb=epcm*1d-\/6+sb}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00100}00100 \textcolor{comment}{* -\/-\/-\/> Input energy dependence}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00101}00101       \textcolor{keywordflow}{IF}(ea.LE.et1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00102}00102          x1=eb}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00103}00103       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00104}00104          x1=et1*eb/ea}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00105}00105 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00106}00106       \textcolor{keywordflow}{IF}(ea.LE.et3) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00107}00107          x3=eb}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00108}00108       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00109}00109          x3=et3*eb/ea}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00110}00110 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00111}00111 \textcolor{comment}{*     A=C1*X1+C2*X1**3+C3*HLMN*HSMN*X3**4}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00112}00112       a=x1*(c1+c2*x1**2)+c3*hlmn*hsmn*x3**4}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00113}00113 \textcolor{comment}{* -\/-\/-\/> Compute probability with factor 0.5 for correct normalisation}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00114}00114 \textcolor{comment}{*     PROB=0.5*A/SINH(A)*(COSH(A*COST)+R*SINH(A*COST))}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00115}00115       expon=exp(a*cost)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00116}00116       expa=exp(a)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00117}00117       prob=0.5*a/(expa-\/one/expa)*((one+r)*expon+(one-\/r)/expon)}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00118}00118 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnkama_8_f_source_l00119}00119       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

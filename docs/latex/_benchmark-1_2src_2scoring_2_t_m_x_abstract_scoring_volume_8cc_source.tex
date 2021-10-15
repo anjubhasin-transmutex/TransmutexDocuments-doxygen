@@ -1,0 +1,117 @@
+\hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source}{}\doxysection{TMXAbstract\+Scoring\+Volume.\+cc}
+\label{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/1/src/scoring/TMXAbstractScoringVolume.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/1/src/scoring/TMXAbstractScoringVolume.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00002}00002 \textcolor{comment}{// \(\backslash\)brief Implementation of the Abtract Scoring Volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00006}00006 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00007}00007 \textcolor{comment}{// TMXAbstractScoring}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00009}00009 \textcolor{comment}{// Thomas Guilbaud, Transmutex, 05/07/2021}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{// Scoring for Volumic Quantities}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00014}00014 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00016}00016 \textcolor{comment}{// TMX Class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00017}00017 \textcolor{preprocessor}{\#include "{}TMXAbstractScoringVolume.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00019}00019 \textcolor{comment}{// GEANT4 libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00020}00020 \textcolor{preprocessor}{\#include "{}Analysis.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00021}00021 \textcolor{preprocessor}{\#include "{}G4LogicalVolume.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00022}00022 \textcolor{preprocessor}{\#include "{}G4PhysicalVolumeStore.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00023}00023 \textcolor{preprocessor}{\#include "{}G4VPhysicalVolume.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00024}00024 \textcolor{preprocessor}{\#include "{}G4VSolid.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00027}00027 TMXAbstractScoringVolume::TMXAbstractScoringVolume(\mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* parameter)}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00028}00028 :   \mbox{\hyperlink{class_t_m_x_abstract_scoring}{TMXAbstractScoring}}(parameter)}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00029}00029 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00030}00030     m\_mapPVCubicVolume.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00031}00031 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00033}00033 TMXAbstractScoringVolume::\string~TMXAbstractScoringVolume()}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00034}00034 \{\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00036}00036 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00037}00037 \textcolor{comment}{// Builder}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00039}00039 \textcolor{keywordtype}{void} TMXAbstractScoringVolume::buildMapPVCubicVolume(std::unordered\_map<std::string, double> fmap\_LV\_volume) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00040}00040     G4PhysicalVolumeStore* PVStore = G4PhysicalVolumeStore::GetInstance();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00041}00041     G4VPhysicalVolume* PV;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00042}00042     G4LogicalVolume* LV;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00043}00043     \textcolor{comment}{// G4LogicalVolume* MotherLV;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00044}00044     G4VSolid* solid;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00045}00045     std::string PVname;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00047}00047     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} mapIndex = m\_mapPVParticle.begin(); mapIndex != m\_mapPVParticle.end(); mapIndex++) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00048}00048         std::vector<std::string> PVNames = getPVUnionNames(getPVScorer(mapIndex-\/>first));}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00049}00049         m\_mapPVCubicVolume[mapIndex-\/>first] = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00051}00051         \textcolor{comment}{// Sum the volumes from the union written by the user}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00052}00052         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < PVNames.size(); i++) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00053}00053             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it\_PV = PVStore-\/>begin(); it\_PV != PVStore-\/>end(); it\_PV++) \{ \textcolor{comment}{// Read the logical volume store}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00054}00054                 PV = *it\_PV; \textcolor{comment}{// Define the physical volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00055}00055                 PVname = PV-\/>GetName();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00057}00057                 \textcolor{keywordflow}{if} (PVNames[i] == PVname \&\& PVNames[i] != \textcolor{stringliteral}{"{}"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00058}00058                     \textcolor{keywordflow}{if} (PV-\/>GetLogicalVolume()) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00059}00059                         LV = PV-\/>GetLogicalVolume();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00060}00060                         \textcolor{keywordflow}{if} (!isRecursivePV(mapIndex-\/>first)) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00061}00061                             \textcolor{comment}{// int nbDuplicate = 0;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00062}00062                             \textcolor{comment}{// MotherLV = PV-\/>GetMotherLogical();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00063}00063                             \textcolor{comment}{// for (size\_t j = 0; j < MotherLV-\/>GetNoDaughters(); j++) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00064}00064                             \textcolor{comment}{//     if (MotherLV-\/>GetDaughter(j)-\/>GetLogicalVolume()-\/>GetName() == LV-\/>GetName()) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00065}00065                             \textcolor{comment}{//         nbDuplicate++;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00066}00066                             \textcolor{comment}{//     \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00067}00067                             \textcolor{comment}{// \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00068}00068                             m\_mapPVCubicVolume[mapIndex-\/>first] += fmap\_LV\_volume[LV-\/>GetName()]\textcolor{comment}{/*nbDuplicate*/}; \textcolor{comment}{// *cm3;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00069}00069                         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00070}00070                         \textcolor{keywordflow}{else} \{ \textcolor{comment}{// If PV cards in recursive mode (PVname+)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00071}00071                             solid = LV-\/>GetSolid();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00072}00072                             m\_mapPVCubicVolume[mapIndex-\/>first] += solid-\/>GetCubicVolume()/cm3; \textcolor{comment}{// Get the volume of the solid forming the PV}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00073}00073                         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00074}00074                         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00075}00075                     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00076}00076                 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00077}00077             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00078}00078         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00079}00079     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00081}00081     \textcolor{comment}{// Sum the daughter volumes when using the recursive command (PVName+)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00082}00082     \textcolor{comment}{/*for (auto mapIndex = m\_mapPVDaughters.begin(); mapIndex != m\_mapPVDaughters.end(); mapIndex++) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00083}00083 \textcolor{comment}{        std::vector<std::string> PVNames = mapIndex-\/>second;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00084}00084 \textcolor{comment}{        for (size\_t i = 0; i < PVNames.size(); i++) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00085}00085 \textcolor{comment}{            for (auto it\_PV = PVStore-\/>begin(); it\_PV != PVStore-\/>end(); it\_PV++) \{ // Read the logical volume store}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00086}00086 \textcolor{comment}{                PV = *it\_PV; // Define the physical volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00087}00087 \textcolor{comment}{                PVname = PV-\/>GetName();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00088}00088 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00089}00089 \textcolor{comment}{                if (PVNames[i] == PVname) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00090}00090 \textcolor{comment}{                    if (PV-\/>GetLogicalVolume()) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00091}00091 \textcolor{comment}{                        LV = PV-\/>GetLogicalVolume();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00092}00092 \textcolor{comment}{                        m\_mapPVCubicVolume[mapIndex-\/>first] += fmap\_LV\_volume[LV-\/>GetName()]; // *cm3;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00093}00093 \textcolor{comment}{                        // std::cout << PVScorer << "{} ("{} << PVname << "{}) : "{} << fmap\_LV\_volume[LV-\/>GetName()]*cm3 << "{} -\/> "{} << m\_mapPVCubicVolume[PVScorer] << '\(\backslash\)n';}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00094}00094 \textcolor{comment}{                        break;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00095}00095 \textcolor{comment}{                    \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00096}00096 \textcolor{comment}{                \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00097}00097 \textcolor{comment}{            \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00098}00098 \textcolor{comment}{        \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00099}00099 \textcolor{comment}{    \}*/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00100}00100 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00101}00101     \textcolor{comment}{// if (m\_p-\/>Verbose >= 1 \&\& m\_mapPVCubicVolume.size() >= 1) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00102}00102     \textcolor{comment}{//     std::cout << "{}Volume Estimation:"{} << '\(\backslash\)n';}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00103}00103     \textcolor{comment}{//     for (auto it\_PV = m\_mapPVCubicVolume.begin(); it\_PV != m\_mapPVCubicVolume.end(); it\_PV++) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00104}00104     \textcolor{comment}{//         std::cout << "{}* "{} << it\_PV-\/>first << "{} : "{} << it\_PV-\/>second << "{} cm3\(\backslash\)n"{};}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00105}00105     \textcolor{comment}{//     \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00106}00106     \textcolor{comment}{// \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00107}00107 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00109}00109 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00110}00110 \textcolor{comment}{// Boolean}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00112}00112 \textcolor{comment}{// bool TMXAbstractScoringVolume::isInVolumeWithCorrectParticle() \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00113}00113 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2scoring_2_t_m_x_abstract_scoring_volume_8cc_source_l00114}00114 \textcolor{comment}{// \}}}
+
+\end{DoxyCode}

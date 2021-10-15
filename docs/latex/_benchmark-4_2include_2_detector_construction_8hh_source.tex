@@ -1,0 +1,224 @@
+\hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source}{}\doxysection{Detector\+Construction.\+hh}
+\label{_benchmark-4_2include_2_detector_construction_8hh_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/4/include/DetectorConstruction.hh@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/4/include/DetectorConstruction.hh}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00005}00005 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00006}00006 \textcolor{comment}{// DetectorConstruction}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00007}00007 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00008}00008 \textcolor{comment}{// Donovan Maire, Transmutex, 18/10/2019}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00009}00009 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00010}00010 \textcolor{comment}{// Thomas Frosio, 15/09/2020: First draft of REZ geometry}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00014}00014 \textcolor{preprocessor}{\#ifndef DetectorConstruction\_h}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00015}00015 \textcolor{preprocessor}{\#define DetectorConstruction\_h 1}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00017}00017 \textcolor{comment}{// Class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00018}00018 \textcolor{preprocessor}{\#include "{}TMXInputParameters.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00019}00019 \textcolor{preprocessor}{\#include "{}../include/GeomRez.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00020}00020 \textcolor{preprocessor}{\#include "{}../include/GeomKIPT.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00022}00022 \textcolor{comment}{// GEANT4 classes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00023}00023 \textcolor{preprocessor}{\#include "{}G4VUserDetectorConstruction.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00024}00024 \textcolor{preprocessor}{\#include "{}globals.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00025}00025 \textcolor{preprocessor}{\#include "{}G4Material.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00026}00026 \textcolor{preprocessor}{\#include "{}G4VSolid.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00027}00027 \textcolor{preprocessor}{\#include "{}G4Tubs.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00028}00028 \textcolor{preprocessor}{\#include "{}G4Box.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00029}00029 \textcolor{preprocessor}{\#include "{}G4RotationMatrix.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00030}00030 \textcolor{preprocessor}{\#include "{}G4ThreeVector.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00031}00031 \textcolor{preprocessor}{\#include "{}GeomEAP80Simplified.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00033}00033 \textcolor{keyword}{class }G4LogicalVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00037}00037 \textcolor{keyword}{class }\mbox{\hyperlink{class_detector_construction}{DetectorConstruction}} : \textcolor{keyword}{public} G4VUserDetectorConstruction}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00038}00038 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00039}00039 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00041}00041   \mbox{\hyperlink{class_detector_construction}{DetectorConstruction}}(G4int int\_Option, \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}\& parameter, G4double\& AssemblyLength);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00042}00042   \textcolor{keyword}{virtual} \mbox{\hyperlink{class_detector_construction}{\string~DetectorConstruction}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00043}00043   \textcolor{keyword}{virtual} G4VPhysicalVolume* Construct();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00045}00045   G4Material* GetTargetMaterial()\{ \textcolor{keywordflow}{return} fTargetMaterial; \};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00046}00046   \textcolor{keywordtype}{void} SetWorldMaterial (\textcolor{keyword}{const} G4String\&);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00047}00047   \textcolor{keywordtype}{void} SetTargetMaterial(\textcolor{keyword}{const} G4String\&);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00048}00048   \textcolor{keywordtype}{void} SetTargetRadius  (G4double val);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00049}00049   \textcolor{keywordtype}{void} SetDiffusorGap   (G4double val);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00050}00050   \textcolor{keywordtype}{void} SetBreederGap    (G4double val);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00051}00051   \textcolor{keywordtype}{void} SetReflectorGap  (G4double val);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00052}00052   \textcolor{keywordtype}{void} SetShieldGap     (G4double val);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00053}00053   \textcolor{keywordtype}{void} SetWorldGap      (G4double val);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00054}00054   G4VSolid* GetTargetTubeSolid()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} fcheck1S; \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00055}00055   G4double Geth0 ()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} p-\/>h0; \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00056}00056   G4ThreeVector GetTargetPosition ()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} G4ThreeVector(p-\/>XtargetPosition, 0., 0.); \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00057}00057   G4double GetTargetZdistanceToBottom ()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} fTargetZdistanceToBottom; \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00058}00058   G4double GetFuelInnerRadius ()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} fbreeder\_r; \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00059}00059   G4double GetFuelOuterRadius ()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} fbreeder\_R; \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00060}00060   G4int GetNreplicate ()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} (G4int)p-\/>int\_Nreplicate; \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00061}00061   G4Material* GetFuelDriverMaterial ()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} fBreederMaterial;\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00062}00062   G4double Rod\_radius(G4int copyNo) \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00063}00063   G4double Rod\_theta(G4int copyNo) \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00064}00064   G4int    Rod\_subLayer(G4double subAssembly\_r) \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00065}00065   G4int    GetTotalCopyNumberFuelRods() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00066}00066   \mbox{\hyperlink{class_geom_e_a_p80_simplified}{GeomEAP80Simplified}}* getGeomSVBR() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00068}00068 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00070}00070   \mbox{\hyperlink{class_detector_construction}{DetectorConstruction}} \& operator=(\textcolor{keyword}{const} \mbox{\hyperlink{class_detector_construction}{DetectorConstruction}} \&right);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00071}00071   \mbox{\hyperlink{class_detector_construction}{DetectorConstruction}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_detector_construction}{DetectorConstruction}}\&);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00072}00072   G4VPhysicalVolume* ConstructGeomRez();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00073}00073   G4VPhysicalVolume* ConstructGeomTestBurnup();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00074}00074   G4VPhysicalVolume* ConstructGeomEA();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00075}00075   G4VPhysicalVolume* ConstructGeomINR\_Troitsk();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00076}00076   G4VPhysicalVolume* ConstructGeomKIPT();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00077}00077   G4VPhysicalVolume* ConstructGeomEAP80();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00078}00078   G4VPhysicalVolume* ConstructGeomSVBR\_AKME();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00079}00079   G4VPhysicalVolume* ConstructGeomSVBR100();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00080}00080   G4VPhysicalVolume* ConstructGeomTestThermalScattering();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00081}00081   G4VPhysicalVolume* ConstructGeomCleanWay();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00082}00082   \textcolor{keywordtype}{void} \mbox{\hyperlink{class_define_materials}{DefineMaterials}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00083}00083   \textcolor{keywordtype}{void} DefineTargetAndBeamPipeRez(G4bool overlap, std::vector < std::pair<G4VSolid*, G4ThreeVector> >\& SolidsToSubstract, G4double\& beamPipeWidth); \textcolor{comment}{// Define target and beam pipe of Rez geometry and return a G4VSolid to substract to other volumes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00084}00084   \textcolor{keywordtype}{void} Cladding\_Fuel\_1hexa4cyl(G4double RotAnglePolygon);  \textcolor{comment}{// Definition of the logical volumes for cladding and Fuel in the active area VVR-\/M5}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00085}00085   \textcolor{keywordtype}{void} Cladding\_Fuel\_1hexa2cyl(G4double RotAnglePolygon);  \textcolor{comment}{// Definition of the logical volumes for cladding and Fuel in the active area VVR-\/M2}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00086}00086   \textcolor{keywordtype}{void} WWR\_M2(G4double RotAnglePolygon);  \textcolor{comment}{// Definition of the logical volumes for cladding and Fuel in the active area VVR-\/M2}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00087}00087   \textcolor{keywordtype}{void} IBR2M(); \textcolor{comment}{// Definition of the logical volumes for cladding and Fuel in IBR-\/2M}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00088}00088   \textcolor{keywordtype}{void} VisualisationConfig(); \textcolor{comment}{// Configuration of the visualisation (colors, transparency, et.) for the Geometry}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00089}00089   \textcolor{keywordtype}{void} RodsCylindricalPlacement(G4int copyNo, G4double startR, G4double startTheta, G4double dbl\_rRodsGap, G4bool overlap, G4int \&Counter\_unplaced, G4double cool7V);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00090}00090   \textcolor{keywordtype}{void} RodsHexagonalPlacementInCylindricalCore(G4bool overlap, G4int \&Counter\_unplaced, G4int \&N\_fuelrods, G4double cool7V);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00091}00091   \textcolor{keywordtype}{void} RodsHexagonalPlacementInHexagonalCore(G4bool overlap, G4int \&Counter\_unplaced, G4int \&N\_fuelrods, G4double cool7V);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00092}00092   \textcolor{keywordtype}{void} RodsHexagonalPlacementInHexagonalCore\_v2(G4bool overlap, G4int \&Counter\_unplaced, G4int \&N\_fuelrods, G4double cool7V);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00093}00093   \textcolor{keywordtype}{void} DefineCuts();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00094}00094   \textcolor{keywordtype}{void} DefineElements();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00095}00095   \textcolor{keywordtype}{void} DefineMaterials\_v2();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00096}00096   G4Element* DefineElement(\textcolor{keywordtype}{int}, std::string);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00098}00098   G4int fint\_Option;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00100}00100   G4double fTargetRadius;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00101}00101   G4double fDiffusorGap;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00102}00102   G4double fBreederGap;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00103}00103   G4double fReflectorGap;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00104}00104   G4double fShieldGap;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00105}00105   G4double fWorldGap;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00106}00106   G4double fTargetZdistanceToBottom; \textcolor{comment}{// Heigth between the bottom of the well and the center of the target}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00107}00107   G4double fbreeder\_r;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00108}00108   G4double fbreeder\_R;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00109}00109   G4int fN\_fuelrods;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00112}00112   \textcolor{comment}{// Materials used in the simulation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00114}00114 \textcolor{comment}{}  G4Material*  fWorldMaterial;     \textcolor{comment}{// either galactic, or concrete}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00115}00115 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00116}00116   G4Material*  fFebotMaterial;      \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00117}00117   G4Material*  fAirtopMaterial;     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00118}00118   G4Material*  fShieldMaterial;     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00119}00119   G4Material*  fReflectorMaterial;  \textcolor{comment}{// Material of the water-\/cooled heat shield}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00120}00120   G4Material*  fReflecSkinMaterial; \textcolor{comment}{// Material of the water-\/cooled heat shield without water}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00121}00121   G4Material*  fDiffusorMaterial;   \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00122}00122   G4Material*  fB4CMaterial;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00123}00123   G4Material*  fReflectorCMaterial;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00124}00124 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00125}00125   G4Material*  fWaterFuelMaterial; \textcolor{comment}{// Water surrounding cladding+fuel elements}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00126}00126   G4Material*  fBreederMaterial;   \textcolor{comment}{// 235/238UO2}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00127}00127   G4Material*  fThoriumMaterial;   \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00128}00128   G4Material*  fCladdingMaterial;  \textcolor{comment}{// Mainly Aluminium}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00129}00129 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00130}00130   G4Material*  fAlMaterial;        \textcolor{comment}{// This is to declare Altop material used in Al based volume above/below the target}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00131}00131 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00132}00132   G4Material*  fFetopMaterial;     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00134}00134   G4Material*  fCool10Material;    \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00135}00135   G4Material*  fAirsideMaterial;   \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00136}00136   G4Material*  fTubeMaterial;      \textcolor{comment}{// Al+Fe+H2O}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00138}00138   G4Material*  fCaptureMaterial;   \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00139}00139   G4Material*  fCool7Material;     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00140}00140   G4Material*  fCheckMaterial;     \textcolor{comment}{// galactic}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00141}00141   G4Material*  fTargetMaterial;    \textcolor{comment}{// W}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00142}00142   G4Material*  fTargetMaterial2;   \textcolor{comment}{// H2O}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00143}00143   G4Material*  fTargetMaterial3;   \textcolor{comment}{// Tantalum}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00144}00144   G4Material*  fHeInTargetMaterial;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00145}00145   G4Material*  fOuterMaterial;     \textcolor{comment}{// Outer layer material = stainless steel from NIST}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00146}00146   G4Material*  fAroundFuelMaterial; \textcolor{comment}{// Material between the fuel rods}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00147}00147   G4Material*  fVacuumMaterial;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00148}00148   G4Material*  fTransmuteMaterial;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00149}00149   G4Material*  fUniverseMaterial;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00150}00150 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00152}00152   \textcolor{comment}{// Logical volumes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00154}00154 \textcolor{comment}{}  G4LogicalVolume* fLogicWorld;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00156}00156   G4LogicalVolume* fLogicShield;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00157}00157   G4LogicalVolume* fLogicFebot;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00158}00158   G4LogicalVolume* fLogicAirtop;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00159}00159 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00160}00160   G4LogicalVolume* fLogicReflector;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00161}00161   G4LogicalVolume* fLogicReflecSkin;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00162}00162   G4LogicalVolume* fLogicFetop;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00163}00163   G4LogicalVolume* fLogicCool10;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00164}00164   G4LogicalVolume* fLogicAirside;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00165}00165 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00166}00166   G4LogicalVolume* fLogicDiffusor;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00167}00167   G4LogicalVolume* fLogicLeadLayer[5];}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00168}00168   G4LogicalVolume* fLogicAbsorberLayer;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00169}00169   G4LogicalVolume* fLogicSpentFuel;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00170}00170   G4LogicalVolume* fLogicControlRod;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00171}00171 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00172}00172   G4LogicalVolume* fLogicReflectorC;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00173}00173 \textcolor{comment}{//   G4LogicalVolume* fLogicCapture;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00174}00174 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00175}00175   G4LogicalVolume* fLogicBreeder;           \textcolor{comment}{// Lead around the fuel assembly}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00176}00176   G4LogicalVolume* fLogicPartBreeder;    \textcolor{comment}{// Part of the breeder to be repeated (rotation in fLogicBreeder)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00177}00177   G4LogicalVolume* fLogicCladdingUnion;     \textcolor{comment}{// Cladding surrounding the fuel + central rod}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00178}00178   G4LogicalVolume* fLogicFuelUnion;         \textcolor{comment}{// Fuel inside the cladding (UO2)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00179}00179   std::vector<G4LogicalVolume*> fLogicFuel; \textcolor{comment}{// Fuel inside the cladding i (UO2) ; 0 = outter ; N = center}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00180}00180   G4LogicalVolume* fLogicCentralHole;       \textcolor{comment}{// Central hole in the Fuel assembly (empty or Al ?)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00181}00181   G4LogicalVolume* fLogicWaterFuelCladding; \textcolor{comment}{// Water flowing in the fuel assembly to be repeated (Translation in fLogicFuelBoxLayer)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00182}00182   G4LogicalVolume *fLogicFuelBoxLayer;      \textcolor{comment}{// Box containing int\_layer of fuel assembly}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00183}00183   G4LogicalVolume* fLogicCool7;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00184}00184   G4LogicalVolume* fLogicCool7\_water;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00185}00185   G4LogicalVolume* fLogicCool7\_tub;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00186}00186 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00187}00187   G4LogicalVolume* fLogicCheck1; \textcolor{comment}{// g2}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00188}00188   G4LogicalVolume* fLogicCheck3U;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00189}00189   G4LogicalVolume* fLogicCheck; \textcolor{comment}{// for g1 box, orb}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00190}00190   G4LogicalVolume* fLogicSubtract1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00191}00191   G4LogicalVolume* fLogicSubtract\_Al\_Empty;  \textcolor{comment}{// Empty volume inside Aluminium part in the target}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00192}00192   G4LogicalVolume* fLogicTarget;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00193}00193   G4LogicalVolume* fLogicTarget2;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00194}00194   G4LogicalVolume* fLogicTarget3;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00195}00195 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00196}00196   G4LogicalVolume* fLogicWorld1;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00197}00197   G4LogicalVolume* fLogicCheck1U;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00198}00198   G4LogicalVolume* fLogTargetTube;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00199}00199   std::vector<G4LogicalVolume*> fLogicTargetSlabs;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00200}00200   std::vector<G4LogicalVolume*> fLogicTargetCoating;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00201}00201   G4LogicalVolume* fLogicTargetLeft;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00202}00202   G4LogicalVolume* fLogicTargetCentre;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00203}00203   G4LogicalVolume* fLogicAirtopSubtract;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00204}00204   G4LogicalVolume* fLogicReflectorSubtract;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00205}00205   G4LogicalVolume* fLogicFetopSubtract;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00206}00206   G4LogicalVolume* fLogicCool10Subtract;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00207}00207   G4LogicalVolume* fLogBeamPipe;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00208}00208   G4LogicalVolume* fLogBeamWindow;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00209}00209   G4LogicalVolume* fLogVacuumBeamPipe;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00210}00210 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00211}00211   G4VSolid* fcheck1S; \textcolor{comment}{// Target tube}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00212}00212   G4Box* fCenterPlateS; \textcolor{comment}{// Target tube}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00213}00213   G4RotationMatrix* fZRotation;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00214}00214 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00215}00215   std::vector <G4String> vec\_LVname;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00216}00216   G4double* fFuelAssemblyLength;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00217}00217   G4double IBR2M\_FuelposZ;  \textcolor{comment}{// position of the fuel for IBR-\/2M conditions}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00218}00218 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00219}00219   \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* p;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00220}00220   \mbox{\hyperlink{class_geom_e_a_p80_simplified}{GeomEAP80Simplified}} * m\_geomSVBR;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00221}00221 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00222}00222 \};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00223}00223 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00225}00225 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2include_2_detector_construction_8hh_source_l00226}00226 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

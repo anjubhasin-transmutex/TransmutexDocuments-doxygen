@@ -1,0 +1,123 @@
+\hypertarget{cirene_8_f_source}{}\doxysection{cirene.\+F}
+\label{cirene_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/cirene/cirene.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/cirene/cirene.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  0.05/00 29/04/94  15.08.37  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   29/03/94}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00003}00003       \textcolor{keyword}{PROGRAM} cirene}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00004}00004 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00005}00005 \textcolor{comment}{* -\/-\/-\/ Geometry for the cirene reactor}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00006}00006 \textcolor{preprocessor}{\#include "{}xccige.inc"{}}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00007}00007 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcciba.inc"{}}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00008}00008 \textcolor{preprocessor}{}      parameter(nkeys=6,ntot=100000)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00009}00009       \textcolor{keyword}{COMMON} / pawc / h(1000000)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00010}00010       dimension vr(6),v(3),hinp(3),outp(3),hnt(nkeys)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00011}00011       \textcolor{keywordtype}{CHARACTER*8} CHNAME(NKEYS)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00012}00012       \textcolor{keyword}{DATA} chname/\textcolor{stringliteral}{'X       '},\textcolor{stringliteral}{'Y       '},\textcolor{stringliteral}{'Z       '},\textcolor{stringliteral}{'IMATE   '},\textcolor{stringliteral}{'IMAHIT  '}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00013}00013      +           ,\textcolor{stringliteral}{'BLUR    '}/}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00014}00014 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00015}00015 \textcolor{comment}{* -\/-\/-\/ Load the nominal values for the cirene reactor}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00016}00016       \textcolor{keyword}{CALL }xnciin}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00017}00017 \textcolor{comment}{*     CALL XNCIFL(3)}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00018}00018       \textcolor{keyword}{CALL }hlimit(1000000)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00019}00019       print *, ((xyfuel(1,icrpla(jpl,iba)),iba=1,2),jpl=-\/4,4)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00020}00020       print *, ((xyfuel(2,icrpla(jpl,iba)),iba=1,2),jpl=-\/4,4)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00021}00021       nbin=10*nbside}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00022}00022       \textcolor{keyword}{CALL }hropen(34,\textcolor{stringliteral}{'HBOOK'},\textcolor{stringliteral}{'cirene.hist'},\textcolor{stringliteral}{'N'},1024,istat)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00023}00023       \textcolor{keyword}{CALL }hbookn(1,\textcolor{stringliteral}{'NTUPLE'},nkeys,\textcolor{stringliteral}{'//HBOOK'},9950,chname)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00024}00024       \textcolor{keyword}{CALL }hbook2(123,\textcolor{stringliteral}{'Bar positions'},nbin,-\/watdia,}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00025}00025      +                        watdia,nbin,-\/watdia,watdia,5.)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00026}00026       \textcolor{keyword}{CALL }hbook1(124,\textcolor{stringliteral}{'Dist hit bar centre'},80,}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00027}00027      + bardia*0.49999,bardia*0.50001,0.)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00028}00028       \textcolor{keywordflow}{DO} 10 jbar=1,nbars}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00029}00029          \textcolor{keyword}{CALL }hfill(123,xcbar(jbar),ycbar(jbar),1.)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00030}00030    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00031}00031 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00032}00032 \textcolor{comment}{*     WRITE(1,'(2(1X,E11.4))') (XYFUEL(1,J),XYFUEL(2,J),J=1,18)}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00033}00033       nok = 0}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00034}00034       nblur=0}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00035}00035       \textcolor{keywordflow}{DO} 30 j=1,ntot}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00036}00036 \textcolor{comment}{C        IF(MOD(J,1000).EQ.1) WRITE(6,'('' Now at '',I10)') J}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00037}00037 \textcolor{comment}{C  20    CALL XNRAND(VR,2)}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00038}00038 \textcolor{comment}{C        VR(1) = (0.5-\/VR(1))*CORDIA}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00039}00039 \textcolor{comment}{C        VR(2) = (0.5-\/VR(2))*CORDIA}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00040}00040 \textcolor{comment}{C        VR(3) = 0}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00041}00041 \textcolor{comment}{C        IF(VR(1)**2+VR(2)**2.GT.CORDIA**2*0.2) GOTO 20}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00042}00042 \textcolor{comment}{C        CALL XNCIRM(VR,IMATE)}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00043}00043 \textcolor{comment}{C        XBAR = NINT((VR(1)-\/DISBAR*0.5)/DISBAR)*DISBAR+DISBAR*0.5}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00044}00044 \textcolor{comment}{C        YBAR = NINT((VR(2)-\/DISBAR*0.5)/DISBAR)*DISBAR+DISBAR*0.5}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00045}00045 \textcolor{comment}{C        IF(IMATE.EQ.2) THEN}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00046}00046 \textcolor{comment}{C           WRITE(1,'(2(1X,E11.4))') VR(1)-\/XBAR,VR(2)-\/YBAR}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00047}00047 \textcolor{comment}{C        ELSEIF(IMATE.GE.30) THEN}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00048}00048 \textcolor{comment}{C           IF(MOD(IMATE,10).EQ.1) THEN}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00049}00049 \textcolor{comment}{C              WRITE(2,'(2(1X,E11.4))') VR(1)-\/XBAR,VR(2)-\/YBAR}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00050}00050 \textcolor{comment}{C              NOK=NOK+1}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00051}00051 \textcolor{comment}{C           ELSEIF(MOD(IMATE,10).EQ.2) THEN}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00052}00052 \textcolor{comment}{C              WRITE(3,'(2(1X,E11.4))') VR(1)-\/XBAR,VR(2)-\/YBAR}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00053}00053 \textcolor{comment}{C           ELSEIF(MOD(IMATE,10).EQ.3) THEN}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00054}00054 \textcolor{comment}{C              WRITE(4,'(2(1X,E11.4))') VR(1)-\/XBAR,VR(2)-\/YBAR}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00055}00055 \textcolor{comment}{C           ENDIF}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00056}00056 \textcolor{comment}{C        ENDIF}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00057}00057    20    \textcolor{keyword}{CALL }xnrand(vr,6)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00058}00058          v(1) = 0.5-\/vr(1)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00059}00059          v(2) = 0.5-\/vr(2)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00060}00060          v(3) = (0.5-\/vr(3))*sqrt(v(1)**2+v(2)**2)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00061}00061          v(3) = 0.}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00062}00062          hinp(1) = (0.5-\/vr(4))*cordia}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00063}00063          hinp(2) = (0.5-\/vr(5))*cordia}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00064}00064          hinp(3) = (0.5-\/vr(6))*watlen}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00065}00065 \textcolor{comment}{*        HINP(1) = (INT(VR(4)*8)-\/3.5)*DISBAR}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00066}00066 \textcolor{comment}{*        HINP(2) = (INT(VR(5)*8)-\/3.5)*DISBAR}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00067}00067 \textcolor{comment}{*        HINP(1) = -\/1.2}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00068}00068 \textcolor{comment}{*        HINP(2) = 1.2}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00069}00069          \textcolor{keyword}{CALL }xncirm(hinp,imate)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00070}00070 \textcolor{comment}{*        IF(IMATE.LT.30.OR.MOD(IMATE,10).NE.2) GOTO 20}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00071}00071 \textcolor{comment}{*        IF(IMATE.LT.30) GOTO 20}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00072}00072 \textcolor{comment}{*        IF(HINP(1)**2+HINP(2)**2.GT.CORDIA**2*0.2) GOTO 20}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00073}00073          \textcolor{keywordflow}{IF}(j.EQ.112) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00074}00074             print *, \textcolor{stringliteral}{'112 = '},j}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00075}00075 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00076}00076          \textcolor{keyword}{CALL }xncirg(hinp,v,outp,snext,safe,ihit)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00077}00077          \textcolor{keywordflow}{IF}(ihit.EQ.0) \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00078}00078          \textcolor{keywordflow}{IF}(outp(1)**2+outp(2)**2.GT.cordia**2*0.30) \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00079}00079 \textcolor{comment}{*        IF(IMAHIT.LT.30.OR.MOD(IMAHIT,10).NE.3) GOTO 20}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00080}00080          \textcolor{keyword}{CALL }xnprop(outp,v,1e-\/5,hinp)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00081}00081          \textcolor{keyword}{CALL }xncirm(hinp,imaout)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00082}00082          hnt(6) = 0}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00083}00083          \textcolor{keywordflow}{IF}(imaout.NE.imahit) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00084}00084             nblur=nblur+1}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00085}00085             print *, imaout,imahit, j}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00086}00086             hnt(6) = 1}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00087}00087 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00088}00088          xbar = nint((outp(1)-\/disbar*0.5)/disbar)*disbar+disbar*0.5}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00089}00089          ybar = nint((outp(2)-\/disbar*0.5)/disbar)*disbar+disbar*0.5}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00090}00090          hnt(1) = outp(1)-\/xbar}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00091}00091          hnt(2) = outp(2)-\/ybar}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00092}00092          hnt(3) = outp(3)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00093}00093          hnt(4) = imate}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00094}00094          hnt(5) = imahit}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00095}00095          \textcolor{keyword}{CALL }hfn(1,hnt)}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00096}00096          \textcolor{keyword}{WRITE}(1,\textcolor{stringliteral}{'(2(1X,E11.4))'}) outp(1)-\/xbar,outp(2)-\/ybar}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00097}00097 \textcolor{comment}{*        ENDIF}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00098}00098 \textcolor{comment}{C        IF(IMAHIT.GE.3) THEN}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00099}00099 \textcolor{comment}{C           DIST = SQRT((XHTBAR-\/OUTP(1))**2+(YHTBAR-\/OUTP(2))**2)}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00100}00100 \textcolor{comment}{C           CALL HFILL(124,DIST,0.,1.)}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00101}00101 \textcolor{comment}{C        ENDIF}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00102}00102 \textcolor{comment}{C        IF(IHIT.EQ.0) STOP 'IHIT = 0'}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00103}00103 \textcolor{comment}{C        IF(IMAHIT.LE.3) THEN}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00104}00104 \textcolor{comment}{C           WRITE(1,'(2(1X,E11.4))') OUTP(1),OUTP(2)}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00105}00105 \textcolor{comment}{C        ELSE}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00106}00106 \textcolor{comment}{C           WRITE(2,'(2(1X,E11.4))') OUTP(1),OUTP(2)}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00107}00107 \textcolor{comment}{C        ENDIF}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00108}00108    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00109}00109 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00110}00110       \textcolor{keyword}{CALL }histdo}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00111}00111       \textcolor{keyword}{CALL }hrout(0,icycle,\textcolor{stringliteral}{' '})}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00112}00112       \textcolor{keyword}{CALL }hrend(\textcolor{stringliteral}{'HBOOK'})}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00113}00113       print *, \textcolor{stringliteral}{'Blurred = '},1.*nblur/ntot}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00114}00114 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00115}00115       \textcolor{keyword}{END}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00116}00116 \textcolor{comment}{C}}
+\DoxyCodeLine{\Hypertarget{cirene_8_f_source_l00117}00117 \textcolor{comment}{*KEND.}}
+
+\end{DoxyCode}

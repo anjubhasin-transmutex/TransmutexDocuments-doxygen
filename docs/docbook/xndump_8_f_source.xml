@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xndump_8_f_source" xml:lang="en-US">
+<title>xndump.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xndump.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xndump_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;03/06/96&#32;&#32;10.48.09&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xndump
+<anchor xml:id="_xndump_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Prints&#32;index&#32;of&#32;isomers&#32;currently&#32;stored&#32;in&#32;memory&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00008"/>00008 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00009"/>00009 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00010"/>00010 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcutil.inc&quot;</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00011"/>00011 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcstor.inc&quot;</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00012"/>00012 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcpoin.inc&quot;</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00013"/>00013 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcdbas.inc&quot;</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00014"/>00014 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcindx.inc&quot;</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00015"/>00015 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*6</emphasis>&#32;CHTTEM
+<anchor xml:id="_xndump_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*11</emphasis>&#32;CHETEM,XNELNA
+<anchor xml:id="_xndump_8_f_source_1l00017"/>00017 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00018"/>00018 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00019"/>00019 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00020"/>00020 <emphasis role="comment">*&#32;---&gt;&#32;Cycle&#32;through&#32;materials</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)
+<anchor xml:id="_xndump_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jmate=1,nmate
+<anchor xml:id="_xndump_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izaex&#32;=&#32;imtabl(1,jmate)
+<anchor xml:id="_xndump_8_f_source_1l00024"/>00024 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;isomer&#32;and&#32;temperature&#32;code</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xngtmp(izaex,izamat,itcod)
+<anchor xml:id="_xndump_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;---&gt;&#32;Convert&#32;temperature&#32;code</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(itcod.GE.nctemp)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chttem=<emphasis role="stringliteral">&apos;Inval.&apos;</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(chttem,10100)&#32;ltemp(itcod+1)
+<anchor xml:id="_xndump_8_f_source_1l00031"/>00031 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00032"/>00032 <emphasis role="comment">*&#32;---&gt;&#32;Convert&#32;isomer&#32;code</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chetem=xnelna(izamat)
+<anchor xml:id="_xndump_8_f_source_1l00034"/>00034 <emphasis role="comment">*&#32;---&gt;&#32;Print&#32;item</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10300)&#32;chetem,chttem,izaex
+<anchor xml:id="_xndump_8_f_source_1l00036"/>00036 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)
+<anchor xml:id="_xndump_8_f_source_1l00038"/>00038 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xndump_8_f_source_1l00039"/>00039 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(1x,30(<emphasis role="stringliteral">&apos;=&apos;</emphasis>),<emphasis role="stringliteral">&apos;&#32;XNSECT&#32;storage&#32;information&#32;&apos;</emphasis>,30(<emphasis role="stringliteral">&apos;=&apos;</emphasis>))
+<anchor xml:id="_xndump_8_f_source_1l00040"/>00040 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(i5,<emphasis role="stringliteral">&apos;K&apos;</emphasis>)
+<anchor xml:id="_xndump_8_f_source_1l00041"/>00041 10200&#32;<emphasis role="keyword">FORMAT</emphasis>(i3)
+<anchor xml:id="_xndump_8_f_source_1l00042"/>00042 10300&#32;<emphasis role="keyword">FORMAT</emphasis>(5x,a11,<emphasis role="stringliteral">&apos;&#32;at&#32;&apos;</emphasis>,a6,<emphasis role="stringliteral">&apos;&#32;mat&#32;code&#32;&apos;</emphasis>,i8)
+<anchor xml:id="_xndump_8_f_source_1l00043"/>00043 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

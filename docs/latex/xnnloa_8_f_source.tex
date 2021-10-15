@@ -1,0 +1,397 @@
+\hypertarget{xnnloa_8_f_source}{}\doxysection{xnnloa.\+F}
+\label{xnnloa_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnnloa.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnnloa.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :          23/05/2000  15.28.48  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnnloa}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00006}00006 \textcolor{comment}{*     Loads fission fragment indipendent yields and fission neutron    *}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00007}00007 \textcolor{comment}{*     multiplicities from ENDF-\/6 database files. The American,         *}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00008}00008 \textcolor{comment}{*     European and Japanese databases are scanned in turn to load      *}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00009}00009 \textcolor{comment}{*     fissile isotopes information in order of scan                    *}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00010}00010 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00011}00011 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00012}00012 \textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00013}00013 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcfisb.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00014}00014 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcroot.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00015}00015 \textcolor{preprocessor}{}      parameter(maxfyi=3,maxnuf=3)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00016}00016       \textcolor{keywordtype}{CHARACTER*124} CHFINP(MAXFYI), CHNINP(MAXNUF)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00017}00017       \textcolor{keywordtype}{CHARACTER*(*)} CHCOMP}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00018}00018       parameter(maxbnl=3500)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00019}00019 \textcolor{comment}{* -\/-\/-\/> Minimum yield accepted}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00020}00020 \textcolor{comment}{*         Allowing smaller yields makes little sense as the}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00021}00021 \textcolor{comment}{*         cumulative probability sum is performed in a single}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00022}00022 \textcolor{comment}{*         precision variable. Even if this variable were}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00023}00023 \textcolor{comment}{*         double precision, still a double precision random}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00024}00024 \textcolor{comment}{*         number generator would be needed to disentangle}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00025}00025 \textcolor{comment}{*         smaller fission yields.}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00026}00026 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00027}00027       parameter(fyitol=1e-\/6)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00028}00028       parameter(chcomp=\textcolor{stringliteral}{'xnnloa.dat'})}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00029}00029       dimension izabnl(maxbnl)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00030}00030       \textcolor{keywordtype}{LOGICAL} LDEBUG,LCOMP}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00031}00031       \textcolor{keyword}{DATA} ldebug /.false./}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00032}00032       \textcolor{keyword}{DATA} chfinp / \textcolor{stringliteral}{'e6r1nds3.fyi'}, \textcolor{stringliteral}{'jef2.fyi'}, \textcolor{stringliteral}{'jendl3.fyi'}/}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00033}00033       \textcolor{keyword}{DATA} chninp / \textcolor{stringliteral}{'e6r1nds3.nuf'}, \textcolor{stringliteral}{'jef2.nuf'}, \textcolor{stringliteral}{'jendl3.nuf'}/}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00034}00034       \textcolor{keywordtype}{LOGICAL} LFIRST}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00035}00035       \textcolor{keywordtype}{SAVE} lfirst}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00036}00036       \textcolor{keyword}{DATA} lfirst / .true. /}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00037}00037 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00038}00038 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00039}00039 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> Make sure this is done only once}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00041}00041       \textcolor{keywordflow}{IF}(.NOT.lfirst) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00042}00042       lfirst=.false.}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> Check whether compressed file is there}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00044}00044       \textcolor{keyword}{INQUIRE}(file=chroot//chcomp,exist=lcomp)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00045}00045       \textcolor{keywordflow}{IF}(lcomp) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00046}00046 \textcolor{comment}{* -\/-\/-\/> File is there, load and leave}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00047}00047          \textcolor{keyword}{OPEN}(12,file=chroot//chcomp,status=\textcolor{stringliteral}{'OLD'},form=\textcolor{stringliteral}{'UNFORMATTED'}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00048}00048      +   ,action=\textcolor{stringliteral}{'READ'})}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00049}00049          \textcolor{keyword}{READ}(12) ihgwmk,izapnt,(xfisb(ll),ll=1,ihgwmk)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00050}00050          \textcolor{keywordflow}{GOTO} 260}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00051}00051 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00052}00052 \textcolor{comment}{* -\/-\/-\/> Get list of isotopes present in EET Nuclear Database}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00053}00053       \textcolor{keyword}{CALL }xnbnls(izabnl,nmxbnl,maxbnl)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00054}00054 \textcolor{comment}{* -\/-\/-\/> Set to 0 pointer array}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00055}00055       \textcolor{keywordflow}{DO} 30 izr=1,20}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00056}00056          \textcolor{keywordflow}{DO} 20 iar=1,60}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00057}00057             \textcolor{keywordflow}{DO} 10 inf=1,6}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00058}00058                izapnt(izr,iar,inf)=0}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00059}00059    10       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00060}00060    20    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00061}00061    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> Set value of high water mark in XFISB array}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00063}00063       ihgwmk = 0}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/> Loop over all databases}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00065}00065       \textcolor{keywordflow}{DO} 220 jfyi=1,maxfyi}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00066}00066 \textcolor{comment}{* -\/-\/-\/> Close file (should not be needed, but it does not harm)}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00067}00067          \textcolor{keyword}{CLOSE}(12)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00068}00068          lfinp=lnblnk(chfinp(jfyi))}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00069}00069          \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00070}00070             \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Now opening '}\textcolor{stringliteral}{',A)'})chroot//chfinp(jfyi)(:lfinp)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00071}00071 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00072}00072 \textcolor{comment}{* -\/-\/-\/> Open database}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00073}00073          \textcolor{keyword}{OPEN}(12,file=chroot//chfinp(jfyi)(:lfinp),status=\textcolor{stringliteral}{'OLD'}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00074}00074      +   ,action=\textcolor{stringliteral}{'READ'})}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00075}00075 \textcolor{comment}{* -\/-\/-\/> Preset previous mat code}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00076}00076          mathol = -\/1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00077}00077 \textcolor{comment}{* -\/-\/-\/> Read a new section in ENDF 6 format}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00078}00078    40    \textcolor{keyword}{CALL }xnnews(c1, c2, l1, l2, n1, n2, math, mfh, mth)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00079}00079 \textcolor{comment}{* -\/-\/-\/> If end of file exit loop}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00080}00080          \textcolor{keywordflow}{IF}(math.LT.0) \textcolor{keywordflow}{GOTO} 220}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00081}00081          \textcolor{keywordflow}{IF}(math.NE.mathol) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00082}00082 \textcolor{comment}{* -\/-\/-\/> Reading new material}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00083}00083             \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00084}00084                \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Loading Z='}\textcolor{stringliteral}{',I3,'}\textcolor{stringliteral}{' A='}\textcolor{stringliteral}{',I3)'}) nint(c1/}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00085}00085      +              1000.) ,nint(mod(c1,1000.))}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00086}00086 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00087}00087             mathol=math}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00088}00088             izap = nint(c1)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00089}00089 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00090}00090 \textcolor{comment}{* -\/-\/-\/> Analyse section just read}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00091}00091          \textcolor{keywordflow}{IF}(mfh.EQ.1.AND.mth.EQ.451) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00092}00092 \textcolor{comment}{* -\/-\/-\/> Comment section, get the isomeric state}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00093}00093             \textcolor{keyword}{READ}(12,11000) elis,sta,lis,liso,idumm,nfor}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00094}00094             izap=10*izap+liso}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00095}00095          \textcolor{keywordflow}{ELSEIF}(mfh.EQ.8.AND.mth.EQ.454) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00096}00096 \textcolor{comment}{* -\/-\/-\/> Independent Fission Yield section}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00097}00097             izp = izap/10/1000-\/85}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00098}00098             iap = mod(izap/10,1000)-\/2*izap/10/1000}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00099}00099             \textcolor{keywordflow}{IF}((izp.LT.1.OR.izp.GT.maxizp).OR.}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00100}00100 \textcolor{comment}{* -\/-\/-\/> If Z smaller than 85 or A smaller than 2*Z skip element}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00101}00101      +         (iap.LT.1.OR.iap.GT.maxiap)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00102}00102                \textcolor{keyword}{WRITE}(6,10100) izap/10/1000,mod(izap/10,1000),izp,iap}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00103}00103 \textcolor{comment}{* -\/-\/-\/> If Z smaller than 85 or A smaller than 2*Z skip element}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00104}00104                \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00105}00105 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00106}00106 \textcolor{comment}{* -\/-\/-\/> Fissionable nuclide already loaded, skip it}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00107}00107             \textcolor{keywordflow}{IF}(izapnt(izp,iap,2).NE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00108}00108                \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00109}00109                   \textcolor{keyword}{WRITE}(6,10200) izap/1000,mod(izap,1000)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00110}00110 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00111}00111                \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00112}00112 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00113}00113 \textcolor{comment}{* -\/-\/-\/> Load number of input energies}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00114}00114             le1=l1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00115}00115 \textcolor{comment}{* -\/-\/-\/> Load pointer to beginning of information for this nuclide}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00116}00116             izapnt(izp,iap,1) = ihgwmk}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00117}00117 \textcolor{comment}{* -\/-\/-\/> Load number of energy points for every fission product}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00118}00118             izapnt(izp,iap,2) = le1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00119}00119             \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00120}00120                \textcolor{keyword}{WRITE}(6,10300) le1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00121}00121 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00122}00122 \textcolor{comment}{* -\/-\/-\/> Set number of fission products to 0}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00123}00123             ndata = 0}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00124}00124 \textcolor{comment}{* -\/-\/-\/> Set lost probability to 0}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00125}00125             bnlost = 0.}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00126}00126 \textcolor{comment}{* -\/-\/-\/> Loop over different energy yield lists}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00127}00127             \textcolor{keywordflow}{DO} 110 jene=1,le1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00128}00128                \textcolor{keyword}{CALL }xnlist}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00129}00129 \textcolor{comment}{* -\/-\/-\/> Load energy}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00130}00130                xfisb(ihgwmk+jene) = c1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00131}00131                \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00132}00132                   \textcolor{keyword}{WRITE}(6,10400) jene,c1,n1,np}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00133}00133 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00134}00134 \textcolor{comment}{* -\/-\/-\/> Loop over all fission fragments}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00135}00135                \textcolor{keywordflow}{DO} 100 je=1,n1-\/3,4}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00136}00136 \textcolor{comment}{* -\/-\/-\/> Get IZA of FF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00137}00137                   zafp= xnrval(je )}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00138}00138 \textcolor{comment}{* -\/-\/-\/> Floating point (iso) state designator}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00139}00139                   fps = xnrval(je+1)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00140}00140 \textcolor{comment}{* -\/-\/-\/> Get yield}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00141}00141                   yi  = xnrval(je+2)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00142}00142 \textcolor{comment}{* -\/-\/-\/> Get also error on yield, not used}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00143}00143                   dyi = xnrval(je+3)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00144}00144 \textcolor{comment}{* -\/-\/-\/> Build composed isomer code of fission fragment}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00145}00145                   izam = nint(zafp*10+fps)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00146}00146 \textcolor{comment}{* -\/-\/-\/> See whether this fission fragment has been already loaded}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00147}00147                   \textcolor{keywordflow}{DO} 50 jdata=1,ndata}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00148}00148                      ipzap=ihgwmk+2*le1-\/1+(1+le1)*(jdata-\/1)+1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00149}00149                      \textcolor{keywordflow}{IF}(mfisb(ipzap).EQ.izam) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00150}00150                         idata = jdata}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00151}00151                         \textcolor{keywordflow}{GOTO} 90}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00152}00152 \textcolor{keywordflow}{                     ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00153}00153    50             \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00154}00154 \textcolor{comment}{* -\/-\/-\/> Not in list, add new only if in CERN Nuclear Data Base}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00155}00155                   \textcolor{keywordflow}{DO} 60 lbnl=1,nmxbnl}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00156}00156                      \textcolor{keywordflow}{IF}(izam.EQ.izabnl(lbnl)) \textcolor{keywordflow}{GOTO} 70}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00157}00157    60             \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00158}00158 \textcolor{comment}{* -\/-\/-\/> Not in CERN Nuclear Data Base table, skip keeping track of}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00159}00159 \textcolor{comment}{*      the lost probability}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00160}00160                   bnlost=bnlost+yi}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00161}00161 \textcolor{comment}{*                 IF(LDEBUG) THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00162}00162 \textcolor{comment}{*                    WRITE(6,'('' Excluding '',I6,}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00163}00163 \textcolor{comment}{*    +                        '' because not in BNL, tot loss '',}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00164}00164 \textcolor{comment}{*    +                   F8.2)') IZAF,BNLOST*100}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00165}00165 \textcolor{comment}{*                 ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00166}00166                   \textcolor{keywordflow}{GOTO} 100}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00167}00167    70             \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00168}00168 \textcolor{comment}{* -\/-\/-\/> New fission fragment, add to list}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00169}00169                   ndata = ndata+1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00170}00170                   idata = ndata}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00171}00171 \textcolor{comment}{* -\/-\/-\/> Store IZAM (10000*Z+1000*A+ISO) of Fission Fragment}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00172}00172                   mfisb(ihgwmk+2*le1-\/1+(le1+1)*(idata-\/1)+1     )=izam}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00173}00173 \textcolor{comment}{* -\/-\/-\/> Set to 0 the yields at different energies}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00174}00174                   \textcolor{keywordflow}{DO} 80   je1=1,le1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00175}00175                      xfisb(ihgwmk+2*le1-\/1+(le1+1)*(idata-\/1)+1+je1)=0}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00176}00176    80             \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00177}00177 \textcolor{comment}{* -\/-\/-\/> Make sure there is enough space}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00178}00178                   \textcolor{keywordflow}{IF}(ihgwmk+2*le1-\/1+(le1+1)*ndata.GT.mxfisb) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00179}00179                      stop \textcolor{stringliteral}{'Increase MXFISB'}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00180}00180 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00181}00181    90             \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00182}00182 \textcolor{comment}{* -\/-\/-\/> Add fission yield at current energy}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00183}00183                   xfisb(ihgwmk+2*le1-\/1+(le1+1)*(idata-\/1)+1+jene)=}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00184}00184      +            xfisb(ihgwmk+2*le1-\/1+(le1+1)*(idata-\/1)+1+jene)+yi}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00185}00185   100          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00186}00186   110       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00187}00187 \textcolor{comment}{* -\/-\/-\/> Store Energy differences for linear interpolation}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00188}00188             \textcolor{keywordflow}{IF}(le1.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00189}00189                \textcolor{keywordflow}{DO} 120 je1=1,le1-\/1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00190}00190                   ipoint=ihgwmk+le1+je1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00191}00191                   xfisb(ipoint)=}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00192}00192      +                  1/(xfisb(ihgwmk+je1+1)-\/xfisb(ihgwmk+je1))}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00193}00193   120          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00194}00194 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00195}00195 \textcolor{comment}{* -\/-\/-\/> Reorder according to IZA (but disregard isomer code in ordering)}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00196}00196             \textcolor{keywordflow}{DO} 150 kfyi=1,ndata-\/1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00197}00197                izamc=ihgwmk+2*le1-\/1+(le1+1)*(kfyi-\/1)+1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00198}00198                izac=mfisb(izamc)/10}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00199}00199                \textcolor{keywordflow}{DO} 140 kfyj=kfyi+1,ndata}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00200}00200                   jzamc=ihgwmk+2*le1-\/1+(le1+1)*(kfyj-\/1)+1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00201}00201                   \textcolor{keywordflow}{IF}(izac.GT.mfisb(jzamc)/10) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00202}00202                      itmp=mfisb(izamc)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00203}00203                      mfisb(izamc)=mfisb(jzamc)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00204}00204                      mfisb(jzamc)=itmp}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00205}00205                      \textcolor{keywordflow}{DO} 130 jj=1,le1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00206}00206                         fytmp=xfisb(izamc+jj)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00207}00207                         xfisb(izamc+jj)=xfisb(jzamc+jj)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00208}00208                         xfisb(jzamc+jj)=fytmp}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00209}00209   130                \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00210}00210 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00211}00211   140          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00212}00212   150       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00213}00213             \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00214}00214                \textcolor{keyword}{WRITE}(6,10500) ndata}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00215}00215 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00216}00216 \textcolor{comment}{* -\/-\/-\/> Throw away all yields < FYITOL and low Z fragments}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00217}00217             ipoin=0}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00218}00218             \textcolor{keywordflow}{DO} 180 kfyi=1,ndata}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00219}00219                izamc=ihgwmk+2*le1-\/1+(le1+1)*ipoin}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00220}00220                izamt=ihgwmk+2*le1-\/1+(le1+1)*(kfyi-\/1)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00221}00221 \textcolor{comment}{* -\/-\/-\/> Copy Fission Fragment in current position}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00222}00222                mfisb(izamc+1)=mfisb(izamt+1)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00223}00223                \textcolor{keywordflow}{DO} 160 jl=2,le1+1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00224}00224                   xfisb(izamc+jl)=xfisb(izamt+jl)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00225}00225   160          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00226}00226 \textcolor{comment}{* -\/-\/-\/> Skip low Z fragments}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00227}00227                \textcolor{keywordflow}{IF}(mfisb(izamc+1).LT.200000) \textcolor{keywordflow}{GOTO} 180}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00228}00228 \textcolor{comment}{* -\/-\/-\/> Find maximum yield at all energies}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00229}00229                fyml=0}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00230}00230                \textcolor{keywordflow}{DO} 170 je1=1,le1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00231}00231                   fyml=max(fyml,xfisb(izamc+1+je1))}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00232}00232   170          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00233}00233                \textcolor{keywordflow}{IF}(fyml.LT.fyitol) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00234}00234 \textcolor{comment}{* -\/-\/-\/> Max yield smaller than tollerance, skip FF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00235}00235                   \textcolor{keywordflow}{GOTO} 180}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00236}00236 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00237}00237 \textcolor{comment}{* -\/-\/-\/> Fission fragment accepted, move current position by 1}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00238}00238                ipoin=ipoin+1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00239}00239   180       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00240}00240             \textcolor{keywordflow}{IF}(ipoin.LE.0) stop \textcolor{stringliteral}{'XNNLOA IPOIN LE 0'}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00241}00241             ndata=ipoin}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00242}00242             \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00243}00243                \textcolor{keyword}{WRITE}(6,10600) ndata}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00244}00244 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00245}00245 \textcolor{comment}{* -\/-\/-\/> Load data count for current nuclide}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00246}00246             izapnt(izp,iap,3)=ndata}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00247}00247 \textcolor{comment}{* -\/-\/-\/> Renormalise to 2 and store cumulative yields}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00248}00248             \textcolor{keywordflow}{DO} 210 je1=1,le1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00249}00249                hnorm=0.}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00250}00250 \textcolor{comment}{* -\/-\/-\/> Build cumulative list}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00251}00251                \textcolor{keywordflow}{DO} 190 jdata=2,ndata}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00252}00252                   iyepoi=ihgwmk+2*le1-\/1+(jdata-\/1)*(le1+1)+1+je1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00253}00253                   xfisb(iyepoi) = xfisb(iyepoi)+xfisb(iyepoi-\/(le1+1))}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00254}00254   190          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00255}00255                hnorm = 2/xfisb(iyepoi)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00256}00256 \textcolor{comment}{* -\/-\/-\/> Renormalise sum of yields to 2}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00257}00257                \textcolor{keywordflow}{DO} 200 jdata=1,ndata}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00258}00258                   iyepoi=ihgwmk+2*le1-\/1+(jdata-\/1)*(le1+1)+1+je1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00259}00259                   xfisb(iyepoi)=xfisb(iyepoi)*hnorm}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00260}00260   200          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00261}00261 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00262}00262   210       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00263}00263 \textcolor{comment}{* -\/-\/-\/> Update high water mark}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00264}00264             ihgwmk = ihgwmk+ndata*(le1+1)+2*le1-\/1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00265}00265 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00266}00266 \textcolor{comment}{* -\/-\/-\/> Loop back to next ENDF-\/6 section}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00267}00267          \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00268}00268 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00269}00269   220 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00270}00270 \textcolor{comment}{* -\/-\/-\/> Now the nu information}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00271}00271 \textcolor{comment}{* -\/-\/-\/> Loop over all databases}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00272}00272       \textcolor{keywordflow}{DO} 250 jnuf=1,maxnuf}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00273}00273 \textcolor{comment}{* -\/-\/-\/> Close file (should be already done, but never know!)}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00274}00274          \textcolor{keyword}{CLOSE}(12)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00275}00275          lfinp=lnblnk(chninp(jnuf))}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00276}00276          \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00277}00277             \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Now opening '}\textcolor{stringliteral}{',A)'}) chninp(jnuf)(:lfinp)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00278}00278 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00279}00279 \textcolor{comment}{* -\/-\/-\/> Open database}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00280}00280          \textcolor{keyword}{OPEN}(12,file=chroot//chninp(jnuf)(:lfinp),status=\textcolor{stringliteral}{'OLD'}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00281}00281      +   ,action=\textcolor{stringliteral}{'READ'})}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00282}00282 \textcolor{comment}{* -\/-\/-\/> Initialise previous mate code}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00283}00283          mathol = -\/1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00284}00284 \textcolor{comment}{* -\/-\/-\/> Read a new section in ENDF 6 format}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00285}00285   230    \textcolor{keyword}{CALL }xnnews(c1, c2, l1, l2, n1, n2, math, mfh, mth)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00286}00286 \textcolor{comment}{* -\/-\/-\/> If end of file exit}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00287}00287          \textcolor{keywordflow}{IF}(math.LT.0) \textcolor{keywordflow}{GOTO} 250}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00288}00288          \textcolor{keywordflow}{IF}(math.NE.mathol) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00289}00289 \textcolor{comment}{* -\/-\/-\/> Reading new material}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00290}00290             \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00291}00291                \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Loading Z='}\textcolor{stringliteral}{',I3,'}\textcolor{stringliteral}{' A='}\textcolor{stringliteral}{',I3)'}) nint(c1/}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00292}00292      +              1000.) ,nint(mod(c1,1000.))}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00293}00293 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00294}00294             mathol=math}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00295}00295             izap = nint(c1)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00296}00296 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00297}00297 \textcolor{comment}{* -\/-\/-\/> Analyse section just found}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00298}00298          \textcolor{keywordflow}{IF}(mfh.EQ.1.AND.mth.EQ.451) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00299}00299 \textcolor{comment}{* -\/-\/-\/> Comment section, get the isomeric state}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00300}00300             \textcolor{keyword}{READ}(12,11000) elis,sta,lis,liso,idumm,nfor}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00301}00301 \textcolor{comment}{* -\/-\/-\/> Build composed fissile element code}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00302}00302             izap=10*izap+liso}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00303}00303          \textcolor{keywordflow}{ELSEIF}(mfh.EQ.1.AND.mth.EQ.452) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00304}00304 \textcolor{comment}{* -\/-\/-\/> Fission neutrons multiplicity section}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00305}00305             izp = izap/10/1000-\/85}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00306}00306             iap = mod(izap/10,1000)-\/2*izap/10/1000}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00307}00307             \textcolor{keywordflow}{IF}((izp.LT.1.OR.izp.GT.maxizp).OR.}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00308}00308 \textcolor{comment}{* -\/-\/-\/> If Z less than 85 or A less than 2*Z skip nuclide}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00309}00309      +         (iap.LT.1.OR.iap.GT.maxiap)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00310}00310                \textcolor{keyword}{WRITE}(6,10700) izap/10/1000,mod(izap/10,1000),izp,iap}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00311}00311 \textcolor{comment}{* -\/-\/-\/> If Z less than 85 or A less than 2*Z skip nuclide}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00312}00312                \textcolor{keywordflow}{GOTO} 230}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00313}00313 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00314}00314 \textcolor{comment}{* -\/-\/-\/> Fissionable nuclide already loaded, skip it}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00315}00315             \textcolor{keywordflow}{IF}(izapnt(izp,iap,4).NE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00316}00316                \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00317}00317                   \textcolor{keyword}{WRITE}(6,10800) izap/10/1000,mod(izap/10,1000)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00318}00318 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00319}00319                \textcolor{keywordflow}{GOTO} 230}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00320}00320 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00321}00321 \textcolor{comment}{* -\/-\/-\/> Find kind of data to retrieve}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00322}00322             lnu=l2}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00323}00323 \textcolor{comment}{* -\/-\/-\/> Load pointer to data and kind of data:}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00324}00324 \textcolor{comment}{*         1     Polynomial approssimation}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00325}00325 \textcolor{comment}{*         2     Tabulated values}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00326}00326 \textcolor{comment}{* -\/-\/-\/> Pointer to begin of data}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00327}00327             izapnt(izp,iap,4) = ihgwmk}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00328}00328 \textcolor{comment}{* -\/-\/-\/> Kind of data stored}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00329}00329             izapnt(izp,iap,5) = lnu}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00330}00330             \textcolor{keywordflow}{IF}(ldebug) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00331}00331                \textcolor{keyword}{WRITE}(6,10900) lnu,np}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00332}00332 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00333}00333 \textcolor{comment}{* -\/-\/-\/> Read data}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00334}00334             \textcolor{keywordflow}{IF}(lnu.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00335}00335 \textcolor{comment}{* -\/-\/-\/> Polynomial approximation}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00336}00336                \textcolor{keyword}{CALL }xnlist}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00337}00337                np=n1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00338}00338             \textcolor{keywordflow}{ELSEIF}(lnu.EQ.2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00339}00339 \textcolor{comment}{* -\/-\/-\/> Tabulated values}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00340}00340                \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00341}00341 \textcolor{comment}{* -\/-\/-\/> Convert number of pairs in number of points}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00342}00342                np=2*np}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00343}00343             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00344}00344 \textcolor{comment}{* -\/-\/-\/> Unknown data type -\/-\/-\/ Stop the program}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00345}00345                \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' ***XNNLOA: Unknown value of LNU '}\textcolor{stringliteral}{',I4)'})}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00346}00346      +         lnu}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00347}00347                stop \textcolor{stringliteral}{'Contact Carminati'}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00348}00348 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00349}00349 \textcolor{comment}{* -\/-\/-\/> Make sure the store is big enough}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00350}00350             \textcolor{keywordflow}{IF}(np+ihgwmk.GT.mxfisb) stop \textcolor{stringliteral}{'Increase MXFISB'}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00351}00351 \textcolor{comment}{* -\/-\/-\/> Copy the data}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00352}00352             \textcolor{keywordflow}{DO} 240 jn=1,np}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00353}00353                xfisb(ihgwmk+jn)=xnrval(jn)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00354}00354   240       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00355}00355 \textcolor{comment}{* -\/-\/-\/> Load number of points}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00356}00356             izapnt(izp,iap,6) = np}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00357}00357 \textcolor{comment}{* -\/-\/-\/> Update HiGh Water MarK}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00358}00358             ihgwmk=ihgwmk+np}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00359}00359 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00360}00360 \textcolor{comment}{* -\/-\/-\/> Loop back to next section}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00361}00361          \textcolor{keywordflow}{GOTO} 230}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00362}00362   250 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00363}00363 \textcolor{comment}{* -\/-\/-\/> Close file}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00364}00364       \textcolor{keyword}{CLOSE}(12)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00365}00365 \textcolor{comment}{* -\/-\/-\/> Try now to write the file, if it does not work, leave silently}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00366}00366       \textcolor{keyword}{OPEN}(12,file=chcomp,status=\textcolor{stringliteral}{'NEW'},form=\textcolor{stringliteral}{'UNFORMATTED'},}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00367}00367      +err=260}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00368}00368      +   ,action=\textcolor{stringliteral}{'WRITE'})}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00369}00369       \textcolor{keyword}{WRITE}(12,err=260) ihgwmk,izapnt,(xfisb(ll),ll=1,ihgwmk)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00370}00370   260 \textcolor{keyword}{CLOSE}(12)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00371}00371 \textcolor{comment}{* -\/-\/-\/> Print space used}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00372}00372       \textcolor{keyword}{WRITE}(6,10000) ihgwmk}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00373}00373 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNLOAN: Space used '},i6,\textcolor{stringliteral}{' words '})}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00374}00374 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00375}00375 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Out-\/of-\/bound fission yield! Z/A '},i2.2,\textcolor{stringliteral}{'/'},i3.3,}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00376}00376      +\textcolor{stringliteral}{' IZP/IAP '},i4,\textcolor{stringliteral}{'/'},i4)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00377}00377 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Fissionable nuclide '},i2,\textcolor{stringliteral}{'-\/'},i3,\textcolor{stringliteral}{' already in table'})}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00378}00378 10300 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Apparently found '},i4,\textcolor{stringliteral}{' sections '})}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00379}00379 10400 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Section '},i4,\textcolor{stringliteral}{' with energy '},e11.4,\textcolor{stringliteral}{' Sec = '},i5,}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00380}00380      +  \textcolor{stringliteral}{' Points = '},i5)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00381}00381 10500 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Now loaded '},i10,\textcolor{stringliteral}{' points'})}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00382}00382 10600 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Points reduced to '},i10)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00383}00383 10700 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Out-\/of-\/bound neutron multiplicity! Z/A '},i2.2,\textcolor{stringliteral}{'/'},}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00384}00384      +       i3.3,\textcolor{stringliteral}{' IZP/IAP '},i4,\textcolor{stringliteral}{'/'},i4)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00385}00385 10800 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Fissionable nuclide '},i2,\textcolor{stringliteral}{'-\/'},i3,\textcolor{stringliteral}{' already in table'})}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00386}00386 10900 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Apparently found section '},i4,\textcolor{stringliteral}{' with '},i6,\textcolor{stringliteral}{' points'})}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00387}00387 11000 \textcolor{keyword}{FORMAT}(2e11.4,4i11,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00388}00388 11100 \textcolor{keyword}{FORMAT}(6e11.4,i4,i2,i3,i5)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00389}00389 11200 \textcolor{keyword}{FORMAT}(i10,10x,i10,50x)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00390}00390 11300 \textcolor{keyword}{FORMAT}(8i10)}
+\DoxyCodeLine{\Hypertarget{xnnloa_8_f_source_l00391}00391   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

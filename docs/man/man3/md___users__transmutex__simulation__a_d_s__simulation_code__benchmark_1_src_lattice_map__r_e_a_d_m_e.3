@@ -1,0 +1,93 @@
+.TH "md___users__transmutex__simulation__a_d_s__simulation_code__benchmark_1_src_lattice_map__r_e_a_d_m_e" 3 "Fri Oct 15 2021" "Version Version 1.0" "Transmutex Documentation" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md___users__transmutex__simulation__a_d_s__simulation_code__benchmark_1_src_lattice_map__r_e_a_d_m_e \- Lattice Map Construction and Syntax 
+Copyright 2021 Transmutex SA -- all rights reserved
+.PP
+Author : Thomas Guilbaud 
+.br
+ Date : 4th May 2021 
+.br
+ Updated: 9th June 2021
+.SH "Structure"
+.PP
+.SS "General Use"
+Each lattice must be written in square shape map\&. The first row must include the lattice type\&. The second row must include x and y limits\&. For example, a symmetric lattice centered to (0,0) could look like this: \fC-2 2 -2 2\fP\&. It is also possible to include the pitch of the lattice by adding a number and its unit (ex: \fC-2 5 -3 3 5 cm\fP)\&. It is important to separate the elements by at least one space\&.
+.PP
+The next rows includes the structure of the lattice\&. Each assembly must be separated by at least one space\&. The number of rows and columns must corresponds to the lattice limits given in the first line\&. The example above must have a square of 5 rows and 5 columns\&. To fill the gaps, one can use the number \fC0\fP and no assembly will be placed\&.
+.PP
+To help writing an hexagonal shape lattice, one can place spaces before the rows (see the example below)\&.
+.SS "Special Use"
+With \fBTMXLattice\fP, it is possible to add a special value to the assembly (\fCaddDaughterAction\fP)\&. For example, if an element in the lattice map is written like \fCFA:100\fP, the callback function given with \fCaddDaughterAction\fP will be called and the value \fC100\fP will be pass in this callback function\&. It can be use for changing parameter like the insertion of a control rod, a change in temperature, a new material, \&.\&.\&.
+.PP
+If a few element have the same \fCid\fP, the same callback function will be applied on each of these elements\&. If a few element have the same \fCid\fP and a action parameter, the callback function will be called and it might create some confusion\&. It is recommanded to apply an action once for each element id type\&.
+.SH "Syntax"
+.PP
+.IP "\(bu" 2
+Lattice Type:
+.IP "  \(bu" 4
+\fCHexagonal\fP
+.IP "  \(bu" 4
+\fCSquare\fP
+.PP
+
+.IP "\(bu" 2
+Pitch:
+.IP "  \(bu" 4
+\fCNumber Unit\fP
+.IP "  \(bu" 4
+Units allowed: nm, um, mm, cm, dm, m
+.IP "  \(bu" 4
+\fBImportant\fP: if a pitch is given in the map file, it will overwrite the value set in the code\&.
+.PP
+
+.IP "\(bu" 2
+With \fBTMXLattice\fP: 
+.br
+.IP "  \(bu" 4
+\fC0\fP = void, no assembly
+.IP "  \(bu" 4
+\fCanyName\fP = assembly (use \fCaddDaughterVolume('anyName', assemblyVolume)\fP to add an element with reference \fIanyName\fP)
+.IP "  \(bu" 4
+\fCanyName:number\fP = assembly with a special value\&. The \fC:\fP must be used to separate without space between (use \fCaddDaughterAction('id', std::bind(&class::member, obj, _1))\fP)
+.IP "  \(bu" 4
+\fC//\fP to add comments
+.PP
+
+.PP
+.SH "Simple example: Square Lattice"
+.PP
+This lattice is made in a 5x5 square with a pitch of 15 mm\&. The center of the lattice is (0, 0)\&.
+.PP
+.PP
+.nf
+Square  
+-2 2   -2 2  15 mm  // Shape limits and pitch
+0 0 0 0 0           // y=-2 ; x=[-2; 2]
+0 0 F 0 0           // y=-1 ; x=[-2; 2]
+0 F F F 0           // y= 0 ; x=[-2; 2]
+0 0 F 0 0           // y= 1 ; x=[-2; 2]
+0 0 0 0 0           // y= 2 ; x=[-2; 2]
+.fi
+.PP
+.SH "Hexagonal Lattice with numbers"
+.PP
+This lattice is made in a 5x5 square\&. The center of the lattice is (-1, 2)\&. Here one element has an action (\fCF:1\fP)\&. This action will be applied on each \fCF\fP element once\&. It is recommended to write this action once to avoid any error\&.
+.PP
+.PP
+.nf
+Hexagonal  
+-3 1   0 4                  // Shape limits  
+0   0   0   0   0           // y=0 ; x=[-3; 1]
+  0   0   F   F   0         // y=1 ; x=[-3; 1]
+    0   F   F:1 F   0       // y=2 ; x=[-3; 1]
+      0   F   F   0   0     // y=3 ; x=[-3; 1]
+        0   0   0   0   0   // y=4 ; x=[-3; 1]
+.fi
+.PP
+.SH "How to use TMXLattice"
+.PP
+First declare the \fBTMXLattice\fP object the following argument:
+.PP
+Argument   Member   Description    Pitch   \fCsetPitch(double)\fP   Set the picth between elements\&. Optional if the pitch is given in the map file    Element Rotation   \fCsetElementRotation(G4RotationMatrix*)\fP   \fBOptional\fP   | Lattice Map | \fCsetLatticeMap(std::string filepath)\fP | | Add Daughter Volume | \fCaddDaughterVolume('id', G4LogicalVolume*)\fP | Add a new element, \fCid\fP must the same used in the lattice map | | Add Daughter Action | \fCaddDaughterAction('id', std::function<void(double)> action)\fP | (\fBOptional\fP) Add a special callback function when an element is written with a number (for example: FA:100) [\fC1\fP]\&. Example: \fCm_coreLattice->addDaughterAction('CR', std::bind(&SVBR100_FuelAssembly::placeControlRod, m_fuelAssembly, _1));\fP from \fCSVBR100_FuelAssembly\&.cc\fP because \fCplaceControlRod\fP is a member function of \fC\fBSVBR100_FuelAssembly\fP\fP | | Mother Volume | \fCsetMotherVolume(G4LogicalVolume*)\fP | The volume in which the element lust be placed | | Element Translation | \fCsetElementTranslation(G4ThreeVector)\fP | \fBOptional\fP | | Lattice Placement | \fCplaceLattice(bool overlap)\fP | Build the lattice | 

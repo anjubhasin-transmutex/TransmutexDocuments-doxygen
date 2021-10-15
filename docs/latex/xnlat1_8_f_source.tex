@@ -1,0 +1,152 @@
+\hypertarget{xnlat1_8_f_source}{}\doxysection{xnlat1.\+F}
+\label{xnlat1_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xngeom/xnlat1.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xngeom/xnlat1.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  18.22.26  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   17/02/94}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00003}00003 \textcolor{comment}{*CMZ :          04/03/94  12.20.51  by  Unknown}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00004}00004 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   17/02/94}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00005}00005       \textcolor{keyword}{SUBROUTINE }xnlat1(PBOX,RSPHE,HINP,V,SNEXT,OUTP,IMATE,SNMAX,INTER)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00006}00006 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00008}00008 \textcolor{comment}{*     Finds intersection of a particle with a square lattice of        *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00009}00009 \textcolor{comment}{*     spheres                                                          *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00010}00010 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00011}00011 \textcolor{comment}{*     PBOX      (input) array of 3 with the pitch of the lattice       *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00012}00012 \textcolor{comment}{*               in X, Y and Z                                          *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00013}00013 \textcolor{comment}{*     RSPHE     (input) radius of the spheres                          *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00014}00014 \textcolor{comment}{*     HINP      (input) array of 3 with the coordinates of the         *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00015}00015 \textcolor{comment}{*               particle                                               *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00016}00016 \textcolor{comment}{*     V         (input) array of 3 with the particle speed             *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00017}00017 \textcolor{comment}{*     SNEXT     (output) distance to the intersection with the         *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00018}00018 \textcolor{comment}{*               sphere along the particle direction                    *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00019}00019 \textcolor{comment}{*     OUTP      (output) array of 3 with the final position of the     *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00020}00020 \textcolor{comment}{*               particle                                               *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00021}00021 \textcolor{comment}{*     IMATE     (output) 1 if the particle ends inside a sphere        *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00022}00022 \textcolor{comment}{*                        2 if the particle ends outside a sphere       *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00023}00023 \textcolor{comment}{*     SNMAX     (input) maximum distance that the particle is          *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00024}00024 \textcolor{comment}{*               allowed to travel                                      *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00025}00025 \textcolor{comment}{*     INTER     (output) 0 if we intersect a boundary before SNMAX     *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00026}00026 \textcolor{comment}{*                        1 if we do not intersect a boundary           *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00027}00027 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00028}00028 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00029}00029       \textcolor{keywordtype}{IMPLICIT DOUBLE PRECISION} (a-\/h,o-\/z)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00030}00030 \textcolor{keywordtype}{      REAL} PBOX(3),HINP(3),OUTP(3),V(3),VN(3),RSPHE,SNMAX,SNEXT}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00031}00031       parameter(hmprec=1e-\/5,imode=1,zero=0)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00032}00032 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00034}00034 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Say we are not hitting the spheres' boundary and we travel to}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00036}00036 \textcolor{comment}{*      the max distance allowed}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00037}00037       ihit = 0}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00038}00038       inter = 1}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Here we find the maximum director cosine to avoid numerical}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00040}00040 \textcolor{comment}{*      instabilities and we permute the axis to place it along Z}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00041}00041       cosmax=0.}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00042}00042       imate = 2}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00043}00043       \textcolor{keywordflow}{DO} 10 jcosin=1,3}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00044}00044          \textcolor{keywordflow}{IF}(abs(v(jcosin)).GT.cosmax) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00045}00045             cosmax=abs(v(jcosin))}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00046}00046             indz=jcosin}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00047}00047 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00048}00048    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> We permute ciclycally the axis}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00050}00050       indx=mod(indz,3)+1}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00051}00051       indy=mod(indx,3)+1}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00052}00052 \textcolor{comment}{* -\/-\/-\/> Precalculate useful quantities}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00053}00053       xbox = 2*pbox(indx)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00054}00054       ybox = 2*pbox(indy)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00055}00055       zbox = 2*pbox(indz)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00056}00056       rsphe2 = rsphe**2}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/> Normalise speed}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00058}00058       hnorm=1./sqrt(v(indx)**2+v(indy)**2+v(indz)**2)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00059}00059       vn(indx)=v(indx)*hnorm}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00060}00060       vn(indy)=v(indy)*hnorm}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00061}00061       vn(indz)=v(indz)*hnorm}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> Find small value relative to lattice pitch}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00063}00063       small = hmprec*max(pbox(indx),pbox(indy),pbox(indz))}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/> Now find which planes of spheres perpendicular to axis INDZ we}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00065}00065 \textcolor{comment}{*      have to consider}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00066}00066       nbeg = hinp(indz)/zbox+}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00067}00067      +       (sign(1.,hinp(indz))-\/sign(1.,vn(indz)))*0.5}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00068}00068       nend = nbeg+}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00069}00069      +     sign(real(snmax/min(xbox,ybox,zbox))+1.,vn(indz))}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00070}00070 \textcolor{comment}{* -\/-\/-\/> See whether we are going backward or forward}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00071}00071       \textcolor{keywordflow}{IF}(nend.LT.nbeg) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00072}00072          incr = -\/1}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00073}00073       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00074}00074          incr = 1}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00075}00075 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00076}00076 \textcolor{comment}{* -\/-\/-\/> Loop on all planes}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00077}00077       snext=snmax}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00078}00078       \textcolor{keywordflow}{DO} 40 jplan=nbeg,nend,incr}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00079}00079 \textcolor{comment}{* -\/-\/-\/> Distance to spheres' plane}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00080}00080          zplane = jplan*zbox}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00081}00081          tplane = (zplane-\/hinp(indz))/vn(indz)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00082}00082          xplane = hinp(indx)+vn(indx)*tplane}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00083}00083          yplane = hinp(indy)+vn(indy)*tplane}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00084}00084 \textcolor{comment}{* -\/-\/-\/> Work with balls closest to the intersection with plane}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00085}00085          xbegin = nint(xplane/xbox)*xbox}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00086}00086          ybegin = nint(yplane/ybox)*ybox}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00087}00087 \textcolor{comment}{* -\/-\/-\/> Loop on a 3x3 square of balls around closest one}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00088}00088          \textcolor{keywordflow}{DO} 30 jx=-\/1,1}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00089}00089 \textcolor{comment}{* -\/-\/-\/> Ball's centre X}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00090}00090             xcentr = xbegin+jx*xbox}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00091}00091             \textcolor{keywordflow}{DO} 20 jy=-\/1,1}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00092}00092 \textcolor{comment}{* -\/-\/-\/> Ball's centre Y}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00093}00093                ycentr = ybegin+jy*ybox}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00094}00094 \textcolor{comment}{* -\/-\/-\/> Distance from ball's centre to impact point on plane}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00095}00095                xclose = xplane-\/xcentr}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00096}00096                yclose = yplane-\/ycentr}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00097}00097 \textcolor{comment}{* -\/-\/-\/> Find distance from point on plane projected along direction}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00098}00098                bb = vn(indx)*xclose+vn(indy)*yclose}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00099}00099                delta = bb**2 -\/ xclose**2 -\/ yclose**2 +rsphe2}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00100}00100                \textcolor{keywordflow}{IF}(delta.GE.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00101}00101 \textcolor{comment}{* -\/-\/-\/> This sphere is hit}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00102}00102 \textcolor{comment}{*                 IF(IMODE.EQ.1) THEN}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00103}00103 \textcolor{comment}{* -\/-\/-\/> Calculate intersection with sphere}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00104}00104                   dx = hinp(indx)-\/xcentr}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00105}00105                   dy = hinp(indy)-\/ycentr}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00106}00106                   dz = hinp(indz)-\/zplane}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00107}00107                   bb = dx*vn(indx)+dy*vn(indy)+dz*vn(indz)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00108}00108                   delta = max(bb**2 -\/dx**2-\/dy**2-\/dz**2+rsphe2,zero)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00109}00109 \textcolor{comment}{*                 ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00110}00110                   sdelt=sqrt(delta)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00111}00111 \textcolor{comment}{*                 IF(IMODE.EQ.1) THEN}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00112}00112 \textcolor{comment}{* -\/-\/-\/> Find two distances to sphere boundary}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00113}00113                   t1 = -\/bb-\/sdelt}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00114}00114                   t2 = -\/bb+sdelt}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00115}00115 \textcolor{comment}{*                 ELSE}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00116}00116 \textcolor{comment}{*                    T1 = TPLANE-\/BB-\/SDELT}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00117}00117 \textcolor{comment}{*                    T2 = TPLANE-\/BB+SDELT}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00118}00118 \textcolor{comment}{*                 ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00119}00119                   tmin = min(t1,t2)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00120}00120                   tmax = max(t1,t2)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00121}00121                   \textcolor{keywordflow}{IF}(tmin.GE.0..AND.tmin.LT.snext) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00122}00122 \textcolor{comment}{* -\/-\/-\/> Hitting from outside the ball}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00123}00123                      snext=tmin}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00124}00124                      imate = 1}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00125}00125                      ihit = -\/1}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00126}00126                      inter = 0}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00127}00127 \textcolor{comment}{* -\/-\/-\/> Hitting from inside the ball}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00128}00128                   \textcolor{keywordflow}{ELSEIF}(tmax.GE.0..AND.tmax.LT.snext) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00129}00129                      snext = tmax}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00130}00130                      imate = 2}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00131}00131                      ihit = 1}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00132}00132                      inter = 0}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00133}00133 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00134}00134 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00135}00135    20       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00136}00136    30    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00137}00137 \textcolor{comment}{* -\/-\/-\/> If we did not hit the sphere or plane is too far, stop looping}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00138}00138          \textcolor{keywordflow}{IF}(ihit.NE.0.OR.tplane.GE.snmax) \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00139}00139    40 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00140}00140    50 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00141}00141 \textcolor{comment}{* -\/-\/-\/ > Find distance}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00142}00142       snext = snext+max(hmprec*snext,small)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00143}00143 \textcolor{comment}{* -\/-\/-\/> Propagate to end point}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00144}00144       \textcolor{keyword}{CALL }xnprop(hinp,vn,snext,outp)}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00145}00145 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnlat1_8_f_source_l00146}00146       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

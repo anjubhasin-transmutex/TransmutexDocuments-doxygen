@@ -1,0 +1,76 @@
+\hypertarget{xndirv_8_f_source}{}\doxysection{xndirv.\+F}
+\label{xndirv_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xngeom/xndirv.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xngeom/xndirv.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 04/06/96  19.29.45  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   17/02/94}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xndirv(HINP,V,X,COSTH,SINTH,COSPH,SINPH,ROTATE)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00006}00006 \textcolor{comment}{*     Finds direction of a particle from its speed                     *}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00008}00008 \textcolor{comment}{*     HINP      (input) array of 3 with particle position              *}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00009}00009 \textcolor{comment}{*     V         (input) array of 3 with particle speed                 *}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00010}00010 \textcolor{comment}{*     X         (output DOUBLE PRECISION) array of 6 with particle     *}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00011}00011 \textcolor{comment}{*               position and directo cosines                           *}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00012}00012 \textcolor{comment}{*     COSTH     (output DOUBLE PRECISION) cosinus of polar angle       *}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00013}00013 \textcolor{comment}{*     SINTH     (output DOUBLE PRECISION) sinus of polar angle         *}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00014}00014 \textcolor{comment}{*     COSPH     (output DOUBLE PRECISION) cosinus of azimuthal angle   *}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00015}00015 \textcolor{comment}{*     SINPH     (output DOUBLE PRECISION) sinus of azimuthal angle     *}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00016}00016 \textcolor{comment}{*     ROTATE    (output LOGICAL) false if the particle is travelling   *}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00017}00017 \textcolor{comment}{*               along the Z axis                                       *}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00018}00018 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00019}00019 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00020}00020       \textcolor{keywordtype}{IMPLICIT DOUBLE PRECISION} (a-\/h,o-\/z)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00021}00021       dimension x(6)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00022}00022       \textcolor{keywordtype}{LOGICAL} ROTATE}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00023}00023 \textcolor{keywordtype}{      REAL} HINP(3),V(3)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00024}00024       parameter(one=1)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00025}00025 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00027}00027 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Store position and speed}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00029}00029       x(1)=hinp(1)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00030}00030       x(2)=hinp(2)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00031}00031       x(3)=hinp(3)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00032}00032       x(4)=v(1)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00033}00033       x(5)=v(2)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00034}00034       x(6)=v(3)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Normalise speed}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00036}00036       hnorm=1/sqrt(x(4)**2+x(5)**2+x(6)**2)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00037}00037       x(4) = x(4)*hnorm}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00038}00038       x(5) = x(5)*hnorm}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00039}00039       x(6) = x(6)*hnorm}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> Find angles}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00041}00041       rotate   = .true.}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00042}00042       \textcolor{keywordflow}{IF}(abs(x(6)).GE.0.85) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> Particle close to Z axis, calculate polar sinus first}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00044}00044          dsith2=x(4)**2+x(5)**2}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00045}00045          \textcolor{keywordflow}{IF}(dsith2.GT.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00046}00046 \textcolor{comment}{* -\/-\/-\/> Particle not parallel to Z axis}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00047}00047             costh  = sign(one,x(6))*sqrt(one-\/dsith2)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00048}00048             sinth  = sqrt(dsith2)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00049}00049             cosph  = x(4)/sinth}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00050}00050             sinph  = x(5)/sinth}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00051}00051          \textcolor{keywordflow}{ELSEIF}(x(6).GT.0.)\textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00052}00052 \textcolor{comment}{* -\/-\/-\/> Particle paralle to Z axis}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00053}00053             rotate = .false.}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00054}00054          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/> Particle antiparallel to Z axis}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00056}00056             costh = -\/1.}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00057}00057             sinth =  0.}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00058}00058             cosph =  1.}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00059}00059             sinph =  0.}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00060}00060 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00061}00061       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> Particle far from Z axis, calculate polar cosinus first}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00063}00063          costh  = x(6)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00064}00064          sinth  = sqrt((one+x(6))*(one-\/x(6)))}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00065}00065          dnorm  = one/sqrt(x(4)**2+x(5)**2)}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00066}00066          cosph  = x(4)*dnorm}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00067}00067          sinph  = x(5)*dnorm}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00068}00068 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00069}00069 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xndirv_8_f_source_l00070}00070       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

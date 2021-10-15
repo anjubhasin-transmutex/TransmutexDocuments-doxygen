@@ -1,0 +1,209 @@
+\hypertarget{xncicg_8_f_source}{}\doxysection{xncicg.\+F}
+\label{xncicg_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/cirene/xncicg.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/cirene/xncicg.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  1.00/00 27/02/95  11.43.24  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xncicg(X,IMATE,IHIT,SNEXT,SAFE,OUTP)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00004}00004 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00005}00005       \textcolor{keywordtype}{IMPLICIT DOUBLE PRECISION} (a-\/h,o-\/z)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00006}00006       parameter(half=0.5,three=3,one=1,zero=0)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00007}00007 \textcolor{preprocessor}{\#include "{}xccige.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00008}00008 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcciba.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00009}00009 \textcolor{preprocessor}{}\textcolor{keywordtype}{      REAL} X(6),C(2),OUTP(3),OUTPT(3),XF(3),SNEXT,SAFE,SNEXTT,}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00010}00010      +     SAFET}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00011}00011       \textcolor{keywordtype}{LOGICAL} ROTATE}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00012}00012 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00013}00013 \textcolor{comment}{*       IMATE           -\/1 out of the reactor}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00014}00014 \textcolor{comment}{*                        1 in the steel}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00015}00015 \textcolor{comment}{*                        2 in the moderator}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00016}00016 \textcolor{comment}{*                       3x in the outer bars}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00017}00017 \textcolor{comment}{*                       4x in the central bars}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00018}00018 \textcolor{comment}{*                       x1 in the tubes}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00019}00019 \textcolor{comment}{*                       x2 in the water}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00020}00020 \textcolor{comment}{*                       x3 in the fuel}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00021}00021 \textcolor{comment}{*                       x=3,4 outer or central bars}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00023}00023 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/ If we are in the tubes, need only to find inpact with the}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00025}00025 \textcolor{comment}{* -\/-\/-\/ two tubes}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00026}00026       imatl = mod(imate,10)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00027}00027       \textcolor{keywordflow}{IF}(imatl.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00028}00028 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/ Intersection with external tube}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00030}00030          c(1) = 0.5*bardia}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00031}00031          c(2) = 2.}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00032}00032          \textcolor{keyword}{CALL }xntubn(x(1),x(4),outpt,c,snextt, safet,ihitt)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00033}00033          \textcolor{keywordflow}{IF}(snextt.LT.snext) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00034}00034             snext = snextt}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00035}00035             safe  = safet}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00036}00036             imahit = 2}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00037}00037             ihit = ihitt}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00038}00038             outp(1) = outpt(1)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00039}00039             outp(2) = outpt(2)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00040}00040             outp(3) = outpt(3)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00041}00041 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00042}00042 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00043}00043       \textcolor{keywordflow}{IF}(imatl.LE.2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00044}00044 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/ In the water, have to calculate the intersection with}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00046}00046 \textcolor{comment}{*        internal tube}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00047}00047          c(1) = radzyr}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00048}00048          c(2) = 2.}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00049}00049          \textcolor{keyword}{CALL }xntubn(x(1),x(4),outpt,c,snextt, safet,ihitt)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00050}00050          \textcolor{keywordflow}{IF}(snextt.LT.snext) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00051}00051             snext = snextt}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00052}00052             safe  = safet}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00053}00053             ihit = ihitt}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00054}00054             \textcolor{keywordflow}{IF}(abs(outpt(3))-\/c(2).GT.-\/1e-\/5) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00055}00055                imahit = 2}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00056}00056             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00057}00057                \textcolor{keywordflow}{IF}(ihit.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00058}00058                   imahit = imate/10*10+1}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00059}00059                \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00060}00060                   imahit = imate/10*10+2}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00061}00061 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00062}00062 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00063}00063             outp(1) = outpt(1)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00064}00064             outp(2) = outpt(2)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00065}00065             outp(3) = outpt(3)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00066}00066 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00067}00067 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00068}00068       \textcolor{keywordflow}{IF}(imatl.EQ.2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00069}00069          sqrt3=sqrt(three)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00070}00070          snextt=1e10}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00071}00071          ihitt=0}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00072}00072 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00073}00073 \textcolor{comment}{* -\/-\/-\/ This is the hard bit, we are in the water and need to find}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00074}00074 \textcolor{comment}{*     the intersection with one of the fuel bars}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00075}00075 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00076}00076 \textcolor{comment}{* -\/-\/-\/ Chose the right direction}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00077}00077          hnorm = one/sqrt(x(4)**2+x(5)**2)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00078}00078          \textcolor{keywordflow}{IF}(abs(x(4))*sqrt3.GE.abs(x(5))) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00079}00079 \textcolor{comment}{* -\/-\/-\/ Normal configuration}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00080}00080             x0 = x(1)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00081}00081             y0 = x(2)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00082}00082             alpha = x(4)*hnorm}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00083}00083             beta = x(5)*hnorm}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00084}00084             rotate=.false.}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00085}00085          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00086}00086 \textcolor{comment}{* -\/-\/-\/ Inverted configuration -\/ no divide by 0 please}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00087}00087             x0 = (x(1) -\/x(2)*sqrt3)*half}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00088}00088             y0 = (x(1)*sqrt3+x(2) )*half}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00089}00089             alpha = (x(4) -\/x(5)*sqrt3)*half*hnorm}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00090}00090             beta = (x(4)*sqrt3+x(5) )*half*hnorm}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00091}00091             rotate=.true.}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00092}00092 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00093}00093          idire = sign(one,alpha)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00094}00094          alphai=1/alpha}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00095}00095          \textcolor{keywordflow}{DO} 20 jplan = -\/4,4}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00096}00096             xp = xyfuel(1,icrpla(jplan,1))}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00097}00097 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00098}00098 \textcolor{comment}{* -\/-\/-\/ Check if it is necessary to use this plane}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00099}00099             \textcolor{keywordflow}{IF}(idire*xp+radfue.LT.idire*x0) \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00100}00100             delx2 = (x0-\/xp)**2}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00101}00101             yp1 = xyfuel(2,icrpla(jplan,1))}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00102}00102             yp2 = xyfuel(2,icrpla(jplan,2))}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00103}00103 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00104}00104 \textcolor{comment}{* -\/-\/-\/ Compute y range -\/ gamma is the projection of the}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00105}00105 \textcolor{comment}{* -\/-\/-\/ y coordinate at the plane IX onto the normal to the line of}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00106}00106 \textcolor{comment}{* -\/-\/-\/ flight}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00107}00107 \textcolor{comment}{*           GAMMA=BETA*(XP-\/X0)+ALPHA*Y0}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00108}00108 \textcolor{comment}{*           YA=(GAMMA-\/RADFUE)*ALPHAI}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00109}00109 \textcolor{comment}{*           YB=(GAMMA+RADFUE)*ALPHAI}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00110}00110             gam1 = beta*(xp-\/x0)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00111}00111             ya=(gam1-\/radfue)*alphai+y0}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00112}00112             yb=(gam1+radfue)*alphai+y0}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00113}00113             y1=min(ya,yb)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00114}00114             y2=max(ya,yb)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00115}00115             \textcolor{keywordflow}{IF}(y1.LE.yp1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00116}00116                imin = 1}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00117}00117             \textcolor{keywordflow}{ELSEIF}(y1.LE.yp2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00118}00118                imin =2}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00119}00119             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00120}00120                \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00121}00121 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00122}00122             \textcolor{keywordflow}{IF}(y2.LT.yp1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00123}00123                \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00124}00124             \textcolor{keywordflow}{ELSEIF}(y2.LT.yp2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00125}00125                imax = 1}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00126}00126             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00127}00127                imax = 2}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00128}00128 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00129}00129             \textcolor{keywordflow}{DO} 10 iy=imin,imax}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00130}00130                yp=xyfuel(2,icrpla(jplan,iy))}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00131}00131                a=alpha*(x0-\/xp)+beta*(y0-\/yp)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00132}00132                d2=delx2+(y0-\/yp)**2}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00133}00133                det=a**2-\/(d2-\/radfue**2)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00134}00134                \textcolor{keywordflow}{IF}(det.LT.-\/1e-\/10) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00135}00135                   \textcolor{keyword}{WRITE}(6,10000) det}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00136}00136 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Delta negative = '},g10.3,\textcolor{stringliteral}{'! Contact Carminati'})}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00137}00137                   \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00138}00138 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00139}00139                cc=sqrt(max(det,zero))}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00140}00140                t1=-\/a-\/cc}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00141}00141                t2=-\/a+cc}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00142}00142                \textcolor{keywordflow}{IF}(t1.GT.0.0.AND.snextt.GT.t1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00143}00143                   xhtfue = xp}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00144}00144                   yhtfue = yp}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00145}00145                   snextt=t1}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00146}00146                   ihitt=1}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00147}00147                   \textcolor{keywordflow}{IF}(t1*t2.LT.0.0) ihitt=-\/ihitt}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00148}00148                \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(t2.GT.0.0.AND.snextt.GT.t2)\textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00149}00149                   xhtfue = xp}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00150}00150                   yhtfue = yp}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00151}00151                   snextt=t2}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00152}00152                   ihitt=1}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00153}00153                   \textcolor{keywordflow}{IF}(t1*t2.LT.0.0) ihitt=-\/ihitt}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00154}00154 \textcolor{keywordflow}{               END IF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00155}00155    10       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00156}00156 }
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00157}00157    20    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00158}00158 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00159}00159 \textcolor{comment}{* -\/-\/-\/ convert distance in 3 dim}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00160}00160          \textcolor{keywordflow}{IF}(ihitt.NE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00161}00161             snextt=snextt*sqrt((x(4)**2+x(5)**2+x(6)**2))*hnorm}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00162}00162             \textcolor{keywordflow}{IF}(snextt.LT.snext) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00163}00163                snext = snextt}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00164}00164                safe = safet}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00165}00165                imahit = imate/10*10+3}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00166}00166                ihit = ihitt}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00167}00167                outp(1) = x(1)+x(4)*snext}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00168}00168                outp(2) = x(2)+x(5)*snext}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00169}00169                outp(3) = x(3)+x(6)*snext}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00170}00170                \textcolor{keywordflow}{IF}(rotate) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00171}00171                   xtmp = ( xhtfue+yhtfue*sqrt3)*half}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00172}00172                   ytmp = (-\/xhtfue*sqrt3+yhtfue)*half}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00173}00173                   xhtfue = xtmp}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00174}00174                   yhtfue = ytmp}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00175}00175 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00176}00176 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00177}00177 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00178}00178 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00179}00179       \textcolor{keywordflow}{IF}(imatl.EQ.3) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00180}00180 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00181}00181 \textcolor{comment}{* -\/-\/-\/ We are in the fuel, calculate the intersection point}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00182}00182          c(1) = radfue}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00183}00183          c(2) = 2.}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00184}00184          xf(1) = x(1)-\/xpofue}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00185}00185          xf(2) = x(2)-\/ypofue}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00186}00186          xf(3) = x(3)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00187}00187          \textcolor{keyword}{CALL }xntubn(xf(1),x(4),outpt,c,snextt,safet,ihitt)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00188}00188          \textcolor{keywordflow}{IF}(snextt.LT.snext) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00189}00189             snext = snextt}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00190}00190             safe  = safet}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00191}00191             \textcolor{keywordflow}{IF}(abs(outpt(3))-\/c(2).GT.-\/1e-\/5) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00192}00192                imahit = 2}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00193}00193             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00194}00194                imahit = imate/10*10+2}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00195}00195 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00196}00196             ihit = ihitt}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00197}00197             outp(1) = outpt(1)+xpofue}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00198}00198             outp(2) = outpt(2)+ypofue}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00199}00199             outp(3) = outpt(3)}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00200}00200 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00201}00201 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00202}00202 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncicg_8_f_source_l00203}00203       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

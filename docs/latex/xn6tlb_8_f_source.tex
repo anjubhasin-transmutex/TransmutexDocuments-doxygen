@@ -1,0 +1,150 @@
+\hypertarget{xn6tlb_8_f_source}{}\doxysection{xn6tlb.\+F}
+\label{xn6tlb_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6tlb.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6tlb.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/01 14/06/96  09.55.23  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xn6tlb}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00006}00006 \textcolor{comment}{*     Builds the inverse probability table for file6 distribution      *}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00008}00008 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00009}00009 \textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00010}00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcmfh6.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00011}00011 \textcolor{preprocessor}{}      \textcolor{keywordtype}{DOUBLE PRECISION} DELE,DELF,ONE,TEMP,HINTEG,HINTOL,PERCNT}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00012}00012       \textcolor{keywordtype}{DOUBLE PRECISION} E1,E2,F1,F2,PRDELT,HINTNO}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00013}00013       parameter(nen=100,emmtol=1e-\/4,hitoll=1e-\/2)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00014}00014       parameter(one=1,prdelt=one/nperc)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00015}00015       dimension rval(2*nen)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00016}00016 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00017}00017 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00018}00018 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00019}00019 \textcolor{comment}{* -\/-\/-\/> Loop on all primary energies}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00020}00020       \textcolor{keywordflow}{DO} 110 ken=1,nens}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00021}00021 \textcolor{comment}{* -\/-\/-\/> Make sure energy is not exactly 20MeV, this can give 0 pb}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00022}00022          ein=min(percen(ken),1.999e7)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00023}00023 \textcolor{comment}{* -\/-\/-\/> Find max and min energy of secondary spectrum}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00024}00024    10    emin=1e-\/5}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00025}00025          emax=2e7}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Find one point > 0 starting from EMIN}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00027}00027          fact=exp(log(emax/emin)/nen)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00028}00028          em=emin/fact}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00029}00029          \textcolor{keywordflow}{DO} 20 jen=1,nen+1}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00030}00030             em=em*fact}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00031}00031             \textcolor{keyword}{CALL }xn6to5(ein, em, prb)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00032}00032             \textcolor{keywordflow}{IF}(prb.GT.0) \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00033}00033    20    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> If this is the first energy and it is a threshold reaction}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00035}00035 \textcolor{comment}{*      we increase the energy by 10\% of the interval between the}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00036}00036 \textcolor{comment}{*      first and second energy and retry}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00037}00037          \textcolor{keywordflow}{IF}(ken.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00038}00038             delten=percen(2)-\/percen(1)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00039}00039             \textcolor{keywordflow}{IF}((ein-\/percen(ken))/delten.LT.0.05) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00040}00040                ein=ein+delten*0.1}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00041}00041                \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00042}00042 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00043}00043 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00044}00044          stop \textcolor{stringliteral}{'*** XN6TLB: Pb always eq 0 from below'}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00045}00045    30    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00046}00046          emin=max(1e-\/5,em/fact)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> Here do bisection in search of minimum energy where probability}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00048}00048 \textcolor{comment}{*      is different from 0}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00049}00049    40    \textcolor{keywordflow}{IF}(em-\/emin.GT.emmtol*em) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00050}00050             eh=0.5*(emin+em)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00051}00051             \textcolor{keyword}{CALL }xn6to5(ein, eh, prb)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00052}00052             \textcolor{keywordflow}{IF}(prb.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00053}00053                em=eh}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00054}00054             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00055}00055                emin=eh}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00056}00056 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00057}00057             \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00058}00058 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00059}00059 \textcolor{comment}{* -\/-\/-\/> Find one point > 0 starting from EMAX}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00060}00060          em=emax*fact}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00061}00061          \textcolor{keywordflow}{DO} 50 jen=1,nen+1}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00062}00062             em=em/fact}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00063}00063             \textcolor{keyword}{CALL }xn6to5(ein, em, prb)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00064}00064             \textcolor{keywordflow}{IF}(prb.GT.0) \textcolor{keywordflow}{GOTO} 60}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00065}00065    50    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00066}00066          stop \textcolor{stringliteral}{'*** XN6TLB: Pb always eq 0 from above'}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00067}00067    60    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00068}00068          emax=min(2e7,em*fact)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/> Here do bisection in search of maximum energy where probability}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00070}00070 \textcolor{comment}{*      is different from 0}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00071}00071    70    \textcolor{keywordflow}{IF}(emax-\/em.GT.emmtol*emax) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00072}00072             eh=0.5*(em+emax)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00073}00073             \textcolor{keyword}{CALL }xn6to5(ein, eh, prb)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00074}00074             \textcolor{keywordflow}{IF}(prb.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00075}00075                em=eh}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00076}00076             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00077}00077                emax=eh}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00078}00078 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00079}00079             \textcolor{keywordflow}{GOTO} 70}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00080}00080 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00081}00081 \textcolor{comment}{* -\/-\/-\/> Find integral to normalise distribution}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00082}00082          \textcolor{keyword}{CALL }xn6int(ein,emin,emax,hnorm)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00083}00083 \textcolor{comment}{* -\/-\/-\/> Fill secondary energy grid, linearly spaced, 200 points}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00084}00084 \textcolor{comment}{*      and calculate normalisation integral}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00085}00085          hintno=0}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00086}00086 \textcolor{comment}{*        FACT=EXP(LOG(EMAX/EMIN)/(NEN-\/1))}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00087}00087          fact=(emax-\/emin)/(nen-\/1)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00088}00088          em=emin}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00089}00089          rval(1)=emin}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00090}00090          \textcolor{keyword}{CALL }xn6to5(ein, em, rval(2))}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00091}00091          \textcolor{keywordflow}{DO} 80 jen=2,nen}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00092}00092 \textcolor{comment}{*           EM=EM*FACT}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00093}00093             em=emin+(jen-\/1)*fact}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00094}00094             rval(2*jen-\/1)=em}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00095}00095             \textcolor{keyword}{CALL }xn6to5(ein, em, rval(2*jen))}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00096}00096             hintno=hintno+0.5*(rval(2*jen-\/1)-\/rval(2*jen-\/3))*}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00097}00097      +                        (rval(2*jen-\/2)+rval(2*jen))}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00098}00098    80    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00099}00099          \textcolor{keyword}{WRITE}(6,10100) ein, hnorm, hintno, emin, emax}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00100}00100          perdif=abs(hintno-\/neutyi)/neutyi}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00101}00101 \textcolor{comment}{* -\/-\/-\/> Print warning if normalisation integral differs more than}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00102}00102 \textcolor{comment}{*      HITOLL from true value}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00103}00103          \textcolor{keywordflow}{IF}(perdif.GT.hitoll) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00104}00104             \textcolor{keyword}{WRITE}(6,10000) perdif*100, neutyi}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00105}00105 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XN6TLB: Integral differs by '},f7.2,\textcolor{stringliteral}{'\% from '},i1)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00106}00106 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00107}00107 \textcolor{comment}{* -\/-\/-\/> Here the work starts, fill invers probability table}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00108}00108          ipbase=nens+(ken-\/1)*(nperc+1)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00109}00109          percen(ipbase+1)=emin}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00110}00110          percen(ipbase+nperc+1)=emax}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00111}00111 \textcolor{comment}{* -\/-\/-\/> Find NPERC-\/1 energies corresponding to Probability increase of}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00112}00112 \textcolor{comment}{*      PRDELT}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00113}00113          hinteg = 0.}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00114}00114          ipoint=0}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00115}00115          \textcolor{keywordflow}{DO} 100 jperc=1,nperc-\/1}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00116}00116             percnt=prdelt*jperc}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00117}00117    90       \textcolor{keywordflow}{IF}(hinteg.LT.percnt) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00118}00118                hintol=hinteg}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00119}00119                ipoint=ipoint+1}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00120}00120                hinteg=hinteg+0.5*(one*rval(2*ipoint )+rval(2*ipoint+2))}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00121}00121      +         * (one*rval(2*ipoint+1)-\/rval(2*ipoint-\/1))/hintno}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00122}00122                \textcolor{keywordflow}{IF}(ipoint.LT.nen) \textcolor{keywordflow}{GOTO} 90}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00123}00123 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00124}00124 \textcolor{comment}{* -\/-\/-\/> Energy is between last and next point, interpolate with a parabola}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00125}00125             f1 = rval(2*ipoint  )/hintno}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00126}00126             f2 = rval(2*ipoint+2)/hintno}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00127}00127             e1 = rval(2*ipoint-\/1)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00128}00128             e2 = rval(2*ipoint+1)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00129}00129             delf = f2-\/f1}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00130}00130             \textcolor{keywordflow}{IF}(delf.NE.0.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00131}00131                dele = e2-\/e1}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00132}00132                temp=2*(percnt-\/hintol)*delf/dele}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00133}00133                hintrp = e1+dele*(sqrt(f1**2+temp)-\/f1)/delf}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00134}00134             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00135}00135 \textcolor{comment}{* -\/-\/-\/> Interpolating parabola degenerates to a straight line}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00136}00136                hintrp = e1 + (percnt-\/hintol)/f1}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00137}00137 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00138}00138             percen(ipbase+jperc+1) = hintrp}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00139}00139   100    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00140}00140   110 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00141}00141 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00142}00142 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XN6TLB: Ein'},e10.3,\textcolor{stringliteral}{' pint '},f5.3,\textcolor{stringliteral}{' ptrp '},f5.3,}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00143}00143      +\textcolor{stringliteral}{' Emin'},e10.3,\textcolor{stringliteral}{' Emax'},e10.3)}
+\DoxyCodeLine{\Hypertarget{xn6tlb_8_f_source_l00144}00144       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

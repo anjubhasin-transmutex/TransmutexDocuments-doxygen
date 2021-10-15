@@ -1,0 +1,261 @@
+\hypertarget{xnmake_2xn5gte_8_f_source}{}\doxysection{xn5gte.\+F}
+\label{xnmake_2xn5gte_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn5gte.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn5gte.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 31/05/96  12.51.00  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xn5gte}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00006}00006 \textcolor{comment}{*     This routine creates the grid of incoming neutron energies       *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00007}00007 \textcolor{comment}{*     which will then be used to build the inverse probability         *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00008}00008 \textcolor{comment}{*     tables. All the information is then written on scratch           *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00009}00009 \textcolor{comment}{*     file 99 to be used subsequently.                                 *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00010}00010 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00011}00011 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00012}00012 \textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00013}00013 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00014}00014 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xc5dat.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00015}00015 \textcolor{preprocessor}{}      parameter(maxpop=50)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00016}00016       parameter(maxet=1000)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00017}00017       dimension et(maxet),nbtt(10),intt(10)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00018}00018 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00019}00019 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00020}00020 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00021}00021 \textcolor{comment}{* -\/-\/-\/> Set to 0 number of incoming energies}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00022}00022       nens=0}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00023}00023 \textcolor{comment}{* -\/-\/-\/> For all the subsections}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00024}00024       \textcolor{keywordflow}{DO} 150 jsubs=1,nsubs}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00025}00025 \textcolor{comment}{* -\/-\/-\/> Read pe's}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00026}00026          \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00027}00027 \textcolor{comment}{*        WRITE(6,10800) JSUBS, N1, NP}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Scratch}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00029}00029          \textcolor{keyword}{WRITE}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2, (nbt(n),int(n),n=1,}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00030}00030      +   n1),(xnrval(n),n=1,2*n2)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Store energy dependent weight for this section (hereon PE's)}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00032}00032          npes=n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00033}00033          \textcolor{keywordflow}{IF}(npes*2.GT.maxpes) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00034}00034             stop \textcolor{stringliteral}{'XN5GTE: Increase MAXPES'}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00035}00035 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00036}00036          \textcolor{keywordflow}{DO} 10 jpe=1,2*npes}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00037}00037             pes(jpe)=xnrval(jpe)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00038}00038    10    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00039}00039          nrpes=n1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> Store interpolation law for PE's}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00041}00041          \textcolor{keywordflow}{DO} 20 jpr=1,nrpes}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00042}00042             intpe(jpr)=int(jpr)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00043}00043             nbtpe(jpr)=nbt(jpr)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00044}00044    20    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Now read distribution and save it on scratch file}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00046}00046 \textcolor{comment}{* -\/-\/-\/> -\/Q value of the reaction}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00047}00047          u = c1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00048}00048 \textcolor{comment}{* -\/-\/-\/> Interpolation LAW}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00049}00049          lf = l2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00050}00050          \textcolor{keywordflow}{IF}(lf.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00051}00051 \textcolor{comment}{* ======================================================================}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00052}00052             \textcolor{keyword}{WRITE}(6,10000)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00053}00053 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Arbitrary tabulated function'})}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00054}00054             \textcolor{keyword}{CALL }xntab2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/> Scratch}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00056}00056             \textcolor{keyword}{WRITE}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2, (nbt(n),int(n),n=}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00057}00057      +      1,n1)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00058}00058 \textcolor{comment}{* -\/-\/-\/> Number of incoming}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00059}00059             nep=n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00060}00060             \textcolor{keywordflow}{DO} 90 jsub=1,nep}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00061}00061 \textcolor{comment}{* -\/-\/-\/> For each incoming energy a tabulated probability as a function}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00062}00062 \textcolor{comment}{*      of the secondary energy}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00063}00063                \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/> Interpolation must be linear, if it is 'histogram-\/like' it should}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00065}00065 \textcolor{comment}{*      be linearised to simplify further tratment}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00066}00066                \textcolor{keyword}{CALL }xnhlin}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00067}00067 \textcolor{comment}{* -\/-\/-\/> Add an upper threshold value}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00068}00068                \textcolor{keywordflow}{IF}(xnrval(2*n2).GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00069}00069                   xnrval(2*n2+1) = xnrval(2*n2-\/1)*(1+1e-\/4)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00070}00070                   xnrval(2*n2+2) = 1e-\/10}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00071}00071                   n2=n2+1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00072}00072                   nbt(n1)=nbt(n1)+1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00073}00073 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00074}00074 \textcolor{comment}{* -\/-\/-\/> Scratch}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00075}00075                \textcolor{keyword}{WRITE}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2, (nbt(n),int(n)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00076}00076      +         ,n=1,n1),(xnrval(n),n=1,2*n2)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00077}00077 \textcolor{comment}{* -\/-\/-\/> Add point to energy grid only if weight of this distribution is}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00078}00078 \textcolor{comment}{*      non zero at this incoming energy}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00079}00079                tmpen=c2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00080}00080 \textcolor{comment}{* -\/-\/-\/> Find weight of distribution at energy TMPEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00081}00081                \textcolor{keyword}{CALL }xnterp(nbtpe,intpe,nrpes,pes,npes,tmpen,ppe)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00082}00082                \textcolor{keywordflow}{IF}(ppe.LE.0) \textcolor{keywordflow}{GOTO} 90}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00083}00083 \textcolor{comment}{* -\/-\/-\/> Add incoming energy if not already there}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00084}00084                \textcolor{keywordflow}{DO} 30 jen=1,nens}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00085}00085                   \textcolor{keywordflow}{IF}(tmpen.EQ.xengr(jen)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00086}00086                      len=jen}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00087}00087                      \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00088}00088 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00089}00089    30          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00090}00090                nens=nens+1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00091}00091                len=nens}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00092}00092                xengr(len)=tmpen}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00093}00093 \textcolor{comment}{* -\/-\/-\/> Set to 0 number of secondary energies for this primary one}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00094}00094                neps(len) = 0}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00095}00095 \textcolor{comment}{*              CALL XNPOPE(LEN)}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00096}00096    40          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00097}00097 \textcolor{comment}{* -\/-\/-\/> Populate grid of secondary energies for this incoming one,}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00098}00098 \textcolor{comment}{*      a logarithmically spaced grid of MAXPOP energies between min and}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00099}00099 \textcolor{comment}{*      max incoming energy.}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00100}00100                emin = max(xnrval(1)*(1-\/1e-\/5),1e-\/5)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00101}00101                emax = xnrval(2*n2-\/1)*(1+1e-\/5)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00102}00102                fact = exp(log(emax/emin)/(maxpop-\/1))}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00103}00103                ef = emin/fact}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00104}00104                \textcolor{keywordflow}{do} 60 jef=1,maxpop}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00105}00105                   ef = ef*fact}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00106}00106                   \textcolor{keywordflow}{do} 50 keps=1,neps(len)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00107}00107                      \textcolor{keywordflow}{if}(xenpb(2*keps-\/1,len).eq.ef) \textcolor{keywordflow}{goto} 60}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00108}00108    50             \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00109}00109                   neps(len)=neps(len)+1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00110}00110                   xenpb(2*neps(len)-\/1,len)=ef}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00111}00111                   xenpb(2*neps(len)  ,len)=0}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00112}00112    60          \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00113}00113 \textcolor{comment}{* -\/-\/-\/> Now add secondary energies from the tabulated function}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00114}00114                \textcolor{keywordflow}{DO} 80 jeps=1,n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00115}00115                   ef = xnrval(2*jeps-\/1)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00116}00116 \textcolor{comment}{* -\/-\/-\/> A threshold behaviour in the outgoing energy is represented as}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00117}00117 \textcolor{comment}{*      a couple of energy, probability pairs with the same energy but}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00118}00118 \textcolor{comment}{*      different probabilities. This poses problems for the interpolation,}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00119}00119 \textcolor{comment}{*      so we move slightly the two points apart by machine precision.}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00120}00120                   \textcolor{keywordflow}{IF}(jeps.LT.n2.AND.ef.EQ.xnrval(2*jeps+1)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00121}00121                      ef=ef*(1-\/5e-\/6)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00122}00122                      xnrval(2*jeps+1)=xnrval(2*jeps+1)*(1+5e-\/6)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00123}00123 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00124}00124 \textcolor{comment}{* -\/-\/-\/> Add secondary energy only if not already there}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00125}00125                   \textcolor{keywordflow}{DO} 70 keps=1,neps(len)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00126}00126                      \textcolor{keywordflow}{IF}(xenpb(2*keps-\/1,len).EQ.ef) \textcolor{keywordflow}{GOTO} 80}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00127}00127    70             \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00128}00128                   neps(len)=neps(len)+1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00129}00129                   xenpb(2*neps(len)-\/1,len)=ef}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00130}00130                   xenpb(2*neps(len)  ,len)=0}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00131}00131    80          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00132}00132    90       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00133}00133          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.5) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00134}00134 \textcolor{comment}{* ======================================================================}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00135}00135             \textcolor{keyword}{WRITE}(6,10100)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00136}00136 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' General evaporation spectrum'})}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00137}00137 \textcolor{comment}{* -\/-\/-\/> Read incoming energy values and corresponding nuclear}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00138}00138 \textcolor{comment}{*      temperatures}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00139}00139             \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00140}00140 \textcolor{comment}{* -\/-\/-\/ Scratch}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00141}00141             \textcolor{keyword}{WRITE}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2,}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00142}00142      +                (nbt(n),int(n),n=1,n1),(xnrval(n),n=1,2*n2)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00143}00143 \textcolor{comment}{*<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00144}00144 \textcolor{comment}{* -\/-\/-\/> Save incoming energy and temperatures in new variables}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00145}00145             \textcolor{keywordflow}{if}(2*n2.gt.maxet) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00146}00146                stop \textcolor{stringliteral}{'XN5GTE: increase MAXET'}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00147}00147 \textcolor{keywordflow}{            endif}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00148}00148             \textcolor{keywordflow}{do} 100 jj=1,2*n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00149}00149                et(jj)=xnrval(jj)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00150}00150   100       \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00151}00151             \textcolor{keywordflow}{do} 110 jj=1,n1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00152}00152                nbtt(jj)=nbt(jj)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00153}00153                intt(jj)=int(jj)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00154}00154   110       \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00155}00155             net=n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00156}00156             nit=n1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00157}00157 \textcolor{comment}{*<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00158}00158             ne=n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00159}00159 \textcolor{comment}{* -\/-\/-\/> Populate the outcoming energy grid for each incoming energy}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00160}00160             \textcolor{keyword}{CALL }xnengr(u,ne)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00161}00161 \textcolor{comment}{* -\/-\/-\/> Read and write Pb values as a function of the ratio between}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00162}00162 \textcolor{comment}{*      outgoing energy and nuclear temperature}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00163}00163             \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00164}00164 \textcolor{comment}{* -\/-\/-\/ Scratch}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00165}00165             \textcolor{keyword}{WRITE}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2,}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00166}00166      +                (nbt(n),int(n),n=1,n1),(xnrval(n),n=1,2*n2)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00167}00167 \textcolor{comment}{*<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00168}00168 \textcolor{comment}{* -\/-\/-\/> Populate secondary grid}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00169}00169             \textcolor{keywordflow}{do} 140 len=1,nens}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00170}00170                energy = xengr(len)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00171}00171 \textcolor{comment}{* -\/-\/-\/> Find temperature corresponding to given incoming energy}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00172}00172                \textcolor{keyword}{call }xnterp(nbtt,intt,nit,et,net,energy,tet)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00173}00173                \textcolor{keywordflow}{do} 130 jef=1,n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00174}00174 \textcolor{comment}{* -\/-\/-\/> Convert to outcoming energy}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00175}00175                   ef = tet*xnrval(2*jef-\/1)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00176}00176 \textcolor{comment}{* -\/-\/-\/> Add outcoming energy only if not there}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00177}00177                   \textcolor{keywordflow}{do} 120 keps=1,neps(len)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00178}00178                      \textcolor{keywordflow}{if}(xenpb(2*keps-\/1,len).eq.ef) \textcolor{keywordflow}{goto} 130}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00179}00179   120             \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00180}00180                   neps(len)=neps(len)+1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00181}00181                   \textcolor{keywordflow}{if}(neps(len).gt.maxep) \textcolor{keywordflow}{then}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00182}00182                      stop \textcolor{stringliteral}{'XN5GTE: increase MAXEP'}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00183}00183 \textcolor{keywordflow}{                  endif}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00184}00184                   xenpb(2*neps(len)-\/1,len)=ef}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00185}00185                   xenpb(2*neps(len)  ,len)=0}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00186}00186   130          \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00187}00187   140       \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00188}00188 \textcolor{comment}{*<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00189}00189          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.7) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00190}00190 \textcolor{comment}{* ======================================================================}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00191}00191             \textcolor{keyword}{WRITE}(6,10200)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00192}00192 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Simple fission spectrum (Maxwellian)'})}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00193}00193 \textcolor{comment}{* -\/-\/-\/> Read nuclear temperature as a function of incoming energy}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00194}00194             \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00195}00195 \textcolor{comment}{* -\/-\/-\/> Scratch}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00196}00196             \textcolor{keyword}{WRITE}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2,}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00197}00197      +                (nbt(n),int(n),n=1,n1),(xnrval(n),n=1,2*n2)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00198}00198             ne=n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00199}00199 \textcolor{comment}{* -\/-\/-\/> Populate secondary energy grid}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00200}00200             \textcolor{keyword}{CALL }xnengr(u,ne)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00201}00201          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.9) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00202}00202 \textcolor{comment}{* ======================================================================}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00203}00203             \textcolor{keyword}{WRITE}(6,10300)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00204}00204 10300 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Evaporation spectrum'})}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00205}00205 \textcolor{comment}{* -\/-\/-\/> Read nuclear temperature as a function of incoming energy}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00206}00206             \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00207}00207 \textcolor{comment}{* -\/-\/-\/> Scratch}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00208}00208             \textcolor{keyword}{WRITE}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2,}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00209}00209      +                (nbt(n),int(n),n=1,n1),(xnrval(n),n=1,2*n2)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00210}00210 \textcolor{comment}{* -\/-\/-\/> Populate secondary energy grid}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00211}00211             ne=n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00212}00212             \textcolor{keyword}{CALL }xnengr(u,ne)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00213}00213          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.11) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00214}00214 \textcolor{comment}{* ======================================================================}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00215}00215             \textcolor{keyword}{WRITE}(6,10400)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00216}00216 10400 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Energy dependent Watt spectrum'})}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00217}00217 \textcolor{comment}{* -\/-\/-\/> Read a parameter of Watt spectrum as a function of incoming E}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00218}00218             \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00219}00219 \textcolor{comment}{* -\/-\/-\/> Scratch}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00220}00220             \textcolor{keyword}{WRITE}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2,}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00221}00221      +                (nbt(n),int(n),n=1,n1),(xnrval(n),n=1,2*n2)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00222}00222 \textcolor{comment}{* -\/-\/-\/> Populate secondary energy grid}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00223}00223             ne=n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00224}00224             \textcolor{keyword}{CALL }xnengr(u,ne)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00225}00225 \textcolor{comment}{* -\/-\/-\/> Read b parameter of Watt spectrum as a function of incoming E}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00226}00226             \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00227}00227 \textcolor{comment}{* -\/-\/-\/> Scratch}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00228}00228             \textcolor{keyword}{WRITE}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2,}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00229}00229      +                (nbt(n),int(n),n=1,n1),(xnrval(n),n=1,2*n2)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00230}00230 \textcolor{comment}{* -\/-\/-\/> Populate secondary energy grid}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00231}00231             ne=n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00232}00232             \textcolor{keyword}{CALL }xnengr(u,ne)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00233}00233          \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(lf.EQ.12) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00234}00234 \textcolor{comment}{* ======================================================================}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00235}00235             \textcolor{keyword}{WRITE}(6,10500)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00236}00236 10500 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Energy dependent fission neutron spectrum (Madland\&Nix)'})}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00237}00237 \textcolor{comment}{* -\/-\/-\/> Read maximum temperature parameter as a function of incoming energy}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00238}00238             \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00239}00239 \textcolor{comment}{* -\/-\/-\/> Scratch}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00240}00240             \textcolor{keyword}{WRITE}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2,}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00241}00241      +                (nbt(n),int(n),n=1,n1),(xnrval(n),n=1,2*n2)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00242}00242 \textcolor{comment}{* -\/-\/-\/> Populate secondary energy grid}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00243}00243             ne=n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00244}00244             \textcolor{keyword}{CALL }xnengr(u,ne)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00245}00245 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00246}00246   150 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00247}00247 \textcolor{comment}{* -\/-\/-\/> Clean up energy grids}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00248}00248       \textcolor{keyword}{CALL }xnorgr}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00249}00249 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00250}00250 10600 \textcolor{keyword}{FORMAT}(1x,i3,\textcolor{stringliteral}{' Subsections found'})}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00251}00251 10700 \textcolor{keyword}{FORMAT}(1x,i5,\textcolor{stringliteral}{' Found energy distribution for '},i2,\textcolor{stringliteral}{'-\/'},i3)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00252}00252 10800 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Subsection '},i3,\textcolor{stringliteral}{' number of int ranges '},i3,}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00253}00253      +\textcolor{stringliteral}{' number of p(E) '},i3)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00254}00254 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xn5gte_8_f_source_l00255}00255       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

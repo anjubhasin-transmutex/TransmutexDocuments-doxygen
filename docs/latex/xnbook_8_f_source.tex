@@ -1,0 +1,81 @@
+\hypertarget{xnbook_8_f_source}{}\doxysection{xnbook.\+F}
+\label{xnbook_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnbook.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnbook.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  09.41.48  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   17/01/94}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnbook(ID,IZAMAT,CHREAC)}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00006}00006 \textcolor{comment}{*     "{}Books"{} a Cross Section table in memory to be subsequently       *}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00007}00007 \textcolor{comment}{*     queried by XNSECT. If reaction is not already in memory it       *}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00008}00008 \textcolor{comment}{*     is loaded from the currently open database file, if existent.    *}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00009}00009 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00010}00010 \textcolor{comment}{*     ID        (input) cross section identifier, can be any integer   *}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00011}00011 \textcolor{comment}{*     IZAMAT    (input) material code IZ*10000+IA*10+ISO               *}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00012}00012 \textcolor{comment}{*     CHREAC    (input, CHARACTER*8) code of the reaction to be        *}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00013}00013 \textcolor{comment}{*               associated with identifier ID for material IZAMAT.     *}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00014}00014 \textcolor{comment}{*               For the list of valide codes see the array CHNAME      *}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00015}00015 \textcolor{comment}{*               below and for their meaning see /1/.                   *}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00016}00016 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00017}00017 \textcolor{comment}{*     /1/       F.Carminati, EET Code Collection User Guide            *}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00018}00018 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00019}00019 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00020}00020 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00021}00021 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcutil.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00022}00022 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00023}00023 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00024}00024 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbas.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00025}00025 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00026}00026 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00027}00027 \textcolor{preprocessor}{}      \textcolor{keywordtype}{CHARACTER*(*)} CHREAC}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00028}00028 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00029}00029 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00030}00030 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Check if there is enough space}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00032}00032       \textcolor{keywordflow}{IF}(nid.GE.mxsect) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00033}00033          \textcolor{keyword}{WRITE}(6,10000)}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00034}00034 10000    \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNBOOK: Max no of histograms reached'})}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00035}00035          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00036}00036 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Check if reaction is valid}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00038}00038       ireac = 0}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00039}00039       \textcolor{keywordflow}{DO} 10 jreac=1,mxreac}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00040}00040          \textcolor{keywordflow}{IF}(chreac.EQ.chname(jreac)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00041}00041             ireac = jreac}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00042}00042             \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00043}00043 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00044}00044    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Invalid reaction name, print error and exit}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00046}00046       \textcolor{keyword}{WRITE}(6,10100) chreac}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00047}00047 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNBOOK: Reaction '},a4,\textcolor{stringliteral}{' is not defined!'})}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00048}00048       \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Valid reaction name, see whether it exists in memory or on disk}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00050}00050 \textcolor{comment}{*      in the currently open database file}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00051}00051    20 imate = 0}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00052}00052       \textcolor{keyword}{CALL }xntabl(izamat,3000+nbmft(ireac),imate)}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00053}00053       \textcolor{keywordflow}{IF}(imate.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00054}00054 \textcolor{comment}{* -\/-\/-\/> Reaction exists, see whether ID was already used}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00055}00055          \textcolor{keywordflow}{DO} 30 jid=1,nid}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00056}00056             \textcolor{keywordflow}{IF}(idl(jid,1).EQ.id) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/> ID already in use, print a warning and reuse}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00058}00058                \textcolor{keyword}{WRITE}(6,10200) id}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00059}00059 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNBOOK Histogram '},i10,\textcolor{stringliteral}{' redefined!'})}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00060}00060                iid = jid}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00061}00061                \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00062}00062 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00063}00063    30    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/> New ID}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00065}00065          nid = nid+1}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00066}00066          iid = nid}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00067}00067 \textcolor{comment}{* -\/-\/-\/> Store ID}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00068}00068    40    idl(iid,1) = id}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/> Store pointer to material in table IMTABL}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00070}00070          idl(iid,2) = imate}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00071}00071 \textcolor{comment}{* -\/-\/-\/> Store pointer to reaction in arrays CHNAME, NBFMT}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00072}00072          idl(iid,3) = ireac}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00073}00073 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00074}00074 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbook_8_f_source_l00075}00075   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

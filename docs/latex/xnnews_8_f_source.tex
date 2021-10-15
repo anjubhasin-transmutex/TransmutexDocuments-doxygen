@@ -1,0 +1,47 @@
+\hypertarget{xnnews_8_f_source}{}\doxysection{xnnews.\+F}
+\label{xnnews_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnnews.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnnews.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  11.28.19  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnnews(C1, C2, L1, L2, N1, N2, MATH, MFH, MTH)}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00006}00006 \textcolor{comment}{*     Find and read the header of the next ENDF-\/6 section in ASCII     *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00007}00007 \textcolor{comment}{*     See ENDF-\/6 format manual for an explanation of the variables'    *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00008}00008 \textcolor{comment}{*     meaning                                                     '    *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00009}00009 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00010}00010 \textcolor{comment}{*     C1        (output) value from section header                     *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00011}00011 \textcolor{comment}{*     C2        (output) value from section header                     *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00012}00012 \textcolor{comment}{*     L1        (output) value from section header                     *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00013}00013 \textcolor{comment}{*     L2        (output) value from section header                     *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00014}00014 \textcolor{comment}{*     N1        (output) value from section header                     *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00015}00015 \textcolor{comment}{*     N2        (output) value from section header                     *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00016}00016 \textcolor{comment}{*     MATH      (output) ENDF-\/6 material code                          *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00017}00017 \textcolor{comment}{*     MFH       (output) ENDF-\/6 file number                            *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00018}00018 \textcolor{comment}{*     MTH       (output) ENDF-\/6 reaction code                          *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00019}00019 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00020}00020 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00021}00021       parameter(itapa=12)}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00023}00023 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00024}00024 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00025}00025 \textcolor{comment}{* -\/-\/-\/> Read tail of record till end of section}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00026}00026    10 \textcolor{keyword}{READ}(itapa,10000) math, mfh, mth}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00027}00027       \textcolor{keywordflow}{IF}(mth.NE.0) \textcolor{keywordflow}{GO TO} 10}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> SEND record read, now read header}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00029}00029       \textcolor{keyword}{READ}(itapa,10100) c1, c2, l1, l2, n1, n2, math, mfh, mth}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00030}00030       \textcolor{keywordflow}{IF}(mfh.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> FEND record read, now read header}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00032}00032          \textcolor{keyword}{READ}(itapa,10100) c1, c2, l1, l2, n1, n2, math, mfh, mth}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00033}00033 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00034}00034       \textcolor{keywordflow}{IF}(math.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> MEND record read, now read header}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00036}00036          \textcolor{keyword}{READ}(itapa,10100) c1, c2, l1, l2, n1, n2, math, mfh, mth}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00037}00037 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00038}00038 10000 \textcolor{keyword}{FORMAT}(66x,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00039}00039 10100 \textcolor{keyword}{FORMAT}(2e11.4,4i11,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00040}00040 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnnews_8_f_source_l00041}00041       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

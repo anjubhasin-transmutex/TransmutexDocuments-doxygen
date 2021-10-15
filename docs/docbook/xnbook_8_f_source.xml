@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnbook_8_f_source" xml:lang="en-US">
+<title>xnbook.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xnbook.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnbook_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;03/06/96&#32;&#32;09.41.48&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;17/01/94</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnbook(ID,IZAMAT,CHREAC)
+<anchor xml:id="_xnbook_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&quot;Books&quot;&#32;a&#32;Cross&#32;Section&#32;table&#32;in&#32;memory&#32;to&#32;be&#32;subsequently&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;queried&#32;by&#32;XNSECT.&#32;If&#32;reaction&#32;is&#32;not&#32;already&#32;in&#32;memory&#32;it&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;is&#32;loaded&#32;from&#32;the&#32;currently&#32;open&#32;database&#32;file,&#32;if&#32;existent.&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;ID&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;cross&#32;section&#32;identifier,&#32;can&#32;be&#32;any&#32;integer&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IZAMAT&#32;&#32;&#32;&#32;(input)&#32;material&#32;code&#32;IZ*10000+IA*10+ISO&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;CHREAC&#32;&#32;&#32;&#32;(input,&#32;CHARACTER*8)&#32;code&#32;of&#32;the&#32;reaction&#32;to&#32;be&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;associated&#32;with&#32;identifier&#32;ID&#32;for&#32;material&#32;IZAMAT.&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;For&#32;the&#32;list&#32;of&#32;valide&#32;codes&#32;see&#32;the&#32;array&#32;CHNAME&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;below&#32;and&#32;for&#32;their&#32;meaning&#32;see&#32;/1/.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00017"/>00017 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;/1/&#32;&#32;&#32;&#32;&#32;&#32;&#32;F.Carminati,&#32;EET&#32;Code&#32;Collection&#32;User&#32;Guide&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00018"/>00018 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00019"/>00019 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00020"/>00020 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00021"/>00021 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcutil.inc&quot;</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00022"/>00022 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcstor.inc&quot;</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00023"/>00023 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcpoin.inc&quot;</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00024"/>00024 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcdbas.inc&quot;</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00025"/>00025 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcindx.inc&quot;</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00026"/>00026 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcnamf.inc&quot;</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00027"/>00027 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*(*)</emphasis>&#32;CHREAC
+<anchor xml:id="_xnbook_8_f_source_1l00028"/>00028 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00029"/>00029 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00030"/>00030 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;---&gt;&#32;Check&#32;if&#32;there&#32;is&#32;enough&#32;space</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nid.GE.mxsect)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)
+<anchor xml:id="_xnbook_8_f_source_1l00034"/>00034 10000&#32;&#32;&#32;&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNBOOK:&#32;Max&#32;no&#32;of&#32;histograms&#32;reached&apos;</emphasis>)
+<anchor xml:id="_xnbook_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnbook_8_f_source_1l00036"/>00036 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00037"/>00037 <emphasis role="comment">*&#32;---&gt;&#32;Check&#32;if&#32;reaction&#32;is&#32;valid</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;ireac&#32;=&#32;0
+<anchor xml:id="_xnbook_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jreac=1,mxreac
+<anchor xml:id="_xnbook_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(chreac.EQ.chname(jreac))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ireac&#32;=&#32;jreac
+<anchor xml:id="_xnbook_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;20
+<anchor xml:id="_xnbook_8_f_source_1l00043"/>00043 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00044"/>00044 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00045"/>00045 <emphasis role="comment">*&#32;---&gt;&#32;Invalid&#32;reaction&#32;name,&#32;print&#32;error&#32;and&#32;exit</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10100)&#32;chreac
+<anchor xml:id="_xnbook_8_f_source_1l00047"/>00047 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNBOOK:&#32;Reaction&#32;&apos;</emphasis>,a4,<emphasis role="stringliteral">&apos;&#32;is&#32;not&#32;defined!&apos;</emphasis>)
+<anchor xml:id="_xnbook_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnbook_8_f_source_1l00049"/>00049 <emphasis role="comment">*&#32;---&gt;&#32;Valid&#32;reaction&#32;name,&#32;see&#32;whether&#32;it&#32;exists&#32;in&#32;memory&#32;or&#32;on&#32;disk</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00050"/>00050 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;in&#32;the&#32;currently&#32;open&#32;database&#32;file</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00051"/>00051 &#32;&#32;&#32;20&#32;imate&#32;=&#32;0
+<anchor xml:id="_xnbook_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntabl(izamat,3000+nbmft(ireac),imate)
+<anchor xml:id="_xnbook_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(imate.GT.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00054"/>00054 <emphasis role="comment">*&#32;---&gt;&#32;Reaction&#32;exists,&#32;see&#32;whether&#32;ID&#32;was&#32;already&#32;used</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;jid=1,nid
+<anchor xml:id="_xnbook_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(idl(jid,1).EQ.id)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00057"/>00057 <emphasis role="comment">*&#32;---&gt;&#32;ID&#32;already&#32;in&#32;use,&#32;print&#32;a&#32;warning&#32;and&#32;reuse</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10200)&#32;id
+<anchor xml:id="_xnbook_8_f_source_1l00059"/>00059 10200&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNBOOK&#32;Histogram&#32;&apos;</emphasis>,i10,<emphasis role="stringliteral">&apos;&#32;redefined!&apos;</emphasis>)
+<anchor xml:id="_xnbook_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iid&#32;=&#32;jid
+<anchor xml:id="_xnbook_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;40
+<anchor xml:id="_xnbook_8_f_source_1l00062"/>00062 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00063"/>00063 &#32;&#32;&#32;30&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00064"/>00064 <emphasis role="comment">*&#32;---&gt;&#32;New&#32;ID</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nid&#32;=&#32;nid+1
+<anchor xml:id="_xnbook_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iid&#32;=&#32;nid
+<anchor xml:id="_xnbook_8_f_source_1l00067"/>00067 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;ID</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00068"/>00068 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;idl(iid,1)&#32;=&#32;id
+<anchor xml:id="_xnbook_8_f_source_1l00069"/>00069 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;pointer&#32;to&#32;material&#32;in&#32;table&#32;IMTABL</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;idl(iid,2)&#32;=&#32;imate
+<anchor xml:id="_xnbook_8_f_source_1l00071"/>00071 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;pointer&#32;to&#32;reaction&#32;in&#32;arrays&#32;CHNAME,&#32;NBFMT</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;idl(iid,3)&#32;=&#32;ireac
+<anchor xml:id="_xnbook_8_f_source_1l00073"/>00073 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00074"/>00074 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnbook_8_f_source_1l00075"/>00075 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

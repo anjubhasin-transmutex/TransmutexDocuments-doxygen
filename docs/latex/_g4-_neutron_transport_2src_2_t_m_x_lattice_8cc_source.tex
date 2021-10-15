@@ -1,0 +1,230 @@
+\hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source}{}\doxysection{TMXLattice.\+cc}
+\label{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/src/TMXLattice.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/src/TMXLattice.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00002}00002 \textcolor{comment}{// \(\backslash\)brief Implementation of the TMXLattice class}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00006}00006 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00007}00007 \textcolor{comment}{// TMXLattice}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00009}00009 \textcolor{comment}{// Thomas Guilbaud, Transmutex, 21/05/2021}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{// Abstract class to manage the location of elements}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00014}00014 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00015}00015 \textcolor{comment}{// TMX Class}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00016}00016 \textcolor{preprocessor}{\#include "{}TMXLattice.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00017}00017 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00018}00018 \textcolor{comment}{// Geant4 Class}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00019}00019 \textcolor{preprocessor}{\#include "{}G4PVPlacement.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00020}00020 \textcolor{preprocessor}{\#include "{}G4SystemOfUnits.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00022}00022 \textcolor{comment}{// C++ libraries}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00023}00023 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00024}00024 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00025}00025 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00028}00028 TMXLattice::TMXLattice()}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00029}00029 :   m\_isHexagonalLattice(false),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00030}00030     m\_isSquareLattice(false),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00031}00031     m\_pitch(0.),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00032}00032     m\_latticeMapFile(),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00033}00033     m\_motherVolume(nullptr),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00034}00034     m\_elementRotation(nullptr),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00035}00035     m\_elementTranslation(G4ThreeVector())}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00036}00036 \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00037}00037     m\_mapDaughterVolumes.clear();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00038}00038     m\_mapDaughterActions.clear();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00039}00039 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00041}00041 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00042}00042 \textcolor{comment}{// Setter}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00044}00044 \textcolor{keywordtype}{void} TMXLattice::setLatticeMap(std::string latticeMapFile) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00045}00045     m\_latticeMapFile = latticeMapFile;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00046}00046 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00048}00048 \textcolor{keywordtype}{void} TMXLattice::setHexagonalLattice() \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00049}00049     m\_isSquareLattice    = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00050}00050     m\_isHexagonalLattice = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00051}00051 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00053}00053 \textcolor{keywordtype}{void} TMXLattice::setSquareLattice() \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00054}00054     m\_isSquareLattice    = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00055}00055     m\_isHexagonalLattice = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00056}00056 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00058}00058 \textcolor{keywordtype}{void} TMXLattice::setPitch(G4double pitch) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00059}00059     m\_pitch = pitch;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00060}00060 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00062}00062 \textcolor{keywordtype}{void} TMXLattice::setMotherVolume(G4LogicalVolume* motherVolume) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00063}00063     m\_motherVolume = motherVolume;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00064}00064 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00066}00066 \textcolor{keywordtype}{void} TMXLattice::addDaughterVolume(std::string elementId, G4LogicalVolume* daughterVolume) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00067}00067     m\_mapDaughterVolumes[elementId] = daughterVolume;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00068}00068 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00070}00070 \textcolor{keywordtype}{void} TMXLattice::addDaughterAction(std::string elementId, std::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{double})> action) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00071}00071     m\_mapDaughterActions[elementId] = action;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00072}00072 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00074}00074 \textcolor{keywordtype}{void} TMXLattice::setElementRotation(G4RotationMatrix* elementRotation) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00075}00075     m\_elementRotation = elementRotation;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00076}00076 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00078}00078 \textcolor{keywordtype}{void} TMXLattice::setElementTranslation(G4ThreeVector elementTranslation) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00079}00079     m\_elementTranslation = elementTranslation;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00080}00080 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00082}00082 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00083}00083 \textcolor{comment}{// Getter}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00085}00085 std::string TMXLattice::getLatticeType() \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00086}00086     \textcolor{keywordflow}{if} (m\_isHexagonalLattice) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00087}00087         \textcolor{keywordflow}{return}(\textcolor{stringliteral}{"{}Hexagonal"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00088}00088     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00089}00089     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (m\_isSquareLattice) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00090}00090         \textcolor{keywordflow}{return}(\textcolor{stringliteral}{"{}Square"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00091}00091     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00092}00092     \textcolor{keywordflow}{return}(\textcolor{stringliteral}{"{}Undefined type"{}});}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00093}00093 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00095}00095 \textcolor{keywordtype}{double} TMXLattice::getUnit(std::string unit) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00096}00096     \textcolor{keywordflow}{if}      (unit.compare(\textcolor{stringliteral}{"{}nm"{}}) == 0) \{\textcolor{keywordflow}{return} 1E-\/6;\}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00097}00097     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (unit.compare(\textcolor{stringliteral}{"{}um"{}}) == 0) \{\textcolor{keywordflow}{return} 1E-\/3;\}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00098}00098     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (unit.compare(\textcolor{stringliteral}{"{}mm"{}}) == 0) \{\textcolor{keywordflow}{return} 1E+0;\}  \textcolor{comment}{// Default G4 unit is mm}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00099}00099     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (unit.compare(\textcolor{stringliteral}{"{}cm"{}}) == 0) \{\textcolor{keywordflow}{return} 1E+1;\}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00100}00100     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (unit.compare(\textcolor{stringliteral}{"{}dm"{}}) == 0) \{\textcolor{keywordflow}{return} 1E+2;\}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00101}00101     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (unit.compare(\textcolor{stringliteral}{"{}m"{}} ) == 0) \{\textcolor{keywordflow}{return} 1E+3;\}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00102}00102     \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00103}00103         \textcolor{keywordflow}{return}(1.);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00104}00104     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00105}00105 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00106}00106 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00107}00107 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00108}00108 \textcolor{comment}{// Builder}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00110}00110 \textcolor{keywordtype}{void} TMXLattice::placeLattice(\textcolor{keywordtype}{bool} overlap) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00111}00111     \textcolor{keywordflow}{if} (overlap) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00112}00112         G4cout << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ Begin Lattice Placement -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00113}00113     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00114}00114     \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00115}00115 \textcolor{comment}{    Hexagonal     // Example of Hexagonal Lattice (0 = void, F:1 = F element with action value 1 (optional))}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00116}00116 \textcolor{comment}{    -\/2 2   -\/2 2  10 cm // Range and pitch}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00117}00117 \textcolor{comment}{    0 0 0 0 0          // y=-\/2 ; x=[-\/2; 2]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00118}00118 \textcolor{comment}{     0 0 F F 0         // y=-\/1 ; x=[-\/2; 2]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00119}00119 \textcolor{comment}{      0 F F F 0        // y= 0 ; x=[-\/2; 2]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00120}00120 \textcolor{comment}{       0 F F 0 0       // y= 1 ; x=[-\/2; 2]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00121}00121 \textcolor{comment}{        0 0 0 0 0      // y= 2 ; x=[-\/2; 2]}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00122}00122 \textcolor{comment}{    read README.md in latticeMap for more precision}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00123}00123 \textcolor{comment}{    */}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00124}00124 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00125}00125     std::string actionDelimiter = \textcolor{stringliteral}{"{}:"{}};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00126}00126     std::string comment = \textcolor{stringliteral}{"{}//"{}};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00127}00127 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00128}00128     \textcolor{keywordtype}{int} xMin, xMax, yMin, yMax;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00129}00129     \textcolor{keywordtype}{int}     nx = 0, ny = 0;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00130}00130     G4double x = 0., y = 0.;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00131}00131     \textcolor{comment}{// Usefull values for hexagonal lattice}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00132}00132     G4double r = m\_pitch * 0.5;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00133}00133     G4double d = std::sqrt(3) * r;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00134}00134 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00135}00135     \textcolor{keywordtype}{double} actionValue = 0.; \textcolor{comment}{// Value use for the action (addDaughterAction)}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00136}00136     \textcolor{keywordtype}{bool} isActionValueProvided = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00138}00138     \textcolor{keywordtype}{int} countElement = 0, lineCount = 0;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00139}00139     std::string latticeType, line, elementId, pitch, pitchUnit;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00140}00140     std::ifstream file(m\_latticeMapFile);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00141}00141 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00142}00142     \textcolor{keywordflow}{while} (std::getline(file, line)) \{ \textcolor{comment}{// Read by line}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00143}00143         std::stringstream input(line);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00144}00144         \textcolor{keywordflow}{if} (lineCount == 0) \{ \textcolor{comment}{// First line, receive the type of the lattice}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00145}00145             input >> latticeType;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00146}00146             \textcolor{keywordflow}{if} (!latticeType.compare(\textcolor{stringliteral}{"{}Hexagonal"{}})) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00147}00147                 setHexagonalLattice();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00148}00148             \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00149}00149             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (!latticeType.compare(\textcolor{stringliteral}{"{}Square"{}})) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00150}00150                 setSquareLattice();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00151}00151             \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00152}00152         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00153}00153         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (lineCount == 1) \{ \textcolor{comment}{// Second line, receive the limits of the lattice}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00154}00154             input >> xMin >> xMax >> yMin >> yMax;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00155}00155             nx = xMin;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00156}00156             ny = yMin;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00157}00157             \textcolor{keywordflow}{if} (input >> pitch \&\& input >> pitchUnit) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00158}00158                 \textcolor{keywordflow}{if} (pitch != comment) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00159}00159                     m\_pitch = std::stod(pitch) * getUnit(pitchUnit) * mm;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00160}00160                     r = m\_pitch * 0.5;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00161}00161                     d = std::sqrt(3) * r;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00162}00162                 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00163}00163             \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00164}00164         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00165}00165         \textcolor{keywordflow}{else} \{ \textcolor{comment}{// Structure of the lattice after the second line}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00166}00166             \textcolor{keywordflow}{while} (input >> elementId) \{ \textcolor{comment}{// Read by word for any length or space between words}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00167}00167                 \textcolor{keywordflow}{if} (elementId == comment) \{ \textcolor{comment}{// Comments Token}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00168}00168                     \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00169}00169                 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00170}00170                 \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (elementId != \textcolor{stringliteral}{"{}0"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00171}00171                     actionValue = 0.;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00172}00172                     isActionValueProvided = elementId.find(actionDelimiter) != std::string::npos;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00173}00173                     \textcolor{keywordflow}{if} (isActionValueProvided) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00174}00174                         actionValue = std::stod(elementId.substr(elementId.find(actionDelimiter) + actionDelimiter.length(), elementId.length()));}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00175}00175                         elementId = elementId.substr(0, elementId.find(actionDelimiter));}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00176}00176                     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00177}00177                     \textcolor{keywordflow}{for} ( \textcolor{keyword}{const} \textcolor{keyword}{auto}\& daughterVolume : m\_mapDaughterVolumes ) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00178}00178                         \textcolor{keywordflow}{if} (!elementId.compare(daughterVolume.first)) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00179}00179                             \textcolor{keywordflow}{if} (m\_isHexagonalLattice) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00180}00180                                 x = (double)(2 * nx + ny) * r;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00181}00181                                 y = (double)(ny) * d;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00182}00182                             \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00183}00183                             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (m\_isSquareLattice) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00184}00184                                 x = (double)(nx) * m\_pitch;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00185}00185                                 y = (double)(ny) * m\_pitch;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00186}00186                             \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00187}00187 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00188}00188                             \textcolor{keyword}{new} G4PVPlacement(}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00189}00189                                 m\_elementRotation,}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00190}00190                                 G4ThreeVector(x, y, 0) + m\_elementTranslation,}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00191}00191                                 daughterVolume.second,}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00192}00192                                 \textcolor{stringliteral}{"{}pLat\_"{}} + daughterVolume.second-\/>GetName() + \textcolor{stringliteral}{"{}\_"{}} + std::to\_string(countElement),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00193}00193                                 m\_motherVolume,}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00194}00194                                 \textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00195}00195                                 countElement,}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00196}00196                                 overlap}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00197}00197                             );}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00198}00198 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00199}00199                             countElement++;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00200}00200                             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00201}00201                         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00202}00202                     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00203}00203                     \textcolor{keywordflow}{if} (isActionValueProvided) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00204}00204                         \textcolor{keywordflow}{for} ( \textcolor{keyword}{const} \textcolor{keyword}{auto}\& daughterAction : m\_mapDaughterActions ) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00205}00205                             \textcolor{keywordflow}{if} (!elementId.compare(daughterAction.first)) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00206}00206                                 daughterAction.second(actionValue);}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00207}00207                             \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00208}00208                         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00209}00209                     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00210}00210                 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00211}00211                 nx++;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00212}00212             \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00213}00213             nx = xMin;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00214}00214             ny++;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00215}00215         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00216}00216         lineCount++;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00217}00217     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00218}00218 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00219}00219     \textcolor{keywordflow}{if} (overlap) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00220}00220         G4cout << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}}                    << G4endl}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00221}00221                << \textcolor{stringliteral}{"{}| Lattice Configuration Summary : "{}} << getLatticeType()                         << G4endl}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00222}00222                << \textcolor{stringliteral}{"{}| *  Pitch between Elements : "{}} << m\_pitch/mm << \textcolor{stringliteral}{"{} mm"{}}                          << G4endl}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00223}00223                << \textcolor{stringliteral}{"{}| *  x = ["{}} << xMin << \textcolor{stringliteral}{"{};"{}} << xMax << \textcolor{stringliteral}{"{}] | y = ["{}} << yMin << \textcolor{stringliteral}{"{};"{}} << yMax << \textcolor{stringliteral}{"{}]"{}} << G4endl}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00224}00224                << \textcolor{stringliteral}{"{}| *  Number of element placed in the lattice : "{}} << countElement                << G4endl}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00225}00225                << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ End Lattice Placement -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}}                    << G4endl;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00226}00226     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2_t_m_x_lattice_8cc_source_l00227}00227 \}}
+
+\end{DoxyCode}

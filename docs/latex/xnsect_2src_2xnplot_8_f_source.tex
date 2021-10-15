@@ -1,0 +1,84 @@
+\hypertarget{xnsect_2src_2xnplot_8_f_source}{}\doxysection{xnplot.\+F}
+\label{xnsect_2src_2xnplot_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnplot.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnplot.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 04/06/96  11.23.57  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   20/04/95}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00003}00003 \textcolor{comment}{*CMZ :          14/02/95  18.15.01  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00004}00004 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00005}00005       \textcolor{keyword}{SUBROUTINE }xnplot(IZAEX,CHREAC,NPOIN,XE,XS)}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00006}00006 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00008}00008 \textcolor{comment}{*     Returns the points in the Cross Section database for a given     *}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00009}00009 \textcolor{comment}{*     reaction                                                         *}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00010}00010 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00011}00011 \textcolor{comment}{*     IZAEX     (input) isomer code                                    *}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00012}00012 \textcolor{comment}{*     CHREAC    (input CHARACTER*8) reaction code. See array CHNAME    *}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00013}00013 \textcolor{comment}{*               below for valid reaction names                         *}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00014}00014 \textcolor{comment}{*     NPOIN     (input/output) in input is the dimension of the        *}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00015}00015 \textcolor{comment}{*               XE and XS array in the calling routine, and on         *}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00016}00016 \textcolor{comment}{*               output is the number of points returned                *}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00017}00017 \textcolor{comment}{*     XE        (output) array of energies in eV                       *}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00018}00018 \textcolor{comment}{*     XS        (output) array of cross sections corresponding to      *}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00019}00019 \textcolor{comment}{*               XE in barns                                            *}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00020}00020 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00021}00021 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00022}00022 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00023}00023 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcutil.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00024}00024 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00025}00025 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00026}00026 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbas.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00027}00027 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00028}00028 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00029}00029 \textcolor{preprocessor}{}      dimension xe(npoin),xs(npoin)}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00030}00030       \textcolor{keywordtype}{CHARACTER*(*)} CHREAC}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00031}00031 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00032}00032 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00033}00033 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> See if isomer is in memory}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00035}00035       imate = 0}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00036}00036       \textcolor{keywordflow}{DO} 10 jmate=1,nmate}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00037}00037          \textcolor{keywordflow}{IF}(izaex.EQ.imtabl(1,jmate)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Found isomer in memory}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00039}00039             imate = jmate}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00040}00040             \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00041}00041 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00042}00042    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> Isomer not in memory, print message and leave}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00044}00044       \textcolor{keyword}{WRITE}(6,10000) izaex}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00045}00045       \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00046}00046    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> See if valid reaction code}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00048}00048       \textcolor{keywordflow}{DO} 30 lreac=1,mxreac}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00049}00049          \textcolor{keywordflow}{IF}(chreac.EQ.chname(lreac)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00050}00050 \textcolor{comment}{* -\/-\/-\/> Valid reaction code found}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00051}00051             jreac=lreac}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00052}00052             \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00053}00053 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00054}00054    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/> Invalid reaction code, print message and leave}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00056}00056       \textcolor{keyword}{WRITE}(6,10100) chreac}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00057}00057       npoin=0}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00058}00058       \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00059}00059 \textcolor{comment}{* -\/-\/-\/> Get start and length of section}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00060}00060    40 istart = imtabl(1+nreinf*(jreac-\/1)+1,imate)}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00061}00061       ilengt = imtabl(1+nreinf*(jreac-\/1)+2,imate)}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00062}00062       \textcolor{keywordflow}{IF}(ilengt.GT.npoin) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00063}00063 \textcolor{comment}{* -\/-\/-\/> If not enough space in XE, XS print a message and use what}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00064}00064 \textcolor{comment}{*      we have}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00065}00065          \textcolor{keyword}{WRITE}(6,10200) ilengt, npoin}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00066}00066 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00067}00067 \textcolor{comment}{* -\/-\/-\/> Avoid memory overwriting}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00068}00068       npoin = min(npoin,ilengt)}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/> Fill output arrays}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00070}00070       \textcolor{keywordflow}{DO} 50 jp=1,npoin}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00071}00071          xe(jp)=xstore(istart+2*jp-\/1)}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00072}00072          xs(jp)=xstore(istart+2*jp )}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00073}00073    50 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00074}00074 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00075}00075 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNPLOT: material '},i5,\textcolor{stringliteral}{' not in memory'})}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00076}00076 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNPLOT: Unknown reaction '},a4)}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00077}00077 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNPLOT: '},i6,\textcolor{stringliteral}{' points found, only '},i6,\textcolor{stringliteral}{' returned'})}
+\DoxyCodeLine{\Hypertarget{xnsect_2src_2xnplot_8_f_source_l00078}00078   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

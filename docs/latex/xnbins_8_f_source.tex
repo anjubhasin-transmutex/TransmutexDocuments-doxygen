@@ -1,0 +1,50 @@
+\hypertarget{xnbins_8_f_source}{}\doxysection{xnbins.\+F}
+\label{xnbins_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnbins.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnbins.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  09.41.48  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnbins(RVAL,N,INC,TVAL,IRET)}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00006}00006 \textcolor{comment}{*     Binary search routine with variable increment.                   *}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00008}00008 \textcolor{comment}{*     RVAL      (input) array containing the values for comparison     *}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00009}00009 \textcolor{comment}{*               at locations RVAL(1), RVAL(1+INC), RVAL(1+2*INC)...    *}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00010}00010 \textcolor{comment}{*               RVAL(1+N*INC) in increasing order                      *}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00011}00011 \textcolor{comment}{*     N         (input) number of values for comparison in array RVAL  *}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00012}00012 \textcolor{comment}{*     INC       (input) stride of the values in array RVAL             *}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00013}00013 \textcolor{comment}{*     TVAL      (input) value to be compared                           *}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00014}00014 \textcolor{comment}{*     IRET      (output) index of lower limit of interval such that    *}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00015}00015 \textcolor{comment}{*               RVAL(1+IRET*INC)<=TVAL<RVAL(1+(IRET+1)*INC). If TVAL   *}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00016}00016 \textcolor{comment}{*               <=RVAL(1) IRET=1 and if TVAL>=RVAL(1+N*INC) IRET=N-\/1.  *}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00017}00017 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00018}00018 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00019}00019       dimension rval(*)}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/> Binary search}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00021}00021       k1=1}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00022}00022       k2=n}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00023}00023       \textcolor{keywordflow}{IF}(tval.LE.rval(1)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> TVAL le minimum}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00025}00025          iret=1}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00026}00026       \textcolor{keywordflow}{ELSEIF}(tval.GE.rval(inc*(n-\/1)+1)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/> TVAL ge maximum}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00028}00028          iret=n-\/1}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00029}00029       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Do binary search}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00031}00031    10    \textcolor{keywordflow}{IF}(k2-\/k1.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00032}00032             khalf=(k1+k2)/2}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00033}00033             vhalf=rval(inc*(khalf-\/1)+1)}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00034}00034             \textcolor{keywordflow}{IF}(tval.LT.vhalf) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00035}00035                k2=khalf}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00036}00036             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00037}00037                k1=khalf}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00038}00038 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00039}00039             \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00040}00040 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00041}00041          iret=k1}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00042}00042 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00043}00043 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbins_8_f_source_l00044}00044       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

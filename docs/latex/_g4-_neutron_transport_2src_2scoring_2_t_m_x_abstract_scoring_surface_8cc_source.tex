@@ -1,0 +1,72 @@
+\hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source}{}\doxysection{TMXAbstract\+Scoring\+Surface.\+cc}
+\label{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/src/scoring/TMXAbstractScoringSurface.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/G4-\/NeutronTransport/src/scoring/TMXAbstractScoringSurface.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00002}00002 \textcolor{comment}{// \(\backslash\)brief Implementation of the Abtract Scoring Surfacic}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00006}00006 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00007}00007 \textcolor{comment}{// TMXAbstractScoringSurface}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00009}00009 \textcolor{comment}{// Thomas Guilbaud, Transmutex, 05/07/2021}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{// Scoring for Surfacic Quantities}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00014}00014 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00016}00016 \textcolor{comment}{// TMX Class}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00017}00017 \textcolor{preprocessor}{\#include "{}TMXAbstractScoringSurface.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00019}00019 \textcolor{comment}{// GEANT4 libraries}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00020}00020 \textcolor{preprocessor}{\#include "{}Analysis.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00021}00021 \textcolor{preprocessor}{\#include "{}G4LogicalVolume.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00022}00022 \textcolor{preprocessor}{\#include "{}G4PhysicalVolumeStore.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00023}00023 \textcolor{preprocessor}{\#include "{}G4Threading.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00024}00024 \textcolor{preprocessor}{\#include "{}G4VPhysicalVolume.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00025}00025 \textcolor{preprocessor}{\#include "{}G4VSolid.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00028}00028 TMXAbstractScoringSurface::TMXAbstractScoringSurface(\mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* parameter, std::string name)}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00029}00029 :   \mbox{\hyperlink{class_t_m_x_abstract_scoring}{TMXAbstractScoring}}(parameter, name),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00030}00030     m\_orientation(\textcolor{stringliteral}{"{}"{}}),}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00031}00031     m\_surface(0.)}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00032}00032 \{\}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00034}00034 TMXAbstractScoringSurface::\string~TMXAbstractScoringSurface()}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00035}00035 \{\}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00037}00037 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00038}00038 \textcolor{comment}{// Builder}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00040}00040 \textcolor{keywordtype}{void} TMXAbstractScoringSurface::buildMapPVSurface() \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00041}00041     G4PhysicalVolumeStore* PVStore = G4PhysicalVolumeStore::GetInstance();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00042}00042     G4VPhysicalVolume* PV;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00043}00043     G4LogicalVolume* LV;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00044}00044     G4VSolid* solid;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00045}00045     std::string PVname;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00047}00047     m\_surface = 0.;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00049}00049     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < m\_vectorPVtoScore.size(); i++) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00050}00050         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it\_PV = PVStore-\/>begin(); it\_PV != PVStore-\/>end(); it\_PV++) \{ \textcolor{comment}{// Read the logical volume store}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00051}00051             PV = *it\_PV; \textcolor{comment}{// Define the physical volume}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00052}00052             PVname = PV-\/>GetName();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00054}00054             \textcolor{keywordflow}{if} (m\_vectorPVtoScore[i] == PVname) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00055}00055                 \textcolor{keywordflow}{if} (PV-\/>GetLogicalVolume()) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00056}00056                     LV = PV-\/>GetLogicalVolume();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00057}00057                     solid = LV-\/>GetSolid();}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00058}00058                     \textcolor{comment}{// std::cout << solid-\/>GetSurfaceArea()/cm2 << "{} cm2\(\backslash\)n"{};}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00059}00059                     m\_surface += solid-\/>GetSurfaceArea()/cm2;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00060}00060                     \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00061}00061                 \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00062}00062             \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00063}00063         \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00064}00064     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00066}00066     \textcolor{keywordflow}{if} (m\_p-\/>Verbose >= 1 \&\& G4Threading::G4GetThreadId() < 0) \{}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00067}00067         std::cout << \textcolor{stringliteral}{"{}Surface Estimation:"{}} << m\_surface;}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00068}00068     \}}
+\DoxyCodeLine{\Hypertarget{_g4-_neutron_transport_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_l00069}00069 \}}
+
+\end{DoxyCode}

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnperc_8_f_source" xml:lang="en-US">
+<title>xnperc.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnmake/xnperc.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnperc_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;31/05/96&#32;&#32;18.32.10&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;26/01/94</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnperc(RVAL,NPOINT,PERC)
+<anchor xml:id="_xnperc_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Build&#32;the&#32;inverse&#32;probability&#32;distribution&#32;from&#32;the&#32;energy&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;grid&#32;for&#32;a&#32;file&#32;5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;RVAL&#32;&#32;&#32;&#32;&#32;tabulation&#32;of&#32;the&#32;probability&#32;function&#32;(input)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;NPOINT&#32;&#32;&#32;number&#32;of&#32;pairs&#32;(E(eV),Pb)&#32;in&#32;RVAL&#32;(input)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;PERC&#32;&#32;&#32;&#32;&#32;inverse&#32;probability&#32;function&#32;(output)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00013"/>00013 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00014"/>00014 <emphasis role="preprocessor">#include&#32;&quot;xcperc.inc&quot;</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00015"/>00015 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;rval(2*npoint),perc(nperc+1)
+<anchor xml:id="_xnperc_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">DOUBLE&#32;PRECISION</emphasis>&#32;DELE,DELF,ONE,TEMP,HINTEG,HINTOL,PERCEN
+<anchor xml:id="_xnperc_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">DOUBLE&#32;PRECISION</emphasis>&#32;E1,E2,F1,F2
+<anchor xml:id="_xnperc_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;parameter(one=1)
+<anchor xml:id="_xnperc_8_f_source_1l00019"/>00019 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00020"/>00020 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00021"/>00021 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;ipoint=0
+<anchor xml:id="_xnperc_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;hintno=0.
+<anchor xml:id="_xnperc_8_f_source_1l00024"/>00024 <emphasis role="comment">*&#32;---&gt;&#32;Calculate&#32;normalisation&#32;integral,&#32;trapezoidal&#32;rule</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jp=1,npoint-1
+<anchor xml:id="_xnperc_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hintno=hintno+0.5*(one*rval(2*jp&#32;&#32;)+rval(2*jp+2))*
+<anchor xml:id="_xnperc_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(one*rval(2*jp+1)-rval(2*jp-1))
+<anchor xml:id="_xnperc_8_f_source_1l00028"/>00028 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00029"/>00029 <emphasis role="comment">*&#32;---&gt;&#32;Check&#32;normalisation&#32;integral</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(abs(hintno-1).GT.2e-2)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;N-integ=&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;,E11.4)&apos;</emphasis>)&#32;hintno
+<anchor xml:id="_xnperc_8_f_source_1l00032"/>00032 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(hintno.LE.0.)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;jp=1,nperc+1
+<anchor xml:id="_xnperc_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;perc(jp)=0.
+<anchor xml:id="_xnperc_8_f_source_1l00036"/>00036 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00038"/>00038 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;first&#32;and&#32;last&#32;point&#32;greater&#32;than&#32;0</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;np=1,npoint-1
+<anchor xml:id="_xnperc_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(rval(2*np+2).GT.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;perc(1)&#32;=&#32;rval(2*np-1)
+<anchor xml:id="_xnperc_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ibeg=np
+<anchor xml:id="_xnperc_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;40
+<anchor xml:id="_xnperc_8_f_source_1l00044"/>00044 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00045"/>00045 &#32;&#32;&#32;30&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;&#32;XNPERC:&#32;No&#32;first&#32;point&#32;different&#32;from&#32;0&apos;</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00047"/>00047 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;last&#32;point&#32;equal&#32;to&#32;0</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00048"/>00048 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;50&#32;np=npoint,1,-1
+<anchor xml:id="_xnperc_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(rval(2*np-2).GT.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;perc(nperc+1)&#32;=&#32;rval(2*np-1)
+<anchor xml:id="_xnperc_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iend=np
+<anchor xml:id="_xnperc_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;60
+<anchor xml:id="_xnperc_8_f_source_1l00053"/>00053 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00054"/>00054 &#32;&#32;&#32;50&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;&#32;XNPERC:&#32;No&#32;last&#32;point&#32;different&#32;from&#32;0&apos;</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00056"/>00056 &#32;&#32;&#32;60&#32;&#32;&#32;&#32;hinteg&#32;=&#32;0.
+<anchor xml:id="_xnperc_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint=ibeg-1
+<anchor xml:id="_xnperc_8_f_source_1l00058"/>00058 <emphasis role="comment">*&#32;---&gt;&#32;Build&#32;inverse&#32;probability&#32;table</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;80&#32;jperc=1,nperc-1
+<anchor xml:id="_xnperc_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;percen=1.*jperc/nperc
+<anchor xml:id="_xnperc_8_f_source_1l00061"/>00061 &#32;&#32;&#32;70&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(hinteg.LT.percen)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hintol=hinteg
+<anchor xml:id="_xnperc_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint=ipoint+1
+<anchor xml:id="_xnperc_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hinteg=hinteg+0.5*(one*rval(2*ipoint&#32;)+rval(2*ipoint+2))
+<anchor xml:id="_xnperc_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*&#32;(one*rval(2*ipoint+1)-rval(2*ipoint-1))/hintno
+<anchor xml:id="_xnperc_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ipoint.LT.iend)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;70
+<anchor xml:id="_xnperc_8_f_source_1l00067"/>00067 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00068"/>00068 <emphasis role="comment">*&#32;---&gt;&#32;Value&#32;of&#32;energy&#32;between&#32;last&#32;and&#32;next&#32;point,&#32;interpolate&#32;with</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00069"/>00069 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;a&#32;parabola</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f1&#32;=&#32;rval(2*ipoint)/hintno
+<anchor xml:id="_xnperc_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;f2&#32;=&#32;rval(2*ipoint+2)/hintno
+<anchor xml:id="_xnperc_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;e1&#32;=&#32;rval(2*ipoint-1)
+<anchor xml:id="_xnperc_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;e2&#32;=&#32;rval(2*ipoint+1)
+<anchor xml:id="_xnperc_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;delf&#32;=&#32;f2-f1
+<anchor xml:id="_xnperc_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(delf.NE.0.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dele&#32;=&#32;e2-e1
+<anchor xml:id="_xnperc_8_f_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;temp=2*(percen-hintol)*delf/dele
+<anchor xml:id="_xnperc_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hintrp&#32;=&#32;e1+dele*(sqrt(f1**2+temp)-f1)/delf
+<anchor xml:id="_xnperc_8_f_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00080"/>00080 <emphasis role="comment">*&#32;---&gt;&#32;Parabola&#32;degenerates&#32;to&#32;a&#32;straight&#32;line</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hintrp&#32;=&#32;e1&#32;+&#32;(percen-hintol)/f1
+<anchor xml:id="_xnperc_8_f_source_1l00082"/>00082 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;perc(jperc+1)&#32;=&#32;hintrp
+<anchor xml:id="_xnperc_8_f_source_1l00084"/>00084 &#32;&#32;&#32;80&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00085"/>00085 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00086"/>00086 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnperc_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

@@ -1,0 +1,85 @@
+\hypertarget{xnxsin_8_f_source}{}\doxysection{xnxsin.\+F}
+\label{xnxsin_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnxsin/xnxsin.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnxsin/xnxsin.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 15/12/95  11.00.39  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00003}00003       \textcolor{keyword}{PROGRAM} xnxsin}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00004}00004 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00005}00005 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00006}00006 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00007}00007 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcfyid.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00008}00008 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcendf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00009}00009 \textcolor{preprocessor}{}      \textcolor{keyword}{COMMON} / xcstor / n1,ihgwmk,xmem(1000000)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00010}00010 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00011}00011       dimension hinf(nadinf),secr(3),sect(3)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00012}00012       \textcolor{keywordtype}{CHARACTER*2} CHNAM}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00013}00013       \textcolor{keywordtype}{CHARACTER*4} CHREAC(3)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00014}00014       \textcolor{keywordtype}{CHARACTER*30} CHSPEC}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00015}00015       \textcolor{keywordtype}{CHARACTER*1} TAB}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00016}00016       \textcolor{keyword}{DATA} chreac/\textcolor{stringliteral}{'N,2N'},\textcolor{stringliteral}{'FISS'},\textcolor{stringliteral}{'CAPT'}/}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00017}00017 \textcolor{preprocessor}{\#include "{}xcdbna.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00018}00018 \textcolor{preprocessor}{}\textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00019}00019 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00020}00020       \textcolor{keyword}{CALL }xninit(1000000,\textcolor{stringliteral}{' '})}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00021}00021       tab=char(9)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00023}00023       \textcolor{keyword}{WRITE}(1,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Z'}\textcolor{stringliteral}{',A1,'}\textcolor{stringliteral}{'El'}\textcolor{stringliteral}{',A1,'}\textcolor{stringliteral}{'Z'}\textcolor{stringliteral}{',A1,'}\textcolor{stringliteral}{'Th cap '}\textcolor{stringliteral}{',A1,}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00024}00024 \textcolor{stringliteral}{}\textcolor{stringliteral}{     +'}\textcolor{stringliteral}{'Res cap 1eV'}\textcolor{stringliteral}{',A1,'}\textcolor{stringliteral}{'Res cap 10eV'}\textcolor{stringliteral}{',A1,'}\textcolor{stringliteral}{'Res cap 100eV'}\textcolor{stringliteral}{',}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00025}00025 \textcolor{stringliteral}{}\textcolor{stringliteral}{     +A1,'}\textcolor{stringliteral}{'Th fis '}\textcolor{stringliteral}{',A1,'}\textcolor{stringliteral}{'Res fis 1eV'}\textcolor{stringliteral}{',A1,'}\textcolor{stringliteral}{'Res fis 10eV'}\textcolor{stringliteral}{',A1,}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00026}00026 \textcolor{stringliteral}{}\textcolor{stringliteral}{     +'}\textcolor{stringliteral}{'Res fis 100eV'}\textcolor{stringliteral}{')'}) (tab,ll=1,10)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00027}00027       ncrlin=0}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00028}00028       \textcolor{keywordflow}{DO} 60  jfile=1,3}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00029}00029          \textcolor{keyword}{CALL }xnfile(chfiln(jfile))}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00030}00030          \textcolor{keyword}{CALL }xnopen}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00031}00031          \textcolor{keywordflow}{DO} 50  jz=1,99}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00032}00032             \textcolor{keywordflow}{DO} 40  ja=jz-\/1,4*jz}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00033}00033                j=jz*1000}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00034}00034                \textcolor{keywordflow}{IF}(ja.GE.jz) j=j+ja}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00035}00035                \textcolor{keywordflow}{DO} 30 jind=1,nindex}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00036}00036                   \textcolor{keywordflow}{IF}(j.EQ.lindex(1,jind)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00037}00037 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/ Found in the index.}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00039}00039                      \textcolor{keywordflow}{DO} 10 jlin=1,ncrlin}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00040}00040 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/ Skip if already there}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00042}00042                         \textcolor{keywordflow}{IF}(iza(jlin).EQ.j) \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00043}00043    10                \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00044}00044                      \textcolor{keyword}{CALL }xntabl(j,3001,imate)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00045}00045                      \textcolor{keywordflow}{IF}(ihgwmk.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00046}00046                         ncrlin=ncrlin+1}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00047}00047                         iza(ncrlin)=j}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00048}00048 \textcolor{comment}{C                        CALL XNTABL(J,3016,IMATE)}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00049}00049                         \textcolor{keyword}{CALL }xntabl(j,3018,imate)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00050}00050                         \textcolor{keyword}{CALL }xntabl(j,3102,imate)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00051}00051                         \textcolor{keyword}{CALL }xninfo(j,hmass,chnam)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00052}00052                         \textcolor{keyword}{CALL }xninte(j,\textcolor{stringliteral}{'CAPT'},  1.,scr1,sct)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00053}00053                         \textcolor{keyword}{CALL }xninte(j,\textcolor{stringliteral}{'CAPT'}, 10.,scr10,sct)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00054}00054                         \textcolor{keyword}{CALL }xninte(j,\textcolor{stringliteral}{'CAPT'},100.,scr100,sct)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00055}00055                         \textcolor{keyword}{CALL }xninte(j,\textcolor{stringliteral}{'FISS'},  1.,sfr1,sft)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00056}00056                         \textcolor{keyword}{CALL }xninte(j,\textcolor{stringliteral}{'FISS'}, 10.,sfr10,sft)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00057}00057                         \textcolor{keyword}{CALL }xninte(j,\textcolor{stringliteral}{'FISS'},100.,sfr100,sft)}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00058}00058                         jja=ja}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00059}00059                         \textcolor{keywordflow}{IF}(jja.LT.jz) jja=0}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00060}00060                         \textcolor{keyword}{WRITE}(1,\textcolor{stringliteral}{'(1X,I2,A1,A,A1,I3.3,8(A1,G11.4))'})}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00061}00061      + jz,tab,chnam,tab,jja,tab,sct,tab,scr1,tab,scr10,tab,scr100,}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00062}00062      +                      tab,sft,tab,sfr1,tab,sfr10,tab,sfr100}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00063}00063 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/ Cleanup}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00065}00065                         \textcolor{keywordflow}{DO} 20 jr=1,ntablr}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00066}00066                            imtabl(jr,1)=0}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00067}00067    20                   \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00068}00068                         ihgwmk=1}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00069}00069                         nmate=0}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00070}00070 \textcolor{keywordflow}{                     ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00071}00071                      \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00072}00072 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00073}00073    30          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00074}00074    40       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00075}00075    50    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00076}00076    60 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00077}00077 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00078}00078       \textcolor{keyword}{END}}
+\DoxyCodeLine{\Hypertarget{xnxsin_8_f_source_l00079}00079 +patch,xnplot.}
+
+\end{DoxyCode}

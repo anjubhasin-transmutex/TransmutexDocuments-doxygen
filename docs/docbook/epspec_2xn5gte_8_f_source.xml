@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_epspec_2xn5gte_8_f_source" xml:lang="en-US">
+<title>xn5gte.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/epspec/xn5gte.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_epspec_2xn5gte_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;05/06/96&#32;&#32;12.39.37&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xn5gte(EN,&#32;ENS,&#32;PB,&#32;NEN)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Calculates&#32;secondary&#32;neutron&#32;spectrum&#32;from&#32;ENDF-6&#32;file&#32;5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;distribution&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;EN&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;incoming&#32;neutron&#32;energy&#32;in&#32;eV&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;ENS&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;array&#32;of&#32;outgoing&#32;neutron&#32;energies&#32;in&#32;eV&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;where&#32;the&#32;spectrum&#32;has&#32;to&#32;be&#32;calculated&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;PB&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;array&#32;of&#32;spectrum&#32;probability&#32;values&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corresponding&#32;to&#32;the&#32;secondary&#32;energies&#32;in&#32;ENS&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;NENS&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;number&#32;of&#32;points&#32;in&#32;ENS&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00016"/>00016 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00017"/>00017 <emphasis role="preprocessor">#include&#32;&quot;xcenes.inc&quot;</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00018"/>00018 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xctab1.inc&quot;</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00019"/>00019 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xc5dat.inc&quot;</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00020"/>00020 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;parameter(maxpb1=2000)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;ens(nen),&#32;pb(nen),&#32;pb1(maxpb1)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00022"/>00022 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00023"/>00023 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00024"/>00024 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00025"/>00025 <emphasis role="comment">*&#32;---&gt;&#32;Check&#32;that&#32;we&#32;have&#32;enough&#32;space&#32;in&#32;local&#32;variables</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nen.GT.maxpb1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MAXPB1&apos;</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00028"/>00028 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00029"/>00029 <emphasis role="comment">*&#32;---&gt;&#32;Set&#32;everything&#32;to&#32;0</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;je=1,nen
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pb(je)=0
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pb1(je)=0
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00033"/>00033 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00034"/>00034 <emphasis role="comment">*&#32;---&gt;&#32;Loop&#32;on&#32;file&#32;5&#32;subsections</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;50&#32;&#32;jsubs=1,nsubs
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00036"/>00036 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;weight&#32;of&#32;this&#32;section</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00038"/>00038 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WRITE(6,10800)&#32;JSUBS,&#32;N1,&#32;NP</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00039"/>00039 <emphasis role="comment">*&#32;---&gt;&#32;Calculate&#32;weight&#32;for&#32;given&#32;input&#32;energy</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;u&#32;=&#32;c1
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00041"/>00041 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;energy&#32;less&#32;than&#32;threshold,&#32;section&#32;is&#32;skipped</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(en.LT.u)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;50
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00043"/>00043 <emphasis role="comment">*&#32;---&gt;&#32;Save&#32;section&#32;content&#32;flag</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lf&#32;=&#32;l2
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00045"/>00045 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;interpolated&#32;weight</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnterp(nbt,int,n1,xnrval,n2,en,pe)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00047"/>00047 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;no&#32;weight,&#32;skip&#32;section</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(pe.LE.0)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;50
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00049"/>00049 <emphasis role="comment">*&#32;---&gt;&#32;Now&#32;add&#32;section&#32;contribution</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(lf.EQ.1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00051"/>00051 <emphasis role="comment">*&#32;---&gt;&#32;Arbitrary&#32;tabulated&#32;function</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00053"/>00053 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Arbitrary&#32;tabulated&#32;function&apos;</emphasis>)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00054"/>00054 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;incoming&#32;energy&#32;interpolation&#32;information</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab2
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00056"/>00056 <emphasis role="comment">*&#32;---&gt;&#32;Number&#32;of&#32;incoming&#32;energy&#32;distributions</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nep=n2
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;eold=0
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;40&#32;jsub=1,nep
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00060"/>00060 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;secondary&#32;spectrum&#32;tabulation&#32;for&#32;this&#32;incoming&#32;energy</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00062"/>00062 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;incoming&#32;energy&#32;less&#32;than&#32;first,&#32;or&#32;exactly&#32;equal&#32;to&#32;current</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00063"/>00063 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;tabulation&#32;or&#32;greater&#32;than&#32;last,&#32;take&#32;current&#32;tabulation&#32;and</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00064"/>00064 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;leave</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(en.EQ.c2.OR.(en.LT.c2.AND.jsub.EQ.1)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.OR.(en.GT.c2.AND.jsub.EQ.nep))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnlf01(ens,pb,nen,pe)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;50
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00069"/>00069 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00070"/>00070 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;incoming&#32;energy&#32;between&#32;this&#32;tabulation&#32;and&#32;previous&#32;one,</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00071"/>00071 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;interpolate&#32;and&#32;leave</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(en.LT.c2)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00073"/>00073 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;interpolation&#32;factor</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xrat=(c2-en)/(c2-eold)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00075"/>00075 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;previous&#32;weighted&#32;energy&#32;value</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;&#32;je=1,nen
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pb(je)=pb(je)+pb1(je)*xrat
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pb1(je)=0
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00079"/>00079 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00080"/>00080 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;current&#32;weighted&#32;energy&#32;value</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnlf01(ens,pb1,nen,pe)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;&#32;je=1,nen
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pb(je)=pb(je)+pb1(je)*(1-xrat)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00084"/>00084 &#32;&#32;&#32;30&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00085"/>00085 <emphasis role="comment">*&#32;---&gt;&#32;Exit,&#32;this&#32;subsection&#32;done</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;50
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00087"/>00087 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00088"/>00088 <emphasis role="comment">*&#32;---&gt;&#32;Calculate&#32;spectrum</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnlf01(ens,pb1,nen,pe)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00090"/>00090 <emphasis role="comment">*&#32;---&gt;&#32;Save&#32;current&#32;incoming&#32;energy</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;eold=c2
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00092"/>00092 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(lf.EQ.5)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10100)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00095"/>00095 <emphasis role="comment">*&#32;---&gt;&#32;General&#32;evaporation&#32;spectrum</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00096"/>00096 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;General&#32;evaporation&#32;spectrum&apos;</emphasis>)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00097"/>00097 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;and&#32;interpolate&#32;nuclear&#32;temperature&#32;value</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnterp(nbt,int,n1,xnrval,n2,en,theta)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00100"/>00100 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;tabulated&#32;function</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00101"/>00101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00102"/>00102 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;probability&#32;to&#32;grid</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnlf05(ens,pb,nen,pe,theta)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(lf.EQ.7)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00105"/>00105 <emphasis role="comment">*&#32;---&gt;&#32;Simple&#32;fission&#32;spectrum&#32;(Maxwellian)</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10200)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00107"/>00107 10200&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Simple&#32;fission&#32;spectrum&#32;(Maxwellian)&apos;</emphasis>)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00108"/>00108 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;and&#32;interpolate&#32;nuclear&#32;temperature&#32;values</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnterp(nbt,int,n1,xnrval,n2,en,theta)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00111"/>00111 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;probability&#32;to&#32;grid</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00112"/>00112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnlf07(ens,pb,nen,pe,theta,en,u)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(lf.EQ.9)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00114"/>00114 <emphasis role="comment">*&#32;---&gt;&#32;Evaporation&#32;spectrum</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10300)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00116"/>00116 10300&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Evaporation&#32;spectrum&apos;</emphasis>)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00117"/>00117 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;and&#32;interpolate&#32;nuclear&#32;temperature&#32;values</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00119"/>00119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnterp(nbt,int,n1,xnrval,n2,en,theta)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00120"/>00120 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;probability&#32;to&#32;grid</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnlf09(ens,pb,nen,pe,theta,en,u)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00122"/>00122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(lf.EQ.11)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00123"/>00123 <emphasis role="comment">*&#32;---&gt;&#32;Energy&#32;dependent&#32;Watt&#32;spectrum</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00124"/>00124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10400)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00125"/>00125 10400&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Energy&#32;dependent&#32;Watt&#32;spectrum&apos;</emphasis>)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00126"/>00126 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;and&#32;interpolate&#32;values&#32;for&#32;a&#32;constant</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00127"/>00127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00128"/>00128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnterp(nbt,int,n1,xnrval,n2,en,aa)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00129"/>00129 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;and&#32;interpolate&#32;values&#32;for&#32;b&#32;constant</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00130"/>00130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00131"/>00131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnterp(nbt,int,n1,xnrval,n2,en,bb)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00132"/>00132 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;probability&#32;to&#32;grid</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00133"/>00133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnlf11(ens,pb,nen,pe,aa,bb,en,u)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00134"/>00134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(lf.EQ.12)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00135"/>00135 <emphasis role="comment">*&#32;---&gt;&#32;Energy&#32;dependent&#32;fission&#32;neutron&#32;spectrum&#32;(Madland&amp;Nix)</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00136"/>00136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10500)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00137"/>00137 10500&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Energy&#32;dependent&#32;fission&#32;neutron&#32;spectrum&#32;(Madland&amp;Nix)&apos;</emphasis>)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00138"/>00138 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;and&#32;interpolate&#32;max&#32;nuclear&#32;temperature&#32;parameter</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00139"/>00139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00140"/>00140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnterp(nbt,int,n1,xnrval,n2,en,tm)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00141"/>00141 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;probability&#32;to&#32;grid</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00142"/>00142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnlf12(ens,pb,nen,pe,c1,c2,tm)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00143"/>00143 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00144"/>00144 &#32;&#32;&#32;50&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00145"/>00145 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00146"/>00146 10600&#32;<emphasis role="keyword">FORMAT</emphasis>(1x,i3,<emphasis role="stringliteral">&apos;&#32;Subsections&#32;found&apos;</emphasis>)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00147"/>00147 10700&#32;<emphasis role="keyword">FORMAT</emphasis>(1x,i5,<emphasis role="stringliteral">&apos;&#32;Found&#32;energy&#32;distribution&#32;for&#32;&apos;</emphasis>,i2,<emphasis role="stringliteral">&apos;-&apos;</emphasis>,i3)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00148"/>00148 10800&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Subsection&#32;&apos;</emphasis>,i3,<emphasis role="stringliteral">&apos;&#32;number&#32;of&#32;int&#32;ranges&#32;&apos;</emphasis>,i3,
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00149"/>00149 &#32;&#32;&#32;&#32;&#32;+<emphasis role="stringliteral">&apos;&#32;number&#32;of&#32;p(E)&#32;&apos;</emphasis>,i3)
+<anchor xml:id="_epspec_2xn5gte_8_f_source_1l00150"/>00150 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__parse_for_root_8_c_source" xml:lang="en-US">
+<title>ParseForRoot.C</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/tools/ParseForRoot.C</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__parse_for_root_8_c_source_1l00001"/>00001 <emphasis role="preprocessor">#include&#32;&lt;iostream&gt;</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00002"/>00002 <emphasis role="preprocessor">#include&#32;&lt;sstream&gt;</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00003"/>00003 <emphasis role="preprocessor">#include&#32;&lt;iostream&gt;</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00004"/>00004 <emphasis role="preprocessor">#include&#32;&lt;stdio.h&gt;</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00005"/>00005 <emphasis role="preprocessor">#include&#32;&quot;TNtuple.h&quot;</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00006"/>00006 <emphasis role="preprocessor">#include&#32;&quot;TFile.h&quot;</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00007"/>00007 <emphasis role="preprocessor">#include&#32;&quot;TH1F.h&quot;</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00008"/>00008 <emphasis role="keyword">using</emphasis>&#32;std::cout;
+<anchor xml:id="__parse_for_root_8_c_source_1l00009"/>00009 <emphasis role="keyword">using</emphasis>&#32;std::endl;
+<anchor xml:id="__parse_for_root_8_c_source_1l00010"/>00010 
+<anchor xml:id="__parse_for_root_8_c_source_1l00011"/>00011 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00012"/>00012 
+<anchor xml:id="__parse_for_root_8_c_source_1l00013"/>00013 <emphasis role="keywordtype">int</emphasis>&#32;forYacine(<emphasis role="keywordtype">string</emphasis>&#32;filename&#32;=&#32;<emphasis role="stringliteral">&quot;history.dat.600MeV&quot;</emphasis>)&#32;{
+<anchor xml:id="__parse_for_root_8_c_source_1l00014"/>00014 &#32;&#32;std::string&#32;line;
+<anchor xml:id="__parse_for_root_8_c_source_1l00015"/>00015 &#32;&#32;std::ifstream&#32;infile(filename);
+<anchor xml:id="__parse_for_root_8_c_source_1l00016"/>00016 &#32;&#32;std::istringstream&#32;iss;&#32;&#32;&#32;
+<anchor xml:id="__parse_for_root_8_c_source_1l00017"/>00017 &#32;&#32;<emphasis role="comment">//&#32;skip&#32;header</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00018"/>00018 &#32;&#32;std::getline(infile,&#32;line);
+<anchor xml:id="__parse_for_root_8_c_source_1l00019"/>00019 &#32;&#32;std::getline(infile,&#32;line);
+<anchor xml:id="__parse_for_root_8_c_source_1l00020"/>00020 &#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;px=0,py=0,pz=0,x=0,y=0,z=0,en=0;
+<anchor xml:id="__parse_for_root_8_c_source_1l00021"/>00021 &#32;&#32;TFile*&#32;outputFile&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TFile(<emphasis role="stringliteral">&quot;exampleNtuple.root&quot;</emphasis>,<emphasis role="stringliteral">&quot;recreate&quot;</emphasis>);
+<anchor xml:id="__parse_for_root_8_c_source_1l00022"/>00022 &#32;&#32;TNtuple&#32;*ntuple&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TNtuple(<emphasis role="stringliteral">&quot;ntuple&quot;</emphasis>,<emphasis role="stringliteral">&quot;history.dat&quot;</emphasis>,<emphasis role="stringliteral">&quot;x:y:z:px:py:pz:en&quot;</emphasis>);
+<anchor xml:id="__parse_for_root_8_c_source_1l00023"/>00023 &#32;&#32;TH1F&#32;*h&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;TH1F(<emphasis role="stringliteral">&quot;h&quot;</emphasis>,<emphasis role="stringliteral">&quot;Mult&quot;</emphasis>,101,0,100);
+<anchor xml:id="__parse_for_root_8_c_source_1l00024"/>00024 &#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;totev&#32;=&#32;0;
+<anchor xml:id="__parse_for_root_8_c_source_1l00025"/>00025 &#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(std::getline(infile,&#32;line))
+<anchor xml:id="__parse_for_root_8_c_source_1l00026"/>00026 &#32;&#32;{
+<anchor xml:id="__parse_for_root_8_c_source_1l00027"/>00027 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(line.substr(0,7)&#32;==&#32;<emphasis role="stringliteral">&quot;End&#32;run&quot;</emphasis>)&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="__parse_for_root_8_c_source_1l00028"/>00028 &#32;&#32;&#32;&#32;++totev;
+<anchor xml:id="__parse_for_root_8_c_source_1l00029"/>00029 <emphasis role="comment">//&#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;line&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00030"/>00030 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(line.substr(0,11)==<emphasis role="stringliteral">&quot;Begin&#32;event&quot;</emphasis>)&#32;{
+<anchor xml:id="__parse_for_root_8_c_source_1l00031"/>00031 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;&quot;Begin&#32;event&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;std::getline(infile,line);
+<anchor xml:id="__parse_for_root_8_c_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(line.substr(0,19)&#32;==&#32;<emphasis role="stringliteral">&quot;Neutron&#32;information&quot;</emphasis>)&#32;{
+<anchor xml:id="__parse_for_root_8_c_source_1l00034"/>00034 &#32;&#32;&#32;&#32;iss.str(line.substr(20,80));
+<anchor xml:id="__parse_for_root_8_c_source_1l00035"/>00035 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;nneut;
+<anchor xml:id="__parse_for_root_8_c_source_1l00036"/>00036 &#32;&#32;&#32;&#32;sscanf(line.substr(20,80).c_str(),<emphasis role="stringliteral">&quot;%d&quot;</emphasis>,&amp;nneut);
+<anchor xml:id="__parse_for_root_8_c_source_1l00037"/>00037 &#32;&#32;&#32;&#32;h-&gt;Fill(nneut);
+<anchor xml:id="__parse_for_root_8_c_source_1l00038"/>00038 <emphasis role="comment">//&#32;&#32;iss&#32;&gt;&gt;&#32;nneut;</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00039"/>00039 <emphasis role="comment">//&#32;&#32;cout&#32;&lt;&lt;&#32;&quot;#&#32;neutrons&#32;&quot;&#32;&lt;&lt;&#32;nneut&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00040"/>00040 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<emphasis role="keywordtype">int</emphasis>&#32;i=0;i&lt;nneut;++i)&#32;{
+<anchor xml:id="__parse_for_root_8_c_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;std::getline(infile,line);
+<anchor xml:id="__parse_for_root_8_c_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;sscanf(line.c_str(),<emphasis role="stringliteral">&quot;%lf&#32;%lf&#32;%lf&#32;%lf&#32;%lf&#32;%lf&#32;%lf&quot;</emphasis>,&amp;x,&amp;y,&amp;z,&amp;px,&amp;py,&amp;pz,&amp;en);
+<anchor xml:id="__parse_for_root_8_c_source_1l00043"/>00043 <emphasis role="comment">//&#32;&#32;&#32;&#32;cout&lt;&lt;&#32;x&#32;&lt;&lt;&#32;&quot;&#32;&quot;&#32;&lt;&lt;&#32;y&#32;&lt;&lt;&#32;&quot;&#32;&quot;&#32;&lt;&lt;&#32;z&#32;&lt;&lt;&#32;&quot;&#32;&quot;</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00044"/>00044 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;px&#32;&lt;&lt;&#32;&quot;&#32;&quot;&#32;&lt;&lt;&#32;py&#32;&lt;&lt;&#32;&quot;&#32;&quot;&#32;&lt;&lt;&#32;pz&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;ntuple-&gt;Fill(x,y,z,px,py,pz,en);
+<anchor xml:id="__parse_for_root_8_c_source_1l00046"/>00046 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__parse_for_root_8_c_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+<anchor xml:id="__parse_for_root_8_c_source_1l00048"/>00048 &#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;No&#32;Neutron&#32;information&quot;</emphasis>&#32;&lt;&lt;&#32;endl;
+<anchor xml:id="__parse_for_root_8_c_source_1l00049"/>00049 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+<anchor xml:id="__parse_for_root_8_c_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__parse_for_root_8_c_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;std::getline(infile,line);
+<anchor xml:id="__parse_for_root_8_c_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(line.substr(0,21)&#32;==&#32;<emphasis role="stringliteral">&quot;Fragments&#32;information&quot;</emphasis>)&#32;{
+<anchor xml:id="__parse_for_root_8_c_source_1l00053"/>00053 &#32;&#32;&#32;&#32;iss.str(line.substr(22,80));
+<anchor xml:id="__parse_for_root_8_c_source_1l00054"/>00054 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;nfrag;
+<anchor xml:id="__parse_for_root_8_c_source_1l00055"/>00055 &#32;&#32;&#32;&#32;sscanf(line.substr(22,80).c_str(),<emphasis role="stringliteral">&quot;%d&quot;</emphasis>,&amp;nfrag);
+<anchor xml:id="__parse_for_root_8_c_source_1l00056"/>00056 <emphasis role="comment">//&#32;&#32;cout&#32;&lt;&lt;&#32;&quot;#&#32;fragments&#32;&quot;&#32;&lt;&lt;&#32;nfrag&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00057"/>00057 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<emphasis role="keywordtype">int</emphasis>&#32;i=0;i&lt;nfrag;++i)&#32;{
+<anchor xml:id="__parse_for_root_8_c_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;std::getline(infile,line);
+<anchor xml:id="__parse_for_root_8_c_source_1l00059"/>00059 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__parse_for_root_8_c_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+<anchor xml:id="__parse_for_root_8_c_source_1l00061"/>00061 &#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;No&#32;Fragments&#32;information&quot;</emphasis>&#32;&lt;&lt;&#32;endl;
+<anchor xml:id="__parse_for_root_8_c_source_1l00062"/>00062 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+<anchor xml:id="__parse_for_root_8_c_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__parse_for_root_8_c_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;std::getline(infile,line);
+<anchor xml:id="__parse_for_root_8_c_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;std::getline(infile,line);
+<anchor xml:id="__parse_for_root_8_c_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;std::getline(infile,line);
+<anchor xml:id="__parse_for_root_8_c_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(line.substr(0,9)&#32;!=&#32;<emphasis role="stringliteral">&quot;End&#32;event&quot;</emphasis>)&#32;{
+<anchor xml:id="__parse_for_root_8_c_source_1l00068"/>00068 &#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;No&#32;End&#32;event&quot;</emphasis>&#32;&lt;&lt;&#32;endl;
+<anchor xml:id="__parse_for_root_8_c_source_1l00069"/>00069 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+<anchor xml:id="__parse_for_root_8_c_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__parse_for_root_8_c_source_1l00071"/>00071 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+<anchor xml:id="__parse_for_root_8_c_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;No&#32;Begin&#32;event&quot;</emphasis>&#32;&lt;&lt;&#32;endl;
+<anchor xml:id="__parse_for_root_8_c_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+<anchor xml:id="__parse_for_root_8_c_source_1l00074"/>00074 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__parse_for_root_8_c_source_1l00075"/>00075 &#32;&#32;&#32;&#32;
+<anchor xml:id="__parse_for_root_8_c_source_1l00076"/>00076 &#32;&#32;}
+<anchor xml:id="__parse_for_root_8_c_source_1l00077"/>00077 <emphasis role="comment">//&#32;&#32;ntuple-&gt;Write();</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00078"/>00078 <emphasis role="comment">//&#32;&#32;ntuple-&gt;Print();</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00079"/>00079 <emphasis role="comment">//&#32;&#32;h-&gt;Write();</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00080"/>00080 &#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Total&#32;event&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;totev&#32;&lt;&lt;&#32;endl;
+<anchor xml:id="__parse_for_root_8_c_source_1l00081"/>00081 &#32;&#32;outputFile-&gt;Write();
+<anchor xml:id="__parse_for_root_8_c_source_1l00082"/>00082 &#32;&#32;outputFile-&gt;Close();
+<anchor xml:id="__parse_for_root_8_c_source_1l00083"/>00083 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__parse_for_root_8_c_source_1l00084"/>00084 &#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+<anchor xml:id="__parse_for_root_8_c_source_1l00085"/>00085 }
+</programlisting></section>

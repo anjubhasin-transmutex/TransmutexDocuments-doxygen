@@ -1,0 +1,502 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source" xml:lang="en-US">
+<title>PhysicsList.cc</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/G4-NeutronTransport/src/PhysicsList.cc</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00001"/>00001 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00002"/>00002 <emphasis role="comment">//&#32;********************************************************************</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00003"/>00003 <emphasis role="comment">//&#32;*&#32;License&#32;and&#32;Disclaimer&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00004"/>00004 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00005"/>00005 <emphasis role="comment">//&#32;*&#32;The&#32;&#32;Geant4&#32;software&#32;&#32;is&#32;&#32;copyright&#32;of&#32;the&#32;Copyright&#32;Holders&#32;&#32;of&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00006"/>00006 <emphasis role="comment">//&#32;*&#32;the&#32;Geant4&#32;Collaboration.&#32;&#32;It&#32;is&#32;provided&#32;&#32;under&#32;&#32;the&#32;terms&#32;&#32;and&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00007"/>00007 <emphasis role="comment">//&#32;*&#32;conditions&#32;of&#32;the&#32;Geant4&#32;Software&#32;License,&#32;&#32;included&#32;in&#32;the&#32;file&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00008"/>00008 <emphasis role="comment">//&#32;*&#32;LICENSE&#32;and&#32;available&#32;at&#32;&#32;http://cern.ch/geant4/license&#32;.&#32;&#32;These&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00009"/>00009 <emphasis role="comment">//&#32;*&#32;include&#32;a&#32;list&#32;of&#32;copyright&#32;holders.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00010"/>00010 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00011"/>00011 <emphasis role="comment">//&#32;*&#32;Neither&#32;the&#32;authors&#32;of&#32;this&#32;software&#32;system,&#32;nor&#32;their&#32;employing&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00012"/>00012 <emphasis role="comment">//&#32;*&#32;institutes,nor&#32;the&#32;agencies&#32;providing&#32;financial&#32;support&#32;for&#32;this&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00013"/>00013 <emphasis role="comment">//&#32;*&#32;work&#32;&#32;make&#32;&#32;any&#32;representation&#32;or&#32;&#32;warranty,&#32;express&#32;or&#32;implied,&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00014"/>00014 <emphasis role="comment">//&#32;*&#32;regarding&#32;&#32;this&#32;&#32;software&#32;system&#32;or&#32;assume&#32;any&#32;liability&#32;for&#32;its&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00015"/>00015 <emphasis role="comment">//&#32;*&#32;use.&#32;&#32;Please&#32;see&#32;the&#32;license&#32;in&#32;the&#32;file&#32;&#32;LICENSE&#32;&#32;and&#32;URL&#32;above&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00016"/>00016 <emphasis role="comment">//&#32;*&#32;for&#32;the&#32;full&#32;disclaimer&#32;and&#32;the&#32;limitation&#32;of&#32;liability.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00017"/>00017 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00018"/>00018 <emphasis role="comment">//&#32;*&#32;This&#32;&#32;code&#32;&#32;implementation&#32;is&#32;the&#32;result&#32;of&#32;&#32;the&#32;&#32;scientific&#32;and&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00019"/>00019 <emphasis role="comment">//&#32;*&#32;technical&#32;work&#32;of&#32;the&#32;GEANT4&#32;collaboration.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00020"/>00020 <emphasis role="comment">//&#32;*&#32;By&#32;using,&#32;&#32;copying,&#32;&#32;modifying&#32;or&#32;&#32;distributing&#32;the&#32;software&#32;(or&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00021"/>00021 <emphasis role="comment">//&#32;*&#32;any&#32;work&#32;based&#32;&#32;on&#32;the&#32;software)&#32;&#32;you&#32;&#32;agree&#32;&#32;to&#32;acknowledge&#32;its&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00022"/>00022 <emphasis role="comment">//&#32;*&#32;use&#32;&#32;in&#32;&#32;resulting&#32;&#32;scientific&#32;&#32;publications,&#32;&#32;and&#32;indicate&#32;your&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00023"/>00023 <emphasis role="comment">//&#32;*&#32;acceptance&#32;of&#32;all&#32;terms&#32;of&#32;the&#32;Geant4&#32;Software&#32;license.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00024"/>00024 <emphasis role="comment">//&#32;********************************************************************</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00025"/>00025 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00028"/>00028 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00029"/>00029 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00030"/>00030 <emphasis role="comment">//&#32;$Id:&#32;PhysicsList.cc&#32;70761&#32;2013-06-05&#32;12:30:51Z&#32;gcosmo&#32;$</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00031"/>00031 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00033"/>00033 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00034"/>00034 <emphasis role="comment">//&#32;PhysicsList</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00035"/>00035 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00036"/>00036 <emphasis role="comment">//&#32;Created:&#32;31.04.2006&#32;V.Ivanchenko</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00037"/>00037 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00038"/>00038 <emphasis role="comment">//&#32;Modified:</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00039"/>00039 <emphasis role="comment">//&#32;04.06.2006&#32;Adoptation&#32;of&#32;Hadr01&#32;(V.Ivanchenko)</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00040"/>00040 <emphasis role="comment">//&#32;26.04.2007&#32;Physics&#32;according&#32;to&#32;8.3&#32;Physics&#32;List&#32;(V.Ivanchenko)</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00041"/>00041 <emphasis role="comment">//&#32;16.10.2012&#32;Renamed&#32;used&#32;classes&#32;(A.Ribon)</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00042"/>00042 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00043"/>00043 <emphasis role="comment">//&#32;Donovan&#32;Maire,&#32;Transmutex,&#32;18/10/2019</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00044"/>00044 <emphasis role="comment">//&#32;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00046"/>00046 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00047"/>00047 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00048"/>00048 <emphasis role="preprocessor">#include&#32;&quot;PhysicsList.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00049"/>00049 <emphasis role="comment">//&#32;#include&#32;&quot;PhysicsListMessenger.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00050"/>00050 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00051"/>00051 <emphasis role="preprocessor">#include&#32;&quot;G4DecayPhysics.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00052"/>00052 <emphasis role="preprocessor">#include&#32;&quot;G4EmStandardPhysics.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00053"/>00053 <emphasis role="preprocessor">#include&#32;&quot;G4EmStandardPhysics_option1.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00054"/>00054 <emphasis role="preprocessor">#include&#32;&quot;G4EmStandardPhysics_option2.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00055"/>00055 <emphasis role="preprocessor">#include&#32;&quot;G4EmStandardPhysics_option3.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00056"/>00056 <emphasis role="preprocessor">#include&#32;&quot;G4EmStandardPhysics_option4.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00057"/>00057 <emphasis role="preprocessor">#include&#32;&quot;G4EmLivermorePhysics.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00058"/>00058 <emphasis role="preprocessor">#include&#32;&quot;G4EmPenelopePhysics.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00059"/>00059 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00060"/>00060 <emphasis role="preprocessor">#include&#32;&quot;G4HadronElasticPhysics.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00061"/>00061 <emphasis role="preprocessor">#include&#32;&quot;G4HadronHElasticPhysics.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00062"/>00062 <emphasis role="preprocessor">#include&#32;&quot;G4HadronElasticPhysicsXS.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00063"/>00063 <emphasis role="preprocessor">#include&#32;&quot;G4HadronElasticPhysicsHP.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00064"/>00064 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00065"/>00065 <emphasis role="preprocessor">#include&#32;&quot;G4ChargeExchangePhysics.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00066"/>00066 <emphasis role="preprocessor">#include&#32;&quot;G4NeutronTrackingCut.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00067"/>00067 <emphasis role="preprocessor">#include&#32;&quot;G4NeutronCrossSectionXS.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00068"/>00068 <emphasis role="preprocessor">#include&#32;&quot;G4StoppingPhysics.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00069"/>00069 <emphasis role="preprocessor">#include&#32;&quot;G4IonBinaryCascadePhysics.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00070"/>00070 <emphasis role="preprocessor">#include&#32;&quot;G4IonPhysics.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00071"/>00071 <emphasis role="preprocessor">#include&#32;&quot;G4EmExtraPhysics.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00072"/>00072 <emphasis role="comment">//&#32;#include&#32;&quot;G4EmProcessOptions.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00073"/>00073 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00074"/>00074 <emphasis role="preprocessor">#include&#32;&quot;G4HadronPhysicsFTFP_BERT.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00075"/>00075 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00076"/>00076 <emphasis role="comment">//&#32;#include&#32;&quot;G4HadronInFTFPlowBERT.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00077"/>00077 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00078"/>00078 <emphasis role="preprocessor">#include&#32;&quot;G4HadronPhysicsFTFP_BERT_HP.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00079"/>00079 <emphasis role="preprocessor">#include&#32;&quot;G4HadronPhysicsFTF_BIC.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00080"/>00080 <emphasis role="preprocessor">#include&#32;&quot;G4HadronInelasticQBBC.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00081"/>00081 <emphasis role="preprocessor">#include&#32;&quot;G4HadronPhysicsQGSP_BERT.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00082"/>00082 <emphasis role="preprocessor">#include&#32;&quot;G4HadronPhysicsQGSP_BERT_HP.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00083"/>00083 <emphasis role="preprocessor">#include&#32;&quot;G4HadronPhysicsQGSP_BIC.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00084"/>00084 <emphasis role="preprocessor">#include&#32;&quot;G4HadronPhysicsQGSP_BIC_HP.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00085"/>00085 <emphasis role="preprocessor">#include&#32;&quot;G4HadronPhysicsINCLXX.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00086"/>00086 <emphasis role="preprocessor">#include&#32;&quot;G4HadronPhysicsQGSP_FTFP_BERT.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00087"/>00087 <emphasis role="preprocessor">#include&#32;&quot;G4HadronPhysicsQGS_BIC.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00088"/>00088 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00089"/>00089 <emphasis role="preprocessor">#include&#32;&quot;G4LossTableManager.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00090"/>00090 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00091"/>00091 <emphasis role="preprocessor">#include&#32;&quot;G4ProcessManager.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00092"/>00092 <emphasis role="preprocessor">#include&#32;&quot;G4ParticleTypes.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00093"/>00093 <emphasis role="preprocessor">#include&#32;&quot;G4ParticleTable.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00094"/>00094 <emphasis role="preprocessor">#include&#32;&quot;G4Gamma.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00095"/>00095 <emphasis role="preprocessor">#include&#32;&quot;G4Electron.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00096"/>00096 <emphasis role="preprocessor">#include&#32;&quot;G4Positron.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00097"/>00097 <emphasis role="preprocessor">#include&#32;&quot;G4Proton.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00098"/>00098 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00099"/>00099 <emphasis role="preprocessor">#include&#32;&quot;G4SystemOfUnits.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00100"/>00100 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00102"/>00102 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00103"/>00103 PhysicsList::PhysicsList()&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00104"/>00104 &#32;:&#32;G4VModularPhysicsList(),
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00105"/>00105 &#32;&#32;&#32;fEmPhysicsList(0),&#32;fParticleList(0)
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00106"/>00106 <emphasis role="comment">//&#32;&#32;&#32;&#32;fMessenger(0)</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00107"/>00107 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00108"/>00108 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00109"/>00109 &#32;&#32;G4LossTableManager::Instance();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00110"/>00110 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00111"/>00111 &#32;&#32;<emphasis role="comment">//&#32;defaultCutValue&#32;&#32;=&#32;0.7*mm;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00112"/>00112 &#32;&#32;defaultCutValue&#32;&#32;=&#32;0.7e10*km;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00113"/>00113 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00114"/>00114 &#32;&#32;fCutForGamma&#32;&#32;&#32;&#32;&#32;=&#32;defaultCutValue;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00115"/>00115 &#32;&#32;fCutForElectron&#32;&#32;=&#32;defaultCutValue;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00116"/>00116 &#32;&#32;fCutForPositron&#32;&#32;=&#32;defaultCutValue;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00117"/>00117 &#32;&#32;fCutForProton&#32;&#32;&#32;&#32;=&#32;defaultCutValue;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00118"/>00118 &#32;&#32;verboseLevel&#32;&#32;&#32;&#32;&#32;=&#32;1;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00119"/>00119 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00120"/>00120 <emphasis role="comment">//&#32;&#32;&#32;fMessenger&#32;=&#32;new&#32;PhysicsListMessenger(this);</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00121"/>00121 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00122"/>00122 &#32;&#32;<emphasis role="comment">//&#32;Particles</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00123"/>00123 <emphasis role="comment">//&#32;&#32;fParticleList&#32;=&#32;new&#32;G4DecayPhysics(&quot;decays&quot;);&#32;//disactivated&#32;for&#32;activation&#32;calculation.&#32;Create&#32;isomeric&#32;states&#32;with&#32;0&#32;ps&#32;of&#32;half&#32;life</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00124"/>00124 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00125"/>00125 &#32;&#32;<emphasis role="comment">//&#32;EM&#32;physics</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00126"/>00126 &#32;&#32;fEmPhysicsList&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4EmStandardPhysics();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00127"/>00127 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00128"/>00128 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00130"/>00130 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00131"/>00131 PhysicsList::~PhysicsList()
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00132"/>00132 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00133"/>00133 <emphasis role="comment">//&#32;&#32;&#32;delete&#32;fMessenger;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00134"/>00134 &#32;&#32;<emphasis role="keyword">delete</emphasis>&#32;fParticleList;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00135"/>00135 &#32;&#32;<emphasis role="keyword">delete</emphasis>&#32;fEmPhysicsList;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00136"/>00136 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00137"/>00137 &#32;&#32;<emphasis role="keywordflow">for</emphasis>(<emphasis role="keywordtype">size_t</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;fHadronPhys.size();&#32;i++)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00138"/>00138 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00139"/>00139 &#32;&#32;&#32;&#32;<emphasis role="keyword">delete</emphasis>&#32;fHadronPhys[i];
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00140"/>00140 &#32;&#32;}
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00141"/>00141 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00142"/>00142 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00144"/>00144 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00145"/>00145 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::ConstructParticle()
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00146"/>00146 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00147"/>00147 &#32;&#32;fParticleList-&gt;ConstructParticle();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00148"/>00148 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00149"/>00149 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00151"/>00151 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00152"/>00152 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::ConstructProcess()
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00153"/>00153 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00154"/>00154 &#32;&#32;AddTransportation();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00155"/>00155 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00156"/>00156 &#32;&#32;ConstructGeneral();&#32;<emphasis role="comment">//&#32;Added&#32;by&#32;D.&#32;Maire&#32;on&#32;November&#32;4th,&#32;2019</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00157"/>00157 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00158"/>00158 &#32;&#32;<emphasis role="comment">//&#32;fEmPhysicsList-&gt;ConstructProcess();</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00159"/>00159 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00160"/>00160 &#32;&#32;fParticleList-&gt;ConstructProcess();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00161"/>00161 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00162"/>00162 &#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;fHadronPhys.size();&#32;i++)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00163"/>00163 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00164"/>00164 &#32;&#32;&#32;&#32;fHadronPhys[i]-&gt;ConstructProcess();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00165"/>00165 &#32;&#32;}
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00166"/>00166 &#32;&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00167"/>00167 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00168"/>00168 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00170"/>00170 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00171"/>00171 <emphasis role="comment">//&#32;Added&#32;by&#32;D.&#32;Maire&#32;on&#32;November&#32;4th,&#32;2019</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00172"/>00172 <emphasis role="preprocessor">#include&#32;&quot;G4ParallelWorldScoringProcess.hh&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00173"/>00173 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::ConstructGeneral()
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00174"/>00174 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00175"/>00175 &#32;&#32;<emphasis role="comment">//&#32;Add&#32;Parallel&#32;world&#32;Scoring&#32;Process</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00176"/>00176 &#32;&#32;G4ParallelWorldScoringProcess*&#32;ParallelWorldScoringProcess
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00177"/>00177 &#32;&#32;&#32;&#32;&#32;&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4ParallelWorldScoringProcess(<emphasis role="stringliteral">&quot;ParaWorldScoringProc&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00178"/>00178 &#32;&#32;ParallelWorldScoringProcess-&gt;SetParallelWorld(<emphasis role="stringliteral">&quot;ParallelScoringWorld&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00179"/>00179 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00180"/>00180 &#32;&#32;G4ParticleTable::G4PTblDicIterator*&#32;theParticleIterator&#32;=&#32;G4ParticleTable::GetParticleTable()-&gt;GetIterator();&#32;&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00181"/>00181 &#32;&#32;theParticleIterator-&gt;reset();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00182"/>00182 &#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;(*theParticleIterator)()&#32;){
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00183"/>00183 &#32;&#32;&#32;&#32;G4ParticleDefinition*&#32;particle&#32;=&#32;theParticleIterator-&gt;value();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00184"/>00184 &#32;&#32;&#32;&#32;G4ProcessManager*&#32;pmanager&#32;=&#32;particle-&gt;GetProcessManager();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00185"/>00185 &#32;&#32;&#32;&#32;pmanager-&gt;AddProcess(ParallelWorldScoringProcess);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00186"/>00186 &#32;&#32;&#32;&#32;pmanager-&gt;SetProcessOrderingToLast(ParallelWorldScoringProcess,&#32;idxAtRest);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00187"/>00187 &#32;&#32;&#32;&#32;pmanager-&gt;SetProcessOrdering(ParallelWorldScoringProcess,&#32;idxAlongStep,&#32;1);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00188"/>00188 &#32;&#32;&#32;&#32;pmanager-&gt;SetProcessOrderingToLast(ParallelWorldScoringProcess,&#32;idxPostStep);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00189"/>00189 &#32;&#32;}
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00190"/>00190 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00191"/>00191 <emphasis role="comment">//&#32;Stop</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00192"/>00192 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00194"/>00194 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00195"/>00195 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::AddPhysicsList(<emphasis role="keyword">const</emphasis>&#32;G4String&amp;&#32;name)
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00196"/>00196 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00197"/>00197 &#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;verboseLevel&#32;&gt;&#32;0&#32;)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00198"/>00198 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00199"/>00199 &#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;PhysicsList::AddPhysicsList:&#32;&lt;&quot;</emphasis>&#32;&lt;&lt;&#32;name&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&gt;&quot;</emphasis>&#32;&lt;&lt;&#32;G4endl;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00200"/>00200 &#32;&#32;}
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00201"/>00201 &#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;name&#32;==&#32;<emphasis role="stringliteral">&quot;emstandard_opt0&quot;</emphasis>&#32;)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00202"/>00202 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00203"/>00203 &#32;&#32;&#32;&#32;<emphasis role="keyword">delete</emphasis>&#32;fEmPhysicsList;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00204"/>00204 &#32;&#32;&#32;&#32;fEmPhysicsList&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4EmStandardPhysics();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00205"/>00205 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00206"/>00206 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;name&#32;==&#32;<emphasis role="stringliteral">&quot;emstandard_opt1&quot;</emphasis>&#32;)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00207"/>00207 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00208"/>00208 &#32;&#32;&#32;&#32;<emphasis role="keyword">delete</emphasis>&#32;fEmPhysicsList;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00209"/>00209 &#32;&#32;&#32;&#32;fEmPhysicsList&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4EmStandardPhysics_option1();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00210"/>00210 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00211"/>00211 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;emstandard_opt2&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00212"/>00212 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00213"/>00213 &#32;&#32;&#32;&#32;<emphasis role="keyword">delete</emphasis>&#32;fEmPhysicsList;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00214"/>00214 &#32;&#32;&#32;&#32;fEmPhysicsList&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4EmStandardPhysics_option2();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00215"/>00215 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00216"/>00216 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;emstandard_opt3&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00217"/>00217 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00218"/>00218 &#32;&#32;&#32;&#32;<emphasis role="keyword">delete</emphasis>&#32;fEmPhysicsList;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00219"/>00219 &#32;&#32;&#32;&#32;fEmPhysicsList&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4EmStandardPhysics_option3();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00220"/>00220 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00221"/>00221 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;emstandard_opt4&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00222"/>00222 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00223"/>00223 &#32;&#32;&#32;&#32;<emphasis role="keyword">delete</emphasis>&#32;fEmPhysicsList;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00224"/>00224 &#32;&#32;&#32;&#32;fEmPhysicsList&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4EmStandardPhysics_option4();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00225"/>00225 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00226"/>00226 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;FTFP_BERT_EMV&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00227"/>00227 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00228"/>00228 &#32;&#32;&#32;&#32;AddPhysicsList(<emphasis role="stringliteral">&quot;emstandard_opt1&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00229"/>00229 &#32;&#32;&#32;&#32;AddPhysicsList(<emphasis role="stringliteral">&quot;FTFP_BERT&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00230"/>00230 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00231"/>00231 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;FTFP_BERT_EMX&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00232"/>00232 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00233"/>00233 &#32;&#32;&#32;&#32;AddPhysicsList(<emphasis role="stringliteral">&quot;emstandard_opt2&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00234"/>00234 &#32;&#32;&#32;&#32;AddPhysicsList(<emphasis role="stringliteral">&quot;FTFP_BERT&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00235"/>00235 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00236"/>00236 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;FTFP_BERT_EMZ&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00237"/>00237 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00238"/>00238 &#32;&#32;&#32;&#32;AddPhysicsList(<emphasis role="stringliteral">&quot;emstandard_opt4&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00239"/>00239 &#32;&#32;&#32;&#32;AddPhysicsList(<emphasis role="stringliteral">&quot;FTFP_BERT&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00240"/>00240 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00241"/>00241 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;FTFP_BERT&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00242"/>00242 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00243"/>00243 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;SetBuilderList1();</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00244"/>00244 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronPhysicsFTFP_BERT()&#32;);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00245"/>00245 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00246"/>00246 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;FTFPlowBERT&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00247"/>00247 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00248"/>00248 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;SetBuilderList1();</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00249"/>00249 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;fHadronPhys.push_back(&#32;new&#32;G4HadronInFTFPlowBERT()&#32;);</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00250"/>00250 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00251"/>00251 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;FTFP_BERT_TRV&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00252"/>00252 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00253"/>00253 &#32;&#32;&#32;&#32;SetBuilderList3();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00254"/>00254 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronPhysicsFTFP_BERT());
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00255"/>00255 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00256"/>00256 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;FTF_BIC&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00257"/>00257 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00258"/>00258 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;&#32;SetBuilderList0();</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00259"/>00259 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronPhysicsFTF_BIC());
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00260"/>00260 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4NeutronCrossSectionXS(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00261"/>00261 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00262"/>00262 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;QBBC&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00263"/>00263 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00264"/>00264 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;AddPhysicsList(&quot;emstandard_opt0&quot;);</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00265"/>00265 &#32;&#32;&#32;&#32;SetBuilderList2();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00266"/>00266 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronInelasticQBBC());
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00267"/>00267 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00268"/>00268 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;QGSP_BERT&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00269"/>00269 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00270"/>00270 &#32;&#32;&#32;&#32;SetBuilderList1();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00271"/>00271 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronPhysicsQGSP_BERT());
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00272"/>00272 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00273"/>00273 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;QGSP_FTFP_BERT&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00274"/>00274 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00275"/>00275 &#32;&#32;&#32;&#32;SetBuilderList1();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00276"/>00276 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronPhysicsQGSP_FTFP_BERT());
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00277"/>00277 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00278"/>00278 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;QGSP_FTFP_BERT_EMV&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00279"/>00279 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00280"/>00280 &#32;&#32;&#32;&#32;AddPhysicsList(<emphasis role="stringliteral">&quot;emstandard_opt1&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00281"/>00281 &#32;&#32;&#32;&#32;AddPhysicsList(<emphasis role="stringliteral">&quot;QGSP_FTFP_BERT&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00282"/>00282 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00283"/>00283 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;QGSP_BERT_EMV&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00284"/>00284 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00285"/>00285 &#32;&#32;&#32;&#32;AddPhysicsList(<emphasis role="stringliteral">&quot;emstandard_opt1&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00286"/>00286 &#32;&#32;&#32;&#32;AddPhysicsList(<emphasis role="stringliteral">&quot;QGSP_BERT&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00287"/>00287 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00288"/>00288 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;QGSP_BERT_EMX&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00289"/>00289 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00290"/>00290 &#32;&#32;&#32;&#32;AddPhysicsList(<emphasis role="stringliteral">&quot;emstandard_opt2&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00291"/>00291 &#32;&#32;&#32;&#32;AddPhysicsList(<emphasis role="stringliteral">&quot;QGSP_BERT&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00292"/>00292 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00293"/>00293 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;QGSP_BERT_HP&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00294"/>00294 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00295"/>00295 &#32;&#32;&#32;&#32;SetBuilderList1(<emphasis role="keyword">true</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00296"/>00296 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronPhysicsQGSP_BERT_HP());
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00297"/>00297 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00298"/>00298 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;QGSP_BIC&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00299"/>00299 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00300"/>00300 &#32;&#32;&#32;&#32;SetBuilderList0();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00301"/>00301 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronPhysicsQGSP_BIC());
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00302"/>00302 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00303"/>00303 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;QGSP_BIC_EMY&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00304"/>00304 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00305"/>00305 &#32;&#32;&#32;&#32;AddPhysicsList(<emphasis role="stringliteral">&quot;emstandard_opt3&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00306"/>00306 &#32;&#32;&#32;&#32;SetBuilderList0();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00307"/>00307 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronPhysicsQGSP_BIC());
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00308"/>00308 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00309"/>00309 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;QGS_BIC&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00310"/>00310 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00311"/>00311 &#32;&#32;&#32;&#32;SetBuilderList0();
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00312"/>00312 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronPhysicsQGS_BIC());
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00313"/>00313 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4NeutronCrossSectionXS(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00314"/>00314 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00315"/>00315 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;QGSP_BIC_HP&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00316"/>00316 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00317"/>00317 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;AddPhysicsList(&quot;emstandard_opt0&quot;);</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00318"/>00318 &#32;&#32;&#32;&#32;SetBuilderList0(<emphasis role="keyword">true</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00319"/>00319 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronPhysicsQGSP_BIC_HP());
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00320"/>00320 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00321"/>00321 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;QGSP_INCLXX_HP&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00322"/>00322 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00323"/>00323 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;AddPhysicsList(&quot;emstandard_opt0&quot;);</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00324"/>00324 &#32;&#32;&#32;&#32;SetBuilderList0(<emphasis role="keyword">true</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00325"/>00325 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronPhysicsINCLXX(<emphasis role="stringliteral">&quot;inclxx-hp&quot;</emphasis>,<emphasis role="keyword">true</emphasis>,<emphasis role="keyword">true</emphasis>,<emphasis role="keyword">false</emphasis>));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00326"/>00326 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00327"/>00327 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(name&#32;==&#32;<emphasis role="stringliteral">&quot;QGSP_INCLXX&quot;</emphasis>)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00328"/>00328 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00329"/>00329 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;AddPhysicsList(&quot;emstandard_opt0&quot;);</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00330"/>00330 &#32;&#32;&#32;&#32;SetBuilderList0(<emphasis role="keyword">false</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00331"/>00331 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronPhysicsINCLXX(<emphasis role="stringliteral">&quot;inclxx&quot;</emphasis>,<emphasis role="keyword">true</emphasis>,<emphasis role="keyword">false</emphasis>,<emphasis role="keyword">false</emphasis>));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00332"/>00332 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00333"/>00333 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00334"/>00334 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00335"/>00335 &#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;PhysicsList::AddPhysicsList:&#32;&lt;&quot;</emphasis>&#32;&lt;&lt;&#32;name&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&gt;&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00336"/>00336 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;is&#32;not&#32;defined&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00337"/>00337 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;G4endl;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00338"/>00338 &#32;&#32;}
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00339"/>00339 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00340"/>00340 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00342"/>00342 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00343"/>00343 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::SetBuilderList0(&#32;G4bool&#32;flagHP)
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00344"/>00344 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00345"/>00345 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4EmExtraPhysics(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00346"/>00346 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00347"/>00347 &#32;&#32;<emphasis role="keywordflow">if</emphasis>(flagHP)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00348"/>00348 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00349"/>00349 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronElasticPhysicsHP(verboseLevel)&#32;);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00350"/>00350 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00351"/>00351 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00352"/>00352 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00353"/>00353 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronElasticPhysics(verboseLevel)&#32;);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00354"/>00354 &#32;&#32;}
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00355"/>00355 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4StoppingPhysics(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00356"/>00356 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4IonBinaryCascadePhysics(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00357"/>00357 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4NeutronTrackingCut(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00358"/>00358 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00359"/>00359 <emphasis role="comment">//&#32;Neutron&#32;tracking&#32;cut</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00360"/>00360 &#32;&#32;<emphasis role="comment">//&#32;RegisterPhysics(&#32;new&#32;G4NeutronTrackingCut(verboseLevel)&#32;);</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00361"/>00361 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00362"/>00362 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00363"/>00363 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00365"/>00365 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00366"/>00366 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::SetBuilderList1(&#32;G4bool&#32;flagHP)
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00367"/>00367 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00368"/>00368 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4EmExtraPhysics(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00369"/>00369 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00370"/>00370 &#32;&#32;<emphasis role="keywordflow">if</emphasis>(flagHP)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00371"/>00371 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00372"/>00372 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronElasticPhysicsHP(verboseLevel)&#32;);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00373"/>00373 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00374"/>00374 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00375"/>00375 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00376"/>00376 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronElasticPhysics(verboseLevel)&#32;);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00377"/>00377 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00378"/>00378 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;activate&#32;G4LMsdGenerator:</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00379"/>00379 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00380"/>00380 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;fHadronPhys.push_back(&#32;new&#32;G4HadronHElasticPhysics(verboseLevel,true)&#32;);</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00381"/>00381 &#32;&#32;}
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00382"/>00382 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4StoppingPhysics(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00383"/>00383 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4IonPhysics(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00384"/>00384 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4NeutronTrackingCut(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00385"/>00385 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00386"/>00386 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00388"/>00388 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00389"/>00389 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::SetBuilderList2()
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00390"/>00390 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00391"/>00391 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4EmExtraPhysics(verboseLevel)&#32;);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00392"/>00392 &#32;&#32;<emphasis role="comment">//&#32;fHadronPhys.push_back(&#32;new&#32;G4DecayPhysics(verboseLevel)&#32;);</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00393"/>00393 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronElasticPhysicsXS(verboseLevel)&#32;);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00394"/>00394 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4StoppingPhysics(verboseLevel)&#32;);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00395"/>00395 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4IonPhysics(verboseLevel)&#32;);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00396"/>00396 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4NeutronTrackingCut(verboseLevel)&#32;);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00397"/>00397 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00398"/>00398 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00400"/>00400 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00401"/>00401 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::SetBuilderList3(&#32;G4bool&#32;flagHP)
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00402"/>00402 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00403"/>00403 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4EmExtraPhysics(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00404"/>00404 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00405"/>00405 &#32;&#32;<emphasis role="keywordflow">if</emphasis>(flagHP)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00406"/>00406 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00407"/>00407 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronElasticPhysicsHP(verboseLevel)&#32;);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00408"/>00408 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00409"/>00409 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00410"/>00410 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00411"/>00411 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;fHadronPhys.push_back(&#32;new&#32;G4HadronElasticPhysics(verboseLevel)&#32;);</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00412"/>00412 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00413"/>00413 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;activate&#32;G4LMsdGenerator:</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00414"/>00414 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00415"/>00415 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronHElasticPhysics(verboseLevel,<emphasis role="keyword">true</emphasis>)&#32;);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00416"/>00416 &#32;&#32;}
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00417"/>00417 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4StoppingPhysics(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00418"/>00418 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4IonPhysics(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00419"/>00419 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4NeutronTrackingCut(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00420"/>00420 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00421"/>00421 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00423"/>00423 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00424"/>00424 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::SetBuilderList4(&#32;G4bool&#32;flagHP)
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00425"/>00425 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00426"/>00426 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4EmExtraPhysics(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00427"/>00427 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00428"/>00428 &#32;&#32;<emphasis role="keywordflow">if</emphasis>(flagHP)&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00429"/>00429 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00430"/>00430 &#32;&#32;&#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4HadronElasticPhysicsHP(verboseLevel)&#32;);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00431"/>00431 &#32;&#32;}&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00432"/>00432 &#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00433"/>00433 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00434"/>00434 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;fHadronPhys.push_back(&#32;new&#32;G4HadronElasticPhysics(verboseLevel)&#32;);</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00435"/>00435 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00436"/>00436 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;activate&#32;G4LMsdGenerator:</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00437"/>00437 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00438"/>00438 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;fHadronPhys.push_back(&#32;new&#32;G4QqElasticPhysics(verboseLevel,true)&#32;);</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00439"/>00439 &#32;&#32;}
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00440"/>00440 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4StoppingPhysics(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00441"/>00441 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4IonPhysics(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00442"/>00442 &#32;&#32;fHadronPhys.push_back(&#32;<emphasis role="keyword">new</emphasis>&#32;G4NeutronTrackingCut(verboseLevel));
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00443"/>00443 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00444"/>00444 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00446"/>00446 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00447"/>00447 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::SetCuts()
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00448"/>00448 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00449"/>00449 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00450"/>00450 &#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;verboseLevel&#32;&gt;&#32;0&#32;)
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00451"/>00451 &#32;&#32;{
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00452"/>00452 &#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;PhysicsList::SetCuts:&quot;</emphasis>;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00453"/>00453 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;&quot;CutLength&#32;:&#32;&quot;&#32;&lt;&lt;&#32;G4BestUnit(defaultCutValue,&quot;Length&quot;)&#32;&lt;&lt;&#32;G4endl;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00454"/>00454 &#32;&#32;}
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00455"/>00455 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00456"/>00456 &#32;&#32;<emphasis role="comment">//&#32;set&#32;cut&#32;values&#32;for&#32;gamma&#32;at&#32;first&#32;and&#32;for&#32;e-&#32;second&#32;and&#32;next&#32;for&#32;e+,</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00457"/>00457 &#32;&#32;<emphasis role="comment">//&#32;because&#32;some&#32;processes&#32;for&#32;e+/e-&#32;need&#32;cut&#32;values&#32;for&#32;gamma</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00458"/>00458 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00459"/>00459 &#32;&#32;SetCutValue(fCutForGamma,&#32;<emphasis role="stringliteral">&quot;gamma&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00460"/>00460 &#32;&#32;SetCutValue(fCutForElectron,&#32;<emphasis role="stringliteral">&quot;e-&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00461"/>00461 &#32;&#32;SetCutValue(fCutForPositron,&#32;<emphasis role="stringliteral">&quot;e+&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00462"/>00462 &#32;&#32;SetCutValue(fCutForProton,&#32;<emphasis role="stringliteral">&quot;proton&quot;</emphasis>);
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00463"/>00463 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00464"/>00464 &#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;verboseLevel&#32;&gt;&#32;0&#32;)&#32;{&#32;DumpCutValuesTable();&#32;}
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00465"/>00465 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00466"/>00466 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00468"/>00468 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00469"/>00469 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::SetCutForGamma(G4double&#32;cut)
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00470"/>00470 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00471"/>00471 &#32;&#32;fCutForGamma&#32;=&#32;cut;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00472"/>00472 &#32;&#32;SetParticleCuts(fCutForGamma,&#32;G4Gamma::Gamma());
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00473"/>00473 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00474"/>00474 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00476"/>00476 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00477"/>00477 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::SetCutForElectron(G4double&#32;cut)
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00478"/>00478 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00479"/>00479 &#32;&#32;fCutForElectron&#32;=&#32;cut;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00480"/>00480 &#32;&#32;SetParticleCuts(fCutForElectron,&#32;G4Electron::Electron());
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00481"/>00481 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00482"/>00482 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00484"/>00484 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00485"/>00485 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::SetCutForPositron(G4double&#32;cut)
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00486"/>00486 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00487"/>00487 &#32;&#32;fCutForPositron&#32;=&#32;cut;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00488"/>00488 &#32;&#32;SetParticleCuts(fCutForPositron,&#32;G4Positron::Positron());
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00489"/>00489 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00490"/>00490 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00492"/>00492 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00493"/>00493 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::SetCutForProton(G4double&#32;cut)
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00494"/>00494 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00495"/>00495 &#32;&#32;fCutForProton&#32;=&#32;cut;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00496"/>00496 &#32;&#32;SetParticleCuts(fCutForProton,&#32;G4Proton::Proton());
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00497"/>00497 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00498"/>00498 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00499"/>00499 <emphasis role="keywordtype">void</emphasis>&#32;PhysicsList::List()
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00500"/>00500 {
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00501"/>00501 &#32;&#32;G4cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;###&#32;PhysicsLists&#32;available:&#32;FTFP_BERT&#32;FTFP_BERT_EMV&#32;&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00502"/>00502 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;FTFP_BERT_EMX&#32;FTFP_BERT_EMZ&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00503"/>00503 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;G4endl;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00504"/>00504 &#32;&#32;G4cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;FTF_BIC&#32;QBBC&#32;QGSP_BERT&#32;&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00505"/>00505 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;QGSP_BERT_EMV&#32;QGSP_BERT_EMX&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00506"/>00506 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;G4endl;&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00507"/>00507 &#32;&#32;G4cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;QGSP_BERT_HP&#32;QGSP_FTFP_BERT&#32;&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00508"/>00508 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;QGSP_FTFP_BERT_EMV&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00509"/>00509 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;G4endl;&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00510"/>00510 &#32;&#32;G4cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;QGS_BIC&#32;QGSP_BIC&#32;QGSP_BIC_EMY&#32;&quot;</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00511"/>00511 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;QGSP_BIC_HP&quot;</emphasis>&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00512"/>00512 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;G4endl;&#32;
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00513"/>00513 }
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00514"/>00514 
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00515"/>00515 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00516"/>00516 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__g4-_neutron_transport_2src_2_physics_list_8cc_source_1l00518"/>00518 <emphasis role="comment"></emphasis>
+</programlisting></section>

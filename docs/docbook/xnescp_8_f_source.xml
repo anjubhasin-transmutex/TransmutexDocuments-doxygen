@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnescp_8_f_source" xml:lang="en-US">
+<title>xnescp.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xnescp.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnescp_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;02/09/97&#32;&#32;17.18.51&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;01/09/97</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnescp(IZAMAT,EMIN,EMAX,PROB)
+<anchor xml:id="_xnescp_8_f_source_1l00004"/>00004 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00005"/>00005 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcpoin.inc&quot;</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00006"/>00006 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcstor.inc&quot;</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00007"/>00007 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcerro.inc&quot;</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00008"/>00008 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;parameter(challe=<emphasis role="stringliteral">&apos;XNESCP&apos;</emphasis>)
+<anchor xml:id="_xnescp_8_f_source_1l00009"/>00009 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00010"/>00010 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*11</emphasis>&#32;XNELNA,&#32;CHELNA
+<anchor xml:id="_xnescp_8_f_source_1l00011"/>00011 &#32;&#32;&#32;&#32;&#32;&#32;parameter(kcapt=6,ktota=1)
+<anchor xml:id="_xnescp_8_f_source_1l00012"/>00012 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">DOUBLE&#32;PRECISION</emphasis>&#32;AA,ALPHA,CSI,ONE,HINT,A,B,C,D
+<anchor xml:id="_xnescp_8_f_source_1l00013"/>00013 &#32;&#32;&#32;&#32;&#32;&#32;parameter(one=1)
+<anchor xml:id="_xnescp_8_f_source_1l00014"/>00014 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;LCALC
+<anchor xml:id="_xnescp_8_f_source_1l00015"/>00015 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00016"/>00016 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00017"/>00017 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00018"/>00018 <emphasis role="comment">*&#32;---&gt;&#32;Suppose&#32;we&#32;fail</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;prob=0
+<anchor xml:id="_xnescp_8_f_source_1l00020"/>00020 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;pointer</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;k=1,nmate
+<anchor xml:id="_xnescp_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izamat.EQ.imtabl(1,k))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;imate=k
+<anchor xml:id="_xnescp_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xnescp_8_f_source_1l00025"/>00025 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00026"/>00026 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDDO</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xngtmp(izamat,izaint,itcode)
+<anchor xml:id="_xnescp_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;itemp=ltemp(itcode)
+<anchor xml:id="_xnescp_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;chelna=xnelna(izamat)
+<anchor xml:id="_xnescp_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(cherro,10000)&#32;chelna,itemp
+<anchor xml:id="_xnescp_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnerro(challe,cherro,<emphasis role="stringliteral">&apos;E&apos;</emphasis>)
+<anchor xml:id="_xnescp_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnescp_8_f_source_1l00033"/>00033 <emphasis role="comment">*&#32;---&gt;&#32;Found&#32;material</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00034"/>00034 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00035"/>00035 <emphasis role="comment">*&#32;---&gt;&#32;Calculate&#32;alpha,&#32;csi</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;aa=hmtabl(1+3,imate)
+<anchor xml:id="_xnescp_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;alpha=((aa-one)/(aa+one))**2
+<anchor xml:id="_xnescp_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;csi=one+alpha*log(alpha)/(one-alpha)
+<anchor xml:id="_xnescp_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;print*,&#32;<emphasis role="stringliteral">&apos;Material&#32;mass=&apos;</emphasis>,aa,<emphasis role="stringliteral">&apos;Alpha=&apos;</emphasis>,alpha,<emphasis role="stringliteral">&apos;csi=&apos;</emphasis>,csi
+<anchor xml:id="_xnescp_8_f_source_1l00040"/>00040 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;pointers&#32;and&#32;initialise&#32;total</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;iptota=imtabl(1+(ktota-1)*nreinf+1,imate)
+<anchor xml:id="_xnescp_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;nttota=imtabl(1+(ktota-1)*nreinf+2,imate)
+<anchor xml:id="_xnescp_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iptota.LE.0.OR.nttota.LE.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(cherro,10100)
+<anchor xml:id="_xnescp_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnerro(challe,cherro,<emphasis role="stringliteral">&apos;E&apos;</emphasis>)
+<anchor xml:id="_xnescp_8_f_source_1l00046"/>00046 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;ictota=iptota-1
+<anchor xml:id="_xnescp_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;iltota=iptota+2*nttota-1
+<anchor xml:id="_xnescp_8_f_source_1l00049"/>00049 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;pointers&#32;and&#32;initialise&#32;capture</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;ipcapt=imtabl(1+(kcapt-1)*nreinf+1,imate)
+<anchor xml:id="_xnescp_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;ntcapt=imtabl(1+(kcapt-1)*nreinf+2,imate)
+<anchor xml:id="_xnescp_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ipcapt.LE.0.OR.ntcapt.LE.0.OR.iptota.LE.0.OR.nttota.LE.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(cherro,10200)
+<anchor xml:id="_xnescp_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnerro(challe,cherro,<emphasis role="stringliteral">&apos;E&apos;</emphasis>)
+<anchor xml:id="_xnescp_8_f_source_1l00055"/>00055 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;iccapt=ipcapt-1
+<anchor xml:id="_xnescp_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;ilcapt=ipcapt+2*ntcapt-1
+<anchor xml:id="_xnescp_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;ec2=1e-5
+<anchor xml:id="_xnescp_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;hint=0d0
+<anchor xml:id="_xnescp_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;lcalc=.false.
+<anchor xml:id="_xnescp_8_f_source_1l00061"/>00061 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">IF</emphasis>(ictota.LT.iltota)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00062"/>00062 &#32;&#32;&#32;30&#32;&#32;&#32;&#32;ictota=ictota+2
+<anchor xml:id="_xnescp_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;et1=xstore(ictota)
+<anchor xml:id="_xnescp_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;et2=xstore(ictota+2)
+<anchor xml:id="_xnescp_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(et1.EQ.et2)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;30
+<anchor xml:id="_xnescp_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(et2.GT.ec2)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00067"/>00067 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;&#32;&#32;&#32;iccapt=iccapt+2
+<anchor xml:id="_xnescp_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ec1=xstore(iccapt)
+<anchor xml:id="_xnescp_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ec2=xstore(iccapt+2)
+<anchor xml:id="_xnescp_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ec1.EQ.ec2)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;40
+<anchor xml:id="_xnescp_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lcalc=.true.
+<anchor xml:id="_xnescp_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ec1.NE.et1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;print&#32;*,&#32;<emphasis role="stringliteral">&apos;Energy&#32;screw-up&apos;</emphasis>,et1,ec1
+<anchor xml:id="_xnescp_8_f_source_1l00074"/>00074 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iccapt.GE.ilcapt)&#32;print&#32;*,<emphasis role="stringliteral">&apos;Capture&#32;index&#32;overflow&apos;</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00076"/>00076 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(emin.LE.et2.AND.emax.GT.et1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00078"/>00078 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;C&#32;&amp;&#32;D&#32;for&#32;total</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xst1=xstore(ictota+1)
+<anchor xml:id="_xnescp_8_f_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xst2=xstore(ictota+3)
+<anchor xml:id="_xnescp_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;d=(xst2-xst1)/(et2-et1)
+<anchor xml:id="_xnescp_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;c=xst1-et1*d
+<anchor xml:id="_xnescp_8_f_source_1l00083"/>00083 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;A&#32;&amp;&#32;B&#32;for&#32;capture</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00084"/>00084 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IF(LCALC)&#32;THEN</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xsc1=xstore(iccapt+1)
+<anchor xml:id="_xnescp_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xsc2=xstore(iccapt+3)
+<anchor xml:id="_xnescp_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;b=(xsc2-xsc1)/(ec2-ec1)
+<anchor xml:id="_xnescp_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;a=xsc1-ec1*b
+<anchor xml:id="_xnescp_8_f_source_1l00089"/>00089 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00090"/>00090 <emphasis role="comment">*&#32;---&gt;&#32;Calculate&#32;integral</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ebeg=max(et1,emin)
+<anchor xml:id="_xnescp_8_f_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;eend=min(et2,emax)
+<anchor xml:id="_xnescp_8_f_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(d.EQ.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hint=hint+(b*(eend-ebeg)+a*log(eend/ebeg))/c
+<anchor xml:id="_xnescp_8_f_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hint=hint+(log((c+d*eend)/(c+d*ebeg))*(b/d-a/c)+a/c
+<anchor xml:id="_xnescp_8_f_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;$&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*log(eend/ebeg))
+<anchor xml:id="_xnescp_8_f_source_1l00098"/>00098 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00099"/>00099 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;20
+<anchor xml:id="_xnescp_8_f_source_1l00101"/>00101 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;prob=hint/csi
+<anchor xml:id="_xnescp_8_f_source_1l00103"/>00103 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnescp_8_f_source_1l00104"/>00104 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;Material&#32;&apos;</emphasis>,a,<emphasis role="stringliteral">&apos;@&apos;</emphasis>,i6,<emphasis role="stringliteral">&apos;&#32;not&#32;in&#32;memory&apos;</emphasis>)
+<anchor xml:id="_xnescp_8_f_source_1l00105"/>00105 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;Total&#32;cross&#32;section&#32;is&#32;missing&apos;</emphasis>)
+<anchor xml:id="_xnescp_8_f_source_1l00106"/>00106 10200&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;Capture&#32;cross&#32;section&#32;is&#32;missing&apos;</emphasis>)
+<anchor xml:id="_xnescp_8_f_source_1l00107"/>00107 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

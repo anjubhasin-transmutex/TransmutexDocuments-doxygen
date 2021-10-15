@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnodup_8_f_source" xml:lang="en-US">
+<title>xnodup.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/convac9/xnodup.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnodup_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;30/09/96&#32;&#32;13.44.18&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">subroutine&#32;</emphasis>xnodup(ITAPD,js)
+<anchor xml:id="_xnodup_8_f_source_1l00004"/>00004 <emphasis role="comment">*----------------------------------------------------------------------*</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;Eliminates&#32;duplicated&#32;points&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00008"/>00008 <emphasis role="comment">*----------------------------------------------------------------------*</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00009"/>00009 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00010"/>00010 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xceafi.inc&quot;</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00011"/>00011 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xctb1c.inc&quot;</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00012"/>00012 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;parameter(maxpnt=20000)
+<anchor xml:id="_xnodup_8_f_source_1l00013"/>00013 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;intl(maxran),&#32;nbtl(maxran),&#32;xlrval(maxpnt*2)
+<anchor xml:id="_xnodup_8_f_source_1l00014"/>00014 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*66</emphasis>&#32;chtext
+<anchor xml:id="_xnodup_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*11</emphasis>&#32;xnform
+<anchor xml:id="_xnodup_8_f_source_1l00016"/>00016 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00017"/>00017 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00018"/>00018 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;nreco=ipoint(js,3)
+<anchor xml:id="_xnodup_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;nrecr=nreco+2
+<anchor xml:id="_xnodup_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr,fmt=10200)&#32;c1l,&#32;c2l,&#32;l1l,&#32;l2l,&#32;nrl,&#32;npl
+<anchor xml:id="_xnodup_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(npl.gt.maxpnt)&#32;stop&#32;<emphasis role="stringliteral">&apos;&#32;***&#32;XNODUP:&#32;increase&#32;MAXPNT&apos;</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(nrl.gt.maxran)&#32;stop&#32;<emphasis role="stringliteral">&apos;&#32;***&#32;XNODUP:&#32;Increase&#32;MAXRAN&apos;</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;nlints=(nrl-1)/3+1
+<anchor xml:id="_xnodup_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;10&#32;jl=1,nlints
+<anchor xml:id="_xnodup_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=nrecr+1
+<anchor xml:id="_xnodup_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr,fmt=10300)&#32;(nbtl(n),intl(n),
+<anchor xml:id="_xnodup_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;n=3*&#32;(jl-1)+1,min(nrl,3*jl))
+<anchor xml:id="_xnodup_8_f_source_1l00029"/>00029 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00030"/>00030 <emphasis role="comment">*&#32;---&#32;All&#32;should&#32;be&#32;linear&#32;with&#32;one&#32;interpolation&#32;law,&#32;if&#32;not</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;scream&#32;and&#32;get&#32;out&#32;of&#32;here</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(nrl.ne.1.or.nbtl(1).ne.npl.or.intl(1).ne.2)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(6,10000)
+<anchor xml:id="_xnodup_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(6,10100)&#32;math,&#32;mfh,&#32;mth,&#32;nrl,&#32;nbtl(1),&#32;intl(1)
+<anchor xml:id="_xnodup_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop
+<anchor xml:id="_xnodup_8_f_source_1l00036"/>00036 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;nlines=(npl-1)/3+1
+<anchor xml:id="_xnodup_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;20&#32;jl=1,nlines
+<anchor xml:id="_xnodup_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=nrecr+1
+<anchor xml:id="_xnodup_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr,fmt=10400)&#32;(xlrval(n),n=6*&#32;(jl-1)+1,
+<anchor xml:id="_xnodup_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;min(2*npl,6*jl))
+<anchor xml:id="_xnodup_8_f_source_1l00042"/>00042 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xndupl(xlrval,npl,npout)
+<anchor xml:id="_xnodup_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;npl=npout
+<anchor xml:id="_xnodup_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;nrecw=nreco+1
+<anchor xml:id="_xnodup_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwhea(itapd,c1l,c2l,l1l,l2l,nrl,npl,math,mfh,mth,nrecw)
+<anchor xml:id="_xnodup_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;nlints=(nrl-1)/3+1
+<anchor xml:id="_xnodup_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;30&#32;jl=1,nlints
+<anchor xml:id="_xnodup_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chtext=<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(chtext,10300)&#32;(nbtl(n),intl(n),&#32;n=3*(jl-1)+1,&#32;min(nrl,3*
+<anchor xml:id="_xnodup_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;jl))
+<anchor xml:id="_xnodup_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chtext,math,mfh,mth,nrecw)
+<anchor xml:id="_xnodup_8_f_source_1l00053"/>00053 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;nlines=(npl-1)/3+1
+<anchor xml:id="_xnodup_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;50&#32;jl=1,nlines
+<anchor xml:id="_xnodup_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chtext=<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jbase=(jl-1)*6
+<anchor xml:id="_xnodup_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;40&#32;jn=1,min(2*npl-jbase,6)
+<anchor xml:id="_xnodup_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chtext(11*(jn-1)+1:11*jn)=xnform(xlrval(jbase+jn))
+<anchor xml:id="_xnodup_8_f_source_1l00060"/>00060 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chtext,math,mfh,mth,nrecw)
+<anchor xml:id="_xnodup_8_f_source_1l00062"/>00062 &#32;&#32;&#32;50&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(js,4)=ipoint(js,5)+nlints+nlines+2
+<anchor xml:id="_xnodup_8_f_source_1l00064"/>00064 &#32;&#32;&#32;60&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00065"/>00065 
+<anchor xml:id="_xnodup_8_f_source_1l00066"/>00066 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnodup_8_f_source_1l00067"/>00067 10000&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNODUP:&#32;LINEAR&#32;did&#32;not&#32;do&#32;its&#32;job:&apos;</emphasis>)
+<anchor xml:id="_xnodup_8_f_source_1l00068"/>00068 10100&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;math,&#32;mfh,&#32;mth,&#32;nr,&#32;nbt(1),&#32;int(1)&#32;=&#32;&apos;</emphasis>,6i10)
+<anchor xml:id="_xnodup_8_f_source_1l00069"/>00069 10200&#32;<emphasis role="keyword">format</emphasis>(2e11.4,4i11)
+<anchor xml:id="_xnodup_8_f_source_1l00070"/>00070 10300&#32;<emphasis role="keyword">format</emphasis>(6i11)
+<anchor xml:id="_xnodup_8_f_source_1l00071"/>00071 10400&#32;<emphasis role="keyword">format</emphasis>(6e11.4)
+<anchor xml:id="_xnodup_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">end</emphasis>
+</programlisting></section>

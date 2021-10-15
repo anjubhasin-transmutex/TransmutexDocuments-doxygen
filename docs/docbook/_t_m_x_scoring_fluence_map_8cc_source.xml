@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__t_m_x_scoring_fluence_map_8cc_source" xml:lang="en-US">
+<title>TMXScoringFluenceMap.cc</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/G4-NeutronTransport/src/scoring/TMXScoringFluenceMap.cc</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00001"/>00001 
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00002"/>00002 <emphasis role="comment">//&#32;\brief&#32;Implementation&#32;of&#32;the&#32;Scoring&#32;of&#32;Fluence&#32;in&#32;Map</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00003"/>00003 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00004"/>00004 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00006"/>00006 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00007"/>00007 <emphasis role="comment">//&#32;TMXScoringFluenceMap</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00008"/>00008 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00009"/>00009 <emphasis role="comment">//&#32;Thomas&#32;Guilbaud,&#32;Transmutex,&#32;15/07/2021</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00010"/>00010 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00012"/>00012 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;Scoring&#32;of&#32;Fluence&#32;in&#32;Map</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00014"/>00014 <emphasis role="comment"></emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00015"/>00015 <emphasis role="preprocessor">#include&#32;&quot;TMXScoringFluenceMap.hh&quot;</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00016"/>00016 
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00017"/>00017 <emphasis role="comment">//&#32;GEANT4&#32;libraries</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00018"/>00018 <emphasis role="preprocessor">#include&#32;&quot;Analysis.hh&quot;</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00019"/>00019 
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00020"/>00020 
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00021"/>00021 TMXScoringFluenceMap::TMXScoringFluenceMap(<link linkend="_class_t_m_x_input_parameters">TMXInputParameters</link>*&#32;parameter)
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00022"/>00022 :&#32;&#32;&#32;<link linkend="_class_t_m_x_abstract_scoring_map">TMXAbstractScoringMap</link>(parameter,&#32;<emphasis role="stringliteral">&quot;FluenceMap&quot;</emphasis>)
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00023"/>00023 {}
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00024"/>00024 
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00025"/>00025 TMXScoringFluenceMap::~TMXScoringFluenceMap()
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00026"/>00026 {}
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00027"/>00027 
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00028"/>00028 <emphasis role="comment">//------------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00029"/>00029 <emphasis role="comment">//&#32;Scorer</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00030"/>00030 <emphasis role="keywordtype">void</emphasis>&#32;TMXScoringFluenceMap::score(<emphasis role="keyword">const</emphasis>&#32;G4Step*&#32;theStep)&#32;{
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00031"/>00031 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(theStep)&#32;{
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4double&#32;stepLength&#32;=&#32;theStep-&gt;GetStepLength()/cm;
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4double&#32;weight&#32;=&#32;theStep-&gt;GetPreStepPoint()-&gt;GetWeight();
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;isPerCubicVolume&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(stepLength&#32;&gt;&#32;0.&#32;&amp;&amp;&#32;weight&#32;&gt;&#32;0.)&#32;{
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scoreMap(theStep,&#32;stepLength*weight,&#32;isPerCubicVolume);
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00038"/>00038 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00039"/>00039 }
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00040"/>00040 
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00041"/>00041 <emphasis role="comment">//------------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00042"/>00042 <emphasis role="comment">//&#32;Printer</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00043"/>00043 
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00044"/>00044 <emphasis role="keywordtype">void</emphasis>&#32;TMXScoringFluenceMap::printAverage()<emphasis role="keyword">&#32;const&#32;</emphasis>{
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00045"/>00045 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Histogram&#32;printAverage&#32;(not&#32;yet&#32;implemented)&quot;</emphasis>&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>;
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00046"/>00046 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;auto&#32;analysisManager&#32;=&#32;G4AnalysisManager::Instance();</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00047"/>00047 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;int&#32;histoId;</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00048"/>00048 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;for&#32;(auto&#32;mapIndex&#32;=&#32;m_mapPVHisto2DId.begin();&#32;mapIndex&#32;!=&#32;m_mapPVHisto2DId.end();&#32;mapIndex++)&#32;{</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00049"/>00049 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;histoId&#32;=&#32;mapIndex-&gt;second;</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00050"/>00050 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;//double&#32;nbins&#32;=&#32;analysisManager-&gt;GetH1NBins(histoId);</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00051"/>00051 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;analysisManager-&gt;GetH1(histoId)&#32;&lt;&lt;&#32;&apos;\n&apos;;</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00052"/>00052 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;//&#32;std::cout&#32;&lt;&lt;&#32;mapIndex-&gt;first&#32;&lt;&lt;&#32;&quot;&#32;(&quot;&#32;&lt;&lt;&#32;histoId&#32;&lt;&lt;&#32;&quot;)&#32;mean&#32;=&#32;&quot;&#32;&lt;&lt;&#32;analysisManager-&gt;GetH1(histoId)-&gt;get_bin_height(0)&#32;&lt;&lt;&#32;&apos;\n&apos;;</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00053"/>00053 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;}</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00054"/>00054 }
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00055"/>00055 
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00056"/>00056 <emphasis role="keywordtype">void</emphasis>&#32;TMXScoringFluenceMap::printSummary()&#32;{
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00057"/>00057 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Histogram&#32;Summary&#32;(not&#32;yet&#32;implemented)&quot;</emphasis>&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>;
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00058"/>00058 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;auto&#32;analysisManager&#32;=&#32;G4AnalysisManager::Instance();</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00059"/>00059 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;std::string&#32;id;</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00060"/>00060 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;for&#32;(auto&#32;mapIndex&#32;=&#32;m_mapPVHisto2DId.begin();&#32;mapIndex&#32;!=&#32;m_mapPVHisto2DId.end();&#32;mapIndex++)&#32;{</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00061"/>00061 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;id&#32;=&#32;mapIndex-&gt;second;</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00062"/>00062 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;&quot;Histo&#32;&quot;&#32;&lt;&lt;&#32;id&#32;&lt;&lt;&#32;&quot;&#32;max&#32;value&#32;:&#32;&quot;&#32;&lt;&lt;&#32;analysisManager-&gt;GetH2(std::stoi(id))-&gt;max_bin_height()&#32;&lt;&lt;&#32;G4endl;</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00063"/>00063 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;}</emphasis>
+<anchor xml:id="__t_m_x_scoring_fluence_map_8cc_source_1l00064"/>00064 }
+</programlisting></section>

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xntrpi_8_f_source" xml:lang="en-US">
+<title>xntrpi.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xntrpi.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xntrpi_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;27/03/97&#32;&#32;19.32.57&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xntrpi(VEC,INTLAW,XX,YY)
+<anchor xml:id="_xntrpi_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Interpolates&#32;between&#32;two&#32;values&#32;of&#32;a&#32;function&#32;according&#32;to&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;ENDF-6&#32;rules.&#32;See&#32;the&#32;ENDF-6&#32;format&#32;manual&#32;section&#32;0&#32;form&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;more&#32;information&#32;on&#32;this&#32;routine&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;VEC&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;array&#32;of&#32;4&#32;containing&#32;the&#32;values&#32;of&#32;the&#32;e&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;function&#32;to&#32;be&#32;interpolated&#32;in&#32;the&#32;form&#32;x1,f1,x2,f2&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;INTLAW&#32;&#32;&#32;&#32;(input)&#32;ENDF-6&#32;interpolation&#32;law&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;XX&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;value&#32;at&#32;which&#32;interpolate&#32;the&#32;function,&#32;must&#32;&#32;*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;be&#32;x1&lt;=XX&lt;=x2&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;YY&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;interpolated&#32;function&#32;value&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00017"/>00017 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;vec(*)
+<anchor xml:id="_xntrpi_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">DOUBLE&#32;PRECISION</emphasis>&#32;XX1,&#32;XX2,&#32;YY1,&#32;YY2,&#32;SMALL
+<anchor xml:id="_xntrpi_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;parameter(small=1d-20)
+<anchor xml:id="_xntrpi_8_f_source_1l00021"/>00021 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00022"/>00022 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00023"/>00023 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00024"/>00024 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;function&#32;values</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;xx1=vec(1)
+<anchor xml:id="_xntrpi_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;yy1=vec(2)
+<anchor xml:id="_xntrpi_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;xx2=vec(3)
+<anchor xml:id="_xntrpi_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;yy2=vec(4)
+<anchor xml:id="_xntrpi_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(intlaw.EQ.1.OR.xx2.LE.xx1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00030"/>00030 <emphasis role="comment">*&#32;---&gt;&#32;&quot;Histogram&quot;&#32;like&#32;interpolation</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yy=yy1
+<anchor xml:id="_xntrpi_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(xx.EQ.xx2)&#32;yy=yy2
+<anchor xml:id="_xntrpi_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSEIF</emphasis>(intlaw.EQ.2)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00034"/>00034 <emphasis role="comment">*&#32;---&gt;&#32;Linear&#32;interpolation</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yy&#32;=&#32;yy1+(yy2-yy1)*(xx-xx1)/(xx2-xx1)
+<anchor xml:id="_xntrpi_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSEIF</emphasis>(intlaw.EQ.3)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00037"/>00037 <emphasis role="comment">*&#32;---&gt;&#32;Lin-log&#32;interpolation</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xx1=&#32;max(xx1,small)
+<anchor xml:id="_xntrpi_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xx2=&#32;max(xx2,small)
+<anchor xml:id="_xntrpi_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yy&#32;=&#32;yy1+(yy2-yy1)*log(xx/xx1)/log(xx2/xx1)
+<anchor xml:id="_xntrpi_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSEIF</emphasis>(intlaw.EQ.4)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00042"/>00042 <emphasis role="comment">*&#32;---&gt;&#32;Log-lin&#32;interpolation</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yy1=&#32;max(yy1,small)
+<anchor xml:id="_xntrpi_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yy2=&#32;max(yy2,small)
+<anchor xml:id="_xntrpi_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yy&#32;=&#32;exp(log(yy1)+log(yy2/yy1)*(xx-xx1)/(xx2-xx1))
+<anchor xml:id="_xntrpi_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSEIF</emphasis>(intlaw.EQ.5)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00047"/>00047 <emphasis role="comment">*&#32;---&gt;&#32;Log-log&#32;interpolation</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xx1=&#32;max(xx1,small)
+<anchor xml:id="_xntrpi_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xx2=&#32;max(xx2,small)
+<anchor xml:id="_xntrpi_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yy1=&#32;max(yy1,small)
+<anchor xml:id="_xntrpi_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yy2=&#32;max(yy2,small)
+<anchor xml:id="_xntrpi_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yy&#32;=&#32;exp(log(yy1)+log(yy2/yy1)*log(xx/xx1)/log(xx2/xx1))
+<anchor xml:id="_xntrpi_8_f_source_1l00053"/>00053 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00054"/>00054 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xntrpi_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

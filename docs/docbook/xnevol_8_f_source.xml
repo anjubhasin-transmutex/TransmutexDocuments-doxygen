@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnevol_8_f_source" xml:lang="en-US">
+<title>xnevol.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnevol/xnevol.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnevol_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;15/12/95&#32;&#32;11.00.39&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">PROGRAM</emphasis>&#32;xnevol
+<anchor xml:id="_xnevol_8_f_source_1l00004"/>00004 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00005"/>00005 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcpoin.inc&quot;</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00006"/>00006 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcindx.inc&quot;</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00007"/>00007 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcfyid.inc&quot;</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00008"/>00008 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcendf.inc&quot;</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00009"/>00009 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">COMMON</emphasis>&#32;/&#32;xcstor&#32;/&#32;n1,ihgwmk,xmem(1000000)
+<anchor xml:id="_xnevol_8_f_source_1l00010"/>00010 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00011"/>00011 &#32;&#32;&#32;&#32;&#32;&#32;parameter(maxspe=60000)
+<anchor xml:id="_xnevol_8_f_source_1l00012"/>00012 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;ene(maxspe),flx(maxspe),secs(3),hinf(nadinf)
+<anchor xml:id="_xnevol_8_f_source_1l00013"/>00013 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*2</emphasis>&#32;CHNAM(MAXLIN),CHTEMP
+<anchor xml:id="_xnevol_8_f_source_1l00014"/>00014 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*4</emphasis>&#32;CHREAC(3)
+<anchor xml:id="_xnevol_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*30</emphasis>&#32;CHSPEC
+<anchor xml:id="_xnevol_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;xsects(3,maxlin)
+<anchor xml:id="_xnevol_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;equivalence(secs(1),sec2),(secs(2),secf),(secs(3),secc)
+<anchor xml:id="_xnevol_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;chreac/<emphasis role="stringliteral">&apos;N,2N&apos;</emphasis>,<emphasis role="stringliteral">&apos;FISS&apos;</emphasis>,<emphasis role="stringliteral">&apos;CAPT&apos;</emphasis>/
+<anchor xml:id="_xnevol_8_f_source_1l00019"/>00019 <emphasis role="preprocessor">#include&#32;&quot;xcdbna.inc&quot;</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00020"/>00020 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00021"/>00021 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xninit(1000000,<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)
+<anchor xml:id="_xnevol_8_f_source_1l00023"/>00023 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;$&#32;Enter&#32;file&#32;name&#32;for&#32;spectrum&#32;:&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)
+<anchor xml:id="_xnevol_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(5,<emphasis role="stringliteral">&apos;(A)&apos;</emphasis>)&#32;chspec
+<anchor xml:id="_xnevol_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(1,file=chspec,status=<emphasis role="stringliteral">&apos;OLD&apos;</emphasis>,form=<emphasis role="stringliteral">&apos;FORMATTED&apos;</emphasis>)
+<anchor xml:id="_xnevol_8_f_source_1l00027"/>00027 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;...&#32;Reading&#32;flux&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)
+<anchor xml:id="_xnevol_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(1,*)&#32;flux
+<anchor xml:id="_xnevol_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;nfx=1
+<anchor xml:id="_xnevol_8_f_source_1l00031"/>00031 &#32;&#32;&#32;10&#32;<emphasis role="keyword">READ</emphasis>(1,*,<emphasis role="keyword">END</emphasis>=20)&#32;ENE(NFX),FLX(NFX)
+<anchor xml:id="_xnevol_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nfx.GT.maxspe)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MAXSPE&apos;</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00034"/>00034 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;nfx=nfx+1
+<anchor xml:id="_xnevol_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xnevol_8_f_source_1l00037"/>00037 &#32;&#32;&#32;20&#32;nfx=nfx-1
+<anchor xml:id="_xnevol_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CLOSE</emphasis>(1)
+<anchor xml:id="_xnevol_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;+&apos;</emphasis><emphasis role="stringliteral">&apos;,17X,I10,&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;entries&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)&#32;nfx
+<anchor xml:id="_xnevol_8_f_source_1l00040"/>00040 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00041"/>00041 <emphasis role="comment">*&#32;---&#32;Loading&#32;BNL</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;...&#32;Loading&#32;BNL&#32;table&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)
+<anchor xml:id="_xnevol_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnlbnl
+<anchor xml:id="_xnevol_8_f_source_1l00044"/>00044 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00045"/>00045 <emphasis role="comment">*&#32;---&#32;Loading&#32;fission&#32;fragments</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;...&#32;Loading&#32;fission&#32;fragments&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)
+<anchor xml:id="_xnevol_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnffra
+<anchor xml:id="_xnevol_8_f_source_1l00048"/>00048 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;ncrlin=0
+<anchor xml:id="_xnevol_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;80&#32;&#32;jfile=1,3
+<anchor xml:id="_xnevol_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnfile(chfiln(jfile))
+<anchor xml:id="_xnevol_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnopen
+<anchor xml:id="_xnevol_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;70&#32;&#32;jz=1,99
+<anchor xml:id="_xnevol_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;60&#32;&#32;ja=jz-1,4*jz
+<anchor xml:id="_xnevol_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;j=jz*1000
+<anchor xml:id="_xnevol_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ja.GE.jz)&#32;j=j+ja
+<anchor xml:id="_xnevol_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;50&#32;jind=1,nindex
+<anchor xml:id="_xnevol_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(j.EQ.lindex(1,jind))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00059"/>00059 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00060"/>00060 <emphasis role="comment">*&#32;---&#32;Found&#32;in&#32;the&#32;index.</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;jlin=1,ncrlin
+<anchor xml:id="_xnevol_8_f_source_1l00062"/>00062 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00063"/>00063 <emphasis role="comment">*&#32;---&#32;Skip&#32;if&#32;already&#32;there</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iza(jlin).EQ.j)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;60
+<anchor xml:id="_xnevol_8_f_source_1l00065"/>00065 &#32;&#32;&#32;30&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntabl(j,3001,imate)
+<anchor xml:id="_xnevol_8_f_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ihgwmk.GT.1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ncrlin=ncrlin+1
+<anchor xml:id="_xnevol_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ncrlin.GT.maxlin)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MAXLIN&apos;</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00071"/>00071 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iza(ncrlin)=j
+<anchor xml:id="_xnevol_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntabl(j,3016,imate)
+<anchor xml:id="_xnevol_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntabl(j,3018,imate)
+<anchor xml:id="_xnevol_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntabl(j,3102,imate)
+<anchor xml:id="_xnevol_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xninfo(j,hmass,chnam(ncrlin))
+<anchor xml:id="_xnevol_8_f_source_1l00077"/>00077 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00078"/>00078 <emphasis role="comment">*&#32;---&#32;Integrals&#32;over&#32;flux</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnspec(j,chreac,3,ene,flx,nfx,secs)
+<anchor xml:id="_xnevol_8_f_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xsects(1,ncrlin)=sec2
+<anchor xml:id="_xnevol_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xsects(2,ncrlin)=secf
+<anchor xml:id="_xnevol_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xsects(3,ncrlin)=secc
+<anchor xml:id="_xnevol_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sect=secf+secc+sec2
+<anchor xml:id="_xnevol_8_f_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(sect*flux.GT.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hlam&#32;=&#32;1e24/(sect*flux)
+<anchor xml:id="_xnevol_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;brr2&#32;=&#32;sec2/sect
+<anchor xml:id="_xnevol_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;brrf&#32;=&#32;secf/sect
+<anchor xml:id="_xnevol_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;brrc&#32;=&#32;secc/sect
+<anchor xml:id="_xnevol_8_f_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hlam=1e32
+<anchor xml:id="_xnevol_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;brr2=0
+<anchor xml:id="_xnevol_8_f_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;brrf=0
+<anchor xml:id="_xnevol_8_f_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;brrc=0
+<anchor xml:id="_xnevol_8_f_source_1l00094"/>00094 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hinfo(1,ncrlin)=sec2
+<anchor xml:id="_xnevol_8_f_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hinfo(2,ncrlin)=secf
+<anchor xml:id="_xnevol_8_f_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hinfo(3,ncrlin)=secc
+<anchor xml:id="_xnevol_8_f_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hinfo(4,ncrlin)=brr2
+<anchor xml:id="_xnevol_8_f_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hinfo(5,ncrlin)=brrf
+<anchor xml:id="_xnevol_8_f_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hinfo(6,ncrlin)=brrc
+<anchor xml:id="_xnevol_8_f_source_1l00101"/>00101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hinfo(7,ncrlin)=hlam
+<anchor xml:id="_xnevol_8_f_source_1l00102"/>00102 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00103"/>00103 <emphasis role="comment">*&#32;---&#32;Normalise&#32;Fission&#32;Fragments&#32;branching&#32;ratio</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(jz.GT.80)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00105"/>00105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnffno(j,ja,jz,ene,flx,nfx)
+<anchor xml:id="_xnevol_8_f_source_1l00106"/>00106 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00107"/>00107 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00108"/>00108 <emphasis role="comment">*&#32;---&#32;Cleanup</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;40&#32;jr=1,ntablr
+<anchor xml:id="_xnevol_8_f_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;imtabl(jr,1)=0
+<anchor xml:id="_xnevol_8_f_source_1l00111"/>00111 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00112"/>00112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ihgwmk=1
+<anchor xml:id="_xnevol_8_f_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nmate=0
+<anchor xml:id="_xnevol_8_f_source_1l00114"/>00114 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;60
+<anchor xml:id="_xnevol_8_f_source_1l00116"/>00116 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00117"/>00117 &#32;&#32;&#32;50&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00118"/>00118 &#32;&#32;&#32;60&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00119"/>00119 &#32;&#32;&#32;70&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00120"/>00120 &#32;&#32;&#32;80&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00121"/>00121 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;DO&#32;11&#32;L=1,NUMFIS</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00122"/>00122 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IF(IZAPAR(L).EQ.942400)&#32;THEN</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00123"/>00123 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WRITE(2,&apos;(1X,I11,4(1X,E11.4))&apos;)&#32;MOD(IZAFRA(L)/10,1000),</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00124"/>00124 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(XBRFRA(L,II),II=1,3),BRRFRA(L)</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00125"/>00125 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00126"/>00126 <emphasis role="comment">C&#32;&#32;&#32;11&#32;CONTINUE</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00127"/>00127 <emphasis role="comment">C*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00128"/>00128 <emphasis role="comment">C*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00129"/>00129 <emphasis role="comment">C*&#32;---&#32;Now&#32;sort&#32;entries</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00130"/>00130 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;WRITE(6,&apos;(&apos;&apos;&#32;Finished&#32;reading&#32;--&#32;Sorting&#32;&apos;&apos;,I5,</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00131"/>00131 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&apos;&apos;&#32;entries...&apos;&apos;)&apos;)&#32;NCRLIN</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00132"/>00132 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;DO&#32;110&#32;J1=1,NCRLIN-1</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00133"/>00133 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DO&#32;100&#32;J2=J1+1,NCRLIN</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00134"/>00134 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IF(IZA(J1).GT.IZA(J2))&#32;THEN</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00135"/>00135 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DO&#32;90&#32;&#32;JSWAP=1,7</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00136"/>00136 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TMP=HINFO(JSWAP,J1)</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00137"/>00137 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;HINFO(JSWAP,J1)=HINFO(JSWAP,J2)</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00138"/>00138 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;HINFO(JSWAP,J2)=TMP</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00139"/>00139 <emphasis role="comment">C&#32;&#32;&#32;90&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CONTINUE</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00140"/>00140 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ITMP=IZA(J1)</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00141"/>00141 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IZA(J1)=IZA(J2)</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00142"/>00142 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IZA(J2)=ITMP</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00143"/>00143 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00144"/>00144 <emphasis role="comment">C&#32;&#32;100&#32;&#32;&#32;&#32;CONTINUE</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00145"/>00145 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WRITE(2,&apos;(1X,2I5,7(1X,E14.7))&apos;)&#32;IZA(J1)/1000,&#32;MOD(IZA(J1&#32;),</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00146"/>00146 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;1000)&#32;,(HINFO(LL,J1),LL=1,7)</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00147"/>00147 <emphasis role="comment">C&#32;&#32;110&#32;CONTINUE</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00148"/>00148 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00149"/>00149 <emphasis role="comment">*&#32;---&#32;Merge&#32;with&#32;BNL&#32;and&#32;output</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00150"/>00150 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xndbnl
+<anchor xml:id="_xnevol_8_f_source_1l00151"/>00151 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00152"/>00152 <emphasis role="comment">*&#32;---&#32;Now&#32;sort&#32;entries</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00153"/>00153 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(2,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;&#32;Mat&#32;&#32;&#32;&#32;&#32;&#32;n,2n&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fiss&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;capt&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)
+<anchor xml:id="_xnevol_8_f_source_1l00154"/>00154 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;110&#32;j1=1,ncrlin-1
+<anchor xml:id="_xnevol_8_f_source_1l00155"/>00155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;100&#32;j2=j1+1,ncrlin
+<anchor xml:id="_xnevol_8_f_source_1l00156"/>00156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iza(j1).GT.iza(j2))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00157"/>00157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;90&#32;&#32;jswap=1,3
+<anchor xml:id="_xnevol_8_f_source_1l00158"/>00158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tmp=xsects(jswap,j1)
+<anchor xml:id="_xnevol_8_f_source_1l00159"/>00159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xsects(jswap,j1)=xsects(jswap,j2)
+<anchor xml:id="_xnevol_8_f_source_1l00160"/>00160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xsects(jswap,j2)=tmp
+<anchor xml:id="_xnevol_8_f_source_1l00161"/>00161 &#32;&#32;&#32;90&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00162"/>00162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;itmp=iza(j1)
+<anchor xml:id="_xnevol_8_f_source_1l00163"/>00163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iza(j1)=iza(j2)
+<anchor xml:id="_xnevol_8_f_source_1l00164"/>00164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iza(j2)=itmp
+<anchor xml:id="_xnevol_8_f_source_1l00165"/>00165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chtemp=chnam(j1)
+<anchor xml:id="_xnevol_8_f_source_1l00166"/>00166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chnam(j1)=chnam(j2)
+<anchor xml:id="_xnevol_8_f_source_1l00167"/>00167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chnam(j2)=chtemp
+<anchor xml:id="_xnevol_8_f_source_1l00168"/>00168 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00169"/>00169 &#32;&#32;100&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00170"/>00170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(2,<emphasis role="stringliteral">&apos;(1X,I3,A2,3(1X,G14.7))&apos;</emphasis>)&#32;mod(iza(j1),1000),chnam(j1),
+<anchor xml:id="_xnevol_8_f_source_1l00171"/>00171 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;(xsects(ll,j1),ll=1,3)
+<anchor xml:id="_xnevol_8_f_source_1l00172"/>00172 &#32;&#32;110&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00173"/>00173 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnevol_8_f_source_1l00174"/>00174 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

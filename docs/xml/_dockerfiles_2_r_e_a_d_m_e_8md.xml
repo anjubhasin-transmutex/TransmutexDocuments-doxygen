@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="_dockerfiles_2_r_e_a_d_m_e_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">The<sp/>Dockerfiles<sp/>contains<sp/>in<sp/>this<sp/>folder<sp/>are<sp/>linked.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>need<sp/>to<sp/>build<sp/>them<sp/>in<sp/>the<sp/>correct<sp/>order<sp/>since<sp/>there<sp/>are<sp/>dependent.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Create<sp/>Docker<sp/>image<sp/>following<sp/>this<sp/>order:</highlight></codeline>
+<codeline><highlight class="normal">root<sp/>-&gt;<sp/>geant4<sp/>-&gt;<sp/>tmx<sp/>-&gt;<sp/>data</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>an<sp/>image<sp/>didn&apos;t<sp/>change<sp/>you<sp/>don&apos;t<sp/>need<sp/>to<sp/>rebuild<sp/>the<sp/>previous<sp/>images.<sp/>For<sp/>example,<sp/>if<sp/>root<sp/>and<sp/>geant4<sp/>didn&apos;t<sp/>change,<sp/>you<sp/>only<sp/>need<sp/>to<sp/>rebuild<sp/>tmx<sp/>and<sp/>data.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">root<sp/>image<sp/>contain:</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>environnement<sp/>variables</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>the<sp/>installation<sp/>of<sp/>tools<sp/>for<sp/>building<sp/>(g++,<sp/>libs...)</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>the<sp/>creation<sp/>of<sp/>geant4<sp/>user</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>the<sp/>installation<sp/>of<sp/>root</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">geant4<sp/>image<sp/>contain:</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>everything<sp/>from<sp/>root</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>the<sp/>installation<sp/>of<sp/>geant4</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">tmx<sp/>image<sp/>contain:</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>everything<sp/>from<sp/>geant4</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>the<sp/>installation<sp/>of<sp/>tmx</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">data<sp/>image<sp/>contain:</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>everything<sp/>from<sp/>tmx</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>the<sp/>installation<sp/>of<sp/>the<sp/>databases</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>will<sp/>only<sp/>use<sp/>the<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/data<sp/>image.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>multistage<sp/>was<sp/>a<sp/>test<sp/>to<sp/>reduce<sp/>the<sp/>size<sp/>of<sp/>the<sp/>last<sp/>image.<sp/>After<sp/>a<sp/>quick<sp/>try<sp/>root<sp/>was<sp/>not<sp/>working<sp/>well.</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Below<sp/>the<sp/>command<sp/>you<sp/>should<sp/>launch<sp/>in<sp/>the<sp/>root<sp/>folder<sp/>of<sp/>this<sp/>repository<sp/>in<sp/>order<sp/>to<sp/>build<sp/>the<sp/>dockerimages.</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>build<sp/>-f<sp/>Dockerfiles/Dockerfile.root<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/root<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/root</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">docker<sp/>build<sp/>-f<sp/>Dockerfiles/Dockerfile.geant4<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/geant4<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/geant4</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">docker<sp/>build<sp/>-f<sp/>Dockerfiles/Dockerfile.tmx<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/tmx<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/tmx</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>docker<sp/>build<sp/>-f<sp/>Dockerfiles/Dockerfile.multistage<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/multistage<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/multistage</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">docker<sp/>build<sp/>-f<sp/>Dockerfiles/Dockerfile.data<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/data<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/data</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>build<sp/>-f<sp/>Dockerfiles/root.Dockerfile<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/root-v2<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/root-v2</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">docker<sp/>build<sp/>-f<sp/>Dockerfiles/geant4.Dockerfile<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/geant4-v2<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/geant4-v2</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">docker<sp/>build<sp/>-f<sp/>Dockerfiles/geant4-tmx.Dockerfile<sp/>-t<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/geant4-tmx-v2<sp/>.</highlight></codeline>
+<codeline><highlight class="normal">docker<sp/>push<sp/>europe-west6-docker.pkg.dev/peerless-garage-319212/docker-registry/geant4-tmx-v2</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+    </programlisting>
+    <location file="/Users/Transmutex/Simulation/ADS_SimulationCode/Dockerfiles/README.md"/>
+  </compounddef>
+</doxygen>

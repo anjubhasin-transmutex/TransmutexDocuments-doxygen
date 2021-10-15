@@ -1,0 +1,97 @@
+\hypertarget{xnthin_8_f_source}{}\doxysection{xnthin.\+F}
+\label{xnthin_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnthin.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnthin.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 04/06/96  18.14.07  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   11/11/95}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnthin(XR,NPRAW,NPTHI,HPERC)}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00006}00006 \textcolor{comment}{*     "{}Thins"{} input data overwriting them. The input are a number of   *}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00007}00007 \textcolor{comment}{*     pairs (x,y) where y=f(x) can be approximated by linear           *}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00008}00008 \textcolor{comment}{*     interpolation. This routine eliminates the points which are      *}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00009}00009 \textcolor{comment}{*     "{}superfluous"{} because their value is close to the one obtained   *}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00010}00010 \textcolor{comment}{*     via linear interpolation of the preceding and following point.   *}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00011}00011 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00012}00012 \textcolor{comment}{*     XR        (input) array containing the tabulated function        *}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00013}00013 \textcolor{comment}{*     NPRAW     (input) number of pairs in XR                          *}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00014}00014 \textcolor{comment}{*     NPTHI     (output) number of points in XR after thinning         *}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00015}00015 \textcolor{comment}{*     HPERC     (input) relative precision of thinning                 *}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00016}00016 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00017}00017 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00018}00018       dimension xr(2*npraw)}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00019}00019 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00021}00021 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00022}00022       \textcolor{keywordflow}{IF}(npraw.LE.2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00023}00023 \textcolor{comment}{* -\/-\/-\/> If only 2 points, there is no thinning}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00024}00024          npthi=npraw}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00025}00025          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00026}00026 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/> Pointer to last good point retained}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00028}00028       ipgood=1}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Pointer to first point under test}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00030}00030       iptes0=2}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> After having retained a point, restart testing}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00032}00032    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/> Initialise pointer to last point under test for thinning}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00034}00034       iptest=iptes0}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Test one more point}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00036}00036    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> If point under test is the last one, always keep it}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00038}00038       \textcolor{keywordflow}{IF}(iptest.EQ.npraw) \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Next point wrt point under test}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00040}00040       iphig=iptest+1}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Previous point wrt point under test}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00042}00042       \textcolor{keywordflow}{IF}(iptest.EQ.iptes0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> If current point under test is the first after having}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00044}00044 \textcolor{comment}{*      retained a good point, previous point is this good point}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00045}00045 \textcolor{comment}{*      retained}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00046}00046          ipbef=ipgood}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00047}00047       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00048}00048 \textcolor{comment}{* -\/-\/-\/> Else previous point is just previous point tested}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00049}00049          ipbef=iptest-\/1}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00050}00050 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/> If current point is a max, always keep it}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00052}00052       \textcolor{keywordflow}{IF}(xr(2*iptest).GT.max(xr(2*ipbef),xr(2*iphig))) \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/> If current point is a min, always keep it}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00054}00054       \textcolor{keywordflow}{IF}(xr(2*iptest).LT.min(xr(2*ipbef),xr(2*iphig))) \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/> Now test from first point after last retained good point to}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00056}00056 \textcolor{comment}{*      current point under test}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00057}00057       \textcolor{keywordflow}{DO} jt=iptes0,iptest}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00058}00058 \textcolor{comment}{* -\/-\/-\/> Find interpolation ratio}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00059}00059          xrat=(xr(2*iphig-\/1)-\/xr(2*jt-\/1))/(xr(2*iphig-\/1)-\/xr(2*ipgood-\/1))}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> Find value via interpolation}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00061}00061          xt=xrat*xr(2*ipgood)+(1-\/xrat)*xr(2*iphig)}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> Calculate relative difference with real point}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00063}00063          htest=abs(xt-\/xr(2*jt  ))/max(xr(2*jt  ),1e-\/10)}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00064}00064          \textcolor{keywordflow}{IF}(htest.GT.hperc) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00065}00065 \textcolor{comment}{* -\/-\/-\/> Point cannot be thinned, retain it}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00066}00066             \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00067}00067 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00068}00068 \textcolor{keywordflow}{      ENDDO}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/> This point can be thinned, try next}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00070}00070       iptest=iptest+1}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00071}00071       \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00072}00072    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00073}00073 \textcolor{comment}{* -\/-\/-\/> Retain point currently under test}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00074}00074       ipgood=ipgood+1}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00075}00075       \textcolor{keywordflow}{IF}(ipgood.NE.iptest) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00076}00076 \textcolor{comment}{* -\/-\/-\/> Copy only if needed}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00077}00077          xr(2*ipgood-\/1)=xr(2*iptest-\/1)}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00078}00078          xr(2*ipgood  )=xr(2*iptest  )}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00079}00079 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00080}00080 \textcolor{comment}{* -\/-\/-\/> If point under test was the last, we have finished}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00081}00081       \textcolor{keywordflow}{IF}(iptest.EQ.npraw) \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00082}00082       iptes0=iptest+1}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00083}00083 \textcolor{comment}{* -\/-\/-\/> After retaining a point, start testing from next}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00084}00084       \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00085}00085    40 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00086}00086 \textcolor{comment}{* -\/-\/-\/> Return number of points retained}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00087}00087       npthi=ipgood}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00088}00088 \textcolor{comment}{*     WRITE(6,10000) NPRAW-\/NPTHI,NPRAW}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00089}00089 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00090}00090 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNTHIN: '},i5,\textcolor{stringliteral}{' points thinned out of '},i5)}
+\DoxyCodeLine{\Hypertarget{xnthin_8_f_source_l00091}00091  999  \textcolor{keyword}{END}}
+
+\end{DoxyCode}

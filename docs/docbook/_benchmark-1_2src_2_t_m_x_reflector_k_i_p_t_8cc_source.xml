@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source" xml:lang="en-US">
+<title>TMXReflectorKIPT.cc</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/Benchmark-1/src/TMXReflectorKIPT.cc</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00001"/>00001 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00002"/>00002 <emphasis role="comment">//&#32;\brief&#32;Implementation&#32;of&#32;the&#32;TMXReflectorKIPT&#32;class</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00003"/>00003 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00004"/>00004 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00006"/>00006 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00007"/>00007 <emphasis role="comment">//&#32;TMXReflectorKIPT</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00008"/>00008 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00009"/>00009 <emphasis role="comment">//&#32;Thomas&#32;Guilbaud,&#32;Transmutex,&#32;25/03/2021</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00010"/>00010 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00012"/>00012 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;Class&#32;to&#32;manage&#32;the&#32;different&#32;reflector&#32;types</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00014"/>00014 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00015"/>00015 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00016"/>00016 <emphasis role="comment">//&#32;TMX&#32;Class</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00017"/>00017 <emphasis role="preprocessor">#include&#32;&quot;TMXInputParameters.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00018"/>00018 <emphasis role="preprocessor">#include&#32;&quot;TMXReflectorKIPT.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00019"/>00019 <emphasis role="preprocessor">#include&#32;&quot;TMXMaterial.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00020"/>00020 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00021"/>00021 <emphasis role="comment">//&#32;GEANT4&#32;libraries</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00022"/>00022 <emphasis role="comment">//#include&#32;&quot;G4Material.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00023"/>00023 <emphasis role="preprocessor">#include&#32;&quot;G4LogicalVolume.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00024"/>00024 <emphasis role="preprocessor">#include&#32;&quot;G4NistManager.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00025"/>00025 <emphasis role="preprocessor">#include&#32;&quot;G4PVPlacement.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00026"/>00026 <emphasis role="preprocessor">#include&#32;&quot;G4SubtractionSolid.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00027"/>00027 <emphasis role="preprocessor">#include&#32;&quot;G4RotationMatrix.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00028"/>00028 <emphasis role="preprocessor">#include&#32;&quot;G4VisAttributes.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00029"/>00029 <emphasis role="preprocessor">#include&#32;&quot;G4Colour.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00030"/>00030 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00031"/>00031 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00032"/>00032 <emphasis role="comment">//&#32;C++&#32;libraries</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00033"/>00033 <emphasis role="preprocessor">#include&#32;&lt;vector&gt;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00034"/>00034 <emphasis role="preprocessor">#include&#32;&lt;string&gt;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00035"/>00035 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00036"/>00036 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00037"/>00037 TMXReflectorKIPT::TMXReflectorKIPT(<emphasis role="keyword">const</emphasis>&#32;std::string&amp;&#32;FuelAssemblyName,&#32;<link linkend="_class_t_m_x_input_parameters">TMXInputParameters</link>*&#32;parameter,&#32;G4double&#32;rodInsertion,&#32;G4bool&#32;isAssembly)
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00038"/>00038 :&#32;&#32;&#32;<link linkend="_class_t_m_x_abstract_fuel_assembly">TMXAbstractFuelAssembly</link>(FuelAssemblyName,&#32;parameter,&#32;rodInsertion),
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00039"/>00039 &#32;&#32;&#32;&#32;fOuterRadius_assembly{0.},
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00040"/>00040 &#32;&#32;&#32;&#32;fIsAssembly{isAssembly}
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00041"/>00041 {
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00042"/>00042 &#32;&#32;&#32;&#32;createMaterial();
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00043"/>00043 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(isAssembly)&#32;{
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;createGeometryAssembly();
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00045"/>00045 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00046"/>00046 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;createGeometryBlock();
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00048"/>00048 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00049"/>00049 &#32;&#32;&#32;&#32;visualisationConfig();
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00050"/>00050 }
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00051"/>00051 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00052"/>00052 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00053"/>00053 <emphasis role="comment">//------------------------------------------------------------------------------*------------------------------------------------------------------------------//</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00054"/>00054 <emphasis role="comment">//&#32;Construction&#32;of&#32;the&#32;material&#32;compositions</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00055"/>00055 <emphasis role="comment">//------------------------------------------------------------------------------*------------------------------------------------------------------------------//</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00056"/>00056 <emphasis role="keywordtype">void</emphasis>&#32;TMXReflectorKIPT::createMaterial()
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00057"/>00057 {
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00058"/>00058 &#32;&#32;&#32;&#32;G4double&#32;temperature_fuel&#32;=&#32;m_p-&gt;TemperatureFuel;
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00059"/>00059 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00061"/>00061 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Graphite&#32;reflector</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00062"/>00062 &#32;&#32;&#32;&#32;<link linkend="_class_t_m_x_material">TMXMaterial</link>*&#32;_Graphite&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;<link linkend="_class_t_m_x_material">TMXMaterial</link>(<emphasis role="stringliteral">&quot;Graphite&#32;&quot;</emphasis>+m_assemblyName,&#32;1.84*(g/cm3),&#32;1,&#32;kStateSolid,&#32;temperature_fuel);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00063"/>00063 &#32;&#32;&#32;&#32;_Graphite-&gt;AddElement(60120,&#32;1,&#32;<emphasis role="stringliteral">&quot;C_12&quot;</emphasis>);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00064"/>00064 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00066"/>00066 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Assembly&#32;reflector&#32;Berylium</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00067"/>00067 &#32;&#32;&#32;&#32;<link linkend="_class_t_m_x_material">TMXMaterial</link>*&#32;_Berylium&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;<link linkend="_class_t_m_x_material">TMXMaterial</link>(<emphasis role="stringliteral">&quot;Berylium&#32;&quot;</emphasis>+m_assemblyName,&#32;1.84*(g/cm3),&#32;1,&#32;kStateSolid,&#32;temperature_fuel);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00068"/>00068 &#32;&#32;&#32;&#32;_Berylium-&gt;AddElement(40090,&#32;1,&#32;<emphasis role="stringliteral">&quot;Be9&quot;</emphasis>);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00069"/>00069 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00070"/>00070 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00071"/>00071 &#32;&#32;&#32;&#32;m_blockReflectorMaterial&#32;=&#32;_Graphite;
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00072"/>00072 &#32;&#32;&#32;&#32;m_assemblyReflectorMaterial&#32;=&#32;_Berylium;
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00073"/>00073 }
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00074"/>00074 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00075"/>00075 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00076"/>00076 <emphasis role="keywordtype">void</emphasis>&#32;TMXReflectorKIPT::createGeometryAssembly()
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00077"/>00077 {
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00078"/>00078 &#32;&#32;&#32;&#32;<emphasis role="comment">/*G4bool&#32;overlap&#32;=&#32;false;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00079"/>00079 <emphasis role="comment">&#32;&#32;&#32;&#32;if&#32;(m_p-&gt;Verbose&#32;==&#32;1)&#32;{</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00080"/>00080 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;overlap&#32;=&#32;true;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00081"/>00081 <emphasis role="comment">&#32;&#32;&#32;&#32;}*/</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00082"/>00082 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00086"/>00086 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00088"/>00088 &#32;&#32;&#32;&#32;fOuterRadius_assembly&#32;=&#32;32.0&#32;/&#32;2.&#32;*&#32;mm;
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00089"/>00089 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;G4double&#32;outerRadius_fuelAssembly&#32;=&#32;fOuterRadius_assembly;
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00090"/>00090 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00092"/>00092 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;G4double&#32;halfHeightAssembly&#32;=&#32;50./2.&#32;*&#32;cm;&#32;<emphasis role="comment">//&#32;Active&#32;height&#32;of&#32;fuel&#32;(source:&#32;prod&#32;medical&#32;radio&#32;iso)</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00093"/>00093 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00094"/>00094 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00098"/>00098 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00101"/>00101 &#32;&#32;&#32;&#32;G4Polyhedra*&#32;sAssemblyReflector&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4Polyhedra(
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;sAssemblyReflector&quot;</emphasis>,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;name</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;0.,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;phiStart</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;360.&#32;*&#32;deg,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;phiTotal</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00105"/>00105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;6,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;numSide</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;2,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;numZPlanes</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>&#32;<emphasis role="keywordtype">double</emphasis>&#32;[2]{-halfHeightAssembly,&#32;halfHeightAssembly},&#32;<emphasis role="comment">//&#32;zPlane[]</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00108"/>00108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>&#32;<emphasis role="keywordtype">double</emphasis>&#32;[2]{0.,&#32;0.},&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;rInner[]</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>&#32;<emphasis role="keywordtype">double</emphasis>&#32;[2]{outerRadius_fuelAssembly,&#32;outerRadius_fuelAssembly}&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;rOuter[]</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00110"/>00110 &#32;&#32;&#32;&#32;);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00111"/>00111 &#32;&#32;&#32;&#32;m_masterVolume&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4LogicalVolume(sAssemblyReflector,&#32;m_assemblyReflectorMaterial,&#32;<emphasis role="stringliteral">&quot;lAssemblyReflector&quot;</emphasis>);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00112"/>00112 }
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00113"/>00113 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00114"/>00114 <emphasis role="keywordtype">void</emphasis>&#32;TMXReflectorKIPT::createGeometryBlock()
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00115"/>00115 {
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00116"/>00116 &#32;&#32;&#32;&#32;<emphasis role="comment">/*G4bool&#32;overlap&#32;=&#32;false;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00117"/>00117 <emphasis role="comment">&#32;&#32;&#32;&#32;if&#32;(m_p-&gt;Verbose&#32;==&#32;1)&#32;{</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00118"/>00118 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;overlap&#32;=&#32;true;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00119"/>00119 <emphasis role="comment">&#32;&#32;&#32;&#32;}*/</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00120"/>00120 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00124"/>00124 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00126"/>00126 &#32;&#32;&#32;&#32;fOuterRadius_assembly&#32;=&#32;32.0&#32;/&#32;2.&#32;*&#32;mm;
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00127"/>00127 <emphasis role="comment">//&#32;&#32;&#32;&#32;const&#32;G4double&#32;outerRadius_fuelAssembly&#32;=&#32;fOuterRadius_assembly;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00128"/>00128 <emphasis role="comment">//&#32;&#32;&#32;&#32;const&#32;G4double&#32;innerRadius_core&#32;=&#32;10.&#32;*&#32;std::sqrt(3.)/2.&#32;*&#32;outerRadius_fuelAssembly;</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00129"/>00129 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00130"/>00130 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;G4double&#32;outerRadius_core&#32;=&#32;1.2&#32;/&#32;2.&#32;*&#32;m;
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00131"/>00131 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00133"/>00133 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;G4double&#32;halfHeightCore&#32;=&#32;70./2.&#32;*&#32;cm;
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00134"/>00134 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00135"/>00135 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00139"/>00139 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00142"/>00142 &#32;&#32;&#32;&#32;G4VSolid*&#32;sReflectorGraphite&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4Tubs(
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00143"/>00143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;sReflectorGraphite&quot;</emphasis>,&#32;&#32;&#32;<emphasis role="comment">//&#32;pName</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00144"/>00144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;0.,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;pRMin</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00145"/>00145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;outerRadius_core,&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;pRMax</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00146"/>00146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;halfHeightCore,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;pDz</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00147"/>00147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;0.,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;pSPhi</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00148"/>00148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;360.*deg&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;pDPhi</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00149"/>00149 &#32;&#32;&#32;&#32;);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00150"/>00150 &#32;<emphasis role="comment">//&#32;&#32;&#32;G4RotationMatrix*&#32;zRot&#32;=&#32;new&#32;G4RotationMatrix;&#32;//&#32;Rotates&#32;X&#32;and&#32;Z&#32;axes&#32;only</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00151"/>00151 &#32;<emphasis role="comment">//&#32;&#32;&#32;zRot-&gt;rotateZ(-30.*deg);</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00152"/>00152 &#32;<emphasis role="comment">//&#32;&#32;&#32;sReflectorGraphite&#32;=&#32;m_TMXNeutronSource-&gt;SubstractTarget(sReflectorGraphite,&#32;G4ThreeVector(0,&#32;0,&#32;0),&#32;zRot);</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00153"/>00153 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00154"/>00154 &#32;&#32;&#32;&#32;m_masterVolume&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4LogicalVolume(sReflectorGraphite,&#32;m_blockReflectorMaterial,&#32;<emphasis role="stringliteral">&quot;lReflectorGraphite&quot;</emphasis>);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00155"/>00155 }
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00156"/>00156 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00157"/>00157 <emphasis role="keywordtype">void</emphasis>&#32;TMXReflectorKIPT::subtract(G4LogicalVolume*&#32;subtracterLV)&#32;{
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00158"/>00158 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!fIsAssembly)&#32;{
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00159"/>00159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4VSolid*&#32;sSubtracter&#32;=&#32;subtracterLV-&gt;GetSolid();
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00160"/>00160 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00161"/>00161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4VSolid*&#32;sSubtratedSolid&#32;=&#32;m_masterVolume-&gt;GetSolid();
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00162"/>00162 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00163"/>00163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4RotationMatrix*&#32;zRot&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4RotationMatrix;&#32;<emphasis role="comment">//&#32;Rotates&#32;X&#32;and&#32;Z&#32;axes&#32;only</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00164"/>00164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;zRot-&gt;rotateZ(30.*deg);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00165"/>00165 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00166"/>00166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4SubtractionSolid*&#32;sHoled&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4SubtractionSolid(sSubtratedSolid-&gt;GetName()+<emphasis role="stringliteral">&quot;_sub&quot;</emphasis>,&#32;sSubtratedSolid,&#32;sSubtracter,&#32;zRot,&#32;G4ThreeVector());
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00167"/>00167 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00168"/>00168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_masterVolume-&gt;SetSolid(sHoled);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00169"/>00169 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00170"/>00170 }
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00171"/>00171 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00172"/>00172 <emphasis role="keywordtype">void</emphasis>&#32;TMXReflectorKIPT::placeGeometry(<emphasis role="keywordtype">bool</emphasis>&#32;overlap,&#32;G4ThreeVector&#32;position,&#32;G4RotationMatrix*&#32;rotation,&#32;G4LogicalVolume*&#32;masterVolume)&#32;{
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00173"/>00173 &#32;&#32;&#32;&#32;std::string&#32;ext&#32;=&#32;fIsAssembly&#32;?&#32;<emphasis role="stringliteral">&quot;Assembly&quot;</emphasis>&#32;:&#32;<emphasis role="stringliteral">&quot;Block&quot;</emphasis>;
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00174"/>00174 &#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>&#32;G4PVPlacement(rotation,&#32;position,&#32;m_masterVolume,&#32;<emphasis role="stringliteral">&quot;pReflector&quot;</emphasis>+ext,&#32;masterVolume,&#32;<emphasis role="keyword">false</emphasis>,&#32;0,&#32;overlap);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00175"/>00175 }
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00176"/>00176 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00177"/>00177 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00178"/>00178 <emphasis role="keywordtype">void</emphasis>&#32;TMXReflectorKIPT::visualisationConfig()&#32;{
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00179"/>00179 &#32;&#32;&#32;&#32;<emphasis role="comment">//if(m_p-&gt;Verbose&#32;==&#32;1)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;&quot;Configuration&#32;of&#32;the&#32;visualisation&quot;&#32;&lt;&lt;&#32;std::endl;}</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00180"/>00180 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00182"/>00182 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;visualisation&#32;colors&#32;configured&#32;by&#32;DL</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00184"/>00184 <emphasis role="comment"></emphasis>&#32;&#32;&#32;&#32;G4Colour&#32;&#32;black&#32;&#32;&#32;(&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;black</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00185"/>00185 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;lblack&#32;&#32;(&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.6);&#32;<emphasis role="comment">//&#32;light&#32;black</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00186"/>00186 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;vlblack&#32;(&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.2);&#32;<emphasis role="comment">//&#32;very&#32;light&#32;black</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00187"/>00187 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;white&#32;&#32;&#32;(1.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.3);&#32;<emphasis role="comment">//&#32;white</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00188"/>00188 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;grayD3l&#32;(211&#32;&#32;&#32;&#32;&#32;&#32;,&#32;211&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;211&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;gray&#32;D3&#32;(light)</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00189"/>00189 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;grayC&#32;&#32;&#32;(0.5&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;gray</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00190"/>00190 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;flgrayC&#32;(0.5&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.8);&#32;<emphasis role="comment">//&#32;few&#32;light&#32;gray</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00191"/>00191 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;lgrayC&#32;&#32;(0.5&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.4);&#32;<emphasis role="comment">//&#32;light&#32;gray</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00192"/>00192 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;vlgrayC&#32;(0.5&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.2);&#32;<emphasis role="comment">//&#32;very&#32;ligth&#32;gray</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00193"/>00193 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;red&#32;&#32;&#32;&#32;&#32;(1.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;red</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00194"/>00194 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;violet&#32;&#32;(1.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;violet</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00195"/>00195 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;orange&#32;&#32;(1.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.65&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;orange</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00196"/>00196 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;green&#32;&#32;&#32;(0.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;green</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00197"/>00197 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;lgreen&#32;&#32;(0.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.4);&#32;<emphasis role="comment">//&#32;light&#32;green</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00198"/>00198 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;blue&#32;&#32;&#32;&#32;(0.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;blue</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00199"/>00199 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;yellow&#32;&#32;(1.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;yellow</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00200"/>00200 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;lyellow&#32;(1.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.2);&#32;<emphasis role="comment">//&#32;light&#32;yellow</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00201"/>00201 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;cyan&#32;&#32;&#32;&#32;(0.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.2);&#32;<emphasis role="comment">//&#32;cya</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00202"/>00202 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;sky&#32;&#32;&#32;&#32;&#32;(0.0/255.0,&#32;191.0/255.0,&#32;255.0/255.0,&#32;0.2);&#32;<emphasis role="comment">//&#32;sky</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00203"/>00203 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;dgreen&#32;&#32;(0.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;153.0/255.0,&#32;153.0/255.0,&#32;0.2);&#32;<emphasis role="comment">//&#32;dark&#32;green</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00204"/>00204 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;cyangr&#32;&#32;(0.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;204.0/255.0,&#32;204.0/255.0&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;cyan+green&#32;colour&#32;for&#32;different&#32;colour&#32;of&#32;h20</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00205"/>00205 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;lblue&#32;&#32;&#32;(0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.4);&#32;<emphasis role="comment">//&#32;light&#32;blue</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00206"/>00206 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;grayblu&#32;(0.4&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.6&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.8&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.6);&#32;<emphasis role="comment">//&#32;light&#32;gray&#32;blue</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00207"/>00207 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;wcolour&#32;(0.3&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.3&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.3&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00208"/>00208 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;Ccolour&#32;(0.&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.3&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.7&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00209"/>00209 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00211"/>00211 &#32;&#32;&#32;&#32;G4bool&#32;bool_visible&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00212"/>00212 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00214"/>00214 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(fIsAssembly)&#32;{
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00215"/>00215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4VisAttributes*&#32;visAssemblyReflector&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4VisAttributes(yellow);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00216"/>00216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;visAssemblyReflector-&gt;SetVisibility(bool_visible);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00217"/>00217 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(m_masterVolume)&#32;{m_masterVolume-&gt;SetVisAttributes(visAssemblyReflector);}
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00218"/>00218 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00220"/>00220 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00221"/>00221 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4VisAttributes*&#32;visReflector&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4VisAttributes(grayC);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00222"/>00222 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;visReflector-&gt;SetVisibility(bool_visible);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00223"/>00223 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(m_masterVolume)&#32;{m_masterVolume-&gt;SetVisAttributes(visReflector);}
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00224"/>00224 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00225"/>00225 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00226"/>00226 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00227"/>00227 &#32;&#32;&#32;&#32;<emphasis role="comment">//if(m_p-&gt;Verbose&#32;==&#32;1)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;&quot;End&#32;of&#32;visualisationConfig&quot;&#32;&lt;&lt;&#32;std::endl;}</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00228"/>00228 }
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00229"/>00229 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00230"/>00230 
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00232"/>00232 <emphasis role="comment">//&#32;Getter</emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00234"/>00234 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00235"/>00235 G4double&#32;TMXReflectorKIPT::GetOuterRadius()&#32;{
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00236"/>00236 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>(fOuterRadius_assembly);
+<anchor xml:id="__benchmark-1_2src_2_t_m_x_reflector_k_i_p_t_8cc_source_1l00237"/>00237 }
+</programlisting></section>

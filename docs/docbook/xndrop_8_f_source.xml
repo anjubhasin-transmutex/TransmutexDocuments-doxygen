@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xndrop_8_f_source" xml:lang="en-US">
+<title>xndrop.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xndrop.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xndrop_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;03/06/96&#32;&#32;10.48.09&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;08/03/94</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xndrop(IZAMAT,MFMT)
+<anchor xml:id="_xndrop_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Drops&#32;reaction&#32;in&#32;memory&#32;and&#32;recuperates&#32;space&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IZAMAT&#32;&#32;&#32;&#32;(input)&#32;material&#32;code&#32;of&#32;the&#32;reaction&#32;to&#32;be&#32;dropped&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;MFMT&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;ENDF-6&#32;reaction&#32;code&#32;to&#32;be&#32;dropped&#32;in&#32;the&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;format&#32;1000*MF+MT.&#32;If&#32;MF=0&#32;then&#32;all&#32;data&#32;related&#32;to&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;that&#32;reaction&#32;for&#32;the&#32;given&#32;isotope&#32;are&#32;erased&#32;from&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memory.&#32;If&#32;MT=0&#32;all&#32;reaction&#32;are&#32;erased&#32;from&#32;memory.&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;If&#32;MFMT=0&#32;all&#32;the&#32;information&#32;about&#32;the&#32;isotope&#32;is&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;removed&#32;from&#32;memory.&#32;For&#32;a&#32;description&#32;of&#32;ENDF-6&#32;codes&#32;*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;see&#32;arrays&#32;&#32;NBMFT&#32;and&#32;CHNAME&#32;below.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00017"/>00017 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00018"/>00018 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00019"/>00019 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcstor.inc&quot;</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00020"/>00020 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcpoin.inc&quot;</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00021"/>00021 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcnamf.inc&quot;</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00022"/>00022 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;hinfo(nadinf)
+<anchor xml:id="_xndrop_8_f_source_1l00023"/>00023 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00024"/>00024 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00025"/>00025 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;ENDF-6&#32;file&#32;and&#32;section&#32;identifiers</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;mf&#32;=&#32;mfmt/1000
+<anchor xml:id="_xndrop_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;mt&#32;=&#32;mod(mfmt,1000)
+<anchor xml:id="_xndrop_8_f_source_1l00029"/>00029 <emphasis role="comment">*&#32;---&gt;&#32;Loop&#32;on&#32;all&#32;the&#32;ENDF-6&#32;files&#32;allowed</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;jmfile=1,maxmfi
+<anchor xml:id="_xndrop_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(lmfile(jmfile).EQ.mf.OR.mf.EQ.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00032"/>00032 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;the&#32;correct&#32;file&#32;is&#32;found,&#32;or&#32;if&#32;all&#32;files&#32;have&#32;to&#32;be&#32;deleted</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00033"/>00033 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;loop&#32;over&#32;reactions</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;jreac=1,mxreac
+<anchor xml:id="_xndrop_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(mt.EQ.0.OR.mt.EQ.nbmft(jreac))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00036"/>00036 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;the&#32;reaction&#32;is&#32;among&#32;the&#32;ones&#32;present&#32;in&#32;the&#32;database&#32;or</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00037"/>00037 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;if&#32;all&#32;the&#32;reactions&#32;are&#32;requested</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;imfmt=lmfile(jmfile)*1000+nbmft(jreac)
+<anchor xml:id="_xndrop_8_f_source_1l00039"/>00039 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;start&#32;and&#32;length&#32;of&#32;data</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xngetm(izamat,imfmt,istar,ileng,hinfo)
+<anchor xml:id="_xndrop_8_f_source_1l00041"/>00041 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;reaction&#32;is&#32;there...</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ileng.GT.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00043"/>00043 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;we&#32;are&#32;dealing&#32;with&#32;a&#32;cross&#32;section&#32;ILENG&#32;is&#32;the&#32;number</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00044"/>00044 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;of&#32;pairs</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(lmfile(jmfile).EQ.3)&#32;ileng=ileng*2
+<anchor xml:id="_xndrop_8_f_source_1l00046"/>00046 <emphasis role="comment">*&#32;---&gt;&#32;...compress&#32;storage</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jdrop=istar+1,istar+ihgwmk-ileng
+<anchor xml:id="_xndrop_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xstore(jdrop)&#32;=&#32;xstore(jdrop+ileng)
+<anchor xml:id="_xndrop_8_f_source_1l00049"/>00049 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00050"/>00050 <emphasis role="comment">*&#32;---&gt;&#32;and&#32;reset&#32;HiGh&#32;Water&#32;MarK</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ihgwmk=ihgwmk-ileng
+<anchor xml:id="_xndrop_8_f_source_1l00052"/>00052 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00053"/>00053 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00054"/>00054 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00055"/>00055 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00056"/>00056 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00057"/>00057 <emphasis role="comment">*&#32;---&gt;&#32;Reset&#32;pointers</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;60&#32;jmat=1,nmate
+<anchor xml:id="_xndrop_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;50&#32;jmfile=1,maxmfi
+<anchor xml:id="_xndrop_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;40&#32;kreac=1,mxreac
+<anchor xml:id="_xndrop_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jreac=(jmfile-1)*mxreac+kreac
+<anchor xml:id="_xndrop_8_f_source_1l00062"/>00062 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;this&#32;reaction&#32;was&#32;store&#32;after&#32;the&#32;deleted&#32;reaction,&#32;the</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00063"/>00063 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;pointer&#32;needs&#32;to&#32;be&#32;shifted&#32;back</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(imtabl(1+nreinf*(jreac-1)+1,jmat).GT.istar)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;imtabl(1+nreinf*(jreac-1)+1,jmat)=&#32;imtabl(1+nreinf*
+<anchor xml:id="_xndrop_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(jreac-&#32;1)+1,jmat)-ileng
+<anchor xml:id="_xndrop_8_f_source_1l00067"/>00067 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izamat.EQ.imtabl(1,jmat))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00069"/>00069 <emphasis role="comment">*&#32;---&gt;&#32;Pointers&#32;to&#32;the&#32;reaction&#32;which&#32;has&#32;been&#32;removed&#32;are&#32;zeroed</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;imtabl(1+nreinf*(jreac-1)+1,jmat)&#32;=&#32;0
+<anchor xml:id="_xndrop_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;imtabl(1+nreinf*(jreac-1)+2,jmat)&#32;=&#32;0
+<anchor xml:id="_xndrop_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hmtabl(1+nreinf*(jreac-1)+3,jmat)&#32;=&#32;0.
+<anchor xml:id="_xndrop_8_f_source_1l00073"/>00073 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00074"/>00074 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00075"/>00075 &#32;&#32;&#32;50&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00076"/>00076 &#32;&#32;&#32;60&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00077"/>00077 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xndrop_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

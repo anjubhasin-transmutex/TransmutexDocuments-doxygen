@@ -1,0 +1,347 @@
+.TH "md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e" 3 "Fri Oct 15 2021" "Version Version 1.0" "Transmutex Documentation" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md___users__transmutex__simulation__a_d_s__simulation_code__r_e_a_d_m_e \- # Transmutex code repository 
+This is the code repository for Transmutex\&. This code is used to simulate an Accelerator Driven System (ADS)\&. This code is the property of Transmutex SA\&. All rights reserved\&.
+.PP
+.PP
+.PP
+In the root directory, you will find source files \&.cc and the header files \&.hh respectively in the following directories \&./TMXElements/src/ and \&./TMXElements/include/ These files constitutes general classes which are used to simulate specific features of a nuclear reactor (such as burn-up)\&.
+.PP
+In the root directory, you will find source files \&.cc and the header files \&.hh respectively in the following directories \&./G4-NeutronTransport/src/ and \&./G4-NeutronTransport/include/ These files constitutes a GEANT4 simulation which is used to design the Transmutex's ADS\&. The main file of this simulation is \&./G4-NeutronTransport/ads_transmutex\&.cc
+.PP
+.PP
+.SH "Build and run the code"
+.PP
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! !! HOW TO LAUNCH THE CALCULATION : !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+.SS "Make build directory"
+If the directory \&./build/ does not exist, make a directory named 'build' with the following command: 
+.PP
+.nf
+mkdir build
+
+.fi
+.PP
+.PP
+Go in the directory 'build' with the following command: 
+.PP
+.nf
+cd build
+
+.fi
+.PP
+.SS "Configure cmake files"
+Configure CMake to build the application 
+.PP
+.nf
+cmake \&.\&.
+
+.fi
+.PP
+.PP
+If an error occur during the configuration, edit and correct the CMakeFile with 
+.PP
+.nf
+ccmake \&.\&.
+
+.fi
+.PP
+ Then hit \fCc\fP and \fCg\fP to configure and generate the files
+.SS "Build the application"
+Build the application with the following command: 
+.PP
+.nf
+make -jN
+
+.fi
+.PP
+ With N = number of available cores
+.SS "Launch the application"
+Launch the application from the \fCbuild/\fP directory with the following command: 
+.PP
+.nf
+\&./bin/ads_transmutex \&.\&./G4-NeutronTransport/param\&.csv
+
+.fi
+.PP
+.PP
+.PP
+.SH "The parameter file"
+.PP
+The parameter file param\&.csv has to be configured by the user before each run\&. 
+.br
+ This file defines the parameters of the simulation, it is located in \fCG4-NeutronTransport/\fP 
+.br
+.SS "Description of the parameter file"
+The parameter file can be visualized with MS Excel or a text file\&. 
+.br
+ It consists in table organized as follows: 
+.br
+ |Parameter name|Value|Units|Parameter description|
+.SS "Reading of the file"
+The separators used to read the file are: 
+.br
+.IP "\(bu" 2
+\fC,\fP to separate each element 
+.br
+
+.IP "\(bu" 2
+\fC\\n\fP,\fC\\r\fP,\fC\\n\\r\fP or empty string \fC''\fP to detect the end of a line 
+.br
+
+.PP
+.PP
+One line corresponds to a single parameter except for the core configuration or a position vector (X,Y,Z) 
+.br
+ To link a line to a specific parameter, the code reads the first element of each line which correspond to the parameter name\&. 
+.br
+ The parameter name is hard-coded in the code \fC\fBTMXInputParameters\&.cc\fP\fP that can be found in \fC\&./TMXElements/src/\fP\&. 
+.br
+ Thus, the parameter name in the parameter file must not be changed without changing its name in \fC\fBTMXInputParameters\&.cc\fP\fP\&.
+.SS "Parameters description"
+Parameter name   Value   Units   Parameter description   Always required    boolVisualization   boolean   no   Activation of the visualization   yes    nThreads   integer   no   Number of thread per run   yes    isThreadMerging   boolean   no   (Default: true) Activation of merging of thread's ROOT file into master's ROOT file per run   no    int_Option   integer   no   The code will run in different modes following this option:
+.br
+   yes   | | | | 0 = Simulate all the geometry,
+.br
+ | | | | 1 = Target only,
+.br
+ | | | | 2 = Target + Surroundings (no core),
+.br
+ | | | | 3 = Homogenous geometry,
+.br
+ | | | | 4 = keff calculation with dedicated method,
+.br
+ | | | | 5 = Transmutation calculation,
+.br
+ | | | | 6 = reflector skin w/o water (Troïtsk),
+.br
+ | | | | 7 = the multiplication is killed,
+.br
+ | | | | 8 = Calculation of ksource without (n,Xn)),
+.br
+ | | | | 9 = Old version (Energy Amplifier) of k_source with E<20MeV,
+.br
+ | | | | 20 = Calculation of k with power iteration method | | | | 30 = Monte Carlo Volume Estimator | Verbose | 0 or 1 | no | Verbose of the code | yes | 
+.br
+ | BeamEnergy | double | [GeV, MeV, keV, eV] | Energy of source particles | yes | 
+.br
+ | Nparticles | integer | no | Number of events to simulate\&. In most of cases there is 1 source particle/event\&. In case of a k_{eff} calculation there are ~120 source particles/event\&. | yes | 
+.br
+ | Nrun | integer | no | Number of runs to consider for burn-up calculations | yes | 
+.br
+ | TimeOfRun | double | [ns, um, ms, s, mn, h, d, m, y] | Real time of 1 run to consider for burn-up calculations | yes | 
+.br
+ | P_beam | double | [mW, W, kW, MW, GW, TW] | Beam power | yes | 
+.br
+ | Geometry | integer | no | Geometry to be used in the calculation | yes | 
+.br
+ | | | | 0 = Troïtsk
+.br
+ | | | | 1 = CVR Rez
+.br
+ | | | | 2 = Test
+.br
+ | | | | 4 = EAP80 Simplified
+.br
+ | | | | 5 = Sandbox (burnup tests, LBE test, criticality benchmarks, \&.\&.\&.)
+.br
+ | | | | 6 = KIPT
+.br
+ | | | | 7 = EAP80 Subcritical
+.br
+ | | | | 8 = EAP80 Critical
+.br
+ | | | | 9 = Rez2011 Subcritical
+.br
+ | | | | 10 = SVBR100 + \fBTMXTarget\fP
+.br
+ | str_ROOTFileName | string | no | Name of the output ROOT files (ex: \fCmyfile\&.root\fP)\&. This name will be used to produce any other output files with the appropriate extension\&. | yes | 
+.br
+ | physName | string | no | Name of the physical model to use (QGSP_BIC_HP, FTFP_BERT_HP, etc\&.) | yes | 
+.br
+ | isAbla | boolean | no | Use of ABLA v3 model | yes | 
+.br
+ | PrintModulo | integer | no | Print the calculation status every PrintModulo events | yes | 
+.br
+ | TemperatureWorld | double | \fCK\fP | Temperature of every material except the fuel (20°C = 293\&.15 K) | yes | 
+.br
+ | TemperatureFuel | double | \fCK\fP | Temperature of the fuel (20°C = 293\&.15 K) | yes | 
+.br
+ | NbDiscardCycle | integer | no | Number of cycle to discard from the keff calculation with \fBoption 20\fP | ErrorLimitMCCubicVolume | double | no | Error (%) upper limit on the estimation of the volume with the Monte Carlo method with \fBoption 30\fP | | MCCubicVolumeLVname | string | no | (Optional, not use if no string provided) Logical Volume cubic volume estimation by slice along Z axis using parallelWorld definition \fBoption 30\fP with a logical volume name | no | | ExtSourcePath | string | no | Path to an external source file (example: \&./EAP80_TMXSource\&.txt ) | no | | worldR | double | [nm, um, mm, cm, dm, m] | Radius of the world volume | yes | 
+.br
+ | worldZ | double | [nm, um, mm, cm, dm, m] | Half height of the world volume | yes | 
+.br
+ | h0 | double | [nm, um, mm, cm, dm, m] | Height between the bottom of the pit and the center of the world volume (concrete) in Troïtsk | no | 
+.br
+ | XtargetPosition | double | [nm, um, mm, cm, dm, m] | Position of the target along the beam axis (0 = center of the driver fuel) in Troïtsk | no | 
+.br
+ | CheckGap | double | [nm, um, mm, cm, dm, m] | Target tube thickness | no | 
+.br
+ | check1r | double | [nm, um, mm, cm, dm, m] | Tube internal radius | no | 
+.br
+ | xTarget | double | [nm, um, mm, cm, dm, m] | half Target thickness in Troïtsk | no | 
+.br
+ | yTarget | double | [nm, um, mm, cm, dm, m] | half Target width in Troïtsk | no | 
+.br
+ | zTargetHeight | double | [nm, um, mm, cm, dm, m] | half Target height (Oz) in Troïtsk | no | 
+.br
+ | nT | integer | no | nT+1 = number of the target placing in Troïtsk | no | 
+.br
+ | xVariable | double | [nm, um, mm, cm, dm, m] | Distance between 2 target plates in Troïtsk | no | 
+.br
+ | Target_Al_Xgap | double | [nm, um, mm, cm, dm, m] | Gap between target plates and Aluminium parts along X-axis in Troïtsk | no | 
+.br
+ | Target_Al_Ygap | double | [nm, um, mm, cm, dm, m] | Gap between target plates and Aluminium parts along Y-axis in Troïtsk | no | 
+.br
+ | Al_thickness | double | [nm, um, mm, cm, dm, m] | Thickness of Aluminium part (empty structure) in Troïtsk | no | 
+.br
+ | Al_Tube_gap | double | [nm, um, mm, cm, dm, m] | Gap between Aluminium parts and the tube containing the target (fLogicCheck1U) in Troïtsk | no | 
+.br
+ | airtopR | double | [nm, um, mm, cm, dm, m] | Radius of the air cylinder in Troïtsk | no | 
+.br
+ | AirTopZdistanceFromBottomtoTop | double | [nm, um, mm, cm, dm, m] | Distance between the bottom of the pit and the top of the air cylinder in Troïtsk | no | 
+.br
+ | reflectorZdistanceFromBottomtoTop | double | [nm, um, mm, cm, dm, m] | Distance between the bottom of the pit and the top of the water-cooled heat shield (reflector) in Troïtsk | no | 
+.br
+ | fetopZ | double | [nm, um, mm, cm, dm, m] | Half Height (thickness) of the iron part on the top of the water-cooled heat shield (reflector) in Troïtsk | no | 
+.br
+ | Cool10ZdistanceFromBottomtoBottom | double | [nm, um, mm, cm, dm, m] | Distance between the bottom of the pit and the bottom of the experimental area (~reflector bottom thickness) | no | 
+.br
+ | cool10R | double | [nm, um, mm, cm, dm, m] | Radius of the experimental area in Troïtsk | no | 
+.br
+ | cool10BottomGap | double | [nm, um, mm, cm, dm, m] | Air gap at the bottom between the water-cooled heat shield (reflector) and the lead volume in Troïtsk | no | 
+.br
+ | CoreShape | string | Hexagonal or Cylindrical | Shape of sub-critical core (Hexagonal or Cylindrical) in Troïtsk | no | 
+.br
+ | FuelPlacement | string | Hexagonal or Cylindrical | placement of the fuel in Troïtsk | no | 
+.br
+ | Rpos_fuel | double | [nm, um, mm, cm, dm, m] | Radial position of the first rod in the fuel assembly (from 0 to external rod side) in Troïtsk | no | 
+.br
+ | FuelName | string | [VVR-M5, VVR-M2-20p, VVR-M2-36p, IBR-2M] | Name of the fuel rods in Troïtsk | no | 
+.br
+ | int_Nreplicate | integer | no | Number of fuel elements per layer in Troïtsk | no | 
+.br
+ | int_Nlayer | double | no | Number of layers for fuel assembly (double because 1\&.5 layer is ok) in Troïtsk | no | 
+.br
+ | dbl_rRodsGap | double | [nm, um, mm, cm, dm, m] | Gap between 2 fuel rods in Troïtsk | no | 
+.br
+ | GraphiteThickness | double | [nm, um, mm, cm, dm, m] | Thickness of the graphite reflector by the lead in Troïtsk | no | 
+.br
+ | AbsorberThickness | double | [nm, um, mm, cm, dm, m] | Thickness of the neutron absorber between the lead and the Fuel driver in Troïtsk | no | 
+.br
+ | PathToCoreLatticeFile | string | no | Path to the lattice configuration of the Core | no | 
+.br
+ | PathToAssemblyLatticeFile | string | no | Path to the lattice configuration of the Assembly | no | 
+.br
+.SH "Scoring"
+.PP
+.SS "Scoring Parallel World"
+Parameter name   Value   Units   Parameter description   Always required    TypeOfMesh   string   no   polar or cartesian   no    polarAxis   string   no   X or Y or Z   no    origin_PolarMesh   0,0,0   mm   origin of the scoring mesh (X;Y;Z)   no    nbinsR   integer   no   number of bins in the Radial direction   no    minR   double   [nm, um, mm, cm, dm, m]   Minimum value along R-axis   no    maxR   double   [nm, um, mm, cm, dm, m]   Maximum value along R-axis   no    nbinsTheta   integer   no   number of bins in the Theta-axis   no    minTheta   double   [nm, um, mm, cm, dm, m]   Minimum value along Theta-axis   no    maxTheta   double   [nm, um, mm, cm, dm, m]   Maximum value along Theta-axis   no    nbinsX   integer   no   number of bins in the X-axis   yes    minX   double   [nm, um, mm, cm, dm, m]   Minimum value along X-axis   yes    maxX   double   [nm, um, mm, cm, dm, m]   Maximum value along X-axis   yes    nbinsY   integer   no   number of bins in the Y-axis   yes    minY   double   [nm, um, mm, cm, dm, m]   Minimum value along Y-axis   yes    maxY   double   [nm, um, mm, cm, dm, m]   Maximum value along Y-axis   yes    nbinsZ   integer   no   number of bins in the Z-axis   yes    minZ   double   [nm, um, mm, cm, dm, m]   Minimum value along Z-axis   yes    maxZ   double   [nm, um, mm, cm, dm, m]   Maximum value along Z-axis   yes   
+.SS "Scoring Scalar"
+Parameter Name   ParticleNameToScore   Parameter description   Always required    \fCEnergyDeposited\fP   '', Geant4 syntax   PhysicalVolumeName or PVname+   Score the energy deposit in eV in the PV's volume   no   
+.SS "Scoring Spectrum"
+Parameter Name   ParticleNameToScore   Parameter description   Always required    \fCSurfaceCurrentSpectrum\fP   '', Geant4 syntax   PhysicalVolumeName   Score the surface current of the PV' surface   no    \fCSurfaceFluenceSpectrum\fP   '', Geant4 syntax   PhysicalVolumeName   Score the surface fluence of the PV' surface in particle/cm2   no    \fCVolumeFluenceSpectrum\fP   '', Geant4 syntax   PhysicalVolumeName or PVname+   Score the volume fluence in the PV's volume in particle/cm2   no   
+.PP
+.IP "\(bu" 2
+\fCParticleName\fP must be in G4 syntax (ex: neutron, proton, Pb208, \&.\&.\&.), empty = score all particles 
+.br
+
+.IP "\(bu" 2
+\fCParticleNameToScore\fP can be an union of Physical Volumes\&. Place a \fC+\fP between each PV (ex: \fCPV1+PV2\fP)
+.IP "\(bu" 2
+\fCPVname+\fP score in PVname and all the volumes inside of PVname\&. It is recommended to set one PVname (ex: \fCPV1+\fP)
+.PP
+.SS "Scoring Spatial Distribution"
+Parameter Name   ParticleNameToScore   Distribution Type   Binning   Binning Unit   Parameter description   Always required    \fCPowerDensityMap\fP   '', Geant4 syntax   [RZ]   bin1, min1, max1, bin2, min2, max2   [mm]   Score the energy deposition per volume unit in eV/cm3   no   
+.PP
+.IP "\(bu" 2
+The user can add numbers to the distribution type (for example \fCRZ8\fP) to differentiate the spatial scoring with different binning\&.
+.PP
+.SS "Example of Scoring"
+Suppose a Sphere 1 named S1 which contains two smaller spheres S2:1 and S2:2\&. Each of these spheres contains a single sphere S3:1 and S3:2 respectively\&. Structure:
+.IP "\(bu" 2
+S1
+.IP "  \(bu" 4
+S2:1
+.IP "    \(bu" 6
+S3:1
+.PP
+
+.IP "  \(bu" 4
+S2:2
+.IP "    \(bu" 6
+S3:2
+.PP
+
+.PP
+
+.IP "\(bu" 2
+Scoring
+.IP "  \(bu" 4
+Overall volume fluence spectrum of neutron: \fCVolumeFluenceSpectrum,neutron,S1+,\fP
+.IP "  \(bu" 4
+Overall volume fluence spectrum in S2:1: \fCVolumeFluenceSpectrum,,S2:1+S3:1,\fP or \fCVolumeFluenceSpectrum,,S2:1+,\fP
+.IP "  \(bu" 4
+Overall volume fluence spectrum in S2:1 and S2:2: \fCVolumeFluenceSpectrum,,S2:1+S3:1+S2:2+S3:2,\fP or \fCVolumeFluenceSpectrum,,S2:1+S2:2+,\fP
+.IP "  \(bu" 4
+Volume fluence spectrum in S2:1 only (without S3:1): \fCVolumeFluenceSpectrum,,S2:1,\fP
+.IP "  \(bu" 4
+Surface fluence spectrum of neutrons across S2:1 and S2:2: \fCSurfaceFluenceSpectrum,neutron,S2:1+S2:2\fP
+.IP "  \(bu" 4
+If S2:1 and S2:2 are copies, it is possible to score S3 (S3:1 and S3:2 if PVname is S3) in one score: \fCVolumeFluenceSpectrum,,S3,\fP
+.IP "    \(bu" 6
+In this case, the user has to be very careful on the volume calculation and on the volumes scored\&.
+.IP "    \(bu" 6
+In this case, it is not possible to score only the S3 contained in S2:1 for example\&.
+.IP "    \(bu" 6
+It is recommended to avoid copy when each copy needs to be scored individually\&.
+.PP
+
+.PP
+
+.PP
+.SS "Ntuple"
+Parameter name   Value   Units   Parameter description   Always required    isEverythingNtuple   true of false   -   Score information of neutrons into an ntuple   No   
+.SS "keff Mesh Dimensions"
+Parameter name   Value   Units   Parameter description   Always required    originKeff   0,0,0   [nm, um, mm, cm, dm, m]   Origin of keff source   no (set to 0,0,0 if not provided)    keff_nbinsR2   integer   no   number of bins in the X or R dimension   yes    keff_nbinsTheta   integer   no   number of bins in the Y or Theta dimension   yes    keff_nbinsZ   integer   no   number of bins in the Z-axis   yes   
+.SS "Energy Cutoff Definition"
+Parameter name   Value   Units   Parameter description   Always required    Ecutp_target   double   [eV, keV, MeV, GeV]   Proton energy cutoff in target region   yes    Ecutg_target   double   [eV, keV, MeV, GeV]   Gamma energy cutoff in target region   yes    Ecute_target   double   [eV, keV, MeV, GeV]   e-/e+ energy cutoff in target region   yes    Ecutp_lead   double   [eV, keV, MeV, GeV]   Proton energy cutoff in lead region   yes    Ecutg_lead   double   [eV, keV, MeV, GeV]   Gamma energy cutoff in lead region   yes    Ecute_lead   double   [eV, keV, MeV, GeV]   e-/e+ energy cutoff in lead region   yes    Ecutp_fuel   double   [eV, keV, MeV, GeV]   Proton energy cutoff in fuel region   yes    Ecutg_fuel   double   [eV, keV, MeV, GeV]   Gamma energy cutoff in fuel region   yes    Ecute_fuel   double   [eV, keV, MeV, GeV]   e-/e+ energy cutoff in fuel region   yes    Ecutp_world   double   [eV, keV, MeV, GeV]   Proton energy cutoff in world region   yes    Ecutg_world   double   [eV, keV, MeV, GeV]   Gamma energy cutoff in world region   yes    Ecute_world   double   [eV, keV, MeV, GeV]   e-/e+ energy cutoff in world region   yes   
+.SS "Source definition"
+| SourceType | string | no | Type of source : which reactor (e\&.g\&. KIPT, Rez), which generation of neutrons (e\&.g\&. ADS, Rad), which variant (e\&.g\&. 1, 2), what place in the reactor (e\&.g\&. center, channel)\&. All attached, not ordered\&. Only the type of reactor and the type of neutron generation are necessary\&. | no | | SourceNumber | integer | no | number of sources followed by the vectors of direction and position in mm | no | 
+.br
+ | src_XYZdirection | double | (X1,Y1,Z1),(X2,Y2,Z2),etc\&. in mm | Direction vector of the source and beam pipe | no | 
+.br
+ | src_XYZdirection | double | (X1,Y1,Z1),(X2,Y2,Z2),etc\&. in mm | Position vector of the center of the spallation target | no | 
+.br
+ | src_slabThicknesses | double | e1, e2, etc\&. in mm | Thickness if each slab | no |
+.SS "Detection chamber definition"
+Geometrical definition and scoring of the neutron flux are separate : The scoring has to be added to the parameters on top of the geometry\&. For Detectors having a detection media (e\&.g\&. fissile coating for fission chambers) 
+.SS "Core definition (WDISPL, REFL, IRT4M6T, IRT4M8T, LEAD, VOID)"
+| PathToBurnupFile | string | no | Path to the file containing fuel composition related to its burnup | no | 
+.br
+ | CoreConfig,A,B,C,D,E,F,G,H | | | | | 
+.br
+ | CoreConfig | string | A,B,C,D,E,F,G,H | | | 
+.br
+ | CoreConfig_Raw10 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines ; _14\&.5 search the closest fuel burnup composition in a file given by CVR ; _CR0\&.65 add a control rod in the middle;EREFL/EWDISPL are analog to REFL/WDISPL but with an empty cylinder in the middle; to place detection chamber inside _DCTYP0 add a detection chamber of type TYP at height 0 in cm in the assembly; | no | 
+.br
+ | CoreConfig_Raw9 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+.br
+ | CoreConfig_Raw8 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+.br
+ | CoreConfig_Raw7 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+.br
+ | CoreConfig_Raw6 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+.br
+ | CoreConfig_Raw5 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+.br
+ | CoreConfig_Raw4 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+.br
+ | CoreConfig_Raw3 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+.br
+ | CoreConfig_Raw2 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+.br
+ | CoreConfig_Raw1 | string | WDISPL/EWDISPL, REFL/EREFL, IRT4M6T, IRT4M8T, LEAD, VOID, FAST | 8 elements to be defines | no | 
+.br
+ 

@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnmake_2xnlf05_8_f_source" xml:lang="en-US">
+<title>xnlf05.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnmake/xnlf05.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;31/05/96&#32;&#32;17.16.03&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnlf05
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Reads&#32;in&#32;data&#32;related&#32;to&#32;a&#32;general&#32;evaporation&#32;spectrum&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;of&#32;file&#32;5&#32;and&#32;calculates&#32;all&#32;probability&#32;on&#32;the&#32;precomputed&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;energy&#32;grid.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00010"/>00010 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00011"/>00011 <emphasis role="preprocessor">#include&#32;&quot;xctab1.inc&quot;</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00012"/>00012 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xc5dat.inc&quot;</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00013"/>00013 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcenes.inc&quot;</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00014"/>00014 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;parameter(maxgrd=10000)
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;enert(maxgrd),energ(maxgrd),nbtt(10),intt(10),
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nbtg(10),intg(10)
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00017"/>00017 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00018"/>00018 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;ENERT&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nuclear&#32;temperature&#32;tabulation</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00019"/>00019 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;ENERG&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;probability&#32;tabulation</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00020"/>00020 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;NBTT&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nuclear&#32;temperature&#32;interpolation&#32;ranges</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00021"/>00021 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;INTT&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nuclear&#32;temperature&#32;interpolation&#32;laws</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00022"/>00022 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;NBTG&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;probability&#32;interpolation&#32;ranges</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00023"/>00023 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;INTG&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;probability&#32;interpolation&#32;laws</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00024"/>00024 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00025"/>00025 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;WRITE(6,10000)</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00027"/>00027 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;General&#32;evaporation&#32;spectrum&apos;</emphasis>)
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00028"/>00028 <emphasis role="comment">*&#32;---&gt;&#32;-Q&#32;value&#32;of&#32;reaction</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;u=c1
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00030"/>00030 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;in&#32;the&#32;nuclear&#32;temperature&#32;tabulation</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(99)&#32;math,mfh,mth,c1,c2,l1,l2,n1,n2,&#32;(nbtt(n),intt(n)&#32;,n=1,
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;+n1),(enert(n),n=1,min(2*n2,maxgrd))
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(2*n2.GT.maxgrd)&#32;stop&#32;<emphasis role="stringliteral">&apos;XNLF05:&#32;Increase&#32;MAXGRD&apos;</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;nrtet=n1
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;nteta=n2
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00036"/>00036 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;in&#32;the&#32;probability&#32;tabulation</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(99)&#32;math,mfh,mth,c1,c2,l1,l2,n1,n2,&#32;(nbtg(n),intg(n)&#32;,n=1,
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;+n1),(energ(n),n=1,min(2*n2,maxgrd))
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(2*n2.GT.maxgrd)&#32;stop&#32;<emphasis role="stringliteral">&apos;XNLF05:&#32;Increase&#32;MAXGRD&apos;</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;nrfu=n1
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;nfun=n2
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00042"/>00042 <emphasis role="comment">*&#32;---&gt;&#32;Now&#32;calculate&#32;Pb&#32;in&#32;the&#32;energy&#32;grid</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;jg=1,nens
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;energy=xengr(jg)
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00045"/>00045 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;incoming&#32;energy&#32;&lt;&#32;Q,&#32;skip&#32;row</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(energy.LE.u)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;30
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00047"/>00047 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;the&#32;value&#32;of&#32;weight</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnterp(nbtpe,intpe,nrpes,pes,npes,energy,ppe)
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00049"/>00049 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;weight&#32;of&#32;distribution&#32;is&#32;0,&#32;skip&#32;row</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ppe.LE.0)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;30
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00051"/>00051 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;nuclear&#32;temperature</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnterp(nbtt,intt,nrtet,enert,nteta,energy,teta)
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hint=0
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00054"/>00054 <emphasis role="comment">*&#32;---&gt;&#32;For&#32;all&#32;secondary&#32;energies&#32;of&#32;energy&#32;grid</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jef=1,neps(jg)
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;efen=xenpb(2*jef-1,jg)
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00057"/>00057 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;secondary&#32;energy&#32;larger&#32;than&#32;max,&#32;skip&#32;it</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(efen.GE.(energy-u))&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;20
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00059"/>00059 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;probability</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnterp(nbtg,intg,nrfu,energ,nfun,efen/teta,prob)
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*jef,jg)=xenpb(2*jef,jg)+ppe*prob
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00062"/>00062 <emphasis role="comment">*&#32;---&gt;&#32;Calculate&#32;normalisation&#32;integral</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(jef.GT.1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hint=hint+0.5*(efen-eold)*(prob+pold)
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00065"/>00065 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;eold=efen
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pold=prob
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00068"/>00068 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00069"/>00069 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00070"/>00070 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WRITE(6,10500)&#32;ENERGY,HINT</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00071"/>00071 <emphasis role="comment">*&#32;---&gt;&#32;Check&#32;normalisation&#32;integral</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(abs(1-hint).GT.2e-2)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10100)&#32;hint,energy
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00074"/>00074 10100&#32;&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;XNLF05:&#32;Integral&#32;error&#32;=&#32;&apos;</emphasis>,g14.7,<emphasis role="stringliteral">&apos;&#32;at&#32;E&#32;=&#32;&apos;</emphasis>,g14.7)
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00075"/>00075 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00076"/>00076 10200&#32;&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Partial&#32;integral&#32;at&#32;E&#32;=&#32;&apos;</emphasis>,g14.7,<emphasis role="stringliteral">&apos;&#32;is&#32;&apos;</emphasis>,g14.7)
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00077"/>00077 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00078"/>00078 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmake_2xnlf05_8_f_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

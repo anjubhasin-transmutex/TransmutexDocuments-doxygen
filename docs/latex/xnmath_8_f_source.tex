@@ -1,0 +1,79 @@
+\hypertarget{xnmath_8_f_source}{}\doxysection{xnmath.\+F}
+\label{xnmath_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnmath.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnmath.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  11.28.19  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00003}00003       \textcolor{keyword}{INTEGER }\textcolor{keyword}{FUNCTION }xnmath(IZ,IA,LIS0)}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00006}00006 \textcolor{comment}{*     Function to convert a charge number, a mass number and a level   *}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00007}00007 \textcolor{comment}{*     number into an endf-\/6 material code                              *}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00009}00009 \textcolor{comment}{*     IZ        (input) atomic number                                  *}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00010}00010 \textcolor{comment}{*     IA        (input) mass number                                    *}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00011}00011 \textcolor{comment}{*     LIS0      (input) isomer number                                  *}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00012}00012 \textcolor{comment}{*     XNMATH    (output integer FUNCTION value) ENDF-\/6 material code   *}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00013}00013 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00014}00014 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00015}00015       parameter(nels=103)}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00016}00016       \textcolor{keywordtype}{INTEGER} IMEAN(NELS)}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00017}00017       \textcolor{keywordtype}{INTEGER} ISP(4)}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00018}00018       parameter(ncomps=17)}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00019}00019       \textcolor{keywordtype}{INTEGER} ZACOMP(17)}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00020}00020       \textcolor{keyword}{DATA} imean/1,3,6,9,10,12,14,16,19,20,23,24,27,28,31,32,35,36,39,}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00021}00021      +     40,45,46,50,50,55,54,59,58,63,64,69,70,75,74,79,78,85,84,}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00022}00022      +     89,90,93,92,99,96,103,102,107,106,113,112,121,120,127,}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00023}00023      +     124,133,130,138,136,141,142,139,144,151,152,159,156,165,}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00024}00024      +     162,169,168,175,174,180,180,185,184,191,190,197,196,}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00025}00025      +     203,204,209,206,203,211,212,223,225,227,229,234,230,235,}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00026}00026      +     235,240,240,240,241,240,245,248,252/}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00027}00027       \textcolor{keyword}{DATA} isp/9920,9945,9965,9980/}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00028}00028       \textcolor{keyword}{DATA} zacomp/101,102,103,107,111,112,113,126,127,128,131,133,}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00029}00029      +     137,140,158,175,176/}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00030}00030 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00032}00032 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/> Prepare for error exit}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00034}00034       xnmath = 0}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Check for valid mass atomic and mass numbers}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00036}00036       \textcolor{keywordflow}{IF}(iz.LT.0.OR.ia.LT.0)   \textcolor{keywordflow}{GO TO} 30}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Handle compounds elsewhere}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00038}00038       \textcolor{keywordflow}{IF}(iz.EQ.0)  \textcolor{keywordflow}{GO TO} 10}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Only ground state and two levels allowed}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00040}00040       \textcolor{keywordflow}{IF}(lis0.LT.0.OR.lis0.GT.2)   \textcolor{keywordflow}{GO TO} 30}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Initialize element related portion of the material number}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00042}00042       \textcolor{keywordflow}{IF}(iz.LE.99)   \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00043}00043          mat = 100*iz}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00044}00044       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00045}00045          mat = isp(iz-\/99)}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00046}00046 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> Interpret mass number}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00048}00048       iass = 0}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Check for natural element}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00050}00050       \textcolor{keywordflow}{IF}(ia.NE.0)   \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/> Get mass dependent part of material number}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00052}00052          icent = imean(iz)}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00053}00053          \textcolor{keywordflow}{IF}(iz.LT.99)  \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00054}00054             iass = 3*(ia-\/icent) + 25 + lis0}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00055}00055             \textcolor{keywordflow}{IF}(iz.EQ.48.AND.ia.GE.127)   iass = iass -\/ (ia-\/126)}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00056}00056          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00057}00057             iass = ia -\/ icent + 1}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00058}00058 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00059}00059 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> We ended up with an invalid mass related code}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00061}00061       \textcolor{keywordflow}{IF}(iass.LT.0.OR.iass.GT.99)   \textcolor{keywordflow}{GO TO} 30}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> Complete mass number}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00063}00063       xnmath = mat + iass}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00064}00064       \textcolor{keywordflow}{GO TO} 30}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00065}00065 \textcolor{comment}{* -\/-\/-\/> Compounds}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00066}00066    10 \textcolor{keywordflow}{DO} 20 n=1,ncomps}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00067}00067          \textcolor{keywordflow}{IF}(ia.EQ.zacomp(n)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00068}00068             xnmath = zacomp(n) -\/ 100}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00069}00069             \textcolor{keywordflow}{GO TO} 30}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00070}00070 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00071}00071    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00072}00072 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmath_8_f_source_l00073}00073    30 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

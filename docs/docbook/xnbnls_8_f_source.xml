@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnbnls_8_f_source" xml:lang="en-US">
+<title>xnbnls.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xnbnls.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnbnls_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;23/05/2000&#32;&#32;15.25.21&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnbnls(IZABNL,NMXBNL,MAXBNL)
+<anchor xml:id="_xnbnls_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Loads&#32;isomer&#32;codes&#32;from&#32;EET&#32;nuclear&#32;database.&#32;This&#32;routine&#32;is&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;called&#32;by&#32;the&#32;routine&#32;which&#32;loads&#32;the&#32;fission&#32;fragments&#32;yield&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;tables&#32;to&#32;make&#32;sure&#32;that&#32;no&#32;fission&#32;fragment&#32;is&#32;produced&#32;which&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;does&#32;not&#32;have&#32;an&#32;entry&#32;in&#32;the&#32;EET&#32;nuclear&#32;database.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IZABNL&#32;&#32;&#32;&#32;(output)&#32;array&#32;of&#32;all&#32;isomer&#32;codes&#32;contained&#32;in&#32;the&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;EET&#32;nuclear&#32;database&#32;in&#32;the&#32;form&#32;IZ*10000+IA*10+ISO&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;NMXBNL&#32;&#32;&#32;&#32;(output)&#32;number&#32;of&#32;isomers&#32;found&#32;in&#32;the&#32;EET&#32;nuclear&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;database&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;MAXBNL&#32;&#32;&#32;&#32;(input)&#32;dimension&#32;of&#32;the&#32;IZABNL&#32;array&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00017"/>00017 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00018"/>00018 <emphasis role="preprocessor">#include&#32;&quot;xcdbna.inc&quot;</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00019"/>00019 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;izabnl(*)
+<anchor xml:id="_xnbnls_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*80</emphasis>&#32;CHCOMM
+<anchor xml:id="_xnbnls_8_f_source_1l00021"/>00021 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00022"/>00022 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00023"/>00023 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00024"/>00024 <emphasis role="comment">*&#32;---&gt;&#32;Open&#32;the&#32;EET&#32;nuclear&#32;database</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(12,file=chetdb,status=<emphasis role="stringliteral">&apos;OLD&apos;</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;+,action=<emphasis role="stringliteral">&apos;READ&apos;</emphasis>)
+<anchor xml:id="_xnbnls_8_f_source_1l00027"/>00027 <emphasis role="comment">*&#32;---&gt;&#32;Set&#32;counter&#32;to&#32;zero&#32;and&#32;begin&#32;read</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;nmxbnl=0
+<anchor xml:id="_xnbnls_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(12,<emphasis role="stringliteral">&apos;(I15,A)&apos;</emphasis>)&#32;idumm,&#32;chcomm
+<anchor xml:id="_xnbnls_8_f_source_1l00030"/>00030 &#32;&#32;&#32;10&#32;<emphasis role="keyword">READ</emphasis>(12,<emphasis role="stringliteral">&apos;(5X,3I5)&apos;</emphasis>,<emphasis role="keyword">END</emphasis>=20&#32;)&#32;IA,IZ,iso
+<anchor xml:id="_xnbnls_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;---&gt;&#32;Next&#32;line&#32;read,&#32;build&#32;isomer&#32;code</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;izais=iso+iz*10000+ia*10
+<anchor xml:id="_xnbnls_8_f_source_1l00033"/>00033 <emphasis role="comment">*&#32;---&gt;&#32;Has&#32;this&#32;code&#32;already&#32;been&#32;loaded?&#32;If&#32;yes,&#32;read&#32;next&#32;line</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nmxbnl.GT.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izais.EQ.izabnl(nmxbnl))&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xnbnls_8_f_source_1l00036"/>00036 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00037"/>00037 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;this&#32;isomer&#32;code</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;nmxbnl=nmxbnl+1
+<anchor xml:id="_xnbnls_8_f_source_1l00039"/>00039 <emphasis role="comment">*&#32;---&gt;&#32;Is&#32;there&#32;enough&#32;space&#32;in&#32;the&#32;IZABNL&#32;array?</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nmxbnl.GT.maxbnl)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;***XNBNLS:&#32;Increase&#32;MAXBNL&apos;</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00042"/>00042 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;izabnl(nmxbnl)=izais
+<anchor xml:id="_xnbnls_8_f_source_1l00044"/>00044 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;next&#32;line</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xnbnls_8_f_source_1l00046"/>00046 <emphasis role="comment">*&#32;---&gt;&#32;EoF,&#32;close&#32;the&#32;file&#32;and&#32;return</emphasis>
+<anchor xml:id="_xnbnls_8_f_source_1l00047"/>00047 &#32;&#32;&#32;20&#32;<emphasis role="keyword">CLOSE</emphasis>(12)
+<anchor xml:id="_xnbnls_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)&#32;nmxbnl,chcomm(:lnblnk(chcomm))
+<anchor xml:id="_xnbnls_8_f_source_1l00049"/>00049 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNBNLS:&#32;&apos;</emphasis>,i4,<emphasis role="stringliteral">&apos;&#32;isomers&#32;from&#32;&apos;</emphasis>,a)
+<anchor xml:id="_xnbnls_8_f_source_1l00050"/>00050 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

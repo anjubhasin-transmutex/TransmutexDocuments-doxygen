@@ -1,0 +1,76 @@
+\hypertarget{xnen2n_8_f_source}{}\doxysection{xnen2n.\+F}
+\label{xnen2n_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnen2n.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnen2n.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  12.15.41  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   03/02/94}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnen2n(IZAEXT,E,EP1,EP2)}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00006}00006 \textcolor{comment}{*     Returns energies of the two neutrons emerging from an (n,2n)     *}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00007}00007 \textcolor{comment}{*     reaction. If the secondary spectrum is present in the Cross      *}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00008}00008 \textcolor{comment}{*     Section database, the distribution is sampled from there,        *}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00009}00009 \textcolor{comment}{*     otherwise the nuclear temperature is calculated via the          *}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00010}00010 \textcolor{comment}{*     routine XNTNUC and two energies are sampled from an evaporation  *}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00011}00011 \textcolor{comment}{*     spectrum with that temperature. Transformation between CMS       *}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00012}00012 \textcolor{comment}{*     and LAB is neglected.                                            *}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00013}00013 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00014}00014 \textcolor{comment}{*     IZAEXT    (input) isomer code                                    *}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00015}00015 \textcolor{comment}{*     E         (input) incoming neutron energy in eV                  *}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00016}00016 \textcolor{comment}{*     EP1       (output) outgoing energy of the first neutron in eV    *}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00017}00017 \textcolor{comment}{*     EP2       (output) outgoing energy of the second neutron in eV   *}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00018}00018 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00019}00019 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00020}00020 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00021}00021 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00022}00022 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcanat.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00023}00023 \textcolor{preprocessor}{}      dimension hinfo(nadinf),vr(4),ein(2),eout(2)}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00024}00024 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00025}00025 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00026}00026 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/> Get Q-\/Value}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00028}00028       \textcolor{keyword}{CALL }xngetm(izaext,3016,istart,ilen,hinfo)}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00029}00029       qval=hinfo(1)}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Reaction not present in memory... probably an error occurred}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00031}00031       \textcolor{keywordflow}{IF}(ilen.LE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00032}00032          \textcolor{keyword}{WRITE}(6,10000)}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00033}00033 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNEN2N: No (n,2n) reaction loaded for this element'})}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00034}00034       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Sample from distribution in ENDF}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00036}00036          ein(1)=e}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00037}00037          ein(2)=e}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00038}00038          \textcolor{keyword}{CALL }xne2ep(izamat,5,ein,eout,2,ilen)}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00039}00039          \textcolor{keywordflow}{IF}(ilen.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> Distribution not in ENDF, get rid of material temperature code}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00041}00041             \textcolor{keyword}{CALL }xngtmp(izaext,izamat,itcod)}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00042}00042 \textcolor{comment}{* -\/-\/-\/> Find available energy in CMS}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00043}00043             edisp=e+qval}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00044}00044 \textcolor{comment}{* -\/-\/-\/> Decond A and Z}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00045}00045             a=mod(izamat/10,1000)-\/1}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00046}00046             z=izamat/10/1000}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> Natural isotope mixture, use average value of A}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00048}00048             \textcolor{keywordflow}{IF}(a.EQ.0.) a=anatur(nint(z))-\/1}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Find nuclear temperature}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00050}00050             \textcolor{keyword}{CALL }xntnuc(a,z,edisp,t)}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/> Start sampling}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00052}00052             ncount=0}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00053}00053    10       \textcolor{keywordflow}{IF}(ncount.LE.20) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00054}00054                ncount=ncount+1}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00055}00055                \textcolor{keyword}{CALL }xnrand(vr,4)}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00056}00056 \textcolor{comment}{* -\/-\/-\/> Sample two evaporation energies at nuclear temperature T}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00057}00057                ep1 = -\/t*log(vr(1)*vr(2))}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00058}00058                ep2 = -\/t*log(vr(3)*vr(4))}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00059}00059 \textcolor{comment}{* -\/-\/-\/> Check that energy is conserved}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00060}00060                \textcolor{keywordflow}{IF}(ep1+ep2.GT.edisp) \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00061}00061             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> Sampling failed after 20 tries, box sampling}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00063}00063                \textcolor{keyword}{CALL }xnrand(vr,1)}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00064}00064                ep1 = edisp*vr(1)}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00065}00065                ep2 = edisp-\/ep1}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00066}00066 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00067}00067 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00068}00068 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00069}00069 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnen2n_8_f_source_l00070}00070       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

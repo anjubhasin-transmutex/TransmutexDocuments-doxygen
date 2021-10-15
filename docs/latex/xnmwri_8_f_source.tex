@@ -1,0 +1,65 @@
+\hypertarget{xnmwri_8_f_source}{}\doxysection{xnmwri.\+F}
+\label{xnmwri_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnmwri.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnmwri.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 31/05/96  18.32.10  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnmwri(ADDINF,NADINF,HINFO,NINFO,NRECW,MATH,MTH,MFH)}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00006}00006 \textcolor{comment}{*     Writes a section of the direct access file                       *}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00008}00008 \textcolor{comment}{*     ADDINF      array of header data (input)                         *}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00009}00009 \textcolor{comment}{*     NADINF      length of ADDINF (input)                             *}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00010}00010 \textcolor{comment}{*     HINFO       array of data (input)                                *}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00011}00011 \textcolor{comment}{*     NINFO       number of data words in HINFO (input)                *}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00012}00012 \textcolor{comment}{*     NRECW       last record written (input/output)                   *}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00013}00013 \textcolor{comment}{*     MATH        material code (input)                                *}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00014}00014 \textcolor{comment}{*     MTH         section code (input)                                 *}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00015}00015 \textcolor{comment}{*     MFH         file code (input)                                    *}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00016}00016 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00017}00017 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00018}00018 \textcolor{preprocessor}{\#ifdef XSASCII}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00019}00019 \textcolor{preprocessor}{}      parameter(nwplin=6)}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00020}00020       \textcolor{keywordtype}{CHARACTER*11} XNFORM}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00021}00021       \textcolor{keywordtype}{CHARACTER*66} CHLINE}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00022}00022 \#else}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00023}00023       parameter(nwplin=20)}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00024}00024 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00025}00025 \textcolor{preprocessor}{}      dimension addinf(nadinf),hinfo(ninfo)}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00026}00026 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00028}00028 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Write section header}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00030}00030       \textcolor{keywordflow}{DO} 20  j=0,(nadinf-\/1)/nwplin}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00031}00031          nrecw=nrecw+1}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00032}00032          maxdo=min(nwplin, nadinf-\/nwplin*j)}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00033}00033 \textcolor{preprocessor}{\#ifdef XSASCII}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00034}00034 \textcolor{preprocessor}{}         chline=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00035}00035          \textcolor{keywordflow}{DO} 10 l=1,maxdo}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00036}00036             chline(11*l-\/10:11*l)=xnform(addinf(nwplin*j+l))}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00037}00037    10    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00038}00038          \textcolor{keyword}{WRITE}(11,rec=nrecw,fmt=10000) chline,math, mfh, mth}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00039}00039 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00040}00040 \textcolor{preprocessor}{}         \textcolor{keyword}{WRITE}(11,rec=nrecw) (addinf(nwplin*j+l), l=1,maxdo)}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00041}00041 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00042}00042 \textcolor{preprocessor}{}   20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> Write section data}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00044}00044       \textcolor{keywordflow}{DO} 40  j=0,(ninfo-\/1)/nwplin}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00045}00045          nrecw=nrecw+1}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00046}00046          maxdo=min(nwplin,ninfo-\/nwplin*j)}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00047}00047 \textcolor{preprocessor}{\#ifdef XSASCII}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00048}00048 \textcolor{preprocessor}{}         chline=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00049}00049          \textcolor{keywordflow}{DO} 30 l=1,maxdo}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00050}00050             chline(11*l-\/10:11*l)=xnform(hinfo(nwplin*j+l))}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00051}00051    30    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00052}00052          \textcolor{keyword}{WRITE}(11,rec=nrecw,fmt=10000) chline,math, mfh, mth}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00053}00053 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00054}00054 \textcolor{preprocessor}{}         \textcolor{keyword}{WRITE}(11,rec=nrecw) (hinfo(nwplin*j+l),l=1,maxdo)}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00055}00055 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00056}00056 \textcolor{preprocessor}{}   40 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00057}00057 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00058}00058 10000 \textcolor{keyword}{FORMAT}(a66,i4,i2,i3,i5)}
+\DoxyCodeLine{\Hypertarget{xnmwri_8_f_source_l00059}00059       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

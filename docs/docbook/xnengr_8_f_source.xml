@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnengr_8_f_source" xml:lang="en-US">
+<title>xnengr.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnmake/xnengr.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnengr_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.03/01&#32;17/06/96&#32;&#32;18.27.02&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnengr(U,NEP)
+<anchor xml:id="_xnengr_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Builds&#32;the&#32;primary&#32;and&#32;secondary&#32;energy&#32;grids&#32;for&#32;a&#32;continuous&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;distribution&#32;in&#32;file5.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;U&#32;&#32;&#32;&#32;&#32;&#32;reaction&#32;threshold&#32;in&#32;eV&#32;(input)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;NEP&#32;&#32;&#32;&#32;number&#32;of&#32;points&#32;of&#32;the&#32;tabulation&#32;just&#32;read&#32;(input)&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00012"/>00012 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00013"/>00013 <emphasis role="preprocessor">#include&#32;&quot;xctab1.inc&quot;</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00014"/>00014 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcenes.inc&quot;</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00015"/>00015 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xc5dat.inc&quot;</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00016"/>00016 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;parameter(maxene=200,ratmax=2)
+<anchor xml:id="_xnengr_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;tmpene(maxene)
+<anchor xml:id="_xnengr_8_f_source_1l00018"/>00018 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00019"/>00019 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00020"/>00020 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;nene=0
+<anchor xml:id="_xnengr_8_f_source_1l00022"/>00022 <emphasis role="comment">*&#32;---&gt;&#32;Start&#32;putting&#32;all&#32;the&#32;incoming&#32;energies&#32;of&#32;the&#32;tabulation</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jsub=1,nep
+<anchor xml:id="_xnengr_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;et=xnrval(2*jsub-1)
+<anchor xml:id="_xnengr_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnterp(nbtpe,intpe,nrpes,pes,npes,et,ppe)
+<anchor xml:id="_xnengr_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;weight&#32;of&#32;this&#32;distribution&#32;is&#32;0&#32;for&#32;this&#32;energy,&#32;skip</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ppe.LE.0)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xnengr_8_f_source_1l00028"/>00028 <emphasis role="comment">*&#32;---&gt;&#32;Do&#32;not&#32;put&#32;energy&#32;right&#32;at&#32;threshold</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(et-u.LE.1e-5)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;et=max(u*1.0001,u+1e-4)
+<anchor xml:id="_xnengr_8_f_source_1l00031"/>00031 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nene=nene+1
+<anchor xml:id="_xnengr_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nene.GT.maxene)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;XNENGR:&#32;Increase&#32;MAXENE&apos;</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00035"/>00035 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tmpene(nene)=et
+<anchor xml:id="_xnengr_8_f_source_1l00037"/>00037 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00038"/>00038 <emphasis role="comment">*&#32;---&gt;&#32;Now&#32;check&#32;that&#32;the&#32;max&#32;factor&#32;between&#32;two&#32;adjacent&#32;primary</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00039"/>00039 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;energies&#32;is&#32;2.&#32;If&#32;it&#32;is&#32;more,&#32;add&#32;points</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;ntota=0
+<anchor xml:id="_xnengr_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;jsub=1,nene-1
+<anchor xml:id="_xnengr_8_f_source_1l00042"/>00042 <emphasis role="comment">*&#32;---&gt;&#32;Calculate&#32;ratio</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ratio=tmpene(jsub+1)/tmpene(jsub)
+<anchor xml:id="_xnengr_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;diff&#32;=&#32;2*abs(xnrval(2*jsub)-xnrval(2*jsub+2))/
+<anchor xml:id="_xnengr_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;max(1e-10,xnrval(2*jsub)+xnrval(2*jsub+2))
+<anchor xml:id="_xnengr_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ratio.GT.ratmax.AND.diff.GT.1e-6)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00047"/>00047 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;ration&#32;too&#32;large&#32;and&#32;points&#32;distinct,&#32;add&#32;points&#32;in&#32;between</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ratiol=log(ratio)
+<anchor xml:id="_xnengr_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nadd=ratiol/log(ratmax)+1
+<anchor xml:id="_xnengr_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fact=exp(ratiol/nadd)
+<anchor xml:id="_xnengr_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;eadd=tmpene(jsub)
+<anchor xml:id="_xnengr_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nene+ntota+nadd-1.GT.maxene)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;XNENGR:&#32;Increase&#32;MAXENE&apos;</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00054"/>00054 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;jad=1,nadd-1
+<anchor xml:id="_xnengr_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;eadd=eadd*fact
+<anchor xml:id="_xnengr_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tmpene(nene+ntota+jad)=eadd
+<anchor xml:id="_xnengr_8_f_source_1l00058"/>00058 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ntota=ntota+nadd-1
+<anchor xml:id="_xnengr_8_f_source_1l00060"/>00060 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00061"/>00061 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;nene=nene+ntota
+<anchor xml:id="_xnengr_8_f_source_1l00063"/>00063 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;all&#32;new&#32;points&#32;to&#32;energy&#32;grid</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;110&#32;jsub=1,nene
+<anchor xml:id="_xnengr_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;40&#32;jen=1,nens
+<anchor xml:id="_xnengr_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(abs(2*(tmpene(jsub)-xengr(jen))/
+<anchor xml:id="_xnengr_8_f_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(tmpene(jsub)+xengr(jen))).LT.1e-7)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;len=jen
+<anchor xml:id="_xnengr_8_f_source_1l00069"/>00069 <emphasis role="comment">*&#32;---&gt;&#32;Energy&#32;already&#32;there,&#32;skip&#32;initial&#32;population</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;50
+<anchor xml:id="_xnengr_8_f_source_1l00071"/>00071 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00072"/>00072 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00073"/>00073 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;energy</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nens=nens+1
+<anchor xml:id="_xnengr_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(nens.GT.maxen)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;XNENGR:&#32;Increase&#32;MAXEN&apos;</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00077"/>00077 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;len=nens
+<anchor xml:id="_xnengr_8_f_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xengr(len)=tmpene(jsub)
+<anchor xml:id="_xnengr_8_f_source_1l00080"/>00080 <emphasis role="comment">*&#32;---&gt;&#32;Give&#32;an&#32;initial&#32;population&#32;to&#32;secondary&#32;energy&#32;grid</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnpope(len)
+<anchor xml:id="_xnengr_8_f_source_1l00082"/>00082 &#32;&#32;&#32;50&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00083"/>00083 <emphasis role="comment">*&#32;---&gt;&#32;Secondary&#32;energy&#32;grid&#32;population</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;emin&#32;=&#32;1e-5
+<anchor xml:id="_xnengr_8_f_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;emax&#32;=&#32;max(xengr(len)-u,emin+1e-5)
+<anchor xml:id="_xnengr_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(emax.GT.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fact&#32;=&#32;exp(log(emax/emin)/(maxene-1))
+<anchor xml:id="_xnengr_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ef&#32;=&#32;emin/fact
+<anchor xml:id="_xnengr_8_f_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fact&#32;=&#32;1
+<anchor xml:id="_xnengr_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ef&#32;=&#32;0
+<anchor xml:id="_xnengr_8_f_source_1l00092"/>00092 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00093"/>00093 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;maxene&#32;points&#32;between&#32;EMIN&#32;and&#32;EMAX</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;70&#32;jeps=1,maxene
+<anchor xml:id="_xnengr_8_f_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ef&#32;=&#32;ef*fact
+<anchor xml:id="_xnengr_8_f_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;60&#32;keps=1,neps(len)
+<anchor xml:id="_xnengr_8_f_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(xenpb(2*keps-1,len).EQ.ef)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;70
+<anchor xml:id="_xnengr_8_f_source_1l00098"/>00098 &#32;&#32;&#32;60&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00099"/>00099 <emphasis role="comment">*&#32;---&gt;&#32;Outgoing&#32;energy&#32;not&#32;there,&#32;add&#32;it</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;neps(len)=neps(len)+1
+<anchor xml:id="_xnengr_8_f_source_1l00101"/>00101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(2*neps(len).GT.maxep)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;XNENGR:&#32;Increase&#32;MAXEP&apos;</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00103"/>00103 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*neps(len)-1,len)=ef
+<anchor xml:id="_xnengr_8_f_source_1l00105"/>00105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*neps(len)&#32;&#32;,len)=0
+<anchor xml:id="_xnengr_8_f_source_1l00106"/>00106 &#32;&#32;&#32;70&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00107"/>00107 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;threshold&#32;0&#32;point</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00108"/>00108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ethre1=emax*(1-1e-4)
+<anchor xml:id="_xnengr_8_f_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;80&#32;keps=1,neps(len)
+<anchor xml:id="_xnengr_8_f_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(xenpb(2*keps-1,len).EQ.ethre1)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;90
+<anchor xml:id="_xnengr_8_f_source_1l00111"/>00111 &#32;&#32;&#32;80&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00112"/>00112 <emphasis role="comment">*&#32;---&gt;&#32;First&#32;threshold&#32;point&#32;not&#32;there,&#32;add&#32;it</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;neps(len)=neps(len)+1
+<anchor xml:id="_xnengr_8_f_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(2*neps(len).GT.maxep)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;XNENGR:&#32;Increase&#32;MAXEP&apos;</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00116"/>00116 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00117"/>00117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*neps(len)-1,len)=ethre1
+<anchor xml:id="_xnengr_8_f_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*neps(len)&#32;,len)=0
+<anchor xml:id="_xnengr_8_f_source_1l00119"/>00119 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00120"/>00120 &#32;&#32;&#32;90&#32;&#32;&#32;&#32;ethre2=emax*(1+1e-4)
+<anchor xml:id="_xnengr_8_f_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;100&#32;keps=1,neps(len)
+<anchor xml:id="_xnengr_8_f_source_1l00122"/>00122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(xenpb(2*keps-1,len).EQ.ethre2)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;110
+<anchor xml:id="_xnengr_8_f_source_1l00123"/>00123 &#32;&#32;100&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00124"/>00124 <emphasis role="comment">*&#32;---&gt;&#32;Second&#32;threshold&#32;point&#32;not&#32;there,&#32;add&#32;it</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;neps(len)=neps(len)+1
+<anchor xml:id="_xnengr_8_f_source_1l00126"/>00126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(2*neps(len).GT.maxep)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00127"/>00127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;XNENGR:&#32;Increase&#32;MAXEP&apos;</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00128"/>00128 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00129"/>00129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*neps(len)-1,len)=ethre2
+<anchor xml:id="_xnengr_8_f_source_1l00130"/>00130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xenpb(2*neps(len)&#32;,len)=0
+<anchor xml:id="_xnengr_8_f_source_1l00131"/>00131 &#32;&#32;110&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00132"/>00132 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnengr_8_f_source_1l00133"/>00133 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

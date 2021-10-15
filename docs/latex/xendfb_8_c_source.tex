@@ -1,0 +1,507 @@
+\hypertarget{xendfb_8_c_source}{}\doxysection{xendfb.\+C}
+\label{xendfb_8_c_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/endfManip/xendfb.C@{/Users/Transmutex/Simulation/ADS\_SimulationCode/endfManip/xendfb.C}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00001}00001 \textcolor{preprocessor}{\#include <TGraph.h>}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00002}00002 \textcolor{preprocessor}{\#include <TCanvas.h>}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00004}00004 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00005}00005 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00006}00006 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00008}00008 \textcolor{keyword}{using} std::string;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00009}00009 \textcolor{keyword}{using} std::cout;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00010}00010 \textcolor{keyword}{using} std::endl;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00011}00011 \textcolor{keyword}{using} std::map;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00013}00013 \textcolor{comment}{//===========================================================================================================================================}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00015}\mbox{\hyperlink{class_x_sec}{00015}} \textcolor{keyword}{class }\mbox{\hyperlink{class_x_sec}{XSec}} \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00016}00016 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00017}00017   \mbox{\hyperlink{class_x_sec}{XSec}}() :}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00018}00018     fIZA(0), fAWR(0), fQM(0), fQI(0) \{\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00019}00019   \mbox{\hyperlink{class_x_sec}{XSec}}(\textcolor{keywordtype}{int} iza, \textcolor{keywordtype}{double} awr, \textcolor{keywordtype}{double} qm, \textcolor{keywordtype}{double} qi) :}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00020}00020     fIZA(iza), fAWR(awr), fQM(qm), fQI(qi) \{\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00021}00021   }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00022}00022   \textcolor{keyword}{const} vector<double> \&En()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} en;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00023}00023   \textcolor{keyword}{const} vector<double> \&Xs()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} xs;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00025}00025   vector<double> \&En() \{\textcolor{keywordflow}{return} en;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00026}00026   vector<double> \&Xs() \{\textcolor{keywordflow}{return} xs;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00028}00028   }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00029}00029   \textcolor{keywordtype}{int} GetIZA()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} fIZA;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00030}00030   uint Np()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} en.size();\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00031}00031   \textcolor{keywordtype}{double} GetAWR()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} fAWR;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00032}00032   \textcolor{keywordtype}{double} GetQM()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} fQM;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00033}00033   \textcolor{keywordtype}{double} GetQI()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} fQI;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00035}00035   \textcolor{keywordtype}{void} SetIZA(\textcolor{keywordtype}{int} iza) \{fIZA=iza;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00036}00036   \textcolor{keywordtype}{void} SetAWR(\textcolor{keywordtype}{double} awr) \{fAWR=awr;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00037}00037   \textcolor{keywordtype}{void} SetQM(\textcolor{keywordtype}{double} qm) \{fQM=qm;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00038}00038   \textcolor{keywordtype}{void} SetQI(\textcolor{keywordtype}{double} qi) \{fQI=qi;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00039}00039 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00040}00040   \textcolor{keywordtype}{int} fIZA; \textcolor{comment}{// 10000*Z+10*A+ISO}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00041}00041   \textcolor{keywordtype}{double} fAWR; \textcolor{comment}{// Weight in AMU}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00042}00042   \textcolor{keywordtype}{double} fQM;  \textcolor{comment}{// Mass difference of the reaction}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00043}00043   \textcolor{keywordtype}{double} fQI;  \textcolor{comment}{// Q value in complex breakups}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00044}00044   vector<double> en; \textcolor{comment}{// vector of energies}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00045}00045   vector<double> xs; \textcolor{comment}{// corresponding cross-\/sections}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00046}00046 \};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00048}\mbox{\hyperlink{class_f_fyield}{00048}} \textcolor{keyword}{class }\mbox{\hyperlink{class_f_fyield}{FFyield}} \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00049}00049 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00050}00050   \mbox{\hyperlink{class_f_fyield}{FFyield}}() :}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00051}00051     fIZA(0), fAWR(0), fLE(0) \{\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00052}00052   \mbox{\hyperlink{class_f_fyield}{FFyield}}(\textcolor{keywordtype}{int} iza, \textcolor{keywordtype}{double} awr, \textcolor{keywordtype}{int} le) :}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00053}00053     fIZA(iza), fAWR(awr), fLE(le) \{\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00054}00054   }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00055}00055   \textcolor{keywordtype}{int} GetIZA()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} fIZA;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00056}00056   \textcolor{keywordtype}{double} GetAWR()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} fAWR;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00058}00058   \textcolor{keywordtype}{void} SetIZA(\textcolor{keywordtype}{int} iza) \{fIZA=iza;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00059}00059   \textcolor{keywordtype}{void} SetAWR(\textcolor{keywordtype}{double} awr) \{fAWR=awr;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00060}00060 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00061}\mbox{\hyperlink{struct_f_fyield_1_1yield}{00061}}   \textcolor{keyword}{struct }\mbox{\hyperlink{struct_f_fyield_1_1yield}{yield}} \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00062}00062     \textcolor{keywordtype}{int} fIZA; \textcolor{comment}{// fission product IZA}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00063}00063     \textcolor{keywordtype}{double} fY; \textcolor{comment}{// independent or cumulative yield}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00064}00064     \textcolor{keywordtype}{double} fDY; \textcolor{comment}{// yield error}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00065}00065   \};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00066}00066   \textcolor{keywordtype}{double} fAWR; \textcolor{comment}{// Weight in AMU}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00067}00067   \textcolor{keywordtype}{int} fIZA; \textcolor{comment}{// 10000*Z+10*A+ISO}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00068}00068   \textcolor{keywordtype}{int} fLE; \textcolor{comment}{// Number of energies to interpolate from}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00069}00069   vector<int> fInt; \textcolor{comment}{// interpolation method}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00070}00070   vector<vector<yield>> fYI; \textcolor{comment}{// independent yields}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00071}00071 \};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00074}\mbox{\hyperlink{class_x_sec_store}{00074}} \textcolor{keyword}{class }\mbox{\hyperlink{class_x_sec_store}{XSecStore}} \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00075}00075   \mbox{\hyperlink{class_x_sec_store}{XSecStore}}* Inst() \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00076}00076     \textcolor{keywordflow}{if}(fInstance==\textcolor{keyword}{nullptr}) fInstance=\textcolor{keyword}{new} \mbox{\hyperlink{class_x_sec_store}{XSecStore}}();}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00077}00077     \textcolor{keywordflow}{return} fInstance;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00078}00078   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00079}00079   \mbox{\hyperlink{class_x_sec}{XSec}}\& NewXsec(\textcolor{keywordtype}{int} iza, \textcolor{keywordtype}{int} mt, \textcolor{keywordtype}{double} qm, \textcolor{keywordtype}{double} qi) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00080}00080     \textcolor{keywordflow}{if}(fXsecStore.find(iza) != fXsecStore.end()) }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00081}00081       \textcolor{keywordflow}{if}(fXsecStore[iza].find(mt) != fXsecStore[iza].end()) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00082}00082     cout << \textcolor{stringliteral}{"{}NewXsec: Xsec already there"{}} << endl;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00083}00083     \textcolor{keywordflow}{return} (fXsecStore[iza])[mt];}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00084}00084       \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00085}00085     \textcolor{keywordflow}{return} (fXsecStore[iza])[mt] = \mbox{\hyperlink{class_x_sec}{XSec}}(iza,mt,qm,qi);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00086}00086   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00087}00087 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00088}00088   \mbox{\hyperlink{class_x_sec_store}{XSecStore}}() \{\};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00089}00089   map<int,map<int,XSec> > fXsecStore;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00090}00090   \textcolor{keyword}{static} \mbox{\hyperlink{class_x_sec_store}{XSecStore}}* fInstance;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00091}00091 \};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00093}00093 \mbox{\hyperlink{class_x_sec_store}{XSecStore}}*  XSecStore::fInstance=\textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00095}00095 \textcolor{comment}{//===========================================================================================================================================}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00096}\mbox{\hyperlink{classendf_manip}{00096}} \textcolor{keyword}{class }\mbox{\hyperlink{classendf_manip}{endfManip}} \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00097}00097 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00099}00099   \mbox{\hyperlink{classendf_manip}{endfManip}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *filename=0): fVerbose(1) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00100}00100     \textcolor{keywordtype}{char} *line = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00101}00101     \textcolor{keywordtype}{size\_t} length;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00102}00102     fFile = fopen(filename,\textcolor{stringliteral}{"{}r"{}});}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00103}00103     \textcolor{keywordflow}{if}(fFile == \textcolor{keyword}{nullptr}) perror(\textcolor{stringliteral}{"{}endfb"{}});}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00104}00104     \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00105}00105       getline(\&line, \&length, fFile);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00106}00106       cout << \textcolor{stringliteral}{"{}Now reading "{}} << line << endl;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00107}00107     \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00108}00108   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00110}00110   \mbox{\hyperlink{classendf_manip}{\string~endfManip}}() \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00111}00111     fclose(fFile);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00112}00112   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00114}00114   \textcolor{keywordtype}{void} SetVerbose(\textcolor{keywordtype}{int} verb) \{fVerbose=verb;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00115}00115   \textcolor{keywordtype}{int} GetVerbose()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} fVerbose;\}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00117}00117   \textcolor{keyword}{static} std::string getELname(\textcolor{keywordtype}{int} Z) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00118}00118     \textcolor{keywordflow}{return} fELnames.find(Z)!=fELnames.end()?fELnames[Z].first:string(\textcolor{stringliteral}{"{}Unknown"{}});}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00119}00119   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00121}00121   \textcolor{keyword}{static} std::string getELsymb(\textcolor{keywordtype}{int} Z) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00122}00122     \textcolor{keywordflow}{return} fELnames.find(Z)!=fELnames.end()?fELnames[Z].second:string(\textcolor{stringliteral}{"{}XX"{}});}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00123}00123   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00124}00124 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00125}00125   \textcolor{keyword}{static} std::string getMTname(\textcolor{keywordtype}{int} MT) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00126}00126     \textcolor{keywordflow}{return} fMTnames.find(MT)!=fMTnames.end()?fMTnames[MT]:string(\textcolor{stringliteral}{"{}Unassigned"{}});}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00127}00127   \};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00128}00128 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00129}00129   \textcolor{keyword}{static} std::string getIZAname(\textcolor{keywordtype}{int} IZA) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00130}00130     \textcolor{keyword}{const} std::vector<std::string> isonam = \{\textcolor{stringliteral}{"{} "{}},\textcolor{stringliteral}{"{}m"{}},\textcolor{stringliteral}{"{}n"{}},\textcolor{stringliteral}{"{}o"{}}\};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00131}00131     \textcolor{keywordflow}{return} to\_string((IZA/10)\%1000)+\textcolor{stringliteral}{"{}-\/"{}}+getELsymb(IZA/10000)+(IZA\%10==0?\textcolor{stringliteral}{"{}"{}}:(\textcolor{stringliteral}{"{}-\/"{}}+isonam[min(IZA\%10,3)]));}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00132}00132   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00134}00134   \textcolor{keyword}{static} \textcolor{keywordtype}{double} interp(\textcolor{keywordtype}{double} xx, vector<double> \&x, vector<double> \&y) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00135}00135     \textcolor{keywordflow}{if}(xx<=x[0]) \textcolor{keywordflow}{return} y[0];}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00136}00136     \textcolor{keywordflow}{if}(xx>=x[x.size()-\/1]) \textcolor{keywordflow}{return} y[x.size()-\/1];}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00137}00137     \textcolor{keywordtype}{int} imin = 0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00138}00138     \textcolor{keywordtype}{int} imax = x.size()-\/1;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00139}00139     \textcolor{keywordflow}{while}(imax-\/imin!=1) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00140}00140       \textcolor{keywordtype}{int} imid = (imin+imax)/2;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00141}00141       \textcolor{keywordflow}{if}(xx<x[imid]) imax=imid;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00142}00142       \textcolor{keywordflow}{else} imin=imid;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00143}00143     \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00144}00144     \textcolor{keywordflow}{return} y[imin]+(xx-\/x[imin])*(y[imax]-\/y[imin])/(x[imax]-\/x[imin]);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00145}00145   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00147}00147   \mbox{\hyperlink{class_x_sec}{XSec}} *GetXSec(\textcolor{keywordtype}{int} rIZA, \textcolor{keywordtype}{int} rMF, \textcolor{keywordtype}{int} rMT);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00148}00148   \mbox{\hyperlink{class_f_fyield}{FFyield}} *GetFFyield(\textcolor{keywordtype}{int} rIZA, \textcolor{keywordtype}{int} rMT);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00149}00149   \textcolor{keywordtype}{string} getMTape(\textcolor{keywordtype}{int} rIZA, \textcolor{keywordtype}{int} rMF, \textcolor{keywordtype}{int} rMT);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00150}00150   \textcolor{keywordtype}{void} GetTab1(\textcolor{keywordtype}{double} \&c1, \textcolor{keywordtype}{double} \&c2, \textcolor{keywordtype}{int} \&l1, \textcolor{keywordtype}{int} \&l2, \textcolor{keywordtype}{int} \&nr, vector<double> \&en, vector<double> \&xs);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00151}00151   \textcolor{keywordtype}{void} GetList(\textcolor{keywordtype}{double} \&c1, \textcolor{keywordtype}{double} \&c2, \textcolor{keywordtype}{int} \&l1, \textcolor{keywordtype}{int} \&l2, \textcolor{keywordtype}{int} \&n2, vector<double> \&val);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00152}00152 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00153}00153 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00154}00154   \textcolor{keyword}{static} std::map<int, std::string> fMTnames;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00155}00155   \textcolor{keyword}{static} std::map<int,std::pair<std::string,std::string>> fELnames;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00156}00156 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00157}00157   \textcolor{keywordtype}{int} fVerbose;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00158}00158   FILE *fFile;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00159}00159 \};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00160}00160 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00161}00161 \textcolor{comment}{//===========================================================================================================================================}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00162}00162 std::map<int, std::string> endfManip::fMTnames=\{\{1,\textcolor{stringliteral}{"{}(n,total)"{}}\},\{2,\textcolor{stringliteral}{"{}(z,z0)"{}}\},\{3,\textcolor{stringliteral}{"{}(z,nonelas.)"{}}\},\{4,\textcolor{stringliteral}{"{}(z,n)"{}}\},\{5,\textcolor{stringliteral}{"{}(z,anything)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00163}00163   \{10,\textcolor{stringliteral}{"{}(z,contin.)"{}}\},\{11,\textcolor{stringliteral}{"{}(z,2nd)"{}}\},\{16,\textcolor{stringliteral}{"{}(z,2n)"{}}\},\{17,\textcolor{stringliteral}{"{}(z,3n)"{}}\},\{18,\textcolor{stringliteral}{"{}(z,fission)"{}}\},\{19,\textcolor{stringliteral}{"{}(n,f)"{}}\},\{20,\textcolor{stringliteral}{"{}(n,nf)"{}}\},\{21,\textcolor{stringliteral}{"{}(n,2nf)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00164}00164   \{22,\textcolor{stringliteral}{"{}(z,nA)"{}}\},\{23,\textcolor{stringliteral}{"{}(n,n3A)"{}}\},\{24,\textcolor{stringliteral}{"{}(z,2nA)"{}}\},\{25,\textcolor{stringliteral}{"{}(z,3nA)"{}}\},\{27,\textcolor{stringliteral}{"{}(n,abs)"{}}\},\{28,\textcolor{stringliteral}{"{}(z,np)"{}}\},\{29,\textcolor{stringliteral}{"{}(z,n2A)"{}}\},\{30,\textcolor{stringliteral}{"{}(z,2n2A)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00165}00165   \{32,\textcolor{stringliteral}{"{}(z,nd)"{}}\},\{33,\textcolor{stringliteral}{"{}(z,nt)"{}}\},\{34,\textcolor{stringliteral}{"{}(z,n3He)"{}}\},\{35,\textcolor{stringliteral}{"{}(z,nd2A)"{}}\},\{36,\textcolor{stringliteral}{"{}(z,nt2A)"{}}\},\{37,\textcolor{stringliteral}{"{}(z,4n)"{}}\},\{38,\textcolor{stringliteral}{"{}(n,3nf)"{}}\},\{41,\textcolor{stringliteral}{"{}(z,2np)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00166}00166   \{42,\textcolor{stringliteral}{"{}(z,3np)"{}}\},\{44,\textcolor{stringliteral}{"{}(z,n2p)"{}}\},\{45,\textcolor{stringliteral}{"{}(z,npA)"{}}\},\{50,\textcolor{stringliteral}{"{}(y,n0)"{}}\},\{51,\textcolor{stringliteral}{"{}(z,n1)"{}}\},\{52,\textcolor{stringliteral}{"{}(z,n2)"{}}\},\{53,\textcolor{stringliteral}{"{}(z,n3)"{}}\},\{54,\textcolor{stringliteral}{"{}(z,n4)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00167}00167   \{55,\textcolor{stringliteral}{"{}(z,n5)"{}}\},\{56,\textcolor{stringliteral}{"{}(z,n6)"{}}\},\{57,\textcolor{stringliteral}{"{}(z,n7)"{}}\},\{58,\textcolor{stringliteral}{"{}(z,n8)"{}}\},\{59,\textcolor{stringliteral}{"{}(z,n9)"{}}\},\{60,\textcolor{stringliteral}{"{}(z,n10)"{}}\},\{61,\textcolor{stringliteral}{"{}(z,n11)"{}}\},\{62,\textcolor{stringliteral}{"{}(z,n12)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00168}00168   \{63,\textcolor{stringliteral}{"{}(z,n13)"{}}\},\{64,\textcolor{stringliteral}{"{}(z,n14)"{}}\},\{65,\textcolor{stringliteral}{"{}(z,n15)"{}}\},\{66,\textcolor{stringliteral}{"{}(z,n16)"{}}\},\{67,\textcolor{stringliteral}{"{}(z,n17)"{}}\},\{68,\textcolor{stringliteral}{"{}(z,n18)"{}}\},\{69,\textcolor{stringliteral}{"{}(z,n19)"{}}\},\{70,\textcolor{stringliteral}{"{}(z,n20)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00169}00169   \{71,\textcolor{stringliteral}{"{}(z,n21)"{}}\},\{72,\textcolor{stringliteral}{"{}(z,n22)"{}}\},\{73,\textcolor{stringliteral}{"{}(z,n23)"{}}\},\{74,\textcolor{stringliteral}{"{}(z,n24)"{}}\},\{75,\textcolor{stringliteral}{"{}(z,n25)"{}}\},\{76,\textcolor{stringliteral}{"{}(z,n26)"{}}\},\{77,\textcolor{stringliteral}{"{}(z,n27)"{}}\},\{78,\textcolor{stringliteral}{"{}(z,n28)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00170}00170   \{79,\textcolor{stringliteral}{"{}(z,n29)"{}}\},\{80,\textcolor{stringliteral}{"{}(z,n30)"{}}\},\{81,\textcolor{stringliteral}{"{}(z,n31)"{}}\},\{82,\textcolor{stringliteral}{"{}(z,n32)"{}}\},\{83,\textcolor{stringliteral}{"{}(z,n33)"{}}\},\{84,\textcolor{stringliteral}{"{}(z,n34)"{}}\},\{85,\textcolor{stringliteral}{"{}(z,n35)"{}}\},\{86,\textcolor{stringliteral}{"{}(z,n36)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00171}00171   \{87,\textcolor{stringliteral}{"{}(z,n37)"{}}\},\{88,\textcolor{stringliteral}{"{}(z,n38)"{}}\},\{89,\textcolor{stringliteral}{"{}(z,n39)"{}}\},\{90,\textcolor{stringliteral}{"{}(z,n40)"{}}\},\{91,\textcolor{stringliteral}{"{}(z,nc)"{}}\},\{101,\textcolor{stringliteral}{"{}(n,disap)"{}}\},\{102,\textcolor{stringliteral}{"{}(z,gamma)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00172}00172   \{103,\textcolor{stringliteral}{"{}(z,p)"{}}\},\{104,\textcolor{stringliteral}{"{}(z,d)"{}}\},\{105,\textcolor{stringliteral}{"{}(z,t)"{}}\},\{106,\textcolor{stringliteral}{"{}(z,3He)"{}}\},\{107,\textcolor{stringliteral}{"{}(z,A)"{}}\},\{108,\textcolor{stringliteral}{"{}(z,2A)"{}}\},\{109,\textcolor{stringliteral}{"{}(z,3A)"{}}\},\{111,\textcolor{stringliteral}{"{}(z,2p)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00173}00173   \{112,\textcolor{stringliteral}{"{}(z,pA)"{}}\},\{113,\textcolor{stringliteral}{"{}(z,t2A)"{}}\},\{114,\textcolor{stringliteral}{"{}(z,d2A)"{}}\},\{115,\textcolor{stringliteral}{"{}(z,pd)"{}}\},\{116,\textcolor{stringliteral}{"{}(z,pt)"{}}\},\{117,\textcolor{stringliteral}{"{}(z,dA)"{}}\},\{151,\textcolor{stringliteral}{"{}(n,RES)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00174}00174   \textcolor{comment}{// BEGIN EAF}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00175}00175   \{152,\textcolor{stringliteral}{"{}(n,5n)"{}}\},\{153,\textcolor{stringliteral}{"{}(n,6n)"{}}\},\{154,\textcolor{stringliteral}{"{}(n,2nt)"{}}\},\{155,\textcolor{stringliteral}{"{}(n,tA)"{}}\},\{156,\textcolor{stringliteral}{"{}(n,4np)"{}}\},\{157,\textcolor{stringliteral}{"{}(n,3nd)"{}}\},\{158,\textcolor{stringliteral}{"{}(n,n'dA)"{}}\},\{159,\textcolor{stringliteral}{"{}(n,2npA)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00176}00176   \{160,\textcolor{stringliteral}{"{}(n,7n)"{}}\},\{161,\textcolor{stringliteral}{"{}(n,8n)"{}}\},\{162,\textcolor{stringliteral}{"{}(n,5np)"{}}\},\{163,\textcolor{stringliteral}{"{}(n,6np)"{}}\},\{164,\textcolor{stringliteral}{"{}(n,7np)"{}}\},\{165,\textcolor{stringliteral}{"{}(n,4nA)"{}}\},\{166,\textcolor{stringliteral}{"{}(n,5nA)"{}}\},\{167,\textcolor{stringliteral}{"{}(n,6nA)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00177}00177   \{168,\textcolor{stringliteral}{"{}(n,7nA)"{}}\},\{169,\textcolor{stringliteral}{"{}(n,4nd)"{}}\},\{170,\textcolor{stringliteral}{"{}(n,5nd)"{}}\},\{171,\textcolor{stringliteral}{"{}(n,6nd)"{}}\},\{172,\textcolor{stringliteral}{"{}(n,3nt)"{}}\},\{173,\textcolor{stringliteral}{"{}(n,4nt)"{}}\},\{174,\textcolor{stringliteral}{"{}(n,5nt)"{}}\},\{175,\textcolor{stringliteral}{"{}(n,6nt)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00178}00178   \{176,\textcolor{stringliteral}{"{}(n,2nHe3)"{}}\},\{177,\textcolor{stringliteral}{"{}(n,3nHe3)"{}}\},\{178,\textcolor{stringliteral}{"{}(n,4nHe3)"{}}\},\{179,\textcolor{stringliteral}{"{}(n,3n2p)"{}}\},\{180,\textcolor{stringliteral}{"{}(n,3n2A)"{}}\},\{181,\textcolor{stringliteral}{"{}(n,3npA)"{}}\},\{182,\textcolor{stringliteral}{"{}(n,dt)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00179}00179   \{183,\textcolor{stringliteral}{"{}(n,n'pd)"{}}\},\{184,\textcolor{stringliteral}{"{}(n,n'pt)"{}}\},\{185,\textcolor{stringliteral}{"{}(n,n'dt)"{}}\},\{186,\textcolor{stringliteral}{"{}(n,n'pHe3)"{}}\},\{187,\textcolor{stringliteral}{"{}(n,n'dHe3)"{}}\},\{188,\textcolor{stringliteral}{"{}(n,n'tHe3)"{}}\},\{189,\textcolor{stringliteral}{"{}(n,n'tA)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00180}00180   \{190,\textcolor{stringliteral}{"{}(n,2n2p)"{}}\},\{191,\textcolor{stringliteral}{"{}(n,pHe3)"{}}\},\{192,\textcolor{stringliteral}{"{}(n,dHe3)"{}}\},\{193,\textcolor{stringliteral}{"{}(n,AHe3)"{}}\},\{194,\textcolor{stringliteral}{"{}(n,4n2p)"{}}\},\{195,\textcolor{stringliteral}{"{}(n,4n2A)"{}}\},\{196,\textcolor{stringliteral}{"{}(n,4npA)"{}}\},\{197,\textcolor{stringliteral}{"{}(n,3p)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00181}00181   \{198,\textcolor{stringliteral}{"{}(n,n'3p)"{}}\},\{199,\textcolor{stringliteral}{"{}(n,3n2pA)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00182}00182   \textcolor{comment}{// END EAF}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00183}00183   \{200,\textcolor{stringliteral}{"{}(z,Xn)"{}}\},\{201,\textcolor{stringliteral}{"{}(z,Xn)"{}}\},\{202,\textcolor{stringliteral}{"{}(z,Xgamma)"{}}\},\{203,\textcolor{stringliteral}{"{}(z,Xp)"{}}\},\{204,\textcolor{stringliteral}{"{}(z,Xd)"{}}\},\{205,\textcolor{stringliteral}{"{}(z,Xt)"{}}\},\{206,\textcolor{stringliteral}{"{}(z,X3He)"{}}\},\{207,\textcolor{stringliteral}{"{}(z,XA)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00184}00184   \{208,\textcolor{stringliteral}{"{}(z,Xpi+)"{}}\},\{209,\textcolor{stringliteral}{"{}(z,Xpi0)"{}}\},\{210,\textcolor{stringliteral}{"{}(z,Xpi−)"{}}\},\{211,\textcolor{stringliteral}{"{}(z,Xmu+)"{}}\},\{212,\textcolor{stringliteral}{"{}(z,Xmu−)"{}}\},\{213,\textcolor{stringliteral}{"{}(z,XK+)"{}}\},\{214,\textcolor{stringliteral}{"{}(z,XK0L)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00185}00185   \{215,\textcolor{stringliteral}{"{}(z,XK0S )"{}}\},\{216,\textcolor{stringliteral}{"{}(z,XK−)"{}}\},\{217,\textcolor{stringliteral}{"{}(z,Xap)"{}}\},\{218,\textcolor{stringliteral}{"{}(z,Xan)"{}}\},\{251,\textcolor{stringliteral}{"{}(n,...)"{}}\},\{252,\textcolor{stringliteral}{"{}(n,...)"{}}\},\{253,\textcolor{stringliteral}{"{}(n,...)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00186}00186   \{301,\textcolor{stringliteral}{"{}K(n,total)"{}}\},\{302,\textcolor{stringliteral}{"{}K(z,z0)"{}}\},\{303,\textcolor{stringliteral}{"{}K(z,nonelas.)"{}}\},\{304,\textcolor{stringliteral}{"{}K(z,n)"{}}\},\{305,\textcolor{stringliteral}{"{}K(z,anything)"{}}\},\{310,\textcolor{stringliteral}{"{}K(z,contin.)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00187}00187   \{311,\textcolor{stringliteral}{"{}K(z,2nd)"{}}\},\{316,\textcolor{stringliteral}{"{}K(z,2n)"{}}\},\{317,\textcolor{stringliteral}{"{}K(z,3n)"{}}\},\{318,\textcolor{stringliteral}{"{}K(z,fission)"{}}\},\{319,\textcolor{stringliteral}{"{}K(n,f)"{}}\},\{320,\textcolor{stringliteral}{"{}K(n,nf)"{}}\},\{321,\textcolor{stringliteral}{"{}K(n,2nf)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00188}00188   \{322,\textcolor{stringliteral}{"{}K(z,nA)"{}}\},\{323,\textcolor{stringliteral}{"{}K(n,n3A)"{}}\},\{324,\textcolor{stringliteral}{"{}K(z,2nA)"{}}\},\{325,\textcolor{stringliteral}{"{}K(z,3nA)"{}}\},\{327,\textcolor{stringliteral}{"{}K(n,abs)"{}}\},\{328,\textcolor{stringliteral}{"{}K(z,np)"{}}\},\{329,\textcolor{stringliteral}{"{}K(z,n2A)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00189}00189   \{330,\textcolor{stringliteral}{"{}K(z,2n2A)"{}}\},\{332,\textcolor{stringliteral}{"{}K(z,nd)"{}}\},\{333,\textcolor{stringliteral}{"{}K(z,nt)"{}}\},\{334,\textcolor{stringliteral}{"{}K(z,n3He)"{}}\},\{335,\textcolor{stringliteral}{"{}K(z,nd2A)"{}}\},\{336,\textcolor{stringliteral}{"{}K(z,nt2A)"{}}\},\{337,\textcolor{stringliteral}{"{}K(z,4n)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00190}00190   \{338,\textcolor{stringliteral}{"{}K(n,3nf)"{}}\},\{341,\textcolor{stringliteral}{"{}K(z,2np)"{}}\},\{342,\textcolor{stringliteral}{"{}K(z,3np)"{}}\},\{344,\textcolor{stringliteral}{"{}K(z,n2p)"{}}\},\{345,\textcolor{stringliteral}{"{}K(z,npA)"{}}\},\{350,\textcolor{stringliteral}{"{}K(y,n0)"{}}\},\{351,\textcolor{stringliteral}{"{}K(z,n1)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00191}00191   \{352,\textcolor{stringliteral}{"{}K(z,n2)"{}}\},\{353,\textcolor{stringliteral}{"{}K(z,n3)"{}}\},\{354,\textcolor{stringliteral}{"{}K(z,n4)"{}}\},\{355,\textcolor{stringliteral}{"{}K(z,n5)"{}}\},\{356,\textcolor{stringliteral}{"{}K(z,n6)"{}}\},\{357,\textcolor{stringliteral}{"{}K(z,n7)"{}}\},\{358,\textcolor{stringliteral}{"{}K(z,n8)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00192}00192   \{359,\textcolor{stringliteral}{"{}K(z,n9)"{}}\},\{360,\textcolor{stringliteral}{"{}K(z,n10)"{}}\},\{361,\textcolor{stringliteral}{"{}K(z,n11)"{}}\},\{362,\textcolor{stringliteral}{"{}K(z,n12)"{}}\},\{363,\textcolor{stringliteral}{"{}K(z,n13)"{}}\},\{364,\textcolor{stringliteral}{"{}K(z,n14)"{}}\},\{365,\textcolor{stringliteral}{"{}K(z,n15)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00193}00193   \{366,\textcolor{stringliteral}{"{}K(z,n16)"{}}\},\{367,\textcolor{stringliteral}{"{}K(z,n17)"{}}\},\{368,\textcolor{stringliteral}{"{}K(z,n18)"{}}\},\{369,\textcolor{stringliteral}{"{}K(z,n19)"{}}\},\{370,\textcolor{stringliteral}{"{}K(z,n20)"{}}\},\{371,\textcolor{stringliteral}{"{}K(z,n21)"{}}\},\{372,\textcolor{stringliteral}{"{}K(z,n22)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00194}00194   \{373,\textcolor{stringliteral}{"{}K(z,n23)"{}}\},\{374,\textcolor{stringliteral}{"{}K(z,n24)"{}}\},\{375,\textcolor{stringliteral}{"{}K(z,n25)"{}}\},\{376,\textcolor{stringliteral}{"{}K(z,n26)"{}}\},\{377,\textcolor{stringliteral}{"{}K(z,n27)"{}}\},\{378,\textcolor{stringliteral}{"{}K(z,n28)"{}}\},\{379,\textcolor{stringliteral}{"{}K(z,n29)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00195}00195   \{380,\textcolor{stringliteral}{"{}K(z,n30)"{}}\},\{381,\textcolor{stringliteral}{"{}K(z,n31)"{}}\},\{382,\textcolor{stringliteral}{"{}K(z,n32)"{}}\},\{383,\textcolor{stringliteral}{"{}K(z,n33)"{}}\},\{384,\textcolor{stringliteral}{"{}K(z,n34)"{}}\},\{385,\textcolor{stringliteral}{"{}K(z,n35)"{}}\},\{386,\textcolor{stringliteral}{"{}K(z,n36)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00196}00196   \{387,\textcolor{stringliteral}{"{}K(z,n37)"{}}\},\{388,\textcolor{stringliteral}{"{}K(z,n38)"{}}\},\{389,\textcolor{stringliteral}{"{}K(z,n39)"{}}\},\{390,\textcolor{stringliteral}{"{}K(z,n40)"{}}\},\{391,\textcolor{stringliteral}{"{}K(z,ncont)"{}}\},\{401,\textcolor{stringliteral}{"{}K(n,disap)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00197}00197   \{402,\textcolor{stringliteral}{"{}K(z,gamma)"{}}\},\{403,\textcolor{stringliteral}{"{}K(z,p)"{}}\},\{404,\textcolor{stringliteral}{"{}K(z,d)"{}}\},\{405,\textcolor{stringliteral}{"{}K(z,t)"{}}\},\{406,\textcolor{stringliteral}{"{}K(z,3He)"{}}\},\{407,\textcolor{stringliteral}{"{}K(z,A)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00198}00198   \{408,\textcolor{stringliteral}{"{}K(z,2A)"{}}\},\{409,\textcolor{stringliteral}{"{}K(z,3A)"{}}\},\{411,\textcolor{stringliteral}{"{}K(z,2p)"{}}\},\{412,\textcolor{stringliteral}{"{}K(z,pA)"{}}\},\{413,\textcolor{stringliteral}{"{}K(z,t2A)"{}}\},\{414,\textcolor{stringliteral}{"{}K(z,d2A)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00199}00199   \{415,\textcolor{stringliteral}{"{}K(z,pd)"{}}\},\{416,\textcolor{stringliteral}{"{}K(z,pt)"{}}\},\{417,\textcolor{stringliteral}{"{}K(z,dA)"{}}\},\{451,\textcolor{stringliteral}{"{}Heading"{}}\},\{452,\textcolor{stringliteral}{"{}nuT"{}}\},\{454,\textcolor{stringliteral}{"{}fyield"{}}\},\{455,\textcolor{stringliteral}{"{}nuD"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00200}00200   \{456,\textcolor{stringliteral}{"{}nuP"{}}\},\{457,\textcolor{stringliteral}{"{}Decay"{}}\},\{458,\textcolor{stringliteral}{"{}Efiss"{}}\},\{459,\textcolor{stringliteral}{"{}Cfyield"{}}\},\{500,\textcolor{stringliteral}{"{}stp"{}}\},\{501,\textcolor{stringliteral}{"{}gamma"{}}\},\{502,\textcolor{stringliteral}{"{}gamma"{}}\},\{504,\textcolor{stringliteral}{"{}gamma"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00201}00201   \{505,\textcolor{stringliteral}{"{}gamma"{}}\},\{506,\textcolor{stringliteral}{"{}gamma"{}}\},\{515,\textcolor{stringliteral}{"{}gamma"{}}\},\{516,\textcolor{stringliteral}{"{}gamma"{}}\},\{517,\textcolor{stringliteral}{"{}gamma"{}}\},\{518,\textcolor{stringliteral}{"{}gamma"{}}\},\{522,\textcolor{stringliteral}{"{}gamma"{}}\},\{523,\textcolor{stringliteral}{"{}gamma"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00202}00202   \{526,\textcolor{stringliteral}{"{}gamma"{}}\},\{527,\textcolor{stringliteral}{"{}gamma"{}}\},\{528,\textcolor{stringliteral}{"{}gamma"{}}\},\{532,\textcolor{stringliteral}{"{}gamma"{}}\},\{533,\textcolor{stringliteral}{"{}gamma"{}}\},\{534,\textcolor{stringliteral}{"{}K"{}}\},\{535,\textcolor{stringliteral}{"{}L1"{}}\},\{536,\textcolor{stringliteral}{"{}L2"{}}\},\{537,\textcolor{stringliteral}{"{}L3"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00203}00203   \{538,\textcolor{stringliteral}{"{}M1"{}}\},\{539,\textcolor{stringliteral}{"{}M2"{}}\},\{540,\textcolor{stringliteral}{"{}M3"{}}\},\{541,\textcolor{stringliteral}{"{}M4"{}}\},\{542,\textcolor{stringliteral}{"{}M5"{}}\},\{543,\textcolor{stringliteral}{"{}N1"{}}\},\{544,\textcolor{stringliteral}{"{}N2"{}}\},\{545,\textcolor{stringliteral}{"{}N3"{}}\},\{546,\textcolor{stringliteral}{"{}N4"{}}\},\{547,\textcolor{stringliteral}{"{}N5"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00204}00204   \{548,\textcolor{stringliteral}{"{}N6"{}}\},\{549,\textcolor{stringliteral}{"{}N7"{}}\},\{550,\textcolor{stringliteral}{"{}O1"{}}\},\{551,\textcolor{stringliteral}{"{}O2"{}}\},\{552,\textcolor{stringliteral}{"{}O3"{}}\},\{553,\textcolor{stringliteral}{"{}O4"{}}\},\{554,\textcolor{stringliteral}{"{}O5"{}}\},\{555,\textcolor{stringliteral}{"{}O6"{}}\},\{556,\textcolor{stringliteral}{"{}O7"{}}\},\{557,\textcolor{stringliteral}{"{}O8"{}}\},\{558,\textcolor{stringliteral}{"{}O9"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00205}00205   \{559,\textcolor{stringliteral}{"{}P1"{}}\},\{560,\textcolor{stringliteral}{"{}P2"{}}\},\{561,\textcolor{stringliteral}{"{}P3"{}}\},\{562,\textcolor{stringliteral}{"{}P4"{}}\},\{563,\textcolor{stringliteral}{"{}P5"{}}\},\{564,\textcolor{stringliteral}{"{}P6"{}}\},\{565,\textcolor{stringliteral}{"{}P7"{}}\},\{566,\textcolor{stringliteral}{"{}P8"{}}\},\{567,\textcolor{stringliteral}{"{}P9"{}}\},\{568,\textcolor{stringliteral}{"{}P10"{}}\},\{569,\textcolor{stringliteral}{"{}P11"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00206}00206   \{570,\textcolor{stringliteral}{"{}Q1"{}}\},\{571,\textcolor{stringliteral}{"{}Q2"{}}\},\{572,\textcolor{stringliteral}{"{}Q3"{}}\},\{600,\textcolor{stringliteral}{"{}(z,p0)"{}}\},\{601,\textcolor{stringliteral}{"{}(z,p2)"{}}\},\{602,\textcolor{stringliteral}{"{}(z,p2)"{}}\},\{603,\textcolor{stringliteral}{"{}(z,p3)"{}}\},\{604,\textcolor{stringliteral}{"{}(z,p4)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00207}00207   \{605,\textcolor{stringliteral}{"{}(z,p5)"{}}\},\{606,\textcolor{stringliteral}{"{}(z,p6)"{}}\},\{607,\textcolor{stringliteral}{"{}(z,p7)"{}}\},\{608,\textcolor{stringliteral}{"{}(z,p8)"{}}\},\{609,\textcolor{stringliteral}{"{}(z,p9)"{}}\},\{610,\textcolor{stringliteral}{"{}(z,p10)"{}}\},\{611,\textcolor{stringliteral}{"{}(z,p11)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00208}00208   \{612,\textcolor{stringliteral}{"{}(z,p12)"{}}\},\{613,\textcolor{stringliteral}{"{}(z,p13)"{}}\},\{614,\textcolor{stringliteral}{"{}(z,p14)"{}}\},\{615,\textcolor{stringliteral}{"{}(z,p15)"{}}\},\{616,\textcolor{stringliteral}{"{}(z,p16)"{}}\},\{617,\textcolor{stringliteral}{"{}(z,p17)"{}}\},\{618,\textcolor{stringliteral}{"{}(z,p18)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00209}00209   \{619,\textcolor{stringliteral}{"{}(z,p19)"{}}\},\{620,\textcolor{stringliteral}{"{}(z,p20)"{}}\},\{621,\textcolor{stringliteral}{"{}(z,p21)"{}}\},\{622,\textcolor{stringliteral}{"{}(z,p22)"{}}\},\{623,\textcolor{stringliteral}{"{}(z,p23)"{}}\},\{624,\textcolor{stringliteral}{"{}(z,p24)"{}}\},\{625,\textcolor{stringliteral}{"{}(z,p25)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00210}00210   \{626,\textcolor{stringliteral}{"{}(z,p26)"{}}\},\{627,\textcolor{stringliteral}{"{}(z,p27)"{}}\},\{628,\textcolor{stringliteral}{"{}(z,p28)"{}}\},\{629,\textcolor{stringliteral}{"{}(z,p29)"{}}\},\{630,\textcolor{stringliteral}{"{}(z,p30)"{}}\},\{631,\textcolor{stringliteral}{"{}(z,p31)"{}}\},\{632,\textcolor{stringliteral}{"{}(z,p32)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00211}00211   \{633,\textcolor{stringliteral}{"{}(z,p33)"{}}\},\{634,\textcolor{stringliteral}{"{}(z,p34)"{}}\},\{635,\textcolor{stringliteral}{"{}(z,p35)"{}}\},\{636,\textcolor{stringliteral}{"{}(z,p36)"{}}\},\{637,\textcolor{stringliteral}{"{}(z,p37)"{}}\},\{638,\textcolor{stringliteral}{"{}(z,p38)"{}}\},\{639,\textcolor{stringliteral}{"{}(z,p39)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00212}00212   \{640,\textcolor{stringliteral}{"{}(z,p40)"{}}\},\{641,\textcolor{stringliteral}{"{}(z,p41)"{}}\},\{642,\textcolor{stringliteral}{"{}(z,p42)"{}}\},\{643,\textcolor{stringliteral}{"{}(z,p43)"{}}\},\{644,\textcolor{stringliteral}{"{}(z,p44)"{}}\},\{645,\textcolor{stringliteral}{"{}(z,p45)"{}}\},\{646,\textcolor{stringliteral}{"{}(z,p46)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00213}00213   \{647,\textcolor{stringliteral}{"{}(z,p47)"{}}\},\{648,\textcolor{stringliteral}{"{}(z,p48)"{}}\},\{649,\textcolor{stringliteral}{"{}(z,pcont)"{}}\},\{650,\textcolor{stringliteral}{"{}(z,d0)"{}}\},\{651,\textcolor{stringliteral}{"{}(z,d2)"{}}\},\{652,\textcolor{stringliteral}{"{}(z,d2)"{}}\},\{653,\textcolor{stringliteral}{"{}(z,d3)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00214}00214   \{654,\textcolor{stringliteral}{"{}(z,d4)"{}}\},\{655,\textcolor{stringliteral}{"{}(z,d5)"{}}\},\{656,\textcolor{stringliteral}{"{}(z,d6)"{}}\},\{657,\textcolor{stringliteral}{"{}(z,d7)"{}}\},\{658,\textcolor{stringliteral}{"{}(z,d8)"{}}\},\{659,\textcolor{stringliteral}{"{}(z,d9)"{}}\},\{660,\textcolor{stringliteral}{"{}(z,d10)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00215}00215   \{661,\textcolor{stringliteral}{"{}(z,d11)"{}}\},\{662,\textcolor{stringliteral}{"{}(z,d12)"{}}\},\{663,\textcolor{stringliteral}{"{}(z,d13)"{}}\},\{664,\textcolor{stringliteral}{"{}(z,d14)"{}}\},\{665,\textcolor{stringliteral}{"{}(z,d15)"{}}\},\{666,\textcolor{stringliteral}{"{}(z,d16)"{}}\},\{667,\textcolor{stringliteral}{"{}(z,d17)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00216}00216   \{668,\textcolor{stringliteral}{"{}(z,d18)"{}}\},\{669,\textcolor{stringliteral}{"{}(z,d19)"{}}\},\{670,\textcolor{stringliteral}{"{}(z,d20)"{}}\},\{671,\textcolor{stringliteral}{"{}(z,d21)"{}}\},\{672,\textcolor{stringliteral}{"{}(z,d22)"{}}\},\{673,\textcolor{stringliteral}{"{}(z,d23)"{}}\},\{674,\textcolor{stringliteral}{"{}(z,d24)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00217}00217   \{675,\textcolor{stringliteral}{"{}(z,d25)"{}}\},\{676,\textcolor{stringliteral}{"{}(z,d26)"{}}\},\{677,\textcolor{stringliteral}{"{}(z,d27)"{}}\},\{678,\textcolor{stringliteral}{"{}(z,d28)"{}}\},\{679,\textcolor{stringliteral}{"{}(z,d29)"{}}\},\{680,\textcolor{stringliteral}{"{}(z,d30)"{}}\},\{681,\textcolor{stringliteral}{"{}(z,d31)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00218}00218   \{682,\textcolor{stringliteral}{"{}(z,d32)"{}}\},\{683,\textcolor{stringliteral}{"{}(z,d33)"{}}\},\{684,\textcolor{stringliteral}{"{}(z,d34)"{}}\},\{685,\textcolor{stringliteral}{"{}(z,d35)"{}}\},\{686,\textcolor{stringliteral}{"{}(z,d36)"{}}\},\{687,\textcolor{stringliteral}{"{}(z,d37)"{}}\},\{688,\textcolor{stringliteral}{"{}(z,d38)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00219}00219   \{689,\textcolor{stringliteral}{"{}(z,d39)"{}}\},\{690,\textcolor{stringliteral}{"{}(z,d40)"{}}\},\{691,\textcolor{stringliteral}{"{}(z,d41)"{}}\},\{692,\textcolor{stringliteral}{"{}(z,d42)"{}}\},\{693,\textcolor{stringliteral}{"{}(z,d43)"{}}\},\{694,\textcolor{stringliteral}{"{}(z,d44)"{}}\},\{695,\textcolor{stringliteral}{"{}(z,d45)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00220}00220   \{696,\textcolor{stringliteral}{"{}(z,d46)"{}}\},\{697,\textcolor{stringliteral}{"{}(z,d47)"{}}\},\{698,\textcolor{stringliteral}{"{}(z,d48)"{}}\},\{699,\textcolor{stringliteral}{"{}(z,dcont)"{}}\},\{700,\textcolor{stringliteral}{"{}(z,t0)"{}}\},\{701,\textcolor{stringliteral}{"{}(z,t2)"{}}\},\{702,\textcolor{stringliteral}{"{}(z,t2)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00221}00221   \{703,\textcolor{stringliteral}{"{}(z,t3)"{}}\},\{704,\textcolor{stringliteral}{"{}(z,t4)"{}}\},\{705,\textcolor{stringliteral}{"{}(z,t5)"{}}\},\{706,\textcolor{stringliteral}{"{}(z,t6)"{}}\},\{707,\textcolor{stringliteral}{"{}(z,t7)"{}}\},\{708,\textcolor{stringliteral}{"{}(z,t8)"{}}\},\{709,\textcolor{stringliteral}{"{}(z,t9)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00222}00222   \{710,\textcolor{stringliteral}{"{}(z,t10)"{}}\},\{711,\textcolor{stringliteral}{"{}(z,t11)"{}}\},\{712,\textcolor{stringliteral}{"{}(z,t12)"{}}\},\{713,\textcolor{stringliteral}{"{}(z,t13)"{}}\},\{714,\textcolor{stringliteral}{"{}(z,t14)"{}}\},\{715,\textcolor{stringliteral}{"{}(z,t15)"{}}\},\{716,\textcolor{stringliteral}{"{}(z,t16)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00223}00223   \{717,\textcolor{stringliteral}{"{}(z,t17)"{}}\},\{718,\textcolor{stringliteral}{"{}(z,t18)"{}}\},\{719,\textcolor{stringliteral}{"{}(z,t19)"{}}\},\{720,\textcolor{stringliteral}{"{}(z,t20)"{}}\},\{721,\textcolor{stringliteral}{"{}(z,t21)"{}}\},\{722,\textcolor{stringliteral}{"{}(z,t22)"{}}\},\{723,\textcolor{stringliteral}{"{}(z,t23)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00224}00224   \{724,\textcolor{stringliteral}{"{}(z,t24)"{}}\},\{725,\textcolor{stringliteral}{"{}(z,t25)"{}}\},\{726,\textcolor{stringliteral}{"{}(z,t26)"{}}\},\{727,\textcolor{stringliteral}{"{}(z,t27)"{}}\},\{728,\textcolor{stringliteral}{"{}(z,t28)"{}}\},\{729,\textcolor{stringliteral}{"{}(z,t29)"{}}\},\{730,\textcolor{stringliteral}{"{}(z,t30)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00225}00225   \{731,\textcolor{stringliteral}{"{}(z,t31)"{}}\},\{732,\textcolor{stringliteral}{"{}(z,t32)"{}}\},\{733,\textcolor{stringliteral}{"{}(z,t33)"{}}\},\{734,\textcolor{stringliteral}{"{}(z,t34)"{}}\},\{735,\textcolor{stringliteral}{"{}(z,t35)"{}}\},\{736,\textcolor{stringliteral}{"{}(z,t36)"{}}\},\{737,\textcolor{stringliteral}{"{}(z,t37)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00226}00226   \{738,\textcolor{stringliteral}{"{}(z,t38)"{}}\},\{739,\textcolor{stringliteral}{"{}(z,t39)"{}}\},\{740,\textcolor{stringliteral}{"{}(z,t40)"{}}\},\{741,\textcolor{stringliteral}{"{}(z,t41)"{}}\},\{742,\textcolor{stringliteral}{"{}(z,t42)"{}}\},\{743,\textcolor{stringliteral}{"{}(z,t43)"{}}\},\{744,\textcolor{stringliteral}{"{}(z,t44)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00227}00227   \{745,\textcolor{stringliteral}{"{}(z,t45)"{}}\},\{746,\textcolor{stringliteral}{"{}(z,t46)"{}}\},\{747,\textcolor{stringliteral}{"{}(z,t47)"{}}\},\{748,\textcolor{stringliteral}{"{}(z,t48)"{}}\},\{749,\textcolor{stringliteral}{"{}(z,tcont)"{}}\},\{750,\textcolor{stringliteral}{"{}(n,3He0)"{}}\},\{751,\textcolor{stringliteral}{"{}(n,3He2)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00228}00228   \{752,\textcolor{stringliteral}{"{}(n,3He2)"{}}\},\{753,\textcolor{stringliteral}{"{}(n,3He3)"{}}\},\{754,\textcolor{stringliteral}{"{}(n,3He4)"{}}\},\{755,\textcolor{stringliteral}{"{}(n,3He5)"{}}\},\{756,\textcolor{stringliteral}{"{}(n,3He6)"{}}\},\{757,\textcolor{stringliteral}{"{}(n,3He7)"{}}\},\{758,\textcolor{stringliteral}{"{}(n,3He8)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00229}00229   \{759,\textcolor{stringliteral}{"{}(n,3He9)"{}}\},\{760,\textcolor{stringliteral}{"{}(n,3He10)"{}}\},\{761,\textcolor{stringliteral}{"{}(n,3He11)"{}}\},\{762,\textcolor{stringliteral}{"{}(n,3He12)"{}}\},\{763,\textcolor{stringliteral}{"{}(n,3He13)"{}}\},\{764,\textcolor{stringliteral}{"{}(n,3He14)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00230}00230   \{765,\textcolor{stringliteral}{"{}(n,3He15)"{}}\},\{766,\textcolor{stringliteral}{"{}(n,3He16)"{}}\},\{767,\textcolor{stringliteral}{"{}(n,3He17)"{}}\},\{768,\textcolor{stringliteral}{"{}(n,3He18)"{}}\},\{769,\textcolor{stringliteral}{"{}(n,3He19)"{}}\},\{770,\textcolor{stringliteral}{"{}(n,3He20)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00231}00231   \{771,\textcolor{stringliteral}{"{}(n,3He21)"{}}\},\{772,\textcolor{stringliteral}{"{}(n,3He22)"{}}\},\{773,\textcolor{stringliteral}{"{}(n,3He23)"{}}\},\{774,\textcolor{stringliteral}{"{}(n,3He24)"{}}\},\{775,\textcolor{stringliteral}{"{}(n,3He25)"{}}\},\{776,\textcolor{stringliteral}{"{}(n,3He26)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00232}00232   \{777,\textcolor{stringliteral}{"{}(n,3He27)"{}}\},\{778,\textcolor{stringliteral}{"{}(n,3He28)"{}}\},\{779,\textcolor{stringliteral}{"{}(n,3He29)"{}}\},\{780,\textcolor{stringliteral}{"{}(n,3He30)"{}}\},\{781,\textcolor{stringliteral}{"{}(n,3He31)"{}}\},\{782,\textcolor{stringliteral}{"{}(n,3He32)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00233}00233   \{783,\textcolor{stringliteral}{"{}(n,3He33)"{}}\},\{784,\textcolor{stringliteral}{"{}(n,3He34)"{}}\},\{785,\textcolor{stringliteral}{"{}(n,3He35)"{}}\},\{786,\textcolor{stringliteral}{"{}(n,3He36)"{}}\},\{787,\textcolor{stringliteral}{"{}(n,3He37)"{}}\},\{788,\textcolor{stringliteral}{"{}(n,3He38)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00234}00234   \{789,\textcolor{stringliteral}{"{}(n,3He39)"{}}\},\{790,\textcolor{stringliteral}{"{}(n,3He40)"{}}\},\{791,\textcolor{stringliteral}{"{}(n,3He41)"{}}\},\{792,\textcolor{stringliteral}{"{}(n,3He42)"{}}\},\{793,\textcolor{stringliteral}{"{}(n,3He43)"{}}\},\{794,\textcolor{stringliteral}{"{}(n,3He44)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00235}00235   \{795,\textcolor{stringliteral}{"{}(n,3He45)"{}}\},\{796,\textcolor{stringliteral}{"{}(n,3He46)"{}}\},\{797,\textcolor{stringliteral}{"{}(n,3He47)"{}}\},\{798,\textcolor{stringliteral}{"{}(n,3He48)"{}}\},\{799,\textcolor{stringliteral}{"{}(n,3Hecont)"{}}\},\{800,\textcolor{stringliteral}{"{}(z,A0)"{}}\},\{801,\textcolor{stringliteral}{"{}(z,A2)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00236}00236   \{802,\textcolor{stringliteral}{"{}(z,A2)"{}}\},\{803,\textcolor{stringliteral}{"{}(z,A3)"{}}\},\{804,\textcolor{stringliteral}{"{}(z,A4)"{}}\},\{805,\textcolor{stringliteral}{"{}(z,A5)"{}}\},\{806,\textcolor{stringliteral}{"{}(z,A6)"{}}\},\{807,\textcolor{stringliteral}{"{}(z,A7)"{}}\},\{808,\textcolor{stringliteral}{"{}(z,A8)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00237}00237   \{809,\textcolor{stringliteral}{"{}(z,A9)"{}}\},\{810,\textcolor{stringliteral}{"{}(z,A10)"{}}\},\{811,\textcolor{stringliteral}{"{}(z,A11)"{}}\},\{812,\textcolor{stringliteral}{"{}(z,A12)"{}}\},\{813,\textcolor{stringliteral}{"{}(z,A13)"{}}\},\{814,\textcolor{stringliteral}{"{}(z,A14)"{}}\},\{815,\textcolor{stringliteral}{"{}(z,A15)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00238}00238   \{816,\textcolor{stringliteral}{"{}(z,A16)"{}}\},\{817,\textcolor{stringliteral}{"{}(z,A17)"{}}\},\{818,\textcolor{stringliteral}{"{}(z,A18)"{}}\},\{819,\textcolor{stringliteral}{"{}(z,A19)"{}}\},\{820,\textcolor{stringliteral}{"{}(z,A20)"{}}\},\{821,\textcolor{stringliteral}{"{}(z,A21)"{}}\},\{822,\textcolor{stringliteral}{"{}(z,A22)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00239}00239   \{823,\textcolor{stringliteral}{"{}(z,A23)"{}}\},\{824,\textcolor{stringliteral}{"{}(z,A24)"{}}\},\{825,\textcolor{stringliteral}{"{}(z,A25)"{}}\},\{826,\textcolor{stringliteral}{"{}(z,A26)"{}}\},\{827,\textcolor{stringliteral}{"{}(z,A27)"{}}\},\{828,\textcolor{stringliteral}{"{}(z,A28)"{}}\},\{829,\textcolor{stringliteral}{"{}(z,A29)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00240}00240   \{830,\textcolor{stringliteral}{"{}(z,A30)"{}}\},\{831,\textcolor{stringliteral}{"{}(z,A31)"{}}\},\{832,\textcolor{stringliteral}{"{}(z,A32)"{}}\},\{833,\textcolor{stringliteral}{"{}(z,A33)"{}}\},\{834,\textcolor{stringliteral}{"{}(z,A34)"{}}\},\{835,\textcolor{stringliteral}{"{}(z,A35)"{}}\},\{836,\textcolor{stringliteral}{"{}(z,A36)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00241}00241   \{837,\textcolor{stringliteral}{"{}(z,A37)"{}}\},\{838,\textcolor{stringliteral}{"{}(z,A38)"{}}\},\{839,\textcolor{stringliteral}{"{}(z,A39)"{}}\},\{840,\textcolor{stringliteral}{"{}(z,A40)"{}}\},\{841,\textcolor{stringliteral}{"{}(z,A41)"{}}\},\{842,\textcolor{stringliteral}{"{}(z,A42)"{}}\},\{843,\textcolor{stringliteral}{"{}(z,A43)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00242}00242   \{844,\textcolor{stringliteral}{"{}(z,A44)"{}}\},\{845,\textcolor{stringliteral}{"{}(z,A45)"{}}\},\{846,\textcolor{stringliteral}{"{}(z,A46)"{}}\},\{847,\textcolor{stringliteral}{"{}(z,A47)"{}}\},\{848,\textcolor{stringliteral}{"{}(z,A48)"{}}\},\{849,\textcolor{stringliteral}{"{}(z,Acont)"{}}\},\{851,\textcolor{stringliteral}{"{}Cov"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00243}00243   \{852,\textcolor{stringliteral}{"{}Cov"{}}\},\{853,\textcolor{stringliteral}{"{}Cov"{}}\},\{854,\textcolor{stringliteral}{"{}Cov"{}}\},\{855,\textcolor{stringliteral}{"{}Cov"{}}\},\{856,\textcolor{stringliteral}{"{}Cov"{}}\},\{857,\textcolor{stringliteral}{"{}Cov"{}}\},\{858,\textcolor{stringliteral}{"{}Cov"{}}\},\{859,\textcolor{stringliteral}{"{}Cov"{}}\},\{860,\textcolor{stringliteral}{"{}Cov"{}}\},\{861,\textcolor{stringliteral}{"{}Cov"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00244}00244   \{862,\textcolor{stringliteral}{"{}Cov"{}}\},\{863,\textcolor{stringliteral}{"{}Cov"{}}\},\{864,\textcolor{stringliteral}{"{}Cov"{}}\},\{865,\textcolor{stringliteral}{"{}Cov"{}}\},\{866,\textcolor{stringliteral}{"{}Cov"{}}\},\{867,\textcolor{stringliteral}{"{}Cov"{}}\},\{868,\textcolor{stringliteral}{"{}Cov"{}}\},\{869,\textcolor{stringliteral}{"{}Cov"{}}\},\{870,\textcolor{stringliteral}{"{}Cov"{}}\},\{875,\textcolor{stringliteral}{"{}(z,2n0)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00245}00245   \{876,\textcolor{stringliteral}{"{}(z,2n2)"{}}\},\{877,\textcolor{stringliteral}{"{}(z,2n2)"{}}\},\{878,\textcolor{stringliteral}{"{}(z,2n3)"{}}\},\{879,\textcolor{stringliteral}{"{}(z,2n4)"{}}\},\{880,\textcolor{stringliteral}{"{}(z,2n5)"{}}\},\{881,\textcolor{stringliteral}{"{}(z,2n6)"{}}\},\{882,\textcolor{stringliteral}{"{}(z,2n7)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00246}00246   \{883,\textcolor{stringliteral}{"{}(z,2n8)"{}}\},\{884,\textcolor{stringliteral}{"{}(z,2n9)"{}}\},\{885,\textcolor{stringliteral}{"{}(z,2n10)"{}}\},\{886,\textcolor{stringliteral}{"{}(z,2n11)"{}}\},\{887,\textcolor{stringliteral}{"{}(z,2n12)"{}}\},\{888,\textcolor{stringliteral}{"{}(z,2n13)"{}}\},\{889,\textcolor{stringliteral}{"{}(z,2n14)"{}}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00247}00247   \{890,\textcolor{stringliteral}{"{}(z,2n15)"{}}\},\{891,\textcolor{stringliteral}{"{}(z,2ncont)"{}}\}\};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00248}00248 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00249}00249   std::map<int,std::pair<std::string,std::string>> endfManip::fELnames =    \{\{1,\{\textcolor{stringliteral}{"{}Hydrogen"{}},\textcolor{stringliteral}{"{}H"{}}\}\},\{2,\{\textcolor{stringliteral}{"{}Helium"{}},\textcolor{stringliteral}{"{}He"{}}\}\},\{3,\{\textcolor{stringliteral}{"{}Lithium"{}},\textcolor{stringliteral}{"{}Li"{}}\}\},\{4,\{\textcolor{stringliteral}{"{}Beryllium"{}},\textcolor{stringliteral}{"{}Be"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00250}00250     \{5,\{\textcolor{stringliteral}{"{}Boron"{}},\textcolor{stringliteral}{"{}B"{}}\}\},\{6,\{\textcolor{stringliteral}{"{}Carbon"{}},\textcolor{stringliteral}{"{}C"{}}\}\},\{7,\{\textcolor{stringliteral}{"{}Nitrogen"{}},\textcolor{stringliteral}{"{}N"{}}\}\},\{8,\{\textcolor{stringliteral}{"{}Oxygen"{}},\textcolor{stringliteral}{"{}O"{}}\}\},\{9,\{\textcolor{stringliteral}{"{}Fluorine"{}},\textcolor{stringliteral}{"{}F"{}}\}\},\{10,\{\textcolor{stringliteral}{"{}Neon"{}},\textcolor{stringliteral}{"{}Ne"{}}\}\},\{11,\{\textcolor{stringliteral}{"{}Sodium"{}},\textcolor{stringliteral}{"{}Na"{}}\}\},\{12,\{\textcolor{stringliteral}{"{}Magnesium"{}},\textcolor{stringliteral}{"{}Mg"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00251}00251     \{13,\{\textcolor{stringliteral}{"{}Aluminum"{}},\textcolor{stringliteral}{"{}Al"{}}\}\},\{14,\{\textcolor{stringliteral}{"{}Silicon"{}},\textcolor{stringliteral}{"{}Si"{}}\}\},\{15,\{\textcolor{stringliteral}{"{}Phosphorus"{}},\textcolor{stringliteral}{"{}P"{}}\}\},\{16,\{\textcolor{stringliteral}{"{}Sulfur"{}},\textcolor{stringliteral}{"{}S"{}}\}\},\{17,\{\textcolor{stringliteral}{"{}Chlorine"{}},\textcolor{stringliteral}{"{}Cl"{}}\}\},\{18,\{\textcolor{stringliteral}{"{}Argon"{}},\textcolor{stringliteral}{"{}Ar"{}}\}\},\{19,\{\textcolor{stringliteral}{"{}Potassium"{}},\textcolor{stringliteral}{"{}K"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00252}00252     \{20,\{\textcolor{stringliteral}{"{}Calcium"{}},\textcolor{stringliteral}{"{}Ca"{}}\}\},\{21,\{\textcolor{stringliteral}{"{}Scandium"{}},\textcolor{stringliteral}{"{}Sc"{}}\}\},\{22,\{\textcolor{stringliteral}{"{}Titanium"{}},\textcolor{stringliteral}{"{}Ti"{}}\}\},\{23,\{\textcolor{stringliteral}{"{}Vanadium"{}},\textcolor{stringliteral}{"{}V"{}}\}\},\{24,\{\textcolor{stringliteral}{"{}Chromium"{}},\textcolor{stringliteral}{"{}Cr"{}}\}\},\{25,\{\textcolor{stringliteral}{"{}Manganese"{}},\textcolor{stringliteral}{"{}Mn"{}}\}\},\{26,\{\textcolor{stringliteral}{"{}Iron"{}},\textcolor{stringliteral}{"{}Fe"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00253}00253     \{27,\{\textcolor{stringliteral}{"{}Cobalt"{}},\textcolor{stringliteral}{"{}Co"{}}\}\},\{28,\{\textcolor{stringliteral}{"{}Nickel"{}},\textcolor{stringliteral}{"{}Ni"{}}\}\},\{29,\{\textcolor{stringliteral}{"{}Copper"{}},\textcolor{stringliteral}{"{}Cu"{}}\}\},\{30,\{\textcolor{stringliteral}{"{}Zinc"{}},\textcolor{stringliteral}{"{}Zn"{}}\}\},\{31,\{\textcolor{stringliteral}{"{}Gallium"{}},\textcolor{stringliteral}{"{}Ga"{}}\}\},\{32,\{\textcolor{stringliteral}{"{}Germanium"{}},\textcolor{stringliteral}{"{}Ge"{}}\}\},\{33,\{\textcolor{stringliteral}{"{}Arsenic"{}},\textcolor{stringliteral}{"{}As"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00254}00254     \{34,\{\textcolor{stringliteral}{"{}Selenium"{}},\textcolor{stringliteral}{"{}Se"{}}\}\},\{35,\{\textcolor{stringliteral}{"{}Bromine"{}},\textcolor{stringliteral}{"{}Br"{}}\}\},\{36,\{\textcolor{stringliteral}{"{}Krypton"{}},\textcolor{stringliteral}{"{}Kr"{}}\}\},\{37,\{\textcolor{stringliteral}{"{}Rubidium"{}},\textcolor{stringliteral}{"{}Rb"{}}\}\},\{38,\{\textcolor{stringliteral}{"{}Strontium"{}},\textcolor{stringliteral}{"{}Sr"{}}\}\},\{39,\{\textcolor{stringliteral}{"{}Yttrium"{}},\textcolor{stringliteral}{"{}Y"{}}\}\},\{40,\{\textcolor{stringliteral}{"{}Zirconium"{}},\textcolor{stringliteral}{"{}Zr"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00255}00255     \{41,\{\textcolor{stringliteral}{"{}Niobium"{}},\textcolor{stringliteral}{"{}Nb"{}}\}\},\{42,\{\textcolor{stringliteral}{"{}Molybdenum"{}},\textcolor{stringliteral}{"{}Mo"{}}\}\},\{43,\{\textcolor{stringliteral}{"{}Technetium"{}},\textcolor{stringliteral}{"{}Tc"{}}\}\},\{44,\{\textcolor{stringliteral}{"{}Ruthenium"{}},\textcolor{stringliteral}{"{}Ru"{}}\}\},\{45,\{\textcolor{stringliteral}{"{}Rhodium"{}},\textcolor{stringliteral}{"{}Rh"{}}\}\},\{46,\{\textcolor{stringliteral}{"{}Palladium"{}},\textcolor{stringliteral}{"{}Pd"{}}\}\},\{47,\{\textcolor{stringliteral}{"{}Silver"{}},\textcolor{stringliteral}{"{}Ag"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00256}00256     \{48,\{\textcolor{stringliteral}{"{}Cadmium"{}},\textcolor{stringliteral}{"{}Cd"{}}\}\},\{49,\{\textcolor{stringliteral}{"{}Indium"{}},\textcolor{stringliteral}{"{}In"{}}\}\},\{50,\{\textcolor{stringliteral}{"{}Tin"{}},\textcolor{stringliteral}{"{}Sn"{}}\}\},\{51,\{\textcolor{stringliteral}{"{}Antimony"{}},\textcolor{stringliteral}{"{}Sb"{}}\}\},\{52,\{\textcolor{stringliteral}{"{}Tellurium"{}},\textcolor{stringliteral}{"{}Te"{}}\}\},\{53,\{\textcolor{stringliteral}{"{}Iodine"{}},\textcolor{stringliteral}{"{}I"{}}\}\},\{54,\{\textcolor{stringliteral}{"{}Xenon"{}},\textcolor{stringliteral}{"{}Xe"{}}\}\},\{55,\{\textcolor{stringliteral}{"{}Cesium"{}},\textcolor{stringliteral}{"{}Cs"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00257}00257     \{56,\{\textcolor{stringliteral}{"{}Barium"{}},\textcolor{stringliteral}{"{}Ba"{}}\}\},\{57,\{\textcolor{stringliteral}{"{}Lanthanum"{}},\textcolor{stringliteral}{"{}La"{}}\}\},\{58,\{\textcolor{stringliteral}{"{}Cerium"{}},\textcolor{stringliteral}{"{}Ce"{}}\}\},\{59,\{\textcolor{stringliteral}{"{}Praseodymium"{}},\textcolor{stringliteral}{"{}Pr"{}}\}\},\{60,\{\textcolor{stringliteral}{"{}Neodymium"{}},\textcolor{stringliteral}{"{}Nd"{}}\}\},\{61,\{\textcolor{stringliteral}{"{}Promethium"{}},\textcolor{stringliteral}{"{}Pm"{}}\}\},\{62,\{\textcolor{stringliteral}{"{}Samarium"{}},\textcolor{stringliteral}{"{}Sm"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00258}00258     \{63,\{\textcolor{stringliteral}{"{}Europium"{}},\textcolor{stringliteral}{"{}Eu"{}}\}\},\{64,\{\textcolor{stringliteral}{"{}Gadolinium"{}},\textcolor{stringliteral}{"{}Gd"{}}\}\},\{65,\{\textcolor{stringliteral}{"{}Terbium"{}},\textcolor{stringliteral}{"{}Tb"{}}\}\},\{66,\{\textcolor{stringliteral}{"{}Dysprosium"{}},\textcolor{stringliteral}{"{}Dy"{}}\}\},\{67,\{\textcolor{stringliteral}{"{}Holmium"{}},\textcolor{stringliteral}{"{}Ho"{}}\}\},\{68,\{\textcolor{stringliteral}{"{}Erbium"{}},\textcolor{stringliteral}{"{}Er"{}}\}\},\{69,\{\textcolor{stringliteral}{"{}Thulium"{}},\textcolor{stringliteral}{"{}Tm"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00259}00259     \{70,\{\textcolor{stringliteral}{"{}Ytterbium"{}},\textcolor{stringliteral}{"{}Yb"{}}\}\},\{71,\{\textcolor{stringliteral}{"{}Lutetium"{}},\textcolor{stringliteral}{"{}Lu"{}}\}\},\{72,\{\textcolor{stringliteral}{"{}Hafnium"{}},\textcolor{stringliteral}{"{}Hf"{}}\}\},\{73,\{\textcolor{stringliteral}{"{}Tantalum"{}},\textcolor{stringliteral}{"{}Ta"{}}\}\},\{74,\{\textcolor{stringliteral}{"{}Tungsten"{}},\textcolor{stringliteral}{"{}W"{}}\}\},\{75,\{\textcolor{stringliteral}{"{}Rhenium"{}},\textcolor{stringliteral}{"{}Re"{}}\}\},\{76,\{\textcolor{stringliteral}{"{}Osmium"{}},\textcolor{stringliteral}{"{}Os"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00260}00260     \{77,\{\textcolor{stringliteral}{"{}Iridium"{}},\textcolor{stringliteral}{"{}Ir"{}}\}\},\{78,\{\textcolor{stringliteral}{"{}Platinum"{}},\textcolor{stringliteral}{"{}Pt"{}}\}\},\{79,\{\textcolor{stringliteral}{"{}Gold"{}},\textcolor{stringliteral}{"{}Au"{}}\}\},\{80,\{\textcolor{stringliteral}{"{}Mercury"{}},\textcolor{stringliteral}{"{}Hg"{}}\}\},\{81,\{\textcolor{stringliteral}{"{}Thallium"{}},\textcolor{stringliteral}{"{}Tl"{}}\}\},\{82,\{\textcolor{stringliteral}{"{}Lead"{}},\textcolor{stringliteral}{"{}Pb"{}}\}\},\{83,\{\textcolor{stringliteral}{"{}Bismuth"{}},\textcolor{stringliteral}{"{}Bi"{}}\}\},\{84,\{\textcolor{stringliteral}{"{}Polonium"{}},\textcolor{stringliteral}{"{}Po"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00261}00261     \{85,\{\textcolor{stringliteral}{"{}Astatine"{}},\textcolor{stringliteral}{"{}At"{}}\}\},\{86,\{\textcolor{stringliteral}{"{}Radon"{}},\textcolor{stringliteral}{"{}Rn"{}}\}\},\{87,\{\textcolor{stringliteral}{"{}Francium"{}},\textcolor{stringliteral}{"{}Fr"{}}\}\},\{88,\{\textcolor{stringliteral}{"{}Radium"{}},\textcolor{stringliteral}{"{}Ra"{}}\}\},\{89,\{\textcolor{stringliteral}{"{}Actinium"{}},\textcolor{stringliteral}{"{}Ac"{}}\}\},\{90,\{\textcolor{stringliteral}{"{}Thorium"{}},\textcolor{stringliteral}{"{}Th"{}}\}\},\{91,\{\textcolor{stringliteral}{"{}Protactinium"{}},\textcolor{stringliteral}{"{}Pa"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00262}00262     \{92,\{\textcolor{stringliteral}{"{}Uranium"{}},\textcolor{stringliteral}{"{}U"{}}\}\},\{93,\{\textcolor{stringliteral}{"{}Neptunium"{}},\textcolor{stringliteral}{"{}Np"{}}\}\},\{94,\{\textcolor{stringliteral}{"{}Plutonium"{}},\textcolor{stringliteral}{"{}Pu"{}}\}\},\{95,\{\textcolor{stringliteral}{"{}Americium"{}},\textcolor{stringliteral}{"{}Am"{}}\}\},\{96,\{\textcolor{stringliteral}{"{}Curium"{}},\textcolor{stringliteral}{"{}Cm"{}}\}\},\{97,\{\textcolor{stringliteral}{"{}Berkelium"{}},\textcolor{stringliteral}{"{}Bk"{}}\}\},\{98,\{\textcolor{stringliteral}{"{}Californium"{}},\textcolor{stringliteral}{"{}Cf"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00263}00263     \{99,\{\textcolor{stringliteral}{"{}Einsteinium"{}},\textcolor{stringliteral}{"{}Es"{}}\}\},\{100,\{\textcolor{stringliteral}{"{}Fermium"{}},\textcolor{stringliteral}{"{}Fm"{}}\}\},\{101,\{\textcolor{stringliteral}{"{}Mendelevium"{}},\textcolor{stringliteral}{"{}Md"{}}\}\},\{102,\{\textcolor{stringliteral}{"{}Nobelium"{}},\textcolor{stringliteral}{"{}No"{}}\}\},\{103,\{\textcolor{stringliteral}{"{}Lawrencium"{}},\textcolor{stringliteral}{"{}Lr"{}}\}\},\{104,\{\textcolor{stringliteral}{"{}Rutherfordium"{}},\textcolor{stringliteral}{"{}Rf"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00264}00264     \{105,\{\textcolor{stringliteral}{"{}Dubnium"{}},\textcolor{stringliteral}{"{}Db"{}}\}\},\{106,\{\textcolor{stringliteral}{"{}Seaborgium"{}},\textcolor{stringliteral}{"{}Sg"{}}\}\},\{107,\{\textcolor{stringliteral}{"{}Bohrium"{}},\textcolor{stringliteral}{"{}Bh"{}}\}\},\{108,\{\textcolor{stringliteral}{"{}Hassium"{}},\textcolor{stringliteral}{"{}Hs"{}}\}\},\{109,\{\textcolor{stringliteral}{"{}Meitnerium"{}},\textcolor{stringliteral}{"{}Mt"{}}\}\},\{110,\{\textcolor{stringliteral}{"{}Darmstadtium"{}},\textcolor{stringliteral}{"{}Ds"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00265}00265     \{111,\{\textcolor{stringliteral}{"{}Roentgenium"{}},\textcolor{stringliteral}{"{}Rg"{}}\}\},\{112,\{\textcolor{stringliteral}{"{}Ununbium"{}},\textcolor{stringliteral}{"{}Uub"{}}\}\},\{113,\{\textcolor{stringliteral}{"{}Ununtrium"{}},\textcolor{stringliteral}{"{}Uut"{}}\}\},\{114,\{\textcolor{stringliteral}{"{}Ununquadium"{}},\textcolor{stringliteral}{"{}Uuq"{}}\}\},\{115,\{\textcolor{stringliteral}{"{}Ununpentium"{}},\textcolor{stringliteral}{"{}Uup"{}}\}\},\{116,\{\textcolor{stringliteral}{"{}Ununhexium"{}},\textcolor{stringliteral}{"{}Uuh"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00266}00266     \{117,\{\textcolor{stringliteral}{"{}Ununseptium"{}},\textcolor{stringliteral}{"{}Uus"{}}\}\},\{118,\{\textcolor{stringliteral}{"{}Ununoctium"{}},\textcolor{stringliteral}{"{}Uuo"{}}\}\}\};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00267}00267 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00268}00268 \mbox{\hyperlink{class_x_sec}{XSec}}* endfManip::GetXSec(\textcolor{keywordtype}{int} rIZA, \textcolor{keywordtype}{int} rMF, \textcolor{keywordtype}{int} rMT) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00269}00269   \textcolor{keywordtype}{char} *line = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00270}00270   \textcolor{keywordtype}{size\_t} length;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00271}00271 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00272}00272   \textcolor{keywordtype}{string} sline = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00273}00273 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00274}00274   \textcolor{keywordtype}{double} ZA=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00275}00275   \textcolor{keywordtype}{double} AWR=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00276}00276   \textcolor{keywordtype}{int} l1=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00277}00277   \textcolor{keywordtype}{int} l2=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00278}00278   \textcolor{keywordtype}{int} nr=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00279}00279   \textcolor{keywordtype}{double} qm=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00280}00280   \textcolor{keywordtype}{double} qi=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00281}00281 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00282}00282   \textcolor{keywordflow}{if}((sline = getMTape(rIZA, rMF, rMT)).empty()) \textcolor{keywordflow}{return} \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00283}00283   \textcolor{keywordflow}{if}(fVerbose > 1) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00284}00284     cout << \textcolor{stringliteral}{"{}Reading cross section for reaction "{}} << getMTname(rMT) << \textcolor{stringliteral}{"{} MT "{}} << rMT << endl;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00285}00285   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00286}00286     sscanf(sline.substr(0,11).c\_str(),\textcolor{stringliteral}{"{}\%lf"{}},\&ZA);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00287}00287   sscanf(sline.substr(11,10).c\_str(),\textcolor{stringliteral}{"{}\%lf"{}},\&AWR);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00288}00288   \mbox{\hyperlink{class_x_sec}{XSec}} *sec = \textcolor{keyword}{new} \mbox{\hyperlink{class_x_sec}{XSec}}();}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00289}00289   GetTab1(qm, qi, l1, l2, nr, sec-\/>En(), sec-\/>Xs());}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00290}00290   sec-\/>SetIZA(rIZA);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00291}00291   sec-\/>SetAWR(AWR);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00292}00292   sec-\/>SetQM(qm);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00293}00293   sec-\/>SetQI(qi);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00294}00294   \textcolor{keywordflow}{return} sec;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00295}00295 \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00296}00296 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00297}00297 \mbox{\hyperlink{class_f_fyield}{FFyield}}* endfManip::GetFFyield(\textcolor{keywordtype}{int} rIZA) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00298}00298   \textcolor{keywordtype}{char} *line = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00299}00299   \textcolor{keywordtype}{size\_t} length;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00300}00300   \textcolor{keyword}{const} \textcolor{keywordtype}{int} rMF=8;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00301}00301 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00302}00302   \textcolor{keywordtype}{string} sline = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00303}00303 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00304}00304   \textcolor{keywordtype}{double} ZA=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00305}00305   \textcolor{keywordtype}{double} AWR=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00306}00306   \textcolor{keywordtype}{int} l1=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00307}00307   \textcolor{keywordtype}{int} l2=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00308}00308   \textcolor{keywordtype}{int} nr=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00309}00309   \textcolor{keywordtype}{double} qm=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00310}00310   \textcolor{keywordtype}{double} qi=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00311}00311 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00312}00312   \textcolor{keywordflow}{if}((sline = getMTape(rIZA, rMF, rMT)).empty()) \textcolor{keywordflow}{return} \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00313}00313   \textcolor{keywordflow}{if}(fVerbose > 1) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00314}00314     cout << \textcolor{stringliteral}{"{}Reading cross section for reaction "{}} << getMTname(rMT) << \textcolor{stringliteral}{"{} MT "{}} << rMT << endl;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00315}00315   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00316}00316     sscanf(sline.substr(0,11).c\_str(),\textcolor{stringliteral}{"{}\%lf"{}},\&ZA);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00317}00317   sscanf(sline.substr(11,10).c\_str(),\textcolor{stringliteral}{"{}\%lf"{}},\&AWR);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00318}00318   \mbox{\hyperlink{class_f_fyield}{FFyield}} *yield = \textcolor{keyword}{new} \mbox{\hyperlink{class_f_fyield}{FFyield}}();}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00319}00319  \textcolor{comment}{// GetTab1(qm, qi, l1, l2, nr, sec-\/>En(), sec-\/>Xs());}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00320}00320   yield-\/>SetIZA(rIZA);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00321}00321   yield-\/>SetAWR(AWR);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00322}00322   \textcolor{keywordflow}{return} yield;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00323}00323 \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00324}00324 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00325}00325 \textcolor{keywordtype}{string} endfManip::getMTape(\textcolor{keywordtype}{int} rIZA, \textcolor{keywordtype}{int} rMF, \textcolor{keywordtype}{int} rMT) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00326}00326 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00327}00327 \textcolor{comment}{// Finds the section IZA, MF, MT in an ENDF/B file}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00328}00328 \textcolor{comment}{// returns the HEAD line or empty if the section is not found}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00329}00329 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00330}00330   \textcolor{keywordtype}{char} *line = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00331}00331   \textcolor{keywordtype}{string} sline;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00332}00332   \textcolor{keywordtype}{size\_t} length;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00333}00333   \textcolor{keywordtype}{int} oldMAT=-\/1;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00334}00334   \textcolor{keywordtype}{int} oldMT=-\/1;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00335}00335   \textcolor{keywordtype}{int} oldMF=-\/1;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00336}00336   \textcolor{keywordtype}{int} MAT=-\/1;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00337}00337   \textcolor{keywordtype}{int} MT=-\/1;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00338}00338   \textcolor{keywordtype}{int} MF=-\/1;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00339}00339   \textcolor{keywordtype}{int} IZA=-\/1;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00340}00340   \textcolor{keywordtype}{int} iseq=-\/1;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00341}00341   \textcolor{keywordtype}{int} icount=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00342}00342 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00343}00343   \textcolor{keywordtype}{double} ZA=0;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00344}00344 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00345}00345   \textcolor{comment}{// Rewind and skip first line}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00346}00346   rewind(fFile);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00347}00347   getline(\&line, \&length, fFile);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00348}00348   \textcolor{comment}{// Scan for right MAT, MF and MT}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00349}00349   \textcolor{keywordflow}{while}(getline(\&line, \&length, fFile)!=-\/1) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00350}00350     sline = line;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00351}00351     \textcolor{keywordflow}{if}(++icount == 100000) icount=1;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00352}00352     sscanf(sline.substr(66,4).c\_str(),\textcolor{stringliteral}{"{}\%4d"{}},\&MAT);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00353}00353 \textcolor{comment}{// end of MAT record, just continue reading}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00354}00354     \textcolor{keywordflow}{if}(MAT == 0) \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00355}00355     \textcolor{keywordflow}{if}(MAT == -\/1) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00356}00356 \textcolor{comment}{// end of file mark, stop reading}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00357}00357       cout << \textcolor{stringliteral}{"{}End of file reached"{}} << endl;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00358}00358       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00359}00359     \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00360}00360     \textcolor{keywordflow}{if}(MAT != oldMAT) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00361}00361       oldMAT = MAT;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00362}00362       \textcolor{comment}{// New mat found, get ZA and LISO to build IZA}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00363}00363       \textcolor{keywordtype}{int} liso;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00364}00364       sscanf(sline.substr(0,11).c\_str(),\textcolor{stringliteral}{"{}\%11lf"{}},\&ZA);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00365}00365       getline(\&line, \&length, fFile);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00366}00366       icount = 2;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00367}00367       sline = line;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00368}00368       sscanf(sline.substr(33,11).c\_str(),\textcolor{stringliteral}{"{}\%11d"{}},\&liso);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00369}00369       IZA = int(ZA+0.5)*10+liso;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00370}00370       \textcolor{keywordflow}{if}(fVerbose > 1) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00371}00371         \textcolor{keywordflow}{if}(IZA == rIZA) }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00372}00372           cout << \textcolor{stringliteral}{"{}Found right material "{}} << MAT << \textcolor{stringliteral}{"{} "{}} << IZA << endl;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00373}00373       \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00374}00374     \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00375}00375     sscanf(sline.substr(70,2).c\_str(),\textcolor{stringliteral}{"{}\%2d"{}},\&MF);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00376}00376 \textcolor{comment}{// end of MF record, just continue reading}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00377}00377     \textcolor{keywordflow}{if}(MF == 0) \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00378}00378     \textcolor{keywordflow}{if}(MF != oldMF) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00379}00379       oldMF = MF;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00380}00380       \textcolor{keywordflow}{if}(icount != 2) icount = 1;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00381}00381       \textcolor{keywordflow}{if}(fVerbose > 1) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00382}00382         \textcolor{keywordflow}{if}(IZA == rIZA \&\& MF == rMF) }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00383}00383           cout << \textcolor{stringliteral}{"{}Found right file "{}} << MF << endl;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00384}00384       \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00385}00385     \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00386}00386     sscanf(sline.substr(72,3).c\_str(),\textcolor{stringliteral}{"{}\%3d"{}},\&MT);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00387}00387     \textcolor{comment}{// end of MT record, just continue reading}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00388}00388     \textcolor{keywordflow}{if}(MT == 0) \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00389}00389     \textcolor{keywordflow}{if}(MT != oldMT) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00390}00390       oldMT = MT;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00391}00391       \textcolor{keywordflow}{if}(icount != 2) icount = 1;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00392}00392       \textcolor{keywordflow}{if}(fVerbose > 1) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00393}00393         \textcolor{keywordflow}{if}(IZA == rIZA \&\& MF == rMF \&\& MT == rMT) }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00394}00394           cout << \textcolor{stringliteral}{"{}Found right MT "{}} << MT << endl;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00395}00395       \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00396}00396     \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00397}00397     \textcolor{comment}{// Check the sequence count... may be important}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00398}00398     sscanf(sline.substr(75,5).c\_str(),\textcolor{stringliteral}{"{}\%5d"{}},\&iseq);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00399}00399     \textcolor{keywordflow}{if}(iseq != icount) cout << \textcolor{stringliteral}{"{}Count sequence out of order! Read "{}} << iseq <<}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00400}00400              \textcolor{stringliteral}{"{}, calculated "{}} << icount << \textcolor{stringliteral}{"{} when MAT,MF,MT "{}}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00401}00401         << MAT << \textcolor{stringliteral}{"{},"{}} << MF << \textcolor{stringliteral}{"{},"{}} << MT << endl;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00402}00402     \textcolor{keywordflow}{if}(IZA == rIZA \&\& MF == rMF \&\& MT == rMT) \textcolor{keywordflow}{return} sline;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00403}00403   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00404}00404   \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00405}00405 \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00406}00406 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00407}00407 \textcolor{keywordtype}{void} endfManip::GetTab1(\textcolor{keywordtype}{double} \&c1, \textcolor{keywordtype}{double} \&c2, \textcolor{keywordtype}{int} \&l1, \textcolor{keywordtype}{int} \&l2, \textcolor{keywordtype}{int} \&nr,}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00408}00408          vector<double> \&en, vector<double> \&xs) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00409}00409   \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00410}00410   \textcolor{comment}{// Reads standard TAB1 format}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00411}00411   \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00412}00412   \textcolor{keywordtype}{int} np;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00413}00413   \textcolor{keywordtype}{char} *line = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00414}00414   \textcolor{keywordtype}{size\_t} length;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00415}00415   \textcolor{keywordtype}{string} sline;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00416}00416   getline(\&line, \&length, fFile);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00417}00417   sline = line;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00418}00418   sscanf(sline.substr( 0,11).c\_str(),\textcolor{stringliteral}{"{}\%lf"{}},\&c1);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00419}00419   sscanf(sline.substr(11,11).c\_str(),\textcolor{stringliteral}{"{}\%lf"{}},\&c2);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00420}00420   sscanf(sline.substr(22,11).c\_str(),\textcolor{stringliteral}{"{}\%d"{}},\&l1);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00421}00421   sscanf(sline.substr(33,11).c\_str(),\textcolor{stringliteral}{"{}\%d"{}},\&l2);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00422}00422   sscanf(sline.substr(44,11).c\_str(),\textcolor{stringliteral}{"{}\%d"{}},\&nr);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00423}00423   sscanf(sline.substr(55,11).c\_str(),\textcolor{stringliteral}{"{}\%d"{}},\&np);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00424}00424   \textcolor{keywordflow}{if}(fVerbose > 1) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00425}00425     cout << \textcolor{stringliteral}{"{}TAB1: c1 "{}} << c1 << \textcolor{stringliteral}{"{} c2 "{}} << c2 <<   }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00426}00426       \textcolor{stringliteral}{"{} l1 "{}} << l1 << \textcolor{stringliteral}{"{} l2 "{}} << l2 <<}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00427}00427       \textcolor{stringliteral}{"{} nr "{}} << nr << \textcolor{stringliteral}{"{} np "{}} << np << endl;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00428}00428   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00429}00429   \textcolor{keywordflow}{if}(nr == 1) }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00430}00430     getline(\&line, \&length, fFile);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00431}00431   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00432}00432     cout << \textcolor{stringliteral}{"{}Should have a single interpolation range and we find "{}} << nr << endl;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00433}00433   }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00434}00434   en.resize(np);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00435}00435   xs.resize(np);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00436}00436   \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i<(np-\/1)/3+1; ++i) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00437}00437     getline(\&line,\&length,fFile);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00438}00438     sline = line;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00439}00439     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j=0; j<min(3,np-\/j*3); ++j) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00440}00440       \textcolor{keywordtype}{double} den, dxs;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00441}00441       sscanf(sline.substr(11*2*j,    11).c\_str(),\textcolor{stringliteral}{"{}\%lf"{}},\&en[3*i+j]);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00442}00442       sscanf(sline.substr(11*(2*j+1),11).c\_str(),\textcolor{stringliteral}{"{}\%lf"{}},\&xs[3*i+j]);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00443}00443     \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00444}00444   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00445}00445   \textcolor{keyword}{delete} [] line;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00446}00446 \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00447}00447 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00448}00448 \textcolor{keywordtype}{void} endfManip::GetList(\textcolor{keywordtype}{double} \&c1, \textcolor{keywordtype}{double} \&c2, \textcolor{keywordtype}{int} \&l1, \textcolor{keywordtype}{int} \&l2, \textcolor{keywordtype}{int} \&n2,}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00449}00449          vector<double> \&val) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00450}00450   \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00451}00451   \textcolor{comment}{// Reads standard TAB1 format}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00452}00452   \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00453}00453   \textcolor{keywordtype}{int} np;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00454}00454   \textcolor{keywordtype}{char} *line = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00455}00455   \textcolor{keywordtype}{size\_t} length;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00456}00456   \textcolor{keywordtype}{string} sline;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00457}00457   getline(\&line, \&length, fFile);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00458}00458   sline = line;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00459}00459   sscanf(sline.substr( 0,11).c\_str(),\textcolor{stringliteral}{"{}\%lf"{}},\&c1);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00460}00460   sscanf(sline.substr(11,11).c\_str(),\textcolor{stringliteral}{"{}\%lf"{}},\&c2);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00461}00461   sscanf(sline.substr(22,11).c\_str(),\textcolor{stringliteral}{"{}\%d"{}},\&l1);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00462}00462   sscanf(sline.substr(33,11).c\_str(),\textcolor{stringliteral}{"{}\%d"{}},\&l2);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00463}00463   sscanf(sline.substr(44,11).c\_str(),\textcolor{stringliteral}{"{}\%d"{}},\&np);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00464}00464   sscanf(sline.substr(55,11).c\_str(),\textcolor{stringliteral}{"{}\%d"{}},\&n2);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00465}00465   \textcolor{keywordflow}{if}(fVerbose > 1) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00466}00466     cout << \textcolor{stringliteral}{"{}LIST: c1 "{}} << c1 << \textcolor{stringliteral}{"{} c2 "{}} << c2 <<   }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00467}00467       \textcolor{stringliteral}{"{} l1 "{}} << l1 << \textcolor{stringliteral}{"{} l2 "{}} << l2 <<}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00468}00468       \textcolor{stringliteral}{"{} np "{}} << np << \textcolor{stringliteral}{"{} n2 "{}} << n2 << endl;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00469}00469   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00470}00470 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00471}00471   val.resize(np);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00472}00472   \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i<(np-\/1)/6+1; ++i) \{}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00473}00473     getline(\&line,\&length,fFile);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00474}00474     sline = line;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00475}00475     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j=0; j<min(6,np-\/j*6); ++j) }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00476}00476       sscanf(sline.substr(11*j,11).c\_str(),\textcolor{stringliteral}{"{}\%lf"{}},\&val[6*i+j]);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00477}00477   \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00478}00478   \textcolor{keyword}{delete} [] line;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00479}00479 \}}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00480}00480 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00481}00481 \textcolor{keywordtype}{void} xendfb (\textcolor{keyword}{const} \textcolor{keywordtype}{char}* filename=\textcolor{stringliteral}{"{}n\_9228\_92-\/U-\/235.dic"{}}) \{  }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00482}00482  }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00483}00483   \mbox{\hyperlink{classendf_manip}{endfManip}} *ef = \textcolor{keyword}{new} \mbox{\hyperlink{classendf_manip}{endfManip}}(filename);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00484}00484  }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00485}00485   vector<double> xs, en;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00486}00486 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00487}00487   \textcolor{keywordtype}{string} title = endfManip::getIZAname(922350)+\textcolor{stringliteral}{"{} "{}}+endfManip::getMTname(18)+\textcolor{stringliteral}{"{} x-\/sec"{}};}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00488}00488   cout << \textcolor{stringliteral}{"{}Reading "{}} << title << endl;}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00489}00489   \mbox{\hyperlink{class_x_sec}{XSec}} *s1 = ef-\/>GetXSec(922350, 3, 18);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00490}00490   printf(\textcolor{stringliteral}{"{}QM = \%lf MeV, QI = \%lf MeV\(\backslash\)n"{}},s1-\/>GetQM()*1e-\/6, s1-\/>GetQI()*1e-\/6);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00491}00491 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00492}00492   TGraph *g = \textcolor{keyword}{new} TGraph(s1-\/>Np(),\&(s1-\/>En())[0],\&(s1-\/>Xs())[0]);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00493}00493   g-\/>SetTitle(title.c\_str());}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00494}00494   TCanvas *c1 = \textcolor{keyword}{new} TCanvas();}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00495}00495   c1-\/>SetLogx();}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00496}00496   c1-\/>SetLogy();}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00497}00497   g-\/>Draw();}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00498}00498 }
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00499}00499   ef-\/>SetVerbose(2);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00500}00500   \mbox{\hyperlink{class_f_fyield}{FFyield}} *yield = ef-\/>GetFFyield(922350);}
+\DoxyCodeLine{\Hypertarget{xendfb_8_c_source_l00501}00501  \}}
+
+\end{DoxyCode}

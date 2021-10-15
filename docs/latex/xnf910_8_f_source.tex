@@ -1,0 +1,178 @@
+\hypertarget{xnf910_8_f_source}{}\doxysection{xnf910.\+F}
+\label{xnf910_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/isomers/xnf910.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/isomers/xnf910.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  15.21.56  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnf910}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00006}00006 \textcolor{comment}{*     Process file 9 and 10 information on isomer production           *}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00008}00008 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00009}00009 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00010}00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00011}00011 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00012}00012 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcsbnl.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00013}00013 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcsend.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00014}00014 \textcolor{preprocessor}{}      \textcolor{keywordtype}{CHARACTER*8} CHREAC,XNRENA}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00015}00015       \textcolor{keywordtype}{CHARACTER*11} XNELNA,CHENAM}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00016}00016       \textcolor{keywordtype}{LOGICAL} LMATMT, LMATQV}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00017}00017 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00018}00018 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00019}00019 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/> A file 9/10 header has been read}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00021}00021 \textcolor{comment}{* -\/-\/-\/> This is to print the FILE 9/10 information only if we find}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00022}00022 \textcolor{comment}{*      a valid reaction}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00023}00023       lfilep=.false.}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> Load mass in neutron units}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00025}00025       awr=c2}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Load level number of target}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00027}00027       lis=l1}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Load isomer number of target}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00029}00029       liso=l2}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Load number of subsections}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00031}00031       ns=n1}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00032}00032       chreac=xnrena(mth)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00033}00033       \textcolor{keywordflow}{DO} 50 js=1,ns}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> Loop in all subsections}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00035}00035          \textcolor{keyword}{CALL }xntab1}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/> Q value with all products in ground state}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00037}00037          qm=c1}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Effective Q value}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00039}00039          qi=c2}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> Level number of product}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00041}00041          lfs=l2}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00042}00042 \textcolor{comment}{* -\/-\/-\/> Level energy according to ENDF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00043}00043          qlendf=qm-\/qi}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00044}00044          \textcolor{keywordflow}{IF}(mfh.EQ.10) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> File 10 contains partial cross sections, retrieve the total}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00046}00046 \textcolor{comment}{*      cross section}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> Initialise minimum ratio}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00048}00048             rmin=1e10}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Initialise maximum ratio}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00050}00050             rmax=0}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/> Initialise max difference between ratio and 1}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00052}00052             emax=0}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/> Read cross section}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00054}00054             \textcolor{keyword}{CALL }xntabl(izamat,3000+mth,ipoint)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/> Partial cross section is there but not the total one: skip}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00056}00056             \textcolor{keywordflow}{IF}(ipoint.LE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00057}00057                \textcolor{keyword}{WRITE}(6,10000)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00058}00058                \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00059}00059 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00060}00060             \textcolor{keywordflow}{DO} 10 jp=1,np}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00061}00061 \textcolor{comment}{* -\/-\/-\/> Transform partial cross sections in yield}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00062}00062                e=xnrval(2*jp-\/1)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00063}00063                \textcolor{keyword}{CALL }xngetx(izamat,3000+mth,e,sec,hinfo,ninfo)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00064}00064                sec1=xnrval(2*jp)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00065}00065                \textcolor{keywordflow}{IF}(sec.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00066}00066                   ratio=sec1/sec}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00067}00067                   rmin=min(rmin,ratio)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00068}00068                   rmax=max(rmax,ratio)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00069}00069                   emax=max(emax,abs(ratio-\/1))}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00070}00070 \textcolor{comment}{* -\/-\/-\/> Store 'reasonable' ratio!}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00071}00071                   xnrval(2*jp)=min(max(ratio,0.0),1.0)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00072}00072                \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00073}00073 \textcolor{comment}{* -\/-\/-\/> If total section = 0 disregard partial one}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00074}00074                   xnrval(2*jp)=0}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00075}00075 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00076}00076    10       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00077}00077             \textcolor{keywordflow}{IF}(rmin.LT.0.OR.rmax.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00078}00078 \textcolor{comment}{* -\/-\/-\/> Invalid ratios found, print error}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00079}00079                \textcolor{keyword}{WRITE}(6,10200) rmin,rmax}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00080}00080 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00081}00081             \textcolor{keywordflow}{IF}(emax.LE.0.02) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00082}00082 \textcolor{comment}{* -\/-\/-\/> If partial cross section does not differ more than 2\% from}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00083}00083 \textcolor{comment}{*      total one, we skip it!}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00084}00084                print *, \textcolor{stringliteral}{'Useless 10 section!!!!'}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00085}00085                \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00086}00086 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00087}00087          \textcolor{keywordflow}{ELSEIF}(mfh.EQ.9) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00088}00088 \textcolor{comment}{* -\/-\/-\/> File 9 data are yield, we just do some checks}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00089}00089 \textcolor{comment}{* -\/-\/-\/> Skip if always 1, unless (always) producing isomer!}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00090}00090             \textcolor{keywordflow}{IF}(qlendf.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00091}00091                \textcolor{keywordflow}{DO} 20 jp=1,np}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00092}00092                   \textcolor{keywordflow}{IF}(xnrval(2*jp).NE.1.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00093}00093                      \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00094}00094 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00095}00095    20          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00096}00096 \textcolor{comment}{* -\/-\/-\/> Yield of ground state = 1, big deal! Skip it}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00097}00097                \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00098}00098 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00099}00099 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00100}00100    30    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00101}00101 \textcolor{comment}{* -\/-\/-\/> Now match with the information in file 8}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00102}00102 \textcolor{comment}{* -\/-\/-\/> Flag true if found reaction in file 8}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00103}00103          lmatmt=.false.}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00104}00104 \textcolor{comment}{* -\/-\/-\/> Flag true if matched level energy}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00105}00105          lmatqv=.false.}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00106}00106          \textcolor{keywordflow}{DO} 40 j=1,ntendf}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00107}00107 \textcolor{comment}{* -\/-\/-\/> Loop on all file 8 sections found previously}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00108}00108             \textcolor{keywordflow}{IF}(lmfl(j).EQ.mfh) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00109}00109                \textcolor{keywordflow}{IF}(mthl(j).EQ.mth) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00110}00110 \textcolor{comment}{* -\/-\/-\/> Found file 8 section pointing to the current one}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00111}00111                   lmatmt=.true.}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00112}00112 \textcolor{comment}{* -\/-\/-\/> Now match level energy, accept a relative error of 1e-\/5}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00113}00113                   elferr=2*abs(elfsl(j)-\/qlendf)/}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00114}00114      +                   max(elfsl(j)+qlendf,1e-\/6)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00115}00115                   \textcolor{keywordflow}{IF}(elferr.LE.1e-\/5) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00116}00116 \textcolor{comment}{* -\/-\/-\/> Good match of level energy, save pointer to current}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00117}00117 \textcolor{comment}{*      file 8 section}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00118}00118                      iposec=j}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00119}00119                      lmatqv=.true.}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00120}00120                      \textcolor{keywordflow}{IF}(.NOT.lmatep) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00121}00121 \textcolor{comment}{* -\/-\/-\/> Now we can announce we are processing this material, if not}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00122}00122 \textcolor{comment}{*      already done}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00123}00123                         chenam=xnelna(izamat)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00124}00124                         \textcolor{keyword}{WRITE}(6,10300) chenam,math}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00125}00125                         lmatep=.true.}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00126}00126 \textcolor{keywordflow}{                     ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00127}00127                      \textcolor{keywordflow}{IF}(.NOT.lfilep) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00128}00128 \textcolor{comment}{* -\/-\/-\/> Now we can announce we are processing this MF file, if not}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00129}00129 \textcolor{comment}{*      already done}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00130}00130                         \textcolor{keywordflow}{IF}(lisfa.NE.lis.OR.lisofa.NE.liso) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00131}00131 \textcolor{comment}{* -\/-\/-\/> Make sure that the level number and isomer number match for}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00132}00132 \textcolor{comment}{*      the target}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00133}00133                            \textcolor{keyword}{WRITE}(6,10400) lisfa,lis,lisofa,liso}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00134}00134 \textcolor{keywordflow}{                        ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00135}00135                         \textcolor{keyword}{WRITE}(6,10500) mfh,chreac,ns}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00136}00136                         lfilep=.true.}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00137}00137 \textcolor{keywordflow}{                     ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00138}00138 \textcolor{comment}{* -\/-\/-\/> Print the information we found}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00139}00139                      chenam=xnelna(izapl(j))}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00140}00140                      \textcolor{keyword}{WRITE}(6,10600) js,chenam,lfsl(j),elfsl(j), qmdifl(}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00141}00141      +               j),100*qmdifl(j)/ max(elfsl(j),1e-\/5)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00142}00142 \textcolor{comment}{* -\/-\/-\/> Information is good, now add it}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00143}00143                      \textcolor{keyword}{CALL }xnadac}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00144}00144                      \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00145}00145 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00146}00146 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00147}00147 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00148}00148    40    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00149}00149          \textcolor{keywordflow}{IF}(lmatmt.AND..NOT.lmatqv) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00150}00150 \textcolor{comment}{* -\/-\/-\/> We found a good reaction but could not match product isomer}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00151}00151 \textcolor{comment}{*      energy level, say it!}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00152}00152             \textcolor{keyword}{WRITE}(6,10100) izamat,izapl(j)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00153}00153 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00154}00154 \textcolor{comment}{* -\/-\/-\/> Could not find any section of file 8 pointing to this}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00155}00155 \textcolor{comment}{*      section of file 9/10}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00156}00156          \textcolor{keyword}{WRITE}(6,10700)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00157}00157    50 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00158}00158 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00159}00159 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' ************* Warning, total cross section not present'},}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00160}00160      +\textcolor{stringliteral}{' skip!'})}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00161}00161 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' No match for IZAMAT '},i6,\textcolor{stringliteral}{' IZAPL '},i6)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00162}00162 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' ************* Warning, partial cross section '},}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00163}00163      +\textcolor{stringliteral}{'larger than total : RMIN, RMAX= '},g14.7,1x,g14.7)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00164}00164 10300 \textcolor{keyword}{FORMAT}(/1x,80(\textcolor{stringliteral}{'='}),/\textcolor{stringliteral}{' Isomers production for '},a,\textcolor{stringliteral}{' mate='},i4)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00165}00165 10400 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' ************* Warning, target isomer mismatch '},}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00166}00166      +/15x,\textcolor{stringliteral}{'LIS header/MF9-\/10='},i1,\textcolor{stringliteral}{'/'},i1,\textcolor{stringliteral}{' LISO header/MF9-\/10='},}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00167}00167      +i1,\textcolor{stringliteral}{'/'},i1)}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00168}00168 10500 \textcolor{keyword}{FORMAT}(/\textcolor{stringliteral}{' File '},i2,\textcolor{stringliteral}{': reaction '},a8,1x,i2,\textcolor{stringliteral}{' produced isomer(s)'})}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00169}00169 10600   \textcolor{keyword}{FORMAT}(1x,i2,\textcolor{stringliteral}{') '},a11,\textcolor{stringliteral}{' level '},i2,\textcolor{stringliteral}{'/'},g10.3,\textcolor{stringliteral}{'eV'},}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00170}00170      + \textcolor{stringliteral}{' (ENDF-\/BNL='},g9.2,\textcolor{stringliteral}{'eV ,'},f6.2,\textcolor{stringliteral}{'\%)'})}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00171}00171 10700 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Section 9 does not correspond to anything!!!!'})}
+\DoxyCodeLine{\Hypertarget{xnf910_8_f_source_l00172}00172       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

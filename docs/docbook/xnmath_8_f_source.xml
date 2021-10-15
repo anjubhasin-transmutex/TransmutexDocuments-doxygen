@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnmath_8_f_source" xml:lang="en-US">
+<title>xnmath.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xnmath.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnmath_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;05/06/96&#32;&#32;11.28.19&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">INTEGER&#32;</emphasis><emphasis role="keyword">FUNCTION&#32;</emphasis>xnmath(IZ,IA,LIS0)
+<anchor xml:id="_xnmath_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Function&#32;to&#32;convert&#32;a&#32;charge&#32;number,&#32;a&#32;mass&#32;number&#32;and&#32;a&#32;level&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;number&#32;into&#32;an&#32;endf-6&#32;material&#32;code&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IZ&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;atomic&#32;number&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IA&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;mass&#32;number&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;LIS0&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;isomer&#32;number&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;XNMATH&#32;&#32;&#32;&#32;(output&#32;integer&#32;FUNCTION&#32;value)&#32;ENDF-6&#32;material&#32;code&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00014"/>00014 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;parameter(nels=103)
+<anchor xml:id="_xnmath_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">INTEGER</emphasis>&#32;IMEAN(NELS)
+<anchor xml:id="_xnmath_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">INTEGER</emphasis>&#32;ISP(4)
+<anchor xml:id="_xnmath_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;parameter(ncomps=17)
+<anchor xml:id="_xnmath_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">INTEGER</emphasis>&#32;ZACOMP(17)
+<anchor xml:id="_xnmath_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;imean/1,3,6,9,10,12,14,16,19,20,23,24,27,28,31,32,35,36,39,
+<anchor xml:id="_xnmath_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;40,45,46,50,50,55,54,59,58,63,64,69,70,75,74,79,78,85,84,
+<anchor xml:id="_xnmath_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;89,90,93,92,99,96,103,102,107,106,113,112,121,120,127,
+<anchor xml:id="_xnmath_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;124,133,130,138,136,141,142,139,144,151,152,159,156,165,
+<anchor xml:id="_xnmath_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;162,169,168,175,174,180,180,185,184,191,190,197,196,
+<anchor xml:id="_xnmath_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;203,204,209,206,203,211,212,223,225,227,229,234,230,235,
+<anchor xml:id="_xnmath_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;235,240,240,240,241,240,245,248,252/
+<anchor xml:id="_xnmath_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;isp/9920,9945,9965,9980/
+<anchor xml:id="_xnmath_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;zacomp/101,102,103,107,111,112,113,126,127,128,131,133,
+<anchor xml:id="_xnmath_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;137,140,158,175,176/
+<anchor xml:id="_xnmath_8_f_source_1l00030"/>00030 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00032"/>00032 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00033"/>00033 <emphasis role="comment">*&#32;---&gt;&#32;Prepare&#32;for&#32;error&#32;exit</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;xnmath&#32;=&#32;0
+<anchor xml:id="_xnmath_8_f_source_1l00035"/>00035 <emphasis role="comment">*&#32;---&gt;&#32;Check&#32;for&#32;valid&#32;mass&#32;atomic&#32;and&#32;mass&#32;numbers</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iz.LT.0.OR.ia.LT.0)&#32;&#32;&#32;<emphasis role="keywordflow">GO&#32;TO</emphasis>&#32;30
+<anchor xml:id="_xnmath_8_f_source_1l00037"/>00037 <emphasis role="comment">*&#32;---&gt;&#32;Handle&#32;compounds&#32;elsewhere</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iz.EQ.0)&#32;&#32;<emphasis role="keywordflow">GO&#32;TO</emphasis>&#32;10
+<anchor xml:id="_xnmath_8_f_source_1l00039"/>00039 <emphasis role="comment">*&#32;---&gt;&#32;Only&#32;ground&#32;state&#32;and&#32;two&#32;levels&#32;allowed</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(lis0.LT.0.OR.lis0.GT.2)&#32;&#32;&#32;<emphasis role="keywordflow">GO&#32;TO</emphasis>&#32;30
+<anchor xml:id="_xnmath_8_f_source_1l00041"/>00041 <emphasis role="comment">*&#32;---&gt;&#32;Initialize&#32;element&#32;related&#32;portion&#32;of&#32;the&#32;material&#32;number</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iz.LE.99)&#32;&#32;&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mat&#32;=&#32;100*iz
+<anchor xml:id="_xnmath_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mat&#32;=&#32;isp(iz-99)
+<anchor xml:id="_xnmath_8_f_source_1l00046"/>00046 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00047"/>00047 <emphasis role="comment">*&#32;---&gt;&#32;Interpret&#32;mass&#32;number</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;iass&#32;=&#32;0
+<anchor xml:id="_xnmath_8_f_source_1l00049"/>00049 <emphasis role="comment">*&#32;---&gt;&#32;Check&#32;for&#32;natural&#32;element</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ia.NE.0)&#32;&#32;&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00051"/>00051 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;mass&#32;dependent&#32;part&#32;of&#32;material&#32;number</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;icent&#32;=&#32;imean(iz)
+<anchor xml:id="_xnmath_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iz.LT.99)&#32;&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iass&#32;=&#32;3*(ia-icent)&#32;+&#32;25&#32;+&#32;lis0
+<anchor xml:id="_xnmath_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iz.EQ.48.AND.ia.GE.127)&#32;&#32;&#32;iass&#32;=&#32;iass&#32;-&#32;(ia-126)
+<anchor xml:id="_xnmath_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iass&#32;=&#32;ia&#32;-&#32;icent&#32;+&#32;1
+<anchor xml:id="_xnmath_8_f_source_1l00058"/>00058 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00059"/>00059 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00060"/>00060 <emphasis role="comment">*&#32;---&gt;&#32;We&#32;ended&#32;up&#32;with&#32;an&#32;invalid&#32;mass&#32;related&#32;code</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(iass.LT.0.OR.iass.GT.99)&#32;&#32;&#32;<emphasis role="keywordflow">GO&#32;TO</emphasis>&#32;30
+<anchor xml:id="_xnmath_8_f_source_1l00062"/>00062 <emphasis role="comment">*&#32;---&gt;&#32;Complete&#32;mass&#32;number</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;xnmath&#32;=&#32;mat&#32;+&#32;iass
+<anchor xml:id="_xnmath_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GO&#32;TO</emphasis>&#32;30
+<anchor xml:id="_xnmath_8_f_source_1l00065"/>00065 <emphasis role="comment">*&#32;---&gt;&#32;Compounds</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00066"/>00066 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;n=1,ncomps
+<anchor xml:id="_xnmath_8_f_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ia.EQ.zacomp(n))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xnmath&#32;=&#32;zacomp(n)&#32;-&#32;100
+<anchor xml:id="_xnmath_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GO&#32;TO</emphasis>&#32;30
+<anchor xml:id="_xnmath_8_f_source_1l00070"/>00070 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00071"/>00071 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00072"/>00072 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmath_8_f_source_1l00073"/>00073 &#32;&#32;&#32;30&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

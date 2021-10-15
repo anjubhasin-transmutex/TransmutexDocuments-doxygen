@@ -1,0 +1,100 @@
+\hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source}{}\doxysection{TMXMCCubic\+Volume.\+hh}
+\label{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/1/include/TMXMCCubicVolume.hh@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/1/include/TMXMCCubicVolume.hh}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00002}00002 \textcolor{comment}{// \(\backslash\)brief Implementation of the TMXMCCubicVolume class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00006}00006 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00007}00007 \textcolor{comment}{// TMXMCCubicVolume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00009}00009 \textcolor{comment}{// Thomas Guilbaud, Transmutex, 22/04/2021}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{// Class to compute the cubic volumes of LV and materials using Monte Carlo method}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00014}00014 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00015}00015 \textcolor{comment}{/********************************INCLUDES******************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00017}00017 \textcolor{comment}{// TMX Classes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00018}00018 \textcolor{preprocessor}{\#include "{}TMXInputParameters.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00020}00020 \textcolor{comment}{// Geant4 Classes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00021}00021 \textcolor{preprocessor}{\#include "{}G4SystemOfUnits.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00022}00022 \textcolor{preprocessor}{\#include "{}G4ProcessManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00023}00023 \textcolor{preprocessor}{\#include "{}G4FPYSamplingOps.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00024}00024 \textcolor{preprocessor}{\#include "{}G4MTRunManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00025}00025 \textcolor{preprocessor}{\#include "{}G4LogicalVolumeStore.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00026}00026 \textcolor{preprocessor}{\#include "{}G4PhysicalVolumeStore.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00028}00028 \textcolor{comment}{// C++ libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00029}00029 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00030}00030 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00031}00031 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00032}00032 \textcolor{preprocessor}{\#include <iomanip>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00033}00033 \textcolor{preprocessor}{\#include "{}unordered\_map"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00035}00035 \textcolor{comment}{/**********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00037}00037 \textcolor{preprocessor}{\#ifndef TMXMCCubicVolume\_H}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00038}00038 \textcolor{preprocessor}{\#define TMXMCCubicVolume\_H 1}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00040}00040 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00042}\mbox{\hyperlink{class_t_m_x_m_c_cubic_volume}{00042}} \textcolor{keyword}{class }\mbox{\hyperlink{class_t_m_x_m_c_cubic_volume}{TMXMCCubicVolume}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00043}00043 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00044}00044     \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00045}00045         \mbox{\hyperlink{class_t_m_x_m_c_cubic_volume}{TMXMCCubicVolume}}(\mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* p);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00046}00046         \mbox{\hyperlink{class_t_m_x_m_c_cubic_volume}{\string~TMXMCCubicVolume}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00048}00048         \textcolor{keywordtype}{void} setErrorLimit(\textcolor{keyword}{const} \textcolor{keywordtype}{double} errorLimit);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00049}00049         \textcolor{keywordtype}{void} setNavigator(G4Navigator *navigator);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00050}00050         \textcolor{keywordtype}{void} setNumberOfPoints(\textcolor{keyword}{const} \textcolor{keywordtype}{long} nbPoints);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00051}00051         \textcolor{keywordtype}{void} setSlicedLogicalVolume(std::string logicalVolumeName);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00052}00052         \textcolor{keywordtype}{void} setSliceBoundariesZ(G4double minZ, G4double maxZ, \textcolor{keywordtype}{int} nbinsZ);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00054}00054         \textcolor{keywordtype}{void} buildMapLogicalVolume();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00055}00055         \textcolor{keywordtype}{void} buildMapMaterial();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00057}00057         \textcolor{keywordtype}{double} getError(\textcolor{keyword}{const} \textcolor{keywordtype}{long} nbPointsInsideVolume) \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00058}00058         \textcolor{keywordtype}{double} getMaximumError() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00059}00059         \textcolor{keywordtype}{double} getMaximumErrorLV() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00060}00060         \textcolor{keywordtype}{double} getMaximumErrorMat() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00061}00061         \textcolor{keywordtype}{double} getMaximumErrorSlicedLV() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00063}00063         \textcolor{keywordtype}{void} run();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00064}00064         \textcolor{keywordtype}{void} runMCVolumeEstimator();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00065}00065         \textcolor{keywordtype}{void} runSlicedLogicalVolumeMC();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00066}00066         \textcolor{keywordtype}{void} calculationMC(\textcolor{keyword}{const} \textcolor{keywordtype}{long} nbPoints, \textcolor{keyword}{const} G4double halfX, \textcolor{keyword}{const} G4double halfY, \textcolor{keyword}{const} G4double halfZ);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00067}00067         \textcolor{keywordtype}{void} calculationMCSlicedLV(\textcolor{keyword}{const} \textcolor{keywordtype}{long} nbPoints, \textcolor{keyword}{const} G4double halfX, \textcolor{keyword}{const} G4double halfY, G4String LVname);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00068}00068         \textcolor{keywordtype}{void} printLogicalVolumeMap() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00069}00069         \textcolor{keywordtype}{void} printMaterialMap() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00070}00070         \textcolor{keywordtype}{void} printSlicedVolume() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00072}00072     \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00073}00073         G4ThreeVector getRandomPosition(\textcolor{keyword}{const} G4double halfX, \textcolor{keyword}{const} G4double halfY, \textcolor{keyword}{const} G4double halfZ) \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00074}00074         G4ThreeVector getRandomPosition(\textcolor{keyword}{const} G4double halfX, \textcolor{keyword}{const} G4double halfY) \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00075}00075         \textcolor{keywordtype}{bool} isLVorMatAboveErrorLimit() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00076}00076         \textcolor{keywordtype}{bool} isSlicedLVAboveErrorLimit() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00078}00078     \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00079}00079         \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* m\_p;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00080}00080         \textcolor{keywordtype}{double} fErrorLimit;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00081}00081         G4double fCubicVolume\_world;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00082}00082         G4Navigator *fNavigator;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00083}00083         \textcolor{keywordtype}{long} fNbPoints;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00084}00084         \textcolor{keywordtype}{long} fNbPointsTotal;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00085}00085         \textcolor{keywordtype}{bool} fIsSliceMode;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00086}00086 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00087}00087         std::unordered\_map<std::string, long> fmap\_LV\_points;       \textcolor{comment}{// \# of points in every logical volumes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00088}00088         std::unordered\_map<std::string, long> fmap\_Material\_points; \textcolor{comment}{// \# of points in every material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00089}00089 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00090}00090         G4String fLogicalVolumeName; \textcolor{comment}{// Logical Volume to be sliced}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00091}00091         G4double fMinZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00092}00092         G4double fMaxZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00093}00093         \textcolor{keywordtype}{int} fNbinsZ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00094}00094         std::vector<long> fSlicedVolumes; \textcolor{comment}{// from minZ to maxZ}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00095}00095 \};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00096}00096 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2include_2_t_m_x_m_c_cubic_volume_8hh_source_l00097}00097 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// TMXMCCubicVolume\_H}}
+
+\end{DoxyCode}

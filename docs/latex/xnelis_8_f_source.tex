@@ -1,0 +1,61 @@
+\hypertarget{xnelis_8_f_source}{}\doxysection{xnelis.\+F}
+\label{xnelis_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnelis.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnelis.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  12.15.41  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   18/05/95}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnelis(IZALIS,NLIS)}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00006}00006 \textcolor{comment}{*     Returns the list of all isomers in the currently opened Cross    *}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00007}00007 \textcolor{comment}{*     Section database                                                 *}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00009}00009 \textcolor{comment}{*     IZALIS    (output) array of isomer codes                         *}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00010}00010 \textcolor{comment}{*     NLIS      (input/output) on input: dimension of the IZALIS       *}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00011}00011 \textcolor{comment}{*               array in the calling routine, on output: number of     *}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00012}00012 \textcolor{comment}{*               isomer codes returned                                  *}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00013}00013 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00014}00014 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00015}00015 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00016}00016 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00017}00017 \textcolor{preprocessor}{}      dimension izalis(nlis)}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00018}00018       \textcolor{keywordtype}{LOGICAL} LSHORT}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00019}00019 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00021}00021 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00022}00022 \textcolor{comment}{* -\/-\/-\/> Load database index in memory}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00023}00023       \textcolor{keyword}{CALL }xnopen}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00024}00024       neleme=0}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00025}00025       lshort=.false.}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00026}00026       izaold=-\/1}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/> Loop on all index entries}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00028}00028       \textcolor{keywordflow}{DO} 10 jin=1,nindex/ninden}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00029}00029          izacur=lindex(1,jin)}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Is this a new entry?}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00031}00031          \textcolor{keywordflow}{IF}(izaold.NE.izacur) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> Yes, add it to the list}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00033}00033             neleme=neleme+1}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00034}00034             \textcolor{keywordflow}{IF}(neleme.GT.nlis) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> List too short, stop adding}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00036}00036                lshort=.true.}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00037}00037             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Store isomer code}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00039}00039                izalis(neleme)=izacur}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00040}00040 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Save current isomer code for next iteration}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00042}00042             izaold=izacur}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00043}00043 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00044}00044    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> If input array is too short print message}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00046}00046       \textcolor{keywordflow}{IF}(lshort) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00047}00047          \textcolor{keyword}{WRITE}(6,10000) nlis, neleme}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00048}00048       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Return list length}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00050}00050          nlis=neleme}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00051}00051 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00052}00052 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00053}00053 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNELIS: Only '},i5,\textcolor{stringliteral}{' elements returned, '},}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00054}00054      +                              i5,\textcolor{stringliteral}{' available in data base'})}
+\DoxyCodeLine{\Hypertarget{xnelis_8_f_source_l00055}00055       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

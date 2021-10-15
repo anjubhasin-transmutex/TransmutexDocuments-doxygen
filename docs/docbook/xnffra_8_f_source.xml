@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnffra_8_f_source" xml:lang="en-US">
+<title>xnffra.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnevol/xnffra.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnffra_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.03/07&#32;25/09/96&#32;&#32;19.14.49&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnffra
+<anchor xml:id="_xnffra_8_f_source_1l00004"/>00004 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Read&#32;an&#32;endf6&#32;file</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00006"/>00006 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00007"/>00007 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00008"/>00008 <emphasis role="preprocessor">#include&#32;&quot;xctab1.inc&quot;</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00009"/>00009 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcfyid.inc&quot;</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00010"/>00010 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcdbnl.inc&quot;</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00011"/>00011 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*124</emphasis>&#32;CHFINP,&#32;CHFOUT,&#32;CHLIST
+<anchor xml:id="_xnffra_8_f_source_1l00012"/>00012 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;mathol&#32;/&#32;-99&#32;/
+<anchor xml:id="_xnffra_8_f_source_1l00013"/>00013 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00014"/>00014 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;chfinp=chroot//<emphasis role="stringliteral">&apos;e6r1nds3.fyi&apos;</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;lfinp=index(chfinp,<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)-1
+<anchor xml:id="_xnffra_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(11,file=chfinp(:lfinp),action=<emphasis role="stringliteral">&apos;READ&apos;</emphasis>,status=<emphasis role="stringliteral">&apos;OLD&apos;</emphasis>)
+<anchor xml:id="_xnffra_8_f_source_1l00018"/>00018 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00019"/>00019 <emphasis role="comment">*&#32;---</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;numfis=0
+<anchor xml:id="_xnffra_8_f_source_1l00021"/>00021 &#32;&#32;&#32;10&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnnews(c1,&#32;c2,&#32;l1,&#32;l2,&#32;n1,&#32;n2,&#32;math,&#32;mfh,&#32;mth)
+<anchor xml:id="_xnffra_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(math.LT.0)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;90
+<anchor xml:id="_xnffra_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(math.NE.mathol)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;Now&#32;processing&#32;Z=&apos;</emphasis><emphasis role="stringliteral">&apos;,I3,&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;A=&apos;</emphasis><emphasis role="stringliteral">&apos;,I3)&apos;</emphasis>)&#32;nint(c1/
+<anchor xml:id="_xnffra_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;1000.)&#32;,nint(mod(c1,1000.))
+<anchor xml:id="_xnffra_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mathol=math
+<anchor xml:id="_xnffra_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izap&#32;=&#32;nint(c1)
+<anchor xml:id="_xnffra_8_f_source_1l00028"/>00028 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00029"/>00029 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(mfh.EQ.1.AND.mth.EQ.451)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00031"/>00031 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00032"/>00032 <emphasis role="comment">*&#32;---&#32;Get&#32;the&#32;isomeric&#32;state</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(11,10100)&#32;elis,sta,lis,liso,idumm,nfor
+<anchor xml:id="_xnffra_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izap=10*izap+liso
+<anchor xml:id="_xnffra_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSEIF</emphasis>(mfh.EQ.8.AND.mth.EQ.454)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00036"/>00036 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00037"/>00037 <emphasis role="comment">*&#32;---&#32;Decode&#32;LIST&#32;structures</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;le1=l1
+<anchor xml:id="_xnffra_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(le1.GT.maxenf)&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MAXENF&apos;</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00040"/>00040 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WRITE(6,&apos;(&apos;&apos;&#32;Apparently&#32;found&#32;&apos;&apos;,I4,&apos;&apos;&#32;sections&#32;&apos;&apos;)&apos;)&#32;LE1</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;80&#32;jene=1,le1
+<anchor xml:id="_xnffra_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnlist
+<anchor xml:id="_xnffra_8_f_source_1l00043"/>00043 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WRITE(6,&apos;(&apos;&apos;&#32;Section&#32;&apos;&apos;,I4,&apos;&apos;&#32;with&#32;energy&#32;&apos;&apos;,E11.4,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&apos;</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00044"/>00044 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;+&#32;&#32;//&apos;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&apos;&apos;&#32;Sec&#32;=&#32;&apos;&apos;,I5,&apos;&apos;&#32;Points&#32;=&#32;&apos;&apos;,I5)&apos;)JENE,C1,N1,NP</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;totlos=0.
+<anchor xml:id="_xnffra_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;70&#32;je=1,n1-3,4
+<anchor xml:id="_xnffra_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;zafp=xnrval(je&#32;)
+<anchor xml:id="_xnffra_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fps&#32;=xnrval(je+1)
+<anchor xml:id="_xnffra_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yi&#32;=xnrval(je+2)
+<anchor xml:id="_xnffra_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dyi&#32;=xnrval(je+3)
+<anchor xml:id="_xnffra_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(yi.LE.0.)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;70
+<anchor xml:id="_xnffra_8_f_source_1l00052"/>00052 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00053"/>00053 <emphasis role="comment">*&#32;---&#32;Do&#32;not&#32;consider&#32;isomers</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00054"/>00054 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IZAF&#32;=&#32;NINT(ZAFP*10+FPS)</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izaf&#32;=&#32;nint(zafp*10)
+<anchor xml:id="_xnffra_8_f_source_1l00056"/>00056 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00057"/>00057 <emphasis role="comment">*&#32;---&#32;Check&#32;if&#32;in&#32;BNL&#32;table</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;jel=1,nelbnl
+<anchor xml:id="_xnffra_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izaf.EQ.kiz(jel)*10000+kia(jel)*10)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;30
+<anchor xml:id="_xnffra_8_f_source_1l00061"/>00061 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00062"/>00062 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00063"/>00063 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00064"/>00064 <emphasis role="comment">*&#32;---&#32;Not&#32;found&#32;in&#32;BNL&#32;table</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00065"/>00065 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WRITE(6,&apos;(&apos;&apos;&#32;Fission&#32;Fragment&#32;(&apos;&apos;,I3,&apos;&apos;,&apos;&apos;,I3,</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00066"/>00066 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&apos;&apos;)&#32;not&#32;in&#32;BNL&#32;table,&#32;&apos;&apos;,F5.3,&apos;&apos;&#32;yield&#32;lost&apos;&apos;)&apos;)</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00067"/>00067 <emphasis role="comment">C&#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IZAF/10000,MOD(IZAF/10,1000),YI*100</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;totlos=totlos+100*yi
+<anchor xml:id="_xnffra_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;70
+<anchor xml:id="_xnffra_8_f_source_1l00070"/>00070 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00071"/>00071 <emphasis role="comment">*&#32;---&#32;See&#32;if&#32;this&#32;entry&#32;already&#32;there</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00072"/>00072 &#32;&#32;&#32;30&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;40&#32;jfis=1,numfis
+<anchor xml:id="_xnffra_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izapar(jfis).EQ.izap)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izafra(jfis).EQ.izaf)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;kfis=jfis
+<anchor xml:id="_xnffra_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;60
+<anchor xml:id="_xnffra_8_f_source_1l00077"/>00077 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00078"/>00078 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00079"/>00079 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00080"/>00080 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00081"/>00081 <emphasis role="comment">*&#32;---&#32;Not&#32;in&#32;list,&#32;add&#32;new</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(numfis.GE.maxfis)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;No&#32;more&#32;space&#32;for&#32;fissions!&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)
+<anchor xml:id="_xnffra_8_f_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;Increas&#32;MAXFIS&apos;</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00085"/>00085 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;numfis=numfis+1
+<anchor xml:id="_xnffra_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izapar(numfis)&#32;=&#32;izap
+<anchor xml:id="_xnffra_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izafra(numfis)&#32;=&#32;izaf
+<anchor xml:id="_xnffra_8_f_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;50&#32;jll=1,maxenf
+<anchor xml:id="_xnffra_8_f_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xbrfra(numfis,jll)&#32;=&#32;0.
+<anchor xml:id="_xnffra_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;enefra(numfis,jll)&#32;=&#32;0.
+<anchor xml:id="_xnffra_8_f_source_1l00092"/>00092 &#32;&#32;&#32;50&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;kfis=numfis
+<anchor xml:id="_xnffra_8_f_source_1l00094"/>00094 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00095"/>00095 &#32;&#32;&#32;60&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xbrfra(kfis,jene)&#32;=&#32;xbrfra(kfis,jene)+yi
+<anchor xml:id="_xnffra_8_f_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;enefra(kfis,jene)&#32;=&#32;c1
+<anchor xml:id="_xnffra_8_f_source_1l00098"/>00098 &#32;&#32;&#32;70&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(totlos.GT.0.)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)&#32;izap/10000,mod(izap/10,1000),c1,totlos
+<anchor xml:id="_xnffra_8_f_source_1l00101"/>00101 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Probability&#32;loss&#32;for&#32;(&apos;</emphasis>,i3,<emphasis role="stringliteral">&apos;,&apos;</emphasis>,i3,<emphasis role="stringliteral">&apos;)@&apos;</emphasis>,e10.3,<emphasis role="stringliteral">&apos;eV&#32;=&#32;&apos;</emphasis>,
+<anchor xml:id="_xnffra_8_f_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;f5.2,<emphasis role="stringliteral">&apos;%&apos;</emphasis>)
+<anchor xml:id="_xnffra_8_f_source_1l00103"/>00103 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00104"/>00104 &#32;&#32;&#32;80&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00105"/>00105 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xnffra_8_f_source_1l00107"/>00107 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00108"/>00108 &#32;&#32;&#32;90&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnffra_8_f_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CLOSE</emphasis>(91)
+<anchor xml:id="_xnffra_8_f_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;Total&#32;records&#32;=&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;,I10)&apos;</emphasis>)&#32;numfis
+<anchor xml:id="_xnffra_8_f_source_1l00111"/>00111 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(2e11.4,4i11,i4,i2,i3)
+<anchor xml:id="_xnffra_8_f_source_1l00112"/>00112 10200&#32;<emphasis role="keyword">FORMAT</emphasis>(6e11.4,i4,i2,i3,i5)
+<anchor xml:id="_xnffra_8_f_source_1l00113"/>00113 10300&#32;<emphasis role="keyword">FORMAT</emphasis>(i10,10x,i10,50x)
+<anchor xml:id="_xnffra_8_f_source_1l00114"/>00114 10400&#32;<emphasis role="keyword">FORMAT</emphasis>(8i10)
+<anchor xml:id="_xnffra_8_f_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

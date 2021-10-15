@@ -1,0 +1,211 @@
+\hypertarget{zpipe_8c_source}{}\doxysection{zpipe.\+c}
+\label{zpipe_8c_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnutil/src/zpipe.c@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnutil/src/zpipe.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00001}00001 \textcolor{comment}{/* zpipe.c: example of proper use of zlib's inflate() and deflate()}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00002}00002 \textcolor{comment}{   Not copyrighted -\/-\/ provided to the public domain}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00003}00003 \textcolor{comment}{   Version 1.4  11 December 2005  Mark Adler */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00005}00005 \textcolor{comment}{/* Version history:}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00006}00006 \textcolor{comment}{   1.0  30 Oct 2004  First version}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00007}00007 \textcolor{comment}{   1.1   8 Nov 2004  Add void casting for unused return values}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00008}00008 \textcolor{comment}{                     Use switch statement for inflate() return values}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00009}00009 \textcolor{comment}{   1.2   9 Nov 2004  Add assertions to document zlib guarantees}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00010}00010 \textcolor{comment}{   1.3   6 Apr 2005  Remove incorrect assertion in inf()}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00011}00011 \textcolor{comment}{   1.4  11 Dec 2005  Add hack to avoid MSDOS end-\/of-\/line conversions}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00012}00012 \textcolor{comment}{                     Avoid some compiler warnings for input and output buffers}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00013}00013 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00015}00015 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00016}00016 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00017}00017 \textcolor{preprocessor}{\#include <assert.h>}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00018}00018 \textcolor{preprocessor}{\#include "{}zlib.h"{}}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00020}00020 \textcolor{preprocessor}{\#if defined(MSDOS) || defined(OS2) || defined(WIN32) || defined(\_\_CYGWIN\_\_)}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00021}00021 \textcolor{preprocessor}{\#  include <fcntl.h>}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00022}00022 \textcolor{preprocessor}{\#  include <io.h>}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00023}00023 \textcolor{preprocessor}{\#  define SET\_BINARY\_MODE(file) setmode(fileno(file), O\_BINARY)}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00024}00024 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00025}00025 \textcolor{preprocessor}{\#  define SET\_BINARY\_MODE(file)}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00026}00026 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00028}00028 \textcolor{preprocessor}{\#define CHUNK 16384}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00030}00030 \textcolor{comment}{/* Compress from file source to file dest until EOF on source.}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00031}00031 \textcolor{comment}{   def() returns Z\_OK on success, Z\_MEM\_ERROR if memory could not be}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00032}00032 \textcolor{comment}{   allocated for processing, Z\_STREAM\_ERROR if an invalid compression}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00033}00033 \textcolor{comment}{   level is supplied, Z\_VERSION\_ERROR if the version of zlib.h and the}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00034}00034 \textcolor{comment}{   version of the library linked do not match, or Z\_ERRNO if there is}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00035}00035 \textcolor{comment}{   an error reading or writing the files. */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00036}00036 \textcolor{keywordtype}{int} def(FILE *source, FILE *dest, \textcolor{keywordtype}{int} level)}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00037}00037 \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00038}00038     \textcolor{keywordtype}{int} ret, flush;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00039}00039     \textcolor{keywordtype}{unsigned} have;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00040}00040     z\_stream strm;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00041}00041     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} in[CHUNK];}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00042}00042     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} out[CHUNK];}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00044}00044     \textcolor{comment}{/* allocate deflate state */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00045}00045     strm.zalloc = Z\_NULL;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00046}00046     strm.zfree = Z\_NULL;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00047}00047     strm.opaque = Z\_NULL;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00048}00048     ret = deflateInit(\&strm, level);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00049}00049     \textcolor{keywordflow}{if} (ret != Z\_OK)}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00050}00050         \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00052}00052     \textcolor{comment}{/* compress until end of file */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00053}00053     \textcolor{keywordflow}{do} \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00054}00054         strm.avail\_in = fread(in, 1, CHUNK, source);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00055}00055         \textcolor{keywordflow}{if} (ferror(source)) \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00056}00056             (void)deflateEnd(\&strm);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00057}00057             \textcolor{keywordflow}{return} Z\_ERRNO;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00058}00058         \}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00059}00059         flush = feof(source) ? Z\_FINISH : Z\_NO\_FLUSH;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00060}00060         strm.next\_in = in;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00062}00062         \textcolor{comment}{/* run deflate() on input until output buffer not full, finish}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00063}00063 \textcolor{comment}{           compression if all of source has been read in */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00064}00064         \textcolor{keywordflow}{do} \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00065}00065             strm.avail\_out = CHUNK;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00066}00066             strm.next\_out = out;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00067}00067             ret = deflate(\&strm, flush);    \textcolor{comment}{/* no bad return value */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00068}00068             assert(ret != Z\_STREAM\_ERROR);  \textcolor{comment}{/* state not clobbered */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00069}00069             have = CHUNK -\/ strm.avail\_out;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00070}00070             \textcolor{keywordflow}{if} (fwrite(out, 1, have, dest) != have || ferror(dest)) \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00071}00071                 (void)deflateEnd(\&strm);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00072}00072                 \textcolor{keywordflow}{return} Z\_ERRNO;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00073}00073             \}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00074}00074         \} \textcolor{keywordflow}{while} (strm.avail\_out == 0);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00075}00075         assert(strm.avail\_in == 0);     \textcolor{comment}{/* all input will be used */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00077}00077         \textcolor{comment}{/* done when last data in file processed */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00078}00078     \} \textcolor{keywordflow}{while} (flush != Z\_FINISH);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00079}00079     assert(ret == Z\_STREAM\_END);        \textcolor{comment}{/* stream will be complete */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00081}00081     \textcolor{comment}{/* clean up and return */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00082}00082     (void)deflateEnd(\&strm);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00083}00083     \textcolor{keywordflow}{return} Z\_OK;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00084}00084 \}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00086}00086 \textcolor{comment}{/* Decompress from file source to file dest until stream ends or EOF.}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00087}00087 \textcolor{comment}{   inf() returns Z\_OK on success, Z\_MEM\_ERROR if memory could not be}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00088}00088 \textcolor{comment}{   allocated for processing, Z\_DATA\_ERROR if the deflate data is}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00089}00089 \textcolor{comment}{   invalid or incomplete, Z\_VERSION\_ERROR if the version of zlib.h and}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00090}00090 \textcolor{comment}{   the version of the library linked do not match, or Z\_ERRNO if there}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00091}00091 \textcolor{comment}{   is an error reading or writing the files. */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00092}00092 \textcolor{keywordtype}{int} inf(FILE *source, FILE *dest)}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00093}00093 \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00094}00094     \textcolor{keywordtype}{int} ret;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00095}00095     \textcolor{keywordtype}{unsigned} have;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00096}00096     z\_stream strm;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00097}00097     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} in[CHUNK];}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00098}00098     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} out[CHUNK];}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00100}00100     \textcolor{comment}{/* allocate inflate state */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00101}00101     strm.zalloc = Z\_NULL;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00102}00102     strm.zfree = Z\_NULL;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00103}00103     strm.opaque = Z\_NULL;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00104}00104     strm.avail\_in = 0;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00105}00105     strm.next\_in = Z\_NULL;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00106}00106     ret = inflateInit(\&strm);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00107}00107     \textcolor{keywordflow}{if} (ret != Z\_OK)}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00108}00108         \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00110}00110     \textcolor{comment}{/* decompress until deflate stream ends or end of file */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00111}00111     \textcolor{keywordflow}{do} \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00112}00112         strm.avail\_in = fread(in, 1, CHUNK, source);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00113}00113         \textcolor{keywordflow}{if} (ferror(source)) \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00114}00114             (void)inflateEnd(\&strm);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00115}00115             \textcolor{keywordflow}{return} Z\_ERRNO;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00116}00116         \}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00117}00117         \textcolor{keywordflow}{if} (strm.avail\_in == 0)}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00118}00118             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00119}00119         strm.next\_in = in;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00121}00121         \textcolor{comment}{/* run inflate() on input until output buffer not full */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00122}00122         \textcolor{keywordflow}{do} \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00123}00123             strm.avail\_out = CHUNK;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00124}00124             strm.next\_out = out;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00125}00125             ret = inflate(\&strm, Z\_NO\_FLUSH);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00126}00126             assert(ret != Z\_STREAM\_ERROR);  \textcolor{comment}{/* state not clobbered */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00127}00127             \textcolor{keywordflow}{switch} (ret) \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00128}00128             \textcolor{keywordflow}{case} Z\_NEED\_DICT:}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00129}00129                 ret = Z\_DATA\_ERROR;     \textcolor{comment}{/* and fall through */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00130}00130             \textcolor{keywordflow}{case} Z\_DATA\_ERROR:}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00131}00131             \textcolor{keywordflow}{case} Z\_MEM\_ERROR:}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00132}00132                 (void)inflateEnd(\&strm);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00133}00133                 \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00134}00134             \}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00135}00135             have = CHUNK -\/ strm.avail\_out;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00136}00136             \textcolor{keywordflow}{if} (fwrite(out, 1, have, dest) != have || ferror(dest)) \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00137}00137                 (void)inflateEnd(\&strm);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00138}00138                 \textcolor{keywordflow}{return} Z\_ERRNO;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00139}00139             \}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00140}00140         \} \textcolor{keywordflow}{while} (strm.avail\_out == 0);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00141}00141 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00142}00142         \textcolor{comment}{/* done when inflate() says it's done */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00143}00143     \} \textcolor{keywordflow}{while} (ret != Z\_STREAM\_END);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00144}00144 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00145}00145     \textcolor{comment}{/* clean up and return */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00146}00146     (void)inflateEnd(\&strm);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00147}00147     \textcolor{keywordflow}{return} ret == Z\_STREAM\_END ? Z\_OK : Z\_DATA\_ERROR;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00148}00148 \}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00149}00149 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00150}00150 \textcolor{comment}{/* report a zlib or i/o error */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00151}00151 \textcolor{keywordtype}{void} zerr(\textcolor{keywordtype}{int} ret)}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00152}00152 \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00153}00153     fputs(\textcolor{stringliteral}{"{}zpipe: "{}}, stderr);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00154}00154     \textcolor{keywordflow}{switch} (ret) \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00155}00155     \textcolor{keywordflow}{case} Z\_ERRNO:}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00156}00156         \textcolor{keywordflow}{if} (ferror(stdin))}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00157}00157             fputs(\textcolor{stringliteral}{"{}error reading stdin\(\backslash\)n"{}}, stderr);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00158}00158         \textcolor{keywordflow}{if} (ferror(stdout))}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00159}00159             fputs(\textcolor{stringliteral}{"{}error writing stdout\(\backslash\)n"{}}, stderr);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00160}00160         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00161}00161     \textcolor{keywordflow}{case} Z\_STREAM\_ERROR:}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00162}00162         fputs(\textcolor{stringliteral}{"{}invalid compression level\(\backslash\)n"{}}, stderr);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00163}00163         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00164}00164     \textcolor{keywordflow}{case} Z\_DATA\_ERROR:}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00165}00165         fputs(\textcolor{stringliteral}{"{}invalid or incomplete deflate data\(\backslash\)n"{}}, stderr);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00166}00166         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00167}00167     \textcolor{keywordflow}{case} Z\_MEM\_ERROR:}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00168}00168         fputs(\textcolor{stringliteral}{"{}out of memory\(\backslash\)n"{}}, stderr);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00169}00169         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00170}00170     \textcolor{keywordflow}{case} Z\_VERSION\_ERROR:}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00171}00171         fputs(\textcolor{stringliteral}{"{}zlib version mismatch!\(\backslash\)n"{}}, stderr);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00172}00172     \}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00173}00173 \}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00174}00174 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00175}00175 \textcolor{comment}{/* compress or decompress from stdin to stdout */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00176}00176 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} **argv)}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00177}00177 \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00178}00178     \textcolor{keywordtype}{int} ret;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00179}00179 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00180}00180     \textcolor{comment}{/* avoid end-\/of-\/line conversions */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00181}00181     SET\_BINARY\_MODE(stdin);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00182}00182     SET\_BINARY\_MODE(stdout);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00183}00183 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00184}00184     \textcolor{comment}{/* do compression if no arguments */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00185}00185     \textcolor{keywordflow}{if} (argc == 1) \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00186}00186         ret = def(stdin, stdout, Z\_DEFAULT\_COMPRESSION);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00187}00187         \textcolor{keywordflow}{if} (ret != Z\_OK)}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00188}00188             zerr(ret);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00189}00189         \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00190}00190     \}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00191}00191 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00192}00192     \textcolor{comment}{/* do decompression if -\/d specified */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00193}00193     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (argc == 2 \&\& strcmp(argv[1], \textcolor{stringliteral}{"{}-\/d"{}}) == 0) \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00194}00194         ret = inf(stdin, stdout);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00195}00195         \textcolor{keywordflow}{if} (ret != Z\_OK)}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00196}00196             zerr(ret);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00197}00197         \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00198}00198     \}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00199}00199 }
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00200}00200     \textcolor{comment}{/* otherwise, report usage */}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00201}00201     \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00202}00202         fputs(\textcolor{stringliteral}{"{}zpipe usage: zpipe [-\/d] < source > dest\(\backslash\)n"{}}, stderr);}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00203}00203         \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00204}00204     \}}
+\DoxyCodeLine{\Hypertarget{zpipe_8c_source_l00205}00205 \}}
+
+\end{DoxyCode}

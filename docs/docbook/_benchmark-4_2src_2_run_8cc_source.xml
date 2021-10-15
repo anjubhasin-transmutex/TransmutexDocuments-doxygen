@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__benchmark-4_2src_2_run_8cc_source" xml:lang="en-US">
+<title>Run.cc</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/Benchmark-4/src/Run.cc</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00001"/>00001 <emphasis role="comment">//&#32;********************************************************************</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00002"/>00002 <emphasis role="comment">//&#32;*&#32;License&#32;and&#32;Disclaimer&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00003"/>00003 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00004"/>00004 <emphasis role="comment">//&#32;*&#32;The&#32;&#32;Geant4&#32;software&#32;&#32;is&#32;&#32;copyright&#32;of&#32;the&#32;Copyright&#32;Holders&#32;&#32;of&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00005"/>00005 <emphasis role="comment">//&#32;*&#32;the&#32;Geant4&#32;Collaboration.&#32;&#32;It&#32;is&#32;provided&#32;&#32;under&#32;&#32;the&#32;terms&#32;&#32;and&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00006"/>00006 <emphasis role="comment">//&#32;*&#32;conditions&#32;of&#32;the&#32;Geant4&#32;Software&#32;License,&#32;&#32;included&#32;in&#32;the&#32;file&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00007"/>00007 <emphasis role="comment">//&#32;*&#32;LICENSE&#32;and&#32;available&#32;at&#32;&#32;http://cern.ch/geant4/license&#32;.&#32;&#32;These&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00008"/>00008 <emphasis role="comment">//&#32;*&#32;include&#32;a&#32;list&#32;of&#32;copyright&#32;holders.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00009"/>00009 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00010"/>00010 <emphasis role="comment">//&#32;*&#32;Neither&#32;the&#32;authors&#32;of&#32;this&#32;software&#32;system,&#32;nor&#32;their&#32;employing&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00011"/>00011 <emphasis role="comment">//&#32;*&#32;institutes,nor&#32;the&#32;agencies&#32;providing&#32;financial&#32;support&#32;for&#32;this&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00012"/>00012 <emphasis role="comment">//&#32;*&#32;work&#32;&#32;make&#32;&#32;any&#32;representation&#32;or&#32;&#32;warranty,&#32;express&#32;or&#32;implied,&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00013"/>00013 <emphasis role="comment">//&#32;*&#32;regarding&#32;&#32;this&#32;&#32;software&#32;system&#32;or&#32;assume&#32;any&#32;liability&#32;for&#32;its&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00014"/>00014 <emphasis role="comment">//&#32;*&#32;use.&#32;&#32;Please&#32;see&#32;the&#32;license&#32;in&#32;the&#32;file&#32;&#32;LICENSE&#32;&#32;and&#32;URL&#32;above&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00015"/>00015 <emphasis role="comment">//&#32;*&#32;for&#32;the&#32;full&#32;disclaimer&#32;and&#32;the&#32;limitation&#32;of&#32;liability.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00016"/>00016 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00017"/>00017 <emphasis role="comment">//&#32;*&#32;This&#32;&#32;code&#32;&#32;implementation&#32;is&#32;the&#32;result&#32;of&#32;&#32;the&#32;&#32;scientific&#32;and&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00018"/>00018 <emphasis role="comment">//&#32;*&#32;technical&#32;work&#32;of&#32;the&#32;GEANT4&#32;collaboration.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00019"/>00019 <emphasis role="comment">//&#32;*&#32;By&#32;using,&#32;&#32;copying,&#32;&#32;modifying&#32;or&#32;&#32;distributing&#32;the&#32;software&#32;(or&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00020"/>00020 <emphasis role="comment">//&#32;*&#32;any&#32;work&#32;based&#32;&#32;on&#32;the&#32;software)&#32;&#32;you&#32;&#32;agree&#32;&#32;to&#32;acknowledge&#32;its&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00021"/>00021 <emphasis role="comment">//&#32;*&#32;use&#32;&#32;in&#32;&#32;resulting&#32;&#32;scientific&#32;&#32;publications,&#32;&#32;and&#32;indicate&#32;your&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00022"/>00022 <emphasis role="comment">//&#32;*&#32;acceptance&#32;of&#32;all&#32;terms&#32;of&#32;the&#32;Geant4&#32;Software&#32;license.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00023"/>00023 <emphasis role="comment">//&#32;********************************************************************</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00024"/>00024 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00026"/>00026 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00027"/>00027 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00029"/>00029 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00030"/>00030 <emphasis role="comment">//&#32;Run</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00031"/>00031 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00032"/>00032 <emphasis role="comment">//&#32;Donovan&#32;Maire,&#32;Transmutex,&#32;18/10/2019</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00033"/>00033 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00035"/>00035 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00036"/>00036 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00037"/>00037 <emphasis role="comment">//&#32;Class</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00038"/>00038 <emphasis role="preprocessor">#include&#32;&quot;RunAction.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00039"/>00039 <emphasis role="preprocessor">#include&#32;&quot;Run.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00040"/>00040 <emphasis role="preprocessor">#include&#32;&quot;Randomize.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00041"/>00041 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00042"/>00042 <emphasis role="comment">//&#32;GEANT4&#32;libraries</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00043"/>00043 <emphasis role="preprocessor">#include&#32;&quot;G4Event.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00044"/>00044 <emphasis role="preprocessor">#include&#32;&quot;G4HCofThisEvent.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00045"/>00045 <emphasis role="preprocessor">#include&#32;&quot;G4SDManager.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00046"/>00046 <emphasis role="preprocessor">#include&#32;&quot;G4THitsMap.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00047"/>00047 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00048"/>00048 <link linkend="_class_run_1a300fccfa2f5a4288c9b528c73e07a5cf">Run::Run</link>(G4int&#32;RunNumber,&#32;std::string&#32;ScoringMeshType)&#32;{
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00049"/>00049 &#32;&#32;&#32;&#32;Initialize(&#32;RunNumber,&#32;ScoringMeshType);
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00050"/>00050 }
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00051"/>00051 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00052"/>00052 Run::~Run()&#32;{
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00053"/>00053 <emphasis role="comment">//---&#32;Clear&#32;HitsMap&#32;for&#32;RUN</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00054"/>00054 &#32;&#32;&#32;&#32;colIDPara.clear();
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00055"/>00055 &#32;&#32;&#32;&#32;mapPara.clear();
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00056"/>00056 }
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00057"/>00057 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00058"/>00058 <emphasis role="keywordtype">void</emphasis>&#32;Run::RecordEvent(<emphasis role="keyword">const</emphasis>&#32;G4Event*&#32;evt)
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00059"/>00059 {
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00060"/>00060 &#32;&#32;G4HCofThisEvent*&#32;HCE&#32;=&#32;evt-&gt;GetHCofThisEvent();
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00061"/>00061 &#32;&#32;<emphasis role="keywordflow">if</emphasis>(!HCE)&#32;<emphasis role="keywordflow">return</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00062"/>00062 &#32;&#32;numberOfEvent++;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00063"/>00063 &#32;&#32;<emphasis role="keywordflow">for</emphasis>(<emphasis role="keywordtype">int</emphasis>&#32;j=0;j&lt;fNumberOfSD;j++)
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00064"/>00064 &#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;G4THitsMap&lt;G4double&gt;*&#32;evtMap&#32;=&#32;(G4THitsMap&lt;G4double&gt;*)(HCE-&gt;GetHC(colIDPara[j]));
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;(*mapPara[j])&#32;+=&#32;*evtMap;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00067"/>00067 &#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00068"/>00068 }
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00069"/>00069 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00070"/>00070 G4double&#32;Run::GetTotal(<emphasis role="keyword">const</emphasis>&#32;G4THitsMap&lt;G4double&gt;&#32;&amp;map)<emphasis role="keyword">&#32;const</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00071"/>00071 <emphasis role="keyword"></emphasis>{
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00072"/>00072 &#32;&#32;G4double&#32;tot&#32;=&#32;0.;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00073"/>00073 &#32;&#32;std::map&lt;G4int,G4double*&gt;::iterator&#32;itr&#32;=&#32;map.GetMap()-&gt;begin();
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00074"/>00074 &#32;&#32;<emphasis role="keywordflow">for</emphasis>(;&#32;itr&#32;!=&#32;map.GetMap()-&gt;end();&#32;itr++)
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00075"/>00075 &#32;&#32;{&#32;tot&#32;+=&#32;*(itr-&gt;second);&#32;}
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00076"/>00076 &#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;tot;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00077"/>00077 }
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00078"/>00078 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00079"/>00079 G4double&#32;Run::FindMinimum(<emphasis role="keyword">const</emphasis>&#32;G4THitsMap&lt;G4double&gt;&#32;&amp;map)<emphasis role="keyword">&#32;const</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00080"/>00080 <emphasis role="keyword"></emphasis>{
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00081"/>00081 &#32;&#32;G4double&#32;val&#32;=&#32;DBL_MAX;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00082"/>00082 &#32;&#32;std::map&lt;G4int,G4double*&gt;::iterator&#32;itr&#32;=&#32;map.GetMap()-&gt;begin();
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00083"/>00083 &#32;&#32;<emphasis role="keywordflow">for</emphasis>(;&#32;itr&#32;!=&#32;map.GetMap()-&gt;end();&#32;itr++)
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00084"/>00084 &#32;&#32;{&#32;<emphasis role="keywordflow">if</emphasis>(val&gt;*(itr-&gt;second))&#32;val&#32;=&#32;*(itr-&gt;second);&#32;}
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00085"/>00085 &#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;val;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00086"/>00086 }
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00087"/>00087 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00088"/>00088 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00089"/>00089 <emphasis role="keywordtype">void</emphasis>&#32;&#32;Run::Initialize(G4int&#32;RunNumber,&#32;std::string&#32;ScoringMeshType)&#32;{
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00090"/>00090 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00091"/>00091 &#32;&#32;&#32;&#32;fNumberOfSD&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00092"/>00092 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(ScoringMeshType&#32;==&#32;<emphasis role="stringliteral">&quot;cartesian&quot;</emphasis>&#32;||&#32;ScoringMeshType&#32;==&#32;<emphasis role="stringliteral">&quot;hexagonal&quot;</emphasis>&#32;||&#32;ScoringMeshType&#32;==&#32;<emphasis role="stringliteral">&quot;polar&quot;</emphasis>)&#32;{&#32;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fNumberOfSD&#32;=&#32;5;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00094"/>00094 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00095"/>00095 &#32;&#32;&#32;&#32;SetRunNumber(RunNumber);
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00096"/>00096 &#32;&#32;&#32;&#32;mapPara.clear();
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00097"/>00097 &#32;&#32;&#32;&#32;colIDPara.clear();
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00098"/>00098 &#32;&#32;&#32;&#32;G4String&#32;primName[5]&#32;=&#32;{<emphasis role="stringliteral">&quot;eDep&quot;</emphasis>,<emphasis role="stringliteral">&quot;fluence_n&quot;</emphasis>,<emphasis role="stringliteral">&quot;fluence_g&quot;</emphasis>,<emphasis role="stringliteral">&quot;eDep_p&quot;</emphasis>,<emphasis role="stringliteral">&quot;eDep_g&quot;</emphasis>};
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00099"/>00099 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00100"/>00100 &#32;&#32;&#32;&#32;G4SDManager*&#32;SDMan&#32;=&#32;G4SDManager::GetSDMpointer();
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00101"/>00101 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00102"/>00102 &#32;&#32;&#32;&#32;G4String&#32;fullName;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00103"/>00103 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<emphasis role="keywordtype">int</emphasis>&#32;j=0;j&lt;fNumberOfSD;j++)
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00104"/>00104 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00105"/>00105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fullName&#32;=&#32;<emphasis role="stringliteral">&quot;mesh_det/&quot;</emphasis>+primName[j];
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mapPara.push_back(<emphasis role="keyword">new</emphasis>&#32;G4THitsMap&lt;G4double&gt;());
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;colIDPara.push_back(SDMan-&gt;GetCollectionID(fullName));
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00108"/>00108 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00109"/>00109 }
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00110"/>00110 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00111"/>00111 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00117"/>00117 <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_run_1adf78ab86b4a2ba38a7b79df6dcc6bc27">Run::Merge</link>(std::map&lt;<link linkend="_class_t_m_x_material">TMXMaterial</link>*,&#32;std::map&lt;G4int,G4int&gt;&gt;&amp;&#32;destinationMap,
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;std::map&lt;<link linkend="_class_t_m_x_material">TMXMaterial</link>*,&#32;std::map&lt;G4int,G4int&gt;&gt;&amp;&#32;sourceMap)<emphasis role="keyword">&#32;const</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00119"/>00119 <emphasis role="keyword"></emphasis>{
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00120"/>00120 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;matData&#32;:&#32;sourceMap&#32;)
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00121"/>00121 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00122"/>00122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_t_m_x_material">TMXMaterial</link>*&#32;mat&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;matData.first;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00123"/>00123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;destinationMap.find(mat)&#32;==&#32;destinationMap.end())
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00124"/>00124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;destinationMap[mat]&#32;=&#32;matData.second;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00126"/>00126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00127"/>00127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;partData&#32;:&#32;sourceMap.at(mat)&#32;)
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00128"/>00128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;destinationMap[mat][partData.first]&#32;+=&#32;partData.second;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00129"/>00129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00130"/>00130 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00131"/>00131 }
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00132"/>00132 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00137"/>00137 <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_run_1adf78ab86b4a2ba38a7b79df6dcc6bc27">Run::Merge</link>(<emphasis role="keyword">const</emphasis>&#32;G4Run*&#32;run)
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00138"/>00138 {
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00139"/>00139 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_run">Run</link>*&#32;localRun&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis><link linkend="_class_run">Run</link>*<emphasis role="keyword">&gt;</emphasis>(run);
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00140"/>00140 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00141"/>00141 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00142"/>00142 &#32;&#32;&#32;&#32;<emphasis role="comment">//map:&#32;processes&#32;count</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00143"/>00143 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;procCounter&#32;:&#32;localRun-&gt;fProcCounter&#32;)
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00144"/>00144 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00145"/>00145 &#32;&#32;&#32;&#32;&#32;&#32;G4String&#32;procName&#32;=&#32;procCounter.first;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00146"/>00146 &#32;&#32;&#32;&#32;&#32;&#32;G4int&#32;localCount&#32;=&#32;procCounter.second;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00147"/>00147 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;fProcCounter.find(procName)&#32;==&#32;fProcCounter.end())
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00148"/>00148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fProcCounter[procName]&#32;=&#32;localCount;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00149"/>00149 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00150"/>00150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fProcCounter[procName]&#32;+=&#32;localCount;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00151"/>00151 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00152"/>00152 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00153"/>00153 &#32;&#32;&#32;&#32;<emphasis role="comment">//map:&#32;created&#32;particles&#32;count</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00154"/>00154 &#32;&#32;&#32;&#32;<link linkend="_class_run_1adf78ab86b4a2ba38a7b79df6dcc6bc27">Merge</link>(fParticleDataMap,&#32;localRun-&gt;fParticleDataMap);
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00155"/>00155 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00156"/>00156 &#32;&#32;&#32;&#32;G4Run::Merge(run);
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00157"/>00157 }
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00158"/>00158 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00163"/>00163 <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_run_1ac5bfcd51f38b7c06c3b6f8e613631fdc">Run::CountProcesses</link>(<emphasis role="keyword">const</emphasis>&#32;G4VProcess*&#32;process)
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00164"/>00164 {
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00165"/>00165 &#32;&#32;&#32;&#32;G4String&#32;procName&#32;=&#32;process-&gt;GetProcessName();
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00166"/>00166 &#32;&#32;&#32;&#32;std::map&lt;G4String,G4int&gt;::iterator&#32;it&#32;=&#32;fProcCounter.find(procName);
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00167"/>00167 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;it&#32;==&#32;fProcCounter.end())
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00168"/>00168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fProcCounter[procName]&#32;=&#32;1;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00169"/>00169 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00170"/>00170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fProcCounter[procName]++;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00171"/>00171 }
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00172"/>00172 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00179"/>00179 <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_run_1abce51991634ccd5a2061c2efb1c2a18e">Run::ParticleCount</link>(G4int&#32;partName,&#32;G4int&#32;count,&#32;<link linkend="_class_t_m_x_material">TMXMaterial</link>*&#32;mat)
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00180"/>00180 {
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00181"/>00181 &#32;&#32;&#32;&#32;std::map&lt;TMXMaterial*,&#32;std::map&lt;G4int,&#32;G4int&gt;&gt;::iterator&#32;mat_it&#32;=&#32;fParticleDataMap.find(mat);
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00182"/>00182 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;mat_it&#32;==&#32;fParticleDataMap.end())
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00183"/>00183 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00184"/>00184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::map&lt;G4int,&#32;G4int&gt;&#32;a&#32;{&#32;{partName,&#32;count}&#32;};
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00185"/>00185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fParticleDataMap[mat]&#32;=&#32;a;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00186"/>00186 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00187"/>00187 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00188"/>00188 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00189"/>00189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::map&lt;G4int,&#32;int&gt;::iterator&#32;partName_it&#32;=&#32;fParticleDataMap[mat].find(partName);
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00190"/>00190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(partName_it&#32;==&#32;fParticleDataMap[mat].end())
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00191"/>00191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fParticleDataMap[mat][partName]&#32;=&#32;count;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00192"/>00192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00193"/>00193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fParticleDataMap[mat][partName]&#32;+=&#32;count;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00194"/>00194 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00195"/>00195 }
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00196"/>00196 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00200"/>00200 <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_run_1ab3b40b2173bb96cf1bbda5067711ed81">Run::EndOfRun</link>()
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00201"/>00201 {
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00202"/>00202 &#32;&#32;&#32;&#32;G4int&#32;prec&#32;=&#32;5;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00203"/>00203 &#32;&#32;&#32;&#32;G4int&#32;dfprec&#32;=&#32;G4cout.precision(prec);
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00204"/>00204 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00205"/>00205 &#32;&#32;&#32;&#32;<emphasis role="comment">//run&#32;condition</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00206"/>00206 &#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;\n&#32;The&#32;run&#32;is&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;numberOfEvent&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;particles.&quot;</emphasis>&#32;&lt;&lt;&#32;G4endl;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00207"/>00207 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00208"/>00208 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(numberOfEvent&#32;==&#32;0)&#32;{&#32;G4cout.precision(dfprec);&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;}
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00209"/>00209 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00210"/>00210 &#32;&#32;&#32;&#32;<emphasis role="comment">//frequency&#32;of&#32;processes</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00211"/>00211 &#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;\n&#32;Process&#32;calls&#32;frequency&#32;:&quot;</emphasis>&#32;&lt;&lt;&#32;G4endl;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00212"/>00212 &#32;&#32;&#32;&#32;G4int&#32;index&#32;=&#32;0;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00213"/>00213 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;procCounter&#32;:&#32;fProcCounter&#32;)
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00214"/>00214 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00215"/>00215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4String&#32;procName&#32;=&#32;procCounter.first;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00216"/>00216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4int&#32;&#32;&#32;&#32;count&#32;&#32;&#32;&#32;=&#32;procCounter.second;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00217"/>00217 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4String&#32;space&#32;=&#32;<emphasis role="stringliteral">&quot;&#32;&quot;</emphasis>;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(++index%3&#32;==&#32;0)&#32;space&#32;=&#32;<emphasis role="stringliteral">&quot;\n&quot;</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00218"/>00218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;std::setw(20)&#32;&lt;&lt;&#32;procName&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;=&quot;</emphasis>&lt;&lt;&#32;std::setw(7)&#32;&lt;&lt;&#32;count
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00219"/>00219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;space;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00220"/>00220 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00221"/>00221 &#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;G4endl;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00222"/>00222 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00223"/>00223 &#32;&#32;&#32;&#32;<emphasis role="comment">//particles&#32;count</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00224"/>00224 <emphasis role="comment">/*&#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;&quot;\n&#32;List&#32;of&#32;generated&#32;particles:&quot;&#32;&lt;&lt;&#32;G4endl;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00225"/>00225 <emphasis role="comment">&#32;&#32;&#32;&#32;for&#32;(&#32;const&#32;auto&amp;&#32;matData&#32;:&#32;fParticleDataMap&#32;)</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00226"/>00226 <emphasis role="comment">&#32;&#32;&#32;&#32;{</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00227"/>00227 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;std::setw(20)&lt;&lt;&#32;matData.first-&gt;GetName()&lt;&lt;&quot;&#32;&#32;&#32;&#32;&#32;&quot;&#32;&lt;&lt;&#32;std::setw(15)&lt;&lt;&#32;&quot;Reac.Rate(/p)&quot;&lt;&lt;std::setw(15)&lt;&lt;&#32;&quot;Reac.Count&quot;&lt;&lt;G4endl;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00228"/>00228 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;for(const&#32;auto&amp;&#32;partData&#32;:&#32;matData.second)</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00229"/>00229 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00230"/>00230 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;&quot;&#32;&#32;&#32;&quot;&#32;&lt;&lt;&#32;std::setw(20)&#32;&lt;&lt;&#32;partData.first&#32;&lt;&lt;&#32;&quot;:&#32;&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00231"/>00231 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;std::setw(15)&#32;&lt;&lt;&#32;(float)partData.second&#32;/&#32;(float)numberOfEvent</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00232"/>00232 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;std::setw(15)&#32;&lt;&lt;&#32;(float)partData.second&#32;&lt;&lt;&#32;G4endl;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00233"/>00233 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00234"/>00234 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4cout&lt;&lt;G4endl;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00235"/>00235 <emphasis role="comment">&#32;&#32;&#32;&#32;}*/</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00236"/>00236 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00237"/>00237 &#32;&#32;&#32;&#32;<emphasis role="comment">//restore&#32;default&#32;format</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00238"/>00238 &#32;&#32;&#32;&#32;G4cout.precision(dfprec);
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00239"/>00239 }
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00240"/>00240 
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00245"/>00245 std::map&lt;TMXMaterial*,&#32;std::map&lt;G4int,&#32;G4int&gt;&gt;&#32;<link linkend="_class_run_1a998915d315ef811eaee674992e5664d9">Run::getSourceTerm</link>()
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00246"/>00246 {
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00247"/>00247 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;fParticleDataMap;
+<anchor xml:id="__benchmark-4_2src_2_run_8cc_source_1l00248"/>00248 }
+</programlisting></section>

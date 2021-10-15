@@ -1,0 +1,136 @@
+\hypertarget{xninte_8_f_source}{}\doxysection{xninte.\+F}
+\label{xninte_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xninte.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xninte.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :          05/03/97  08.03.46  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   14/03/94}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xninte(IZAEX,CHREAC,ELIM,SECR,SECT)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00006}00006 \textcolor{comment}{*     Performs thermal and resonance integral of a cross section       *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00007}00007 \textcolor{comment}{*     The termal integral is defined as:                               *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00009}00009 \textcolor{comment}{*          INT(1E-\/5-\/>ELIM) \{MaXW(E) sigma(E) dE\}                       *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00010}00010 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00011}00011 \textcolor{comment}{*     where MaXW(E) is the Maxwell distribution as a function of       *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00012}00012 \textcolor{comment}{*     energy. The resonance integral is defined as                     *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00013}00013 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00014}00014 \textcolor{comment}{*          INT(ELIM-\/>2E7) \{sigma(E)/E dE\}                              *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00015}00015 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00016}00016 \textcolor{comment}{*     IZAEX     (input) isomer code                                    *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00017}00017 \textcolor{comment}{*     CHREAC    (input CHARACTER*8) reaction name. For available       *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00018}00018 \textcolor{comment}{*               reaction names see array CHNAME below                  *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00019}00019 \textcolor{comment}{*     ELIM      (input) upper limit for the thermal integral and       *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00020}00020 \textcolor{comment}{*               lower limit for the resonance integral                 *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00021}00021 \textcolor{comment}{*     SECR      (output) resonance integral                            *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00022}00022 \textcolor{comment}{*     SECT      (output) thermal integral                              *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00023}00023 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00024}00024 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00025}00025 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00026}00026 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00027}00027 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00028}00028 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00029}00029 \textcolor{preprocessor}{}      dimension hinfo(nadinf)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00030}00030       \textcolor{keywordtype}{CHARACTER*4} CHREAC}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Boltzmann constant in eV/K}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00032}00032       parameter(pi=3.14159265358979312)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00033}00033       parameter(boltz=11604.45)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> Normalised Maxwell Energy distribution}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00035}00035       pmaxw(e,et) = sqrt(e)*exp(-\/e/et)*2/sqrt(et**3*pi)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00036}00036 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00038}00038 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Save old number of material and HiGh Water MarK}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00040}00040       ihgold=ihgwmk}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00041}00041       nmatol=nmate}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00042}00042 \textcolor{comment}{* -\/-\/-\/> Load reaction pointers}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00043}00043       \textcolor{keywordflow}{DO} 10 lreac=1,mxreac}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00044}00044          \textcolor{keywordflow}{IF}(chreac.EQ.chname(lreac)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> ENDF-\/6 reaction code}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00046}00046             ircode=3000+nbmft(lreac)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> Reaction "{}column"{} pointer in IMTABL array}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00048}00048             irnumb=lreac}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00049}00049             \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00050}00050 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00051}00051    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00052}00052 \textcolor{comment}{* -\/-\/-\/> Reaction not found, print message and stop}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00053}00053       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' *** XNSPEC: Unknown reaction '}\textcolor{stringliteral}{',A4)'}) chreac}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00054}00054       stop}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/> Treat temperature coefficent}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00056}00056    20 \textcolor{keyword}{CALL }xngtmp(izaex,izamat,itcod)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00057}00057       \textcolor{keywordflow}{IF}(itcod.GE.nctemp) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00058}00058 \textcolor{comment}{* -\/-\/-\/> Invalid temperature code, assume 293K}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00059}00059          \textcolor{keyword}{WRITE}(6,10000) itcod}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00060}00060          temp=293}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00061}00061       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> Get temperature in K}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00063}00063          temp=ltemp(itcod+1)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00064}00064 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00065}00065 \textcolor{comment}{* -\/-\/-\/> Find thermal energy for this temperature}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00066}00066       eterm=temp/boltz}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00067}00067 \textcolor{comment}{* -\/-\/-\/> Load the reaction}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00068}00068       mf=ircode/1000}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00069}00069       mt=mod(ircode,1000)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00070}00070       \textcolor{keyword}{CALL }xntabl(izaex,ircode,ima)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00071}00071 \textcolor{comment}{* -\/-\/-\/> Find beginning and length of the reaction in memory}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00072}00072       \textcolor{keyword}{CALL }xngetm(izaex,ircode,ista,ilen,hinf)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00073}00073 \textcolor{comment}{* -\/-\/-\/> Zero integrals}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00074}00074       sect=0.}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00075}00075       secr=0.}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00076}00076 \textcolor{comment}{* -\/-\/-\/> If reaction is there perform integrals}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00077}00077       \textcolor{keywordflow}{IF}(ilen.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00078}00078          e1 = xstore(ista+1)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00079}00079          s1 = xstore(ista+2)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00080}00080          iend = ista+2*ilen-\/1}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00081}00081 \textcolor{comment}{* -\/-\/-\/> Thermal part}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00082}00082          \textcolor{keywordflow}{DO} 30 je=ista+3,iend,2}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00083}00083             e2=xstore(je)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00084}00084             s2=xstore(je+1)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00085}00085             \textcolor{keywordflow}{IF}(e2.LT.elim) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00086}00086 \textcolor{comment}{* -\/-\/-\/> End of this integration interval still smaller than ELIM}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00087}00087                sect=sect+0.5*}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00088}00088      +              (s1*pmaxw(e1,eterm)+s2*pmaxw(e2,eterm))*(e2-\/e1)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00089}00089                e1=e2}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00090}00090                s1=s2}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00091}00091             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00092}00092 \textcolor{comment}{* -\/-\/-\/> ELIM is inside this interval, integrate only from E1 to ELIM}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00093}00093                e2=elim}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00094}00094 \textcolor{comment}{* -\/-\/-\/> Find cross section at ELIM}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00095}00095                \textcolor{keyword}{CALL }xngetx(izaex,ircode,e2,s2,hinfo,ninfo)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00096}00096                sect=sect+0.5*}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00097}00097      +              (s1*pmaxw(e1,eterm)+s2*pmaxw(e2,eterm))*(e2-\/e1)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00098}00098                e1=e2}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00099}00099                s1=s2}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00100}00100                ista=je}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00101}00101 \textcolor{comment}{* -\/-\/-\/> Perform second integral}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00102}00102                \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00103}00103 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00104}00104    30    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00105}00105 \textcolor{comment}{* -\/-\/-\/> ELIM larger than max energy in table for this reaction, skip}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00106}00106 \textcolor{comment}{*      resonance integral}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00107}00107          \textcolor{keywordflow}{GOTO} 60}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00108}00108    40    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00109}00109 \textcolor{comment}{* -\/-\/-\/> Resonance integral}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00110}00110          \textcolor{keywordflow}{DO} 50 je=ista,iend,2}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00111}00111             e2=xstore(je)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00112}00112             s2=xstore(je+1)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00113}00113             secr=secr+0.5*(s1/e1+s2/e2)* (e2-\/e1)}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00114}00114             e1=e2}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00115}00115             s1=s2}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00116}00116    50    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00117}00117 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00118}00118 \textcolor{comment}{* -\/-\/-\/> Reset old HiGh Water Mark and number of materials}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00119}00119    60 ihgwmk=ihgold}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00120}00120       \textcolor{keywordflow}{IF}(nmate.GT.nmatol) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00121}00121 \textcolor{comment}{* -\/-\/-\/> Clean index table in memory of newly read materials, if any}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00122}00122          \textcolor{keywordflow}{DO} 70 jp=1,ntablr}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00123}00123             imtabl(jp,nmate) = 0}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00124}00124    70    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00125}00125          nmate=nmatol}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00126}00126 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00127}00127 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00128}00128 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNINTE: Invalid temperature code '},i5,}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00129}00129      +                                       \textcolor{stringliteral}{': 293K assumed'})}
+\DoxyCodeLine{\Hypertarget{xninte_8_f_source_l00130}00130       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

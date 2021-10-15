@@ -1,0 +1,73 @@
+The Dockerfiles contains in this folder are linked.
+
+You need to build them in the correct order since there are dependent.
+
+Create Docker image following this order\+: root -\/\texorpdfstring{$>$}{>} geant4 -\/\texorpdfstring{$>$}{>} tmx -\/\texorpdfstring{$>$}{>} data
+
+If an image didn\textquotesingle{}t change you don\textquotesingle{}t need to rebuild the previous images. For example, if root and geant4 didn\textquotesingle{}t change, you only need to rebuild tmx and data.
+
+root image contain\+:
+\begin{DoxyItemize}
+\item environnement variables
+\item the installation of tools for building (g++, libs...)
+\item the creation of geant4 user
+\item the installation of root
+\end{DoxyItemize}
+
+geant4 image contain\+:
+\begin{DoxyItemize}
+\item everything from root
+\item the installation of geant4
+\end{DoxyItemize}
+
+tmx image contain\+:
+\begin{DoxyItemize}
+\item everything from geant4
+\item the installation of tmx
+\end{DoxyItemize}
+
+data image contain\+:
+\begin{DoxyItemize}
+\item everything from tmx
+\item the installation of the databases
+\end{DoxyItemize}
+
+You will only use the europe-\/west6-\/docker.\+pkg.\+dev/peerless-\/garage-\/319212/docker-\/registry/data image.
+
+The multistage was a test to reduce the size of the last image. After a quick try root was not working well.
+
+Below the command you should launch in the root folder of this repository in order to build the dockerimages.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{docker build -\/f Dockerfiles/Dockerfile.root -\/t europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/root .}
+\DoxyCodeLine{docker push europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/root}
+\DoxyCodeLine{}
+\DoxyCodeLine{docker build -\/f Dockerfiles/Dockerfile.geant4 -\/t europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/geant4 .}
+\DoxyCodeLine{docker push europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/geant4}
+\DoxyCodeLine{}
+\DoxyCodeLine{docker build -\/f Dockerfiles/Dockerfile.tmx -\/t europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/tmx .}
+\DoxyCodeLine{docker push europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/tmx}
+\DoxyCodeLine{}
+\DoxyCodeLine{\# docker build -\/f Dockerfiles/Dockerfile.multistage -\/t europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/multistage .}
+\DoxyCodeLine{\# docker push europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/multistage}
+\DoxyCodeLine{}
+\DoxyCodeLine{docker build -\/f Dockerfiles/Dockerfile.data -\/t europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/data .}
+\DoxyCodeLine{docker push europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/data}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{docker build -\/f Dockerfiles/root.Dockerfile -\/t europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/root-\/v2 .}
+\DoxyCodeLine{docker push europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/root-\/v2}
+\DoxyCodeLine{}
+\DoxyCodeLine{docker build -\/f Dockerfiles/geant4.Dockerfile -\/t europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/geant4-\/v2 .}
+\DoxyCodeLine{docker push europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/geant4-\/v2}
+\DoxyCodeLine{}
+\DoxyCodeLine{docker build -\/f Dockerfiles/geant4-\/tmx.Dockerfile -\/t europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/geant4-\/tmx-\/v2 .}
+\DoxyCodeLine{docker push europe-\/west6-\/docker.pkg.dev/peerless-\/garage-\/319212/docker-\/registry/geant4-\/tmx-\/v2}
+
+\end{DoxyCode}
+ 

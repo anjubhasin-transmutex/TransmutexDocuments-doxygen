@@ -1,0 +1,61 @@
+\hypertarget{xntrpi_8_f_source}{}\doxysection{xntrpi.\+F}
+\label{xntrpi_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xntrpi.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xntrpi.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :          27/03/97  19.32.57  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xntrpi(VEC,INTLAW,XX,YY)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00006}00006 \textcolor{comment}{*     Interpolates between two values of a function according to       *}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00007}00007 \textcolor{comment}{*     ENDF-\/6 rules. See the ENDF-\/6 format manual section 0 form        *}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00008}00008 \textcolor{comment}{*     more information on this routine                                 *}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00009}00009 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00010}00010 \textcolor{comment}{*     VEC       (input) array of 4 containing the values of the e      *}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00011}00011 \textcolor{comment}{*               function to be interpolated in the form x1,f1,x2,f2    *}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00012}00012 \textcolor{comment}{*     INTLAW    (input) ENDF-\/6 interpolation law                       *}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00013}00013 \textcolor{comment}{*     XX        (input) value at which interpolate the function, must  *}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00014}00014 \textcolor{comment}{*               be x1<=XX<=x2                                          *}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00015}00015 \textcolor{comment}{*     YY        (output) interpolated function value                   *}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00016}00016 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00017}00017 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00018}00018       dimension vec(*)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00019}00019       \textcolor{keywordtype}{DOUBLE PRECISION} XX1, XX2, YY1, YY2, SMALL}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00020}00020       parameter(small=1d-\/20)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00021}00021 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00022}00022 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00023}00023 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> Load function values}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00025}00025       xx1=vec(1)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00026}00026       yy1=vec(2)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00027}00027       xx2=vec(3)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00028}00028       yy2=vec(4)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00029}00029       \textcolor{keywordflow}{IF}(intlaw.EQ.1.OR.xx2.LE.xx1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> "{}Histogram"{} like interpolation}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00031}00031          yy=yy1}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00032}00032          \textcolor{keywordflow}{IF}(xx.EQ.xx2) yy=yy2}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00033}00033       \textcolor{keywordflow}{ELSEIF}(intlaw.EQ.2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> Linear interpolation}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00035}00035          yy = yy1+(yy2-\/yy1)*(xx-\/xx1)/(xx2-\/xx1)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00036}00036       \textcolor{keywordflow}{ELSEIF}(intlaw.EQ.3) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Lin-\/log interpolation}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00038}00038          xx1= max(xx1,small)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00039}00039          xx2= max(xx2,small)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00040}00040          yy = yy1+(yy2-\/yy1)*log(xx/xx1)/log(xx2/xx1)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00041}00041       \textcolor{keywordflow}{ELSEIF}(intlaw.EQ.4) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00042}00042 \textcolor{comment}{* -\/-\/-\/> Log-\/lin interpolation}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00043}00043          yy1= max(yy1,small)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00044}00044          yy2= max(yy2,small)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00045}00045          yy = exp(log(yy1)+log(yy2/yy1)*(xx-\/xx1)/(xx2-\/xx1))}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00046}00046       \textcolor{keywordflow}{ELSEIF}(intlaw.EQ.5) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> Log-\/log interpolation}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00048}00048          xx1= max(xx1,small)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00049}00049          xx2= max(xx2,small)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00050}00050          yy1= max(yy1,small)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00051}00051          yy2= max(yy2,small)}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00052}00052          yy = exp(log(yy1)+log(yy2/yy1)*log(xx/xx1)/log(xx2/xx1))}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00053}00053 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00054}00054 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntrpi_8_f_source_l00055}00055       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

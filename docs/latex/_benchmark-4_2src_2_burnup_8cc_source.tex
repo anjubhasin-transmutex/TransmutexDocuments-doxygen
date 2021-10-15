@@ -1,0 +1,514 @@
+\hypertarget{_benchmark-4_2src_2_burnup_8cc_source}{}\doxysection{Burnup.\+cc}
+\label{_benchmark-4_2src_2_burnup_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/4/src/Burnup.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/4/src/Burnup.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00001}00001 \textcolor{comment}{//  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄   ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄        ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄       ▄▄  ▄         ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄       ▄}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00002}00002 \textcolor{comment}{// ▐░░░░░░░░░░░▌▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░▌      ▐░▌▐░░░░░░░░░░░▌▐░░▌     ▐░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌     ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00003}00003 \textcolor{comment}{// ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀  ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌░▌     ▐░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░▌░▌   ▐░▐░▌▐░▌       ▐░▌ ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀  ▐░▌   ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00004}00004 \textcolor{comment}{// ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌               ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌▐░▌    ▐░▌▐░▌          ▐░▌▐░▌ ▐░▌▐░▌▐░▌       ▐░▌     ▐░▌     ▐░▌            ▐░▌ ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00005}00005 \textcolor{comment}{// ▐░█▄▄▄▄▄▄▄█░▌▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄▄▄      ▐░▌     ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌ ▐░▌   ▐░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░▌ ▐░▐░▌ ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░█▄▄▄▄▄▄▄▄▄    ▐░▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00006}00006 \textcolor{comment}{// ▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌     ▐░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌  ▐░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌  ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░░░░░░░░░░░▌    ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00007}00007 \textcolor{comment}{// ▐░█▀▀▀▀▀▀▀█░▌▐░▌       ▐░▌ ▀▀▀▀▀▀▀▀▀█░▌     ▐░▌     ▐░█▀▀▀▀█░█▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░▌   ▐░▌ ▐░▌ ▀▀▀▀▀▀▀▀▀█░▌▐░▌   ▀   ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░█▀▀▀▀▀▀▀▀▀    ▐░▌░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00008}00008 \textcolor{comment}{// ▐░▌       ▐░▌▐░▌       ▐░▌          ▐░▌     ▐░▌     ▐░▌     ▐░▌  ▐░▌       ▐░▌▐░▌    ▐░▌▐░▌          ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░▌            ▐░▌ ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00009}00009 \textcolor{comment}{// ▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄█░▌ ▄▄▄▄▄▄▄▄▄█░▌     ▐░▌     ▐░▌      ▐░▌ ▐░▌       ▐░▌▐░▌     ▐░▐░▌ ▄▄▄▄▄▄▄▄▄█░▌▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄█░▌     ▐░▌     ▐░█▄▄▄▄▄▄▄▄▄  ▐░▌   ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00010}00010 \textcolor{comment}{// ▐░▌       ▐░▌▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌     ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌      ▐░░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌     ▐░▌     ▐░░░░░░░░░░░▌▐░▌     ▐░▌}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00011}00011 \textcolor{comment}{//  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀   ▀▀▀▀▀▀▀▀▀▀▀       ▀       ▀         ▀  ▀         ▀  ▀        ▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀       ▀       ▀▀▀▀▀▀▀▀▀▀▀  ▀       ▀}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00012}00012 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00014}00014 \textcolor{comment}{}\textcolor{comment}{// \(\backslash\)brief Implementation of the Burnup class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00015}00015 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00016}00016 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00018}00018 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00019}00019 \textcolor{comment}{// Burnup}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00020}00020 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00021}00021 \textcolor{comment}{// Thomas Frosio, Transmutex, 10/04/2021}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00022}00022 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00024}00024 \textcolor{comment}{}\textcolor{comment}{// Class to update the nuclide vectors in the whole geometry and change}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00025}00025 \textcolor{comment}{// the material in order to evolve with irradiation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00027}00027 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00028}00028 \textcolor{comment}{/********************************INCLUDES******************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00030}00030 \textcolor{preprocessor}{\#include "{}Burnup.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00032}00032 \textcolor{comment}{/**********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00040}00040 \mbox{\hyperlink{class_burnup_a055dcd10f50e0f72ed027574e4321c79}{Burnup::Burnup}}(std::map<\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}*, std::map<G4int, G4int>> sourceTerm, \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* p, \textcolor{keywordtype}{int} stepNumber, \textcolor{keywordtype}{double} timePassed, \textcolor{keywordtype}{double} injE):}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00041}00041     m\_sourceTerm(sourceTerm)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00042}00042 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00043}00043     m\_epsilon     = 50;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00044}00044     m\_epsilonabs  = 1E+21;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00046}00046     m\_p                         = p;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00047}00047     m\_currentStep               = stepNumber;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00048}00048     m\_beamPower                 = m\_p-\/>P\_beam;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00050}00050     \textcolor{keywordflow}{if}(m\_p-\/>int\_Option == 20)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00051}00051     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00052}00052         m\_nParticles            = m\_p-\/>Nparticles * (m\_p-\/>Ncycle -\/ m\_p-\/>NbDiscardCycle);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00053}00053         \textcolor{comment}{//Les deux suivants doivent etre modifies car m\_beamEnergy = EperFission / nu}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00054}00054         m\_beamEnergy            = injE;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00055}00055         m\_beamIntensity         = m\_beamPower / (m\_beamEnergy / MeV);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00056}00056     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00057}00057     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00058}00058     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00059}00059         m\_nParticles            = m\_p-\/>Nparticles ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00060}00060         m\_beamEnergy            = m\_p-\/>BeamEnergy;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00061}00061         m\_beamIntensity         = m\_beamPower / (m\_beamEnergy / MeV);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00062}00062     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00064}00064     m\_totalIrradiationPeriod    = m\_p-\/>TimeOfRun ;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00065}00065     m\_coolingPeriod             = m\_p-\/>CoolingTime;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00067}00067     m\_nSteps                    = m\_p-\/>Nrun;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00069}00069     m\_verbose                   = m\_p-\/>Verbose;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00072}00072     std::cout << \textcolor{stringliteral}{"{}*********************************************************"{}}    << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00073}00073     std::cout << \textcolor{stringliteral}{"{}                    TIMESTEP "{}} << m\_currentStep               << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00074}00074     std::cout << \textcolor{stringliteral}{"{}*********************************************************"{}}    << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00075}00075 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00076}00076     m\_currentIrradiationPeriod = m\_p-\/>TimeOfRun / m\_p-\/>Nrun;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00077}00077     m\_scalingFactor            = m\_currentIrradiationPeriod * m\_beamIntensity / (m\_nParticles * e\_SI);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00078}00078     m\_irradiationTimePassed    = timePassed + m\_currentIrradiationPeriod;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00081}00081     G4GeometryManager::GetInstance()-\/>OpenGeometry();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00083}00083     recursiveInitialization((*G4PhysicalVolumeStore::GetInstance())[0]);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00085}00085     ModifyMaterial();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00086}00086     writeMaterials();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00087}00087 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00093}00093 \textcolor{keywordtype}{double} \mbox{\hyperlink{class_burnup_a53b19e00ea00612dcb9151d5def41fcc}{Burnup::getTimePassed}}()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00094}00094 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00095}00095     \textcolor{keywordflow}{return} m\_irradiationTimePassed;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00096}00096 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00101}00101 \mbox{\hyperlink{class_burnup_ae5bceb64e397e4cbfb44aa89acc2e919}{Burnup::\string~Burnup}}()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00102}00102 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00103}00103     m\_sourceTerm.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00104}00104     m\_matToLV.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00105}00105     m\_matToMass.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00106}00106     m\_nuclideVector.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00107}00107 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00114}00114 \textcolor{keywordtype}{void} Burnup::recursiveInitialization(G4VPhysicalVolume* PV, \textcolor{keywordtype}{int} replicate\_number) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00115}00115     \textcolor{keywordflow}{if}(PV) \textcolor{comment}{// if physical volume exists}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00116}00116     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00117}00117         G4LogicalVolume* LV     = PV-\/>GetLogicalVolume();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00118}00118         \textcolor{keywordtype}{int} PV\_replicate\_number = replicate\_number * PV-\/>GetMultiplicity(); \textcolor{comment}{// Get the number of replicates}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00120}00120         \textcolor{keywordflow}{if}(LV) \textcolor{comment}{// if logical volume exists}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00121}00121         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00122}00122             \textcolor{comment}{// For each Physical volume get daugther of the Logical volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00123}00123             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{size\_t} i = 0; i < LV-\/>GetNoDaughters(); ++i)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00124}00124             \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00125}00125                 G4VPhysicalVolume* Daughter\_PV = LV-\/>GetDaughter(i);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00126}00126                 std::map<TMXMaterial*, std::vector<G4LogicalVolume*>>::iterator mat\_it = m\_matToLV.find((\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}*)(LV)-\/>GetMaterial());}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00127}00127                 \textcolor{keywordflow}{if}(mat\_it  == m\_matToLV.end())}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00128}00128                 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00129}00129                     m\_matToLV[(\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}*)(Daughter\_PV-\/>GetLogicalVolume())-\/>GetMaterial()] = \{Daughter\_PV-\/>GetLogicalVolume()\};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00130}00130                     m\_matToMass[(\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}*)(Daughter\_PV-\/>GetLogicalVolume())-\/>GetMaterial()] = (Daughter\_PV-\/>GetLogicalVolume())-\/>GetMass(\textcolor{keyword}{true}, \textcolor{keyword}{false}) / g;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00131}00131                 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00132}00132                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00133}00133                 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00134}00134                     m\_matToLV[(\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}*)(Daughter\_PV-\/>GetLogicalVolume())-\/>GetMaterial()].push\_back(Daughter\_PV-\/>GetLogicalVolume());}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00135}00135                     m\_matToMass[(\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}*)(Daughter\_PV-\/>GetLogicalVolume())-\/>GetMaterial()] += (Daughter\_PV-\/>GetLogicalVolume())-\/>GetMass(\textcolor{keyword}{true}, \textcolor{keyword}{false}) / g;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00136}00136                 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00137}00137                 recursiveInitialization(Daughter\_PV, PV\_replicate\_number);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00138}00138             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00139}00139         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00140}00140     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00141}00141 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00142}00142 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00146}00146 \textcolor{keywordtype}{void} Burnup::ModifyMaterial()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00147}00147 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00148}00148     G4bool hasScalingBeenModified = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00149}00149     \textcolor{comment}{//Loop on the materials matToLV = (material*, vector<lvolume*>)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00150}00150     \textcolor{keywordflow}{for}(\textcolor{keyword}{const} \textcolor{keyword}{auto}\& mat : m\_matToLV)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00151}00151     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00152}00152         \textcolor{comment}{//Compute number of atoms of each nuclide in the material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00153}00153         computetNumOfAtoms(mat.first);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00154}00154 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00156}00156         \textcolor{comment}{//Addition of the decayed source term inside the final concentration + addition of initial compound decay}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00157}00157 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00158}00158         \textcolor{comment}{//Test to constitute time step}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00159}00159         testTimeStep(mat.first, hasScalingBeenModified);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00160}00160     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00161}00161 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00162}00162 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00164}00164     \textcolor{comment}{// Cette partie du code est dégueulasse. TF}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00166}00166 \textcolor{comment}{}    \textcolor{keywordflow}{if} (m\_verbose > 0 \&\& hasScalingBeenModified)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00167}00167     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00168}00168         std::ostringstream streamObj;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00169}00169         streamObj << m\_epsilonabs;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00170}00170         std::cout << \textcolor{stringliteral}{"{}The above nuclides are produced or consommed with a ratio above "{}} << m\_epsilon << \textcolor{stringliteral}{"{} \% and a production above "{}} + streamObj.str() + \textcolor{stringliteral}{"{} atoms\(\backslash\)n"{}}        << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00171}00171     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00172}00172     \textcolor{keywordflow}{if}(hasScalingBeenModified)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00173}00173     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00174}00174         std::cout << \textcolor{stringliteral}{"{}Scaling factor "{}} << m\_scalingFactor << \textcolor{stringliteral}{"{} -\/> "{}} << m\_scalingFactor * m\_epsilon / m\_scalingCorrection << \textcolor{stringliteral}{"{} particles"{}}                     << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00175}00175         std::cout << \textcolor{stringliteral}{"{}TimeStep correction: "{}} << m\_currentIrradiationPeriod << \textcolor{stringliteral}{"{} -\/> "{}} << m\_currentIrradiationPeriod * m\_epsilon / m\_scalingCorrection << \textcolor{stringliteral}{"{} s"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00176}00176         std::cout << \textcolor{stringliteral}{"{}Irradiation time reduction of a factor "{}} << m\_scalingCorrection / m\_epsilon                                                                          << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00177}00177         m\_scalingFactor            *= m\_epsilon / m\_scalingCorrection;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00178}00178 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00179}00179         m\_irradiationTimePassed    -\/= m\_currentIrradiationPeriod;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00180}00180         m\_currentIrradiationPeriod *= m\_epsilon / m\_scalingCorrection;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00181}00181         m\_irradiationTimePassed    += m\_currentIrradiationPeriod;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00182}00182 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00183}00183         std::cout << \textcolor{stringliteral}{"{}\(\backslash\)n****************************************************"{}}                  << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00184}00184         std::cout << \textcolor{stringliteral}{"{}************ TIME STEP HAS BEEN CHANGED ************"{}}                    << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00185}00185         std::cout << \textcolor{stringliteral}{"{}****************************************************"{}}                    << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00186}00186 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00187}00187     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00188}00188     \textcolor{keywordflow}{if}(m\_irradiationTimePassed > m\_totalIrradiationPeriod)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00189}00189     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00190}00190         m\_irradiationTimePassed    += -\/(m\_irradiationTimePassed -\/ m\_totalIrradiationPeriod);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00191}00191         m\_currentIrradiationPeriod += -\/(m\_irradiationTimePassed -\/ m\_totalIrradiationPeriod);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00192}00192 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00193}00193         m\_scalingFactor            = m\_currentIrradiationPeriod * m\_beamIntensity / (m\_nParticles * e\_SI);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00194}00194     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00195}00195 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00196}00196 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00197}00197     \textcolor{keywordflow}{if}(m\_verbose > 0)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00198}00198     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00199}00199         std::cout << \textcolor{stringliteral}{"{}****************************************************"{}}                    << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00200}00200         std::cout << \textcolor{stringliteral}{"{}********** BEAM PARAMETERS FOR ACTIVATION **********"{}}                    << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00201}00201         std::cout << \textcolor{stringliteral}{"{}****************************************************\(\backslash\)n"{}}                  << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00202}00202 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00203}00203         std::cout << \textcolor{stringliteral}{"{}* Beam power:                "{}} << m\_beamPower << \textcolor{stringliteral}{"{} MW"{}}                   << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00204}00204         std::cout << \textcolor{stringliteral}{"{}* Beam energy:               "{}} << m\_beamEnergy << \textcolor{stringliteral}{"{} MeV"{}}                 << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00205}00205         std::cout << \textcolor{stringliteral}{"{}* Beam intensity:            "{}} << m\_beamIntensity * 1000 << \textcolor{stringliteral}{"{} mA"{}}        << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00206}00206         std::cout << \textcolor{stringliteral}{"{}* Step irradiation period:   "{}} << m\_currentIrradiationPeriod << \textcolor{stringliteral}{"{} s "{}} << \textcolor{stringliteral}{"{} ("{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00207}00207                   << m\_currentIrradiationPeriod / m\_totalIrradiationPeriod * 100 << \textcolor{stringliteral}{"{} \%)"{}}      << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00208}00208         std::cout << \textcolor{stringliteral}{"{}* Step scaling factor:       "{}} << m\_scalingFactor}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00209}00209                   << \textcolor{stringliteral}{"{} number of primaries during step irradiation period"{}}                     << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00210}00210         std::cout << \textcolor{stringliteral}{"{}* Current irradiation time:  "{}} << m\_irradiationTimePassed << \textcolor{stringliteral}{"{} s "{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00211}00211                   << \textcolor{stringliteral}{"{} ("{}} << m\_irradiationTimePassed / m\_totalIrradiationPeriod * 100}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00212}00212                                                                                      << \textcolor{stringliteral}{"{} \%)"{}}  << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00213}00213         std::cout << \textcolor{stringliteral}{"{}\(\backslash\)n****************************************************"{}}                  << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00214}00214         std::cout << \textcolor{stringliteral}{"{}**************** MATERIAL ACTIVATION ***************"{}}                    << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00215}00215         std::cout << \textcolor{stringliteral}{"{}****************************************************\(\backslash\)n"{}}                  << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00216}00216     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00218}00218 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00219}00219 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00220}00220 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00221}00221     \textcolor{comment}{//Loop on the materials matToLV = (material*, vector<lvolume*>)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00222}00222     \textcolor{keywordflow}{for}(\textcolor{keyword}{const} \textcolor{keyword}{auto}\& mat : m\_matToLV)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00223}00223     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00224}00224         \textcolor{keywordflow}{if}(m\_verbose > 1) \mbox{\hyperlink{class_burnup_aa81e30147193d3e3c8cf5e770b53a0f5}{printMaterial}}(mat.first);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00225}00225 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00226}00226         \textcolor{comment}{// Computing the new nuclide vector and building new material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00227}00227         computeNewNuclideVector(mat.first);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00228}00228 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00229}00229         \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}} * newMat = buildMaterial(mat.first);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00230}00230 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00231}00231         \textcolor{comment}{// Replacing materials in all the LogicalVolumes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00232}00232         \textcolor{keywordflow}{for}(std::vector<G4LogicalVolume*>::size\_type i=0; i<mat.second.size(); i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00233}00233             mat.second[i]-\/>SetMaterial(newMat);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00234}00234 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00235}00235         \textcolor{keywordflow}{if}(m\_verbose > 1) \mbox{\hyperlink{class_burnup_aa81e30147193d3e3c8cf5e770b53a0f5}{printMaterial}}((\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}*)newMat);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00236}00236     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00237}00237 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00238}00238 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00243}00243 \textcolor{keywordtype}{void} Burnup::computeNewNuclideVector(\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* mat)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00244}00244 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00245}00245     \textcolor{comment}{//Compute number of atoms of each nuclide in the material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00246}00246     computetNumOfAtoms(mat);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00247}00247 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00249}00249     \textcolor{comment}{//Here the bateman decay has to be done//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00251}00251 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00252}00252     \textcolor{comment}{//Addition of the decayed source term inside the final concentration + addition of initial compound decay}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00253}00253     \mbox{\hyperlink{class_t_m_x_bateman_decay}{TMXBatemanDecay}} bateman;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00254}00254     bateman.decayNuclideVector(m\_nuclideVector, m\_sourceTerm[mat],}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00255}00255                                m\_currentIrradiationPeriod,}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00256}00256                                m\_scalingFactor);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00257}00257 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00258}00258 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00259}00259 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00264}00264 \textcolor{keywordtype}{void} Burnup::testTimeStep(\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* mat, G4bool \&modifScaling)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00265}00265 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00266}00266     \textcolor{keywordflow}{for}(\textcolor{keyword}{const} \textcolor{keyword}{auto}\& source : m\_sourceTerm[mat])}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00267}00267     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00268}00268         \textcolor{keywordflow}{if}(m\_nuclideVector[source.first] != 0. \&\& source.second != 0.)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00269}00269         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00270}00270             \textcolor{keywordflow}{if}( (std::abs(source.second * m\_scalingFactor / m\_nuclideVector[source.first] * 100) > m\_epsilon}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00271}00271                     \&\& m\_nuclideVector[source.first] > m\_epsilonabs))}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00272}00272             \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00273}00273                 \textcolor{keywordflow}{if}(m\_verbose > 0) std::cout << mat-\/>GetName() << \textcolor{stringliteral}{"{} "{}} << source.first}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00274}00274                                                                              << \textcolor{stringliteral}{"{} "{}} << source.second * m\_scalingFactor / m\_nuclideVector[source.first] * 100 << \textcolor{stringliteral}{"{} \% and "{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00275}00275                                                                              << m\_nuclideVector[source.first] << \textcolor{stringliteral}{"{} number of atoms"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00276}00276                 m\_scalingCorrection = std::max(m\_scalingCorrection, std::abs(source.second * m\_scalingFactor / m\_nuclideVector[source.first] * 100));}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00277}00277                 modifScaling = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00278}00278             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00279}00279             \textcolor{keywordflow}{if}(m\_nuclideVector[source.first] + source.second * m\_scalingFactor < 0. )}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00280}00280             \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00281}00281                 \textcolor{keywordtype}{double} newScalingFactor = -\/m\_nuclideVector[source.first] / source.second;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00282}00282                 \textcolor{keywordflow}{if}(newScalingFactor <= m\_scalingFactor * m\_epsilon / m\_scalingCorrection)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00283}00283                 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00284}00284                     \textcolor{keywordtype}{double} timeToSubstract      = m\_currentIrradiationPeriod * ( 1 -\/ newScalingFactor / m\_scalingFactor );}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00285}00285                     m\_currentIrradiationPeriod += -\/ timeToSubstract;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00286}00286                     m\_irradiationTimePassed    += -\/ timeToSubstract;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00287}00287                     m\_scalingFactor             = newScalingFactor;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00288}00288                     std::cout<< \textcolor{stringliteral}{"{}Consumption of the totality of "{}} << source.first << \textcolor{stringliteral}{"{}. Initial number of atoms: "{}} << m\_nuclideVector[source.first]}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00289}00289                              << \textcolor{stringliteral}{"{}. Final number of atoms: "{}} << m\_nuclideVector[source.first] + source.second * m\_scalingFactor<<std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00290}00290                 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00291}00291             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00292}00292         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00293}00293     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00294}00294 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00295}00295 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00300}00300 \textcolor{keywordtype}{void} Burnup::computetNumOfAtoms(\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* mat)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00301}00301 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00302}00302     m\_nuclideVector.clear();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00303}00303     \textcolor{keyword}{const} G4double* massFraction    = mat-\/>GetFractionVector();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00304}00304 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00305}00305     \textcolor{comment}{//Loop on the number of elements of the material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00306}00306     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j < mat-\/>GetNumberOfElements(); ++j)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00307}00307     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00308}00308         G4double* relativeAbundance = mat-\/>GetElement(j)-\/>GetRelativeAbundanceVector();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00309}00309 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00310}00310         \textcolor{comment}{//Loop on the number of isotopes of the element}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00311}00311         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i <  mat-\/>GetElement(j)-\/>GetNumberOfIsotopes(); i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00312}00312         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00313}00313             G4double nAtoms = m\_matToMass[mat] * CLHEP::Avogadro / ( mat-\/>GetElement(j)-\/>GetA() / (g/mole) ) * relativeAbundance[i] * massFraction[j];\textcolor{comment}{// tenir compte des différents volumes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00314}00314             \textcolor{keywordtype}{double} IZA = mat-\/>GetElement(j)-\/>GetZ() * 10000 + mat-\/>GetElement(j)-\/>GetIsotope(0)-\/>GetN() * 10 + mat-\/>GetElement(j)-\/>GetIsotope(0)-\/>Getm();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00315}00315             std::map<G4int,G4double>::iterator it = m\_nuclideVector.find(IZA);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00316}00316             \textcolor{keywordflow}{if} ( it == m\_nuclideVector.end())}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00317}00317                 m\_nuclideVector[IZA] = nAtoms;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00318}00318             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00319}00319                 m\_nuclideVector[IZA] += nAtoms;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00320}00320         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00321}00321     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00322}00322 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00323}00323 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00329}00329 \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* Burnup::buildMaterial(\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* mat)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00330}00330 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00331}00331     std::vector<int> remove;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00332}00332     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \textcolor{keyword}{const}\& elem : m\_nuclideVector)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00333}00333         \textcolor{keywordflow}{if} (elem.second <= 1. )}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00334}00334             remove.push\_back(elem.first);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00335}00335     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \&e: remove) m\_nuclideVector.erase(e);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00336}00336 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00337}00337     \textcolor{comment}{//Compute mass of the new material and turn nuclide vector from atom percentage to mass percentage}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00338}00338     G4double newMass       = getMaterialMass();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00339}00339 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00340}00340     \textcolor{comment}{//Initialize a new material with the new composition}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00341}00341     \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}} *updatedMat = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(getMatNameCurrentStep(mat),}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00342}00342                                             mat-\/>GetDensity() * newMass / m\_matToMass[mat],}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00343}00343                                             m\_nuclideVector.size(),}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00344}00344                                             mat-\/>GetState(),}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00345}00345                                             mat-\/>GetTemperature(),}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00346}00346                                             mat-\/>GetPressure());}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00347}00347     \textcolor{comment}{//Construct the new material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00348}00348     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \textcolor{keyword}{const}\& elem : m\_nuclideVector)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00349}00349     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00350}00350         \textcolor{keywordflow}{if}( TMXElementStore::GetElement(elem.first)-\/>Name().substr(0,3) == \textcolor{stringliteral}{"{}TS\_"{}})}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00351}00351         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00352}00352             updatedMat-\/>AddElement(TMXElementStore::GetElement(elem.first)-\/>IZA(), elem.second / newMass, TMXElementStore::GetElement(elem.first)-\/>Name());}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00353}00353         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00354}00354         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00355}00355         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00356}00356 \textcolor{comment}{//            std::cout<< elem.first<< "{} "{} <<elem.second <<std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00357}00357 \textcolor{comment}{//            std::cout<<TMXElementStore::GetElement(elem.first)-\/>IZA() << "{} "{}<<elem.second / newMass <<std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00358}00358             \textcolor{keywordflow}{if} (elem.second / newMass <= 0.) \textcolor{comment}{// ATTENTION: on triche}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00359}00359                 updatedMat-\/>AddElement(TMXElementStore::GetElement(elem.first)-\/>IZA(), 0.);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00360}00360             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00361}00361                 updatedMat-\/>AddElement(TMXElementStore::GetElement(elem.first)-\/>IZA(), elem.second / newMass);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00362}00362 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00363}00363         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00364}00364     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00365}00365     \textcolor{keywordflow}{return} updatedMat;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00366}00366 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00367}00367 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00373}00373 G4double Burnup::getMaterialMass()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00374}00374 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00375}00375     G4double newMass = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00376}00376     \textcolor{comment}{// Loop over nuclides in nuclideVector}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00377}00377     \textcolor{comment}{// isot.second returns the number of atoms of nuclide with name isot.first}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00378}00378     \textcolor{keywordflow}{for}(\textcolor{keyword}{const} \textcolor{keyword}{auto}\& isot : m\_nuclideVector)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00379}00379     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00380}00380         \textcolor{keywordflow}{if}(TMXElementStore::GetElement(isot.first) == NULL)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00381}00381         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00382}00382             std::cout << \textcolor{stringliteral}{"{}Element "{}} << isot.first << \textcolor{stringliteral}{"{} unknown"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00383}00383         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00384}00384         G4double isotMass = isot.second / CLHEP::Avogadro * TMXElementStore::GetElement(isot.first)-\/>Mweight();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00385}00385         newMass += isotMass;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00386}00386 \textcolor{comment}{//        std::cout<< isot.first<< "{} MassIsot: "{}<<isotMass <<"{} MassMat: "{}<< newMass<<"{} nAtomsIsot: "{}<< isot.second <<std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00387}00387         m\_nuclideVector[isot.first] = isotMass;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00388}00388     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00389}00389     \textcolor{keywordflow}{return} newMass;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00390}00390 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00391}00391 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00397}00397 std::string Burnup::getMatNameCurrentStep(\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}} *mat)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00398}00398 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00399}00399     \textcolor{keywordflow}{return} (mat-\/>GetName().find(\textcolor{stringliteral}{"{}*"{}}) == std::string::npos)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00400}00400                              ? mat-\/>GetName() + \textcolor{stringliteral}{"{}*"{}} + std::to\_string(m\_currentStep)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00401}00401                              : mat-\/>GetName().substr(0, mat-\/>GetName().find(\textcolor{stringliteral}{"{}*"{}})) + \textcolor{stringliteral}{"{}*"{}} + std::to\_string(m\_currentStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00402}00402 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00403}00403 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00410}00410 std::string Burnup::getMatName(\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}} *mat, \textcolor{keywordtype}{int} nStep)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00411}00411 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00412}00412     \textcolor{keywordflow}{if} (nStep == 0)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00413}00413         \textcolor{keywordflow}{return} mat-\/>GetName().substr(0, mat-\/>GetName().find(\textcolor{stringliteral}{"{}*"{}}));}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00414}00414     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00415}00415         \textcolor{keywordflow}{return} mat-\/>GetName().substr(0, mat-\/>GetName().find(\textcolor{stringliteral}{"{}*"{}})) + \textcolor{stringliteral}{"{}*"{}} + std::to\_string(nStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00416}00416 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00417}00417 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00421}00421 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_burnup_add988a7f493366949d7317da572d8f67}{Burnup::writeMaterials}}()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00422}00422 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00423}00423     std::string fileName = \textcolor{stringliteral}{"{}Evolved\_Materials\_Step"{}} + std::to\_string(m\_currentStep);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00424}00424     std::ofstream file;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00425}00425     file.open(fileName, std::ios::out);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00426}00426 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00427}00427     file << \textcolor{stringliteral}{"{}// ****************************************************"{}}                    << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00428}00428     file << \textcolor{stringliteral}{"{}// ********** BEAM PARAMETERS FOR ACTIVATION **********"{}}                    << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00429}00429     file << \textcolor{stringliteral}{"{}// ****************************************************\(\backslash\)n"{}}                  << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00430}00430 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00431}00431     file << \textcolor{stringliteral}{"{}// * Beam power:                "{}} << m\_beamPower << \textcolor{stringliteral}{"{} MW"{}}                   << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00432}00432     file << \textcolor{stringliteral}{"{}// * Beam energy:               "{}} << m\_beamEnergy << \textcolor{stringliteral}{"{} MeV"{}}                 << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00433}00433     file << \textcolor{stringliteral}{"{}// * Beam intensity:            "{}} << m\_beamIntensity * 1000 << \textcolor{stringliteral}{"{} mA"{}}        << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00434}00434     file << \textcolor{stringliteral}{"{}// * Step irradiation period:   "{}} << m\_currentIrradiationPeriod << \textcolor{stringliteral}{"{} s "{}} << \textcolor{stringliteral}{"{} ("{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00435}00435               << m\_currentIrradiationPeriod / m\_totalIrradiationPeriod * 100 << \textcolor{stringliteral}{"{} \%)"{}}      << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00436}00436     file << \textcolor{stringliteral}{"{}// * Step scaling factor:       "{}} << m\_scalingFactor}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00437}00437               << \textcolor{stringliteral}{"{} number of primaries during step irradiation period"{}}                     << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00438}00438     file << \textcolor{stringliteral}{"{}// * Current irradiation time:  "{}} << m\_irradiationTimePassed << \textcolor{stringliteral}{"{} s "{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00439}00439               << \textcolor{stringliteral}{"{} ("{}} << m\_irradiationTimePassed / m\_totalIrradiationPeriod * 100}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00440}00440                                                                                  << \textcolor{stringliteral}{"{} \%)"{}}  << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00441}00441 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00442}00442     \textcolor{keywordflow}{for}(\textcolor{keyword}{const} \textcolor{keyword}{auto}\& mat : m\_matToLV)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00443}00443     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00444}00444         \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* newMat = (\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}*)TMXMaterial::GetMaterial(getMatNameCurrentStep(mat.first), \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00445}00445         \textcolor{keywordflow}{if}(!newMat) newMat = mat.first;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00446}00446 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00447}00447         file              << \textcolor{stringliteral}{"{}\(\backslash\)n// Material: "{}}       <<newMat-\/>GetName()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00448}00448                           << \textcolor{stringliteral}{"{} appearing in "{}}        << m\_matToLV[mat.first].size()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00449}00449                           << \textcolor{stringliteral}{"{} logical volume(s):"{}}   <<std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00450}00450 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00451}00451         G4double totalVolume = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00452}00452         G4double totalMass   = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00453}00453         \textcolor{keywordflow}{for}(std::vector<G4LogicalVolume*>::size\_type i=0; i<mat.second.size(); i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00454}00454         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00455}00455             G4double daugtherVolume = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00456}00456             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{size\_t} j = 0; j < mat.second[i]-\/>GetNoDaughters(); j++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00457}00457             \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00458}00458                 daugtherVolume += mat.second[i]-\/>GetDaughter(j)-\/>GetLogicalVolume()-\/>GetSolid()-\/>GetCubicVolume() / cm3;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00459}00459             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00460}00460             totalVolume += mat.second[i]-\/>GetSolid()-\/>GetCubicVolume() / cm3 -\/ daugtherVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00461}00461             G4double addMass = mat.second[i]-\/>GetMass(\textcolor{keyword}{false}, \textcolor{keyword}{false}) / g;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00462}00462             totalMass   += addMass;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00463}00463             file          << \textcolor{stringliteral}{"{}// LogicalVolume: "{}}   << mat.second[i]-\/>GetName()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00464}00464                           << \textcolor{stringliteral}{"{} with mass: "{}}         << addMass}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00465}00465                           << \textcolor{stringliteral}{"{} g and volume: "{}}      << mat.second[i]-\/>GetSolid()-\/>GetCubicVolume() / cm3 -\/ daugtherVolume}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00466}00466                           << \textcolor{stringliteral}{"{} cm3"{}}                 << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00467}00467         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00468}00468         file              << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00469}00469 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00470}00470         \textcolor{comment}{// int count = 0;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00471}00471         \textcolor{keyword}{const} G4double* massFraction    = newMat-\/>GetFractionVector();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00472}00472         std::string matName = newMat-\/>GetName();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00473}00473         std::replace(matName.begin(), matName.end(), \textcolor{charliteral}{'*'}, \textcolor{charliteral}{'\_'});}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00474}00474         file              << \textcolor{stringliteral}{"{}TMXMaterial* "{}}       << matName}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00475}00475                           << \textcolor{stringliteral}{"{} = new TMXMaterial(\(\backslash\)"{}"{}} << newMat-\/>GetName()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00476}00476                           << \textcolor{stringliteral}{"{}\(\backslash\)"{}, "{}}                 << totalMass / totalVolume}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00477}00477                           << \textcolor{stringliteral}{"{} * (g / cm3), "{}}       << newMat-\/>GetElementVector()-\/>size()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00478}00478                           << \textcolor{stringliteral}{"{}, "{}}                   << m\_State[newMat-\/>GetState()]}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00479}00479                           << \textcolor{stringliteral}{"{}, "{}}                   << newMat-\/>GetTemperature()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00480}00480                           << \textcolor{stringliteral}{"{}, "{}}                   << newMat-\/>GetPressure()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00481}00481                           << \textcolor{stringliteral}{"{});"{}}                   << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00482}00482 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00483}00483         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j < newMat-\/>GetNumberOfElements(); ++j)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00484}00484         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00485}00485             \textcolor{comment}{//Loop on the number of isotopes of the element}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00486}00486             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i <  newMat-\/>GetElement(j)-\/>GetNumberOfIsotopes(); i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00487}00487             \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00488}00488                 \textcolor{keywordtype}{double} IZA = newMat-\/>GetElement(j)-\/>GetZ() * 10000 + newMat-\/>GetElement(j)-\/>GetIsotope(0)-\/>GetN() * 10 + newMat-\/>GetElement(j)-\/>GetIsotope(0)-\/>Getm();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00489}00489 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00490}00490                 file      << matName}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00491}00491                           << \textcolor{stringliteral}{"{}-\/>AddElement("{}}        << IZA}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00492}00492                           << \textcolor{stringliteral}{"{}, "{}}                   << massFraction[j]}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00493}00493                           << \textcolor{stringliteral}{"{});"{}}                   << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00494}00494             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00495}00495         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00496}00496         file              << \textcolor{stringliteral}{"{}\(\backslash\)n"{}}                   << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00497}00497     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00498}00498     file.close();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00499}00499 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00500}00500 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00505}00505 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_burnup_aa81e30147193d3e3c8cf5e770b53a0f5}{Burnup::printMaterial}}(\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* mat)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00506}00506 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00507}00507     \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* matSubstitute = mat;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00508}00508     std::string initialString = \textcolor{stringliteral}{"{}Material: "{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00509}00509     std::string finalString   = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00510}00510 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00511}00511     \textcolor{keywordflow}{if}(mat-\/>GetName().find(\textcolor{stringliteral}{"{}*"{}}) == std::string::npos)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00512}00512         initialString = \textcolor{stringliteral}{"{}Modifying: "{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00513}00513     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00514}00514     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00515}00515         \textcolor{keywordtype}{int} pos = mat-\/>GetName().find(\textcolor{stringliteral}{"{}*"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00516}00516         std::string substring = mat-\/>GetName().substr(pos + 1, mat-\/>GetName().length());}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00517}00517 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00518}00518         \textcolor{keywordflow}{if}(std::stoi(substring) == m\_currentStep)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00519}00519         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00520}00520             initialString = \textcolor{stringliteral}{"{}By: "{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00521}00521             finalString   = \textcolor{stringliteral}{"{}\(\backslash\)n-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00522}00522             matSubstitute = (\mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}*)TMXMaterial::GetMaterial(getMatName(mat, m\_currentStep -\/ 1), \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00523}00523         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00524}00524         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(std::stoi(substring) == m\_currentStep -\/ 1 || substring.length() == 0)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00525}00525             initialString = \textcolor{stringliteral}{"{}Modifying: "{}};}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00526}00526     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00527}00527 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00528}00528     std::cout         << initialString         << mat-\/>GetName()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00529}00529                       << \textcolor{stringliteral}{"{} appearing in "{}}      << m\_matToLV[matSubstitute].size()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00530}00530                       << \textcolor{stringliteral}{"{} logical volume(s):"{}} <<std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00531}00531 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00532}00532     G4double totalVolume = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00533}00533     G4double totalMass   = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00534}00534     \textcolor{keywordflow}{for}(std::vector<G4LogicalVolume*>::size\_type i=0; i<m\_matToLV[matSubstitute].size(); i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00535}00535     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00536}00536         G4double daugtherVolume = 0.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00537}00537         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{size\_t} j = 0; j < m\_matToLV[matSubstitute][i]-\/>GetNoDaughters(); j++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00538}00538         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00539}00539             daugtherVolume += m\_matToLV[matSubstitute][i]-\/>GetDaughter(j)-\/>GetLogicalVolume()-\/>GetSolid()-\/>GetCubicVolume() / cm3;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00540}00540         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00541}00541         totalVolume += m\_matToLV[matSubstitute][i]-\/>GetSolid()-\/>GetCubicVolume() / cm3 -\/ daugtherVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00542}00542         G4double addMass = m\_matToLV[matSubstitute][i]-\/>GetMass(\textcolor{keyword}{false}, \textcolor{keyword}{false}) / g;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00543}00543         totalMass   += addMass;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00544}00544         std::cout     << \textcolor{stringliteral}{"{}\(\backslash\)tLogicalVolume: "{}}  << m\_matToLV[matSubstitute][i]-\/>GetName()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00545}00545                       << \textcolor{stringliteral}{"{} with mass: "{}}       << addMass}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00546}00546                       << \textcolor{stringliteral}{"{} g and volume: "{}}    << m\_matToLV[matSubstitute][i]-\/>GetSolid()-\/>GetCubicVolume() / cm3 -\/ daugtherVolume}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00547}00547                       << \textcolor{stringliteral}{"{} cm3"{}}               << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00548}00548     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00549}00549 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00550}00550     std::cout         << \textcolor{stringliteral}{"{}\(\backslash\)tTotal mass: "{}}     << totalMass}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00551}00551                       << \textcolor{stringliteral}{"{} ,Total volume: "{}}   << totalVolume}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00552}00552                       << \textcolor{stringliteral}{"{} cm3, Density: "{}}    << totalMass / totalVolume}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00553}00553                       << \textcolor{stringliteral}{"{} g / cm3"{}}           << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00554}00554 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00555}00555     \textcolor{keyword}{const} G4double* massFraction    = mat-\/>GetFractionVector();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00556}00556     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j < mat-\/>GetNumberOfElements(); ++j)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00557}00557     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00558}00558         G4double* relativeAbundance = mat-\/>GetElement(j)-\/>GetRelativeAbundanceVector();}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00559}00559         std::cout     << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)tElement: "{}}      << mat-\/>GetElement(j)-\/>GetName()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00560}00560                       << \textcolor{stringliteral}{"{} "{}}                  << massFraction[j]}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00561}00561                       << \textcolor{stringliteral}{"{} "{}}                  << mat-\/>GetElement(j)-\/>GetA() / (g/mole)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00562}00562                       << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00563}00563 }
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00564}00564         \textcolor{comment}{//Loop on the number of isotopes of the element}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00565}00565         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i <  mat-\/>GetElement(j)-\/>GetNumberOfIsotopes(); i++)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00566}00566         \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00567}00567             \textcolor{keyword}{const} G4Isotope* Isotope = mat-\/>GetElement(j)-\/>GetIsotope(i);}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00568}00568             G4double nAtoms =totalMass * CLHEP::Avogadro / ( mat-\/>GetElement(j)-\/>GetA() / (g/mole) ) * relativeAbundance[i] * massFraction[j];}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00569}00569             std::cout << \textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t\(\backslash\)tIsotope: "{}}    << Isotope-\/>GetName()}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00570}00570                       << \textcolor{stringliteral}{"{} "{}}                  << nAtoms}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00571}00571                       << \textcolor{stringliteral}{"{} "{}}                  << relativeAbundance[i]}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00572}00572                       << \textcolor{stringliteral}{"{} "{}}                  << Isotope-\/>GetA()/(g/mole)}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00573}00573                       << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00574}00574         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00575}00575     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00576}00576     std::cout<<endl;   std::cout << finalString << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-4_2src_2_burnup_8cc_source_l00577}00577 \}}
+
+\end{DoxyCode}

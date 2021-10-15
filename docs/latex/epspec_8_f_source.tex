@@ -1,0 +1,97 @@
+\hypertarget{epspec_8_f_source}{}\doxysection{epspec.\+F}
+\label{epspec_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/epspec/epspec.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/epspec/epspec.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/07 25/09/96  19.14.50  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00003}00003       \textcolor{keyword}{PROGRAM} epspec}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00006}00006 \textcolor{comment}{*     Calculates and outputs the secondary neutron spectrum from       *}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00007}00007 \textcolor{comment}{*     a file 5 distribution of ENDF-\/6                                  *}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00009}00009 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00010}00010 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00011}00011 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00012}00012 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00013}00013 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00014}00014 \textcolor{preprocessor}{}      parameter(mxpoin=5000)}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00015}00015       dimension ens(mxpoin), pb(mxpoin)}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00016}00016       \textcolor{keywordtype}{CHARACTER*124} CHFINP, CHFOUT}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00017}00017       \textcolor{keywordtype}{LOGICAL} LNEUTR}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00018}00018       \textcolor{keyword}{DATA} mathol / -\/99 /}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00019}00019 \textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00020}00020 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00021}00021 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00023}00023 \textcolor{comment}{* -\/-\/-\/> Query file name}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00024}00024       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{'\$ Input  file: '}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00025}00025       \textcolor{keyword}{READ}(5,\textcolor{stringliteral}{'(A)'}) chfinp}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Open file}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00027}00027 +self,if=vax,decosf}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00028}00028       \textcolor{keyword}{OPEN}(12,file=chfinp(:index(chfinp,\textcolor{stringliteral}{' '})-\/1),shared,readonly,}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00029}00029      +     status=\textcolor{stringliteral}{'OLD'})}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00030}00030 +self,if=f90}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00031}00031       \textcolor{keyword}{OPEN}(12,file=chfinp(:index(chfinp,\textcolor{stringliteral}{' '})-\/1),}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00032}00032      +     status=\textcolor{stringliteral}{'OLD'},action=\textcolor{stringliteral}{'READ'})}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00033}00033 +self,if=sun}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00034}00034       \textcolor{keyword}{OPEN}(12,file=chfinp(:index(chfinp,\textcolor{stringliteral}{' '})-\/1),status=\textcolor{stringliteral}{'OLD'})}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00035}00035 +self}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00036}00036       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{'\$ Output file: '}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00037}00037       \textcolor{keyword}{READ}(5,\textcolor{stringliteral}{'(A)'}) chfout}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00038}00038 +self,if=vax,decosf}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00039}00039       \textcolor{keyword}{OPEN}(13,file=chfout(:index(chfout,\textcolor{stringliteral}{' '})-\/1),form=\textcolor{stringliteral}{'FORMATTED'},}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00040}00040      +     status=\textcolor{stringliteral}{'NEW'})}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00041}00041 +self,if=f90,sun}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00042}00042       \textcolor{keyword}{OPEN}(13,file=chfout(:index(chfout,\textcolor{stringliteral}{' '})-\/1),form=\textcolor{stringliteral}{'FORMATTED'},}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00043}00043      +     status=\textcolor{stringliteral}{'UNKNOWN'})}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00044}00044 +self}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Query isomer and reaction code}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00046}00046       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{'\$ Enter A, Z, IS, EN, reaction: '}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00047}00047       \textcolor{keyword}{READ}(5,*) iain, izin, isin, enin, mtin}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00048}00048 \textcolor{comment}{* -\/-\/-\/> Query energy window and number of points}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00049}00049       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{'\$ Enter EMIN, EMAX, NEN: '}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00050}00050       \textcolor{keyword}{READ}(5,*) emin, emax, nen}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00051}00051       \textcolor{keywordflow}{IF}(nen.GT.mxpoin) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00052}00052          stop \textcolor{stringliteral}{'Increase MXPOIN'}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00053}00053 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00054}00054       fact=exp(log(emax/emin)/nen)}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/> Fill energy grid}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00056}00056       ens(1) = emin}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00057}00057       \textcolor{keywordflow}{DO} 10 jen=2,nen}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00058}00058          ens(jen)=ens(jen-\/1)*fact}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00059}00059    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> Read next ENDF-\/6 section header}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00061}00061    20 \textcolor{keyword}{CALL }xnnews(c1, c2, l1, l2, n1, n2, math, mfh, mth)}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> If EoF exit}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00063}00063       \textcolor{keywordflow}{IF}(math.LT.0) \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/> If new material, special action}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00065}00065       \textcolor{keywordflow}{IF}(math.NE.mathol) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00066}00066 \textcolor{comment}{* -\/-\/-\/> Print information}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00067}00067          \textcolor{keyword}{WRITE}(6,10000) nint(c1/1000.),nint(mod(c1,1000.)),math}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00068}00068 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Now processing Z='},i3,\textcolor{stringliteral}{' A='},i3,\textcolor{stringliteral}{' mate='},i4)}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/> Get additional information on isomeric state}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00070}00070          \textcolor{keyword}{READ}(12,10100) elis,sta,lis,liso,izero,nfor}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00071}00071          mathol=math}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00072}00072          izamat = nint(c1)}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00073}00073 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00074}00074 \textcolor{comment}{* -\/-\/-\/> Is this the section we are interested in?}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00075}00075    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00076}00076       \textcolor{keywordflow}{IF}((mfh.NE.5)}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00077}00077      +    .OR.(mth.NE.mtin)}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00078}00078      +        .OR.(izamat.NE.izin*1000+iain)}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00079}00079      +            .OR.(liso.NE.isin)) \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00080}00080       nsubs=n1}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00081}00081 \textcolor{comment}{* -\/-\/-\/> Fill probability grid}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00082}00082       \textcolor{keyword}{CALL }xn5gte(enin, ens, pb, nen)}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00083}00083 \textcolor{comment}{* -\/-\/-\/> Write spectrum on unit 13}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00084}00084    40 \textcolor{keyword}{WRITE}(13,\textcolor{stringliteral}{'(2X,G14.7,A1,G14.7)'}) (ens(je),char(9),pb(je),je=1,nen)}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00085}00085 \textcolor{comment}{* -\/-\/-\/> Close output}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00086}00086       \textcolor{keyword}{CLOSE}(13)}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00087}00087 \textcolor{comment}{* -\/-\/-\/> Close input}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00088}00088       \textcolor{keyword}{CLOSE}(12)}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00089}00089 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00090}00090 10100 \textcolor{keyword}{FORMAT}(2e11.4,4i11,i4,i2,i3)}
+\DoxyCodeLine{\Hypertarget{epspec_8_f_source_l00091}00091       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source" xml:lang="en-US">
+<title>TMXExternalSource.cc</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/Benchmark-4/src/TMXExternalSource.cc</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00001"/>00001 <emphasis role="comment">//&#32;&#32;▄▄▄▄▄▄▄▄▄▄▄&#32;&#32;▄▄▄▄▄▄▄▄▄▄&#32;&#32;&#32;▄▄▄▄▄▄▄▄▄▄▄&#32;&#32;▄▄▄▄▄▄▄▄▄▄▄&#32;&#32;▄▄▄▄▄▄▄▄▄▄▄&#32;&#32;▄▄▄▄▄▄▄▄▄▄▄&#32;&#32;▄▄&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;▄&#32;&#32;▄▄▄▄▄▄▄▄▄▄▄&#32;&#32;▄▄&#32;&#32;&#32;&#32;&#32;&#32;&#32;▄▄&#32;&#32;▄&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;▄&#32;&#32;▄▄▄▄▄▄▄▄▄▄▄&#32;&#32;▄▄▄▄▄▄▄▄▄▄▄&#32;&#32;▄&#32;&#32;&#32;&#32;&#32;&#32;&#32;▄</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00002"/>00002 <emphasis role="comment">//&#32;▐░░░░░░░░░░░▌▐░░░░░░░░░░▌&#32;▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░▌&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░░░░░░░░░░░▌▐░░▌&#32;&#32;&#32;&#32;&#32;▐░░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00003"/>00003 <emphasis role="comment">//&#32;▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀&#32;&#32;▀▀▀▀█░█▀▀▀▀&#32;▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌░▌&#32;&#32;&#32;&#32;&#32;▐░▌▐░█▀▀▀▀▀▀▀▀▀&#32;▐░▌░▌&#32;&#32;&#32;▐░▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌&#32;▀▀▀▀█░█▀▀▀▀&#32;▐░█▀▀▀▀▀▀▀▀▀&#32;&#32;▐░▌&#32;&#32;&#32;▐░▌</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00004"/>00004 <emphasis role="comment">//&#32;▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░▌▐░▌&#32;&#32;&#32;&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░▌&#32;▐░▌▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌&#32;▐░▌</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00005"/>00005 <emphasis role="comment">//&#32;▐░█▄▄▄▄▄▄▄█░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░█▄▄▄▄▄▄▄▄▄&#32;&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌&#32;▐░▌&#32;&#32;&#32;▐░▌▐░█▄▄▄▄▄▄▄▄▄&#32;▐░▌&#32;▐░▐░▌&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░█▄▄▄▄▄▄▄▄▄&#32;&#32;&#32;&#32;▐░▐░▌</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00006"/>00006 <emphasis role="comment">//&#32;▐░░░░░░░░░░░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░░░░░░░░░░░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌&#32;&#32;▐░▌&#32;&#32;▐░▌▐░░░░░░░░░░░▌▐░▌&#32;&#32;▐░▌&#32;&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░░░░░░░░░░░▌&#32;&#32;&#32;&#32;▐░▌</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00007"/>00007 <emphasis role="comment">//&#32;▐░█▀▀▀▀▀▀▀█░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌&#32;▀▀▀▀▀▀▀▀▀█░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░█▀▀▀▀█░█▀▀&#32;▐░█▀▀▀▀▀▀▀█░▌▐░▌&#32;&#32;&#32;▐░▌&#32;▐░▌&#32;▀▀▀▀▀▀▀▀▀█░▌▐░▌&#32;&#32;&#32;▀&#32;&#32;&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░█▀▀▀▀▀▀▀▀▀&#32;&#32;&#32;&#32;▐░▌░▌</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00008"/>00008 <emphasis role="comment">//&#32;▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌&#32;▐░▌</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00009"/>00009 <emphasis role="comment">//&#32;▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░█▄▄▄▄▄▄▄█░▌&#32;▄▄▄▄▄▄▄▄▄█░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;&#32;▐░▌&#32;▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;▐░▐░▌&#32;▄▄▄▄▄▄▄▄▄█░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░█▄▄▄▄▄▄▄█░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░█▄▄▄▄▄▄▄▄▄&#32;&#32;▐░▌&#32;&#32;&#32;▐░▌</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00010"/>00010 <emphasis role="comment">//&#32;▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░░░░░░░░░░▌&#32;▐░░░░░░░░░░░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;▐░░▌▐░░░░░░░░░░░▌▐░▌&#32;&#32;&#32;&#32;&#32;&#32;&#32;▐░▌▐░░░░░░░░░░░▌&#32;&#32;&#32;&#32;&#32;▐░▌&#32;&#32;&#32;&#32;&#32;▐░░░░░░░░░░░▌▐░▌&#32;&#32;&#32;&#32;&#32;▐░▌</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00011"/>00011 <emphasis role="comment">//&#32;&#32;▀&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;▀&#32;&#32;▀▀▀▀▀▀▀▀▀▀&#32;&#32;&#32;▀▀▀▀▀▀▀▀▀▀▀&#32;&#32;&#32;&#32;&#32;&#32;&#32;▀&#32;&#32;&#32;&#32;&#32;&#32;&#32;▀&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;▀&#32;&#32;▀&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;▀&#32;&#32;▀&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;▀▀&#32;&#32;▀▀▀▀▀▀▀▀▀▀▀&#32;&#32;▀&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;▀&#32;&#32;▀▀▀▀▀▀▀▀▀▀▀&#32;&#32;&#32;&#32;&#32;&#32;&#32;▀&#32;&#32;&#32;&#32;&#32;&#32;&#32;▀▀▀▀▀▀▀▀▀▀▀&#32;&#32;▀&#32;&#32;&#32;&#32;&#32;&#32;&#32;▀</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00012"/>00012 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00014"/>00014 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;\brief&#32;Implementation&#32;of&#32;the&#32;TMXExternalSource&#32;class</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00015"/>00015 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00016"/>00016 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00018"/>00018 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00019"/>00019 <emphasis role="comment">//&#32;TMXExternalSource</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00020"/>00020 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00021"/>00021 <emphasis role="comment">//&#32;Thomas&#32;Frosio,&#32;Transmutex,&#32;13/04/2021</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00022"/>00022 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00024"/>00024 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;Class&#32;to&#32;read&#32;an&#32;external&#32;neutron&#32;source</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00026"/>00026 <emphasis role="comment"></emphasis><emphasis role="comment">/*</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00027"/>00027 <emphasis role="comment">&#32;*&#32;Reads&#32;a&#32;file&#32;containing&#32;a&#32;source&#32;generated&#32;from&#32;another&#32;system&#32;code.</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00028"/>00028 <emphasis role="comment">&#32;*&#32;The&#32;file&#32;must&#32;provides&#32;by&#32;column:</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00029"/>00029 <emphasis role="comment">&#32;*&#32;X&#32;Y&#32;Z&#32;(in&#32;cm)</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00030"/>00030 <emphasis role="comment">&#32;*&#32;Xdir&#32;Ydir&#32;Zdir&#32;(normalized&#32;to&#32;norm=1)</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00031"/>00031 <emphasis role="comment">&#32;*&#32;E&#32;(MeV),</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00032"/>00032 <emphasis role="comment">&#32;*&#32;NCASE&#32;primary&#32;event&#32;number</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00033"/>00033 <emphasis role="comment">&#32;*&#32;JTRACK&#32;FLUKA&#32;particle&#32;ID&#32;(&#32;e-&#32;=&#32;3,&#32;e+&#32;=&#32;4,&#32;gamma&#32;=&#32;7,&#32;neutron&#32;=&#32;8)</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00034"/>00034 <emphasis role="comment">&#32;*&#32;To&#32;perform&#32;a&#32;translation&#32;of&#32;the&#32;source,&#32;use&#32;setTargetTranslation()&#32;method&#32;filling&#32;the&#32;vector&#32;in&#32;cm</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00035"/>00035 <emphasis role="comment">&#32;*&#32;Each&#32;line&#32;of&#32;the&#32;file&#32;is&#32;read&#32;to&#32;initiate&#32;a&#32;new&#32;neutron&#32;source</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00036"/>00036 <emphasis role="comment">&#32;*&#32;If&#32;the&#32;simulation&#32;requires&#32;more&#32;neutron&#32;source&#32;than&#32;available</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00037"/>00037 <emphasis role="comment">&#32;*&#32;in&#32;the&#32;external&#32;source&#32;file,&#32;the&#32;sampling&#32;of&#32;source&#32;neutron</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00038"/>00038 <emphasis role="comment">&#32;*&#32;restarts&#32;from&#32;the&#32;beginning&#32;of&#32;the&#32;external&#32;source&#32;file.</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00039"/>00039 <emphasis role="comment">&#32;*/</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00040"/>00040 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00041"/>00041 <emphasis role="comment">/********************************INCLUDES******************************/</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00042"/>00042 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00043"/>00043 <emphasis role="preprocessor">#include&#32;&quot;TMXExternalSource.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00044"/>00044 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00045"/>00045 <emphasis role="comment">/**********************************************************************/</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00046"/>00046 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00050"/>00050 <link linkend="_class_t_m_x_external_source_1aad41b25b475b21dffbb7a3100adcc3a5">TMXExternalSource::TMXExternalSource</link>():
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00051"/>00051 &#32;&#32;&#32;&#32;m_isInitialised(false),
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00052"/>00052 &#32;&#32;&#32;&#32;m_numberOfSourceParticlesInFile(0)
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00053"/>00053 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00054"/>00054 &#32;&#32;&#32;&#32;defineMapParticleConverter();
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00055"/>00055 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00056"/>00056 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00060"/>00060 <link linkend="_class_t_m_x_external_source_1a7a43c1d95590adae7a97f833e733b10d">TMXExternalSource::~TMXExternalSource</link>()
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00061"/>00061 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00062"/>00062 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(!m_filePath.empty())
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00063"/>00063 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_file.close();
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_t_m_x_external_source_1a52bfdc4e8857a20f45aaa3b4bc632434">endOfCalculation</link>();
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00066"/>00066 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00067"/>00067 &#32;}
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00068"/>00068 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00072"/>00072 <emphasis role="keywordtype">void</emphasis>&#32;TMXExternalSource::defineMapParticleConverter()
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00073"/>00073 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;m_particleIdToString[3]&#32;=&#32;<emphasis role="stringliteral">&quot;e-&quot;</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;m_particleIdToString[4]&#32;=&#32;<emphasis role="stringliteral">&quot;e+&quot;</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;m_particleIdToString[7]&#32;=&#32;<emphasis role="stringliteral">&quot;gamma&quot;</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;&#32;m_particleIdToString[8]&#32;=&#32;<emphasis role="stringliteral">&quot;neutron&quot;</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00078"/>00078 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00079"/>00079 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00083"/>00083 <emphasis role="keywordtype">void</emphasis>&#32;TMXExternalSource::countNumberOfSourceParticlesInFile()
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00084"/>00084 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00085"/>00085 &#32;&#32;&#32;&#32;m_file.open(m_filePath);
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00086"/>00086 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(m_file.is_open())
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00087"/>00087 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_currentLine&#32;=&#32;<emphasis role="stringliteral">&quot;#&quot;</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(!m_file.eof())
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string&#32;line;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::getline(m_file,&#32;line);
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(line.find(<emphasis role="stringliteral">&quot;#&quot;</emphasis>)&#32;==&#32;std::string::npos)
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_numberOfSourceParticlesInFile++;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00096"/>00096 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00097"/>00097 &#32;&#32;&#32;&#32;m_numberOfSourceParticlesInFile--;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00098"/>00098 &#32;&#32;&#32;&#32;m_file.close();
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00099"/>00099 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00100"/>00100 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00104"/>00104 <emphasis role="keywordtype">void</emphasis>&#32;TMXExternalSource::initializeFile()
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00105"/>00105 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00106"/>00106 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;###########################################################################################################&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00107"/>00107 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;########################&#32;USING&#32;EXTERNAL&#32;SOURCE&#32;FOR&#32;THE&#32;CALCULATION&#32;&quot;</emphasis>&#32;+&#32;m_filePath&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00108"/>00108 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;###########################################################################################################&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00109"/>00109 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00110"/>00110 &#32;&#32;&#32;&#32;m_file.open(m_filePath);
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00111"/>00111 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(m_file.is_open())
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00112"/>00112 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_currentLine&#32;=&#32;<emphasis role="stringliteral">&quot;#&quot;</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(std::getline(m_file,&#32;m_currentLine)&#32;&amp;&amp;&#32;m_currentLine.find(<emphasis role="stringliteral">&quot;#&quot;</emphasis>)&#32;!=&#32;std::string::npos){}
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00115"/>00115 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00116"/>00116 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00117"/>00117 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;#########################################################################################################&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00119"/>00119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Problem&#32;opening&#32;external&#32;source&#32;file:&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;m_filePath&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00120"/>00120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;#########################################################################################################&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00121"/>00121 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00122"/>00122 &#32;&#32;&#32;&#32;buildSourceParameters();
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00123"/>00123 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00124"/>00124 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00128"/>00128 <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_t_m_x_external_source_1ae86d69687b3de23e6c27f380b86e6276">TMXExternalSource::next</link>()
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00129"/>00129 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00130"/>00130 &#32;&#32;&#32;&#32;std::getline(m_file,&#32;m_currentLine);
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00131"/>00131 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(m_file.eof())
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00132"/>00132 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00133"/>00133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;#########################################################################################################&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00134"/>00134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Reached&#32;end&#32;of&#32;external&#32;source&#32;file.&#32;Add&#32;more&#32;neutron&#32;source.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00135"/>00135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;#########################################################################################################&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00136"/>00136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_file.close();
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00137"/>00137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;exit(0);
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00138"/>00138 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00139"/>00139 &#32;&#32;&#32;&#32;buildSourceParameters();
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00140"/>00140 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00141"/>00141 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00145"/>00145 <emphasis role="keywordtype">void</emphasis>&#32;TMXExternalSource::buildSourceParameters()
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00146"/>00146 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00147"/>00147 &#32;&#32;&#32;&#32;std::istringstream&#32;iss(m_currentLine);
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00148"/>00148 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;x,&#32;y,&#32;z,&#32;dx,&#32;dy,&#32;dz,&#32;e,&#32;nCase,&#32;jTrack;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00149"/>00149 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!(iss&#32;&gt;&gt;&#32;x&#32;&gt;&gt;&#32;y&#32;&gt;&gt;&#32;z&#32;&gt;&gt;&#32;dx&#32;&gt;&gt;&#32;dy&#32;&gt;&gt;&#32;dz&#32;&gt;&gt;&#32;e&#32;&gt;&gt;&#32;nCase&#32;&gt;&gt;&#32;jTrack))&#32;<emphasis role="comment">//remove&#32;p</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00150"/>00150 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00151"/>00151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;###########################################################################################################&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00152"/>00152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Problem&#32;format&#32;of&#32;external&#32;source&#32;file:&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;m_filePath&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00153"/>00153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Each&#32;line&#32;of&#32;the&#32;source&#32;file&#32;must&#32;represent&#32;a&#32;source&#32;particle&#32;with&#32;following&#32;format:&#32;&#32;&#32;&#32;&quot;</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00154"/>00154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Xpos&#32;Ypos&#32;Zpos&#32;Xdir&#32;Ydir&#32;Zdir&#32;Energy&#32;EventNumber&#32;ParticleID.&#32;Current&#32;line&#32;is:&#32;&quot;</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00155"/>00155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;m_currentLine&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00156"/>00156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;###########################################################################################################&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00157"/>00157 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00158"/>00158 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00159"/>00159 &#32;&#32;&#32;&#32;m_position.setX(x&#32;*&#32;cm&#32;+&#32;m_translation.getX()&#32;*&#32;cm);
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00160"/>00160 &#32;&#32;&#32;&#32;m_position.setY(y&#32;*&#32;cm&#32;+&#32;m_translation.getY()&#32;*&#32;cm);
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00161"/>00161 &#32;&#32;&#32;&#32;m_position.setZ(z&#32;*&#32;cm&#32;+&#32;m_translation.getZ()&#32;*&#32;cm);
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00162"/>00162 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00163"/>00163 &#32;&#32;&#32;&#32;m_direction.setX(dx);
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00164"/>00164 &#32;&#32;&#32;&#32;m_direction.setY(dy);
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00165"/>00165 &#32;&#32;&#32;&#32;m_direction.setZ(dz);
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00166"/>00166 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00167"/>00167 &#32;&#32;&#32;&#32;m_energy&#32;=&#32;e&#32;*&#32;MeV;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00168"/>00168 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00169"/>00169 &#32;&#32;&#32;&#32;m_numberOfEvents&#32;=&#32;nCase;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00170"/>00170 &#32;&#32;&#32;&#32;m_stringParticleID&#32;=&#32;m_particleIdToString[jTrack];
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00171"/>00171 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00172"/>00172 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00176"/>00176 <emphasis role="keywordtype">void</emphasis>&#32;TMXExternalSource::pursueCalculation()
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00177"/>00177 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00178"/>00178 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Number&#32;of&#32;source&#32;particles&#32;requested:&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;m_numberOfSourceParticlesRequested&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00179"/>00179 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(m_numberOfSourceParticlesRequested&#32;&gt;&#32;m_numberOfSourceParticlesInFile)
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00180"/>00180 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00181"/>00181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;???????????????????????????????????????????????????????????????????????????????????????????&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00182"/>00182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Not&#32;enough&#32;particles&#32;in&#32;source&#32;file&#32;to&#32;perform&#32;the&#32;requested&#32;simulation&quot;</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00183"/>00183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;To&#32;simulate&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;m_numberOfSourceParticlesInFile&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;particles,&#32;press&#32;ENTER&#32;to&#32;CONTINUE...&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00184"/>00184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;???????????????????????????????????????????????????????????????????????????????????????????&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00185"/>00185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cin.ignore();
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00186"/>00186 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00187"/>00187 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00188"/>00188 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00192"/>00192 <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_t_m_x_external_source_1a52bfdc4e8857a20f45aaa3b4bc632434">TMXExternalSource::endOfCalculation</link>()
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00193"/>00193 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00194"/>00194 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;###############################################################################################&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00195"/>00195 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;End&#32;of&#32;simulation.&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;m_numberOfSourceParticlesRequested&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;particles&#32;were&#32;simulated.&quot;</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00196"/>00196 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;The&#32;number&#32;of&#32;initial&#32;primaries&#32;was:&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;m_numberOfEvents&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00197"/>00197 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;The&#32;yield&#32;in&#32;this&#32;calculation&#32;is:&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;&#32;(double)m_numberOfSourceParticlesRequested&#32;/&#32;(<emphasis role="keywordtype">double</emphasis>)m_numberOfEvents&#32;&#32;&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00198"/>00198 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;###############################################################################################&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00199"/>00199 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00200"/>00200 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00201"/>00201 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00202"/>00202 <emphasis role="comment">//***********************************************************************//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00203"/>00203 <emphasis role="comment">//****************************GETTERS************************************//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00204"/>00204 <emphasis role="comment">//***********************************************************************//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00205"/>00205 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00206"/>00206 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00211"/>00211 std::string&#32;<link linkend="_class_t_m_x_external_source_1a486326b44029ad5ae42436726d1040d9">TMXExternalSource::getParticleID</link>()
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00212"/>00212 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00213"/>00213 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_stringParticleID;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00214"/>00214 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00215"/>00215 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00220"/>00220 G4ThreeVector&#32;<link linkend="_class_t_m_x_external_source_1ac2be2e528b22d01aa6e3095728c49f7d">TMXExternalSource::getPosition</link>()
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00221"/>00221 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00222"/>00222 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_position;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00223"/>00223 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00224"/>00224 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00229"/>00229 G4ThreeVector&#32;<link linkend="_class_t_m_x_external_source_1afb85c51c85fb77cbab298b8db1806458">TMXExternalSource::getDirection</link>()
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00230"/>00230 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00231"/>00231 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_direction;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00232"/>00232 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00233"/>00233 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00238"/>00238 <emphasis role="keywordtype">double</emphasis>&#32;<link linkend="_class_t_m_x_external_source_1a7c582aed3cd3b588c2f1dee3b5e5407f">TMXExternalSource::getEnergy</link>()
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00239"/>00239 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00240"/>00240 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_energy;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00241"/>00241 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00242"/>00242 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00247"/>00247 <emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_t_m_x_external_source_1a70a2fe7db9cedaec2df14a6c7dfc24ba">TMXExternalSource::getNumberOfEvents</link>()
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00248"/>00248 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00249"/>00249 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_numberOfEvents;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00250"/>00250 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00251"/>00251 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00252"/>00252 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00253"/>00253 <emphasis role="comment">//***********************************************************************//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00254"/>00254 <emphasis role="comment">//****************************SETTERS************************************//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00255"/>00255 <emphasis role="comment">//***********************************************************************//</emphasis>
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00256"/>00256 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00262"/>00262 <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_t_m_x_external_source_1a17837e5054da14925b5ba067122db400">TMXExternalSource::initialize</link>(std::string&#32;path,&#32;<emphasis role="keywordtype">int</emphasis>&#32;n)
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00263"/>00263 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00264"/>00264 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!m_isInitialised)&#32;{
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00265"/>00265 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_t_m_x_external_source_1af0cdeb925e17c1357f9d86d6b21e21cb">setFilePath</link>(path);
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00266"/>00266 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_t_m_x_external_source_1a029911a9d8d743ac70a3ae41de4801da">setNumberOfParticleToSample</link>(n);
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00267"/>00267 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_isInitialised&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00268"/>00268 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00269"/>00269 &#32;&#32;&#32;&#32;pursueCalculation();
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00270"/>00270 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00271"/>00271 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00276"/>00276 <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_t_m_x_external_source_1af0cdeb925e17c1357f9d86d6b21e21cb">TMXExternalSource::setFilePath</link>(std::string&#32;path)
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00277"/>00277 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00278"/>00278 &#32;&#32;&#32;&#32;m_filePath&#32;=&#32;path;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00279"/>00279 &#32;&#32;&#32;&#32;countNumberOfSourceParticlesInFile();
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00280"/>00280 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Number&#32;of&#32;source&#32;particles&#32;in&#32;file:&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;m_numberOfSourceParticlesInFile&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00281"/>00281 &#32;&#32;&#32;&#32;initializeFile();
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00282"/>00282 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00283"/>00283 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00288"/>00288 <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_t_m_x_external_source_1ae49e6f74aaa0ee807e212198642713b1">TMXExternalSource::setTargetTranslation</link>(G4ThreeVector&#32;v)
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00289"/>00289 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00290"/>00290 &#32;&#32;&#32;&#32;m_translation&#32;=&#32;v;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00291"/>00291 }
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00292"/>00292 
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00297"/>00297 <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_t_m_x_external_source_1a029911a9d8d743ac70a3ae41de4801da">TMXExternalSource::setNumberOfParticleToSample</link>(<emphasis role="keywordtype">int</emphasis>&#32;n)
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00298"/>00298 {
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00299"/>00299 &#32;&#32;&#32;&#32;m_numberOfSourceParticlesRequested&#32;=&#32;n;
+<anchor xml:id="__benchmark-4_2src_2_t_m_x_external_source_8cc_source_1l00300"/>00300 }
+</programlisting></section>

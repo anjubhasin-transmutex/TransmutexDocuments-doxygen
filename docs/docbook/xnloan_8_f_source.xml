@@ -1,0 +1,416 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnloan_8_f_source" xml:lang="en-US">
+<title>xnloan.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xnloan.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnloan_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;23/05/2000&#32;&#32;15.27.22&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;05/06/96</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnloan
+<anchor xml:id="_xnloan_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Loads&#32;fission&#32;fragment&#32;indipendent&#32;yields&#32;and&#32;fission&#32;neutron&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;multiplicities&#32;from&#32;ENDF-6&#32;database&#32;files.&#32;The&#32;European,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;American&#32;and&#32;Japanese&#32;databases&#32;are&#32;scanned&#32;in&#32;turn&#32;to&#32;load&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;fissile&#32;isotopes&#32;information&#32;in&#32;order&#32;of&#32;scan&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00011"/>00011 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00012"/>00012 <emphasis role="preprocessor">#include&#32;&quot;xctab1.inc&quot;</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00013"/>00013 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcfisb.inc&quot;</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00014"/>00014 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcroot.inc&quot;</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00015"/>00015 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;parameter(maxfyi=3,maxnuf=3)
+<anchor xml:id="_xnloan_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*124</emphasis>&#32;CHFINP(MAXFYI),&#32;CHNINP(MAXNUF)
+<anchor xml:id="_xnloan_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*(*)</emphasis>&#32;CHCOMP
+<anchor xml:id="_xnloan_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;parameter(maxbnl=3500)
+<anchor xml:id="_xnloan_8_f_source_1l00019"/>00019 <emphasis role="comment">*&#32;---&gt;&#32;Minimum&#32;yield&#32;accepted</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00020"/>00020 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Allowing&#32;smaller&#32;yields&#32;makes&#32;little&#32;sense&#32;as&#32;the</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00021"/>00021 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cumulative&#32;probability&#32;sum&#32;is&#32;performed&#32;in&#32;a&#32;single</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00022"/>00022 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;precision&#32;variable.&#32;Even&#32;if&#32;this&#32;variable&#32;were</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00023"/>00023 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;double&#32;precision,&#32;still&#32;a&#32;double&#32;precision&#32;random</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00024"/>00024 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;number&#32;generator&#32;would&#32;be&#32;needed&#32;to&#32;disentangle</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00025"/>00025 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;smaller&#32;fission&#32;yields.</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00026"/>00026 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;parameter(fyitol=1e-6)
+<anchor xml:id="_xnloan_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;parameter(chcomp=<emphasis role="stringliteral">&apos;xnloan.dat&apos;</emphasis>)
+<anchor xml:id="_xnloan_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;izabnl(maxbnl)
+<anchor xml:id="_xnloan_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;LDEBUG,LCOMP
+<anchor xml:id="_xnloan_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;ldebug&#32;/.false./
+<anchor xml:id="_xnloan_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;chfinp&#32;/&#32;<emphasis role="stringliteral">&apos;jef2.fyi&apos;</emphasis>,&#32;<emphasis role="stringliteral">&apos;e6r1nds3.fyi&apos;</emphasis>,&#32;<emphasis role="stringliteral">&apos;jendl3.fyi&apos;</emphasis>/
+<anchor xml:id="_xnloan_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;chninp&#32;/&#32;<emphasis role="stringliteral">&apos;jef2.nuf&apos;</emphasis>,&#32;<emphasis role="stringliteral">&apos;e6r1nds3.nuf&apos;</emphasis>,&#32;<emphasis role="stringliteral">&apos;jendl3.nuf&apos;</emphasis>/
+<anchor xml:id="_xnloan_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;LFIRST
+<anchor xml:id="_xnloan_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">SAVE</emphasis>&#32;lfirst
+<anchor xml:id="_xnloan_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;lfirst&#32;/&#32;.true.&#32;/
+<anchor xml:id="_xnloan_8_f_source_1l00037"/>00037 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00038"/>00038 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00039"/>00039 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00040"/>00040 <emphasis role="comment">*&#32;---&gt;&#32;Make&#32;sure&#32;we&#32;do&#32;this&#32;only&#32;once</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(.NOT.lfirst)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnloan_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;lfirst=.false.
+<anchor xml:id="_xnloan_8_f_source_1l00043"/>00043 <emphasis role="comment">*&#32;---&gt;&#32;Check&#32;whether&#32;compressed&#32;file&#32;is&#32;there</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">INQUIRE</emphasis>(file=chroot//chcomp,exist=lcomp)
+<anchor xml:id="_xnloan_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(lcomp)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00046"/>00046 <emphasis role="comment">*&#32;---&gt;&#32;File&#32;is&#32;there,&#32;load&#32;and&#32;leave</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(12,file=chroot//chcomp,status=<emphasis role="stringliteral">&apos;OLD&apos;</emphasis>,form=<emphasis role="stringliteral">&apos;UNFORMATTED&apos;</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;,action=<emphasis role="stringliteral">&apos;READ&apos;</emphasis>)
+<anchor xml:id="_xnloan_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(12)&#32;ihgwmk,izapnt,(xfisb(ll),ll=1,ihgwmk)
+<anchor xml:id="_xnloan_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;280
+<anchor xml:id="_xnloan_8_f_source_1l00051"/>00051 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00052"/>00052 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;list&#32;of&#32;isotopes&#32;present&#32;in&#32;EET&#32;Nuclear&#32;Database</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnbnls(izabnl,nmxbnl,maxbnl)
+<anchor xml:id="_xnloan_8_f_source_1l00054"/>00054 <emphasis role="comment">*&#32;---&gt;&#32;Set&#32;to&#32;0&#32;pointer&#32;array</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;izr=1,20
+<anchor xml:id="_xnloan_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;iar=1,60
+<anchor xml:id="_xnloan_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;inf=1,6
+<anchor xml:id="_xnloan_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izapnt(izr,iar,inf)=0
+<anchor xml:id="_xnloan_8_f_source_1l00059"/>00059 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00060"/>00060 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00061"/>00061 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00062"/>00062 <emphasis role="comment">*&#32;---&gt;&#32;Set&#32;value&#32;of&#32;high&#32;water&#32;mark&#32;in&#32;XFISB&#32;array</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;ihgwmk&#32;=&#32;0
+<anchor xml:id="_xnloan_8_f_source_1l00064"/>00064 <emphasis role="comment">*&#32;---&gt;&#32;Loop&#32;over&#32;all&#32;databases</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;240&#32;jfyi=1,maxfyi
+<anchor xml:id="_xnloan_8_f_source_1l00066"/>00066 <emphasis role="comment">*&#32;---&gt;&#32;Close&#32;file&#32;(should&#32;not&#32;be&#32;needed,&#32;but&#32;it&#32;does&#32;not&#32;harm)</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CLOSE</emphasis>(12)
+<anchor xml:id="_xnloan_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lfinp=lnblnk(chfinp(jfyi))
+<anchor xml:id="_xnloan_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ldebug)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;Now&#32;opening&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;,A)&apos;</emphasis>)chroot//chfinp(jfyi)(:lfinp)
+<anchor xml:id="_xnloan_8_f_source_1l00071"/>00071 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00072"/>00072 <emphasis role="comment">*&#32;---&#32;Open&#32;database</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(12,file=chroot//chfinp(jfyi)(:lfinp),status=<emphasis role="stringliteral">&apos;OLD&apos;</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;,action=<emphasis role="stringliteral">&apos;READ&apos;</emphasis>)
+<anchor xml:id="_xnloan_8_f_source_1l00075"/>00075 <emphasis role="comment">*&#32;---&gt;&#32;Initialise&#32;previous&#32;material&#32;flag</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mathol&#32;=&#32;-1
+<anchor xml:id="_xnloan_8_f_source_1l00077"/>00077 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;a&#32;new&#32;section&#32;in&#32;ENDF&#32;6&#32;format</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00078"/>00078 &#32;&#32;&#32;40&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnnews(c1,&#32;c2,&#32;l1,&#32;l2,&#32;n1,&#32;n2,&#32;math,&#32;mfh,&#32;mth)
+<anchor xml:id="_xnloan_8_f_source_1l00079"/>00079 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;end&#32;of&#32;file&#32;exit&#32;loop</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(math.LT.0)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;240
+<anchor xml:id="_xnloan_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(math.NE.mathol)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00082"/>00082 <emphasis role="comment">*&#32;---&gt;&#32;Reading&#32;new&#32;material</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ldebug)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;Loading&#32;Z=&apos;</emphasis><emphasis role="stringliteral">&apos;,I3,&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;A=&apos;</emphasis><emphasis role="stringliteral">&apos;,I3)&apos;</emphasis>)&#32;nint(c1/
+<anchor xml:id="_xnloan_8_f_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;1000.)&#32;,nint(mod(c1,1000.))
+<anchor xml:id="_xnloan_8_f_source_1l00086"/>00086 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mathol=math
+<anchor xml:id="_xnloan_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izap&#32;=&#32;nint(c1)
+<anchor xml:id="_xnloan_8_f_source_1l00089"/>00089 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00090"/>00090 <emphasis role="comment">*&#32;---&gt;&#32;Analyse&#32;section&#32;found</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(mfh.EQ.1.AND.mth.EQ.451)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00092"/>00092 <emphasis role="comment">*&#32;---&gt;&#32;Comment&#32;section,&#32;get&#32;the&#32;isomeric&#32;state</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(12,11000)&#32;elis,sta,lis,liso,idumm,nfor
+<anchor xml:id="_xnloan_8_f_source_1l00094"/>00094 <emphasis role="comment">*&#32;---&gt;&#32;Build&#32;isomer&#32;code</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izap=10*izap+liso
+<anchor xml:id="_xnloan_8_f_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSEIF</emphasis>(mfh.EQ.8.AND.mth.EQ.454)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00097"/>00097 <emphasis role="comment">*&#32;---&gt;&#32;Independent&#32;Fission&#32;Yield&#32;section</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izp&#32;=&#32;izap/10/1000-85
+<anchor xml:id="_xnloan_8_f_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iap&#32;=&#32;mod(izap/10,1000)-2*izap/10/1000
+<anchor xml:id="_xnloan_8_f_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>((izp.LT.1.OR.izp.GT.maxizp).OR.
+<anchor xml:id="_xnloan_8_f_source_1l00101"/>00101 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(iap.LT.1.OR.iap.GT.maxiap))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00102"/>00102 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;Z&#32;smaller&#32;than&#32;85&#32;or&#32;A&#32;smaller&#32;than&#32;2*Z&#32;skip&#32;element</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10100)&#32;izap/10/1000,mod(izap/10,1000),izp,iap
+<anchor xml:id="_xnloan_8_f_source_1l00104"/>00104 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;Z&#32;smaller&#32;than&#32;85&#32;or&#32;A&#32;smaller&#32;than&#32;2*Z&#32;skip&#32;element</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00105"/>00105 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;Z&#32;smaller&#32;than&#32;85&#32;or&#32;A&#32;smaller&#32;than&#32;2*Z&#32;skip&#32;element</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;40
+<anchor xml:id="_xnloan_8_f_source_1l00107"/>00107 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00108"/>00108 <emphasis role="comment">*&#32;---&gt;&#32;Fissionable&#32;nuclide&#32;already&#32;loaded,&#32;skip&#32;it</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izapnt(izp,iap,2).NE.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ldebug)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10200)&#32;izap/1000,mod(izap,1000)
+<anchor xml:id="_xnloan_8_f_source_1l00112"/>00112 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;40
+<anchor xml:id="_xnloan_8_f_source_1l00114"/>00114 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00115"/>00115 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;number&#32;of&#32;input&#32;energies</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00116"/>00116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;le1=l1
+<anchor xml:id="_xnloan_8_f_source_1l00117"/>00117 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;pointer&#32;to&#32;beginning&#32;of&#32;information&#32;for&#32;this&#32;nuclide</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izapnt(izp,iap,1)&#32;=&#32;ihgwmk
+<anchor xml:id="_xnloan_8_f_source_1l00119"/>00119 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;number&#32;of&#32;energy&#32;points&#32;for&#32;every&#32;fission&#32;product</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00120"/>00120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izapnt(izp,iap,2)&#32;=&#32;le1
+<anchor xml:id="_xnloan_8_f_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ldebug)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00122"/>00122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10300)&#32;le1
+<anchor xml:id="_xnloan_8_f_source_1l00123"/>00123 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00124"/>00124 <emphasis role="comment">*&#32;---&gt;&#32;Set&#32;number&#32;of&#32;fission&#32;products&#32;to&#32;0</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ndata&#32;=&#32;0
+<anchor xml:id="_xnloan_8_f_source_1l00126"/>00126 <emphasis role="comment">*&#32;---&gt;&#32;Set&#32;lost&#32;probability&#32;to&#32;0</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00127"/>00127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bnlost&#32;=&#32;0.
+<anchor xml:id="_xnloan_8_f_source_1l00128"/>00128 <emphasis role="comment">*&#32;---&gt;&#32;Loop&#32;over&#32;different&#32;energy&#32;yield&#32;lists</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00129"/>00129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;110&#32;jene=1,le1
+<anchor xml:id="_xnloan_8_f_source_1l00130"/>00130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnlist
+<anchor xml:id="_xnloan_8_f_source_1l00131"/>00131 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;energy</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00132"/>00132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xfisb(ihgwmk+jene)&#32;=&#32;c1
+<anchor xml:id="_xnloan_8_f_source_1l00133"/>00133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ldebug)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00134"/>00134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10400)&#32;jene,c1,n1,np
+<anchor xml:id="_xnloan_8_f_source_1l00135"/>00135 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00136"/>00136 <emphasis role="comment">*&#32;---&gt;&#32;Loop&#32;over&#32;all&#32;fission&#32;fragments</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00137"/>00137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;100&#32;je=1,n1-3,4
+<anchor xml:id="_xnloan_8_f_source_1l00138"/>00138 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;IZA&#32;of&#32;FF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00139"/>00139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;zafp=&#32;xnrval(je&#32;)
+<anchor xml:id="_xnloan_8_f_source_1l00140"/>00140 <emphasis role="comment">*&#32;---&gt;&#32;Floating&#32;point&#32;(iso)&#32;state&#32;designator</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00141"/>00141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fps&#32;=&#32;xnrval(je+1)
+<anchor xml:id="_xnloan_8_f_source_1l00142"/>00142 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;yield</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00143"/>00143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yi&#32;&#32;=&#32;xnrval(je+2)
+<anchor xml:id="_xnloan_8_f_source_1l00144"/>00144 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;also&#32;error&#32;on&#32;yield,&#32;not&#32;used</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00145"/>00145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dyi&#32;=&#32;xnrval(je+3)
+<anchor xml:id="_xnloan_8_f_source_1l00146"/>00146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izam&#32;=&#32;nint(zafp*10+fps)
+<anchor xml:id="_xnloan_8_f_source_1l00147"/>00147 <emphasis role="comment">*&#32;---&gt;&#32;Not&#32;in&#32;list,&#32;add&#32;new&#32;only&#32;if&#32;in&#32;CERN&#32;Nuclear&#32;Data&#32;Base</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00148"/>00148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;50&#32;lbnl=1,nmxbnl
+<anchor xml:id="_xnloan_8_f_source_1l00149"/>00149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izam.EQ.izabnl(lbnl))&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;60
+<anchor xml:id="_xnloan_8_f_source_1l00150"/>00150 &#32;&#32;&#32;50&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00151"/>00151 <emphasis role="comment">*&#32;---&gt;&#32;See&#32;whether&#32;it&#32;is&#32;in&#32;EET&#32;Nuclear&#32;Data&#32;Base&#32;otherwise&#32;skip</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00152"/>00152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bnlost=bnlost+yi
+<anchor xml:id="_xnloan_8_f_source_1l00153"/>00153 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IF(LDEBUG)&#32;THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00154"/>00154 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WRITE(6,&apos;(&apos;&apos;&#32;Excluding&#32;&apos;&apos;,I6,</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00155"/>00155 <emphasis role="comment">*&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&apos;&apos;&#32;because&#32;not&#32;in&#32;BNL,&#32;tot&#32;loss&#32;&apos;&apos;,</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00156"/>00156 <emphasis role="comment">*&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;F8.2)&apos;)&#32;IZAF,BNLOST*100</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00157"/>00157 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00158"/>00158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;100
+<anchor xml:id="_xnloan_8_f_source_1l00159"/>00159 &#32;&#32;&#32;60&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00160"/>00160 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;it&#32;is&#32;a&#32;light&#32;fission&#32;fragment,&#32;multiply&#32;by&#32;200&#32;to&#32;put&#32;it</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00161"/>00161 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;at&#32;the&#32;end</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00162"/>00162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izam.LE.200000)&#32;izam=izam*200
+<anchor xml:id="_xnloan_8_f_source_1l00163"/>00163 <emphasis role="comment">*&#32;---&gt;&#32;See&#32;whether&#32;this&#32;fission&#32;fragment&#32;has&#32;been&#32;already&#32;loaded</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00164"/>00164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;70&#32;jdata=1,ndata
+<anchor xml:id="_xnloan_8_f_source_1l00165"/>00165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipzap=ihgwmk+2*le1-1+(1+le1)*(jdata-1)+1
+<anchor xml:id="_xnloan_8_f_source_1l00166"/>00166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(mfisb(ipzap).EQ.izam)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00167"/>00167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;idata&#32;=&#32;jdata
+<anchor xml:id="_xnloan_8_f_source_1l00168"/>00168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;90
+<anchor xml:id="_xnloan_8_f_source_1l00169"/>00169 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00170"/>00170 &#32;&#32;&#32;70&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00171"/>00171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ndata&#32;=&#32;ndata+1
+<anchor xml:id="_xnloan_8_f_source_1l00172"/>00172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;idata&#32;=&#32;ndata
+<anchor xml:id="_xnloan_8_f_source_1l00173"/>00173 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;IZAM&#32;(10000*Z+1000*A+ISO)&#32;of&#32;Fission&#32;Fragment</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00174"/>00174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mfisb(ihgwmk+2*le1-1+(le1+1)*(idata-1)+1&#32;&#32;&#32;&#32;&#32;)=izam
+<anchor xml:id="_xnloan_8_f_source_1l00175"/>00175 <emphasis role="comment">*&#32;---&gt;&#32;Set&#32;to&#32;0&#32;the&#32;yields&#32;at&#32;different&#32;energies</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00176"/>00176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;80&#32;&#32;&#32;je1=1,le1
+<anchor xml:id="_xnloan_8_f_source_1l00177"/>00177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xfisb(ihgwmk+2*le1-1+(le1+1)*(idata-1)+1+je1)=0
+<anchor xml:id="_xnloan_8_f_source_1l00178"/>00178 &#32;&#32;&#32;80&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00179"/>00179 <emphasis role="comment">*&#32;---&gt;&#32;Make&#32;sure&#32;there&#32;is&#32;enough&#32;space</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00180"/>00180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ihgwmk+2*le1-1+(le1+1)*ndata.GT.mxfisb)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00181"/>00181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MXFISB&apos;</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00182"/>00182 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00183"/>00183 &#32;&#32;&#32;90&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00184"/>00184 <emphasis role="comment">*&#32;---&gt;&#32;Add&#32;fission&#32;yield&#32;at&#32;current&#32;energy</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00185"/>00185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xfisb(ihgwmk+2*le1-1+(le1+1)*(idata-1)+1+jene)=
+<anchor xml:id="_xnloan_8_f_source_1l00186"/>00186 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xfisb(ihgwmk+2*le1-1+(le1+1)*(idata-1)+1+jene)+yi
+<anchor xml:id="_xnloan_8_f_source_1l00187"/>00187 &#32;&#32;100&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00188"/>00188 &#32;&#32;110&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00189"/>00189 <emphasis role="comment">*&#32;---&gt;&#32;Store&#32;Energy&#32;differences&#32;for&#32;linear&#32;interpolation</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00190"/>00190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(le1.GT.1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00191"/>00191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;120&#32;je1=1,le1-1
+<anchor xml:id="_xnloan_8_f_source_1l00192"/>00192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint=ihgwmk+le1+je1
+<anchor xml:id="_xnloan_8_f_source_1l00193"/>00193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xfisb(ipoint)=
+<anchor xml:id="_xnloan_8_f_source_1l00194"/>00194 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;1/(xfisb(ihgwmk+je1+1)-xfisb(ihgwmk+je1))
+<anchor xml:id="_xnloan_8_f_source_1l00195"/>00195 &#32;&#32;120&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00196"/>00196 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00197"/>00197 <emphasis role="comment">*&#32;---&gt;&#32;Reorder&#32;according&#32;to&#32;IZA&#32;(but&#32;disregard&#32;isomer&#32;code&#32;in&#32;ordering)</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00198"/>00198 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;This&#32;pushes&#32;ternary&#32;fission&#32;data&#32;at&#32;the&#32;end</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00199"/>00199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;150&#32;kfyi=1,ndata-1
+<anchor xml:id="_xnloan_8_f_source_1l00200"/>00200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izamc=ihgwmk+2*le1-1+(le1+1)*(kfyi-1)+1
+<anchor xml:id="_xnloan_8_f_source_1l00201"/>00201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izac=mfisb(izamc)/10
+<anchor xml:id="_xnloan_8_f_source_1l00202"/>00202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;140&#32;kfyj=kfyi+1,ndata
+<anchor xml:id="_xnloan_8_f_source_1l00203"/>00203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jzamc=ihgwmk+2*le1-1+(le1+1)*(kfyj-1)+1
+<anchor xml:id="_xnloan_8_f_source_1l00204"/>00204 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izac.GT.mfisb(jzamc)/10)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00205"/>00205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;itmp=mfisb(izamc)
+<anchor xml:id="_xnloan_8_f_source_1l00206"/>00206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mfisb(izamc)=mfisb(jzamc)
+<anchor xml:id="_xnloan_8_f_source_1l00207"/>00207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mfisb(jzamc)=itmp
+<anchor xml:id="_xnloan_8_f_source_1l00208"/>00208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;130&#32;jj=1,le1
+<anchor xml:id="_xnloan_8_f_source_1l00209"/>00209 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fytmp=xfisb(izamc+jj)
+<anchor xml:id="_xnloan_8_f_source_1l00210"/>00210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xfisb(izamc+jj)=xfisb(jzamc+jj)
+<anchor xml:id="_xnloan_8_f_source_1l00211"/>00211 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xfisb(jzamc+jj)=fytmp
+<anchor xml:id="_xnloan_8_f_source_1l00212"/>00212 &#32;&#32;130&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00213"/>00213 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00214"/>00214 &#32;&#32;140&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00215"/>00215 &#32;&#32;150&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00216"/>00216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ldebug)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00217"/>00217 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10500)&#32;ndata
+<anchor xml:id="_xnloan_8_f_source_1l00218"/>00218 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00219"/>00219 <emphasis role="comment">*&#32;---&gt;&#32;Throw&#32;away&#32;all&#32;yields&#32;&lt;&#32;FYITOL</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00220"/>00220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoin=0
+<anchor xml:id="_xnloan_8_f_source_1l00221"/>00221 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;180&#32;kfyi=1,ndata
+<anchor xml:id="_xnloan_8_f_source_1l00222"/>00222 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izamc=ihgwmk+2*le1-1+(le1+1)*ipoin
+<anchor xml:id="_xnloan_8_f_source_1l00223"/>00223 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izamt=ihgwmk+2*le1-1+(le1+1)*(kfyi-1)
+<anchor xml:id="_xnloan_8_f_source_1l00224"/>00224 <emphasis role="comment">*&#32;---&gt;&#32;Copy&#32;Fission&#32;Fragment&#32;in&#32;current&#32;position</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00225"/>00225 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mfisb(izamc+1)=mfisb(izamt+1)
+<anchor xml:id="_xnloan_8_f_source_1l00226"/>00226 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;160&#32;jl=2,le1+1
+<anchor xml:id="_xnloan_8_f_source_1l00227"/>00227 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xfisb(izamc+jl)=xfisb(izamt+jl)
+<anchor xml:id="_xnloan_8_f_source_1l00228"/>00228 &#32;&#32;160&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00229"/>00229 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;maximum&#32;yield&#32;at&#32;all&#32;energies</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00230"/>00230 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fyml=0
+<anchor xml:id="_xnloan_8_f_source_1l00231"/>00231 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;170&#32;je1=1,le1
+<anchor xml:id="_xnloan_8_f_source_1l00232"/>00232 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fyml=max(fyml,xfisb(izamc+1+je1))
+<anchor xml:id="_xnloan_8_f_source_1l00233"/>00233 &#32;&#32;170&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00234"/>00234 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(fyml.LT.fyitol)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00235"/>00235 <emphasis role="comment">*&#32;---&gt;&#32;Max&#32;yield&#32;smaller&#32;than&#32;FYITOL,&#32;skip</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00236"/>00236 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;180
+<anchor xml:id="_xnloan_8_f_source_1l00237"/>00237 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00238"/>00238 <emphasis role="comment">*&#32;---&gt;&#32;Fission&#32;fragment&#32;accepted,&#32;move&#32;current&#32;position&#32;by&#32;1</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00239"/>00239 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoin=ipoin+1
+<anchor xml:id="_xnloan_8_f_source_1l00240"/>00240 &#32;&#32;180&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00241"/>00241 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ipoin.LE.0)&#32;stop&#32;<emphasis role="stringliteral">&apos;XNLOAN&#32;IPOIN&#32;LE&#32;0&apos;</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00242"/>00242 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ndata=ipoin
+<anchor xml:id="_xnloan_8_f_source_1l00243"/>00243 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ldebug)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00244"/>00244 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10600)&#32;ndata
+<anchor xml:id="_xnloan_8_f_source_1l00245"/>00245 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00246"/>00246 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;data&#32;count&#32;for&#32;current&#32;nuclide</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00247"/>00247 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izapnt(izp,iap,3)=ndata
+<anchor xml:id="_xnloan_8_f_source_1l00248"/>00248 <emphasis role="comment">*&#32;---&gt;&#32;Renormalise&#32;to&#32;2&#32;and&#32;store&#32;cumulative&#32;yields</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00249"/>00249 <emphasis role="comment">*&#32;---&gt;&#32;This&#32;part&#32;is&#32;rather&#32;Mickey&#32;Mouse.&#32;We&#32;have&#32;some&#32;fission</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00250"/>00250 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;fragments&#32;that&#32;we&#32;have&#32;discarded,&#32;either&#32;because&#32;their</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00251"/>00251 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;yield&#32;was&#32;too&#32;low&#32;or&#32;because&#32;they&#32;were&#32;not&#32;in&#32;the&#32;EET</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00252"/>00252 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;table.&#32;We&#32;have&#32;to&#32;keep&#32;the&#32;probability&#32;of&#32;these&#32;at&#32;2</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00253"/>00253 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;to&#32;compensate&#32;for&#32;the&#32;losses.</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00254"/>00254 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;On&#32;the&#32;other&#32;hand&#32;the&#32;ternary&#32;fission&#32;elements&#32;must&#32;not</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00255"/>00255 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;be&#32;normalised&#32;because&#32;the&#32;sum&#32;of&#32;their&#32;probability&#32;is</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00256"/>00256 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;the&#32;correct&#32;frequency&#32;of&#32;ternary&#32;fission</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00257"/>00257 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;itern=0
+<anchor xml:id="_xnloan_8_f_source_1l00258"/>00258 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;190&#32;jdata=1,ndata
+<anchor xml:id="_xnloan_8_f_source_1l00259"/>00259 <emphasis role="comment">*&#32;---&gt;&#32;Pointer&#32;to&#32;yield</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00260"/>00260 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iyzap=ihgwmk+2*le1-1+(jdata-1)*(le1+1)+1
+<anchor xml:id="_xnloan_8_f_source_1l00261"/>00261 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(mfisb(iyzap).GE.2000000)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00262"/>00262 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;light&#32;fission&#32;product,&#32;set&#32;the&#32;ternary&#32;fission&#32;pointer</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00263"/>00263 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(itern.EQ.0)&#32;itern=jdata
+<anchor xml:id="_xnloan_8_f_source_1l00264"/>00264 <emphasis role="comment">*&#32;---&gt;&#32;Decode&#32;isomer&#32;code</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00265"/>00265 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mfisb(iyzap)=mfisb(iyzap)/200
+<anchor xml:id="_xnloan_8_f_source_1l00266"/>00266 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00267"/>00267 &#32;&#32;190&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00268"/>00268 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;no&#32;ternary&#32;fission&#32;data&#32;set&#32;pointer&#32;to&#32;overflow</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00269"/>00269 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(itern.EQ.0)&#32;itern=ndata+1
+<anchor xml:id="_xnloan_8_f_source_1l00270"/>00270 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;230&#32;je1=1,le1
+<anchor xml:id="_xnloan_8_f_source_1l00271"/>00271 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hnorm=0.
+<anchor xml:id="_xnloan_8_f_source_1l00272"/>00272 <emphasis role="comment">*&#32;---&gt;&#32;Build&#32;cumulative&#32;list</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00273"/>00273 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;200&#32;jdata=2,itern-1
+<anchor xml:id="_xnloan_8_f_source_1l00274"/>00274 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iyepoi=ihgwmk+2*le1-1+(jdata-1)*(le1+1)+1+je1
+<anchor xml:id="_xnloan_8_f_source_1l00275"/>00275 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xfisb(iyepoi)&#32;=&#32;xfisb(iyepoi)+xfisb(iyepoi-(le1+1))
+<anchor xml:id="_xnloan_8_f_source_1l00276"/>00276 &#32;&#32;200&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00277"/>00277 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;normalisation&#32;constant</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00278"/>00278 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hnorm&#32;=&#32;2/xfisb(iyepoi)
+<anchor xml:id="_xnloan_8_f_source_1l00279"/>00279 <emphasis role="comment">*&#32;---&gt;&#32;Renormalise&#32;sum&#32;of&#32;binary&#32;yields&#32;to&#32;2</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00280"/>00280 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;210&#32;jdata=1,itern-1
+<anchor xml:id="_xnloan_8_f_source_1l00281"/>00281 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iyepoi=ihgwmk+2*le1-1+(jdata-1)*(le1+1)+1+je1
+<anchor xml:id="_xnloan_8_f_source_1l00282"/>00282 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xfisb(iyepoi)=xfisb(iyepoi)*hnorm
+<anchor xml:id="_xnloan_8_f_source_1l00283"/>00283 &#32;&#32;210&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00284"/>00284 <emphasis role="comment">*&#32;---&gt;&#32;Finish&#32;up&#32;cumulative&#32;sum&#32;with&#32;light&#32;products,&#32;if&#32;any</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00285"/>00285 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;220&#32;jdata=itern,ndata
+<anchor xml:id="_xnloan_8_f_source_1l00286"/>00286 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iyepoi=ihgwmk+2*le1-1+(jdata-1)*(le1+1)+1+je1
+<anchor xml:id="_xnloan_8_f_source_1l00287"/>00287 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xfisb(iyepoi)&#32;=&#32;xfisb(iyepoi)+xfisb(iyepoi-(le1+1))
+<anchor xml:id="_xnloan_8_f_source_1l00288"/>00288 &#32;&#32;220&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00289"/>00289 &#32;&#32;230&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00290"/>00290 <emphasis role="comment">*&#32;---&gt;&#32;Update&#32;high&#32;water&#32;mark</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00291"/>00291 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ihgwmk&#32;=&#32;ihgwmk+ndata*(le1+1)+2*le1-1
+<anchor xml:id="_xnloan_8_f_source_1l00292"/>00292 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00293"/>00293 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;40
+<anchor xml:id="_xnloan_8_f_source_1l00294"/>00294 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00295"/>00295 &#32;&#32;240&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00296"/>00296 <emphasis role="comment">*&#32;---&gt;&#32;Now&#32;the&#32;nu&#32;information</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00297"/>00297 <emphasis role="comment">*&#32;---&gt;&#32;Loop&#32;over&#32;all&#32;databases</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00298"/>00298 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;270&#32;jnuf=1,maxnuf
+<anchor xml:id="_xnloan_8_f_source_1l00299"/>00299 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CLOSE</emphasis>(12)
+<anchor xml:id="_xnloan_8_f_source_1l00300"/>00300 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lfinp=lnblnk(chninp(jnuf))
+<anchor xml:id="_xnloan_8_f_source_1l00301"/>00301 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ldebug)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00302"/>00302 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;Now&#32;opening&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;,A)&apos;</emphasis>)&#32;chninp(jnuf)(:lfinp)
+<anchor xml:id="_xnloan_8_f_source_1l00303"/>00303 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00304"/>00304 <emphasis role="comment">*&#32;---&gt;&#32;Open&#32;database</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00305"/>00305 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(12,file=chroot//chninp(jnuf)(:lfinp),status=<emphasis role="stringliteral">&apos;OLD&apos;</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00306"/>00306 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;,action=<emphasis role="stringliteral">&apos;READ&apos;</emphasis>)
+<anchor xml:id="_xnloan_8_f_source_1l00307"/>00307 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00308"/>00308 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mathol&#32;=&#32;-1
+<anchor xml:id="_xnloan_8_f_source_1l00309"/>00309 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;a&#32;new&#32;section&#32;in&#32;ENDF&#32;6&#32;format</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00310"/>00310 &#32;&#32;250&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnnews(c1,&#32;c2,&#32;l1,&#32;l2,&#32;n1,&#32;n2,&#32;math,&#32;mfh,&#32;mth)
+<anchor xml:id="_xnloan_8_f_source_1l00311"/>00311 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;end&#32;of&#32;file&#32;exit</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00312"/>00312 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(math.LT.0)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;270
+<anchor xml:id="_xnloan_8_f_source_1l00313"/>00313 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(math.NE.mathol)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00314"/>00314 <emphasis role="comment">*&#32;---&gt;&#32;Reading&#32;new&#32;material</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00315"/>00315 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ldebug)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00316"/>00316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;Loading&#32;Z=&apos;</emphasis><emphasis role="stringliteral">&apos;,I3,&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;A=&apos;</emphasis><emphasis role="stringliteral">&apos;,I3)&apos;</emphasis>)&#32;nint(c1/
+<anchor xml:id="_xnloan_8_f_source_1l00317"/>00317 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;1000.)&#32;,nint(mod(c1,1000.))
+<anchor xml:id="_xnloan_8_f_source_1l00318"/>00318 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00319"/>00319 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mathol=math
+<anchor xml:id="_xnloan_8_f_source_1l00320"/>00320 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izap&#32;=&#32;nint(c1)
+<anchor xml:id="_xnloan_8_f_source_1l00321"/>00321 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00322"/>00322 <emphasis role="comment">*&#32;---&gt;&#32;Analyse&#32;section&#32;data</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00323"/>00323 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(mfh.EQ.1.AND.mth.EQ.451)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00324"/>00324 <emphasis role="comment">*&#32;---&gt;&#32;Comment&#32;section,&#32;get&#32;the&#32;isomeric&#32;state</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00325"/>00325 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(12,11000)&#32;elis,sta,lis,liso,idumm,nfor
+<anchor xml:id="_xnloan_8_f_source_1l00326"/>00326 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izap=10*izap+liso
+<anchor xml:id="_xnloan_8_f_source_1l00327"/>00327 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSEIF</emphasis>(mfh.EQ.1.AND.mth.EQ.452)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00328"/>00328 <emphasis role="comment">*&#32;---&gt;&#32;Fission&#32;neutrons&#32;multiplicity&#32;section</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00329"/>00329 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izp&#32;=&#32;izap/10/1000-85
+<anchor xml:id="_xnloan_8_f_source_1l00330"/>00330 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;iap&#32;=&#32;mod(izap/10,1000)-2*izap/10/1000
+<anchor xml:id="_xnloan_8_f_source_1l00331"/>00331 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>((izp.LT.1.OR.izp.GT.maxizp).OR.
+<anchor xml:id="_xnloan_8_f_source_1l00332"/>00332 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(iap.LT.1.OR.iap.GT.maxiap))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00333"/>00333 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;Z&#32;less&#32;than&#32;85&#32;or&#32;A&#32;less&#32;than&#32;2*Z&#32;skip&#32;nuclide</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00334"/>00334 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10700)&#32;izap/10/1000,mod(izap/10,1000),izp,iap
+<anchor xml:id="_xnloan_8_f_source_1l00335"/>00335 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;Z&#32;less&#32;than&#32;85&#32;or&#32;A&#32;less&#32;than&#32;2*Z&#32;skip&#32;nuclide</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00336"/>00336 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;Z&#32;less&#32;than&#32;85&#32;or&#32;A&#32;less&#32;than&#32;2*Z&#32;skip&#32;nuclide</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00337"/>00337 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;250
+<anchor xml:id="_xnloan_8_f_source_1l00338"/>00338 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00339"/>00339 <emphasis role="comment">*&#32;---&gt;&#32;Fissionable&#32;nuclide&#32;already&#32;loaded,&#32;skip&#32;it</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00340"/>00340 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izapnt(izp,iap,4).NE.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00341"/>00341 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ldebug)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00342"/>00342 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10800)&#32;izap/10/1000,mod(izap/10,1000)
+<anchor xml:id="_xnloan_8_f_source_1l00343"/>00343 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00344"/>00344 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;250
+<anchor xml:id="_xnloan_8_f_source_1l00345"/>00345 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00346"/>00346 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;nu&#32;information</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00347"/>00347 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lnu=l2
+<anchor xml:id="_xnloan_8_f_source_1l00348"/>00348 <emphasis role="comment">*&#32;---&#32;Load&#32;pointer&#32;to&#32;data&#32;and&#32;kind&#32;of&#32;data:</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00349"/>00349 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;1&#32;&#32;&#32;&#32;&#32;Polynomial&#32;approssimation</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00350"/>00350 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;2&#32;&#32;&#32;&#32;&#32;Tabulated&#32;values</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00351"/>00351 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00352"/>00352 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izapnt(izp,iap,4)&#32;=&#32;ihgwmk
+<anchor xml:id="_xnloan_8_f_source_1l00353"/>00353 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izapnt(izp,iap,5)&#32;=&#32;lnu
+<anchor xml:id="_xnloan_8_f_source_1l00354"/>00354 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ldebug)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00355"/>00355 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10900)&#32;lnu,np
+<anchor xml:id="_xnloan_8_f_source_1l00356"/>00356 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00357"/>00357 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;data</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00358"/>00358 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(lnu.EQ.1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00359"/>00359 <emphasis role="comment">*&#32;---&gt;&#32;Polynomial&#32;approximation</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00360"/>00360 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnlist
+<anchor xml:id="_xnloan_8_f_source_1l00361"/>00361 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;np=n1
+<anchor xml:id="_xnloan_8_f_source_1l00362"/>00362 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSEIF</emphasis>(lnu.EQ.2)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00363"/>00363 <emphasis role="comment">*&#32;---&gt;&#32;Tabulated&#32;values</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00364"/>00364 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xntab1
+<anchor xml:id="_xnloan_8_f_source_1l00365"/>00365 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;np=2*np
+<anchor xml:id="_xnloan_8_f_source_1l00366"/>00366 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00367"/>00367 <emphasis role="comment">*&#32;---&gt;&#32;Unknown&#32;data&#32;type&#32;---&#32;Stop&#32;the&#32;program</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00368"/>00368 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;***XNLOAN:&#32;Unknown&#32;value&#32;of&#32;LNU&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;,I4)&apos;</emphasis>)
+<anchor xml:id="_xnloan_8_f_source_1l00369"/>00369 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lnu
+<anchor xml:id="_xnloan_8_f_source_1l00370"/>00370 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;Contact&#32;Carminati&apos;</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00371"/>00371 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00372"/>00372 <emphasis role="comment">*&#32;---&gt;&#32;Make&#32;sure&#32;the&#32;store&#32;is&#32;big&#32;enough</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00373"/>00373 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(np+ihgwmk.GT.mxfisb)&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MXFISB&apos;</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00374"/>00374 <emphasis role="comment">*&#32;---&gt;&#32;Copy&#32;the&#32;data</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00375"/>00375 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;260&#32;jn=1,np
+<anchor xml:id="_xnloan_8_f_source_1l00376"/>00376 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xfisb(ihgwmk+jn)=xnrval(jn)
+<anchor xml:id="_xnloan_8_f_source_1l00377"/>00377 &#32;&#32;260&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00378"/>00378 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;number&#32;of&#32;points</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00379"/>00379 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izapnt(izp,iap,6)&#32;=&#32;np
+<anchor xml:id="_xnloan_8_f_source_1l00380"/>00380 <emphasis role="comment">*&#32;---&gt;&#32;Update&#32;HiG&#32;Water&#32;MarK</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00381"/>00381 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ihgwmk=ihgwmk+np
+<anchor xml:id="_xnloan_8_f_source_1l00382"/>00382 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00383"/>00383 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;250
+<anchor xml:id="_xnloan_8_f_source_1l00384"/>00384 &#32;&#32;270&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00385"/>00385 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CLOSE</emphasis>(12)
+<anchor xml:id="_xnloan_8_f_source_1l00386"/>00386 <emphasis role="comment">*&#32;---&gt;&#32;Try&#32;now&#32;to&#32;write&#32;the&#32;file,&#32;if&#32;it&#32;does&#32;not&#32;work,&#32;leave&#32;silently</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00387"/>00387 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">OPEN</emphasis>(12,file=chcomp,status=<emphasis role="stringliteral">&apos;NEW&apos;</emphasis>,form=<emphasis role="stringliteral">&apos;UNFORMATTED&apos;</emphasis>,
+<anchor xml:id="_xnloan_8_f_source_1l00388"/>00388 &#32;&#32;&#32;&#32;&#32;+err=280
+<anchor xml:id="_xnloan_8_f_source_1l00389"/>00389 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;,action=<emphasis role="stringliteral">&apos;WRITE&apos;</emphasis>)
+<anchor xml:id="_xnloan_8_f_source_1l00390"/>00390 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(12,err=280)&#32;ihgwmk,izapnt,(xfisb(ll),ll=1,ihgwmk)
+<anchor xml:id="_xnloan_8_f_source_1l00391"/>00391 &#32;&#32;280&#32;<emphasis role="keyword">CLOSE</emphasis>(12)
+<anchor xml:id="_xnloan_8_f_source_1l00392"/>00392 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)&#32;ihgwmk
+<anchor xml:id="_xnloan_8_f_source_1l00393"/>00393 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNLOAN:&#32;Space&#32;used&#32;&apos;</emphasis>,i6,<emphasis role="stringliteral">&apos;&#32;words&#32;&apos;</emphasis>)
+<anchor xml:id="_xnloan_8_f_source_1l00394"/>00394 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnloan_8_f_source_1l00395"/>00395 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Out-of-bound&#32;fission&#32;yield!&#32;Z/A&#32;&apos;</emphasis>,i2.2,<emphasis role="stringliteral">&apos;/&apos;</emphasis>,i3.3,
+<anchor xml:id="_xnloan_8_f_source_1l00396"/>00396 &#32;&#32;&#32;&#32;&#32;+<emphasis role="stringliteral">&apos;&#32;IZP/IAP&#32;&apos;</emphasis>,i4,<emphasis role="stringliteral">&apos;/&apos;</emphasis>,i4)
+<anchor xml:id="_xnloan_8_f_source_1l00397"/>00397 10200&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Fissionable&#32;nuclide&#32;&apos;</emphasis>,i2,<emphasis role="stringliteral">&apos;-&apos;</emphasis>,i3,<emphasis role="stringliteral">&apos;&#32;already&#32;in&#32;table&apos;</emphasis>)
+<anchor xml:id="_xnloan_8_f_source_1l00398"/>00398 10300&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Apparently&#32;found&#32;&apos;</emphasis>,i4,<emphasis role="stringliteral">&apos;&#32;sections&#32;&apos;</emphasis>)
+<anchor xml:id="_xnloan_8_f_source_1l00399"/>00399 10400&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Section&#32;&apos;</emphasis>,i4,<emphasis role="stringliteral">&apos;&#32;with&#32;energy&#32;&apos;</emphasis>,e11.4,<emphasis role="stringliteral">&apos;&#32;Sec&#32;=&#32;&apos;</emphasis>,i5,
+<anchor xml:id="_xnloan_8_f_source_1l00400"/>00400 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;<emphasis role="stringliteral">&apos;&#32;Points&#32;=&#32;&apos;</emphasis>,i5)
+<anchor xml:id="_xnloan_8_f_source_1l00401"/>00401 10500&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Now&#32;loaded&#32;&apos;</emphasis>,i10,<emphasis role="stringliteral">&apos;&#32;points&apos;</emphasis>)
+<anchor xml:id="_xnloan_8_f_source_1l00402"/>00402 10600&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Points&#32;reduced&#32;to&#32;&apos;</emphasis>,i10)
+<anchor xml:id="_xnloan_8_f_source_1l00403"/>00403 10700&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Out-of-bound&#32;neutron&#32;multiplicity!&#32;Z/A&#32;&apos;</emphasis>,i2.2,<emphasis role="stringliteral">&apos;/&apos;</emphasis>,
+<anchor xml:id="_xnloan_8_f_source_1l00404"/>00404 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;i3.3,<emphasis role="stringliteral">&apos;&#32;IZP/IAP&#32;&apos;</emphasis>,i4,<emphasis role="stringliteral">&apos;/&apos;</emphasis>,i4)
+<anchor xml:id="_xnloan_8_f_source_1l00405"/>00405 10800&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Fissionable&#32;nuclide&#32;&apos;</emphasis>,i2,<emphasis role="stringliteral">&apos;-&apos;</emphasis>,i3,<emphasis role="stringliteral">&apos;&#32;already&#32;in&#32;table&apos;</emphasis>)
+<anchor xml:id="_xnloan_8_f_source_1l00406"/>00406 10900&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Apparently&#32;found&#32;section&#32;&apos;</emphasis>,i4,<emphasis role="stringliteral">&apos;&#32;with&#32;&apos;</emphasis>,i6,<emphasis role="stringliteral">&apos;&#32;points&apos;</emphasis>)
+<anchor xml:id="_xnloan_8_f_source_1l00407"/>00407 11000&#32;<emphasis role="keyword">FORMAT</emphasis>(2e11.4,4i11,i4,i2,i3)
+<anchor xml:id="_xnloan_8_f_source_1l00408"/>00408 11100&#32;<emphasis role="keyword">FORMAT</emphasis>(6e11.4,i4,i2,i3,i5)
+<anchor xml:id="_xnloan_8_f_source_1l00409"/>00409 11200&#32;<emphasis role="keyword">FORMAT</emphasis>(i10,10x,i10,50x)
+<anchor xml:id="_xnloan_8_f_source_1l00410"/>00410 11300&#32;<emphasis role="keyword">FORMAT</emphasis>(8i10)
+<anchor xml:id="_xnloan_8_f_source_1l00411"/>00411 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

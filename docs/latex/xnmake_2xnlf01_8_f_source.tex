@@ -1,0 +1,142 @@
+\hypertarget{xnmake_2xnlf01_8_f_source}{}\doxysection{xnlf01.\+F}
+\label{xnmake_2xnlf01_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnlf01.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnlf01.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 31/05/96  17.16.03  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnlf01}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00006}00006 \textcolor{comment}{*     Reads in data related to an arbitrary tabulated function         *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00007}00007 \textcolor{comment}{*     of file 5 and calculates all probability on the precomputed      *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00008}00008 \textcolor{comment}{*     energy grid.                                                     *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00009}00009 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00010}00010 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00011}00011 \textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00012}00012 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xc5dat.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00013}00013 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00014}00014 \textcolor{preprocessor}{}      parameter(maxgrd=200,maxefg=200,maxint=10)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00015}00015       dimension engr(maxgrd),ipengr(maxgrd),ilengr(maxgrd),}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00016}00016      +          pbengr(maxgrd*maxefg),ipingr(maxgrd),ilingr(maxgrd),}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00017}00017      +          intgr(maxint*maxgrd),nbtgr(maxint*maxgrd)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00018}00018 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00019}00019 \textcolor{comment}{*         ENGR             Incoming energies}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00020}00020 \textcolor{comment}{*         IPENGR           Pointer to the tabulated function in PBENGR}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00021}00021 \textcolor{comment}{*         ILENGR           Length of the tabulated function in PBENGR}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00022}00022 \textcolor{comment}{*         PBENGR           Tabulated functions of probabilities in}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00023}00023 \textcolor{comment}{*                          function of the secondary energies}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00024}00024 \textcolor{comment}{*         IPINGR           Pointer to the interpolation laws in INTGR}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00025}00025 \textcolor{comment}{*                          and NBTGR}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00026}00026 \textcolor{comment}{*         ILINGR           Length of the interpolation laws in INTGR}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00027}00027 \textcolor{comment}{*                          and NBTGR}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00028}00028 \textcolor{comment}{*         INTGR            Interpolation laws for tabulated functions}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00029}00029 \textcolor{comment}{*         NBTGR            Interpolation ranges for tabulated functions}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00030}00030 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00032}00032 \textcolor{comment}{*     WRITE(6,10000)}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00033}00033 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Arbitrary tabulated function'})}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> Read TAB2 record}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00035}00035       \textcolor{keyword}{READ}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2, (nbt(n),int(n),n=}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00036}00036      +1,n1)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Number of primary energies in section}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00038}00038       nep=n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> High-\/water marks}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00040}00040       iwmkef=0}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00041}00041       iwmkin=0}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00042}00042       \textcolor{keywordflow}{IF}(nep.GT.maxgrd) stop \textcolor{stringliteral}{'XNLF01: Increase MAXGRD'}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> For all incoming energies in section}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00044}00044       \textcolor{keywordflow}{DO} 30 jsub=1,nep}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Read arbitrary tabulated function}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00046}00046          \textcolor{keyword}{READ}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2, (nbt(n),int(n)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00047}00047      +   ,n=1,n1),(xnrval(n),n=1,2*n2)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00048}00048 \textcolor{comment}{* -\/-\/-\/> Store energy value}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00049}00049          engr(jsub)=c2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00050}00050          ipengr(jsub)=iwmkef}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00051}00051          ilengr(jsub)=n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00052}00052 \textcolor{comment}{* -\/-\/-\/> Store arbitrary tabulated function}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00053}00053          \textcolor{keywordflow}{DO} 10 jeps=1,2*n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00054}00054             \textcolor{keywordflow}{IF}(2*n2+iwmkef.GT.maxgrd*maxefg)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00055}00055      +                 stop \textcolor{stringliteral}{'XNLF01: increase MAXGRD*MAXEFG'}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00056}00056             pbengr(iwmkef+jeps) = xnrval(jeps)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00057}00057    10    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00058}00058          iwmkef=iwmkef+2*n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00059}00059 \textcolor{comment}{* -\/-\/-\/> Store interpolation laws and ranges}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00060}00060          ipingr(jsub)=iwmkin}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00061}00061          ilingr(jsub)=n1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00062}00062          \textcolor{keywordflow}{DO} 20 jint=1,n1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00063}00063             \textcolor{keywordflow}{IF}(n1+iwmkin.GT.maxint*maxgrd)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00064}00064      +                 stop \textcolor{stringliteral}{'XNLF01: increase MAXINT*MAXGRD'}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00065}00065             nbtgr(iwmkin+jint)=nbt(jint)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00066}00066             intgr(iwmkin+jint)=int(jint)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00067}00067    20    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00068}00068          iwmkin=iwmkin+n1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00069}00069    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00070}00070 \textcolor{comment}{* -\/-\/-\/> Now calculate probabilities on the precomputed grid}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00071}00071       \textcolor{keywordflow}{DO} 60 jg=1,nens}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00072}00072          energy=xengr(jg)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00073}00073 \textcolor{comment}{*        ETHRES=ENERGY-\/PES(1)}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00074}00074 \textcolor{comment}{* -\/-\/-\/> Get the values of weight PE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00075}00075          \textcolor{keyword}{CALL }xnterp(nbtpe,intpe,nrpes,pes,npes,energy,ppe)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00076}00076 \textcolor{comment}{* -\/-\/-\/> Skip if 0}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00077}00077          \textcolor{keywordflow}{IF}(ppe.LE.0) \textcolor{keywordflow}{GOTO} 60}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00078}00078 \textcolor{comment}{* -\/-\/-\/> Binary interpolation}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00079}00079          \textcolor{keyword}{CALL }xnbins(engr,nep,1,energy,ichan)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00080}00080 \textcolor{comment}{* -\/-\/-\/> Sanity check on binary interpolation}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00081}00081          \textcolor{keywordflow}{IF}(engr(ichan).GT.energy.OR.engr(ichan+1).LT.energy)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00082}00082      +   \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00083}00083             \textcolor{keyword}{WRITE}(6,10100) energy,engr(ichan),engr(ichan+1),}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00084}00084      +             ichan,nep}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00085}00085 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNLF01: Energy '},g10.3,\textcolor{stringliteral}{' not between '},g10.3,\textcolor{stringliteral}{' and '},}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00086}00086      +       g10.3,\textcolor{stringliteral}{' bin '},i6,\textcolor{stringliteral}{' of '},i6)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00087}00087             stop \textcolor{stringliteral}{'XNLF01: Error in interpolation 1'}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00088}00088 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00089}00089 \textcolor{comment}{* -\/-\/-\/> Linear interpolation between incoming energies}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00090}00090          xrat=(engr(ichan+1)-\/energy)/(engr(ichan+1)-\/engr(ichan))}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00091}00091          xra1=1-\/xrat}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00092}00092          \textcolor{keywordflow}{IF}(min(xrat,xra1).LT.0.OR.max(xrat,xra1).GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00093}00093             \textcolor{keyword}{WRITE}(6,10200) xrat,xra1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00094}00094 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Error in XRAT, XRA1 = '},2g14.7)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00095}00095 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00096}00096 \textcolor{comment}{* -\/-\/-\/> Set up pointers to lower and upper arbitrary tabulated function}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00097}00097          ip1 = ipengr(ichan)+1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00098}00098          il1 = ilengr(ichan)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00099}00099          ip2 = ipengr(ichan+1)+1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00100}00100          il2 = ilengr(ichan+1)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00101}00101          kp1 = ipingr(ichan)+1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00102}00102          kl1 = ilingr(ichan)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00103}00103          kp2 = ipingr(ichan+1)+1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00104}00104          kl2 = ilingr(ichan+1)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00105}00105          hint=0}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00106}00106          eold=0}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00107}00107 \textcolor{comment}{* -\/-\/-\/> Now loop on all secondary energies of the grid}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00108}00108          \textcolor{keywordflow}{DO} 40 jef=1,neps(jg)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00109}00109             efen=xenpb(2*jef-\/1,jg)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00110}00110 \textcolor{comment}{* -\/-\/-\/> Lower incoming energy probability}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00111}00111             \textcolor{keyword}{CALL }xnterp(nbtgr(kp1),intgr(kp1),}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00112}00112      +                  kl1,pbengr(ip1),il1,efen,pb1)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00113}00113 \textcolor{comment}{* -\/-\/-\/> Upper incoming energy probability}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00114}00114             \textcolor{keyword}{CALL }xnterp(nbtgr(kp2),intgr(kp2),}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00115}00115      +                  kl2,pbengr(ip2),il2,efen,pb2)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00116}00116 \textcolor{comment}{* -\/-\/-\/> Probability interpolation}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00117}00117             prob=xrat*pb1+xra1*pb2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00118}00118             xenpb(2*jef,jg)=xenpb(2*jef,jg)+ppe*prob}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00119}00119 \textcolor{comment}{* -\/-\/-\/> Calculate integral}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00120}00120             \textcolor{keywordflow}{IF}(jef.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00121}00121                hint=hint+0.5*(efen-\/eold)*(prob+pold)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00122}00122 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00123}00123             eold=efen}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00124}00124             pold=prob}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00125}00125    40    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00126}00126    50    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00127}00127 \textcolor{comment}{*        WRITE(6,10500) ENERGY,HINT}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00128}00128 \textcolor{comment}{* -\/-\/-\/> Check integral value}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00129}00129          \textcolor{keywordflow}{IF}(abs(1-\/hint).GT.2e-\/2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00130}00130             \textcolor{keyword}{WRITE}(6,10300) hint,energy}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00131}00131 10300  \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' XNLF01: Integral error = '},g14.7,\textcolor{stringliteral}{' at E = '},g14.7)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00132}00132 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00133}00133 10400  \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Partial integral at E = '},g14.7,\textcolor{stringliteral}{' is '},g14.7)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00134}00134    60 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00135}00135 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf01_8_f_source_l00136}00136       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

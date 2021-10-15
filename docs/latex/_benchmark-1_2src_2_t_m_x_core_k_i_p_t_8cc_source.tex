@@ -1,0 +1,270 @@
+\hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source}{}\doxysection{TMXCore\+KIPT.\+cc}
+\label{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/1/src/TMXCoreKIPT.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/1/src/TMXCoreKIPT.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00002}00002 \textcolor{comment}{// \(\backslash\)brief Implementation of the TMXCoreKIPT class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00006}00006 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00007}00007 \textcolor{comment}{// TMXCoreKIPT}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00009}00009 \textcolor{comment}{// Thomas Guilbaud, Transmutex, 24/03/2021}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{// Class to manage the different fuel types}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00014}00014 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00016}00016 \textcolor{comment}{// TMX Class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00017}00017 \textcolor{preprocessor}{\#include "{}TMXInputParameters.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00018}00018 \textcolor{preprocessor}{\#include "{}TMXMaterial.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00019}00019 \textcolor{preprocessor}{\#include "{}TMXCoreKIPT.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00020}00020 \textcolor{preprocessor}{\#include "{}TMXFuelAssemblyVVRM2.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00021}00021 \textcolor{preprocessor}{\#include "{}TMXReflectorKIPT.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00023}00023 \textcolor{comment}{// GEANT4 libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00024}00024 \textcolor{comment}{//\#include "{}G4Material.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00025}00025 \textcolor{preprocessor}{\#include "{}G4LogicalVolume.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00026}00026 \textcolor{preprocessor}{\#include "{}G4NistManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00027}00027 \textcolor{preprocessor}{\#include "{}G4PVPlacement.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00028}00028 \textcolor{preprocessor}{\#include "{}G4SubtractionSolid.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00029}00029 \textcolor{preprocessor}{\#include "{}G4VisAttributes.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00030}00030 \textcolor{preprocessor}{\#include "{}G4Color.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00033}00033 \textcolor{comment}{// C++ libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00034}00034 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00035}00035 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00037}00037 TMXCoreKIPT::TMXCoreKIPT(\textcolor{keyword}{const} std::string\& coreName, \mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* parameter, std::string latticeMapFile, \mbox{\hyperlink{class_t_m_x_neutron_source}{TMXNeutronSource}}* sourceKipt)}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00038}00038 :   \mbox{\hyperlink{class_t_m_x_abstract_core}{TMXAbstractCore}}(coreName, parameter),}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00039}00039     fLatticeMapFile\{latticeMapFile\},}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00040}00040     m\_TMXNeutronSource(sourceKipt)}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00041}00041 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00042}00042     createMaterial();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00043}00043     createGeometry();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00044}00044     VisualisationConfig();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00045}00045 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00048}00048 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00049}00049 \textcolor{comment}{// Construction of the material compositions}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00050}00050 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00051}00051 \textcolor{keywordtype}{void} TMXCoreKIPT::createMaterial()}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00052}00052 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00053}00053     G4double temperature\_fuel = m\_p-\/>TemperatureFuel;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00056}00056     \textcolor{comment}{// Graphite reflector}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00057}00057     \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* \_Graphite = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(\textcolor{stringliteral}{"{}Graphite"{}}, 1.84*(g/cm3), 1, kStateSolid, temperature\_fuel);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00058}00058     \_Graphite-\/>AddElement(60120, 1, \textcolor{stringliteral}{"{}C\_12"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00060}00060     m\_reflectMaterial = \_Graphite;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00061}00061 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00063}00063 \textcolor{keywordtype}{void} TMXCoreKIPT::createGeometry()}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00064}00064 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00065}00065     G4bool overlap = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00066}00066     \textcolor{keywordflow}{if} (m\_p-\/>Verbose == 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00067}00067         overlap = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00068}00068     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00071}00071     \textcolor{keyword}{const} G4double outerRadius\_fuelAssembly = 35 / 2. * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00072}00072     fOuterRadius\_assembly = outerRadius\_fuelAssembly;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00073}00073     \textcolor{keyword}{const} G4double innerRadius\_core = 13.5 * std::sqrt(3.)/2. * outerRadius\_fuelAssembly;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00076}00076     \textcolor{comment}{//const G4double halfHeightAssembly = 50./2. * cm;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00077}00077     \textcolor{keyword}{const} G4double halfHeightCore = 0.7/2. * m;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00084}00084     G4VSolid* sMasterSolid = \textcolor{keyword}{new} G4Polyhedra(}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00085}00085         \textcolor{stringliteral}{"{}sMasterSolid"{}},        \textcolor{comment}{// name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00086}00086         0.,                 \textcolor{comment}{// phiStart}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00087}00087         360. * deg,         \textcolor{comment}{// phiTotal}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00088}00088         6,                  \textcolor{comment}{// numSide}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00089}00089         2,                  \textcolor{comment}{// numZPlanes}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00090}00090         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{-\/halfHeightCore, halfHeightCore\}, \textcolor{comment}{// zPlane[]}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00091}00091         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{0., 0.\},                                \textcolor{comment}{// rInner[]}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00092}00092         \textcolor{keyword}{new} \textcolor{keywordtype}{double} [2]\{innerRadius\_core, innerRadius\_core\}    \textcolor{comment}{// rOuter[]}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00093}00093     );}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00094}00094 \textcolor{comment}{//    G4RotationMatrix* zRot = new G4RotationMatrix; // Rotates X and Z axes only}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00095}00095 \textcolor{comment}{//    zRot-\/>rotateZ(30.*deg);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00096}00096 \textcolor{comment}{//    sMasterSolid = m\_TMXNeutronSource-\/>SubstractTarget(sMasterSolid, G4ThreeVector(0, 0, 0), zRot);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00098}00098     m\_masterVolume = \textcolor{keyword}{new} G4LogicalVolume(sMasterSolid, m\_reflectMaterial, \textcolor{stringliteral}{"{}lReactorCore"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00099}00099 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00100}00100 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00101}00101 \textcolor{keywordtype}{void} TMXCoreKIPT::AddAssembliesInCore() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00102}00102     \textcolor{keywordtype}{int} countFuel = 0, countReflector = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00103}00103 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00104}00104     \textcolor{keywordtype}{int} lineCount = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00105}00105     std::string line, assID;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00106}00106     std::ifstream file(fLatticeMapFile);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00108}00108     \textcolor{keywordflow}{while} (std::getline(file, line)) \{ \textcolor{comment}{// Read by line}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00109}00109         std::stringstream input(line);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00110}00110         \textcolor{keywordflow}{if} (lineCount != 0) \{ \textcolor{comment}{// Structure of the lattice after the first line}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00111}00111             \textcolor{keywordflow}{while} (input >> assID) \{ \textcolor{comment}{// read by word for any length of space between words}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00112}00112                 \textcolor{keywordflow}{if} (assID != \textcolor{stringliteral}{"{}0"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00113}00113                     \textcolor{keywordflow}{if} (assID == \textcolor{stringliteral}{"{}1"{}} || assID == \textcolor{stringliteral}{"{}F"{}}) \{ \textcolor{comment}{// Fuel Assembly}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00114}00114                         \mbox{\hyperlink{class_t_m_x_fuel_assembly_v_v_r_m2}{TMXFuelAssemblyVVRM2}}* FuelAssemblyVVRM2 = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_fuel_assembly_v_v_r_m2}{TMXFuelAssemblyVVRM2}}(\textcolor{stringliteral}{"{}FuelAssemblyVVRM2\_"{}}+std::to\_string(countFuel), m\_p, 0.);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00115}00115                         G4LogicalVolume* lFuelAssembly = FuelAssemblyVVRM2-\/>getMasterVolume();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00116}00116                         addAssemblyToList(lFuelAssembly);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00117}00117                         m\_TMXFuelAssemblies.push\_back(FuelAssemblyVVRM2);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00118}00118                         countFuel++;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00119}00119                     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00120}00120                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (assID == \textcolor{stringliteral}{"{}2"{}} || assID == \textcolor{stringliteral}{"{}R"{}}) \{ \textcolor{comment}{// Reflector Assembly}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00121}00121                         \mbox{\hyperlink{class_t_m_x_reflector_k_i_p_t}{TMXReflectorKIPT}}* ReflectorAssembly = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_reflector_k_i_p_t}{TMXReflectorKIPT}}(\textcolor{stringliteral}{"{}ReflectorAssembly\_"{}}+std::to\_string(countReflector), m\_p, 0., \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00122}00122                         G4LogicalVolume* lReflectorAssembly = ReflectorAssembly-\/>getMasterVolume();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00123}00123                         addAssemblyToList(lReflectorAssembly);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00124}00124                         m\_TMXReflectorAssemblies.push\_back(ReflectorAssembly);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00125}00125                         countReflector++;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00126}00126                     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00127}00127                 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00128}00128             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00129}00129         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00130}00130         lineCount++;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00131}00131     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00132}00132 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00134}00134 \textcolor{keywordtype}{void} TMXCoreKIPT::subtract(G4LogicalVolume* subtracterLV) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00135}00135     G4VSolid* sSubtracter = subtracterLV-\/>GetSolid();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00136}00136 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00137}00137     G4VSolid* sSubtratedSolid = m\_masterVolume-\/>GetSolid();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00138}00138 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00139}00139     G4SubtractionSolid* sHoled = \textcolor{keyword}{new} G4SubtractionSolid(sSubtratedSolid-\/>GetName()+\textcolor{stringliteral}{"{}\_sub"{}}, sSubtratedSolid, sSubtracter);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00140}00140 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00141}00141     m\_masterVolume-\/>SetSolid(sHoled);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00142}00142 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00143}00143 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00144}00144 \textcolor{keywordtype}{void} TMXCoreKIPT::subtract(G4VSolid* subtracterSolid) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00145}00145     G4VSolid* sSubtratedSolid = m\_masterVolume-\/>GetSolid();}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00147}00147     G4SubtractionSolid* sHoled = \textcolor{keyword}{new} G4SubtractionSolid(sSubtratedSolid-\/>GetName()+\textcolor{stringliteral}{"{}\_sub"{}}, sSubtratedSolid, subtracterSolid);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00148}00148 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00149}00149     m\_masterVolume-\/>SetSolid(sHoled);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00150}00150 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00151}00151 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00152}00152 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00153}00153 \textcolor{keywordtype}{void} TMXCoreKIPT::placeGeometry(\textcolor{keywordtype}{bool} overlap, G4ThreeVector position, G4RotationMatrix* rotation, G4LogicalVolume* masterVolume, std::string latticeType) \{  \textcolor{comment}{// Place elements of the target in the geometry}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00154}00154     \textcolor{comment}{// Place the master volume that contain the core}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00155}00155     \textcolor{keyword}{new} G4PVPlacement(rotation, position, m\_masterVolume, \textcolor{stringliteral}{"{}pCore"{}}, masterVolume, \textcolor{keyword}{false}, 0, overlap);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00156}00156 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00159}00159     \textcolor{keywordflow}{if} (m\_TMXFuelAssemblies.size() != 0 \&\& m\_TMXReflectorAssemblies.size() != 0) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00160}00160         \textcolor{keywordflow}{if} (latticeType == \textcolor{stringliteral}{"{}hexagonal"{}} || latticeType == \textcolor{stringliteral}{"{}hexa"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00161}00161             \textcolor{keywordflow}{if}(m\_p-\/>Verbose == 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00162}00162                 std::cout << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ Begin Assembly -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00163}00163             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00164}00164             \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00165}00165 \textcolor{comment}{            Example of Hexagonal Lattice (0 = void)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00166}00166 \textcolor{comment}{            -\/2 2   -\/2 2}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00167}00167 \textcolor{comment}{            0 0 0 0 0       // y=-\/2 ; x=[-\/2; 2]     0 0 0 0 0}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00168}00168 \textcolor{comment}{             0 0 1 1 0      // y=-\/1 ; x=[-\/2; 2]      0 0 F F 0}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00169}00169 \textcolor{comment}{              0 1 1 1 0     // y= 0 ; x=[-\/2; 2]       0 F F F 0}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00170}00170 \textcolor{comment}{               0 1 1 0 0    // y= 1 ; x=[-\/2; 2]        0 F F 0 0}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00171}00171 \textcolor{comment}{                0 0 0 0 0   // y= 2 ; x=[-\/2; 2]         0 0 0 0 0}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00172}00172 \textcolor{comment}{            read README.md in latticeMap for more precision}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00173}00173 \textcolor{comment}{            */}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00174}00174 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00175}00175             \textcolor{keywordtype}{int} xMin, xMax, yMin, yMax;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00176}00176             \textcolor{keywordtype}{int} nx, ny;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00177}00177             G4double x, y;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00178}00178             G4double r = fOuterRadius\_assembly;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00179}00179             G4double d = std::sqrt(3) * r;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00180}00180             \textcolor{keywordtype}{int} countFuel = 0, countReflector = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00181}00181             G4RotationMatrix* zRot = \textcolor{keyword}{new} G4RotationMatrix; \textcolor{comment}{// Rotates X and Z axes only}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00182}00182             zRot-\/>rotateZ(30.*deg);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00183}00183 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00184}00184             \textcolor{keywordtype}{int} lineCount = 0;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00185}00185             std::string line, assID;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00186}00186             std::ifstream file(fLatticeMapFile);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00187}00187 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00188}00188             \textcolor{keywordflow}{while} (std::getline(file, line)) \{ \textcolor{comment}{// Read by line}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00189}00189                 std::stringstream input(line);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00190}00190                 \textcolor{keywordflow}{if} (lineCount == 0) \{ \textcolor{comment}{// first line, receive the limits of the lattice}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00191}00191                     input >> xMin >> xMax >> yMin >> yMax;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00192}00192                     nx = xMin;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00193}00193                     ny = yMin;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00194}00194                 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00195}00195                 \textcolor{keywordflow}{else} \{ \textcolor{comment}{// Structure of the lattice}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00196}00196                     \textcolor{keywordflow}{while} (input >> assID) \{ \textcolor{comment}{// read by word for any length of space between words}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00197}00197                         \textcolor{keywordflow}{if} (assID != \textcolor{stringliteral}{"{}0"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00198}00198                             \textcolor{keywordflow}{if} (assID == \textcolor{stringliteral}{"{}1"{}} || assID == \textcolor{stringliteral}{"{}F"{}}) \{ \textcolor{comment}{// Fuel Assembly}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00199}00199                                 \mbox{\hyperlink{class_t_m_x_fuel_assembly_v_v_r_m2}{TMXFuelAssemblyVVRM2}}* FuelAssemblyVVRM2 = m\_TMXFuelAssemblies[countFuel];}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00200}00200                                 x = 2.*(double)(nx)*r + (double)(ny)*r;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00201}00201                                 y = (double)ny*d;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00202}00202                                 \textcolor{comment}{//std::cout << r << "{} "{} << d << "{} >> "{} << x << "{},"{} << y << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00203}00203                                 FuelAssemblyVVRM2-\/>placeGeometry(overlap, G4ThreeVector(x, y, 0.), zRot, m\_masterVolume);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00204}00204                                 countFuel++;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00205}00205                             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00206}00206                             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (assID == \textcolor{stringliteral}{"{}2"{}} || assID == \textcolor{stringliteral}{"{}R"{}}) \{ \textcolor{comment}{// Reflector Assembly}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00207}00207                                 \mbox{\hyperlink{class_t_m_x_reflector_k_i_p_t}{TMXReflectorKIPT}}* ReflectorAssembly = m\_TMXReflectorAssemblies[countReflector];}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00208}00208                                 x = 2.*(double)(nx)*r + (double)(ny)*r;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00209}00209                                 y = (double)ny*d;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00210}00210                                 \textcolor{comment}{//std::cout << r << "{} "{} << d << "{} >> "{} << x << "{},"{} << y << std::endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00211}00211                                 ReflectorAssembly-\/>placeGeometry(overlap, G4ThreeVector(x, y, 0.), zRot, m\_masterVolume);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00212}00212                                 countReflector++;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00213}00213                             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00214}00214                         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00215}00215                         nx++;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00216}00216                     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00217}00217                     nx = xMin;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00218}00218                     ny++;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00219}00219                 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00220}00220                 lineCount++;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00221}00221             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00222}00222 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00223}00223             \textcolor{keywordflow}{if}(m\_p-\/>Verbose == 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00224}00224                 std::cout << \textcolor{stringliteral}{"{}Lattice Configuration: "{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00225}00225                           << \textcolor{stringliteral}{"{}\(\backslash\)tx = ["{}} << xMin << \textcolor{stringliteral}{"{};"{}} << xMax << \textcolor{stringliteral}{"{}]"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00226}00226                           << \textcolor{stringliteral}{"{}\(\backslash\)ty = ["{}} << yMin << \textcolor{stringliteral}{"{};"{}} << yMax << \textcolor{stringliteral}{"{}]"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00227}00227 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00228}00228                 std::cout << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ End Assembly -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00229}00229             \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00230}00230         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00231}00231     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00232}00232 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00233}00233 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00234}00234 \textcolor{keywordtype}{void} TMXCoreKIPT::VisualisationConfig() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00235}00235     \textcolor{keywordflow}{if}(m\_p-\/>Verbose == 1) \{ std::cout << \textcolor{stringliteral}{"{}\(\backslash\)nConfiguration of the visualisation"{}} << std::endl;\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00236}00236 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00238}00238     \textcolor{comment}{// visualisation colors configured by DL}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00240}00240 \textcolor{comment}{}    G4Colour  black   ( .0      ,  .0        ,  .0        ); \textcolor{comment}{// black}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00241}00241     G4Colour  lblack  ( .0      ,  .0        ,  .0        , 0.6); \textcolor{comment}{// light black}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00242}00242     G4Colour  vlblack ( .0      ,  .0        ,  .0        , 0.2); \textcolor{comment}{// very light black}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00243}00243     G4Colour  white   (1.0      , 1.0        , 1.0        , 0.3); \textcolor{comment}{// white}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00244}00244     G4Colour  grayD3l (211      , 211        , 211             ); \textcolor{comment}{// gray D3 (light)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00245}00245     G4Colour  grayC   (0.5      , 0.5        , 0.5             ); \textcolor{comment}{// gray}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00246}00246     G4Colour  flgrayC (0.5      , 0.5        , 0.5        , 0.8); \textcolor{comment}{// few light gray}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00247}00247     G4Colour  lgrayC  (0.5      , 0.5        , 0.5        , 0.4); \textcolor{comment}{// light gray}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00248}00248     G4Colour  vlgrayC (0.5      , 0.5        , 0.5        , 0.2); \textcolor{comment}{// very ligth gray}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00249}00249     G4Colour  red     (1.0      , 0.0        , 0.0             ); \textcolor{comment}{// red}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00250}00250     G4Colour  violet  (1.0      , 0.0        , 1.0             ); \textcolor{comment}{// violet}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00251}00251     G4Colour  orange  (1.0      , 0.65       , 0.0             ); \textcolor{comment}{// orange}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00252}00252     G4Colour  green   (0.0      , 1.0        , 0.0             ); \textcolor{comment}{// green}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00253}00253     G4Colour  lgreen  (0.0      , 1.0        , 0.0        , 0.4); \textcolor{comment}{// light green}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00254}00254     G4Colour  blue    (0.0      , 0.0        , 1.0             ); \textcolor{comment}{// blue}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00255}00255     G4Colour  yellow  (1.0      , 1.0        , 0.0        ); \textcolor{comment}{// yellow}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00256}00256     G4Colour  lyellow (1.0      , 1.0        , 0.0        , 0.2); \textcolor{comment}{// light yellow}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00257}00257     G4Colour  cyan    (0.0      , 1.0        , 1.0        , 0.2); \textcolor{comment}{// cya}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00258}00258     G4Colour  sky     (0.0/255.0, 191.0/255.0, 255.0/255.0, 0.2); \textcolor{comment}{// sky}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00259}00259     G4Colour  dgreen  (0.0      , 153.0/255.0, 153.0/255.0, 0.2); \textcolor{comment}{// dark green}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00260}00260     G4Colour  cyangr  (0.0      , 204.0/255.0, 204.0/255.0     ); \textcolor{comment}{// cyan+green colour for different colour of h20}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00261}00261     G4Colour  lblue   (0        , 0          , 1.0        , 0.4); \textcolor{comment}{// light blue}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00262}00262     G4Colour  grayblu (0.4      , 0.6        , 0.8        , 0.6); \textcolor{comment}{// light gray blue}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00263}00263     G4Colour  wcolour (0.3      , 0.3        , 0.3             );}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00264}00264     G4Colour  Ccolour (0.       , 0.3        , 0.7             );}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00265}00265 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00267}00267     \textcolor{comment}{//G4bool bool\_visible = true;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00268}00268 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00269}00269     G4VisAttributes* visWorld = \textcolor{keyword}{new} G4VisAttributes(sky);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00270}00270     visWorld-\/>SetVisibility(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00271}00271     \textcolor{keywordflow}{if}(m\_masterVolume) \{m\_masterVolume-\/>SetVisAttributes(visWorld);\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00272}00272 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00273}00273     \textcolor{keywordflow}{if}(m\_p-\/>Verbose == 1) \{ std::cout << \textcolor{stringliteral}{"{}End of VisualisationConfig"{}} << std::endl;\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00274}00274 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00275}00275 }
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00276}00276 G4LogicalVolume* TMXCoreKIPT::getMasterVolume() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00277}00277     \textcolor{keywordflow}{return}(m\_masterVolume);}
+\DoxyCodeLine{\Hypertarget{_benchmark-1_2src_2_t_m_x_core_k_i_p_t_8cc_source_l00278}00278 \}}
+
+\end{DoxyCode}

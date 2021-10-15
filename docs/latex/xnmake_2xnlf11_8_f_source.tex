@@ -1,0 +1,95 @@
+\hypertarget{xnmake_2xnlf11_8_f_source}{}\doxysection{xnlf11.\+F}
+\label{xnmake_2xnlf11_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnlf11.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnlf11.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 31/05/96  17.16.03  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnlf11}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00006}00006 \textcolor{comment}{*     Reads in data related to an energy dependent Watt spectrum       *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00007}00007 \textcolor{comment}{*     of file 5 and calculates all probability on the precomputed      *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00008}00008 \textcolor{comment}{*     energy grid.                                                     *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00009}00009 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00010}00010 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00011}00011 \textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00012}00012 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xc5dat.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00013}00013 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00014}00014 \textcolor{preprocessor}{}      parameter(maxgrd=500,sqrpi=1.7724539)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00015}00015       dimension enera(maxgrd),enerb(maxgrd),nbta(10),inta(10),}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00016}00016      +          nbtb(10),intb(10)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00017}00017 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00018}00018 \textcolor{comment}{*     ENERA             a parameter tabulation}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00019}00019 \textcolor{comment}{*     ENERB             b parameter tabulation}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00020}00020 \textcolor{comment}{*     NBTA              a parameter interpolation ranges}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00021}00021 \textcolor{comment}{*     INTA              a parameter interpolation laws}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00022}00022 \textcolor{comment}{*     NBTB              b parameter interpolation ranges}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00023}00023 \textcolor{comment}{*     INTB              b parameter interpolation laws}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00024}00024 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00025}00025 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00026}00026 \textcolor{comment}{*     WRITE(6,10000)}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00027}00027 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Energy dependent Watt spectrum'})}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> -\/Q value}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00029}00029       u=c1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Read a parameter tabulation}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00031}00031       \textcolor{keyword}{READ}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2, (nbta(n),inta(n) ,n=1,}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00032}00032      +n1),(enera(n),n=1,min(2*n2,maxgrd))}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00033}00033       \textcolor{keywordflow}{IF}(2*n2.GT.maxgrd) stop \textcolor{stringliteral}{'XNLF11: Increase MAXGRD'}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00034}00034       nra=n1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00035}00035       na=n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/> Read b parameter tabulation}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00037}00037       \textcolor{keyword}{READ}(99) math,mfh,mth,c1,c2,l1,l2,n1,n2, (nbtb(n),intb(n) ,n=1,}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00038}00038      +n1),(enerb(n),n=1,min(2*n2,maxgrd))}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00039}00039       \textcolor{keywordflow}{IF}(2*n2.GT.maxgrd) stop \textcolor{stringliteral}{'XNLF11: Increase MAXGRD'}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00040}00040       nrb=n1}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00041}00041       nb=n2}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00042}00042 \textcolor{comment}{* -\/-\/-\/> Calculate Pb distribution on the energy grid}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00043}00043       \textcolor{keywordflow}{DO} 30 jg=1,nens}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00044}00044          energy=xengr(jg)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> If energy less than threshold, skip row}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00046}00046          \textcolor{keywordflow}{IF}(energy.LE.u) \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> Get the value of the weight of the section}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00048}00048          \textcolor{keyword}{CALL }xnterp(nbtpe,intpe,nrpes,pes,npes,energy,ppe)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> If the weight is 0, skip row}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00050}00050          \textcolor{keywordflow}{IF}(ppe.LE.0) \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/> Calculate a parameter}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00052}00052          \textcolor{keyword}{CALL }xnterp(nbta,inta,nra,enera,na,energy,a)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/> Calculate b parameter}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00054}00054          \textcolor{keyword}{CALL }xnterp(nbtb,intb,nrb,enerb,nb,energy,b)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00055}00055          ab4=0.25*a*b}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00056}00056          sab4=sqrt(ab4)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00057}00057          elim = energy-\/u}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00058}00058          rede=elim/a}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00059}00059          srede=sqrt(rede)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> Calculate normalisation factor}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00061}00061          hnorm = 0.5*a*sqrpi*sab4*exp(ab4)*(erf(srede-\/sab4)+}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00062}00062      +             erf(srede+sab4))-\/a*exp(-\/rede)*sinh(sqrt(b*elim))}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00063}00063          hint=0}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/> For all secondary energies in grid}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00065}00065          \textcolor{keywordflow}{DO} 10 jef=1,neps(jg)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00066}00066             efen=xenpb(2*jef-\/1,jg)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00067}00067 \textcolor{comment}{* -\/-\/-\/> If secondary energy larger than max, skip it}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00068}00068             \textcolor{keywordflow}{IF}(efen.GE.elim) \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/> Calculate probability}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00070}00070             prob=exp(-\/efen/a)*sinh(sqrt(b*efen))/hnorm}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00071}00071             xenpb(2*jef,jg)=xenpb(2*jef,jg)+ppe*prob}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00072}00072 \textcolor{comment}{* -\/-\/-\/> Calculate normalisation integral}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00073}00073             \textcolor{keywordflow}{IF}(jef.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00074}00074                hint=hint+0.5*(efen-\/eold)*(prob+pold)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00075}00075 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00076}00076             eold=efen}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00077}00077             pold=prob}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00078}00078    10    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00079}00079    20    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00080}00080 \textcolor{comment}{*        WRITE(6,10200) ENERGY,HINT}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00081}00081 \textcolor{comment}{* -\/-\/-\/> Check normalisation integral}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00082}00082          \textcolor{keywordflow}{IF}(abs(1-\/hint).GT.2e-\/2) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00083}00083             \textcolor{keyword}{WRITE}(6,10100) hint,energy}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00084}00084 10100  \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' XNLF11: Integral error = '},g14.7,\textcolor{stringliteral}{' at E = '},g14.7)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00085}00085 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00086}00086 10200  \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Partial integral at E = '},g14.7,\textcolor{stringliteral}{' is '},g14.7)}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00087}00087    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00088}00088 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmake_2xnlf11_8_f_source_l00089}00089       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

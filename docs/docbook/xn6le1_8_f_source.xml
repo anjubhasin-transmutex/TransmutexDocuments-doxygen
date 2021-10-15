@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xn6le1_8_f_source" xml:lang="en-US">
+<title>xn6le1.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnmake/xn6le1.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xn6le1_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;31/05/96&#32;&#32;18.32.10&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xn6le1(KP,LANG,NA,EIN,EOU,COST,PROB)
+<anchor xml:id="_xn6le1_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;For&#32;a&#32;file6,&#32;LAW=1&#32;find&#32;probability&#32;for&#32;a&#32;given&#32;incoming,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;outgoing&#32;energy&#32;and&#32;cosinus&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;KP&#32;&#32;&#32;&#32;&#32;pointer&#32;to&#32;angular&#32;distribution&#32;data&#32;in&#32;R/I6STOR&#32;(input)&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;LANG&#32;&#32;&#32;kind&#32;of&#32;angular&#32;distribution&#32;(1=Legendre,&#32;2=Kalbach&#32;Mann,&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;3=tabulated)&#32;(input)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;NA&#32;&#32;&#32;&#32;&#32;number&#32;of&#32;words&#32;per&#32;angular&#32;distribution&#32;(input)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;EIN&#32;&#32;&#32;&#32;incoming&#32;neutron&#32;energy&#32;in&#32;eV&#32;(input)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;EOU&#32;&#32;&#32;&#32;outgoing&#32;neutron&#32;energy&#32;in&#32;eV&#32;(input)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;COST&#32;&#32;&#32;outgoing&#32;neutron&#32;cos&#32;(theta)&#32;(input)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;PROB&#32;&#32;&#32;&#32;differential&#32;prob&#32;(d2Pb/dE&#32;dcost)&#32;(output)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00017"/>00017 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00018"/>00018 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;The&#32;incoming&#32;energy&#32;is&#32;in&#32;the&#32;LAB&#32;system&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00019"/>00019 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;The&#32;outgoing&#32;energy&#32;and&#32;angle&#32;are&#32;in&#32;the&#32;LAB&#32;or&#32;CMS&#32;system&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00020"/>00020 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;depending&#32;on&#32;the&#32;evaluator&#32;choiche&#32;(LCT&#32;parameter)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00021"/>00021 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00022"/>00022 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00023"/>00023 <emphasis role="preprocessor">#include&#32;&quot;xcmfh6.inc&quot;</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00024"/>00024 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*&#32;---&gt;&#32;Max&#32;number&#32;of&#32;Legendre&#32;coefficients</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;parameter(maxna=20)
+<anchor xml:id="_xn6le1_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">DOUBLE&#32;PRECISION</emphasis>&#32;P(0:MAXNA),&#32;DPROB
+<anchor xml:id="_xn6le1_8_f_source_1l00027"/>00027 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00028"/>00028 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00029"/>00029 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(lang.EQ.1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00031"/>00031 <emphasis role="comment">*&#32;---&gt;&#32;Legendre&#32;polynomials</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(na.GT.maxna)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;stop&#32;<emphasis role="stringliteral">&apos;***&#32;XN6LE1:&#32;Increase&#32;MAXNA&apos;</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00034"/>00034 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00035"/>00035 <emphasis role="comment">*&#32;---&gt;&#32;Calculate&#32;Legendre&#32;polynomials</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>daslgf(1,dble(cost),0,na,p)
+<anchor xml:id="_xn6le1_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dprob=0
+<anchor xml:id="_xn6le1_8_f_source_1l00038"/>00038 <emphasis role="comment">*&#32;---&gt;&#32;Calculate&#32;Legendre&#32;expansion</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;l=0,na
+<anchor xml:id="_xn6le1_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dprob=dprob+0.5*(2*l+1)*p(l)*r6stor(kp+1+l)
+<anchor xml:id="_xn6le1_8_f_source_1l00041"/>00041 &#32;&#32;10&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;prob=dprob
+<anchor xml:id="_xn6le1_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(lang.EQ.2)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00044"/>00044 <emphasis role="comment">*&#32;---&gt;&#32;Kalbach-Mann&#32;systematic</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnkama(awr,izamat,r6stor(kp+2),ein,eou,cost,prob)
+<anchor xml:id="_xn6le1_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;prob=prob*r6stor(kp+1)
+<anchor xml:id="_xn6le1_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(lang.GT.10)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00048"/>00048 <emphasis role="comment">*&#32;---&gt;&#32;Simple&#32;interpolation&#32;law</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;intr=lang-10
+<anchor xml:id="_xn6le1_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnterp(na/2,intr,1,r6stor(kp+2),na/2,cost,prob)
+<anchor xml:id="_xn6le1_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;prob=prob*r6stor(kp+1)
+<anchor xml:id="_xn6le1_8_f_source_1l00052"/>00052 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00053"/>00053 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xn6le1_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

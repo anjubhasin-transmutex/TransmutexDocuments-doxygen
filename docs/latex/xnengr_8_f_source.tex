@@ -1,0 +1,139 @@
+\hypertarget{xnengr_8_f_source}{}\doxysection{xnengr.\+F}
+\label{xnengr_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnengr.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnengr.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/01 17/06/96  18.27.02  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnengr(U,NEP)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00006}00006 \textcolor{comment}{*     Builds the primary and secondary energy grids for a continuous   *}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00007}00007 \textcolor{comment}{*     distribution in file5.                                           *}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00009}00009 \textcolor{comment}{*     U      reaction threshold in eV (input)                          *}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00010}00010 \textcolor{comment}{*     NEP    number of points of the tabulation just read (input)      *}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00011}00011 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00012}00012 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00013}00013 \textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00014}00014 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00015}00015 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xc5dat.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00016}00016 \textcolor{preprocessor}{}      parameter(maxene=200,ratmax=2)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00017}00017       dimension tmpene(maxene)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00018}00018 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00019}00019 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00020}00020 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00021}00021       nene=0}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00022}00022 \textcolor{comment}{* -\/-\/-\/> Start putting all the incoming energies of the tabulation}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00023}00023       \textcolor{keywordflow}{DO} 10 jsub=1,nep}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00024}00024          et=xnrval(2*jsub-\/1)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00025}00025          \textcolor{keyword}{CALL }xnterp(nbtpe,intpe,nrpes,pes,npes,et,ppe)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> If weight of this distribution is 0 for this energy, skip}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00027}00027          \textcolor{keywordflow}{IF}(ppe.LE.0) \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Do not put energy right at threshold}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00029}00029          \textcolor{keywordflow}{IF}(et-\/u.LE.1e-\/5) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00030}00030             et=max(u*1.0001,u+1e-\/4)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00031}00031 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00032}00032          nene=nene+1}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00033}00033          \textcolor{keywordflow}{IF}(nene.GT.maxene) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00034}00034             stop \textcolor{stringliteral}{'XNENGR: Increase MAXENE'}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00035}00035 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00036}00036          tmpene(nene)=et}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00037}00037    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Now check that the max factor between two adjacent primary}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00039}00039 \textcolor{comment}{*      energies is 2. If it is more, add points}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00040}00040       ntota=0}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00041}00041       \textcolor{keywordflow}{DO} 30 jsub=1,nene-\/1}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00042}00042 \textcolor{comment}{* -\/-\/-\/> Calculate ratio}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00043}00043          ratio=tmpene(jsub+1)/tmpene(jsub)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00044}00044          diff = 2*abs(xnrval(2*jsub)-\/xnrval(2*jsub+2))/}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00045}00045      +   max(1e-\/10,xnrval(2*jsub)+xnrval(2*jsub+2))}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00046}00046          \textcolor{keywordflow}{IF}(ratio.GT.ratmax.AND.diff.GT.1e-\/6) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> If ration too large and points distinct, add points in between}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00048}00048             ratiol=log(ratio)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00049}00049             nadd=ratiol/log(ratmax)+1}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00050}00050             fact=exp(ratiol/nadd)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00051}00051             eadd=tmpene(jsub)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00052}00052             \textcolor{keywordflow}{IF}(nene+ntota+nadd-\/1.GT.maxene) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00053}00053                stop \textcolor{stringliteral}{'XNENGR: Increase MAXENE'}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00054}00054 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00055}00055             \textcolor{keywordflow}{DO} 20 jad=1,nadd-\/1}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00056}00056                eadd=eadd*fact}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00057}00057                tmpene(nene+ntota+jad)=eadd}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00058}00058    20       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00059}00059             ntota=ntota+nadd-\/1}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00060}00060 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00061}00061    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00062}00062       nene=nene+ntota}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00063}00063 \textcolor{comment}{* -\/-\/-\/> Add all new points to energy grid}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00064}00064       \textcolor{keywordflow}{DO} 110 jsub=1,nene}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00065}00065          \textcolor{keywordflow}{DO} 40 jen=1,nens}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00066}00066             \textcolor{keywordflow}{IF}(abs(2*(tmpene(jsub)-\/xengr(jen))/}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00067}00067      +                (tmpene(jsub)+xengr(jen))).LT.1e-\/7) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00068}00068                len=jen}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/> Energy already there, skip initial population}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00070}00070                \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00071}00071 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00072}00072    40    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00073}00073 \textcolor{comment}{* -\/-\/-\/> Add energy}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00074}00074          nens=nens+1}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00075}00075          \textcolor{keywordflow}{IF}(nens.GT.maxen) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00076}00076             stop \textcolor{stringliteral}{'XNENGR: Increase MAXEN'}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00077}00077 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00078}00078          len=nens}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00079}00079          xengr(len)=tmpene(jsub)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00080}00080 \textcolor{comment}{* -\/-\/-\/> Give an initial population to secondary energy grid}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00081}00081          \textcolor{keyword}{CALL }xnpope(len)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00082}00082    50    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00083}00083 \textcolor{comment}{* -\/-\/-\/> Secondary energy grid population}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00084}00084          emin = 1e-\/5}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00085}00085          emax = max(xengr(len)-\/u,emin+1e-\/5)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00086}00086          \textcolor{keywordflow}{IF}(emax.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00087}00087             fact = exp(log(emax/emin)/(maxene-\/1))}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00088}00088             ef = emin/fact}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00089}00089          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00090}00090             fact = 1}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00091}00091             ef = 0}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00092}00092 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00093}00093 \textcolor{comment}{* -\/-\/-\/> Add maxene points between EMIN and EMAX}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00094}00094          \textcolor{keywordflow}{DO} 70 jeps=1,maxene}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00095}00095             ef = ef*fact}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00096}00096             \textcolor{keywordflow}{DO} 60 keps=1,neps(len)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00097}00097                \textcolor{keywordflow}{IF}(xenpb(2*keps-\/1,len).EQ.ef) \textcolor{keywordflow}{GOTO} 70}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00098}00098    60       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00099}00099 \textcolor{comment}{* -\/-\/-\/> Outgoing energy not there, add it}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00100}00100             neps(len)=neps(len)+1}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00101}00101             \textcolor{keywordflow}{IF}(2*neps(len).GT.maxep) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00102}00102                stop \textcolor{stringliteral}{'XNENGR: Increase MAXEP'}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00103}00103 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00104}00104             xenpb(2*neps(len)-\/1,len)=ef}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00105}00105             xenpb(2*neps(len)  ,len)=0}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00106}00106    70    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00107}00107 \textcolor{comment}{* -\/-\/-\/> Add threshold 0 point}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00108}00108          ethre1=emax*(1-\/1e-\/4)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00109}00109          \textcolor{keywordflow}{DO} 80 keps=1,neps(len)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00110}00110             \textcolor{keywordflow}{IF}(xenpb(2*keps-\/1,len).EQ.ethre1) \textcolor{keywordflow}{GOTO} 90}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00111}00111    80    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00112}00112 \textcolor{comment}{* -\/-\/-\/> First threshold point not there, add it}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00113}00113          neps(len)=neps(len)+1}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00114}00114          \textcolor{keywordflow}{IF}(2*neps(len).GT.maxep) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00115}00115             stop \textcolor{stringliteral}{'XNENGR: Increase MAXEP'}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00116}00116 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00117}00117          xenpb(2*neps(len)-\/1,len)=ethre1}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00118}00118          xenpb(2*neps(len) ,len)=0}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00119}00119 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00120}00120    90    ethre2=emax*(1+1e-\/4)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00121}00121          \textcolor{keywordflow}{DO} 100 keps=1,neps(len)}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00122}00122             \textcolor{keywordflow}{IF}(xenpb(2*keps-\/1,len).EQ.ethre2) \textcolor{keywordflow}{GOTO} 110}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00123}00123   100    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00124}00124 \textcolor{comment}{* -\/-\/-\/> Second threshold point not there, add it}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00125}00125          neps(len)=neps(len)+1}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00126}00126          \textcolor{keywordflow}{IF}(2*neps(len).GT.maxep) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00127}00127             stop \textcolor{stringliteral}{'XNENGR: Increase MAXEP'}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00128}00128 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00129}00129          xenpb(2*neps(len)-\/1,len)=ethre2}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00130}00130          xenpb(2*neps(len) ,len)=0}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00131}00131   110 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00132}00132 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnengr_8_f_source_l00133}00133       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

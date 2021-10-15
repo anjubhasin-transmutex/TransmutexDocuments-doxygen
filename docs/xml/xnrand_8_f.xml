@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="xnrand_8_f" kind="file" language="Fortran">
+    <compoundname>xnrand.F</compoundname>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="xnrand_8_f_1a88cc87be0c78f5cc9fe3c235dfd1d4ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine xnrand</definition>
+        <argsstring>(RVEC, LENV)</argsstring>
+        <name>xnrand</name>
+        <param>
+          <type>RVEC</type>
+          <defname>RVEC</defname>
+        </param>
+        <param>
+          <type>LENV</type>
+          <defname>LENV</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xnrand.F" line="3" column="1" bodyfile="/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xnrand.F" bodystart="4" bodyend="226"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">*CMZ<sp/>:<sp/><sp/>2.03/01<sp/>21/06/96<sp/><sp/>10.53.12<sp/><sp/>by<sp/><sp/>Federico<sp/>Carminati</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">*--<sp/>Author<sp/>:<sp/><sp/><sp/><sp/>Federico<sp/>Carminati<sp/><sp/><sp/>18/01/94</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">SUBROUTINE<sp/></highlight><highlight class="normal">xnrand(RVEC,LENV)</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/>SUBROUTINE<sp/>RANLUX(RVEC,LENV)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Subtract-and-borrow<sp/>random<sp/>number<sp/>generator<sp/>proposed<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Marsaglia<sp/>and<sp/>Zaman,<sp/>implemented<sp/>by<sp/>F.<sp/>James<sp/>with<sp/>the<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RCARRY<sp/>in<sp/>1991,<sp/>and<sp/>later<sp/>improved<sp/>by<sp/>Martin<sp/>Luescher</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in<sp/>1993<sp/>to<sp/>produce<sp/>&quot;Luxury<sp/>Pseudorandom<sp/>Numbers&quot;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/>Fortran<sp/>77<sp/>coded<sp/>by<sp/>F.<sp/>James,<sp/>1993</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/>LUXURY<sp/>LEVELS.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/>------<sp/>------<sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>available<sp/>luxury<sp/>levels<sp/>are:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/>level<sp/>0<sp/><sp/>(p=24):<sp/>equivalent<sp/>to<sp/>the<sp/>original<sp/>RCARRY<sp/>of<sp/>Marsaglia</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>and<sp/>Zaman,<sp/>very<sp/>long<sp/>period,<sp/>but<sp/>fails<sp/>many<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/>level<sp/>1<sp/><sp/>(p=48):<sp/>considerable<sp/>improvement<sp/>in<sp/>quality<sp/>over<sp/>level<sp/>0,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>now<sp/>passes<sp/>the<sp/>gap<sp/>test,<sp/>but<sp/>still<sp/>fails<sp/>spectral<sp/>test.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/>level<sp/>2<sp/><sp/>(p=97):<sp/>passes<sp/>all<sp/>known<sp/>tests,<sp/>but<sp/>theoretically<sp/>still</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>defective.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/>level<sp/>3<sp/><sp/>(p=223):<sp/>DEFAULT<sp/>VALUE.<sp/><sp/>Any<sp/>theoretically<sp/>possible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>correlations<sp/>have<sp/>very<sp/>small<sp/>chance<sp/>of<sp/>being<sp/>observed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/>level<sp/>4<sp/><sp/>(p=389):<sp/>highest<sp/>possible<sp/>luxury,<sp/>all<sp/>24<sp/>bits<sp/>chaotic.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">C!!!<sp/>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">C!!!<sp/><sp/>Calling<sp/>sequences<sp/>for<sp/>RANLUX:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">C!!!<sp/><sp/><sp/><sp/><sp/><sp/>CALL<sp/>RANLUX<sp/>(RVEC,<sp/>LEN)<sp/><sp/><sp/>returns<sp/>a<sp/>vector<sp/>RVEC<sp/>of<sp/>LEN<sp/><sp/><sp/><sp/><sp/>++</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">C!!!<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>32-bit<sp/>random<sp/>floating<sp/>point<sp/>numbers<sp/>between<sp/><sp/>++</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">C!!!<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>zero<sp/>(not<sp/>included)<sp/>and<sp/>one<sp/>(also<sp/>not<sp/>incl.).<sp/>++</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">C!!!<sp/><sp/><sp/><sp/><sp/><sp/>CALL<sp/>RLUXGO(LUX,INT)<sp/>initializes<sp/>the<sp/>generator<sp/>from<sp/>one<sp/><sp/><sp/><sp/>++</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">C!!!<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>32-bit<sp/>integer<sp/>INT<sp/>and<sp/>sets<sp/>Luxury<sp/>Level<sp/>LUX<sp/><sp/>++</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">C!!!<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>which<sp/>is<sp/>integer<sp/>between<sp/>zero<sp/>and<sp/>MAXLEV,<sp/><sp/><sp/><sp/><sp/>++</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">C!!!<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>or<sp/>if<sp/>LUX<sp/>.GT.<sp/>24,<sp/>it<sp/>sets<sp/>p=LUX<sp/>directly<sp/><sp/><sp/><sp/><sp/>++</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">C!!!<sp/><sp/><sp/><sp/><sp/><sp/>CALL<sp/>RLUXIN(IVEC)<sp/><sp/><sp/><sp/>restarts<sp/>the<sp/>generator<sp/>from<sp/>vector<sp/><sp/><sp/><sp/>++</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">C!!!<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IVEC<sp/>of<sp/>25<sp/>32-bit<sp/>integers<sp/>(see<sp/>RLUXUT)<sp/><sp/><sp/><sp/><sp/><sp/><sp/>++</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">C!!!<sp/><sp/><sp/><sp/><sp/><sp/>CALL<sp/>RLUXUT(IVEC)<sp/><sp/><sp/><sp/>outputs<sp/>the<sp/>current<sp/>values<sp/>of<sp/>the<sp/>25<sp/><sp/>++</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">C!!!<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>32-bit<sp/>integer<sp/>seeds,<sp/>to<sp/>be<sp/>used<sp/>for<sp/>restarting<sp/>++</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">C!!!<sp/>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>dimension<sp/>rvec(lenv)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>dimension<sp/>seeds(24),<sp/>iseeds(24),<sp/>isdext(25)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>parameter(maxlev=4,<sp/>lxdflt=3)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>dimension<sp/>ndskip(0:maxlev)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>parameter(twop12=4096.)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>parameter(itwo24=2**24,<sp/>icons=2147483563)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">SAVE</highlight><highlight class="normal"><sp/>notyet,<sp/>i24,<sp/>j24,<sp/>carry,<sp/>seeds,<sp/>twom24,<sp/>twom12,<sp/>luxlev</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">SAVE</highlight><highlight class="normal"><sp/>nskip,<sp/>ndskip,<sp/>in24</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">INTEGER</highlight><highlight class="normal"><sp/>LUXLEV</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">LOGICAL</highlight><highlight class="normal"><sp/>NOTYET</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">DATA</highlight><highlight class="normal"><sp/>notyet,<sp/>luxlev,<sp/>in24<sp/>/.true.,<sp/>lxdflt,<sp/>0/</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">DATA</highlight><highlight class="normal"><sp/>i24,j24,carry/24,10,0./</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">DATA</highlight><highlight class="normal"><sp/>ndskip/0,<sp/><sp/>24,<sp/><sp/>73,<sp/>199,<sp/>365<sp/>/</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">Corresponds<sp/>to<sp/>p=24<sp/><sp/><sp/>48<sp/><sp/><sp/>97<sp/><sp/>223<sp/><sp/>389</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/>time<sp/>factor<sp/>1<sp/><sp/><sp/><sp/>2<sp/><sp/><sp/><sp/>4<sp/><sp/><sp/><sp/>9<sp/><sp/><sp/>16<sp/><sp/><sp/>(in<sp/>practice,<sp/>much<sp/>smaller)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/>NOTYET<sp/>is<sp/>.TRUE.<sp/>if<sp/>no<sp/>initialization<sp/>has<sp/>been<sp/>performed<sp/>yet.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Default<sp/>Initialization<sp/>by<sp/>Multiplicative<sp/>Congruential</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(notyet)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>notyet<sp/>=<sp/>.false.</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jseed<sp/>=<sp/>314159265</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal">(6,</highlight><highlight class="stringliteral">&apos;(&apos;</highlight><highlight class="stringliteral">&apos;<sp/>***<sp/>XNRAND:<sp/>default<sp/>initialisation<sp/>&apos;</highlight><highlight class="stringliteral">&apos;,I12)&apos;</highlight><highlight class="normal">)<sp/>jseed</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>luxlev<sp/>=<sp/>lxdflt</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nskip<sp/>=<sp/>ndskip(luxlev)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lp<sp/>=<sp/>nskip<sp/>+<sp/>24</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in24<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal">(6,</highlight><highlight class="stringliteral">&apos;(&apos;</highlight><highlight class="stringliteral">&apos;<sp/>***<sp/>XNRAND:<sp/>default<sp/>level<sp/>&apos;</highlight><highlight class="stringliteral">&apos;,I2,&apos;</highlight><highlight class="stringliteral">&apos;,<sp/>p<sp/>&apos;</highlight><highlight class="stringliteral">&apos;,I4)&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>+<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>luxlev,<sp/>lp</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>twom24<sp/>=<sp/>1.</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>10<sp/>i=<sp/>1,<sp/>24</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>twom24<sp/>=<sp/>twom24<sp/>*<sp/>0.5</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>k<sp/>=<sp/>jseed/53668</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jseed<sp/>=<sp/>40014*(jseed-k*53668)<sp/>-k*12211</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(jseed<sp/>.LT.<sp/>0)<sp/>jseed<sp/>=<sp/>jseed+icons</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iseeds(i)<sp/>=<sp/>mod(jseed,itwo24)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/>10<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>twom12<sp/>=<sp/>twom24<sp/>*<sp/>4096.</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>20<sp/>i=<sp/>1,24</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seeds(i)<sp/>=<sp/>real(iseeds(i))*twom24</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/>20<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i24<sp/>=<sp/>24</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j24<sp/>=<sp/>10</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>carry<sp/>=<sp/>0.</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(seeds(24)<sp/>.LE.<sp/>seeds(14))<sp/>carry<sp/>=<sp/>twom24</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>Generator<sp/>proper:<sp/>&quot;Subtract-with-borrow&quot;,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>as<sp/>proposed<sp/>by<sp/>Marsaglia<sp/>and<sp/>Zaman,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Florida<sp/>State<sp/>University,<sp/>March,<sp/>1989</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>40<sp/><sp/>ivec=<sp/>1,<sp/>lenv</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">CCCCCC<sp/><sp/><sp/><sp/><sp/>This<sp/>has<sp/>now<sp/>been<sp/>corrected<sp/>for<sp/>the<sp/>bug<sp/>discovered<sp/>by<sp/>Luescher<sp/><sp/>***</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uni<sp/>=<sp/>seeds(j24)<sp/>-<sp/>seeds(i24)<sp/>-<sp/>carry</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">CCCCCC<sp/><sp/><sp/><sp/><sp/>This<sp/>has<sp/>now<sp/>been<sp/>corrected<sp/>for<sp/>the<sp/>bug<sp/>discovered<sp/>by<sp/>Luescher<sp/><sp/>***</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(uni<sp/>.LT.<sp/>0.)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uni<sp/>=<sp/>uni<sp/>+<sp/>1.0</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>carry<sp/>=<sp/>twom24</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>carry<sp/>=<sp/>0.</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seeds(i24)<sp/>=<sp/>uni</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i24<sp/>=<sp/>i24<sp/>-<sp/>1</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(i24<sp/>.EQ.<sp/>0)<sp/>i24<sp/>=<sp/>24</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j24<sp/>=<sp/>j24<sp/>-<sp/>1</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(j24<sp/>.EQ.<sp/>0)<sp/>j24<sp/>=<sp/>24</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rvec(ivec)<sp/>=<sp/>uni</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/>small<sp/>numbers<sp/>(with<sp/>less<sp/>than<sp/>12<sp/>&quot;significant&quot;<sp/>bits)<sp/>are<sp/>&quot;padded&quot;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(uni<sp/>.LT.<sp/>twom12)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rvec(ivec)<sp/>=<sp/>rvec(ivec)<sp/>+<sp/>twom24*seeds(j24)</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>and<sp/>zero<sp/>is<sp/>forbidden<sp/>in<sp/>case<sp/>someone<sp/>takes<sp/>a<sp/>logarithm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(rvec(ivec)<sp/>.EQ.<sp/>0.)<sp/>rvec(ivec)<sp/>=<sp/>twom24*twom24</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Skipping<sp/>to<sp/>luxury.<sp/><sp/>As<sp/>proposed<sp/>by<sp/>Martin<sp/>Luscher.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in24<sp/>=<sp/>in24<sp/>+<sp/>1</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(in24<sp/>.EQ.<sp/>24)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in24<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>30<sp/>isk=<sp/>1,<sp/>nskip</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uni<sp/>=<sp/>seeds(j24)<sp/>-<sp/>seeds(i24)<sp/>-<sp/>carry</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">CCCCCC<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>above<sp/>has<sp/>been<sp/>corrected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(uni<sp/>.LT.<sp/>0.)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uni<sp/>=<sp/>uni<sp/>+<sp/>1.0</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>carry<sp/>=<sp/>twom24</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>carry<sp/>=<sp/>0.</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seeds(i24)<sp/>=<sp/>uni</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i24<sp/>=<sp/>i24<sp/>-<sp/>1</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(i24<sp/>.EQ.<sp/>0)<sp/>i24<sp/>=<sp/>24</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j24<sp/>=<sp/>j24<sp/>-<sp/>1</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(j24<sp/>.EQ.<sp/>0)<sp/>j24<sp/>=<sp/>24</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/>30<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/>40<sp/></highlight><highlight class="keywordflow">CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">RETURN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Entry<sp/>to<sp/>input<sp/>and<sp/>float<sp/>integer<sp/>seeds<sp/>from<sp/>previous<sp/>run</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/>ENTRY<sp/>RLUXIN(ISDEXT)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>entry<sp/>xnrnin(isdext)</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>twom24<sp/>=<sp/>1.</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>50<sp/><sp/>i=<sp/>1,<sp/>24</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/>50<sp/>twom24<sp/>=<sp/>twom24<sp/>*<sp/>0.5</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>twom12<sp/>=<sp/>twom24<sp/>*<sp/>4096.</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal">(6,</highlight><highlight class="stringliteral">&apos;(&apos;</highlight><highlight class="stringliteral">&apos;<sp/>***<sp/>XNRAND:<sp/>initialisation<sp/>with<sp/>25<sp/>numbers&apos;</highlight><highlight class="stringliteral">&apos;)&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal">(6,</highlight><highlight class="stringliteral">&apos;(5X,5I12)&apos;</highlight><highlight class="normal">)<sp/>isdext</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>60<sp/><sp/>i=<sp/>1,<sp/>24</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seeds(i)<sp/>=<sp/>real(isdext(i))*twom24</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/>60<sp/></highlight><highlight class="keywordflow">CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>carry<sp/>=<sp/>0.</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(isdext(25)<sp/>.LT.<sp/>0)<sp/><sp/>carry<sp/>=<sp/>twom24</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>isd<sp/>=<sp/>iabs(isdext(25))</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>i24<sp/>=<sp/>mod(isd,100)</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>isd<sp/>=<sp/>isd/100</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>j24<sp/>=<sp/>mod(isd,100)</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>isd<sp/>=<sp/>isd/100</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>in24<sp/>=<sp/>mod(isd,100)</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>isd<sp/>=<sp/>isd/100</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>luxlev<sp/>=<sp/>isd</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(luxlev<sp/>.LE.<sp/>maxlev)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nskip<sp/>=<sp/>ndskip(luxlev)</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal"><sp/>(6,</highlight><highlight class="stringliteral">&apos;(&apos;</highlight><highlight class="stringliteral">&apos;<sp/>***<sp/>XNRAND:<sp/>level<sp/>set<sp/>to<sp/>&apos;</highlight><highlight class="stringliteral">&apos;,I2)&apos;</highlight><highlight class="normal">)<sp/>luxlev</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(luxlev<sp/>.GE.<sp/>24)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nskip<sp/>=<sp/>luxlev<sp/>-<sp/>24</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal"><sp/>(6,</highlight><highlight class="stringliteral">&apos;(&apos;</highlight><highlight class="stringliteral">&apos;<sp/>***<sp/>XNRAND:<sp/>p-value<sp/>set<sp/>to<sp/>&apos;</highlight><highlight class="stringliteral">&apos;,I2)&apos;</highlight><highlight class="normal">)<sp/>luxlev</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nskip<sp/>=<sp/>ndskip(maxlev)</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal"><sp/>(6,</highlight><highlight class="stringliteral">&apos;(&apos;</highlight><highlight class="stringliteral">&apos;<sp/>***<sp/>XNRAND:<sp/>illegal<sp/>level<sp/>&apos;</highlight><highlight class="stringliteral">&apos;,I2)&apos;</highlight><highlight class="normal">)<sp/>luxlev</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>luxlev<sp/>=<sp/>maxlev</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">RETURN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Entry<sp/>to<sp/>ouput<sp/>seeds<sp/>as<sp/>integers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/>ENTRY<sp/>RLUXUT(ISDEXT)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>entry<sp/>xnrnut(isdext)</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>70<sp/><sp/>i=<sp/>1,<sp/>24</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>isdext(i)<sp/>=<sp/>int(seeds(i)*twop12*twop12)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/>70<sp/></highlight><highlight class="keywordflow">CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>isdext(25)<sp/>=<sp/>i24<sp/>+<sp/>100*j24<sp/>+<sp/>10000*in24<sp/>+<sp/>1000000*luxlev</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(carry<sp/>.GT.<sp/>0.)<sp/><sp/>isdext(25)<sp/>=<sp/>-isdext(25)</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">RETURN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Entry<sp/>to<sp/>initialize<sp/>from<sp/>one<sp/>integer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">C<sp/><sp/><sp/><sp/><sp/><sp/>ENTRY<sp/>RLUXGO(LUX,INSEED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>entry<sp/>xnrngo(lux,inseed)</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(lux<sp/>.LT.<sp/>0)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>luxlev<sp/>=<sp/>lxdflt</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(lux<sp/>.LE.<sp/>maxlev)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>luxlev<sp/>=<sp/>lux</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(lux<sp/>.LT.<sp/>24<sp/>.OR.<sp/>lux<sp/>.GT.<sp/>2000)<sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>luxlev<sp/>=<sp/>maxlev</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal"><sp/>(6,</highlight><highlight class="stringliteral">&apos;(&apos;</highlight><highlight class="stringliteral">&apos;<sp/>***<sp/>XNRNGO:<sp/>illegal<sp/>level<sp/>&apos;</highlight><highlight class="stringliteral">&apos;,I2)&apos;</highlight><highlight class="normal">)<sp/>lux</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>luxlev<sp/>=<sp/>lux</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>80<sp/><sp/>ilx=<sp/>0,<sp/>maxlev</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(lux<sp/>.EQ.<sp/>ndskip(ilx)+24)<sp/>luxlev<sp/>=<sp/>ilx</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/>80<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(luxlev<sp/>.LE.<sp/>maxlev)<sp/><sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nskip<sp/>=<sp/>ndskip(luxlev)</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal">(6,</highlight><highlight class="stringliteral">&apos;(&apos;</highlight><highlight class="stringliteral">&apos;<sp/>***<sp/>XNRNGO:<sp/>default<sp/>level<sp/>&apos;</highlight><highlight class="stringliteral">&apos;,I2,&apos;</highlight><highlight class="stringliteral">&apos;,<sp/>p<sp/>&apos;</highlight><highlight class="stringliteral">&apos;,I4)&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>+<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>luxlev,<sp/>nskip+24</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nskip<sp/>=<sp/>luxlev<sp/>-<sp/>24</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal"><sp/>(6,</highlight><highlight class="stringliteral">&apos;(&apos;</highlight><highlight class="stringliteral">&apos;<sp/>***<sp/>XNRNGO:<sp/>p-value<sp/>set<sp/>to<sp/>&apos;</highlight><highlight class="stringliteral">&apos;,I2)&apos;</highlight><highlight class="normal">)<sp/>luxlev</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>in24<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(inseed<sp/>.NE.<sp/>0)<sp/><sp/></highlight><highlight class="keywordflow">THEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jseed<sp/>=<sp/>inseed</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal">(6,</highlight><highlight class="stringliteral">&apos;(&apos;</highlight><highlight class="stringliteral">&apos;<sp/>***<sp/>XNRNGO:<sp/>initialised<sp/>from<sp/>seed<sp/>&apos;</highlight><highlight class="stringliteral">&apos;,I12)&apos;</highlight><highlight class="normal">)inseed</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">ELSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jseed<sp/>=<sp/>314159265</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">WRITE</highlight><highlight class="normal">(6,</highlight><highlight class="stringliteral">&apos;(&apos;</highlight><highlight class="stringliteral">&apos;<sp/>***<sp/>XNRNGO:<sp/>initialised<sp/>from<sp/>default<sp/>seed&apos;</highlight><highlight class="stringliteral">&apos;)&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/>ENDIF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>notyet<sp/>=<sp/>.false.</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>twom24<sp/>=<sp/>1.</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>90<sp/><sp/>i=<sp/>1,<sp/>24</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>twom24<sp/>=<sp/>twom24<sp/>*<sp/>0.5</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>k<sp/>=<sp/>jseed/53668</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jseed<sp/>=<sp/>40014*(jseed-k*53668)<sp/>-k*12211</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(jseed<sp/>.LT.<sp/>0)<sp/><sp/>jseed<sp/>=<sp/>jseed+icons</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iseeds(i)<sp/>=<sp/>mod(jseed,itwo24)</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/>90<sp/></highlight><highlight class="keywordflow">CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>twom12<sp/>=<sp/>twom24<sp/>*<sp/>4096.</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">DO</highlight><highlight class="normal"><sp/>100<sp/>i=<sp/>1,24</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seeds(i)<sp/>=<sp/>real(iseeds(i))*twom24</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/>100<sp/></highlight><highlight class="keywordflow">CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>i24<sp/>=<sp/>24</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>j24<sp/>=<sp/>10</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>carry<sp/>=<sp/>0.</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">IF</highlight><highlight class="normal"><sp/>(seeds(24)<sp/>.LE.<sp/>seeds(14))<sp/>carry<sp/>=<sp/>twom24</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">END</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xnrand.F"/>
+  </compounddef>
+</doxygen>

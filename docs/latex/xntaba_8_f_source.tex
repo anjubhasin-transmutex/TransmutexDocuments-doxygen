@@ -1,0 +1,52 @@
+\hypertarget{xntaba_8_f_source}{}\doxysection{xntaba.\+F}
+\label{xntaba_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xntaba.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xntaba.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 04/06/96  18.14.07  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   17/01/94}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xntaba(IZAMAT,MFMT,IMATE)}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00006}00006 \textcolor{comment}{*     Load reaction looking in all databases available, first          *}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00007}00007 \textcolor{comment}{*     occurence found is loaded                                        *}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00009}00009 \textcolor{comment}{*     IZAMAT    (input) isomer code                                    *}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00010}00010 \textcolor{comment}{*     MFMT      (input) ENDF-\/6 reaction code. If 0 all reactions for   *}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00011}00011 \textcolor{comment}{*               the given isomer are loaded in memory                  *}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00012}00012 \textcolor{comment}{*     IMATE     (output) pointer to the "{}row"{} of the index table       *}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00013}00013 \textcolor{comment}{*               IMTABL where the pointers to the data are stored       *}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00014}00014 \textcolor{comment}{*               for this isomer. If IMATE=0 no data has been loaded    *}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00015}00015 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00016}00016 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00017}00017       \textcolor{keywordtype}{CHARACTER*256} CURFIL}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00018}00018 \#include \textcolor{stringliteral}{"{}xcdbas.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00019}00019 \#include \textcolor{stringliteral}{"{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00020}00020 \#include \textcolor{stringliteral}{"{}xcdbna.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00021}00021 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00022}00022 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00023}00023 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> Save current database name}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00025}00025       curfil=chdbas}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Save current value of HiGh Water MarK}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00027}00027       ihgold=ihgwmk}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Set file where the isomer is found to blank}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00029}00029       chfoun=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00030}00030       \textcolor{keywordflow}{DO} 10 jfile=1,nfdbas}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Loop on all databases currently available}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00032}00032          chdbas=chroot//chfiln(jfile)}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/> Search for reactio/isomer}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00034}00034          \textcolor{keyword}{CALL }xntabl(izamat,0,imate)}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Have we loaded some data?}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00036}00036          \textcolor{keywordflow}{IF}(ihgwmk.GT.ihgold) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00037}00037 \textcolor{comment}{* -\/-\/-\/> Yes, load the name of the file where data was found}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00038}00038             chfoun=chdbas}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Stop search}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00040}00040             \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00041}00041 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00042}00042   10  \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> Restore current database name}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00044}00044   20  chdbas=curfil}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00045}00045 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xntaba_8_f_source_l00046}00046       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

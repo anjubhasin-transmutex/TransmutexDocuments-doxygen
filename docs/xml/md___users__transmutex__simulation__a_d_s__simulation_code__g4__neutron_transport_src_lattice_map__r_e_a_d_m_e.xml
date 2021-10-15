@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="md___users__transmutex__simulation__a_d_s__simulation_code__g4__neutron_transport_src_lattice_map__r_e_a_d_m_e" kind="page">
+    <compoundname>md__Users_Transmutex_Simulation_ADS_SimulationCode_G4_NeutronTransport_src_latticeMap_README</compoundname>
+    <title>Lattice Map Construction and Syntax</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Copyright 2021 Transmutex SA <ndash/> all rights reserved</para>
+<para>Author : Thomas Guilbaud <linebreak/>
+ Date : 4th May 2021 <linebreak/>
+ Updated: 9th June 2021</para>
+<sect1 id="md___users__transmutex__simulation__a_d_s__simulation_code__g4__neutron_transport_src_lattice_map__r_e_a_d_m_e_1autotoc_md33">
+<title>Structure</title>
+<sect2 id="md___users__transmutex__simulation__a_d_s__simulation_code__g4__neutron_transport_src_lattice_map__r_e_a_d_m_e_1autotoc_md34">
+<title>General Use</title>
+<para>Each lattice must be written in square shape map. The first row must include the lattice type. The second row must include x and y limits. For example, a symmetric lattice centered to (0,0) could look like this: <computeroutput>-2 2 -2 2</computeroutput>. It is also possible to include the pitch of the lattice by adding a number and its unit (ex: <computeroutput>-2 5 -3 3 5 cm</computeroutput>). It is important to separate the elements by at least one space.</para>
+<para>The next rows includes the structure of the lattice. Each assembly must be separated by at least one space. The number of rows and columns must corresponds to the lattice limits given in the first line. The example above must have a square of 5 rows and 5 columns. To fill the gaps, one can use the number <computeroutput>0</computeroutput> and no assembly will be placed.</para>
+<para>To help writing an hexagonal shape lattice, one can place spaces before the rows (see the example below).</para>
+</sect2>
+<sect2 id="md___users__transmutex__simulation__a_d_s__simulation_code__g4__neutron_transport_src_lattice_map__r_e_a_d_m_e_1autotoc_md35">
+<title>Special Use</title>
+<para>With <ref refid="class_t_m_x_lattice" kindref="compound">TMXLattice</ref>, it is possible to add a special value to the assembly (<computeroutput>addDaughterAction</computeroutput>). For example, if an element in the lattice map is written like <computeroutput>FA:100</computeroutput>, the callback function given with <computeroutput>addDaughterAction</computeroutput> will be called and the value <computeroutput>100</computeroutput> will be pass in this callback function. It can be use for changing parameter like the insertion of a control rod, a change in temperature, a new material, ...</para>
+<para>If a few element have the same <computeroutput>id</computeroutput>, the same callback function will be applied on each of these elements. If a few element have the same <computeroutput>id</computeroutput> and a action parameter, the callback function will be called and it might create some confusion. It is recommanded to apply an action once for each element id type.</para>
+</sect2>
+</sect1>
+<sect1 id="md___users__transmutex__simulation__a_d_s__simulation_code__g4__neutron_transport_src_lattice_map__r_e_a_d_m_e_1autotoc_md36">
+<title>Syntax</title>
+<para><itemizedlist>
+<listitem><para>Lattice Type:<itemizedlist>
+<listitem><para><computeroutput>Hexagonal</computeroutput></para>
+</listitem><listitem><para><computeroutput>Square</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>Pitch:<itemizedlist>
+<listitem><para><computeroutput>Number Unit</computeroutput></para>
+</listitem><listitem><para>Units allowed: nm, um, mm, cm, dm, m</para>
+</listitem><listitem><para><bold>Important</bold>: if a pitch is given in the map file, it will overwrite the value set in the code.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>With <ref refid="class_t_m_x_lattice" kindref="compound">TMXLattice</ref>: <linebreak/>
+<itemizedlist>
+<listitem><para><computeroutput>0</computeroutput> = void, no assembly</para>
+</listitem><listitem><para><computeroutput>anyName</computeroutput> = assembly (use <computeroutput>addDaughterVolume(&quot;anyName&quot;, assemblyVolume)</computeroutput> to add an element with reference <emphasis>anyName</emphasis>)</para>
+</listitem><listitem><para><computeroutput>anyName:number</computeroutput> = assembly with a special value. The <computeroutput>:</computeroutput> must be used to separate without space between (use <computeroutput>addDaughterAction(&quot;id&quot;, std::bind(&amp;class::member, obj, _1))</computeroutput>)</para>
+</listitem><listitem><para><computeroutput>//</computeroutput> to add comments</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md___users__transmutex__simulation__a_d_s__simulation_code__g4__neutron_transport_src_lattice_map__r_e_a_d_m_e_1autotoc_md37">
+<title>Simple example: Square Lattice</title>
+<para>This lattice is made in a 5x5 square with a pitch of 15 mm. The center of the lattice is (0, 0).</para>
+<para><programlisting><codeline><highlight class="normal">Square<sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal">-2<sp/>2<sp/><sp/><sp/>-2<sp/>2<sp/><sp/>15<sp/>mm<sp/><sp/>//<sp/>Shape<sp/>limits<sp/>and<sp/>pitch</highlight></codeline>
+<codeline><highlight class="normal">0<sp/>0<sp/>0<sp/>0<sp/>0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>y=-2<sp/>;<sp/>x=[-2;<sp/>2]</highlight></codeline>
+<codeline><highlight class="normal">0<sp/>0<sp/>F<sp/>0<sp/>0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>y=-1<sp/>;<sp/>x=[-2;<sp/>2]</highlight></codeline>
+<codeline><highlight class="normal">0<sp/>F<sp/>F<sp/>F<sp/>0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>y=<sp/>0<sp/>;<sp/>x=[-2;<sp/>2]</highlight></codeline>
+<codeline><highlight class="normal">0<sp/>0<sp/>F<sp/>0<sp/>0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>y=<sp/>1<sp/>;<sp/>x=[-2;<sp/>2]</highlight></codeline>
+<codeline><highlight class="normal">0<sp/>0<sp/>0<sp/>0<sp/>0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>y=<sp/>2<sp/>;<sp/>x=[-2;<sp/>2]</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="md___users__transmutex__simulation__a_d_s__simulation_code__g4__neutron_transport_src_lattice_map__r_e_a_d_m_e_1autotoc_md38">
+<title>Hexagonal Lattice with numbers</title>
+<para>This lattice is made in a 5x5 square. The center of the lattice is (-1, 2). Here one element has an action (<computeroutput>F:1</computeroutput>). This action will be applied on each <computeroutput>F</computeroutput> element once. It is recommended to write this action once to avoid any error.</para>
+<para><programlisting><codeline><highlight class="normal">Hexagonal<sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal">-3<sp/>1<sp/><sp/><sp/>0<sp/>4<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Shape<sp/>limits<sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal">0<sp/><sp/><sp/>0<sp/><sp/><sp/>0<sp/><sp/><sp/>0<sp/><sp/><sp/>0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>y=0<sp/>;<sp/>x=[-3;<sp/>1]</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>0<sp/><sp/><sp/>0<sp/><sp/><sp/>F<sp/><sp/><sp/>F<sp/><sp/><sp/>0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>y=1<sp/>;<sp/>x=[-3;<sp/>1]</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>0<sp/><sp/><sp/>F<sp/><sp/><sp/>F:1<sp/>F<sp/><sp/><sp/>0<sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>y=2<sp/>;<sp/>x=[-3;<sp/>1]</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>0<sp/><sp/><sp/>F<sp/><sp/><sp/>F<sp/><sp/><sp/>0<sp/><sp/><sp/>0<sp/><sp/><sp/><sp/><sp/>//<sp/>y=3<sp/>;<sp/>x=[-3;<sp/>1]</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0<sp/><sp/><sp/>0<sp/><sp/><sp/>0<sp/><sp/><sp/>0<sp/><sp/><sp/>0<sp/><sp/><sp/>//<sp/>y=4<sp/>;<sp/>x=[-3;<sp/>1]</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="md___users__transmutex__simulation__a_d_s__simulation_code__g4__neutron_transport_src_lattice_map__r_e_a_d_m_e_1autotoc_md39">
+<title>How to use TMXLattice</title>
+<para>First declare the <ref refid="class_t_m_x_lattice" kindref="compound">TMXLattice</ref> object the following argument:</para>
+<para><table rows="3" cols="3"><row>
+<entry thead="yes"><para>Argument   </para>
+</entry><entry thead="yes"><para>Member   </para>
+</entry><entry thead="yes"><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Pitch   </para>
+</entry><entry thead="no"><para><computeroutput>setPitch(double)</computeroutput>   </para>
+</entry><entry thead="no"><para>Set the picth between elements. Optional if the pitch is given in the map file    </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Element Rotation   </para>
+</entry><entry thead="no"><para><computeroutput>setElementRotation(G4RotationMatrix*)</computeroutput>   </para>
+</entry><entry thead="no"><para><bold>Optional</bold>   </para>
+</entry></row>
+</table>
+| Lattice Map | <computeroutput>setLatticeMap(std::string filepath)</computeroutput> | | Add Daughter Volume | <computeroutput>addDaughterVolume(&quot;id&quot;, G4LogicalVolume*)</computeroutput> | Add a new element, <computeroutput>id</computeroutput> must the same used in the lattice map | | Add Daughter Action | <computeroutput>addDaughterAction(&quot;id&quot;, std::function&lt;void(double)&gt; action)</computeroutput> | (<bold>Optional</bold>) Add a special callback function when an element is written with a number (for example: FA:100) [<ulink url="https://stackoverflow.com/questions/12662891/how-can-i-pass-a-member-function-where-a-free-function-is-expected">1</ulink>]. Example: <computeroutput>m_coreLattice-&gt;addDaughterAction(&quot;CR&quot;, std::bind(&amp;SVBR100_FuelAssembly::placeControlRod, m_fuelAssembly, _1));</computeroutput> from <computeroutput>SVBR100_FuelAssembly.cc</computeroutput> because <computeroutput>placeControlRod</computeroutput> is a member function of <computeroutput><ref refid="class_s_v_b_r100___fuel_assembly" kindref="compound">SVBR100_FuelAssembly</ref></computeroutput> | | Mother Volume | <computeroutput>setMotherVolume(G4LogicalVolume*)</computeroutput> | The volume in which the element lust be placed | | Element Translation | <computeroutput>setElementTranslation(G4ThreeVector)</computeroutput> | <bold>Optional</bold> | | Lattice Placement | <computeroutput>placeLattice(bool overlap)</computeroutput> | Build the lattice | </para>
+</sect1>
+    </detaileddescription>
+    <location file="/Users/Transmutex/Simulation/ADS_SimulationCode/G4-NeutronTransport/src/latticeMap/README.md"/>
+  </compounddef>
+</doxygen>

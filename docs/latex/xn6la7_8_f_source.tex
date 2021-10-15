@@ -1,0 +1,146 @@
+\hypertarget{xn6la7_8_f_source}{}\doxysection{xn6la7.\+F}
+\label{xn6la7_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6la7.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6la7.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :          28/03/97  18.08.36  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xn6la7(IP,EINO,EOU,COSTO,PROBS)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00006}00006 \textcolor{comment}{*     Probability calculation for LAW=7 in file6, Laboratory           *}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00007}00007 \textcolor{comment}{*     energy-\/angle law.                                                *}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00009}00009 \textcolor{comment}{*   IP    pointer to LAW data (input)                                  *}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00010}00010 \textcolor{comment}{*   EINO  incoming neutron energy in eV (input)                        *}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00011}00011 \textcolor{comment}{*   EOU   outgoing neutron energy in eV (input)                        *}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00012}00012 \textcolor{comment}{*   COSTO outgoing neutron cos (theta) (input)                         *}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00013}00013 \textcolor{comment}{*   PROB    differential prob (d2Pb/dE dcost) (output)                 *}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00014}00014 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00015}00015 \textcolor{comment}{*   All variables are in the LAB system                                *}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00016}00016 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00017}00017 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00018}00018 \textcolor{preprocessor}{\#include "{}xcmfh6.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00019}00019 \textcolor{preprocessor}{}      dimension vect(4), ipein(2), ipomu(2), vecmu(4)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00020}00020 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00021}00021 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00023}00023 \textcolor{comment}{* -\/-\/-\/> Find incident energy interval}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> Number of interpolation ranges for incident energy}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00025}00025       nr=i6stor(ip+1)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Number of incident energies}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00027}00027       ne=i6stor(ip+2)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Pointer to incident energies list}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00029}00029       ipene=ip+2+2*nr}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00030}00030       ein=eino}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00031}00031       \textcolor{keywordflow}{IF}(ein.LT.r6stor(ipene+1)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> Energy lower than minimum for this reaction, set Pb to 0 and exit}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00033}00033          probs=0}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00034}00034          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00035}00035       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(ein.GT.r6stor(ipene+ne)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/> Energy larger than max, set energy to max}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00037}00037          ein=r6stor(ipene+ne)*.999999}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00038}00038          ipein(1)=ne-\/1}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00039}00039          ipein(2)=ne}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00040}00040          vect(1)=r6stor(ipene+ne-\/1)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00041}00041          vect(3)=r6stor(ipene+ne)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00042}00042       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00043}00043 \textcolor{comment}{* -\/-\/-\/> Do full binary search}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00044}00044          ipein(1)=1}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00045}00045          ipein(2)=ne}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00046}00046    10    \textcolor{keywordflow}{IF}(ipein(2)-\/ipein(1).GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00047}00047             iph=(ipein(1)+ipein(2))/2}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00048}00048             \textcolor{keywordflow}{IF}(ein.LT.r6stor(ipene+iph)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00049}00049                ipein(2)=iph}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00050}00050             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00051}00051                ipein(1)=iph}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00052}00052 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00053}00053             \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00054}00054 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00055}00055          vect(1)=r6stor(ipene+ipein(1))}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00056}00056          vect(3)=r6stor(ipene+ipein(2))}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00057}00057 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00058}00058 \textcolor{comment}{* -\/-\/-\/> Sanity check for binary interpolation}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00059}00059       \textcolor{keywordflow}{IF}(ipein(2).NE.ipein(1)+1}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00060}00060      +                    .OR.ein.LT.vect(1).OR.ein.GT.vect(3)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00061}00061          stop \textcolor{stringliteral}{'*** XN6LA7: Error in input energy interpolation'}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00062}00062 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00063}00063 \textcolor{comment}{* -\/-\/-\/> Find the interpolation law}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00064}00064       \textcolor{keywordflow}{DO} 20 jer=1,nr}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00065}00065          \textcolor{keywordflow}{IF}(ipein(2).LE.i6stor(ip+2+jer)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00066}00066             intein=i6stor(ip+2+nr+jer)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00067}00067             \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00068}00068 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00069}00069    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00070}00070       stop \textcolor{stringliteral}{'*** XN6LA7: Error in input energy interpolation law'}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00071}00071    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00072}00072 \textcolor{comment}{* -\/-\/-\/> Check the non cartesian interpolation law}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00073}00073       ncaein=intein/10}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00074}00074       intein=mod(intein,10)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00075}00075 \textcolor{comment}{* -\/-\/-\/> Now find the interpolation interval for input cosinus}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00076}00076       \textcolor{keywordflow}{IF}(abs(costo).GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00077}00077 \textcolor{comment}{* -\/-\/-\/> Avoid overflows or underflows}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00078}00078          cost=sign(.999999,costo)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00079}00079       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00080}00080          cost=costo}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00081}00081 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00082}00082 \textcolor{comment}{* -\/-\/-\/> Loop on lower and upper incoming energies}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00083}00083       \textcolor{keywordflow}{DO} 80 jein=1,2}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00084}00084 \textcolor{comment}{* -\/-\/-\/> Pointer to cosinus information for given input energy}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00085}00085          ipmu=i6stor(ip+2+2*nr+ne+ipein(jein))}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00086}00086 \textcolor{comment}{* -\/-\/-\/> Number of interpolation ranges for cosinus}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00087}00087          nrm=i6stor(ipmu+1)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00088}00088 \textcolor{comment}{* -\/-\/-\/> Number of values of cosinus}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00089}00089          nmu=i6stor(ipmu+2)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00090}00090 \textcolor{comment}{* -\/-\/-\/> Pointer to cosinus list}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00091}00091          ipcost=ipmu+2*nrm+2}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00092}00092 \textcolor{comment}{* -\/-\/-\/> Upper and lower cosinus pointers}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00093}00093          ipomu(1)=1}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00094}00094          ipomu(2)=nmu}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00095}00095 \textcolor{comment}{* -\/-\/-\/> Binary search}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00096}00096    40    \textcolor{keywordflow}{IF}(ipomu(2)-\/ipomu(1).GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00097}00097             iph=(ipomu(1)+ipomu(2))/2}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00098}00098             \textcolor{keywordflow}{IF}(cost.LT.r6stor(ipcost+iph)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00099}00099                ipomu(2)=iph}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00100}00100             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00101}00101                ipomu(1)=iph}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00102}00102 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00103}00103             \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00104}00104 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00105}00105          vecmu(1)=r6stor(ipcost+ipomu(1))}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00106}00106          vecmu(3)=r6stor(ipcost+ipomu(2))}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00107}00107 \textcolor{comment}{* -\/-\/-\/ Sanity check for cosinus interpolation}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00108}00108          \textcolor{keywordflow}{IF}(ipomu(2).NE.ipomu(1)+1}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00109}00109      +               .OR.cost.LT.vecmu(1).OR.cost.GT.vecmu(3)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00110}00110             stop \textcolor{stringliteral}{'*** XN6LA7: Error in input COST interpolation'}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00111}00111 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00112}00112 \textcolor{comment}{* -\/-\/-\/> Find the interpolation law for cosinus}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00113}00113          \textcolor{keywordflow}{DO} 50 jrm=1,nrm}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00114}00114             \textcolor{keywordflow}{IF}(ipomu(2).LE.i6stor(ipmu+2+jrm)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00115}00115                intmu=i6stor(ipmu+2+nrm+jrm)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00116}00116                \textcolor{keywordflow}{GOTO} 60}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00117}00117 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00118}00118    50    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00119}00119          stop \textcolor{stringliteral}{'*** XN6LA7: Error in input COST interpolation law'}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00120}00120    60    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00121}00121 \textcolor{comment}{* -\/-\/-\/> Now find pointer to the two secondary energy TAB1 tabulations}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00122}00122          \textcolor{keywordflow}{DO} 70 jep=1,2}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00123}00123 \textcolor{comment}{* -\/-\/-\/> Pointer to probability tabulation in function of outgoing}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00124}00124 \textcolor{comment}{*      energy for this cosinus}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00125}00125             iep=i6stor(ipcost+nmu+ipomu(jep))}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00126}00126 \textcolor{comment}{* -\/-\/-\/> Number of interpolation ranges for this cosinus}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00127}00127             nrp=i6stor(iep+1)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00128}00128 \textcolor{comment}{* -\/-\/-\/> Number of secondary energy values for this cosinus}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00129}00129             nep=i6stor(iep+2)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00130}00130 \textcolor{comment}{* -\/-\/-\/> Find value of probability for lower and upper cosinus}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00131}00131             \textcolor{keyword}{CALL }xnterp(i6stor(iep+2+1),i6stor(iep+2+1+nrp), nrp,}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00132}00132      +              r6stor(iep+2+2*nrp+1), nep, eou, vecmu(2*jep))}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00133}00133    70    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00134}00134 \textcolor{comment}{* -\/-\/-\/> Find value of probability for lower and upper input energy}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00135}00135          \textcolor{keyword}{CALL }xntrpi(vecmu,intmu,cost,vect(2*jein))}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00136}00136    80 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00137}00137 \textcolor{comment}{* -\/-\/-\/> Find probability value}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00138}00138       \textcolor{keyword}{CALL }xntrpi(vect,intein,ein,probs)}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00139}00139 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6la7_8_f_source_l00140}00140   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

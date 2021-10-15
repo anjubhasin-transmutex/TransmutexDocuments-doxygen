@@ -1,0 +1,72 @@
+\hypertarget{xnbink_8_f_source}{}\doxysection{xnbink.\+F}
+\label{xnbink_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnbink.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnbink.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  09.41.48  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   17/01/94}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnbink(IBASE,ILEN,EN,SEC,KHI)}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00006}00006 \textcolor{comment}{*     Interpolate cross section in common /XCSTORE/. Cross sections    *}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00007}00007 \textcolor{comment}{*     are stored in pairs (E,sigma) in ascending energy value in the   *}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00008}00008 \textcolor{comment}{*     array XNSTOR. The ith energy is at position XNSTOR(IBASE+2*i-\/1)  *}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00009}00009 \textcolor{comment}{*     and the corresponding  cross section at position                 *}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00010}00010 \textcolor{comment}{*     XNSTOR(IBASE+2*i).                                               *}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00011}00011 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00012}00012 \textcolor{comment}{*     IBASE     (input) Last word before cross section table in memory *}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00013}00013 \textcolor{comment}{*     ILEN      (input) Number of pairs (E,sigma)                      *}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00014}00014 \textcolor{comment}{*     EN        (input) Energy (in eV)                                 *}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00015}00015 \textcolor{comment}{*     SEC       (output) cross section in barns                        *}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00016}00016 \textcolor{comment}{*     KHI       (output) number of the pair for which EN <= E(KHI)     *}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00017}00017 \textcolor{comment}{*               or E(ILEN) if EN >= E(ILEN).                           *}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00018}00018 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00019}00019 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00020}00020 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00021}00021 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00022}00022 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00023}00023 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00024}00024 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00025}00025 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00026}00026       sec=0.}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/> If no cross section return}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00028}00028       \textcolor{keywordflow}{IF}(ilen.LE.0) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Binary search}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00030}00030       k1=1}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00031}00031       k2=ilen}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00032}00032       emin=xstore(ibase+1)}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00033}00033       emax=xstore(ibase+2*k2-\/1)}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00034}00034       \textcolor{keywordflow}{IF}(en.LE.emin) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Energy less than minimum, assign first value and return}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00036}00036 \textcolor{comment}{C         IF(EN.LT.EMIN) WRITE(6,10000) EN, EMIN}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00037}00037 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNBINT: Energy '},e11.4,\textcolor{stringliteral}{' smaller than minimum '},}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00038}00038      +       e11.4)}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00039}00039          sec=xstore(ibase+2)}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00040}00040       \textcolor{keywordflow}{ELSEIF}(en.GE.emax) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Energy larger than maximum, assign last value and return}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00042}00042 \textcolor{comment}{C         IF(EN.GT.EMAX) WRITE(6,10100) EN, EMAX}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00043}00043 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNSECT: Energy '},e11.4,\textcolor{stringliteral}{' larger than maximum '},}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00044}00044      +       e11.4)}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00045}00045          sec=xstore(ibase+2*k2)}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00046}00046       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> Do binary search}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00048}00048    10    \textcolor{keywordflow}{IF}(k2-\/k1.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00049}00049             khalf=(k1+k2)/2}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00050}00050             ehalf=xstore(ibase+2*khalf-\/1)}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00051}00051             \textcolor{keywordflow}{IF}(en.LE.ehalf) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00052}00052                k2=khalf}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00053}00053             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00054}00054                k1=khalf}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00055}00055 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00056}00056             \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00057}00057 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00058}00058          e1 = xstore(ibase+2*k2-\/3)}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00059}00059          e2 = xstore(ibase+2*k2-\/1)}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> Now perform linear interpolation}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00061}00061          xrat = (e2-\/en)/(e2-\/e1)}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00062}00062          sec = xrat*xstore(ibase+2*k2-\/2)+(1.-\/xrat)*xstore(ibase+2*k2)}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00063}00063          khi = k2}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00064}00064 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00065}00065 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnbink_8_f_source_l00066}00066   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

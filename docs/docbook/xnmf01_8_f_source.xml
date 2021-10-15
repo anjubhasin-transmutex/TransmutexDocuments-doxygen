@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnmf01_8_f_source" xml:lang="en-US">
+<title>xnmf01.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/convac3/xnmf01.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnmf01_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.03/07&#32;27/09/96&#32;&#32;18.12.33&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">subroutine&#32;</emphasis>xnmf01(lskip)
+<anchor xml:id="_xnmf01_8_f_source_1l00004"/>00004 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Creates&#32;a&#32;file&#32;1&#32;header&#32;for&#32;a&#32;new&#32;material</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00006"/>00006 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00007"/>00007 <emphasis role="preprocessor">#include&#32;&quot;xcmf01.inc&quot;</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00008"/>00008 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xctb1c.inc&quot;</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00009"/>00009 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xceafi.inc&quot;</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00010"/>00010 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcseet.inc&quot;</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00011"/>00011 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcedat.inc&quot;</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00012"/>00012 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;parameter(itapd=98,itaps=99)
+<anchor xml:id="_xnmf01_8_f_source_1l00013"/>00013 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">integer</emphasis>&#32;xnmath
+<anchor xml:id="_xnmf01_8_f_source_1l00014"/>00014 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">logical</emphasis>&#32;lskip
+<anchor xml:id="_xnmf01_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*11</emphasis>&#32;xnelna
+<anchor xml:id="_xnmf01_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*66</emphasis>&#32;chtext
+<anchor xml:id="_xnmf01_8_f_source_1l00017"/>00017 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00018"/>00018 <emphasis role="comment">*&#32;---&#32;Suppose&#32;we&#32;fail</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;lskip=.true.
+<anchor xml:id="_xnmf01_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;izamat&#32;=&#32;10*nint(c1)
+<anchor xml:id="_xnmf01_8_f_source_1l00021"/>00021 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00022"/>00022 <emphasis role="comment">*&#32;---&#32;Identify&#32;the&#32;isotope&#32;and&#32;the&#32;isomeric&#32;state</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(izamat.lt.100&#32;000&#32;0)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;math0&#32;=&#32;mod(mod(izamat/10,1000),100)+izamat/10000*100
+<anchor xml:id="_xnmf01_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(math.ne.math0)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00026"/>00026 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00027"/>00027 <emphasis role="comment">*&#32;---&#32;Here&#32;the&#32;standard&#32;rule&#32;does&#32;not&#32;work,&#32;try&#32;to&#32;interpret!</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(math.gt.9930)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mdiff=math-math0
+<anchor xml:id="_xnmf01_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;liso=0
+<anchor xml:id="_xnmf01_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(mod(mdiff,10).eq.0)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(mdiff.gt.50)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;liso=2
+<anchor xml:id="_xnmf01_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">elseif</emphasis>(mdiff.ge.10)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;liso=1
+<anchor xml:id="_xnmf01_8_f_source_1l00036"/>00036 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00037"/>00037 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;liso&#32;=&#32;(math-math0-30)/20
+<anchor xml:id="_xnmf01_8_f_source_1l00040"/>00040 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;liso&#32;=&#32;0
+<anchor xml:id="_xnmf01_8_f_source_1l00043"/>00043 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;liso=0
+<anchor xml:id="_xnmf01_8_f_source_1l00046"/>00046 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00047"/>00047 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00048"/>00048 <emphasis role="comment">*&#32;---&#32;Now&#32;calculate&#32;correct&#32;ENDF&#32;material&#32;code</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;izz=izamat/10000
+<anchor xml:id="_xnmf01_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;iaa=mod(izamat/10,1000)
+<anchor xml:id="_xnmf01_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;math=xnmath(izz,iaa,liso)
+<anchor xml:id="_xnmf01_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;izamat&#32;=&#32;izamat+liso
+<anchor xml:id="_xnmf01_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;chelna&#32;=&#32;xnelna(izamat)
+<anchor xml:id="_xnmf01_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;nsta&#32;=&#32;-1
+<anchor xml:id="_xnmf01_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;10&#32;jeet=1,ntoeet
+<anchor xml:id="_xnmf01_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(izamat.eq.izaeet(jeet))&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoeet=jeet
+<anchor xml:id="_xnmf01_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lskip=.false.
+<anchor xml:id="_xnmf01_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(6,10300)&#32;chelna,&#32;math
+<anchor xml:id="_xnmf01_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">goto</emphasis>&#32;30
+<anchor xml:id="_xnmf01_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">elseif</emphasis>(izamat.lt.izaeet(jeet))&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">goto</emphasis>&#32;20
+<anchor xml:id="_xnmf01_8_f_source_1l00063"/>00063 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00064"/>00064 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00065"/>00065 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(6,10200)&#32;chelna,&#32;math
+<anchor xml:id="_xnmf01_8_f_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">goto</emphasis>&#32;999
+<anchor xml:id="_xnmf01_8_f_source_1l00068"/>00068 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00069"/>00069 <emphasis role="comment">*&#32;---&#32;Good&#32;material,&#32;build&#32;a&#32;file&#32;1</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00070"/>00070 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;40&#32;js=1,nsec
+<anchor xml:id="_xnmf01_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipoint(js,1).eq.izamat.and.ipoint(js,2).eq.1451)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(6,10000)&#32;chelna,&#32;ipoint(js,2)
+<anchor xml:id="_xnmf01_8_f_source_1l00074"/>00074 10000&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;repeated&#32;section&#32;for&#32;&apos;</emphasis>,a10,<emphasis role="stringliteral">&apos;&#32;mfh/mth&#32;&apos;</emphasis>,i5)
+<anchor xml:id="_xnmf01_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">goto</emphasis>&#32;999
+<anchor xml:id="_xnmf01_8_f_source_1l00076"/>00076 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00077"/>00077 &#32;&#32;&#32;40&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(nsec.ge.maxsec)&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MAXSEC&apos;</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;nsec=nsec+1
+<anchor xml:id="_xnmf01_8_f_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,1)=izamat
+<anchor xml:id="_xnmf01_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,2)=1451
+<anchor xml:id="_xnmf01_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,3)=nrecw
+<anchor xml:id="_xnmf01_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,5)=0
+<anchor xml:id="_xnmf01_8_f_source_1l00084"/>00084 <emphasis role="comment">*&#32;-------------------&#32;First&#32;Record&#32;-------------------------------------</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00085"/>00085 <emphasis role="comment">*&#32;---&#32;Isomer&#32;mass&#32;in&#32;neutron&#32;mass</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;awr=hmaeet(ipoeet)/hmaeet(1)
+<anchor xml:id="_xnmf01_8_f_source_1l00087"/>00087 <emphasis role="comment">*&#32;---&#32;ZA&#32;in&#32;ENDF&#32;format</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;za=izamat/10
+<anchor xml:id="_xnmf01_8_f_source_1l00089"/>00089 <emphasis role="comment">*&#32;---&#32;No&#32;section&#32;2&#32;is&#32;not&#32;allowed&#32;in&#32;ENDF&#32;for&#32;non-derived&#32;files,</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00090"/>00090 <emphasis role="comment">*&#32;---&#32;but&#32;most&#32;codes&#32;swallow&#32;it</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;lrp=-1
+<anchor xml:id="_xnmf01_8_f_source_1l00092"/>00092 <emphasis role="comment">*&#32;---&#32;All&#32;materials&#32;are&#32;supposed&#32;not&#32;to&#32;fission&#32;for&#32;the&#32;moment</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;lfi=0
+<anchor xml:id="_xnmf01_8_f_source_1l00094"/>00094 <emphasis role="comment">*&#32;---&#32;ENDF/B&#32;format</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;nlib=0
+<anchor xml:id="_xnmf01_8_f_source_1l00096"/>00096 <emphasis role="comment">*&#32;---&#32;Modification&#32;number&#32;0,&#32;new&#32;ENDF&#32;file</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;nmod=0
+<anchor xml:id="_xnmf01_8_f_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwhea(itapd,za,awr,lrp,lfi,nlib,nmod,math,1,451,nrecw)
+<anchor xml:id="_xnmf01_8_f_source_1l00099"/>00099 <emphasis role="comment">*&#32;-------------------&#32;Second&#32;Record&#32;------------------------------------</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00100"/>00100 <emphasis role="comment">*&#32;---&#32;Level&#32;in&#32;mev</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00101"/>00101 &#32;&#32;&#32;&#32;&#32;&#32;elis=qlveet(ipoeet)*1e6
+<anchor xml:id="_xnmf01_8_f_source_1l00102"/>00102 <emphasis role="comment">*&#32;---&#32;Stable&#32;element?</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;&#32;sta=0.
+<anchor xml:id="_xnmf01_8_f_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(hlieet(ipoeet).ne.0.or.ifleet(ipoeet).eq.-6)&#32;sta=1.
+<anchor xml:id="_xnmf01_8_f_source_1l00105"/>00105 <emphasis role="comment">*&#32;---&#32;We&#32;do&#32;not&#32;know&#32;which&#32;is&#32;the&#32;excited&#32;level,&#32;so&#32;we&#32;put&#32;LIS=LISO</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;lis=mod(izamat,10)
+<anchor xml:id="_xnmf01_8_f_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;liso=lis
+<anchor xml:id="_xnmf01_8_f_source_1l00108"/>00108 <emphasis role="comment">*&#32;---&#32;Format&#32;is&#32;ENDF/B-VI&#32;(we&#32;hope!)</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;nform=6
+<anchor xml:id="_xnmf01_8_f_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwhea(itapd,elis,sta,lis,liso,0,nform,math,1,451,nrecw)
+<anchor xml:id="_xnmf01_8_f_source_1l00111"/>00111 <emphasis role="comment">*&#32;-------------------&#32;Third&#32;Record&#32;-------------------------------------</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00112"/>00112 <emphasis role="comment">*&#32;---&#32;Mass&#32;of&#32;the&#32;projectile&#32;in&#32;neutron&#32;units&#32;is&#32;1</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;awi=1.
+<anchor xml:id="_xnmf01_8_f_source_1l00114"/>00114 <emphasis role="comment">*&#32;---&#32;Sublibrary&#32;for&#32;incident&#32;neutrons</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;nsub=10
+<anchor xml:id="_xnmf01_8_f_source_1l00116"/>00116 <emphasis role="comment">*&#32;---&#32;First&#32;attempt&#32;at&#32;translating,&#32;so&#32;version&#32;1</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00117"/>00117 &#32;&#32;&#32;&#32;&#32;&#32;nver=1
+<anchor xml:id="_xnmf01_8_f_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwhea(itapd,awi,0.0,0,0,nsub,nver,math,1,451,nrecw)
+<anchor xml:id="_xnmf01_8_f_source_1l00119"/>00119 <emphasis role="comment">*&#32;-------------------&#32;Fourth&#32;Record&#32;------------------------------------</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00120"/>00120 <emphasis role="comment">*&#32;---&#32;Temperature&#32;is&#32;300</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;temp=300.0
+<anchor xml:id="_xnmf01_8_f_source_1l00122"/>00122 <emphasis role="comment">*&#32;---&#32;Primary&#32;evaluation&#32;(not&#32;very&#32;important)</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00123"/>00123 &#32;&#32;&#32;&#32;&#32;&#32;ldrv=0
+<anchor xml:id="_xnmf01_8_f_source_1l00124"/>00124 <emphasis role="comment">*&#32;---&#32;Comment&#32;lines</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;nwd=ncomf1
+<anchor xml:id="_xnmf01_8_f_source_1l00126"/>00126 <emphasis role="comment">*&#32;---&#32;No&#32;dictionary&#32;for&#32;the&#32;moment</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00127"/>00127 &#32;&#32;&#32;&#32;&#32;&#32;nxc=0
+<anchor xml:id="_xnmf01_8_f_source_1l00128"/>00128 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwhea(itapd,temp,0.0,ldrv,0,nwd,nxc,math,1,451,nrecw)
+<anchor xml:id="_xnmf01_8_f_source_1l00129"/>00129 <emphasis role="comment">*&#32;-------------------&#32;Comment&#32;records&#32;----------------------------------</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00130"/>00130 <emphasis role="comment">*&#32;First&#32;comment&#32;record</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00131"/>00131 &#32;&#32;&#32;&#32;&#32;&#32;zsymam=xnelna(izamat)
+<anchor xml:id="_xnmf01_8_f_source_1l00132"/>00132 &#32;&#32;&#32;&#32;&#32;&#32;alab=<emphasis role="stringliteral">&apos;&#32;CERN&#32;&apos;</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00133"/>00133 &#32;&#32;&#32;&#32;&#32;&#32;edate=<emphasis role="stringliteral">&apos;TRAN-&apos;</emphasis>//eafdat
+<anchor xml:id="_xnmf01_8_f_source_1l00134"/>00134 &#32;&#32;&#32;&#32;&#32;&#32;auth=<emphasis role="stringliteral">&apos;F.Carminati&apos;</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00135"/>00135 &#32;&#32;&#32;&#32;&#32;&#32;chtext=zsymam//alab//edate//auth
+<anchor xml:id="_xnmf01_8_f_source_1l00136"/>00136 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chtext,math,1,451,nrecw)
+<anchor xml:id="_xnmf01_8_f_source_1l00137"/>00137 <emphasis role="comment">*&#32;Second&#32;comment&#32;record</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00138"/>00138 &#32;&#32;&#32;&#32;&#32;&#32;ref=<emphasis role="stringliteral">&apos;CERN-EET&apos;</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00139"/>00139 &#32;&#32;&#32;&#32;&#32;&#32;ddate=<emphasis role="stringliteral">&apos;DIST-&apos;</emphasis>//eafdat
+<anchor xml:id="_xnmf01_8_f_source_1l00140"/>00140 &#32;&#32;&#32;&#32;&#32;&#32;rdate=<emphasis role="stringliteral">&apos;REV1-&apos;</emphasis>//eafdat
+<anchor xml:id="_xnmf01_8_f_source_1l00141"/>00141 &#32;&#32;&#32;&#32;&#32;&#32;endate=eafdt1
+<anchor xml:id="_xnmf01_8_f_source_1l00142"/>00142 &#32;&#32;&#32;&#32;&#32;&#32;chtext&#32;=ref//ddate//rdate
+<anchor xml:id="_xnmf01_8_f_source_1l00143"/>00143 &#32;&#32;&#32;&#32;&#32;&#32;chtext(56:61)=endate
+<anchor xml:id="_xnmf01_8_f_source_1l00144"/>00144 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chtext,math,1,451,nrecw)
+<anchor xml:id="_xnmf01_8_f_source_1l00145"/>00145 <emphasis role="comment">*&#32;Third&#32;comment&#32;record</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00146"/>00146 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(chtext,10100)&#32;eafver,math
+<anchor xml:id="_xnmf01_8_f_source_1l00147"/>00147 10100&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;----&apos;</emphasis>,a7,<emphasis role="stringliteral">&apos;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MATERIAL&#32;&apos;</emphasis>,i4)
+<anchor xml:id="_xnmf01_8_f_source_1l00148"/>00148 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chtext,math,1,451,nrecw)
+<anchor xml:id="_xnmf01_8_f_source_1l00149"/>00149 <emphasis role="comment">*&#32;Fourth&#32;comment&#32;record</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00150"/>00150 &#32;&#32;&#32;&#32;&#32;&#32;chtext=<emphasis role="stringliteral">&apos;-----INCIDENT&#32;NEUTRON&#32;DATA&apos;</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00151"/>00151 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chtext,math,1,451,nrecw)
+<anchor xml:id="_xnmf01_8_f_source_1l00152"/>00152 <emphasis role="comment">*&#32;Fifth&#32;comment&#32;record</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00153"/>00153 &#32;&#32;&#32;&#32;&#32;&#32;chtext=<emphasis role="stringliteral">&apos;------ENDF-6&#32;FORMAT&apos;</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00154"/>00154 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chtext,math,1,451,nrecw)
+<anchor xml:id="_xnmf01_8_f_source_1l00155"/>00155 <emphasis role="comment">*&#32;Sixth&#32;comment&#32;card</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00156"/>00156 &#32;&#32;&#32;&#32;&#32;&#32;chtext=
+<anchor xml:id="_xnmf01_8_f_source_1l00157"/>00157 &#32;&#32;&#32;&#32;&#32;+<emphasis role="stringliteral">&apos;&#32;Conversion&#32;from&#32;&apos;</emphasis>//eafver//<emphasis role="stringliteral">&apos;&#32;to&#32;ENDF-6&#32;format&#32;by&#32;CERN-EET&#32;group&apos;</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00158"/>00158 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chtext,math,1,451,nrecw)
+<anchor xml:id="_xnmf01_8_f_source_1l00159"/>00159 <emphasis role="comment">*&#32;Seventh&#32;comment&#32;card</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00160"/>00160 &#32;&#32;&#32;&#32;&#32;&#32;chtext=<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00161"/>00161 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chtext,math,1,451,nrecw)
+<anchor xml:id="_xnmf01_8_f_source_1l00162"/>00162 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00163"/>00163 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,4)=nrecw-ipoint(nsec,3)
+<anchor xml:id="_xnmf01_8_f_source_1l00164"/>00164 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmf01_8_f_source_1l00165"/>00165 10200&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;Isomer&#32;not&#32;found&#32;in&#32;EET&#32;&apos;</emphasis>,a,<emphasis role="stringliteral">&apos;&#32;math&#32;&apos;</emphasis>,i4)
+<anchor xml:id="_xnmf01_8_f_source_1l00166"/>00166 10300&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;New&#32;material&#32;&apos;</emphasis>,a,<emphasis role="stringliteral">&apos;&#32;mat&#32;&apos;</emphasis>,i4)
+<anchor xml:id="_xnmf01_8_f_source_1l00167"/>00167 &#32;&#32;999&#32;<emphasis role="keyword">end</emphasis>
+</programlisting></section>

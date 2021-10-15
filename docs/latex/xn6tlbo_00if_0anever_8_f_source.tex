@@ -1,0 +1,119 @@
+\hypertarget{xn6tlbo_00if_0anever_8_f_source}{}\doxysection{xn6tlbo,if=never.\+F}
+\label{xn6tlbo_00if_0anever_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6tlbo,if=never.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xn6tlbo,if=never.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 31/05/96  17.16.03  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xn6tlbo}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00004}00004 \textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00005}00005 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcmfh6.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00006}00006 \textcolor{preprocessor}{}      \textcolor{keywordtype}{DOUBLE PRECISION} PRDELT,ONE}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00007}00007       parameter(nen=100,emmtol=1e-\/3,emmlim=5e-\/6)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00008}00008       parameter(prctol=1e-\/3)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00009}00009       parameter(one=1,prdelt=one/nperc)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00010}00010       \textcolor{keywordtype}{LOGICAL} LCRITE, LCRITP}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00011}00011       dimension eminv(nperc-\/1), emaxv(nperc-\/1)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00012}00012 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00013}00013 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00014}00014 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00015}00015       \textcolor{keywordflow}{DO} 120 ken=1,nens}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00016}00016          ein=min(percen(ken),1.999e7)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00017}00017 \textcolor{comment}{* -\/-\/-\/ First of all find max and min of distribution in secondary energy}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00018}00018          emin=1e-\/5}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00019}00019          emax=2e7}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/ Find one point > 0}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00021}00021          fact=exp(log(emax/emin)/nen)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00022}00022          em=emin/fact}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00023}00023          \textcolor{keywordflow}{DO} 10 jen=1,nen+1}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00024}00024             em=em*fact}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00025}00025             \textcolor{keyword}{CALL }xn6to5(ein, em, prb)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00026}00026             \textcolor{keywordflow}{IF}(prb.GT.0) \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00027}00027    10    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00028}00028          stop \textcolor{stringliteral}{'*** XN6TLB: Pb always eq 0'}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00029}00029    20    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/ Here do bisection search of min}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00031}00031    30    \textcolor{keywordflow}{IF}(em-\/emin.GT.emmtol*em) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00032}00032             eh=0.5*(emin+em)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00033}00033             \textcolor{keyword}{CALL }xn6to5(ein, eh, prb)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00034}00034             \textcolor{keywordflow}{IF}(prb.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00035}00035                em=eh}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00036}00036             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00037}00037                emin=eh}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00038}00038 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00039}00039             \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00040}00040 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/ Find one point > 0}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00042}00042          em=emax*fact}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00043}00043          \textcolor{keywordflow}{DO} 40 jen=1,nen+1}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00044}00044             em=em/fact}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00045}00045             \textcolor{keyword}{CALL }xn6to5(ein, em, prb)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00046}00046             \textcolor{keywordflow}{IF}(prb.GT.0) \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00047}00047    40    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00048}00048          stop \textcolor{stringliteral}{'*** XN6TLB: Pb always eq 0'}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00049}00049    50    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00050}00050 \textcolor{comment}{* -\/-\/-\/ Here do bisection search of max}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00051}00051    60    \textcolor{keywordflow}{IF}(emax-\/em.GT.emmtol*emax) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00052}00052             eh=0.5*(em+emax)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00053}00053             \textcolor{keyword}{CALL }xn6to5(ein, eh, prb)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00054}00054             \textcolor{keywordflow}{IF}(prb.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00055}00055                em=eh}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00056}00056             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00057}00057                emax=eh}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00058}00058 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00059}00059             \textcolor{keywordflow}{GOTO} 60}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00060}00060 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00061}00061 \textcolor{comment}{* -\/-\/-\/ Find integral to normalise distribution}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00062}00062          \textcolor{keyword}{CALL }xn6int(ein,emin,emax,hnorm)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00063}00063          \textcolor{keyword}{WRITE}(6,10100) ein, hnorm, emin, emax}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/ Here the work starts, fill array of energies}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00065}00065          ipbase=nens+(ken-\/1)*(nperc+1)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00066}00066          percen(ipbase+1)=emin}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00067}00067          percen(ipbase+nperc+1)=emax}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00068}00068 \textcolor{comment}{* -\/-\/-\/ Set all energy points to max}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00069}00069          \textcolor{keywordflow}{DO} 70 jperc=1,nperc-\/1}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00070}00070             eminv(jperc)=emin}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00071}00071             emaxv(jperc)=emax}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00072}00072    70    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00073}00073 \textcolor{comment}{* Now compute integral for all energies}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00074}00074          \textcolor{keywordflow}{DO} 110 jperc=1,nperc-\/1}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00075}00075             \textcolor{keyword}{WRITE}(6,10000) (eminv(jj),emaxv(jj),jj=jperc,nperc-\/1)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00076}00076 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Now EMAX-\/EMIN '},2(1x,g11.4,\textcolor{stringliteral}{'-\/'},g11.4),}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00077}00077      +                   /(15x,2(1x,g11.4,\textcolor{stringliteral}{'-\/'},g11.4)))}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00078}00078             perc=jperc*prdelt}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00079}00079             ebeg=eminv(jperc)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00080}00080             eend=emaxv(jperc)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00081}00081             prctst=0}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00082}00082 \textcolor{comment}{* -\/-\/-\/ Energy and Pb criteria, use only energy for the moment}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00083}00083    80       lcritp=abs(prctst-\/perc).LE.prctol}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00084}00084             lcrite=eend-\/ebeg.LE.emmtol*ebeg}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00085}00085             \textcolor{keywordflow}{IF}(.NOT.lcrite) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00086}00086                elim=0.5*(ebeg+eend)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00087}00087                \textcolor{keyword}{CALL }xn6int(ein,emin,elim,prctst)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00088}00088                prctst=prctst/hnorm}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00089}00089                ichan=min(int(prctst/prdelt),nperc-\/1)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00090}00090 \textcolor{comment}{* -\/-\/-\/ Set new max in channels to speed-\/up calculation}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00091}00091                \textcolor{keywordflow}{DO} 90 ll=jperc+1,ichan}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00092}00092                   emaxv(ll)=min(emaxv(ll),elim)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00093}00093    90          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00094}00094                \textcolor{keywordflow}{DO} 100 ll=ichan+1,nperc-\/1}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00095}00095                   eminv(ll)=max(eminv(ll),elim)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00096}00096   100          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00097}00097                \textcolor{keywordflow}{IF}(prctst.GT.perc) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00098}00098                   eend=elim}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00099}00099                \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00100}00100                   ebeg=elim}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00101}00101 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00102}00102                \textcolor{keywordflow}{IF}(abs(eend-\/ebeg).GT.emmlim*ebeg) \textcolor{keywordflow}{GOTO} 80}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00103}00103 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00104}00104             \textcolor{keyword}{WRITE}(6,10200) perc, prctst, elim}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00105}00105             percen(ipbase+jperc+1)=elim}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00106}00106   110    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00107}00107          percen(ipbase+nperc+1)=emax}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00108}00108   120 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00109}00109 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00110}00110 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XN6TLB: Ein '},g10.3,\textcolor{stringliteral}{' prob '},g10.3,}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00111}00111      +\textcolor{stringliteral}{' Emin '},g10.3,\textcolor{stringliteral}{' Emax '},g10.3)}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00112}00112 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{'             PERC, PRCTST, ELIM'},3(1x,g10.3))}
+\DoxyCodeLine{\Hypertarget{xn6tlbo_00if_0anever_8_f_source_l00113}00113       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

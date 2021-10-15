@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__t_m_x_random_distribution3_d_8cc_source" xml:lang="en-US">
+<title>TMXRandomDistribution3D.cc</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/TMXElements/src/TMXRandomDistribution3D.cc</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00001"/>00001 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00003"/>00003 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00004"/>00004 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00006"/>00006 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00007"/>00007 <emphasis role="comment">//&#32;TMXRandomDistribution3D</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00008"/>00008 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00009"/>00009 <emphasis role="comment">//&#32;Donovan&#32;Maire,&#32;Transmutex,&#32;02/03/2020</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00010"/>00010 <emphasis role="comment">//&#32;</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00012"/>00012 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00013"/>00013 
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00014"/>00014 <emphasis role="comment">//&#32;Class</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00015"/>00015 <emphasis role="preprocessor">#include&#32;&quot;TMXRandomDistribution3D.hh&quot;</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00016"/>00016 
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00017"/>00017 <emphasis role="comment">//&#32;C++&#32;Class</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00018"/>00018 <emphasis role="preprocessor">#include&#32;&lt;iostream&gt;</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00019"/>00019 <emphasis role="preprocessor">#include&#32;&lt;random&gt;</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00020"/>00020 
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00021"/><link linkend="_class_t_m_x_random_distribution3_d_1ad5696c0d8acb0ef545a30c2edaae1c81">00021</link> <link linkend="_class_t_m_x_random_distribution3_d_1ad5696c0d8acb0ef545a30c2edaae1c81">TMXRandomDistribution3D::TMXRandomDistribution3D</link>(<emphasis role="keywordtype">int</emphasis>&#32;nbinsX,&#32;<emphasis role="keywordtype">double</emphasis>&#32;Xmin,&#32;<emphasis role="keywordtype">double</emphasis>&#32;Xmax,<emphasis role="keywordtype">int</emphasis>&#32;nbinsY,&#32;<emphasis role="keywordtype">double</emphasis>&#32;Ymin,&#32;<emphasis role="keywordtype">double</emphasis>&#32;Ymax,<emphasis role="keywordtype">int</emphasis>&#32;nbinsZ,&#32;<emphasis role="keywordtype">double</emphasis>&#32;Zmin,&#32;<emphasis role="keywordtype">double</emphasis>&#32;Zmax)
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00022"/>00022 &#32;:&#32;fnbinsX{nbinsX},
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00023"/>00023 &#32;&#32;&#32;fnbinsY{nbinsY},
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00024"/>00024 &#32;&#32;&#32;fnbinsZ{nbinsZ},
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00025"/>00025 &#32;&#32;&#32;fXmin{Xmin},
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00026"/>00026 &#32;&#32;&#32;fYmin{Ymin},
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00027"/>00027 &#32;&#32;&#32;fZmin{Zmin},
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00028"/>00028 &#32;&#32;&#32;fXmax{Xmax},
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00029"/>00029 &#32;&#32;&#32;fYmax{Ymax},
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00030"/>00030 &#32;&#32;&#32;fZmax{Zmax},
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00031"/>00031 &#32;&#32;&#32;fWeights{0}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00032"/>00032 {&#32;&#32;&#32;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00033"/>00033 &#32;&#32;&#32;&#32;Initialize();
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00034"/>00034 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;for(int&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;fnbinsX*fnbinsY*fnbinsZ;&#32;++i)</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00035"/>00035 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fWeights.push_back(1);</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00036"/>00036 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;ChangeAllWeights(&#32;fWeights&#32;);</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00037"/>00037 <emphasis role="comment">//&#32;//&#32;&#32;&#32;&#32;&#32;ChangeAllWeights(&#32;{1,1,1,1,1,1,1,1,1,1}&#32;);</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00038"/>00038 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00039"/>00039 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;std::random_device&#32;rd;</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00040"/>00040 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;generator.seed&#32;(rd());&#32;</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00041"/>00041 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00042"/>00042 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;std::uniform_real_distribution&lt;double&gt;&#32;d1(0.0,1.0);</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00043"/>00043 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;Uniform.param(d1.param());</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00044"/>00044 }
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00045"/>00045 
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00046"/>00046 TMXRandomDistribution3D::~TMXRandomDistribution3D(){
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00047"/>00047 &#32;&#32;&#32;&#32;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00048"/>00048 }
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00049"/>00049 
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00050"/>00050 <emphasis role="keywordtype">void</emphasis>&#32;TMXRandomDistribution3D::ChangeAllWeights(std::vector&lt;double&gt;&#32;weight)&#32;{
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00051"/>00051 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<emphasis role="keywordtype">size_t</emphasis>&#32;i=0;&#32;i&lt;weight.size();&#32;++i)&#32;{&#32;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(std::abs(weight[i])&#32;&gt;=&#32;2E9)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Error&#32;!!&#32;Overflow&#32;of&#32;the&#32;3D&#32;distribution&#32;with&#32;bin&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;i&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;=&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;weight[i]&#32;&lt;&lt;&#32;std::endl;}}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00053"/>00053 &#32;&#32;&#32;&#32;std::discrete_distribution&lt;long&gt;&#32;d(weight.begin(),&#32;weight.end());
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00054"/>00054 &#32;&#32;&#32;&#32;distribution.param(d.param());
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00055"/>00055 }
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00056"/>00056 
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00057"/>00057 <emphasis role="keywordtype">void</emphasis>&#32;TMXRandomDistribution3D::AddBinWeight(<emphasis role="keywordtype">double</emphasis>&#32;X,&#32;<emphasis role="keywordtype">double</emphasis>&#32;Y,&#32;<emphasis role="keywordtype">double</emphasis>&#32;Z)&#32;{
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00058"/>00058 &#32;&#32;&#32;&#32;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00059"/>00059 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(X&#32;&gt;=&#32;fXmin&#32;&amp;&amp;&#32;X&#32;&lt;&#32;fXmax&#32;&amp;&amp;&#32;fnbinsY&#32;&gt;=&#32;1&#32;&amp;&amp;&#32;fnbinsZ&#32;&gt;=&#32;1)&#32;{
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">long</emphasis>&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;bin&#32;=&#32;std::floor(&#32;fnbinsX&#32;*&#32;(X&#32;-&#32;fXmin)&#32;/&#32;(fXmax&#32;-&#32;fXmin)&#32;)&#32;*&#32;fnbinsY&#32;*&#32;fnbinsZ;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(Y&#32;&gt;=&#32;fYmin&#32;&amp;&amp;&#32;Y&#32;&lt;&#32;fYmax&#32;&amp;&amp;&#32;fYmax&#32;-&#32;fYmin&#32;&gt;&#32;0)&#32;{&#32;bin&#32;+=&#32;std::floor(&#32;fnbinsY&#32;*&#32;(Y&#32;-&#32;fYmin)&#32;/&#32;(fYmax&#32;-&#32;fYmin)&#32;)&#32;*&#32;fnbinsZ;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(Z&#32;&gt;=&#32;fZmin&#32;&amp;&amp;&#32;Z&#32;&lt;&#32;fZmax&#32;&amp;&amp;&#32;fZmax&#32;-&#32;fZmin&#32;&gt;&#32;0)&#32;{&#32;bin&#32;+=&#32;std::floor(&#32;fnbinsZ&#32;*&#32;(Z&#32;-&#32;fZmin)&#32;/&#32;(fZmax&#32;-&#32;fZmin)&#32;);}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fWeights[bin]&#32;&gt;=&#32;2E9)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Error&#32;!!&#32;Overflow&#32;of&#32;the&#32;3D&#32;distribution&#32;with&#32;bin&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;bin&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;=&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;fWeights[bin]&#32;&lt;&lt;&#32;std::endl;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++fWeights[bin];
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ChangeAllWeights(fWeights);
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00066"/>00066 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00067"/>00067 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;X=&quot;</emphasis>&#32;&lt;&lt;&#32;X&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;out&#32;of&#32;range&#32;[&quot;</emphasis>&#32;&lt;&lt;&#32;fXmin&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;;&quot;</emphasis>&#32;&lt;&lt;&#32;fXmax&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;]&quot;</emphasis>;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fnbinsY&#32;&gt;=&#32;1&#32;&amp;&amp;&#32;Y&#32;&lt;&#32;fYmin&#32;&amp;&amp;&#32;Y&#32;&gt;&#32;fYmax)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;or&#32;Y=&quot;</emphasis>&#32;&lt;&lt;&#32;Y&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;out&#32;of&#32;range&#32;[&quot;</emphasis>&#32;&lt;&lt;&#32;fYmin&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;;&quot;</emphasis>&#32;&lt;&lt;&#32;fYmax&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;]&quot;</emphasis>;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fnbinsZ&#32;&gt;=&#32;1&#32;&amp;&amp;&#32;Z&#32;&lt;&#32;fZmin&#32;&amp;&amp;&#32;Z&#32;&gt;&#32;fZmax)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;or&#32;Z=&quot;</emphasis>&#32;&lt;&lt;&#32;Z&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;out&#32;of&#32;range&#32;[&quot;</emphasis>&#32;&lt;&lt;&#32;fZmin&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;;&quot;</emphasis>&#32;&lt;&lt;&#32;fZmax&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;]&quot;</emphasis>;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;<emphasis role="stringliteral">&quot;.&#32;Distribution&#32;unchanged.&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00072"/>00072 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00073"/>00073 }
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00074"/>00074 
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00075"/>00075 <emphasis role="keywordtype">void</emphasis>&#32;TMXRandomDistribution3D::AddBinWeights(std::vector&lt;std::vector&lt;double&gt;&#32;&gt;&#32;vec_pos)&#32;{
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00076"/>00076 &#32;&#32;&#32;&#32;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00077"/>00077 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<emphasis role="keywordtype">long</emphasis>&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;vec_pos.size();&#32;++i)&#32;{
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;X=0,&#32;Y=0,&#32;Z=0;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;X&#32;=&#32;vec_pos[i][0];
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(vec_pos[i].size()&#32;&gt;&#32;1)&#32;{Y&#32;=&#32;vec_pos[i][1];}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(vec_pos[i].size()&#32;&gt;&#32;2)&#32;{Z&#32;=&#32;vec_pos[i][2];}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(X&#32;&gt;=&#32;fXmin&#32;&amp;&amp;&#32;X&#32;&lt;&#32;fXmax&#32;&amp;&amp;&#32;fnbinsY&#32;&gt;=&#32;1&#32;&amp;&amp;&#32;fnbinsZ&#32;&gt;=&#32;1)&#32;{
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">long</emphasis>&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;bin&#32;=&#32;std::floor(&#32;fnbinsX&#32;*&#32;(X&#32;-&#32;fXmin)&#32;/&#32;(fXmax&#32;-&#32;fXmin)&#32;)&#32;*&#32;fnbinsY&#32;*&#32;fnbinsZ;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(Y&#32;&gt;=&#32;fYmin&#32;&amp;&amp;&#32;Y&#32;&lt;&#32;fYmax&#32;&amp;&amp;&#32;fYmax&#32;-&#32;fYmin&#32;&gt;&#32;0)&#32;{&#32;bin&#32;+=&#32;std::floor(&#32;fnbinsY&#32;*&#32;(Y&#32;-&#32;fYmin)&#32;/&#32;(fYmax&#32;-&#32;fYmin)&#32;)&#32;*&#32;fnbinsZ;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(Z&#32;&gt;=&#32;fZmin&#32;&amp;&amp;&#32;Z&#32;&lt;&#32;fZmax&#32;&amp;&amp;&#32;fZmax&#32;-&#32;fZmin&#32;&gt;&#32;0)&#32;{&#32;bin&#32;+=&#32;std::floor(&#32;fnbinsZ&#32;*&#32;(Z&#32;-&#32;fZmin)&#32;/&#32;(fZmax&#32;-&#32;fZmin)&#32;);}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fWeights[bin]&#32;&gt;=&#32;2E9)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Error&#32;!!&#32;Overflow&#32;of&#32;the&#32;3D&#32;distribution&#32;with&#32;bin&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;bin&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;=&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;fWeights[bin]&#32;&lt;&lt;&#32;std::endl;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++fWeights[bin];
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;X=&quot;</emphasis>&#32;&lt;&lt;&#32;X&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;out&#32;of&#32;range&#32;[&quot;</emphasis>&#32;&lt;&lt;&#32;fXmin&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;;&quot;</emphasis>&#32;&lt;&lt;&#32;fXmax&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;]&quot;</emphasis>;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fnbinsY&#32;&gt;=&#32;1&#32;&amp;&amp;&#32;Y&#32;&lt;&#32;fYmin&#32;&amp;&amp;&#32;Y&#32;&gt;&#32;fYmax)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;or&#32;Y=&quot;</emphasis>&#32;&lt;&lt;&#32;Y&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;out&#32;of&#32;range&#32;[&quot;</emphasis>&#32;&lt;&lt;&#32;fYmin&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;;&quot;</emphasis>&#32;&lt;&lt;&#32;fYmax&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;]&quot;</emphasis>;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fnbinsZ&#32;&gt;=&#32;1&#32;&amp;&amp;&#32;Z&#32;&lt;&#32;fZmin&#32;&amp;&amp;&#32;Z&#32;&gt;&#32;fZmax)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;or&#32;Z=&quot;</emphasis>&#32;&lt;&lt;&#32;Z&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;out&#32;of&#32;range&#32;[&quot;</emphasis>&#32;&lt;&lt;&#32;fZmin&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;;&quot;</emphasis>&#32;&lt;&lt;&#32;fZmax&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;]&quot;</emphasis>;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;<emphasis role="stringliteral">&quot;.&#32;Distribution&#32;unchanged.&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00096"/>00096 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00097"/>00097 &#32;&#32;&#32;&#32;ChangeAllWeights(fWeights);
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00098"/>00098 }
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00099"/>00099 
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00100"/>00100 <emphasis role="keywordtype">double</emphasis>&#32;TMXRandomDistribution3D::Fire(<emphasis role="keywordtype">double</emphasis>&amp;&#32;Y,&#32;<emphasis role="keywordtype">double</emphasis>&amp;&#32;Z)&#32;{
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00101"/>00101 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;bin&#32;=&#32;distribution(generator);
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00102"/>00102 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;i_x=bin,&#32;i_y=0,&#32;i_z=0;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00103"/>00103 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fnbinsY&#32;!=&#32;0&#32;&amp;&amp;&#32;fnbinsZ&#32;!=&#32;0)&#32;{i_x&#32;=&#32;std::floor(bin&#32;/&#32;(fnbinsY*fnbinsZ));}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00104"/>00104 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fnbinsZ&#32;!=&#32;0)&#32;{i_y&#32;=&#32;std::floor((bin&#32;-&#32;i_x&#32;*&#32;(fnbinsY*fnbinsZ))&#32;/&#32;fnbinsZ);}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00105"/>00105 &#32;&#32;&#32;&#32;i_z&#32;=&#32;bin&#32;-&#32;i_x&#32;*&#32;(fnbinsY*fnbinsZ)&#32;-&#32;i_y&#32;*&#32;fnbinsZ;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00106"/>00106 
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00107"/>00107 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Position&#32;in&#32;the&#32;bin&#32;between&#32;0&#32;and&#32;1</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00108"/>00108 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;double&#32;uniform_bin&#32;=&#32;Uniform(generator);</emphasis>
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00109"/>00109 &#32;&#32;&#32;&#32;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00110"/>00110 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;uniform_binZ&#32;=&#32;Uniform(generator);
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00111"/>00111 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fnbinsZ&#32;!=&#32;0)&#32;{Z&#32;=&#32;(i_z&#32;+&#32;uniform_binZ)&#32;*&#32;(fZmax&#32;-&#32;fZmin)/(double)fnbinsZ&#32;+&#32;fZmin;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00112"/>00112 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;uniform_binY&#32;=&#32;Uniform(generator);
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00113"/>00113 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fnbinsY&#32;!=&#32;0)&#32;{Y&#32;=&#32;(i_y&#32;+&#32;uniform_binY)&#32;*&#32;(fYmax&#32;-&#32;fYmin)/(double)fnbinsY&#32;+&#32;fYmin;}
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00114"/>00114 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;uniform_binX&#32;=&#32;Uniform(generator);
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00115"/>00115 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(i_x&#32;+&#32;uniform_binX)&#32;*&#32;(fXmax&#32;-&#32;fXmin)/(<emphasis role="keywordtype">double</emphasis>)fnbinsX&#32;+&#32;fXmin;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00116"/>00116 }
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00117"/>00117 
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00118"/>00118 std::vector&lt;double&gt;&#32;TMXRandomDistribution3D::GetWeights()&#32;{
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00119"/>00119 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;distribution.probabilities();
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00120"/>00120 }
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00121"/>00121 
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00122"/>00122 std::vector&lt;double&gt;&#32;TMXRandomDistribution3D::GetUnnormedWeights()&#32;{
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00123"/>00123 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;fWeights;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00124"/>00124 }
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00125"/>00125 
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00126"/>00126 std::vector&lt;double&gt;&#32;TMXRandomDistribution3D::GetInitialUnnormedWeights()&#32;{
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00127"/>00127 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;fInitialWeights;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00128"/>00128 }
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00129"/>00129 
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00130"/>00130 <emphasis role="keywordtype">void</emphasis>&#32;TMXRandomDistribution3D::Initialize()&#32;{
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00131"/>00131 &#32;&#32;&#32;&#32;fWeights.clear();
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00132"/>00132 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<emphasis role="keywordtype">int</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;fnbinsX*fnbinsY*fnbinsZ;&#32;++i)
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00133"/>00133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fWeights.push_back(1);
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00134"/>00134 &#32;&#32;&#32;&#32;ChangeAllWeights(&#32;fWeights&#32;);
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00135"/>00135 &#32;&#32;&#32;&#32;fInitialWeights&#32;=&#32;fWeights;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00136"/>00136 &#32;&#32;&#32;&#32;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00137"/>00137 &#32;&#32;&#32;&#32;std::random_device&#32;rd;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00138"/>00138 &#32;&#32;&#32;&#32;generator.seed&#32;(rd());&#32;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00139"/>00139 &#32;&#32;&#32;&#32;
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00140"/>00140 &#32;&#32;&#32;&#32;std::uniform_real_distribution&lt;double&gt;&#32;d1(0.0,1.0);
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00141"/>00141 &#32;&#32;&#32;&#32;Uniform.param(d1.param());
+<anchor xml:id="__t_m_x_random_distribution3_d_8cc_source_1l00142"/>00142 }
+</programlisting></section>

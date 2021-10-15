@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xngetx_8_f_source" xml:lang="en-US">
+<title>xngetx.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xngetx.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xngetx_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;03/06/96&#32;&#32;12.15.41&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;18/01/94</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xngetx(IZAMAT,MFMT,E,SEC,HINFO,NINFO)
+<anchor xml:id="_xngetx_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Returns&#32;interpolated&#32;cross-section&#32;values&#32;and&#32;header&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;information&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IZAMAT&#32;&#32;&#32;&#32;(input)&#32;isomer&#32;code&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;MFMT&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;1000*(ENDF-6&#32;file&#32;number)+(ENDF-6&#32;reaction&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;code).&#32;For&#32;information&#32;on&#32;reaction&#32;codes&#32;see&#32;arrays&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CHNAME&#32;and&#32;NBFMT&#32;below&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;E&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;incoming&#32;neutron&#32;energy&#32;in&#32;eV&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;SEC&#32;&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;cross&#32;section&#32;in&#32;barns&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;HINFO&#32;&#32;&#32;&#32;&#32;(output)&#32;array&#32;containing&#32;reaction&#32;header&#32;information&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;NINFO&#32;&#32;&#32;&#32;&#32;(output)&#32;number&#32;of&#32;words&#32;returned&#32;in&#32;HINFO&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00017"/>00017 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00018"/>00018 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00019"/>00019 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00020"/>00020 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcpoin.inc&quot;</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00021"/>00021 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcnamf.inc&quot;</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00022"/>00022 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;hinfo(*)
+<anchor xml:id="_xngetx_8_f_source_1l00023"/>00023 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00024"/>00024 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00025"/>00025 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;---&gt;&#32;Prepare&#32;for&#32;failure</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;sec&#32;=&#32;0.
+<anchor xml:id="_xngetx_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;ninfo&#32;=&#32;-1
+<anchor xml:id="_xngetx_8_f_source_1l00029"/>00029 <emphasis role="comment">*&#32;---&gt;&#32;Check&#32;if&#32;material&#32;there</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jmate=1,nmate
+<anchor xml:id="_xngetx_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izamat.EQ.imtabl(1,jmate))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;imate&#32;=&#32;jmate
+<anchor xml:id="_xngetx_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;20
+<anchor xml:id="_xngetx_8_f_source_1l00034"/>00034 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00035"/>00035 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00036"/>00036 <emphasis role="comment">*&#32;---&gt;&#32;Material&#32;not&#32;there,&#32;print&#32;warning&#32;and&#32;exit</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;***&#32;XNGETX:&#32;Material&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;,I6,&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;not&#32;in&#32;memory&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)
+<anchor xml:id="_xngetx_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;izamat
+<anchor xml:id="_xngetx_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xngetx_8_f_source_1l00040"/>00040 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00041"/>00041 <emphasis role="comment">*&#32;---&gt;&#32;Check&#32;if&#32;reaction&#32;there,&#32;must&#32;be&#32;cross&#32;section,&#32;so&#32;ENDF-6</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00042"/>00042 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;file&#32;code&#32;is&#32;3</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;30&#32;jreac=1,mxreac
+<anchor xml:id="_xngetx_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(mfmt.EQ.3000+nbmft(jreac))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ireac=jreac
+<anchor xml:id="_xngetx_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;40
+<anchor xml:id="_xngetx_8_f_source_1l00047"/>00047 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00048"/>00048 &#32;&#32;&#32;30&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00049"/>00049 <emphasis role="comment">*&#32;---&gt;&#32;Reaction&#32;not&#32;there,&#32;print&#32;warning&#32;and&#32;leave</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;**&#32;XNGETD:&#32;Reaction&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;,I5,&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;not&#32;in&#32;memory&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)
+<anchor xml:id="_xngetx_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mfmt
+<anchor xml:id="_xngetx_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xngetx_8_f_source_1l00053"/>00053 &#32;&#32;&#32;40&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00054"/>00054 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;start&#32;and&#32;length&#32;of&#32;section</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;istart&#32;=&#32;imtabl(1+nreinf*(ireac-1)+1,imate)
+<anchor xml:id="_xngetx_8_f_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;ilengt&#32;=&#32;imtabl(1+nreinf*(ireac-1)+2,imate)
+<anchor xml:id="_xngetx_8_f_source_1l00057"/>00057 <emphasis role="comment">*&#32;---&gt;&#32;Binary&#32;search&#32;and&#32;interpolate</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnbint(istart,ilengt,e,sec)
+<anchor xml:id="_xngetx_8_f_source_1l00059"/>00059 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;header&#32;information</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;50&#32;jinf=1,nadinf
+<anchor xml:id="_xngetx_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hinfo(jinf)=hmtabl(1+nreinf*(ireac-1)+2+jinf,imate)
+<anchor xml:id="_xngetx_8_f_source_1l00062"/>00062 &#32;&#32;&#32;50&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;ninfo&#32;=&#32;nadinf
+<anchor xml:id="_xngetx_8_f_source_1l00064"/>00064 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xngetx_8_f_source_1l00065"/>00065 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

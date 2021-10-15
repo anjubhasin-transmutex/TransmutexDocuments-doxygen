@@ -1,0 +1,627 @@
+\hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source}{}\doxysection{Geom\+SVBR100.\+cc}
+\label{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/3/src/geometry/SVBR100/GeomSVBR100.cc@{/Users/Transmutex/Simulation/ADS\_SimulationCode/Benchmark-\/3/src/geometry/SVBR100/GeomSVBR100.cc}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00002}00002 \textcolor{comment}{// \(\backslash\)brief Implementation of the SVBR100 class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00006}00006 \textcolor{comment}{}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00007}00007 \textcolor{comment}{// SVBR100}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00009}00009 \textcolor{comment}{// Thomas Guilbaud, Transmutex, 21/05/2021}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00012}00012 \textcolor{comment}{}\textcolor{comment}{// Geometry represented the SVBR100 of AKME}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00014}00014 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00015}00015 \textcolor{preprocessor}{\#include "{}GeomSVBR100.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00017}00017 \textcolor{comment}{// TMX Class}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00018}00018 \textcolor{preprocessor}{\#include "{}TMXMaterial.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00019}00019 \textcolor{preprocessor}{\#include "{}G4Tubs.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00020}00020 \textcolor{preprocessor}{\#include "{}G4Box.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00021}00021 \textcolor{preprocessor}{\#include "{}G4Orb.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00022}00022 \textcolor{preprocessor}{\#include "{}G4Ellipsoid.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00023}00023 \textcolor{preprocessor}{\#include "{}G4UnionSolid.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00024}00024 \textcolor{preprocessor}{\#include "{}G4LogicalVolume.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00025}00025 \textcolor{preprocessor}{\#include "{}G4PVPlacement.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00026}00026 \textcolor{preprocessor}{\#include "{}G4VPhysicalVolume.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00027}00027 \textcolor{preprocessor}{\#include "{}G4PhysicalVolumeStore.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00028}00028 \textcolor{preprocessor}{\#include "{}G4LogicalVolumeStore.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00029}00029 \textcolor{preprocessor}{\#include "{}G4SolidStore.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00030}00030 \textcolor{preprocessor}{\#include "{}G4GeometryManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00031}00031 \textcolor{preprocessor}{\#include "{}G4NistManager.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00032}00032 \textcolor{preprocessor}{\#include "{}G4Colour.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00033}00033 \textcolor{preprocessor}{\#include "{}G4VisAttributes.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00034}00034 \textcolor{preprocessor}{\#include "{}G4PhysicalConstants.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00035}00035 \textcolor{preprocessor}{\#include "{}G4SystemOfUnits.hh"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00037}00037 \textcolor{comment}{// Standard libraries}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00038}00038 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00041}00041 GeomSVBR100::GeomSVBR100(\mbox{\hyperlink{class_t_m_x_input_parameters}{TMXInputParameters}}* parameter)}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00042}00042 :   G4VUserDetectorConstruction(),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00043}00043     m\_p\{parameter\},}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00044}00044     m\_overlap(m\_p-\/>Verbose >= 1),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00045}00045     m\_isMultipleExternalTarget(m\_p-\/>SourceNumber > 1),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00046}00046     m\_nbTarget(m\_p-\/>SourceNumber),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00047}00047     m\_isBurnupDivision(m\_p-\/>TimeOfRun > 0),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00048}00048     m\_lPrimaryCoolant(nullptr),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00049}00049     m\_lServiceModule(nullptr),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00050}00050     m\_distance\_centerHX\_centerCore(0.),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00051}00051     m\_zPosition\_beamWindow(0.),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00052}00052     m\_zPosition\_topReactor(0.),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00053}00053     m\_innerRadius\_primaryVessel(0.),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00054}00054     m\_halfHeight\_primaryCoolantCylinder(0.)}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00055}00055 \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00056}00056     Construct();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00057}00057 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00059}00059 GeomSVBR100::\string~GeomSVBR100()}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00060}00060 \{\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00062}00062 G4VPhysicalVolume* GeomSVBR100::Construct() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00063}00063     createMaterial();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00064}00064     \mbox{\hyperlink{class_geom_s_v_b_r100_ad2b6a0d3f7a4fc96fb4d66130163dc5d}{createGeometry}}();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00065}00065     \textcolor{keywordflow}{return}(m\_masterVolume);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00066}00066 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00068}00068 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00069}00069 \textcolor{comment}{// Builder}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00071}00071 \textcolor{keywordtype}{void} \mbox{\hyperlink{class_geom_s_v_b_r100_ad2b6a0d3f7a4fc96fb4d66130163dc5d}{GeomSVBR100::createGeometry}}() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00072}00072     \textcolor{comment}{// Cleanup old geometry}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00073}00073     G4GeometryManager::GetInstance()-\/>OpenGeometry();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00074}00074     G4PhysicalVolumeStore::GetInstance()-\/>Clean();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00075}00075     G4LogicalVolumeStore::GetInstance()-\/>Clean();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00076}00076     G4SolidStore::GetInstance()-\/>Clean();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00079}00079     \textcolor{comment}{// Placement Panel}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00080}00080     \textcolor{keywordtype}{bool} isVesselPlaced        = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00081}00081     \textcolor{keywordtype}{bool} isTargetPlaced        = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00082}00082     \textcolor{keywordtype}{bool} isCorePlaced          = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00083}00083     \textcolor{keywordtype}{bool} isHeatExchangerPlaced = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00085}00085     \textcolor{keywordflow}{if} (m\_nbTarget >= 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00086}00086         isTargetPlaced = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00087}00087     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00088}00088     \textcolor{keywordflow}{if} (m\_p-\/>int\_Option == 0) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00089}00089         isVesselPlaced        = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00090}00090         isCorePlaced          = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00091}00091         isHeatExchangerPlaced = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00092}00092     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00093}00093     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (m\_p-\/>int\_Option == 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00094}00094         isTargetPlaced = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00095}00095     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00096}00096     \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00097}00097         isVesselPlaced        = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00098}00098         isCorePlaced          = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00099}00099         isHeatExchangerPlaced = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00100}00100     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00102}00102     \textcolor{keyword}{const} G4double offsetAngle\_Target = twopi/12.; \textcolor{comment}{// Place targets in the heat exchangers location}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00104}00104 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00106}00106     \textcolor{keywordflow}{if} (m\_p-\/>Verbose >= 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00107}00107         G4cout << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ Begin SVBR100 Geometry -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00108}00108         m\_overlap = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00109}00109     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00112}00112     \textcolor{comment}{// World Volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00113}00113     G4Box* sUniverse = \textcolor{keyword}{new} G4Box(\textcolor{stringliteral}{"{}sUniverse"{}}, 2.5 * m, 2.5 * m, 3.7 * m);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00114}00114     m\_lUniverse = \textcolor{keyword}{new} G4LogicalVolume( sUniverse, matUniverse, \textcolor{stringliteral}{"{}lUniverse"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00115}00115 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00116}00116     m\_masterVolume =}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00117}00117     \textcolor{keyword}{new} G4PVPlacement( 0,  \textcolor{comment}{// no rotation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00118}00118         G4ThreeVector(),   \textcolor{comment}{// at (0,0,0)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00119}00119         m\_lUniverse,         \textcolor{comment}{// its logical volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00120}00120         \textcolor{stringliteral}{"{}Universe"{}},        \textcolor{comment}{// its name}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00121}00121         0,                 \textcolor{comment}{// its mother volume}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00122}00122         \textcolor{keyword}{false},             \textcolor{comment}{// no boolean operation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00123}00123         0,                 \textcolor{comment}{// copy number}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00124}00124         m\_overlap}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00125}00125     );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00126}00126 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00128}00128     \textcolor{comment}{// Reactor Vessels}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00129}00129     m\_distance\_centerHX\_centerCore = 1780.*mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00130}00130     \textcolor{keywordflow}{if} (isVesselPlaced) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00131}00131         buildVessel();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00132}00132     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00135}00135     \textcolor{comment}{// Core}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00136}00136     \textcolor{keyword}{const} G4double distance\_centerCore\_topVessel = 5.1 * m; }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00137}00137     \textcolor{keyword}{const} G4double zOffset\_fuelPin = (-\/900. + 8. + 40. + 1550./2. + 150/2. -\/ 65/2.) * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00138}00138     \textcolor{keyword}{const} G4double zPosition\_coreCenter = m\_zPosition\_topReactor -\/ distance\_centerCore\_topVessel -\/ zOffset\_fuelPin;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00139}00139     G4cout << \textcolor{stringliteral}{"{}zPosition\_coreCenter : "{}} << zPosition\_coreCenter/mm << \textcolor{stringliteral}{"{} mm"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00140}00140     \textcolor{keywordflow}{if} (isCorePlaced) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00141}00141         buildCore(}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00142}00142             !m\_lPrimaryCoolant ? m\_lUniverse : m\_lPrimaryCoolant,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00143}00143             Pb\_Bi,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00144}00144             !m\_lPrimaryCoolant ? G4ThreeVector() : G4ThreeVector(0., 0., zPosition\_coreCenter),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00145}00145             offsetAngle\_Target}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00146}00146         );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00147}00147     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00148}00148 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00150}00150     \textcolor{comment}{// Target}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00151}00151     \textcolor{keyword}{const} G4double distance\_beamWindow\_coreCenter = 14.1 * cm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00152}00152     m\_zPosition\_beamWindow = zPosition\_coreCenter + distance\_beamWindow\_coreCenter + zOffset\_fuelPin;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00153}00153     \textcolor{comment}{//G4cout << "{}Position of the beam window: "{} << m\_zPosition\_beamWindow << G4endl;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00154}00154     \textcolor{keyword}{const} G4double extraLength\_lower = 1200. * mm; \textcolor{comment}{// distance\_centerCore\_topVessel + 625.*mm -\/ distance\_beamWindow\_coreCenter -\/ 3050.*mm;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00155}00155     \textcolor{keyword}{const} G4double extraLength\_upper = distance\_centerCore\_topVessel + 625.*mm -\/ distance\_beamWindow\_coreCenter -\/ 3050.*mm -\/ extraLength\_lower*0; \textcolor{comment}{// 0.*mm;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00156}00156 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00157}00157     \textcolor{keywordflow}{if} (isTargetPlaced) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00158}00158         \textcolor{keywordflow}{if} (!m\_isMultipleExternalTarget) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00159}00159             buildTarget(}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00160}00160                 !m\_lPrimaryCoolant ? m\_lUniverse     : m\_lPrimaryCoolant,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00161}00161                 !m\_lPrimaryCoolant ? G4ThreeVector() : G4ThreeVector(0., 0., m\_zPosition\_beamWindow), \textcolor{comment}{// Target Center == Lower Cylinder}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00162}00162                 !m\_lPrimaryCoolant ? 0.              : extraLength\_lower,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00163}00163                 !m\_lPrimaryCoolant ? 0.              : extraLength\_upper}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00164}00164             );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00165}00165         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00166}00166         \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00167}00167             buildMultipleExternalTarget(}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00168}00168                 !m\_lPrimaryCoolant ? m\_lUniverse     : m\_lPrimaryCoolant,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00169}00169                 !m\_lPrimaryCoolant ? G4ThreeVector() : G4ThreeVector(0., 0., m\_zPosition\_topReactor -\/ m\_halfHeight\_primaryCoolantCylinder), \textcolor{comment}{// Target Center == Lower Cylinder}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00170}00170                 !m\_lPrimaryCoolant ? 0.              : extraLength\_lower * 0,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00171}00171                 !m\_lPrimaryCoolant ? 0.              : extraLength\_upper,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00172}00172                 offsetAngle\_Target}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00173}00173             );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00174}00174         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00175}00175     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00176}00176 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00178}00178     \textcolor{comment}{// Heat Exchangers}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00179}00179     \textcolor{comment}{//const G4double zPosition\_heatExchanger = m\_zPosition\_topReactor -\/ m\_halfHeight\_primaryCoolantCylinder;}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00180}00180     \textcolor{keywordflow}{if} (isHeatExchangerPlaced) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00181}00181         \textcolor{keywordflow}{if} (!m\_isMultipleExternalTarget) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00182}00182             buildHeatExchangers(}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00183}00183                 !m\_lPrimaryCoolant ? m\_lUniverse : m\_lServiceModule,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00184}00184                 Pb\_Bi,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00185}00185                 G4ThreeVector()}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00186}00186             );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00187}00187         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00188}00188         \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00190}00190         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00191}00191     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00192}00192 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00193}00193     \textcolor{keywordflow}{if} (m\_p-\/>Verbose >= 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00194}00194         G4cout << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ End SVBR100 Geometry -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00195}00195     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00196}00196 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00197}00197     \textcolor{keywordflow}{if} (m\_p-\/>Verbose >= 2) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00198}00198         G4cout << *(G4Material::GetMaterialTable()) << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00199}00199     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00200}00200 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00201}00201     \textcolor{keywordflow}{if} (m\_p-\/>boolVisualization) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00202}00202         VisualisationConfig();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00203}00203     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00204}00204 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00205}00205 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00206}00206 \textcolor{keywordtype}{void} GeomSVBR100::buildVessel() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00209}00209     \textcolor{keyword}{const} G4double thickness\_vessel = 50. * mm; \textcolor{comment}{// 5 cm Stainless Steel 316L}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00210}00210     \textcolor{keyword}{const} G4double thickness\_vesselGap = 10. * cm; \textcolor{comment}{// Gap between the inner and outer vessel, fill with Argon}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00211}00211     \textcolor{comment}{// Safety Vessel}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00212}00212     \textcolor{keyword}{const} G4double outerRadius\_safetyVessel = 4.53/2. * m; \textcolor{comment}{// 2.19 * m; -\/> 2.265 * m}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00213}00213     \textcolor{keyword}{const} G4double innerRadius\_safetyVessel = outerRadius\_safetyVessel -\/ thickness\_vessel;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00214}00214     \textcolor{comment}{// Primary Vessel}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00215}00215     \textcolor{keyword}{const} G4double outerRadius\_primaryVessel = innerRadius\_safetyVessel -\/ thickness\_vesselGap;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00216}00216     m\_innerRadius\_primaryVessel = outerRadius\_primaryVessel -\/ thickness\_vessel;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00217}00217     \textcolor{comment}{// Height}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00218}00218     \textcolor{keyword}{const} G4double totalHeight\_safetyVessel = 6.920 * m; \textcolor{comment}{// 10.290 * m; -\/> 6.920 * m}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00219}00219     \textcolor{keyword}{const} G4double totalHeight\_vesselGap = totalHeight\_safetyVessel -\/ thickness\_vessel/2.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00220}00220     \textcolor{keyword}{const} G4double totalHeight\_primaryVessel = totalHeight\_vesselGap -\/ thickness\_vesselGap/2.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00221}00221     \textcolor{keyword}{const} G4double totalHeight\_primaryCoolant = totalHeight\_primaryVessel -\/ thickness\_vessel/2.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00222}00222 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00223}00223     \textcolor{keywordflow}{if} (m\_p-\/>Verbose >= 2) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00224}00224         G4cout << \textcolor{stringliteral}{"{}Total Height Safety Vessel : "{}} << totalHeight\_safetyVessel << \textcolor{stringliteral}{"{} m"{}} << G4endl}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00225}00225                << \textcolor{stringliteral}{"{}Diameter Safety Vessel : "{}} << 2. * outerRadius\_safetyVessel << \textcolor{stringliteral}{"{} m"{}} << G4endl}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00226}00226                << \textcolor{stringliteral}{"{}Total Height Primary Vessel : "{}} << totalHeight\_primaryVessel << \textcolor{stringliteral}{"{} m"{}} << G4endl}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00227}00227                << \textcolor{stringliteral}{"{}Diameter Primary Vessel : "{}} << 2. * outerRadius\_primaryVessel << \textcolor{stringliteral}{"{} m"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00228}00228     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00229}00229 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00230}00230     \textcolor{comment}{// Vessel Top}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00231}00231     \textcolor{keyword}{const} G4double halfThickness\_topVessel = 200./2. * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00232}00232     \textcolor{keyword}{const} G4double outerRadius\_topVessel = outerRadius\_safetyVessel + 100. * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00233}00233 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00234}00234     \textcolor{comment}{// Ellipsoid factor}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00235}00235     \textcolor{keyword}{const} G4double ellipsoidFactor = 0.5;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00236}00236 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00237}00237     \textcolor{comment}{// Position center to the Universe}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00238}00238     \textcolor{keyword}{const} G4double zPosition\_reactor = outerRadius\_safetyVessel*ellipsoidFactor -\/ totalHeight\_safetyVessel/2.;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00239}00239     G4cout << \textcolor{stringliteral}{"{}Relative Position Reactor: "{}} << zPosition\_reactor/mm << \textcolor{stringliteral}{"{} mm"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00240}00240     \textcolor{keyword}{const} G4double zPosition\_vesselTop = totalHeight\_safetyVessel/2. + halfThickness\_topVessel;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00241}00241     m\_zPosition\_topReactor = totalHeight\_safetyVessel -\/ outerRadius\_safetyVessel * ellipsoidFactor;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00242}00242 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00243}00243     m\_halfHeight\_primaryCoolantCylinder = (totalHeight\_primaryCoolant -\/ ellipsoidFactor*m\_innerRadius\_primaryVessel) * 0.5;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00244}00244 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00245}00245 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00246}00246     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00247}00247 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00249}00249     \textcolor{comment}{// Vessel Top}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00250}00250     G4Tubs* sVesselTop = \textcolor{keyword}{new} G4Tubs(\textcolor{stringliteral}{"{}sVesselTop"{}}, 0., outerRadius\_topVessel, halfThickness\_topVessel, 0., twopi);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00251}00251     G4LogicalVolume* lVesselTop = \textcolor{keyword}{new} G4LogicalVolume(sVesselTop, SS316L, \textcolor{stringliteral}{"{}lVesselTop"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00252}00252     \textcolor{keyword}{new} G4PVPlacement(0, G4ThreeVector(0., 0., zPosition\_vesselTop), lVesselTop, \textcolor{stringliteral}{"{}pVesselTop"{}}, m\_lUniverse, \textcolor{keyword}{false}, 0, m\_overlap);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00253}00253 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00254}00254 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00256}00256     \textcolor{comment}{// Safety Vessel}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00257}00257     G4LogicalVolume* lSafetyVessel = \textcolor{keyword}{new} G4LogicalVolume(}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00258}00258         getContainerLogicalVolume(\textcolor{stringliteral}{"{}sSafetyVessel"{}}, totalHeight\_safetyVessel, outerRadius\_safetyVessel, ellipsoidFactor),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00259}00259         SS316L,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00260}00260         \textcolor{stringliteral}{"{}lSafetyVessel"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00261}00261     );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00262}00262     \textcolor{keyword}{new} G4PVPlacement(0, G4ThreeVector(0., 0., zPosition\_reactor), lSafetyVessel, \textcolor{stringliteral}{"{}pSafetyVessel"{}}, m\_lUniverse, \textcolor{keyword}{false}, 0, m\_overlap);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00263}00263 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00265}00265     \textcolor{comment}{// Reactor Gap between Safety and Primary Vessel}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00266}00266     G4LogicalVolume* lVesselGap = \textcolor{keyword}{new} G4LogicalVolume(}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00267}00267         getContainerLogicalVolume(\textcolor{stringliteral}{"{}sVesselGap"{}}, totalHeight\_vesselGap, innerRadius\_safetyVessel, ellipsoidFactor),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00268}00268         matUniverse,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00269}00269         \textcolor{stringliteral}{"{}lVesselGap"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00270}00270     );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00271}00271     \textcolor{keyword}{new} G4PVPlacement(0, G4ThreeVector(), lVesselGap, \textcolor{stringliteral}{"{}pVesselGap"{}}, lSafetyVessel, \textcolor{keyword}{false}, 0, m\_overlap);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00272}00272 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00274}00274     \textcolor{comment}{// Reactor Primary Vessel}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00275}00275     G4LogicalVolume* lPrimaryVessel = \textcolor{keyword}{new} G4LogicalVolume(}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00276}00276         getContainerLogicalVolume(\textcolor{stringliteral}{"{}sPrimaryVessel"{}}, totalHeight\_primaryVessel, outerRadius\_primaryVessel, ellipsoidFactor),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00277}00277         SS316L,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00278}00278         \textcolor{stringliteral}{"{}lPrimaryVessel"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00279}00279     );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00280}00280     \textcolor{keyword}{new} G4PVPlacement(0, G4ThreeVector(), lPrimaryVessel, \textcolor{stringliteral}{"{}pPrimaryVessel"{}}, lVesselGap, \textcolor{keyword}{false}, 0, m\_overlap);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00281}00281 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00283}00283     \textcolor{comment}{// Primary Coolant}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00284}00284     m\_lPrimaryCoolant = \textcolor{keyword}{new} G4LogicalVolume(}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00285}00285         getContainerLogicalVolume(\textcolor{stringliteral}{"{}sPrimaryCoolant"{}}, totalHeight\_primaryCoolant, m\_innerRadius\_primaryVessel, ellipsoidFactor),}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00286}00286         Pb\_Bi,}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00287}00287         \textcolor{stringliteral}{"{}lPrimaryCoolant"{}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00288}00288     );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00289}00289     \textcolor{keyword}{new} G4PVPlacement(0, G4ThreeVector(), m\_lPrimaryCoolant, \textcolor{stringliteral}{"{}pPrimaryCoolant"{}}, lPrimaryVessel, \textcolor{keyword}{false}, 0, m\_overlap);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00290}00290 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00292}00292     \textcolor{comment}{// Service Module}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00293}00293     \textcolor{keywordflow}{if} (!m\_isMultipleExternalTarget) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00294}00294         \textcolor{keyword}{const} G4double innerRadius\_serviceModule = 2. * m\_distance\_centerHX\_centerCore -\/ m\_innerRadius\_primaryVessel; \textcolor{comment}{// Neutron Shield}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00295}00295         G4Tubs* sServiceModule = \textcolor{keyword}{new} G4Tubs(\textcolor{stringliteral}{"{}sServiceModule"{}}, innerRadius\_serviceModule, m\_innerRadius\_primaryVessel, m\_halfHeight\_primaryCoolantCylinder, 0., twopi);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00296}00296         m\_lServiceModule = \textcolor{keyword}{new} G4LogicalVolume(sServiceModule, Pb\_Bi, \textcolor{stringliteral}{"{}m\_lServiceModule"{}});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00297}00297         \textcolor{keyword}{new} G4PVPlacement(0, G4ThreeVector(0., 0., m\_zPosition\_topReactor -\/ m\_halfHeight\_primaryCoolantCylinder), m\_lServiceModule, \textcolor{stringliteral}{"{}pServiceModule"{}}, m\_lPrimaryCoolant, \textcolor{keyword}{false}, 0, m\_overlap);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00298}00298     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00299}00299 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00300}00300 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00301}00301 \textcolor{keywordtype}{void} GeomSVBR100::buildTarget(G4LogicalVolume* motherVolume, G4ThreeVector translation, G4double extraLength\_lower, G4double extraLength\_upper) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00302}00302     \mbox{\hyperlink{class_t_m_x_target}{TMXTarget}}* target = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_target}{TMXTarget}}(\textcolor{stringliteral}{"{}Target"{}}, m\_p, motherVolume);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00303}00303     \textcolor{comment}{// target-\/>setEnvelopeMaterial(SS316L);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00304}00304     target-\/>\mbox{\hyperlink{class_t_m_x_target_a521808a80cf04ec20685369997217548}{createGeometry}}(extraLength\_lower, extraLength\_upper);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00305}00305     target-\/>placeGeometry(translation);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00306}00306 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00307}00307     m\_targetVector.push\_back(target);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00308}00308 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00309}00309 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00310}00310 \textcolor{keywordtype}{void} GeomSVBR100::buildMultipleExternalTarget(G4LogicalVolume* motherVolume, G4ThreeVector translation, G4double extraLength\_lower, G4double extraLength\_upper, G4double offsetAngle\_Target) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00311}00311     G4double x, y;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00312}00312     std::string ext;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00313}00313     G4Tubs* sTargetContainer = \textcolor{keyword}{new} G4Tubs(\textcolor{stringliteral}{"{}sTargetContainer"{}}, 0., 455./2. * mm, m\_halfHeight\_primaryCoolantCylinder, 0., twopi);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00314}00314     G4cout << \textcolor{stringliteral}{"{}Target Positons :"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00315}00315     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < m\_nbTarget; i++) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00316}00316         ext = \textcolor{stringliteral}{"{}\_"{}}+std::to\_string(i);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00317}00317         x = m\_distance\_centerHX\_centerCore * cos((\textcolor{keywordtype}{double})i/(\textcolor{keywordtype}{double})m\_nbTarget * twopi + offsetAngle\_Target);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00318}00318         y = m\_distance\_centerHX\_centerCore * sin((\textcolor{keywordtype}{double})i/(\textcolor{keywordtype}{double})m\_nbTarget * twopi + offsetAngle\_Target);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00319}00319 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00320}00320         G4cout << \textcolor{stringliteral}{"{}* Target "{}} << i << \textcolor{stringliteral}{"{} : (x: "{}} << x << \textcolor{stringliteral}{"{}, y: "{}} << y << \textcolor{stringliteral}{"{})"{}} << G4endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00321}00321 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00322}00322         G4LogicalVolume* lTargetContainer = \textcolor{keyword}{new} G4LogicalVolume(sTargetContainer, Pb\_Bi, \textcolor{stringliteral}{"{}lTargetContainer"{}}+ext);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00323}00323         \textcolor{keyword}{new} G4PVPlacement(0, G4ThreeVector(x, y, 0.) + translation, lTargetContainer, \textcolor{stringliteral}{"{}pTargetContainer"{}}+ext, motherVolume, \textcolor{keyword}{false}, 0, m\_overlap);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00324}00324 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00325}00325         \mbox{\hyperlink{class_t_m_x_target}{TMXTarget}}* target = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_target}{TMXTarget}}(\textcolor{stringliteral}{"{}target"{}}+ext, m\_p, lTargetContainer);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00326}00326         \textcolor{comment}{// target-\/>setEnvelopeMaterial(SS316L);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00327}00327         target-\/>\mbox{\hyperlink{class_t_m_x_target_a521808a80cf04ec20685369997217548}{createGeometry}}(extraLength\_lower, extraLength\_upper);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00328}00328         target-\/>placeGeometry(G4ThreeVector(0., 0., m\_zPosition\_beamWindow-\/m\_halfHeight\_primaryCoolantCylinder));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00329}00329 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00330}00330         m\_targetVector.push\_back(target);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00331}00331     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00332}00332 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00333}00333 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00334}00334 \textcolor{keywordtype}{void} GeomSVBR100::buildCore(G4LogicalVolume* motherVolume, \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* motherMaterial, G4ThreeVector translation, G4double offsetAngle\_Target) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00335}00335     m\_core = \textcolor{keyword}{new} \mbox{\hyperlink{class_s_v_b_r100___core}{SVBR100\_Core}}(m\_p, motherVolume, m\_isMultipleExternalTarget, m\_nbTarget, m\_distance\_centerHX\_centerCore, offsetAngle\_Target);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00336}00336     m\_core-\/>setPrimaryCoolantMaterial(motherMaterial);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00337}00337     m\_core-\/>setMetalicStructureMaterial(SS316L);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00338}00338     \textcolor{comment}{// m\_core-\/>setInnerRadiusActiveCore(m\_target-\/>getOuterRadiusUpperBeamEnvelope());}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00339}00339     \textcolor{keywordflow}{if} (m\_isBurnupDivision) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00340}00340         m\_core-\/>setBurnupDivision(\textcolor{keyword}{true}, 5); \textcolor{comment}{// (isRoundAssemblyDivision, nbAxialFuelPinDivision)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00341}00341     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00342}00342 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00343}00343     m\_core-\/>createGeometry();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00344}00344     m\_core-\/>placeGeometry(translation);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00345}00345 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00346}00346 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00347}00347 \textcolor{keywordtype}{void} GeomSVBR100::buildHeatExchangers(G4LogicalVolume* motherVolume, \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}* motherMaterial, G4ThreeVector translation) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00348}00348     \textcolor{comment}{/*///////////////////////////////}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00349}00349 \textcolor{comment}{    // Service Module}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00350}00350 \textcolor{comment}{    const G4double innerRadius\_serviceModule = m\_core-\/>getOuterRadiusNeutronShield();}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00351}00351 \textcolor{comment}{    G4VSolid* sServiceModule = new G4Tubs("{}sServiceModule"{}, innerRadius\_serviceModule, m\_innerRadius\_primaryVessel, m\_halfHeight\_primaryCoolantCylinder, 0., twopi);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00352}00352 \textcolor{comment}{    m\_lServiceModule = new G4LogicalVolume(sServiceModule, motherMaterial, "{}m\_lServiceModule"{});}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00353}00353 \textcolor{comment}{    new G4PVPlacement(0, translation, m\_lServiceModule, "{}pServiceModule"{}, motherVolume, false, 0, m\_overlap);*/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00354}00354 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00356}00356     \textcolor{comment}{// Heat Exchangers}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00357}00357     G4double halfLength\_insideReactor = 5150./2. * mm;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00358}00358     m\_heatEchanger = \textcolor{keyword}{new} \mbox{\hyperlink{class_s_v_b_r100___heat_exchanger}{SVBR100\_HeatExchanger}}(m\_p, motherVolume);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00359}00359     m\_heatEchanger-\/>setPrimaryCoolantMaterial(motherMaterial);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00360}00360     m\_heatEchanger-\/>setMetalicStructureMaterial(SS316L);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00361}00361     m\_heatEchanger-\/>createGeometry(halfLength\_insideReactor);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00362}00362 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00363}00363     G4double x, y, z = m\_halfHeight\_primaryCoolantCylinder -\/ halfLength\_insideReactor;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00364}00364     \textcolor{keyword}{const} \textcolor{keywordtype}{int} nSectors = 14;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00365}00365     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0; i<nSectors; i++) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00366}00366         \textcolor{keywordflow}{if} ((2*i) \% nSectors != 0) \{ \textcolor{comment}{// Remove two HX for the EM Pomps}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00367}00367             x = m\_distance\_centerHX\_centerCore * cos((\textcolor{keywordtype}{double})i/(\textcolor{keywordtype}{double})nSectors * twopi);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00368}00368             y = m\_distance\_centerHX\_centerCore * sin((\textcolor{keywordtype}{double})i/(\textcolor{keywordtype}{double})nSectors * twopi);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00369}00369             m\_heatEchanger-\/>placeGeometry(G4ThreeVector(x, y, z) + translation);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00370}00370         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00371}00371     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00372}00372 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00373}00373 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00374}00374 \textcolor{keywordtype}{void} GeomSVBR100::createMaterial() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00375}00375     \textcolor{keyword}{const} G4double temperature\_PrimaryCoolant = (0.5 * (485.+340.) + 273.15) * kelvin;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00376}00376 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00378}00378     \textcolor{comment}{// Universe Material}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00379}00379     matUniverse = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(\textcolor{stringliteral}{"{}Universe\_world\_Air"{}}, 0.0000001*g/cm3, 1, kStateGas, m\_p-\/>TemperatureWorld, 3.e-\/18*hep\_pascal);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00380}00380     matUniverse-\/>AddElement(10010,1);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00381}00381 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00383}00383     \textcolor{comment}{// Outside LBE (example Core)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00384}00384     \textcolor{comment}{/*matUniverse = new TMXMaterial(}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00385}00385 \textcolor{comment}{        "{}LeadCoolantOut"{}, 10.23*(g/cm3), 5, kStateSolid, temperature\_PrimaryCoolant}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00386}00386 \textcolor{comment}{    );}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00387}00387 \textcolor{comment}{    // Pb Nat -\/ 4 Stable Isotopes -\/ 44.5\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00388}00388 \textcolor{comment}{    matUniverse-\/>AddElement(822040, 0.445 * 0.014); // Pb204}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00389}00389 \textcolor{comment}{    matUniverse-\/>AddElement(822060, 0.445 * 0.241); // Pb206}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00390}00390 \textcolor{comment}{    matUniverse-\/>AddElement(822070, 0.445 * 0.221); // Pb207}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00391}00391 \textcolor{comment}{    matUniverse-\/>AddElement(822080, 0.445 * 0.524); // Pb208}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00392}00392 \textcolor{comment}{    // Bi Nat -\/ + Stable Isotope -\/ 55.5\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00393}00393 \textcolor{comment}{    matUniverse-\/>AddElement(832090, 0.555); // Bi209}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00394}00394 \textcolor{comment}{    */}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00395}00395 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00397}00397     \textcolor{comment}{// Stainless Steel 316L}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00398}00398     SS316L = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(\textcolor{stringliteral}{"{}SS316L"{}}, 7.87*(g/cm3), 29, kStateSolid, temperature\_PrimaryCoolant);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00399}00399     \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00400}00400         \textcolor{comment}{// Fe Nat -\/ 4 Stable Isotopes -\/ 64.15\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00401}00401         SS316L-\/>AddElement(260540, 0.6415 * 0.05845); \textcolor{comment}{// Fe54}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00402}00402         SS316L-\/>AddElement(260560, 0.6415 * 0.91754); \textcolor{comment}{// Fe56}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00403}00403         SS316L-\/>AddElement(260570, 0.6415 * 0.02119); \textcolor{comment}{// Fe57}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00404}00404         SS316L-\/>AddElement(260580, 0.6415 * 0.00282); \textcolor{comment}{// Fe58}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00405}00405         \textcolor{comment}{// Cr Nat -\/ 4 Stable Isotopes -\/ 17\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00406}00406         SS316L-\/>AddElement(240500, 0.17 * 0.04345); \textcolor{comment}{// Cr50}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00407}00407         SS316L-\/>AddElement(240520, 0.17 * 0.83789); \textcolor{comment}{// Cr52}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00408}00408         SS316L-\/>AddElement(240530, 0.17 * 0.09501); \textcolor{comment}{// Cr53}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00409}00409         SS316L-\/>AddElement(240540, 0.17 * 0.02365); \textcolor{comment}{// Cr54}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00410}00410         \textcolor{comment}{// Ni Nat -\/ 5 Stable Isotopes -\/ 12.5\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00411}00411         SS316L-\/>AddElement(280580, 0.125 * 0.68077); \textcolor{comment}{// Ni58}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00412}00412         SS316L-\/>AddElement(280600, 0.125 * 0.26223); \textcolor{comment}{// Ni60}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00413}00413         SS316L-\/>AddElement(280610, 0.125 * 0.01140); \textcolor{comment}{// Ni61}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00414}00414         SS316L-\/>AddElement(280620, 0.125 * 0.03635); \textcolor{comment}{// Ni62}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00415}00415         SS316L-\/>AddElement(280640, 0.125 * 0.00926); \textcolor{comment}{// Ni64}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00416}00416         \textcolor{comment}{// Mo Nat -\/ 7 Stable Isotopes -\/ 2.75\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00417}00417         SS316L-\/>AddElement(420920, 0.0275 * 0.1465); \textcolor{comment}{// Mo92}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00418}00418         SS316L-\/>AddElement(420940, 0.0275 * 0.0919); \textcolor{comment}{// Mo94}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00419}00419         SS316L-\/>AddElement(420950, 0.0275 * 0.1587); \textcolor{comment}{// Mo95}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00420}00420         SS316L-\/>AddElement(420960, 0.0275 * 0.1667); \textcolor{comment}{// Mo96}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00421}00421         SS316L-\/>AddElement(420970, 0.0275 * 0.0958); \textcolor{comment}{// Mo97}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00422}00422         SS316L-\/>AddElement(420980, 0.0275 * 0.2429); \textcolor{comment}{// Mo98}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00423}00423         SS316L-\/>AddElement(421000, 0.0275 * 0.0974); \textcolor{comment}{// Mo100}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00424}00424         \textcolor{comment}{// Mn Nat -\/ 1 Stable Isotopes -\/ 2\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00425}00425         SS316L-\/>AddElement(250550, 0.02 * 1.); \textcolor{comment}{// Mn55}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00426}00426         \textcolor{comment}{// Si Nat -\/ 3 Stable Isotopes -\/ 1\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00427}00427         SS316L-\/>AddElement(140280, 0.01 * 0.922); \textcolor{comment}{// Si28}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00428}00428         SS316L-\/>AddElement(140290, 0.01 * 0.047); \textcolor{comment}{// Si29}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00429}00429         SS316L-\/>AddElement(140300, 0.01 * 0.031); \textcolor{comment}{// Si30}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00430}00430         \textcolor{comment}{// Ti Nat -\/ 5 Stable Isotopes -\/ 0.6\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00431}00431         SS316L-\/>AddElement(220460, 0.006 * 0.0825); \textcolor{comment}{// Ti46}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00432}00432         SS316L-\/>AddElement(220470, 0.006 * 0.0744); \textcolor{comment}{// Ti47}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00433}00433         SS316L-\/>AddElement(220480, 0.006 * 0.7372); \textcolor{comment}{// Ti48}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00434}00434         SS316L-\/>AddElement(220490, 0.006 * 0.0541); \textcolor{comment}{// Ti49}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00435}00435         SS316L-\/>AddElement(220500, 0.006 * 0.0518); \textcolor{comment}{// Ti50}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00436}00436     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00437}00437 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00438}00438     Pb\_Bi = \textcolor{keyword}{new} \mbox{\hyperlink{class_t_m_x_material}{TMXMaterial}}(}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00439}00439         \textcolor{stringliteral}{"{}Pb\_Bi\_lead"{}}, 10.23*(g/cm3), 5, kStateSolid, temperature\_PrimaryCoolant}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00440}00440     );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00441}00441     \textcolor{comment}{// Pb Nat -\/ 4 Stable Isotopes -\/ 44.5\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00442}00442     Pb\_Bi-\/>AddElement(822040, 0.445 * 0.014); \textcolor{comment}{// Pb204}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00443}00443     Pb\_Bi-\/>AddElement(822060, 0.445 * 0.241); \textcolor{comment}{// Pb206}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00444}00444     Pb\_Bi-\/>AddElement(822070, 0.445 * 0.221); \textcolor{comment}{// Pb207}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00445}00445     Pb\_Bi-\/>AddElement(822080, 0.445 * 0.524); \textcolor{comment}{// Pb208}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00446}00446     \textcolor{comment}{// Bi Nat -\/ + Stable Isotope -\/ 55.5\%}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00447}00447     Pb\_Bi-\/>AddElement(832090, 0.555); \textcolor{comment}{// Bi209}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00448}00448 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00449}00449 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00450}00450 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00451}00451 \textcolor{comment}{// Getter}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00452}00452 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00453}00453 G4VPhysicalVolume* GeomSVBR100::getWorldVolume() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00454}00454     \textcolor{keywordflow}{return} m\_masterVolume;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00455}00455 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00456}00456 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00457}00457 G4VSolid* GeomSVBR100::getContainerLogicalVolume(std::string name, G4double fullHeight, G4double radius, \textcolor{keywordtype}{double} ellipsoidFactor) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00458}00458     G4double halfHeight\_cylinder = (fullHeight -\/ radius * ellipsoidFactor) * 0.5;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00459}00459 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00460}00460     G4VSolid* sContainer\_cylinder = \textcolor{keyword}{new} G4Tubs(name+\textcolor{stringliteral}{"{}\_cylinder"{}}, 0., radius, halfHeight\_cylinder, 0., twopi);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00461}00461     G4Ellipsoid* sContainer\_ellipsoid = \textcolor{keyword}{new} G4Ellipsoid(name+\textcolor{stringliteral}{"{}\_ellipsoid"{}}, radius, radius, radius * ellipsoidFactor, -\/radius, 0.);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00462}00462     G4VSolid* sContainer = \textcolor{keyword}{new} G4UnionSolid(name, sContainer\_ellipsoid, sContainer\_cylinder, 0, G4ThreeVector(0., 0., halfHeight\_cylinder));}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00463}00463     \textcolor{keywordflow}{return}(sContainer);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00464}00464 \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00465}00465 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00466}00466 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00467}00467 \textcolor{comment}{// Visualisation}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00468}00468 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00469}00469 \textcolor{keywordtype}{void} GeomSVBR100::VisualisationConfig() \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00470}00470     \textcolor{keywordflow}{if}(m\_p-\/>Verbose >= 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00471}00471         std::cout << \textcolor{stringliteral}{"{}\(\backslash\)nConfiguration of the visualisation"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00472}00472     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00473}00473 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00475}00475     \textcolor{comment}{// visualisation colors configured by DL}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00477}00477 \textcolor{comment}{}    G4Colour black   ( .0   , .0    , .0         ); \textcolor{comment}{// black}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00478}00478     G4Colour lblack  ( .0   , .0    , .0    , 0.6); \textcolor{comment}{// light black}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00479}00479     G4Colour vlblack ( .0   , .0    , .0    , 0.2); \textcolor{comment}{// very light black}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00480}00480     G4Colour white   (1.0   , 1.0    , 1.0  , 0.3); \textcolor{comment}{// white}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00481}00481     G4Colour grayD3l (211   , 211    , 211       ); \textcolor{comment}{// gray D3 (light)}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00482}00482     G4Colour grayC   (0.5   , 0.5    , 0.5       ); \textcolor{comment}{// gray}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00483}00483     G4Colour flgrayC (0.5   , 0.5    , 0.5  , 0.8); \textcolor{comment}{// few light gray}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00484}00484     G4Colour lgrayC  (0.5   , 0.5    , 0.5  , 0.4); \textcolor{comment}{// light gray}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00485}00485     G4Colour vlgrayC (0.5   , 0.5    , 0.5  , 0.2); \textcolor{comment}{// very ligth gray}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00486}00486     G4Colour red     (1.0   , 0.0    , 0.0       ); \textcolor{comment}{// red}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00487}00487     G4Colour violet  (1.0   , 0.0    , 1.0       ); \textcolor{comment}{// violet}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00488}00488     G4Colour orange  (1.0   , 0.65   , 0.0       ); \textcolor{comment}{// orange}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00489}00489     G4Colour green   (0.0   , 1.0    , 0.0       ); \textcolor{comment}{// green}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00490}00490     G4Colour lgreen  (0.0   , 1.0    , 0.0  , 0.4); \textcolor{comment}{// light green}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00491}00491     G4Colour blue    (0.0   , 0.0    , 1.0       ); \textcolor{comment}{// blue}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00492}00492     G4Colour yellow  (1.0   , 1.0    , 0.0       ); \textcolor{comment}{// yellow}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00493}00493     G4Colour lyellow (1.0   , 1.0    , 0.0  , 0.2); \textcolor{comment}{// light yellow}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00494}00494     G4Colour cyan    (0.0   , 1.0    , 1.0  , 0.2); \textcolor{comment}{// cya}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00495}00495     G4Colour sky     (0.0   , 191./255., 1., 0.2); \textcolor{comment}{// sky}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00496}00496     G4Colour dgreen  (0.0   , 153./255., 153./255., 0.2); \textcolor{comment}{// dark green}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00497}00497     G4Colour cyangr  (0.0   , 204./255., 204./255.); \textcolor{comment}{// cyan+green colour for different colour of h20}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00498}00498     G4Colour lblue   (0.0   , 0.0    , 1.0  , 0.4); \textcolor{comment}{// light blue}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00499}00499     G4Colour grayblu (0.4   , 0.6    , 0.8  , 0.6); \textcolor{comment}{// light gray blue}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00500}00500     G4Colour wcolour (0.3   , 0.3    , 0.3       );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00501}00501     G4Colour Ccolour (0.    , 0.3    , 0.7       );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00502}00502     G4Colour copper  (184./255., 115./255., 51./255.);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00503}00503 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00504}00504     G4Colour charcola(38./255.,  70./255.,  83./255. );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00505}00505     G4Colour pgreen  (42./255.,  157./255., 143./255.);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00506}00506     G4Colour crayola (233./255., 196./255., 106./255.);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00507}00507     G4Colour sbrown  (244./255., 162./255., 97./255. );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00508}00508     G4Colour sienna  (231./255., 111./255., 81./255. );}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00509}00509 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00511}00511     G4bool isVisible = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00512}00512     G4LogicalVolumeStore* logicalVolumeStore = G4LogicalVolumeStore::GetInstance();}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00513}00513 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00514}00514     \textcolor{comment}{// Universe}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00515}00515     G4VisAttributes* visWorld = \textcolor{keyword}{new} G4VisAttributes(white);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00516}00516     visWorld-\/>SetVisibility(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00517}00517     \textcolor{keywordflow}{if}(m\_lUniverse) \{m\_lUniverse-\/>SetVisAttributes(visWorld);\}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00518}00518 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00519}00519     \textcolor{comment}{// Stainless Steel Components}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00520}00520     G4VisAttributes* visSS316L = \textcolor{keyword}{new} G4VisAttributes(orange);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00521}00521     visSS316L-\/>SetVisibility(isVisible);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00522}00522 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00523}00523     \textcolor{comment}{// Primary Coolant}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00524}00524     G4VisAttributes* visPrimaryCoolant = \textcolor{keyword}{new} G4VisAttributes(white);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00525}00525     visPrimaryCoolant-\/>SetVisibility(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00526}00526 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00527}00527     \textcolor{comment}{// Cladding}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00528}00528     G4VisAttributes* visCladding = \textcolor{keyword}{new} G4VisAttributes(green);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00529}00529     visCladding-\/>SetVisibility(isVisible);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00530}00530 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00531}00531     \textcolor{comment}{// Fuel}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00532}00532     G4VisAttributes* visFuelMat = \textcolor{keyword}{new} G4VisAttributes(violet);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00533}00533     visFuelMat-\/>SetVisibility(isVisible);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00534}00534 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00535}00535     \textcolor{comment}{// Reflector}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00536}00536     G4VisAttributes* visReflectorMat = \textcolor{keyword}{new} G4VisAttributes(lgrayC);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00537}00537     visReflectorMat-\/>SetVisibility(isVisible);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00538}00538 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00539}00539     \textcolor{comment}{// Target}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00540}00540     G4VisAttributes* visTarget = \textcolor{keyword}{new} G4VisAttributes(red);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00541}00541     visTarget-\/>SetVisibility(isVisible);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00542}00542 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00543}00543     \textcolor{comment}{// Copper}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00544}00544     G4VisAttributes* visCopper = \textcolor{keyword}{new} G4VisAttributes(copper);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00545}00545     visCopper-\/>SetVisibility(isVisible);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00546}00546 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00547}00547     \textcolor{comment}{// Absorbant}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00548}00548     G4VisAttributes* visAbsorbant = \textcolor{keyword}{new} G4VisAttributes(green);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00549}00549     visAbsorbant-\/>SetVisibility(isVisible);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00550}00550 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00551}00551     G4VisAttributes* visAbsorbantCR = \textcolor{keyword}{new} G4VisAttributes(pgreen);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00552}00552     visAbsorbantCR-\/>SetVisibility(isVisible);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00553}00553     G4VisAttributes* visAbsorbantCC = \textcolor{keyword}{new} G4VisAttributes(charcola);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00554}00554     visAbsorbantCC-\/>SetVisibility(isVisible);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00555}00555     G4VisAttributes* visAbsorbantAC = \textcolor{keyword}{new} G4VisAttributes(crayola);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00556}00556     visAbsorbantAC-\/>SetVisibility(isVisible);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00557}00557     G4VisAttributes* visAbsorbantEP = \textcolor{keyword}{new} G4VisAttributes(sienna);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00558}00558     visAbsorbantEP-\/>SetVisibility(isVisible);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00559}00559     G4VisAttributes* visAbsorbantAP = \textcolor{keyword}{new} G4VisAttributes(sbrown);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00560}00560     visAbsorbantAP-\/>SetVisibility(isVisible);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00561}00561 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00562}00562     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} lVol=logicalVolumeStore-\/>begin(); lVol!=logicalVolumeStore-\/>end(); lVol++) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00563}00563         \textcolor{keywordflow}{if} ((*lVol)-\/>GetMaterial()-\/>GetName().find(\textcolor{stringliteral}{"{}SS316L"{}}) != std::string::npos) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00564}00564             (*lVol)-\/>SetVisAttributes(visSS316L);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00565}00565         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00566}00566         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((*lVol)-\/>GetMaterial()-\/>GetName().find(\textcolor{stringliteral}{"{}EP823"{}}) != std::string::npos) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00567}00567             (*lVol)-\/>SetVisAttributes(visCladding);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00568}00568         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00569}00569         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((*lVol)-\/>GetMaterial()-\/>GetName().find(\textcolor{stringliteral}{"{}UPuO2"{}}) != std::string::npos}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00570}00570               || (*lVol)-\/>GetMaterial()-\/>GetName().find(\textcolor{stringliteral}{"{}UO2"{}})   != std::string::npos) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00571}00571             (*lVol)-\/>SetVisAttributes(visFuelMat);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00572}00572         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00573}00573         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((*lVol)-\/>GetMaterial()-\/>GetName() == \textcolor{stringliteral}{"{}UnatO2"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00574}00574             (*lVol)-\/>SetVisAttributes(visReflectorMat);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00575}00575         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00576}00576         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((*lVol)-\/>GetMaterial()-\/>GetName().find(\textcolor{stringliteral}{"{}SpallationMaterial"{}}) != std::string::npos) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00577}00577             (*lVol)-\/>SetVisAttributes(visTarget);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00578}00578         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00579}00579         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((*lVol)-\/>GetMaterial()-\/>GetName().find(\textcolor{stringliteral}{"{}Pb\_Bi"{}}) != std::string::npos) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00580}00580             (*lVol)-\/>SetVisAttributes(visPrimaryCoolant);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00581}00581         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00582}00582         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((*lVol)-\/>GetMaterial()-\/>GetName().find(\textcolor{stringliteral}{"{}Copper"{}}) != std::string::npos) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00583}00583             (*lVol)-\/>SetVisAttributes(visCopper);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00584}00584         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00585}00585         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((*lVol)-\/>GetMaterial()-\/>GetName() == \textcolor{stringliteral}{"{}B4C"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00586}00586             (*lVol)-\/>SetVisAttributes(visAbsorbant);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00587}00587         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00588}00588         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((*lVol)-\/>GetMaterial()-\/>GetName() == \textcolor{stringliteral}{"{}B4C\_SVBR100\_FuelAssembly\_CR"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00589}00589             (*lVol)-\/>SetVisAttributes(visAbsorbantCR);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00590}00590         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00591}00591         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((*lVol)-\/>GetMaterial()-\/>GetName() == \textcolor{stringliteral}{"{}B4C\_SVBR100\_FuelAssembly\_CC"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00592}00592             (*lVol)-\/>SetVisAttributes(visAbsorbantCC);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00593}00593         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00594}00594         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((*lVol)-\/>GetMaterial()-\/>GetName() == \textcolor{stringliteral}{"{}B4C\_SVBR100\_FuelAssembly\_AC"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00595}00595             (*lVol)-\/>SetVisAttributes(visAbsorbantAC);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00596}00596         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00597}00597         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((*lVol)-\/>GetMaterial()-\/>GetName() == \textcolor{stringliteral}{"{}B4C\_SVBR100\_FuelAssembly\_EP"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00598}00598             (*lVol)-\/>SetVisAttributes(visAbsorbantEP);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00599}00599         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00600}00600         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((*lVol)-\/>GetMaterial()-\/>GetName() == \textcolor{stringliteral}{"{}B4C\_SVBR100\_FuelAssembly\_AP"{}}) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00601}00601             (*lVol)-\/>SetVisAttributes(visAbsorbantAP);}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00602}00602         \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00603}00603     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00604}00604 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00605}00605 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00606}00606     \textcolor{comment}{// Beam Vessel}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00607}00607     \textcolor{comment}{/*G4VisAttributes* visBeamVessel = new G4VisAttributes(blue);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00608}00608 \textcolor{comment}{    visBeamVessel-\/>SetVisibility(isVisible);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00609}00609 \textcolor{comment}{    if(lBeamVessel) \{lBeamVessel-\/>SetVisAttributes(visBeamVessel);\}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00610}00610 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00611}00611 \textcolor{comment}{    // Beam Pipe}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00612}00612 \textcolor{comment}{    G4VisAttributes* visBeamPipe = new G4VisAttributes(orange);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00613}00613 \textcolor{comment}{    visBeamPipe-\/>SetVisibility(isVisible);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00614}00614 \textcolor{comment}{    if(lBeamPipe) \{lBeamPipe-\/>SetVisAttributes(visBeamPipe);\}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00615}00615 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00616}00616 \textcolor{comment}{    // Core}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00617}00617 \textcolor{comment}{    G4VisAttributes* visCore = new G4VisAttributes(violet);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00618}00618 \textcolor{comment}{    visCore-\/>SetVisibility(isVisible);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00619}00619 \textcolor{comment}{    if(lCore) \{lCore-\/>SetVisAttributes(visCore);\}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00620}00620 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00621}00621 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00622}00622 \textcolor{comment}{    // Fuel Assembly Color}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00623}00623 \textcolor{comment}{    G4VisAttributes* visFuelAssemblyMat = new G4VisAttributes(violet);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00624}00624 \textcolor{comment}{    visFuelAssemblyMat-\/>SetVisibility(isVisible);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00625}00625 \textcolor{comment}{    for (size\_t i=0; i<vectFuelAssembly\_LV.size(); i++) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00626}00626 \textcolor{comment}{        if(vectFuelAssembly\_LV[i]) \{vectFuelAssembly\_LV[i]-\/>SetVisAttributes(visFuelAssemblyMat);\}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00627}00627 \textcolor{comment}{    \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00628}00628 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00629}00629 \textcolor{comment}{    // Reflector Assembly Color}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00630}00630 \textcolor{comment}{    G4VisAttributes* visReflector = new G4VisAttributes(green);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00631}00631 \textcolor{comment}{    visReflector-\/>SetVisibility(isVisible);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00632}00632 \textcolor{comment}{    for (size\_t i=0; i<vectReflAssembly\_LV.size(); i++) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00633}00633 \textcolor{comment}{        if(vectReflAssembly\_LV[i]) \{vectReflAssembly\_LV[i]-\/>SetVisAttributes(visReflector);\}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00634}00634 \textcolor{comment}{    \}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00635}00635 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00636}00636 \textcolor{comment}{    // Secondary Coolant Pin Color}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00637}00637 \textcolor{comment}{    G4VisAttributes* visSecondaryCoolant = new G4VisAttributes(dgreen);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00638}00638 \textcolor{comment}{    visSecondaryCoolant-\/>SetVisibility(isVisible);}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00639}00639 \textcolor{comment}{    for (size\_t i=0; i<vectSecondaryCoolant\_LV.size(); i++) \{}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00640}00640 \textcolor{comment}{        if(vectSecondaryCoolant\_LV[i]) \{vectSecondaryCoolant\_LV[i]-\/>SetVisAttributes(visSecondaryCoolant);\}}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00641}00641 \textcolor{comment}{    \}*/}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00642}00642 }
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00643}00643     \textcolor{keywordflow}{if}(m\_p-\/>Verbose >= 1) \{}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00644}00644         std::cout << \textcolor{stringliteral}{"{}End of VisualisationConfig"{}} << std::endl;}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00645}00645     \}}
+\DoxyCodeLine{\Hypertarget{_benchmark-3_2src_2geometry_2_s_v_b_r100_2_geom_s_v_b_r100_8cc_source_l00646}00646 \}}
+
+\end{DoxyCode}

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnmk10_8_f_source" xml:lang="en-US">
+<title>xnmk10.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/convac9/xnmk10.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnmk10_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/01&#32;01/12/95&#32;&#32;17.52.29&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">subroutine&#32;</emphasis>xnmk10
+<anchor xml:id="_xnmk10_8_f_source_1l00004"/>00004 <emphasis role="preprocessor">#include&#32;&quot;xceafi.inc&quot;</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00005"/>00005 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xctb1c.inc&quot;</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00006"/>00006 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcmk09.inc&quot;</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00007"/>00007 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcmf01.inc&quot;</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00008"/>00008 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">character*75</emphasis>&#32;chline
+<anchor xml:id="_xnmk10_8_f_source_1l00009"/>00009 &#32;&#32;&#32;&#32;&#32;&#32;parameter(itapd=98,itaps=99)
+<anchor xml:id="_xnmk10_8_f_source_1l00010"/>00010 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00012"/>00012 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;---&#32;Order&#32;section&#32;9</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00014"/>00014 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;20&#32;j=1,npo9-1
+<anchor xml:id="_xnmk10_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;10&#32;l=j+1,npo9
+<anchor xml:id="_xnmk10_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipoint(ipo9(j),2).gt.ipoint(ipo9(l),2))&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;itmp=ipo9(j)
+<anchor xml:id="_xnmk10_8_f_source_1l00018"/>00018 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipo9(j)=ipo9(l)
+<anchor xml:id="_xnmk10_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipo9(l)=itmp
+<anchor xml:id="_xnmk10_8_f_source_1l00020"/>00020 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00021"/>00021 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00022"/>00022 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00023"/>00023 <emphasis role="comment">*&#32;---&#32;make&#32;the&#32;section&#32;10</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;nsec=nsec+1
+<anchor xml:id="_xnmk10_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(nsec.gt.maxsec)&#32;stop&#32;<emphasis role="stringliteral">&apos;Increase&#32;MAXSEC&apos;</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,1)=izamat
+<anchor xml:id="_xnmk10_8_f_source_1l00027"/>00027 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,2)=10000+mod(ipoint(ipo9(1),2),1000)
+<anchor xml:id="_xnmk10_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,3)=nrecw
+<anchor xml:id="_xnmk10_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,4)=1
+<anchor xml:id="_xnmk10_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,5)=0
+<anchor xml:id="_xnmk10_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;lis=mod(izamat,10)
+<anchor xml:id="_xnmk10_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;liso=lis
+<anchor xml:id="_xnmk10_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;ns=npo9
+<anchor xml:id="_xnmk10_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwhea(itapd,za,awr,lis,liso,ns,0,math,10,mth,nrecw)
+<anchor xml:id="_xnmk10_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;40&#32;&#32;j=1,npo9
+<anchor xml:id="_xnmk10_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nrecr=ipoint(ipo9(j),3)
+<anchor xml:id="_xnmk10_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr+2,fmt=10000)&#32;chline
+<anchor xml:id="_xnmk10_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(chline(73:75),10200)&#32;mthold
+<anchor xml:id="_xnmk10_8_f_source_1l00039"/>00039 <emphasis role="comment">*&#32;Replace&#32;breakup&#32;flag&#32;by&#32;LFS</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lisos=mthold/300
+<anchor xml:id="_xnmk10_8_f_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">write</emphasis>(chline(34:44),10100)&#32;lisos
+<anchor xml:id="_xnmk10_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chline(1:66),math,10,mth,nrecw)
+<anchor xml:id="_xnmk10_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;30&#32;jl=3,ipoint(ipo9(j),4)
+<anchor xml:id="_xnmk10_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">read</emphasis>(itapd,rec=nrecr+jl,fmt=10000)&#32;chline
+<anchor xml:id="_xnmk10_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">call&#32;</emphasis>xnwtxt(itapd,chline(1:66),math,10,mth,nrecw)
+<anchor xml:id="_xnmk10_8_f_source_1l00046"/>00046 &#32;&#32;&#32;30&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(nsec,4)=ipoint(nsec,4)+ipoint(ipo9(j),4)-1
+<anchor xml:id="_xnmk10_8_f_source_1l00048"/>00048 &#32;&#32;&#32;40&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;60&#32;&#32;j=1,npo9-1
+<anchor xml:id="_xnmk10_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;50&#32;&#32;l=j+1,npo9
+<anchor xml:id="_xnmk10_8_f_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipo9(j).lt.ipo9(l))&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;itmp=ipo9(j)
+<anchor xml:id="_xnmk10_8_f_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipo9(j)=ipo9(l)
+<anchor xml:id="_xnmk10_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipo9(l)=itmp
+<anchor xml:id="_xnmk10_8_f_source_1l00055"/>00055 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00056"/>00056 &#32;&#32;&#32;50&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00057"/>00057 &#32;&#32;&#32;60&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;70&#32;&#32;js=1,npo9
+<anchor xml:id="_xnmk10_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(ipo9(js).lt.nsec)&#32;<emphasis role="keywordflow">then</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(ipo9(js),1)=ipoint(nsec,1)
+<anchor xml:id="_xnmk10_8_f_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(ipo9(js),2)=ipoint(nsec,2)
+<anchor xml:id="_xnmk10_8_f_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(ipo9(js),3)=ipoint(nsec,3)
+<anchor xml:id="_xnmk10_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(ipo9(js),4)=ipoint(nsec,4)
+<anchor xml:id="_xnmk10_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ipoint(ipo9(js),5)=ipoint(nsec,5)
+<anchor xml:id="_xnmk10_8_f_source_1l00065"/>00065 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nsec=nsec-1
+<anchor xml:id="_xnmk10_8_f_source_1l00067"/>00067 &#32;&#32;&#32;70&#32;<emphasis role="keywordflow">continue</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00068"/>00068 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnmk10_8_f_source_1l00069"/>00069 10000&#32;<emphasis role="keyword">format</emphasis>(a75)
+<anchor xml:id="_xnmk10_8_f_source_1l00070"/>00070 10100&#32;<emphasis role="keyword">format</emphasis>(i11)
+<anchor xml:id="_xnmk10_8_f_source_1l00071"/>00071 10200&#32;<emphasis role="keyword">format</emphasis>(i3)
+<anchor xml:id="_xnmk10_8_f_source_1l00072"/>00072 10300&#32;<emphasis role="keyword">format</emphasis>(2e11.4,22x,2i11)
+<anchor xml:id="_xnmk10_8_f_source_1l00073"/>00073 10400&#32;<emphasis role="keyword">format</emphasis>(6i11)
+<anchor xml:id="_xnmk10_8_f_source_1l00074"/>00074 10500&#32;<emphasis role="keyword">format</emphasis>(6e11.4)
+<anchor xml:id="_xnmk10_8_f_source_1l00075"/>00075 10600&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;x-sec&apos;</emphasis><emphasis role="stringliteral">&apos;s&#32;&apos;</emphasis>,6g14.7,3i11)
+<anchor xml:id="_xnmk10_8_f_source_1l00076"/>00076 10700&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNMK03:&#32;building&#32;section&#32;3&#32;for&#32;&apos;</emphasis>,a,<emphasis role="stringliteral">&apos;&#32;reac&#32;&apos;</emphasis>,a)
+<anchor xml:id="_xnmk10_8_f_source_1l00077"/>00077 10800&#32;<emphasis role="keyword">format</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNMK03:&#32;&apos;</emphasis>,i5,<emphasis role="stringliteral">&apos;&#32;points&#32;added&apos;</emphasis>)
+<anchor xml:id="_xnmk10_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">end</emphasis>
+</programlisting></section>

@@ -1,0 +1,110 @@
+\hypertarget{xnplot_2xnplot_8_f_source}{}\doxysection{xnplot.\+F}
+\label{xnplot_2xnplot_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnplot/xnplot.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnplot/xnplot.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  1.00/00 14/02/95  18.15.01  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00003}00003       \textcolor{keyword}{PROGRAM} xnplot}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00004}00004 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00005}00005 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcutil.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00006}00006 \textcolor{preprocessor}{}      parameter(maxsto=1000000)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00007}00007       \textcolor{keyword}{COMMON} / xcstor / nbsize,ihgwmk,xstore(maxsto)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00008}00008 \textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00009}00009 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbas.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00010}00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00011}00011 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00012}00012 \textcolor{preprocessor}{}      parameter(ninrea=35)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00013}00013       dimension lreac(ninrea)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00014}00014       \textcolor{keyword}{DATA} lreac/ 1,  2,  3,  4,  5,  6, 48, 49, 50, 51, 52, 53, 54, 55,}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00015}00015      +           56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69,}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00016}00016      +           70, 71, 72, 73, 74, 75, 76 /}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00017}00017       \textcolor{keywordtype}{CHARACTER*2} CHELNA(100),CHNAML}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00018}00018       dimension hinfo(nadinf)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00019}00019       \textcolor{keyword}{DATA} chelna / \textcolor{stringliteral}{'H '},\textcolor{stringliteral}{'He'},\textcolor{stringliteral}{'Li'},\textcolor{stringliteral}{'Be'},\textcolor{stringliteral}{'B '},\textcolor{stringliteral}{'C '},\textcolor{stringliteral}{'N '},\textcolor{stringliteral}{'O '},\textcolor{stringliteral}{'F '},\textcolor{stringliteral}{'Ne'},}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00020}00020      +    \textcolor{stringliteral}{'Na'},\textcolor{stringliteral}{'Mg'},\textcolor{stringliteral}{'Al'},\textcolor{stringliteral}{'Si'},\textcolor{stringliteral}{'P '},\textcolor{stringliteral}{'S '},\textcolor{stringliteral}{'Cl'},\textcolor{stringliteral}{'Ar'},\textcolor{stringliteral}{'K '},\textcolor{stringliteral}{'Ca'},\textcolor{stringliteral}{'Sc'},\textcolor{stringliteral}{'Ti'},}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00021}00021      +    \textcolor{stringliteral}{'V '},\textcolor{stringliteral}{'Cr'},\textcolor{stringliteral}{'Mn'},\textcolor{stringliteral}{'Fe'},\textcolor{stringliteral}{'Co'},\textcolor{stringliteral}{'Ni'},\textcolor{stringliteral}{'Cu'},\textcolor{stringliteral}{'Zn'},\textcolor{stringliteral}{'Ga'},\textcolor{stringliteral}{'Ge'},\textcolor{stringliteral}{'As'},\textcolor{stringliteral}{'Se'},}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00022}00022      +    \textcolor{stringliteral}{'Br'},\textcolor{stringliteral}{'Kr'},\textcolor{stringliteral}{'Rb'},\textcolor{stringliteral}{'Sr'},\textcolor{stringliteral}{'Y '},\textcolor{stringliteral}{'Zr'},\textcolor{stringliteral}{'Nb'},\textcolor{stringliteral}{'Mo'},\textcolor{stringliteral}{'Tc'},\textcolor{stringliteral}{'Ru'},\textcolor{stringliteral}{'Rh'},\textcolor{stringliteral}{'Pd'},}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00023}00023      +    \textcolor{stringliteral}{'Ag'},\textcolor{stringliteral}{'Cd'},\textcolor{stringliteral}{'In'},\textcolor{stringliteral}{'Sn'},\textcolor{stringliteral}{'Sb'},\textcolor{stringliteral}{'Te'},\textcolor{stringliteral}{'I '},\textcolor{stringliteral}{'Xe'},\textcolor{stringliteral}{'Cs'},\textcolor{stringliteral}{'Ba'},\textcolor{stringliteral}{'La'},\textcolor{stringliteral}{'Ce'},}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00024}00024      +    \textcolor{stringliteral}{'Pr'},\textcolor{stringliteral}{'Nd'},\textcolor{stringliteral}{'Pm'},\textcolor{stringliteral}{'Sm'},\textcolor{stringliteral}{'Eu'},\textcolor{stringliteral}{'Gd'},\textcolor{stringliteral}{'Tb'},\textcolor{stringliteral}{'Dy'},\textcolor{stringliteral}{'Ho'},\textcolor{stringliteral}{'Er'},\textcolor{stringliteral}{'Tm'},\textcolor{stringliteral}{'Yb'},}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00025}00025      +    \textcolor{stringliteral}{'Lu'},\textcolor{stringliteral}{'Hf'},\textcolor{stringliteral}{'Ta'},\textcolor{stringliteral}{'W '},\textcolor{stringliteral}{'Re'},\textcolor{stringliteral}{'Os'},\textcolor{stringliteral}{'Ir'},\textcolor{stringliteral}{'Pt'},\textcolor{stringliteral}{'Au'},\textcolor{stringliteral}{'Hg'},\textcolor{stringliteral}{'Tl'},\textcolor{stringliteral}{'Pb'},}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00026}00026      +    \textcolor{stringliteral}{'Bi'},\textcolor{stringliteral}{'Po'},\textcolor{stringliteral}{'At'},\textcolor{stringliteral}{'Rn'},\textcolor{stringliteral}{'Fr'},\textcolor{stringliteral}{'Ra'},\textcolor{stringliteral}{'Ac'},\textcolor{stringliteral}{'Th'},\textcolor{stringliteral}{'Pa'},\textcolor{stringliteral}{'U '},\textcolor{stringliteral}{'Np'},\textcolor{stringliteral}{'Pu'},}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00027}00027      +    \textcolor{stringliteral}{'Am'},\textcolor{stringliteral}{'Cm'},\textcolor{stringliteral}{'Bk'},\textcolor{stringliteral}{'Cf'},\textcolor{stringliteral}{'Es'},\textcolor{stringliteral}{'Fm'}/}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00028}00028 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00029}00029       \textcolor{keywordtype}{CHARACTER*231} CHFILE,CHTITL}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00030}00030       parameter(npaw=10000000)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00031}00031       \textcolor{keyword}{COMMON} / pawc / hmem(npaw)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00032}00032       parameter(nkeys=ninrea+2)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00033}00033       \textcolor{keywordtype}{CHARACTER*8} CHKEYS(NKEYS)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00034}00034       dimension x(nkeys)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00035}00035       \textcolor{keyword}{DATA} chkeys/\textcolor{stringliteral}{'E       '},ninrea*\textcolor{stringliteral}{'        '},\textcolor{stringliteral}{'Other   '}/}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00036}00036 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00037}00037 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00038}00038       \textcolor{keyword}{CALL }hlimit(npaw)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00039}00039       \textcolor{keyword}{CALL }hropen(34,\textcolor{stringliteral}{'HBOOK'},\textcolor{stringliteral}{'xsec.hist'},\textcolor{stringliteral}{'N'},1024,istat)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00040}00040       \textcolor{keyword}{CALL }xninit(maxsto,\textcolor{stringliteral}{' '})}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00041}00041 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00042}00042       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Enter database file'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00043}00043       \textcolor{keyword}{READ}(5,\textcolor{stringliteral}{'(A)'}) chfile}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00044}00044       \textcolor{keyword}{CALL }xnfile(chfile)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00045}00045       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Enter temperature'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00046}00046       \textcolor{keyword}{READ}(5,*) itemp}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00047}00047       \textcolor{keyword}{CALL }xntemp(itemp)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00048}00048       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Enter material'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00049}00049       \textcolor{keyword}{READ}(5,*) izamat}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00050}00050       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Enter min max energy'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00051}00051       \textcolor{keyword}{READ}(5,*) emin, emax}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00052}00052       \textcolor{keyword}{CALL }xntabl(izamat,0,imate)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00053}00053       \textcolor{keywordflow}{IF}(imate.LE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00054}00054          stop \textcolor{stringliteral}{'Material not in database'}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00055}00055 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00056}00056       iz = izamat/1000}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00057}00057       ia = mod(izamat,1000)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00058}00058       \textcolor{keywordflow}{IF}(ia.NE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00059}00059          \textcolor{keyword}{WRITE}(chtitl,\textcolor{stringliteral}{'(I2,'}\textcolor{stringliteral}{'-\/'}\textcolor{stringliteral}{',A2,'}\textcolor{stringliteral}{'-\/'}\textcolor{stringliteral}{',I3)'}) iz,chelna(iz),ia}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00060}00060       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00061}00061          \textcolor{keyword}{WRITE}(chtitl,\textcolor{stringliteral}{'(I2,'}\textcolor{stringliteral}{'-\/'}\textcolor{stringliteral}{',A2,'}\textcolor{stringliteral}{'-\/Nat'}\textcolor{stringliteral}{')'}) iz,chelna(iz)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00062}00062 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00063}00063       \textcolor{keywordflow}{DO} 10 jk=1,6}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00064}00064          chkeys(jk+1)=chname(jk)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00065}00065          icomm=index(chkeys(jk+1),\textcolor{stringliteral}{','})}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00066}00066          \textcolor{keywordflow}{IF}(icomm.NE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00067}00067             chkeys(jk+1)(icomm:icomm)=\textcolor{stringliteral}{'\_'}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00068}00068 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00069}00069    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00070}00070       \textcolor{keyword}{CALL }hbookn(1,chtitl,nkeys,\textcolor{stringliteral}{'//HBOOK'},1000,chkeys)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00071}00071 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00072}00072 \textcolor{comment}{* -\/-\/-\/ Get start and length of total x-\/sec}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00073}00073       istart = imtabl(1+1,imate)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00074}00074       ilengt = imtabl(1+2,imate)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00075}00075       xmax=0.}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00076}00076       xmin=1e10}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00077}00077       \textcolor{keywordflow}{DO} 30 jen=1,ilengt}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00078}00078          x(1) = xstore(istart+2*jen-\/1)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00079}00079          \textcolor{keywordflow}{IF}(emin.GT.x(1).OR.x(1).GT.emax) \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00080}00080          x(2) = xstore(istart+2*jen)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00081}00081          xmax=max(xmax,x(2))}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00082}00082          \textcolor{keywordflow}{IF}(x(2).GT.0) xmin=min(xmin,x(2))}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00083}00083          xxtot=0}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00084}00084          \textcolor{keywordflow}{DO} 20 jr=2,ninrea}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00085}00085 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00086}00086 \textcolor{comment}{* -\/-\/-\/ Get start and length of section}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00087}00087             jreac = lreac(jr)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00088}00088             ist = imtabl(1+nreinf*(jreac-\/1)+1,imate)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00089}00089             ile = imtabl(1+nreinf*(jreac-\/1)+2,imate)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00090}00090             \textcolor{keyword}{CALL }xnbint(ist,ile,x(1),x(jr+1))}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00091}00091             xmax=max(xmax,x(jr+1))}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00092}00092             \textcolor{keywordflow}{IF}(x(jreac+1).GT.0) xmin=min(xmin,x(jr+1))}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00093}00093             xxtot=xxtot+x(jr+1)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00094}00094    20    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00095}00095          x(nkeys)=max(x(2)-\/xxtot,0.)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00096}00096          \textcolor{keyword}{CALL }hfn(1,x)}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00097}00097    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00098}00098 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00099}00099       \textcolor{keyword}{CALL }hrout(0,icycle,\textcolor{stringliteral}{' '})}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00100}00100       \textcolor{keyword}{CALL }hrend(\textcolor{stringliteral}{'HBOOK'})}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00101}00101       \textcolor{keyword}{WRITE}(1,*) xmin,xmax}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00102}00102 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00103}00103       \textcolor{keyword}{END}}
+\DoxyCodeLine{\Hypertarget{xnplot_2xnplot_8_f_source_l00104}00104 +patch,xnextr.}
+
+\end{DoxyCode}

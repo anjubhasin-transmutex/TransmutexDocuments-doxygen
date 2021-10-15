@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xntab1_8_f_source" xml:lang="en-US">
+<title>xntab1.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xntab1.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xntab1_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;05/06/96&#32;&#32;11.28.19&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;26/01/94</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xntab1
+<anchor xml:id="_xntab1_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Read&#32;ENDF-6&#32;TAB1&#32;record&#32;in&#32;ASCII&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00008"/>00008 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00009"/>00009 <emphasis role="preprocessor">#include&#32;&quot;xcdbas.inc&quot;</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00010"/>00010 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xctab1.inc&quot;</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00011"/>00011 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00013"/>00013 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;TAB1&#32;header</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(itapa,10300)&#32;c1,&#32;c2,&#32;l1,&#32;l2,&#32;n1,&#32;np,&#32;math,&#32;mfh,&#32;mth
+<anchor xml:id="_xntab1_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;interpolation&#32;laws</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00017"/>00017 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(itapa,10100)&#32;(nbt(n),int(n),n=1,n1)
+<anchor xml:id="_xntab1_8_f_source_1l00018"/>00018 <emphasis role="comment">*&#32;---&gt;&#32;See&#32;that&#32;we&#32;have&#32;enough&#32;space&#32;in&#32;memory</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(np.GT.maxpts/2)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)&#32;np,&#32;maxpts/2
+<anchor xml:id="_xntab1_8_f_source_1l00021"/>00021 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(1x,i6,<emphasis role="stringliteral">&apos;&#32;points&#32;in&#32;TAB1&#32;record,&#32;only&#32;&apos;</emphasis>,i6,<emphasis role="stringliteral">&apos;&#32;will&#32;be&#32;read&apos;</emphasis>)
+<anchor xml:id="_xntab1_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;np=maxpts/2
+<anchor xml:id="_xntab1_8_f_source_1l00023"/>00023 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00024"/>00024 <emphasis role="comment">*&#32;---&gt;&#32;Read&#32;data</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;j=0,(np-1)/3
+<anchor xml:id="_xntab1_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">READ</emphasis>(itapa,10200)&#32;(xnrval(6*j+l),l=1,6)
+<anchor xml:id="_xntab1_8_f_source_1l00027"/>00027 &#32;&#32;&#32;10&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00028"/>00028 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xntab1_8_f_source_1l00029"/>00029 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(6i11)
+<anchor xml:id="_xntab1_8_f_source_1l00030"/>00030 10200&#32;<emphasis role="keyword">FORMAT</emphasis>(6e11.0,i4,i2,i3)
+<anchor xml:id="_xntab1_8_f_source_1l00031"/>00031 10300&#32;<emphasis role="keyword">FORMAT</emphasis>(2e11.0,4i11,i4,i2,i3)
+<anchor xml:id="_xntab1_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

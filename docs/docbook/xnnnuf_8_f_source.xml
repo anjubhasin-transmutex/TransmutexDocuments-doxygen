@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnnnuf_8_f_source" xml:lang="en-US">
+<title>xnnnuf.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xnnnuf.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnnnuf_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;03/06/96&#32;&#32;18.59.20&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnnnuf(IZAMAT,ENE,XNUF)
+<anchor xml:id="_xnnnuf_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Returns&#32;average&#32;fission&#32;neutron&#32;multiplicity&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IZAMAT&#32;&#32;&#32;&#32;(input)&#32;isomer&#32;code&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;ENE&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;energy&#32;of&#32;incoming&#32;neutron&#32;in&#32;eV&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IZAMAT&#32;&#32;&#32;&#32;(output)&#32;average&#32;fission&#32;neutron&#32;multiplicity&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00012"/>00012 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00013"/>00013 <emphasis role="preprocessor">#include&#32;&quot;xcfisb.inc&quot;</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00014"/>00014 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">LOGICAL</emphasis>&#32;LFIRST
+<anchor xml:id="_xnnnuf_8_f_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">SAVE</emphasis>&#32;lfirst
+<anchor xml:id="_xnnnuf_8_f_source_1l00016"/>00016 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">DATA</emphasis>&#32;lfirst&#32;/&#32;.true.&#32;/
+<anchor xml:id="_xnnnuf_8_f_source_1l00017"/>00017 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00018"/>00018 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00019"/>00019 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00020"/>00020 <emphasis role="comment">*&#32;---&gt;&#32;Make&#32;sure&#32;we&#32;read&#32;data&#32;from&#32;disk&#32;only&#32;once</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00021"/>00021 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(lfirst)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00022"/>00022 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnnloa
+<anchor xml:id="_xnnnuf_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lfirst&#32;=&#32;.false.
+<anchor xml:id="_xnnnuf_8_f_source_1l00024"/>00024 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00025"/>00025 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;rid&#32;of&#32;temperature&#32;code</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xngtmp(izamat,izap,itpos)
+<anchor xml:id="_xnnnuf_8_f_source_1l00027"/>00027 <emphasis role="comment">*&#32;---&gt;&#32;Suppose&#32;we&#32;fail</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00028"/>00028 &#32;&#32;&#32;&#32;&#32;&#32;xnuf=0.
+<anchor xml:id="_xnnnuf_8_f_source_1l00029"/>00029 <emphasis role="comment">*&#32;---&gt;&#32;Find&#32;pointers&#32;in&#32;index&#32;table&#32;IZAPNT</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;izp&#32;=&#32;izap/10/1000-85
+<anchor xml:id="_xnnnuf_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;iap&#32;=&#32;mod(izap/10,1000)-2*izap/10/1000
+<anchor xml:id="_xnnnuf_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>((izp.LT.1.OR.izp.GT.maxizp).OR.&#32;(iap.LT.1.OR.iap.GT.maxiap))
+<anchor xml:id="_xnnnuf_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;+<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00034"/>00034 <emphasis role="comment">*&#32;---&gt;&#32;Out-of-Bounds&#32;pointers</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)&#32;izap/10/1000,mod(izap/10,1000),izp,iap
+<anchor xml:id="_xnnnuf_8_f_source_1l00036"/>00036 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;Out-of-bound&#32;neutron&#32;multiplicity!&#32;Z/A&#32;&apos;</emphasis>,i2.2,<emphasis role="stringliteral">&apos;/&apos;</emphasis>,i3.3,
+<anchor xml:id="_xnnnuf_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;<emphasis role="stringliteral">&apos;&#32;IZP/IAP&#32;&apos;</emphasis>,i4,<emphasis role="stringliteral">&apos;/&apos;</emphasis>,i4)
+<anchor xml:id="_xnnnuf_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnnnuf_8_f_source_1l00039"/>00039 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(izapnt(izp,iap,6).EQ.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00041"/>00041 <emphasis role="comment">*&#32;---&gt;&#32;No&#32;fission&#32;neutron&#32;multiplicity,&#32;print&#32;message&#32;and&#32;leave</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;No&#32;multiplicity&#32;information&#32;on&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;,I5)&apos;</emphasis>)&#32;izap
+<anchor xml:id="_xnnnuf_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnnnuf_8_f_source_1l00044"/>00044 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00045"/>00045 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;pointer&#32;to&#32;beginning&#32;of&#32;informatio</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;ip&#32;=&#32;izapnt(izp,iap,4)
+<anchor xml:id="_xnnnuf_8_f_source_1l00047"/>00047 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;kind&#32;of&#32;information&#32;stored</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;ln&#32;=&#32;izapnt(izp,iap,5)
+<anchor xml:id="_xnnnuf_8_f_source_1l00049"/>00049 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;number&#32;of&#32;data&#32;points</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;nd&#32;=&#32;izapnt(izp,iap,6)
+<anchor xml:id="_xnnnuf_8_f_source_1l00051"/>00051 <emphasis role="comment">*&#32;---&gt;&#32;Calculate&#32;average&#32;number&#32;of&#32;neutrons</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ln.EQ.1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00053"/>00053 <emphasis role="comment">*&#32;---&gt;&#32;Polynomial</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;10&#32;jnuf=ip+nd,ip+1,-1
+<anchor xml:id="_xnnnuf_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xnuf=ene*xnuf+xfisb(jnuf)
+<anchor xml:id="_xnnnuf_8_f_source_1l00056"/>00056 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSEIF</emphasis>(ln.EQ.2)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00058"/>00058 <emphasis role="comment">*&#32;---&gt;&#32;Tabulated&#32;function</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;np&#32;=&#32;nd/2
+<anchor xml:id="_xnnnuf_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ene.LE.xfisb(ip+1))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00061"/>00061 <emphasis role="comment">*&#32;---&gt;&#32;Energy&#32;less&#32;than&#32;minimum,&#32;take&#32;lower&#32;value</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xnuf=xfisb(ip+2)
+<anchor xml:id="_xnnnuf_8_f_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSEIF</emphasis>(ene.GE.xfisb(ip+2*np-1))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00064"/>00064 <emphasis role="comment">*&#32;---&gt;&#32;Energy&#32;larger&#32;than&#32;max,&#32;take&#32;upper&#32;value</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xnuf=xfisb(ip+2*np)
+<anchor xml:id="_xnnnuf_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00067"/>00067 <emphasis role="comment">*&#32;---&gt;&#32;Do&#32;binary&#32;search</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;k1=1
+<anchor xml:id="_xnnnuf_8_f_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;k2=np
+<anchor xml:id="_xnnnuf_8_f_source_1l00070"/>00070 &#32;&#32;&#32;20&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(k2-k1.GT.1)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;khalf=(k1+k2)/2
+<anchor xml:id="_xnnnuf_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vhalf=xfisb(ip+2*khalf-1)
+<anchor xml:id="_xnnnuf_8_f_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ene.LT.vhalf)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;k2=khalf
+<anchor xml:id="_xnnnuf_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;k1=khalf
+<anchor xml:id="_xnnnuf_8_f_source_1l00077"/>00077 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;20
+<anchor xml:id="_xnnnuf_8_f_source_1l00079"/>00079 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00080"/>00080 <emphasis role="comment">*&#32;---&gt;&#32;Interpolate&#32;linearly</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xrat=(xfisb(ip+2*k1+1)-ene)/&#32;(xfisb(ip+2*k1+1)-
+<anchor xml:id="_xnnnuf_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;+&#32;&#32;&#32;&#32;&#32;&#32;xfisb(ip+2*k1-1))
+<anchor xml:id="_xnnnuf_8_f_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xnuf=xfisb(ip+2*k1)*xrat+xfisb(ip+2*k1+2)*(1-xrat)
+<anchor xml:id="_xnnnuf_8_f_source_1l00084"/>00084 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00085"/>00085 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00086"/>00086 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnnnuf_8_f_source_1l00087"/>00087 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

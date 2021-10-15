@@ -1,0 +1,131 @@
+\hypertarget{xnmkdb_8_f_source}{}\doxysection{xnmkdb.\+F}
+\label{xnmkdb_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmkdb/xnmkdb.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmkdb/xnmkdb.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.03/07 25/09/96  19.14.50  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00003}00003       \textcolor{keyword}{program} xnmkdb}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00006}00006 \textcolor{comment}{*     This program scans all the available ENDF databases and          *}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00007}00007 \textcolor{comment}{*     extracts one copy of all isomers, either according to the        *}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00008}00008 \textcolor{comment}{*     'first come first served' principle or following a selection     *}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00009}00009 \textcolor{comment}{*     list input by the user. The official EET selection (JAR          *}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00010}00010 \textcolor{comment}{*     selection) is offerend as an option. The output is still an      *}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00011}00011 \textcolor{comment}{*     ENDF-\/6 format file will all the isomers ordered in ascending     *}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00012}00012 \textcolor{comment}{*     order.                                                           *}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00013}00013 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00014}00014 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00015}00015 \textcolor{preprocessor}{\#include "{}xcsind.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00016}00016 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcsele.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00017}00017 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdnam.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00018}00018 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcluni.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00019}00019 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcjars.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00020}00020 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcroot.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00021}00021 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00022}00022       \textcolor{keywordtype}{LOGICAL} LEXIST}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00023}00023       \textcolor{keywordtype}{CHARACTER*128} CHDBAS, CHDSEL, CHDLST, CHDDBS}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00024}00024       \textcolor{keywordtype}{CHARACTER*66} CHLINE}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00025}00025       \textcolor{keywordtype}{CHARACTER*30} CHFILE}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00026}00026 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00028}00028 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Open scratch file for temporary storage}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00030}00030       \textcolor{keyword}{OPEN}(itapd,file=\textcolor{stringliteral}{'xnmkdb.scratch'},status=\textcolor{stringliteral}{'UNKNOWN'},}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00031}00031      + access=\textcolor{stringliteral}{'DIRECT'},form=\textcolor{stringliteral}{'FORMATTED'},recl=75)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> Query output database name}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00033}00033       chdbas=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00034}00034       \textcolor{keyword}{WRITE}(itapo,10300)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00035}00035       \textcolor{keyword}{READ}(itapi,10400) chdbas}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00036}00036       last=lnblnk(chdbas)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00037}00037       chdsel=chdbas(:last)//\textcolor{stringliteral}{'.SEL'}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> See whether a selection file it is there}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00039}00039       nselec=0}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00040}00040       \textcolor{keyword}{INQUIRE}(file=chdsel,exist=lexist)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00041}00041       \textcolor{keywordflow}{IF}(lexist) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00042}00042 \textcolor{comment}{* -\/-\/-\/> Selection file exists, open and process it}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00043}00043          \textcolor{keyword}{OPEN}(itapa,file=chdsel,status=\textcolor{stringliteral}{'OLD'},action=\textcolor{stringliteral}{'READ'})}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00044}00044    10    nselec=nselec+1}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00045}00045          \textcolor{keyword}{READ}(itapa,*,\textcolor{keyword}{END}=30) IZASEL(NSELEC), CHFSEL(NSELEC)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00046}00046          \textcolor{keywordflow}{IF}(izasel(nselec).EQ.0.AND.}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00047}00047      +             chfsel(nselec).EQ.\textcolor{stringliteral}{'JAR SELECTION'}) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00048}00048 \textcolor{comment}{* -\/-\/-\/> JAR selection requested, load it in one go}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00049}00049             nselec=nselec-\/1}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00050}00050             \textcolor{keywordflow}{DO} 20 js=1,mxizdb}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00051}00051                nselec=nselec+1}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00052}00052                izasel(nselec)=izdbas(2*js-\/1)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00053}00053                chfsel(nselec)=chdnam(izdbas(2*js))}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00054}00054    20       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00055}00055 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00056}00056          \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00057}00057    30    \textcolor{keyword}{CLOSE}(itapa)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00058}00058          nselec=nselec-\/1}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00059}00059 \textcolor{keywordflow}{      endif}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> Now scan selection and keep the last occurence for each isomer}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00061}00061       ikeep=0}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00062}00062       \textcolor{keywordflow}{DO} 50 js=1,nselec}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00063}00063          \textcolor{keywordflow}{DO} 40 ks=js+1,nselec}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00064}00064             \textcolor{keywordflow}{IF}(izasel(js).EQ.izasel(ks)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00065}00065 \textcolor{comment}{* -\/-\/-\/> If this is not the last occurrence of isomer, do not keep it}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00066}00066                \textcolor{keywordflow}{GOTO} 50}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00067}00067 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00068}00068    40    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/> Add one isomer to good list}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00070}00070          ikeep=ikeep+1}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00071}00071          izasel(ikeep)=izasel(js)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00072}00072          chfsel(ikeep)=chfsel(js)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00073}00073    50 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00074}00074       nselec=ikeep}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00075}00075 \textcolor{comment}{* -\/-\/-\/> Open listing file}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00076}00076       chdlst=chdbas(:last)//\textcolor{stringliteral}{'\_xnmkdb.lst'}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00077}00077       \textcolor{keyword}{OPEN}(itapl,file=chdlst,status=\textcolor{stringliteral}{'UNKNOWN'})}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00078}00078 \textcolor{comment}{* -\/-\/-\/> Zero number of isomers in scratch file}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00079}00079       npoint=0}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00080}00080 \textcolor{comment}{* -\/-\/-\/> Zero last written record}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00081}00081       nrecw=0}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00082}00082 \textcolor{comment}{* -\/-\/-\/> Disactivate write flag}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00083}00083       ldump=.false.}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00084}00084 \textcolor{comment}{* -\/-\/-\/> Loop on official databases}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00085}00085       \textcolor{keywordflow}{DO} 60 jdnam=1,mxdnam}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00086}00086 \textcolor{comment}{* -\/-\/-\/> Open and scan file}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00087}00087          ld=lnblnk(chdnam(jdnam))}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00088}00088          chfile=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00089}00089          chfile=chroot//chdnam(jdnam)(:ld)//\textcolor{stringliteral}{'.dat'}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00090}00090          \textcolor{keyword}{OPEN}(itapa,file=chfile,status=\textcolor{stringliteral}{'OLD'},action=\textcolor{stringliteral}{'READ'})}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00091}00091 \textcolor{comment}{* -\/-\/-\/> Read off label}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00092}00092          \textcolor{keyword}{READ}(itapa,10400) chline}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00093}00093 \textcolor{comment}{* -\/-\/-\/> Echo label}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00094}00094          \textcolor{keyword}{WRITE}(itapo,10500) chfile(:index(chfile,\textcolor{stringliteral}{' '})-\/1), chline}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00095}00095          \textcolor{keyword}{WRITE}(itapl,10500) chfile(:index(chfile,\textcolor{stringliteral}{' '})-\/1), chline}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00096}00096 \textcolor{comment}{* -\/-\/-\/> Process database}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00097}00097          \textcolor{keyword}{CALL }xnscdb(chdnam(jdnam)(:ld))}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00098}00098 \textcolor{comment}{* -\/-\/-\/> Close database}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00099}00099          \textcolor{keyword}{CLOSE}(itapa)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00100}00100    60 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00101}00101 \textcolor{comment}{* -\/-\/-\/> Order isomers}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00102}00102       \textcolor{keyword}{WRITE}(itapo,10000) npoint}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00103}00103 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Ordering '},i5,\textcolor{stringliteral}{' elements .....'})}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00104}00104       \textcolor{keyword}{CALL }xnorde}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00105}00105 \textcolor{comment}{* -\/-\/-\/> Close list file}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00106}00106       \textcolor{keyword}{CLOSE}(itapl)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00107}00107 \textcolor{comment}{* -\/-\/-\/> Write output file}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00108}00108 \textcolor{comment}{* -\/-\/-\/> Opening database}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00109}00109       chddbs=chdbas(:last)//\textcolor{stringliteral}{'.dat'}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00110}00110       \textcolor{keyword}{OPEN}(itapa,file=chddbs,status=\textcolor{stringliteral}{'UNKNOWN'})}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00111}00111       \textcolor{keyword}{WRITE}(itapo,10100) chddbs(:index(chddbs,\textcolor{stringliteral}{' '})-\/1)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00112}00112 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Creating database '},a)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00113}00113       chline=\textcolor{stringliteral}{'Label'}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00114}00114       \textcolor{keyword}{WRITE}(itapa,10200) chline,0,0,0}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00115}00115       \textcolor{keyword}{CALL }xnwrdb}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00116}00116       \textcolor{keyword}{CLOSE}(itapd,status=\textcolor{stringliteral}{'DELETE'})}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00117}00117       chline=\textcolor{stringliteral}{' '}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00118}00118       \textcolor{keyword}{WRITE}(itapa,10200) chline,-\/1,0,0}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00119}00119       \textcolor{keyword}{CLOSE}(itapa)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00120}00120 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00121}00121 10200 \textcolor{keyword}{FORMAT}(a66,i4,i2,i3,i5)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00122}00122 10300 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Please enter name of the input file'})}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00123}00123 10400 \textcolor{keyword}{FORMAT}(a)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00124}00124 10500 \textcolor{keyword}{FORMAT}(/\textcolor{stringliteral}{' Opening file '},a,/\textcolor{stringliteral}{' Label '},a)}
+\DoxyCodeLine{\Hypertarget{xnmkdb_8_f_source_l00125}00125       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

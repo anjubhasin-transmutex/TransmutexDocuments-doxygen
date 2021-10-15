@@ -1,0 +1,70 @@
+\hypertarget{xncirm_8_f_source}{}\doxysection{xncirm.\+F}
+\label{xncirm_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/cirene/xncirm.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/cirene/xncirm.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  0.05/00 04/05/94  12.58.28  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xncirm(X,IMATE)}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00004}00004 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00005}00005 \textcolor{comment}{* -\/-\/-\/ Where am I for Cirene reactor}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00006}00006 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00007}00007 \textcolor{comment}{*       IMATE           -\/1 out of the reactor}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00008}00008 \textcolor{comment}{*                        1 in the steel}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00009}00009 \textcolor{comment}{*                        2 in the moderator}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00010}00010 \textcolor{comment}{*                       3x in the outer bars}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00011}00011 \textcolor{comment}{*                       4x in the central bars}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00012}00012 \textcolor{comment}{*                       x1 in the tubes}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00013}00013 \textcolor{comment}{*                       x2 in the water}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00014}00014 \textcolor{comment}{*                       x3 in the fuel}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00015}00015 \textcolor{comment}{*                       x=3,4 outer or central bars}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00016}00016 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00017}00017 \textcolor{preprocessor}{\#include "{}xccige.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00018}00018 \textcolor{preprocessor}{}      dimension x(3)}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00019}00019       \textcolor{keywordtype}{LOGICAL} LIN}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00020}00020 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00021}00021 \textcolor{comment}{* -\/-\/-\/ See whether we are outside the tank}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00022}00022       imate = -\/1}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00023}00023       \textcolor{keyword}{CALL }xnintu(x,stedia,stelen,steshf,lin)}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00024}00024       \textcolor{keywordflow}{IF}(.NOT.lin) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00025}00025 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/ See whether we are outside the moderator}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00027}00027       imate = 1}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00028}00028       \textcolor{keyword}{CALL }xnintu(x,watdia,watlen,watshf,lin)}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00029}00029       \textcolor{keywordflow}{IF}(.NOT.lin) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00030}00030 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/ See wheter we are in the water outside the core}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00032}00032       imate = 2}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00033}00033       \textcolor{keyword}{CALL }xnintu(x,cordia,corlen,corshf,lin)}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00034}00034       \textcolor{keywordflow}{IF}(.NOT.lin) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00035}00035 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/ Inner core, find the plane}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00037}00037       shift=disbar*0.5}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00038}00038       iplan = nint((x(2)-\/shift)/disbar)}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00039}00039       \textcolor{keywordflow}{IF}(iplan.LT.-\/nbside.OR.iplan.GT.nbside-\/1) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00040}00040 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/ Shift plans of bars}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00042}00042       ibar = nint((x(1)-\/shift)/disbar)}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00043}00043 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00044}00044 \textcolor{comment}{* -\/-\/-\/ Number of bars in a plane}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00045}00045       \textcolor{keywordflow}{IF}(ibar.LT.-\/nbside.OR.ibar.GT.nbside-\/1) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00046}00046       xbar = ibar*disbar+shift}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00047}00047       ybar = iplan*disbar+shift}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00048}00048       rbar = sqrt(xbar**2+ybar**2)}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00049}00049       \textcolor{keywordflow}{IF}(rbar.GE.cordia*0.5) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00050}00050       dista2 = (xbar-\/x(1))**2+(ybar-\/x(2))**2}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00051}00051       \textcolor{keywordflow}{IF}(dista2.GT.bardia**2*0.25) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00052}00052       xpobar=xbar}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00053}00053       ypobar=ybar}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00054}00054       ixpbar=iplan}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00055}00055       iypbar=ibar}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00056}00056 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/ In the bars... be more specific now}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00058}00058       imate = 30}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00059}00059       \textcolor{keywordflow}{IF}(abs(xbar).LT.2.5*disbar.AND.}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00060}00060      +                      abs(ybar).LT.2.5*disbar) imate=40}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00061}00061       \textcolor{keyword}{CALL }xnciba(x(1)-\/xbar,x(2)-\/ybar,imatb)}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00062}00062       imate = imate+imatb}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00063}00063 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncirm_8_f_source_l00064}00064   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

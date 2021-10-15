@@ -1,0 +1,89 @@
+\hypertarget{isomers_2xnlbnl_8_f_source}{}\doxysection{xnlbnl.\+F}
+\label{isomers_2xnlbnl_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/isomers/xnlbnl.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/isomers/xnlbnl.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  14.47.33  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnlbnl(CHFBNL)}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00006}00006 \textcolor{comment}{*     Load isomer codes and some relevant information from the         *}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00007}00007 \textcolor{comment}{*     EET nuclear database, one entry per isomer                       *}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00009}00009 \textcolor{comment}{*     CHFBNL    (input CHARACTER*(*)) EET nuclear database file name   *}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00010}00010 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00011}00011 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00012}00012 \textcolor{preprocessor}{\#include "{}xcsbnl.inc"{}}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00013}00013 \textcolor{preprocessor}{}      \textcolor{keywordtype}{CHARACTER*(*)} CHFBNL}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00014}00014       \textcolor{keywordtype}{LOGICAL} LFIRST}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00015}00015       \textcolor{keyword}{DATA} lfirst /.true./}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00016}00016       \textcolor{keywordtype}{SAVE} lfirst}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00017}00017       \textcolor{keyword}{DATA} izold/-\/1/}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00018}00018 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00019}00019 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00020}00020 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00021}00021 \textcolor{comment}{* -\/-\/-\/> Make sure we do this only once}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00022}00022       \textcolor{keywordflow}{IF}(.NOT.lfirst) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00023}00023       lfirst=.false.}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> Initialise counter}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00025}00025       ntobnl=0}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Open file}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00027}00027       \textcolor{keyword}{OPEN}(99,file=chfbnl,status=\textcolor{stringliteral}{'OLD'},action=\textcolor{stringliteral}{'READ'})}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> Strip header}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00029}00029       \textcolor{keyword}{READ}(99,10000)}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Read new entry}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00031}00031    10 \textcolor{keyword}{READ}(99,10000,\textcolor{keyword}{END}=30) IN,IA,IZ,IS,CHSYMB,HM,QL,TL,IDA,IDZ,IDI,BR,}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00032}00032      +qd,ha,t1,t2,\textcolor{keywordflow}{IF}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00033}00033 \textcolor{comment}{*     WRITE(6,10000) IN,IA,IZ,IS,CHSYMB,HM,QL,TL,IDA,IDZ,IDI,BR,QD,HA,}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00034}00034 \textcolor{comment}{*    +T1,T2,IF}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00035}00035       iznow=is+10*ia+10 000*iz}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/> If not new isomer code, read again}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00037}00037       \textcolor{keywordflow}{IF}(iznow.EQ.izold) \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Isomer code different from previous}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00039}00039       izold=iznow}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00040}00040 \textcolor{comment}{* -\/-\/-\/> Make sure it is not already there}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00041}00041       \textcolor{keywordflow}{DO} 20 jb=1,ntobnl}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00042}00042          \textcolor{keywordflow}{IF}(izabnl(jb).EQ.iznow) \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00043}00043    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00044}00044       \textcolor{keywordflow}{IF}(ntobnl.GE.maxbnl) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Not enough space to go on}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00046}00046          \textcolor{keyword}{WRITE}(6,10100) ntobnl}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00047}00047          \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00048}00048 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Store isomer information}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00050}00050       ntobnl=ntobnl+1}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/> Isomer code}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00052}00052       izabnl(ntobnl)=iznow}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/> Mass in AU}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00054}00054       hmabnl(ntobnl)=hm}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00055}00055 \textcolor{comment}{* -\/-\/-\/> Level in eV}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00056}00056       qlvbnl(ntobnl)=ql}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00057}00057 \textcolor{comment}{* -\/-\/-\/> Read next line}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00058}00058       \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00059}00059 \textcolor{comment}{* -\/-\/-\/> EoF, close file}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00060}00060    30 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00061}00061       \textcolor{keyword}{CLOSE}(99)}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> Now sort isomer codes in ascending order}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00063}00063       \textcolor{keywordflow}{DO} 50 jb=1,ntobnl-\/1}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00064}00064          \textcolor{keywordflow}{DO} 40 ib=jb+1,ntobnl}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00065}00065             \textcolor{keywordflow}{IF}(izabnl(jb).GT.izabnl(ib)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00066}00066                iztmp=izabnl(jb)}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00067}00067                hmtmp=hmabnl(jb)}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00068}00068                qltmp=qlvbnl(jb)}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00069}00069                izabnl(jb)=izabnl(ib)}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00070}00070                hmabnl(jb)=hmabnl(ib)}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00071}00071                qlvbnl(jb)=qlvbnl(ib)}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00072}00072                izabnl(ib)=iztmp}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00073}00073                hmabnl(ib)=hmtmp}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00074}00074                qlvbnl(ib)=qltmp}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00075}00075 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00076}00076    40    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00077}00077    50 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00078}00078       \textcolor{keyword}{WRITE}(6,10200) ntobnl}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00079}00079 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00080}00080 10000 \textcolor{keyword}{FORMAT}(4i5,a5,3g15.7,3i5,5g15.7,i5)}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00081}00081 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNLBNL: Loading stopped at '},i5,\textcolor{stringliteral}{' isomers'})}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00082}00082 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNLBNL: '},i5,\textcolor{stringliteral}{' isomers successfully read in'})}
+\DoxyCodeLine{\Hypertarget{isomers_2xnlbnl_8_f_source_l00083}00083   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

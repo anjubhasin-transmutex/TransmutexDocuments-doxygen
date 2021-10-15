@@ -1,0 +1,49 @@
+\hypertarget{xndump_8_f_source}{}\doxysection{xndump.\+F}
+\label{xndump_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xndump.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xndump.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  10.48.09  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xndump}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00006}00006 \textcolor{comment}{*     Prints index of isomers currently stored in memory               *}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00008}00008 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00009}00009 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00010}00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcutil.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00011}00011 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00012}00012 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00013}00013 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbas.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00014}00014 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00015}00015 \textcolor{preprocessor}{}      \textcolor{keywordtype}{CHARACTER*6} CHTTEM}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00016}00016       \textcolor{keywordtype}{CHARACTER*11} CHETEM,XNELNA}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00017}00017 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00018}00018 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00019}00019 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/> Cycle through materials}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00021}00021       \textcolor{keyword}{WRITE}(6,10000)}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00022}00022       \textcolor{keywordflow}{DO} 10 jmate=1,nmate}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00023}00023          izaex = imtabl(1,jmate)}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> Get isomer and temperature code}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00025}00025          \textcolor{keyword}{CALL }xngtmp(izaex,izamat,itcod)}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> Convert temperature code}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00027}00027          \textcolor{keywordflow}{IF}(itcod.GE.nctemp) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00028}00028             chttem=\textcolor{stringliteral}{'Inval.'}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00029}00029          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00030}00030             \textcolor{keyword}{WRITE}(chttem,10100) ltemp(itcod+1)}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00031}00031 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00032}00032 \textcolor{comment}{* -\/-\/-\/> Convert isomer code}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00033}00033          chetem=xnelna(izamat)}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> Print item}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00035}00035          \textcolor{keyword}{WRITE}(6,10300) chetem,chttem,izaex}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00036}00036    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00037}00037       \textcolor{keyword}{WRITE}(6,10000)}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00038}00038 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00039}00039 10000 \textcolor{keyword}{FORMAT}(1x,30(\textcolor{stringliteral}{'='}),\textcolor{stringliteral}{' XNSECT storage information '},30(\textcolor{stringliteral}{'='}))}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00040}00040 10100 \textcolor{keyword}{FORMAT}(i5,\textcolor{stringliteral}{'K'})}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00041}00041 10200 \textcolor{keyword}{FORMAT}(i3)}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00042}00042 10300 \textcolor{keyword}{FORMAT}(5x,a11,\textcolor{stringliteral}{' at '},a6,\textcolor{stringliteral}{' mat code '},i8)}
+\DoxyCodeLine{\Hypertarget{xndump_8_f_source_l00043}00043   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

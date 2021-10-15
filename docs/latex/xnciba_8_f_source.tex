@@ -1,0 +1,66 @@
+\hypertarget{xnciba_8_f_source}{}\doxysection{xnciba.\+F}
+\label{xnciba_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/cirene/xnciba.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/cirene/xnciba.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  0.05/00 04/05/94  12.58.28  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnciba(XREL,YREL,IMATB)}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00004}00004 \textcolor{comment}{*                       x1 in the tubes}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00005}00005 \textcolor{comment}{*                       x2 in the water}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00006}00006 \textcolor{comment}{*                       x3 in the fuel}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00007}00007 \textcolor{preprocessor}{\#include "{}xcciba.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00008}00008 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xccons.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00009}00009 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00010}00010 \textcolor{comment}{* -\/-\/-\/ See whether we are in the zyrcaloy}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00011}00011       radius=sqrt(xrel**2+yrel**2)}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00012}00012       imatb = 1}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00013}00013       \textcolor{keywordflow}{IF}(radius.GE.radzyr) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00014}00014 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00015}00015 \textcolor{comment}{* -\/-\/-\/ Now see whether we are in the water}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00016}00016       imatb = 2}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00017}00017       \textcolor{keywordflow}{IF}(radius.GE.radex2) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00018}00018 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00019}00019 \textcolor{comment}{* -\/-\/-\/ See wheter we are in the external crown}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00020}00020       \textcolor{keywordflow}{IF}(radius.LT.radin2) \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00021}00021 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00022}00022 \textcolor{comment}{* -\/-\/-\/ Find the right bar to check with}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00023}00023       ang = atan2(yrel,xrel)}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00024}00024       \textcolor{keywordflow}{IF}(ang.LT.0.) ang=ang+2*pi}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00025}00025       iang = nint((ang-\/angcr2*0.5)/angcr2)+1}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00026}00026       \textcolor{keywordflow}{IF}(iang.GT.ncrow2) iang = 1}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00027}00027       xfuel = xycro2(1,iang)}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00028}00028       yfuel = xycro2(2,iang)}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00029}00029       radrel = sqrt((xrel-\/xfuel)**2+(yrel-\/yfuel)**2)}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00030}00030       \textcolor{keywordflow}{IF}(radrel.LE.radfue) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00031}00031          imatb = 3}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00032}00032          xpofue = xfuel}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00033}00033          ypofue = yfuel}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00034}00034          ipofue = iang+ncrow1}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00035}00035 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00036}00036       \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00037}00037 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/ See whether we are in the water between the two crowns}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00039}00039   10  \textcolor{keywordflow}{IF}(radius.GE.radex1) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00040}00040 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/ See whether we are in the internal crown}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00042}00042       \textcolor{keywordflow}{IF}(radius.LT.radin1) \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00043}00043 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00044}00044 \textcolor{comment}{* -\/-\/-\/ Find the right bar to check with}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00045}00045       ang = atan2(yrel,xrel)}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00046}00046       \textcolor{keywordflow}{IF}(ang.LT.0.) ang=ang+2*pi}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00047}00047       iang = nint((ang-\/angcr1*0.5)/angcr1)+1}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00048}00048       \textcolor{keywordflow}{IF}(iang.GT.ncrow1) iang = 1}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00049}00049       xfuel = xycro1(1,iang)}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00050}00050       yfuel = xycro1(2,iang)}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00051}00051       radrel = sqrt((xrel-\/xfuel)**2+(yrel-\/yfuel)**2)}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00052}00052       \textcolor{keywordflow}{IF}(radrel.LE.radfue) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00053}00053          imatb = 3}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00054}00054          xpofue = xfuel}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00055}00055          ypofue = yfuel}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00056}00056          ipofue = iang}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00057}00057 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00058}00058       \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00059}00059 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnciba_8_f_source_l00060}00060  999  \textcolor{keyword}{END}}
+
+\end{DoxyCode}

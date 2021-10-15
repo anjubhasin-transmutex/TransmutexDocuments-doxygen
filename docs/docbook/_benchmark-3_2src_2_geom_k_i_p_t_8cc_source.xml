@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source" xml:lang="en-US">
+<title>GeomKIPT.cc</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/Benchmark-3/src/GeomKIPT.cc</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00001"/>00001 <emphasis role="comment">//&#32;********************************************************************</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00002"/>00002 <emphasis role="comment">//&#32;*&#32;License&#32;and&#32;Disclaimer&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00003"/>00003 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00004"/>00004 <emphasis role="comment">//&#32;*&#32;The&#32;&#32;Geant4&#32;software&#32;&#32;is&#32;&#32;copyright&#32;of&#32;the&#32;Copyright&#32;Holders&#32;&#32;of&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00005"/>00005 <emphasis role="comment">//&#32;*&#32;the&#32;Geant4&#32;Collaboration.&#32;&#32;It&#32;is&#32;provided&#32;&#32;under&#32;&#32;the&#32;terms&#32;&#32;and&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00006"/>00006 <emphasis role="comment">//&#32;*&#32;conditions&#32;of&#32;the&#32;Geant4&#32;Software&#32;License,&#32;&#32;included&#32;in&#32;the&#32;file&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00007"/>00007 <emphasis role="comment">//&#32;*&#32;LICENSE&#32;and&#32;available&#32;at&#32;&#32;http://cern.ch/geant4/license&#32;.&#32;&#32;These&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00008"/>00008 <emphasis role="comment">//&#32;*&#32;include&#32;a&#32;list&#32;of&#32;copyright&#32;holders.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00009"/>00009 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00010"/>00010 <emphasis role="comment">//&#32;*&#32;Neither&#32;the&#32;authors&#32;of&#32;this&#32;software&#32;system,&#32;nor&#32;their&#32;employing&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00011"/>00011 <emphasis role="comment">//&#32;*&#32;institutes,nor&#32;the&#32;agencies&#32;providing&#32;financial&#32;support&#32;for&#32;this&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00012"/>00012 <emphasis role="comment">//&#32;*&#32;work&#32;&#32;make&#32;&#32;any&#32;representation&#32;or&#32;&#32;warranty,&#32;express&#32;or&#32;implied,&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00013"/>00013 <emphasis role="comment">//&#32;*&#32;regarding&#32;&#32;this&#32;&#32;software&#32;system&#32;or&#32;assume&#32;any&#32;liability&#32;for&#32;its&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00014"/>00014 <emphasis role="comment">//&#32;*&#32;use.&#32;&#32;Please&#32;see&#32;the&#32;license&#32;in&#32;the&#32;file&#32;&#32;LICENSE&#32;&#32;and&#32;URL&#32;above&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00015"/>00015 <emphasis role="comment">//&#32;*&#32;for&#32;the&#32;full&#32;disclaimer&#32;and&#32;the&#32;limitation&#32;of&#32;liability.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00016"/>00016 <emphasis role="comment">//&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00017"/>00017 <emphasis role="comment">//&#32;*&#32;This&#32;&#32;code&#32;&#32;implementation&#32;is&#32;the&#32;result&#32;of&#32;&#32;the&#32;&#32;scientific&#32;and&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00018"/>00018 <emphasis role="comment">//&#32;*&#32;technical&#32;work&#32;of&#32;the&#32;GEANT4&#32;collaboration.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00019"/>00019 <emphasis role="comment">//&#32;*&#32;By&#32;using,&#32;&#32;copying,&#32;&#32;modifying&#32;or&#32;&#32;distributing&#32;the&#32;software&#32;(or&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00020"/>00020 <emphasis role="comment">//&#32;*&#32;any&#32;work&#32;based&#32;&#32;on&#32;the&#32;software)&#32;&#32;you&#32;&#32;agree&#32;&#32;to&#32;acknowledge&#32;its&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00021"/>00021 <emphasis role="comment">//&#32;*&#32;use&#32;&#32;in&#32;&#32;resulting&#32;&#32;scientific&#32;&#32;publications,&#32;&#32;and&#32;indicate&#32;your&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00022"/>00022 <emphasis role="comment">//&#32;*&#32;acceptance&#32;of&#32;all&#32;terms&#32;of&#32;the&#32;Geant4&#32;Software&#32;license.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00023"/>00023 <emphasis role="comment">//&#32;********************************************************************</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00024"/>00024 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00026"/>00026 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00027"/>00027 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00029"/>00029 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00030"/>00030 <emphasis role="comment">//&#32;DetectorConstruction&#32;inherited&#32;class&#32;for&#32;Conceptual&#32;prototype&#32;geometry&#32;//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00031"/>00031 <emphasis role="comment">//&#32;implementation&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00032"/>00032 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00033"/>00033 <emphasis role="comment">//&#32;Thomas&#32;Guilbaud,&#32;22/03/2021&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00034"/>00034 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00036"/>00036 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00037"/>00037 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00038"/>00038 <emphasis role="comment">//&#32;TMX&#32;Class</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00039"/>00039 <emphasis role="preprocessor">#include&#32;&quot;GeomKIPT.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00040"/>00040 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00041"/>00041 <emphasis role="preprocessor">#include&#32;&lt;sstream&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00042"/>00042 <emphasis role="preprocessor">#include&#32;&lt;string&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00043"/>00043 <emphasis role="preprocessor">#include&#32;&lt;fstream&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00044"/>00044 <emphasis role="preprocessor">#include&#32;&lt;stdio.h&gt;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00045"/>00045 <emphasis role="preprocessor">#include&#32;&quot;TMXTargetKIPT2.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00046"/>00046 <emphasis role="preprocessor">#include&#32;&quot;TMXBeamPipeKIPT2.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00047"/>00047 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00048"/>00048 <emphasis role="comment">//&#32;GEANT4&#32;libraries</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00049"/>00049 <emphasis role="preprocessor">#include&#32;&quot;G4Tubs.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00050"/>00050 <emphasis role="preprocessor">#include&#32;&quot;G4Box.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00051"/>00051 <emphasis role="preprocessor">#include&#32;&quot;G4Orb.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00052"/>00052 <emphasis role="preprocessor">#include&#32;&quot;G4Sphere.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00053"/>00053 <emphasis role="preprocessor">#include&#32;&quot;G4EllipticalTube.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00054"/>00054 <emphasis role="preprocessor">#include&#32;&quot;G4Polyhedra.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00055"/>00055 <emphasis role="preprocessor">#include&#32;&quot;G4LogicalVolume.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00056"/>00056 <emphasis role="preprocessor">#include&#32;&quot;G4PVPlacement.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00057"/>00057 <emphasis role="preprocessor">#include&#32;&quot;G4UnionSolid.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00058"/>00058 <emphasis role="preprocessor">#include&#32;&quot;G4IntersectionSolid.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00059"/>00059 <emphasis role="preprocessor">#include&#32;&quot;G4SubtractionSolid.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00060"/>00060 <emphasis role="preprocessor">#include&#32;&quot;G4RotationMatrix.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00061"/>00061 <emphasis role="preprocessor">#include&#32;&quot;G4RunManager.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00062"/>00062 <emphasis role="preprocessor">#include&#32;&quot;G4GeometryManager.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00063"/>00063 <emphasis role="preprocessor">#include&#32;&quot;G4PhysicalVolumeStore.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00064"/>00064 <emphasis role="preprocessor">#include&#32;&quot;G4LogicalVolumeStore.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00065"/>00065 <emphasis role="preprocessor">#include&#32;&quot;G4SolidStore.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00066"/>00066 <emphasis role="preprocessor">#include&#32;&quot;G4VisAttributes.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00067"/>00067 <emphasis role="preprocessor">#include&#32;&quot;G4Colour.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00068"/>00068 <emphasis role="preprocessor">#include&#32;&quot;G4ios.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00069"/>00069 <emphasis role="preprocessor">#include&#32;&quot;G4NistManager.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00070"/>00070 <emphasis role="preprocessor">#include&#32;&quot;G4Element.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00071"/>00071 <emphasis role="comment">//#include&#32;&quot;G4Material.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00072"/>00072 <emphasis role="preprocessor">#include&#32;&quot;TMXMaterial.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00073"/>00073 <emphasis role="preprocessor">#include&#32;&quot;G4PhysicalConstants.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00074"/>00074 <emphasis role="preprocessor">#include&#32;&quot;G4SystemOfUnits.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00075"/>00075 <emphasis role="preprocessor">#include&#32;&quot;G4ProductionCuts.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00076"/>00076 <emphasis role="preprocessor">#include&#32;&quot;G4RToEConvForProton.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00077"/>00077 <emphasis role="preprocessor">#include&#32;&quot;G4RToEConvForGamma.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00078"/>00078 <emphasis role="preprocessor">#include&#32;&quot;G4RToEConvForElectron.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00079"/>00079 <emphasis role="preprocessor">#include&#32;&quot;G4RToEConvForPositron.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00080"/>00080 <emphasis role="preprocessor">#include&#32;&quot;G4RegionStore.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00081"/>00081 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00082"/>00082 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00083"/>00083 <link linkend="_class_geom_k_i_p_t_1a29d9399800e36eaad801320ecab5e5b6">GeomKIPT::GeomKIPT</link>(G4int&#32;<emphasis role="comment">/*int_Option*/</emphasis>,&#32;<link linkend="_class_t_m_x_input_parameters">TMXInputParameters</link>*&#32;parameter):
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00084"/>00084 &#32;&#32;&#32;&#32;G4VUserDetectorConstruction(),
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00085"/>00085 &#32;&#32;&#32;&#32;fLogicWorld1{0},
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00086"/>00086 &#32;&#32;&#32;&#32;p{parameter},
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00087"/>00087 &#32;&#32;&#32;&#32;m_TMXNeutronSource{0},
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00088"/>00088 &#32;&#32;&#32;&#32;m_TMXCore{0}
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00089"/>00089 {
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00090"/>00090 &#32;&#32;Construct();
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00091"/>00091 }
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00092"/>00092 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00093"/>00093 GeomKIPT::~GeomKIPT()
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00094"/>00094 {
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00095"/>00095 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00096"/>00096 }
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00097"/>00097 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00098"/>00098 <emphasis role="comment">//------------------------------------------------------------------------------*------------------------------------------------------------------------------//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00099"/>00099 <emphasis role="comment">//&#32;Overloading&#32;the&#32;virtual&#32;method&#32;G4VUserDetectorConstruction::Construct()</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00100"/>00100 <emphasis role="comment">//------------------------------------------------------------------------------*------------------------------------------------------------------------------//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00101"/>00101 G4VPhysicalVolume*&#32;GeomKIPT::Construct()
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00102"/>00102 {
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00103"/>00103 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Cleanup&#32;old&#32;geometry</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00104"/>00104 &#32;&#32;&#32;&#32;G4GeometryManager::GetInstance()-&gt;OpenGeometry();
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00105"/>00105 &#32;&#32;&#32;&#32;G4PhysicalVolumeStore::GetInstance()-&gt;Clean();
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00106"/>00106 &#32;&#32;&#32;&#32;G4LogicalVolumeStore::GetInstance()-&gt;Clean();
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00107"/>00107 &#32;&#32;&#32;&#32;G4SolidStore::GetInstance()-&gt;Clean();
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00108"/>00108 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00109"/>00109 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Material&#32;definition</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00110"/>00110 &#32;&#32;&#32;&#32;<link linkend="_class_define_materials">DefineMaterials</link>();
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00111"/>00111 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00112"/>00112 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;To&#32;check&#32;volume&#32;overlapping&#32;(=true)</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00113"/>00113 &#32;&#32;&#32;&#32;overlap&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00114"/>00114 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(p-&gt;Verbose&#32;==&#32;1)
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;overlap&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00116"/>00116 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00117"/>00117 <emphasis role="comment">//--------------------------------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00118"/>00118 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00119"/>00119 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(p-&gt;Verbose&#32;==&#32;1)
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00120"/>00120 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis role="stringliteral">&quot;===============================&#32;KIPT&#32;Geometry&#32;Construction&#32;==================================\n&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00122"/>00122 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00123"/>00123 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00124"/>00124 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00125"/>00125 &#32;&#32;&#32;&#32;G4Box*&#32;sWorld=&#32;<emphasis role="keyword">new</emphasis>&#32;G4Box(<emphasis role="stringliteral">&quot;sWorld&quot;</emphasis>,&#32;1.&#32;*&#32;m&#32;,&#32;1.&#32;*&#32;m&#32;,&#32;2.&#32;*&#32;m&#32;&#32;);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00126"/>00126 &#32;&#32;&#32;&#32;fLogicWorld1=&#32;<emphasis role="keyword">new</emphasis>&#32;G4LogicalVolume(&#32;sWorld,&#32;matWorld,&#32;<emphasis role="stringliteral">&quot;fLogicWorld1&quot;</emphasis>&#32;);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00127"/>00127 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00129"/>00129 &#32;&#32;&#32;&#32;fWorld1&#32;=
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00130"/>00130 &#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>&#32;G4PVPlacement(&#32;0,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;no&#32;rotation</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00131"/>00131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4ThreeVector(),&#32;&#32;&#32;<emphasis role="comment">//&#32;at&#32;(0,0,0)</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00132"/>00132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fLogicWorld1,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;its&#32;logical&#32;volume</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00133"/>00133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;Universe&quot;</emphasis>,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;its&#32;name</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00134"/>00134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;0,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;its&#32;mother&#32;volume</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00135"/>00135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">false</emphasis>,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;no&#32;boolean&#32;operation</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00136"/>00136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;0,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;copy&#32;number</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00137"/>00137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;overlap);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00138"/>00138 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00139"/>00139 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00140"/>00140 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00141"/>00141 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(p-&gt;Verbose&#32;==&#32;1)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Make&#32;Reflector&#32;Block&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;&#32;}
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00142"/>00142 &#32;&#32;&#32;&#32;MakeReflectorBlock();
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00143"/>00143 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00144"/>00144 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(p-&gt;Verbose&#32;==&#32;1)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Make&#32;Reactor&#32;Core&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;&#32;}
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00145"/>00145 &#32;&#32;&#32;&#32;MakeReactorCore();
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00146"/>00146 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00147"/>00147 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(p-&gt;Verbose&#32;==&#32;1)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Make&#32;Neutron&#32;Source&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;&#32;}
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00148"/>00148 &#32;&#32;&#32;&#32;MakeNeutronSource();
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00149"/>00149 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00150"/>00150 <emphasis role="comment">//&#32;&#32;&#32;&#32;if&#32;(p-&gt;Verbose&#32;==&#32;1)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;&quot;Make&#32;Subtractions&quot;&#32;&lt;&lt;&#32;std::endl;&#32;}</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00151"/>00151 <emphasis role="comment">//&#32;&#32;&#32;&#32;MakeSubtractions();</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00152"/>00152 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00153"/>00153 &#32;&#32;&#32;&#32;VisualisationConfig();
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00154"/>00154 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00155"/>00155 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(p-&gt;Verbose&#32;==&#32;1)
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00156"/>00156 &#32;&#32;&#32;&#32;G4cout&#32;&lt;&lt;&#32;*(G4Material::GetMaterialTable())&#32;&lt;&lt;&#32;G4endl;
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00157"/>00157 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00158"/>00158 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;fWorld1;
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00159"/>00159 }
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00160"/>00160 <emphasis role="comment">//------------------------------------------------------------------------------*------------------------------------------------------------------------------//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00161"/>00161 <emphasis role="comment">//&#32;World&#32;getter</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00162"/>00162 <emphasis role="comment">//------------------------------------------------------------------------------*------------------------------------------------------------------------------//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00163"/>00163 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00164"/>00164 G4VPhysicalVolume*&#32;GeomKIPT::getWorldVolume()
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00165"/>00165 {
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00166"/>00166 &#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;fWorld1;
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00167"/>00167 }
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00168"/>00168 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00169"/>00169 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00170"/>00170 <emphasis role="comment">//------------------------------------------------------------------------------*------------------------------------------------------------------------------//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00171"/>00171 <emphasis role="comment">//&#32;Components&#32;Makers</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00172"/>00172 <emphasis role="comment">//------------------------------------------------------------------------------*------------------------------------------------------------------------------//</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00173"/>00173 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00174"/>00174 <emphasis role="keywordtype">void</emphasis>&#32;GeomKIPT::MakeNeutronSource()&#32;{&#32;&#32;<emphasis role="comment">//&#32;Build&#32;the&#32;KIPT&#32;target&#32;with&#32;the&#32;beam&#32;pipe</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00175"/>00175 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Target&#32;definition</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00176"/>00176 &#32;&#32;&#32;&#32;m_TMXNeutronSource&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;<link linkend="_class_t_m_x_neutron_source">TMXNeutronSource</link>(p);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00177"/>00177 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00178"/>00178 &#32;&#32;&#32;&#32;G4ThreeVector&#32;targetLocation&#32;=&#32;G4ThreeVector(0.,&#32;0.,&#32;0.);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00179"/>00179 <emphasis role="comment">/*&#32;&#32;&#32;&#32;for(int&#32;i=0;&#32;i&lt;p-&gt;SourceNumber;&#32;++i)&#32;{</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00180"/>00180 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4ThreeVector&#32;Pos&#32;(p-&gt;src_XYZposition&#32;[i][0],p-&gt;src_XYZposition&#32;[i][1],p-&gt;src_XYZposition&#32;[i][2]);</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00181"/>00181 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4ThreeVector&#32;beam(p-&gt;src_XYZdirection[i][0],p-&gt;src_XYZdirection[i][1],p-&gt;src_XYZdirection[i][2]);</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00182"/>00182 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_TMXNeutronSource-&gt;placeGeometry(overlap,&#32;&amp;Pos,&#32;&amp;beam,&#32;fCore);</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00183"/>00183 <emphasis role="comment">&#32;&#32;&#32;&#32;}*/</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00184"/>00184 &#32;&#32;&#32;&#32;<link linkend="_class_t_m_x_target_k_i_p_t2">TMXTargetKIPT2</link>*&#32;neutEmmiter&#32;=&#32;(<link linkend="_class_t_m_x_target_k_i_p_t2">TMXTargetKIPT2</link>*)(&#32;m_TMXNeutronSource-&gt;getNeutronEmmiter());
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00185"/>00185 &#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>&#32;G4PVPlacement(0,&#32;targetLocation,&#32;neutEmmiter-&gt;getMasterVolume(),&#32;<emphasis role="stringliteral">&quot;pTarget&quot;</emphasis>,&#32;&#32;m_TMXCore-&gt;getMasterVolume(),&#32;0,&#32;0,&#32;<emphasis role="keyword">true</emphasis>);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00186"/>00186 &#32;&#32;&#32;&#32;<link linkend="_class_t_m_x_beam_pipe_k_i_p_t2">TMXBeamPipeKIPT2</link>*&#32;beamPipe&#32;=&#32;(<link linkend="_class_t_m_x_beam_pipe_k_i_p_t2">TMXBeamPipeKIPT2</link>*)&#32;(m_TMXNeutronSource-&gt;getBeamPipe());
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00187"/>00187 &#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>&#32;G4PVPlacement(0,&#32;G4ThreeVector(0.,&#32;0.,&#32;&#32;(50.&#32;/&#32;4.&#32;-&#32;5.4&#32;/&#32;4.&#32;+&#32;5.4&#32;/&#32;2.)&#32;*&#32;cm&#32;&#32;+&#32;targetLocation.z()&#32;),&#32;beamPipe-&gt;getMasterVolume(),&#32;<emphasis role="stringliteral">&quot;pBeamPipe&quot;</emphasis>,&#32;&#32;m_TMXCore-&gt;getMasterVolume(),&#32;0,&#32;0,&#32;<emphasis role="keyword">true</emphasis>);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00188"/>00188 }
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00189"/>00189 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00190"/>00190 <emphasis role="keywordtype">void</emphasis>&#32;GeomKIPT::MakeReactorCore()&#32;{
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00191"/>00191 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;File&#32;that&#32;contain&#32;the&#32;configuration&#32;of&#32;the&#32;core</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00192"/>00192 &#32;&#32;&#32;&#32;std::string&#32;latticeMapFile&#32;=&#32;<emphasis role="stringliteral">&quot;../../ADS_SimulationCode/ADS_SimulationCode/G4-NeutronTransport/src/latticeMap/LatticeKIPT2_W.txt&quot;</emphasis>;
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00193"/>00193 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00194"/>00194 &#32;&#32;&#32;&#32;m_TMXCore&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;<link linkend="_class_t_m_x_core_k_i_p_t">TMXCoreKIPT</link>(<emphasis role="stringliteral">&quot;Core&quot;</emphasis>,&#32;p,&#32;latticeMapFile,&#32;m_TMXNeutronSource);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00195"/>00195 &#32;&#32;&#32;&#32;fCore&#32;=&#32;m_TMXCore-&gt;getMasterVolume();
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00196"/>00196 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00197"/>00197 &#32;&#32;&#32;&#32;m_TMXCore-&gt;AddAssembliesInCore();
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00198"/>00198 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00199"/>00199 &#32;&#32;&#32;&#32;m_TMXCore-&gt;placeGeometry(overlap,&#32;G4ThreeVector(),&#32;0,&#32;m_TMXReflectorBlock-&gt;getMasterVolume(),&#32;<emphasis role="stringliteral">&quot;hexagonal&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00200"/>00200 }
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00201"/>00201 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00202"/>00202 <emphasis role="keywordtype">void</emphasis>&#32;GeomKIPT::MakeReactorVessel()&#32;{
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00203"/>00203 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00204"/>00204 }
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00205"/>00205 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00206"/>00206 <emphasis role="keywordtype">void</emphasis>&#32;GeomKIPT::MakeReflectorBlock()&#32;{
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00207"/>00207 &#32;&#32;&#32;&#32;m_TMXReflectorBlock&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;<link linkend="_class_t_m_x_reflector_k_i_p_t">TMXReflectorKIPT</link>(<emphasis role="stringliteral">&quot;ReflectorBlock&quot;</emphasis>,&#32;p);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00208"/>00208 &#32;&#32;&#32;&#32;fReflectorBlock&#32;=&#32;m_TMXReflectorBlock-&gt;getMasterVolume();
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00209"/>00209 &#32;&#32;&#32;&#32;G4RotationMatrix*&#32;zRot&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4RotationMatrix;&#32;<emphasis role="comment">//&#32;Rotates&#32;X&#32;and&#32;Z&#32;axes&#32;only</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00210"/>00210 &#32;&#32;&#32;&#32;zRot-&gt;rotateZ(0.*deg);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00211"/>00211 &#32;&#32;&#32;&#32;m_TMXReflectorBlock-&gt;placeGeometry(overlap,&#32;G4ThreeVector(),&#32;zRot,&#32;fLogicWorld1);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00212"/>00212 }
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00213"/>00213 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00214"/>00214 <emphasis role="keywordtype">void</emphasis>&#32;GeomKIPT::MakeSubtractions()&#32;{
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00215"/>00215 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(m_TMXCore)&#32;{
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00216"/>00216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_TMXReflectorBlock-&gt;subtract(m_TMXCore-&gt;getMasterVolume());
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00217"/>00217 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00218"/>00218 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00219"/>00219 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4VSolid*&#32;sSubstracted&#32;&#32;=&#32;m_TMXCore-&gt;getMasterVolume()-&gt;GetSolid();</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00220"/>00220 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4LogicalVolumeStore*&#32;LVSTORE&#32;=&#32;G4LogicalVolumeStore::GetInstance();</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00221"/>00221 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;for&#32;(G4LogicalVolumeStore::iterator&#32;lv_it&#32;=&#32;LVSTORE-&gt;begin();&#32;lv_it&#32;!=&#32;LVSTORE-&gt;end();&#32;++lv_it)</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00222"/>00222 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00223"/>00223 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&lt;&lt;(*lv_it)-&gt;GetName()&lt;&lt;&#32;&quot;&#32;&quot;&lt;&lt;&#32;(*lv_it)-&gt;GetSolid()-&gt;GetName()&lt;&lt;std::endl;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00224"/>00224 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00225"/>00225 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4VSolid*&#32;sSubstracter1&#32;=&#32;LVSTORE-&gt;GetVolume(&quot;lKIPTnSrc_target_Tube0&quot;)-&gt;GetSolid();</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00226"/>00226 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4VSolid*&#32;sSubstracter2&#32;=&#32;LVSTORE-&gt;GetVolume(&quot;lKIPTnSrc_beamPipe_BeamPipe0&quot;)-&gt;GetSolid();</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00227"/>00227 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4ThreeVector&#32;beam(p-&gt;src_XYZdirection[0][0],p-&gt;src_XYZdirection[0][1],p-&gt;src_XYZdirection[0][2]);</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00228"/>00228 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4ThreeVector&#32;Pos&#32;(p-&gt;src_XYZposition&#32;[0][0],p-&gt;src_XYZposition&#32;[0][1],p-&gt;src_XYZposition&#32;[0][2]);</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00229"/>00229 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4RotationMatrix*&#32;RotationFromXaxis&#32;=&#32;TMXNeutronSource::DefineRotationMatrix(&amp;beam);&#32;//&#32;Definition&#32;of&#32;rotation&#32;matrix&#32;from&#32;beamDirection</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00230"/>00230 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4double&#32;targetPipeThickness&#32;=&#32;p-&gt;CheckGap;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00231"/>00231 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4double&#32;targetPipeLength&#32;=&#32;2&#32;*&#32;p-&gt;CheckGap&#32;+&#32;targetPipeThickness;&#32;//&#32;Tube&#32;length&#32;:&#32;2&#32;x&#32;gap&#32;between&#32;wall&#32;and&#32;W-slabs&#32;+&#32;1&#32;x&#32;wall&#32;thickness</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00232"/>00232 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;double&#32;coatingThickness&#32;=&#32;0.25*mm;&#32;&#32;&#32;//&#32;W-slabs&#32;are&#32;coated&#32;with&#32;tantalum</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00233"/>00233 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;double&gt;&#32;vectorTargetThickness&#32;=&#32;p-&gt;src_slabThicknesses;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00234"/>00234 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;for(int&#32;i=0;&#32;i&lt;(int)vectorTargetThickness.size();&#32;++i)&#32;{</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00235"/>00235 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;targetPipeLength&#32;+=&#32;vectorTargetThickness[i]&#32;+&#32;p-&gt;targetgap&#32;+&#32;2&#32;*&#32;coatingThickness;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00236"/>00236 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00237"/>00237 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00238"/>00238 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4ThreeVector&#32;distanceToOut{-0.5*targetPipeLength&#32;+&#32;p-&gt;XtargetPosition&#32;+&#32;0.5*targetPipeThickness,0,0};</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00239"/>00239 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4RotationMatrix*&#32;RotationFromXaxisInverse&#32;=&#32;nullptr;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00240"/>00240 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;(RotationFromXaxis)&#32;{&#32;RotationFromXaxisInverse&#32;=&#32;new&#32;G4RotationMatrix(&#32;RotationFromXaxis-&gt;axis(),&#32;-RotationFromXaxis-&gt;delta()&#32;);}</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00241"/>00241 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;(RotationFromXaxisInverse)&#32;{&#32;distanceToOut&#32;=&#32;*RotationFromXaxisInverse&#32;*&#32;distanceToOut;&#32;}&#32;&#32;//&#32;If&#32;rotation,&#32;distanceToOut&#32;along&#32;x&#32;axis&#32;is&#32;rotated</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00242"/>00242 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00243"/>00243 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00244"/>00244 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&lt;&lt;distanceToOut&lt;&lt;std::endl;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00245"/>00245 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4SubtractionSolid*&#32;s1&#32;=&#32;new&#32;G4SubtractionSolid(sSubstracted-&gt;GetName()+&quot;_sub&quot;,&#32;sSubstracted,&#32;sSubstracter2,&#32;RotationFromXaxis,&#32;31*distanceToOut);</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00246"/>00246 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4SubtractionSolid*&#32;s2&#32;=&#32;new&#32;G4SubtractionSolid(sSubstracted-&gt;GetName()+&quot;_sub&quot;,&#32;s1,&#32;sSubstracter2,&#32;RotationFromXaxis,&#32;distanceToOut);</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00247"/>00247 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_TMXCore-&gt;getMasterVolume()-&gt;SetSolid(s2);</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00248"/>00248 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_TMXCore-&gt;getMasterVolume()-&gt;SetSolid(s1);</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00249"/>00249 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;G4VSolid&#32;*&#32;sub&#32;=&#32;new&#32;G4Box(&quot;sub&quot;,&#32;100./2.*mm,&#32;100./2.*mm&#32;,&#32;2.*m);</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00250"/>00250 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_TMXCore-&gt;subtract(sub);</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00251"/>00251 <emphasis role="comment">*/</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00252"/>00252 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00253"/>00253 }
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00254"/>00254 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00255"/>00255 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00256"/>00256 <emphasis role="keywordtype">void</emphasis>&#32;GeomKIPT::DefineMaterials()&#32;{
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00257"/>00257 &#32;&#32;&#32;&#32;<emphasis role="comment">/*&#32;Core&#32;Material&#32;Characteristic&#32;from&#32;Source&#32;Doc:&#32;THPF080</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00258"/>00258 <emphasis role="comment">&#32;&#32;&#32;&#32;Reflectors:</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00259"/>00259 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;-&#32;Intrinsic&#32;zone:&#32;Beryllium</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00260"/>00260 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;-&#32;Outside&#32;zone:&#32;Graphite</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00261"/>00261 <emphasis role="comment">&#32;&#32;&#32;&#32;Moderator/Coolant:&#32;Demineralized&#32;Water&#32;(H2O)</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00262"/>00262 <emphasis role="comment">&#32;&#32;&#32;&#32;Fuel:&#32;Dioxyde&#32;Uranium&#32;with&#32;19.7%&#32;U235&#32;(Fuel&#32;type&#32;WWR-M2&#32;by&#32;TVEL&#32;corporation)</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00263"/>00263 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uniformely&#32;distributed&#32;in&#32;an&#32;aluminium&#32;matrix</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00264"/>00264 <emphasis role="comment">&#32;&#32;&#32;&#32;*/</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00266"/>00266 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Demineralised&#32;Water&#32;-&#32;Coolant</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00267"/>00267 &#32;&#32;&#32;&#32;<link linkend="_class_t_m_x_material">TMXMaterial</link>*&#32;_DemineralizedWater&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;<link linkend="_class_t_m_x_material">TMXMaterial</link>(<emphasis role="stringliteral">&quot;Demineralised&#32;Water&quot;</emphasis>,&#32;1.0*(g/cm3),&#32;2,&#32;kStateLiquid,&#32;100);&#32;<emphasis role="comment">//&#32;!!!&#32;Temperature</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00268"/>00268 &#32;&#32;&#32;&#32;_DemineralizedWater-&gt;AddElement(80160,&#32;1,&#32;<emphasis role="stringliteral">&quot;O_16&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00269"/>00269 &#32;&#32;&#32;&#32;_DemineralizedWater-&gt;AddElement(10010,&#32;2,&#32;<emphasis role="stringliteral">&quot;H_1&quot;</emphasis>);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00270"/>00270 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00271"/>00271 &#32;&#32;&#32;&#32;matWorld&#32;=&#32;_DemineralizedWater;
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00272"/>00272 }
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00273"/>00273 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00274"/>00274 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00275"/>00275 <emphasis role="keywordtype">void</emphasis>&#32;GeomKIPT::VisualisationConfig()&#32;{
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00276"/>00276 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(p-&gt;Verbose&#32;==&#32;1)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;\nConfiguration&#32;of&#32;the&#32;visualisation&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;}
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00277"/>00277 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00278"/>00278 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(m_TMXNeutronSource)&#32;{m_TMXNeutronSource-&gt;<link linkend="_class_t_m_x_neutron_source_1acc1f0c9bec5030a2fb59f5cfbebd8fd3">VisualisationConfig</link>();}
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00279"/>00279 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00281"/>00281 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;visualisation&#32;colors&#32;configured&#32;by&#32;DL</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00283"/>00283 <emphasis role="comment"></emphasis>&#32;&#32;&#32;&#32;G4Colour&#32;&#32;black&#32;&#32;&#32;(&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;black</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00284"/>00284 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;lblack&#32;&#32;(&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.6);&#32;<emphasis role="comment">//&#32;light&#32;black</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00285"/>00285 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;vlblack&#32;(&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;&#32;.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.2);&#32;<emphasis role="comment">//&#32;very&#32;light&#32;black</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00286"/>00286 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;white&#32;&#32;&#32;(1.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.3);&#32;<emphasis role="comment">//&#32;white</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00287"/>00287 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;grayD3l&#32;(211&#32;&#32;&#32;&#32;&#32;&#32;,&#32;211&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;211&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;gray&#32;D3&#32;(light)</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00288"/>00288 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;grayC&#32;&#32;&#32;(0.5&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;gray</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00289"/>00289 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;flgrayC&#32;(0.5&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.8);&#32;<emphasis role="comment">//&#32;few&#32;light&#32;gray</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00290"/>00290 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;lgrayC&#32;&#32;(0.5&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.4);&#32;<emphasis role="comment">//&#32;light&#32;gray</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00291"/>00291 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;vlgrayC&#32;(0.5&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.5&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.2);&#32;<emphasis role="comment">//&#32;very&#32;ligth&#32;gray</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00292"/>00292 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;red&#32;&#32;&#32;&#32;&#32;(1.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;red</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00293"/>00293 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;violet&#32;&#32;(1.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;violet</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00294"/>00294 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;orange&#32;&#32;(1.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.65&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;orange</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00295"/>00295 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;green&#32;&#32;&#32;(0.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;green</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00296"/>00296 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;lgreen&#32;&#32;(0.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.4);&#32;<emphasis role="comment">//&#32;light&#32;green</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00297"/>00297 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;blue&#32;&#32;&#32;&#32;(0.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;blue</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00298"/>00298 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;yellow&#32;&#32;(1.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;yellow</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00299"/>00299 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;lyellow&#32;(1.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.2);&#32;<emphasis role="comment">//&#32;light&#32;yellow</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00300"/>00300 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;cyan&#32;&#32;&#32;&#32;(0.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.2);&#32;<emphasis role="comment">//&#32;cya</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00301"/>00301 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;sky&#32;&#32;&#32;&#32;&#32;(0.0/255.0,&#32;191.0/255.0,&#32;255.0/255.0,&#32;0.2);&#32;<emphasis role="comment">//&#32;sky</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00302"/>00302 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;dgreen&#32;&#32;(0.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;153.0/255.0,&#32;153.0/255.0,&#32;0.2);&#32;<emphasis role="comment">//&#32;dark&#32;green</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00303"/>00303 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;cyangr&#32;&#32;(0.0&#32;&#32;&#32;&#32;&#32;&#32;,&#32;204.0/255.0,&#32;204.0/255.0&#32;&#32;&#32;&#32;&#32;);&#32;<emphasis role="comment">//&#32;cyan+green&#32;colour&#32;for&#32;different&#32;colour&#32;of&#32;h20</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00304"/>00304 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;lblue&#32;&#32;&#32;(0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;1.0&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.4);&#32;<emphasis role="comment">//&#32;light&#32;blue</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00305"/>00305 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;grayblu&#32;(0.4&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.6&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.8&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.6);&#32;<emphasis role="comment">//&#32;light&#32;gray&#32;blue</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00306"/>00306 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;wcolour&#32;(0.3&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.3&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.3&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00307"/>00307 &#32;&#32;&#32;&#32;G4Colour&#32;&#32;Ccolour&#32;(0.&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.3&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;0.7&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00308"/>00308 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00310"/>00310 &#32;&#32;&#32;&#32;<emphasis role="comment">//G4bool&#32;bool_visible&#32;=&#32;true;</emphasis>
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00311"/>00311 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00312"/>00312 &#32;&#32;&#32;&#32;G4VisAttributes*&#32;visWorld&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;G4VisAttributes(white);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00313"/>00313 &#32;&#32;&#32;&#32;visWorld-&gt;SetVisibility(<emphasis role="keyword">false</emphasis>);
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00314"/>00314 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fLogicWorld1)&#32;{fLogicWorld1-&gt;SetVisAttributes(visWorld);}
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00315"/>00315 
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00316"/>00316 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(p-&gt;Verbose&#32;==&#32;1)&#32;{&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;End&#32;of&#32;VisualisationConfig&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;}
+<anchor xml:id="__benchmark-3_2src_2_geom_k_i_p_t_8cc_source_1l00317"/>00317 }
+</programlisting></section>

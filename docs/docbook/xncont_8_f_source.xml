@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xncont_8_f_source" xml:lang="en-US">
+<title>xncont.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xncont.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xncont_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;03/06/96&#32;&#32;09.41.48&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;18/01/94</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xncont(IZAMAT,QVAL,E,EP)
+<anchor xml:id="_xncont_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Samples&#32;energy&#32;for&#32;the&#32;neutron&#32;emerging&#32;from&#32;a&#32;(n,n&apos;)&#32;reaction&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;in&#32;the&#32;&quot;continuum&quot;&#32;case,&#32;that&#32;is&#32;when&#32;the&#32;compound&#32;nucleus&#32;is&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;excited&#32;to&#32;a&#32;level&#32;which&#32;is&#32;not&#32;described&#32;by&#32;the&#32;discrete&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;cross&#32;sections&#32;in&#32;the&#32;evaluation&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IZAMAT&#32;&#32;&#32;&#32;(input)&#32;isomer&#32;code&#32;IZ*10000+IA*10+ISO&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;QVAL&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;Q-value&#32;in&#32;eV&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;E&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;incoming&#32;neutron&#32;energy&#32;in&#32;eV&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;EP&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(outout)&#32;outgoing&#32;neutron&#32;energy&#32;in&#32;eV&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00016"/>00016 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00017"/>00017 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00018"/>00018 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcstor.inc&quot;</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00019"/>00019 <emphasis role="preprocessor"></emphasis>&#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;vr(2)
+<anchor xml:id="_xncont_8_f_source_1l00020"/>00020 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00021"/>00021 <emphasis role="comment">*&#32;----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00022"/>00022 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00023"/>00023 <emphasis role="comment">*&#32;---&gt;&#32;Try&#32;to&#32;sample&#32;with&#32;the&#32;energy&#32;distribution&#32;in&#32;the&#32;evaluation</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xne2ep(izamat,5,e,ep,1,ilen)
+<anchor xml:id="_xncont_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ilen.LE.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00026"/>00026 <emphasis role="comment">*&#32;---&gt;&#32;The&#32;energy&#32;distribution&#32;is&#32;not&#32;present&#32;in&#32;the&#32;evaluation,</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00027"/>00027 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;sample&#32;with&#32;an&#32;evaporation&#32;spectrum&#32;with&#32;an&#32;average&#32;energy</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00028"/>00028 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;=1/2&#32;of&#32;the&#32;available&#32;energy</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00029"/>00029 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ncount=0
+<anchor xml:id="_xncont_8_f_source_1l00030"/>00030 &#32;&#32;&#32;10&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnrand(vr,2)
+<anchor xml:id="_xncont_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ep=-0.25*(e+qval)*log(vr(1)*vr(2))
+<anchor xml:id="_xncont_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ncount=ncount+1
+<anchor xml:id="_xncont_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ncount.LE.20)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ep.GT.e+qval)&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xncont_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00036"/>00036 <emphasis role="comment">*&#32;---&gt;&#32;After&#32;20&#32;trials&#32;the&#32;resulting&#32;energy&#32;is&#32;still&#32;greater&#32;than&#32;the</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00037"/>00037 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;available&#32;energy,&#32;sample&#32;with&#32;a&#32;square&#32;box</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ep=vr(1)*(e+qval)
+<anchor xml:id="_xncont_8_f_source_1l00039"/>00039 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;everything&#32;fails,&#32;output&#32;a&#32;thermal&#32;neutron</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ep.LE.0.)&#32;ep=0.025
+<anchor xml:id="_xncont_8_f_source_1l00041"/>00041 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00042"/>00042 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00043"/>00043 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xncont_8_f_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

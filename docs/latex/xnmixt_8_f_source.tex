@@ -1,0 +1,314 @@
+\hypertarget{xnmixt_8_f_source}{}\doxysection{xnmixt.\+F}
+\label{xnmixt_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnmixt.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnmixt.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  18.59.20  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   07/03/94}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnmixt(IZAMAT,IZAELE,CONCEN,NELEM,CHREAC,NREAC,AMOLEC)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00006}00006 \textcolor{comment}{*     Calculates and stores cross section for mixture                  *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00008}00008 \textcolor{comment}{*     IZAMAT    (input) mixture code (user defined)                    *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00009}00009 \textcolor{comment}{*     IZAELE    (input) array of elements composing the mixture        *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00010}00010 \textcolor{comment}{*     CONCEN    (input) concentration of the elements composing        *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00011}00011 \textcolor{comment}{*               the mixture, either by number (NELEM>0) or by          *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00012}00012 \textcolor{comment}{*               weight (NELEM<0)                                       *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00013}00013 \textcolor{comment}{*     NELEM     (input) number of elements composing the mixture       *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00014}00014 \textcolor{comment}{*     CHREAC    (input CHARACTER*8) array of reaction codes to be      *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00015}00015 \textcolor{comment}{*               calculated for the mixture                             *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00016}00016 \textcolor{comment}{*     NREAC     (input) number of reactions to be calculated for the   *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00017}00017 \textcolor{comment}{*               mixture                                                *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00018}00018 \textcolor{comment}{*     AMOLEC    (input) molecolar weight in amu in case proportion     *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00019}00019 \textcolor{comment}{*               by number is given                                     *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00020}00020 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00021}00021 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00022}00022 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00023}00023 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00024}00024 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00025}00025 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00026}00026 \textcolor{preprocessor}{}      parameter(nspace=100 000,maxele=50,perthi=0.02)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00027}00027       dimension izaele(*),concen(*),hinf(nadinf)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00028}00028       \textcolor{keywordtype}{CHARACTER*8} CHREAC(*)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00029}00029       dimension anum(maxele),pnum(maxele),tmpxsc(nspace)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00030}00030       \textcolor{keywordtype}{CHARACTER*2} CHENAM(MAXELE)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00031}00031       \textcolor{keywordtype}{LOGICAL} LOK,LQVAL}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00032}00032 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00033}00033 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00034}00034 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> See whether it is a new material or not}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00036}00036       imate = 0}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00037}00037       \textcolor{keywordflow}{DO} 10 jmate=1,nmate}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00038}00038          \textcolor{keywordflow}{IF}(izamat.EQ.imtabl(1,jmate)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> This isomer code is alread in use}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00040}00040             imate = jmate}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Drop everything and recover storage}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00042}00042             \textcolor{keyword}{CALL }xndrop(izamat,0)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00043}00043             \textcolor{keywordflow}{GOTO} 20}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00044}00044 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00045}00045    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00046}00046 \textcolor{comment}{* -\/-\/-\/> New material, check if there is space in index table IMTABL}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00047}00047       \textcolor{keywordflow}{IF}(nmate.GE.mxmate) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00048}00048          \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' *** XNMIXT No more space to store materials'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00049}00049          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00050}00050 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00051}00051 \textcolor{comment}{* -\/-\/-\/> Add new code for the mixture}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00052}00052       nmate = nmate+1}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00053}00053       imate = nmate}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00054}00054       imtabl(1,imate)=izamat}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00055}00055    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00056}00056 \textcolor{comment}{* -\/-\/-\/> Save high water mark}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00057}00057       ihgold = ihgwmk}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00058}00058       nmatol = nmate}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00059}00059       mreac=nreac}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00060}00060 \textcolor{comment}{* -\/-\/-\/> If NREAC=0, all reaction handled}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00061}00061       \textcolor{keywordflow}{IF}(nreac.EQ.0) mreac=mxreac}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00062}00062 \textcolor{comment}{* -\/-\/-\/> Loop over all reactions}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00063}00063       \textcolor{keywordflow}{DO} 150 jreac=1,mreac}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00064}00064 \textcolor{comment}{* -\/-\/-\/> Find reaction if not all asked}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00065}00065          \textcolor{keywordflow}{IF}(nreac.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00066}00066             \textcolor{keywordflow}{DO} 30 lreac=1,mxreac}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00067}00067                \textcolor{keywordflow}{IF}(chreac(jreac).EQ.chname(lreac)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00068}00068 \textcolor{comment}{* -\/-\/-\/> Found reaction in list}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00069}00069                   ircode=3000+nbmft(lreac)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00070}00070                   irnumb=lreac}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00071}00071                   \textcolor{keywordflow}{GOTO} 40}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00072}00072 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00073}00073    30       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00074}00074 \textcolor{comment}{* -\/-\/-\/> Reaction not found in list, stop}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00075}00075             \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' *** XNMIXT: Unknown reaction '}\textcolor{stringliteral}{',A4)'}) chreac(j}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00076}00076      +      reac )}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00077}00077             stop}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00078}00078          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00079}00079 \textcolor{comment}{* -\/-\/-\/> All reaction asked, just load combined reaction code...}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00080}00080             ircode = 3000+nbmft(jreac)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00081}00081 \textcolor{comment}{* -\/-\/-\/> ...and pointer to the "{}column"{} of the IMTABL index table}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00082}00082             irnumb = jreac}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00083}00083 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00084}00084 \textcolor{comment}{* -\/-\/-\/> Here the work starts for this reaction}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00085}00085    40    hnorm = 0.}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00086}00086 \textcolor{comment}{* -\/-\/-\/> decode reaction code}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00087}00087          mf = ircode/1000}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00088}00088          mt = mod(ircode,1000)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00089}00089 \textcolor{comment}{* -\/-\/-\/> Threshold reaction?}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00090}00090          qval = 0.}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00091}00091          lqval=.false.}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00092}00092          \textcolor{keywordflow}{IF}(mf.EQ.3.AND. (mt.EQ.4.OR.(51.LE.mt.AND.mt.LE.91)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00093}00093      +   .OR.mt.EQ.16)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00094}00094             lqval=.true.}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00095}00095 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00096}00096 \textcolor{comment}{* -\/-\/-\/> Loop on all materials}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00097}00097          \textcolor{keywordflow}{DO} 120 jelem=1,abs(nelem)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00098}00098             hinteg = 0.}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00099}00099             \textcolor{keywordflow}{IF}(jreac.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00100}00100 \textcolor{comment}{* -\/-\/-\/> Load total cross section to have A in amu}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00101}00101                \textcolor{keyword}{CALL }xninfo(izaele(jelem),anum(jelem),chenam(jelem))}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00102}00102                anum(jelem) = anum(jelem)/.931141}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00103}00103                \textcolor{keywordflow}{IF}(nelem.GT.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00104}00104 \textcolor{comment}{* -\/-\/-\/> Proportion by number}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00105}00105                   pnum(jelem) = concen(jelem)*amolec/anum(jelem)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00106}00106                \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00107}00107 \textcolor{comment}{* -\/-\/-\/> Proportion by weight}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00108}00108                   pnum(jelem) = concen(jelem)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00109}00109 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00110}00110 \textcolor{comment}{* -\/-\/-\/> Reset old HiGh Water MarK and recuperate storage}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00111}00111                ihgwmk = ihgold}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00112}00112 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00113}00113 \textcolor{comment}{* -\/-\/-\/> Load the current}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00114}00114             \textcolor{keyword}{CALL }xntabl(izaele(jelem),ircode,ima)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00115}00115 \textcolor{comment}{* -\/-\/-\/> Get start and length of data in memory}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00116}00116             \textcolor{keyword}{CALL }xngetm(izaele(jelem),ircode,ista,ilen,hinf)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00117}00117 \textcolor{comment}{* -\/-\/-\/> If this is a cross section, number of pairs is returned}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00118}00118             \textcolor{keywordflow}{IF}(mf.EQ.3) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00119}00119                ilen=ilen*2}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00120}00120 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00121}00121             \textcolor{keywordflow}{IF}(ima.NE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00122}00122 \textcolor{comment}{* -\/-\/-\/> If something has been loaded}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00123}00123                \textcolor{keywordflow}{IF}(jelem.EQ.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00124}00124 \textcolor{comment}{* -\/-\/-\/> If this is the first element of the mixture}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00125}00125                   \textcolor{keywordflow}{IF}(ilen.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00126}00126 \textcolor{comment}{* -\/-\/-\/> If data was present}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00127}00127                      \textcolor{keywordflow}{IF}(ilen.GT.nspace) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00128}00128 \textcolor{comment}{* -\/-\/-\/> Error, not enough work space for cross section}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00129}00129                         \textcolor{keyword}{WRITE}(6,10000)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00130}00130 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNMIXT: not enough internal storage for elements'})}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00131}00131                         stop \textcolor{stringliteral}{'Increase NSPACE'}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00132}00132 \textcolor{keywordflow}{                     ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00133}00133 \textcolor{comment}{* -\/-\/-\/> Store cross section and calculate integral}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00134}00134                      tmpxsc(1) = xstore(ista+1)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00135}00135                      tmpxsc(2) = xstore(ista+2)*pnum(jelem)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00136}00136                      \textcolor{keywordflow}{DO} 50 j=3,ilen-\/1,2}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00137}00137                         tmpxsc(j ) = xstore(ista+j)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00138}00138                         tmpxsc(j+1) = xstore(ista+j+1)*pnum(jelem)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00139}00139                         hinteg = hinteg + 0.5*(tmpxsc(j-\/1)+tmpxsc(j+1))}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00140}00140      +                  * (tmpxsc(j)-\/ tmpxsc(j-\/2))}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00141}00141    50                \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00142}00142 \textcolor{comment}{* -\/-\/-\/> Set high water mark in TMPXSC}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00143}00143                      ilengt = ilen}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00144}00144                   \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00145}00145 \textcolor{comment}{* -\/-\/-\/> No cross section present for this reaction, set it all to 0}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00146}00146                      ilengt = 2}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00147}00147                      tmpxsc(1) = 1e-\/5}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00148}00148                      tmpxsc(2) = 0}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00149}00149                      tmpxsc(3) = 2e7}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00150}00150                      tmpxsc(4) = 0}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00151}00151 \textcolor{keywordflow}{                  ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00152}00152                \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00153}00153 \textcolor{comment}{* -\/-\/-\/> Not the first element for this reaction, this is more complicate}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00154}00154 \textcolor{comment}{*      because we have to insert points}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00155}00155                   \textcolor{keywordflow}{DO} 80 j=ista+1,ista+ilen-\/1,2}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00156}00156                      ene = xstore(j)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00157}00157                      \textcolor{keywordflow}{IF}(j.GT.1) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00158}00158                         hinteg = hinteg + 0.5*(xstore(j-\/1)+xstore(j+1))}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00159}00159      +                  * (xstore(j )-\/xstore(j-\/2))}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00160}00160 \textcolor{keywordflow}{                     ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00161}00161                      \textcolor{keywordflow}{IF}(ene.LT.tmpxsc(1)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00162}00162 \textcolor{comment}{* -\/-\/-\/> Add a new low point assume a threshold, set to 0 its cross section}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00163}00163 \textcolor{comment}{*      and all the others and move everything by 1 pair}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00164}00164                         \textcolor{keywordflow}{DO} 60 jj=ilengt,1,-\/1}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00165}00165                            tmpxsc(jj+2) = tmpxsc(jj)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00166}00166    60                   \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00167}00167 \textcolor{comment}{* -\/-\/-\/> New low point}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00168}00168                         tmpxsc(1) = ene}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00169}00169                         tmpxsc(2) = 0.}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00170}00170 \textcolor{comment}{* -\/-\/-\/> New length}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00171}00171                         ilengt=ilengt+2}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00172}00172                         \textcolor{keywordflow}{IF}(ilengt.GT.nspace) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00173}00173 \textcolor{comment}{* -\/-\/-\/> Do we still have enough space?}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00174}00174                            \textcolor{keyword}{WRITE}(6,10100)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00175}00175 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNMIXT: not enough internal storage for elements'})}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00176}00176                            stop \textcolor{stringliteral}{'Increase NSPACE'}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00177}00177 \textcolor{keywordflow}{                        ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00178}00178                      \textcolor{keywordflow}{ELSEIF}(ene.GT.tmpxsc(ilengt-\/1)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00179}00179 \textcolor{comment}{* -\/-\/-\/> Add a new high point assume plateau behaviour for the other}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00180}00180 \textcolor{comment}{*      cross sections}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00181}00181                         tmpxsc(ilengt+1) = ene}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00182}00182                         tmpxsc(ilengt+2) = tmpxsc(ilengt)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00183}00183                         ilengt=ilengt+2}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00184}00184                         \textcolor{keywordflow}{IF}(ilengt.GT.nspace) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00185}00185                            \textcolor{keyword}{WRITE}(6,10200)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00186}00186 10200 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNMIXT: not enough internal storage for elements'})}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00187}00187                            stop \textcolor{stringliteral}{'Increase NSPACE'}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00188}00188 \textcolor{keywordflow}{                        ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00189}00189                      \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00190}00190 \textcolor{comment}{* -\/-\/-\/> Add point in the middle, find where to add it}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00191}00191                         \textcolor{keyword}{CALL }xnbins(tmpxsc,ilengt/2,2,ene,iret)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00192}00192                         iret1 = 2*iret-\/1}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00193}00193                         \textcolor{keywordflow}{IF}(tmpxsc(iret1).NE.ene) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00194}00194 \textcolor{comment}{* -\/-\/-\/> Point has to be added because not there, interpolate the old}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00195}00195 \textcolor{comment}{*      cross section}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00196}00196                            xrat=(tmpxsc(iret1+2)-\/ene)/(tmpxsc(iret1+2)-\/}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00197}00197      +                     tmpxsc(iret1) )}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00198}00198                            sect = tmpxsc(iret1+1)*xrat+tmpxsc(iret1+3)*}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00199}00199      +                     (1-\/ xrat)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00200}00200 \textcolor{comment}{* -\/-\/-\/ Add the point shifting everything up by 1 pair}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00201}00201                            \textcolor{keywordflow}{DO} 70 ll= ilengt,iret1+2,-\/1}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00202}00202                               tmpxsc(ll+2) = tmpxsc(ll)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00203}00203    70                      \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00204}00204                            tmpxsc(iret1+2) = ene}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00205}00205                            tmpxsc(iret1+3) = sect}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00206}00206                            ilengt=ilengt+2}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00207}00207                            \textcolor{keywordflow}{IF}(ilengt.GT.nspace) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00208}00208 \textcolor{comment}{* -\/-\/-\/> Do we still have space?}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00209}00209                               \textcolor{keyword}{WRITE}(6,10300)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00210}00210 10300 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNMIXT: not enough internal storage for elements'})}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00211}00211                               stop \textcolor{stringliteral}{'Increase NSPACE'}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00212}00212 \textcolor{keywordflow}{                           ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00213}00213 \textcolor{keywordflow}{                        ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00214}00214 \textcolor{keywordflow}{                     ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00215}00215    80             \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00216}00216 \textcolor{comment}{* -\/-\/-\/> Here we do add the new values}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00217}00217                   \textcolor{keywordflow}{DO} 90 jp=1,ilengt-\/1,2}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00218}00218                      \textcolor{keyword}{CALL }xnbint(ista,ilen/2,tmpxsc(jp),sect)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00219}00219                      tmpxsc(jp+1)=tmpxsc(jp+1)+sect*pnum(jelem)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00220}00220    90             \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00221}00221 \textcolor{keywordflow}{               ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00222}00222 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00223}00223 \textcolor{comment}{* -\/-\/-\/> We calculate the total integral}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00224}00224             hinteg = hinteg*pnum(jelem)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00225}00225             hnorm=hnorm+hinteg}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00226}00226             \textcolor{keywordflow}{IF}(lqval) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00227}00227 \textcolor{comment}{* -\/-\/-\/> If this is a threshold reaction we add the QVAL to the average}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00228}00228 \textcolor{comment}{*      QVAL weighted by the cross section integral}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00229}00229                qval = qval+hinf(1)*hinteg}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00230}00230 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00231}00231 \textcolor{comment}{* -\/-\/-\/> Recover space and slot in the index table}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00232}00232             ihgwmk=ihgold}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00233}00233             \textcolor{keywordflow}{DO} 110 jma=nmatol+1,nmate}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00234}00234                \textcolor{keywordflow}{DO} 100 jze=1,nreinf*mxreac+1}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00235}00235                   imtabl(jze,jma)=0}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00236}00236   100          \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00237}00237   110       \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00238}00238             nmate = nmatol}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00239}00239   120    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00240}00240 \textcolor{comment}{* -\/-\/-\/> Thin cross section}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00241}00241          ilsave = ilengt}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00242}00242          ip=3}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00243}00243          ie=5}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00244}00244   130    lok=.true.}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00245}00245          \textcolor{keywordflow}{IF}(tmpxsc(ip).EQ.tmpxsc(ie)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00246}00246 \textcolor{comment}{* -\/-\/-\/> Repeated energy, thin}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00247}00247             lok=.false.}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00248}00248          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00249}00249             xrat = (tmpxsc(ip)-\/tmpxsc(ip-\/2))/ (tmpxsc(ie)-\/tmpxsc(ip-\/2))}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00250}00250             tsec = tmpxsc(ip-\/1)*xrat+tmpxsc(ie+1)*(1-\/xrat)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00251}00251             \textcolor{keywordflow}{IF}(abs(tsec-\/tmpxsc(ip+1)).LE.perthi*tmpxsc(ip+1)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00252}00252 \textcolor{comment}{* -\/-\/-\/> Useless point, thin}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00253}00253                lok=.false.}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00254}00254 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00255}00255 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00256}00256          \textcolor{keywordflow}{IF}(lok) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00257}00257 \textcolor{comment}{* -\/-\/-\/> This poin ok, keep it}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00258}00258             ip = ip+2}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00259}00259 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00260}00260          \textcolor{keywordflow}{IF}(ie.GT.ip) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00261}00261 \textcolor{comment}{* -\/-\/-\/> Copy only if data has to be moved}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00262}00262             tmpxsc(ip)=tmpxsc(ie)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00263}00263             tmpxsc(ip+1)=tmpxsc(ie+1)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00264}00264 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00265}00265 \textcolor{comment}{* -\/-\/-\/> Take next point}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00266}00266          ie=ie+2}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00267}00267          \textcolor{keywordflow}{IF}(ie.LT.ilengt) \textcolor{keywordflow}{GOTO} 130}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00268}00268 \textcolor{comment}{* -\/-\/-\/> Thinning ended, print summary}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00269}00269          ilengt = ilengt-\/(ie-\/ip-\/2)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00270}00270          \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'(1X,E11.4,'}\textcolor{stringliteral}{' \% thinning'}\textcolor{stringliteral}{')'}) 100.*ilengt/ilsave}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00271}00271 \textcolor{comment}{* -\/-\/-\/> Insert reaction in table}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00272}00272          imtabl(1+nreinf*(irnumb-\/1)+1,imate)=ihgwmk}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00273}00273          \textcolor{keywordflow}{IF}(mf.EQ.3) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00274}00274             imtabl(1+nreinf*(irnumb-\/1)+2,imate)=ilengt/2}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00275}00275          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00276}00276             imtabl(1+nreinf*(irnumb-\/1)+2,imate)=ilengt}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00277}00277 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00278}00278          \textcolor{keywordflow}{IF}(lqval) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00279}00279 \textcolor{comment}{* -\/-\/-\/> Reaction with a Q value, calculate average one}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00280}00280             \textcolor{keywordflow}{IF}(hnorm.GT.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00281}00281                qval=qval/hnorm}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00282}00282             \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00283}00283                qval = 0.}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00284}00284 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00285}00285             hmtabl(1+nreinf*(irnumb-\/1)+2+1,imate)=qval}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00286}00286 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00287}00287 \textcolor{comment}{* -\/-\/-\/> Load reaction in memory}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00288}00288          \textcolor{keywordflow}{DO} 140 jp=1,ilengt}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00289}00289             xstore(ihgwmk+jp)=tmpxsc(jp)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00290}00290   140    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00291}00291 \textcolor{comment}{* -\/-\/-\/> Reset high water mark}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00292}00292          ihgwmk = ihgwmk+ilengt}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00293}00293 \textcolor{comment}{* -\/-\/-\/> Save current high water mark}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00294}00294          ihgold = ihgwmk}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00295}00295   150 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00296}00296 \textcolor{comment}{* -\/-\/-\/> Here we print a little table}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00297}00297       amo = 0.}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00298}00298       \textcolor{keywordflow}{DO} 160 jel=1,abs(nelem)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00299}00299          amo = amo+pnum(jel)*anum(jel)}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00300}00300   160 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00301}00301       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{'  Element                Ratio'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00302}00302       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{'                by number       by weight'}\textcolor{stringliteral}{')'})}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00303}00303       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'(4X,A2,7X,E11.4,6X,E11.4)'})}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00304}00304      + (chenam(ll),pnum(ll),pnum(ll)*anum(ll)/amo,ll=1,abs(nelem))}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00305}00305       \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' Apparent molecular weight of mixture = '}\textcolor{stringliteral}{',E11.4)'})}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00306}00306      +     amo}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00307}00307 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnmixt_8_f_source_l00308}00308   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}

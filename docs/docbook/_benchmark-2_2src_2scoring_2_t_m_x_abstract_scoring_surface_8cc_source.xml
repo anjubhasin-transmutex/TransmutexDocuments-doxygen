@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source" xml:lang="en-US">
+<title>TMXAbstractScoringSurface.cc</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/Benchmark-2/src/scoring/TMXAbstractScoringSurface.cc</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00001"/>00001 
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00002"/>00002 <emphasis role="comment">//&#32;\brief&#32;Implementation&#32;of&#32;the&#32;Abtract&#32;Scoring&#32;Surfacic</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00003"/>00003 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00004"/>00004 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00006"/>00006 <emphasis role="comment"></emphasis><emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00007"/>00007 <emphasis role="comment">//&#32;TMXAbstractScoringSurface</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00008"/>00008 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00009"/>00009 <emphasis role="comment">//&#32;Thomas&#32;Guilbaud,&#32;Transmutex,&#32;05/07/2021</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00010"/>00010 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00012"/>00012 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;Scoring&#32;for&#32;Surfacic&#32;Quantities</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00014"/>00014 <emphasis role="comment"></emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00015"/>00015 
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00016"/>00016 <emphasis role="comment">//&#32;TMX&#32;Class</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00017"/>00017 <emphasis role="preprocessor">#include&#32;&quot;TMXAbstractScoringSurface.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00018"/>00018 
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00019"/>00019 <emphasis role="comment">//&#32;GEANT4&#32;libraries</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00020"/>00020 <emphasis role="preprocessor">#include&#32;&quot;Analysis.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00021"/>00021 <emphasis role="preprocessor">#include&#32;&quot;G4LogicalVolume.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00022"/>00022 <emphasis role="preprocessor">#include&#32;&quot;G4PhysicalVolumeStore.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00023"/>00023 <emphasis role="preprocessor">#include&#32;&quot;G4VPhysicalVolume.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00024"/>00024 <emphasis role="preprocessor">#include&#32;&quot;G4VSolid.hh&quot;</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00025"/>00025 
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00026"/>00026 
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00027"/>00027 TMXAbstractScoringSurface::TMXAbstractScoringSurface(<link linkend="_class_t_m_x_input_parameters">TMXInputParameters</link>*&#32;parameter)
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00028"/>00028 :&#32;&#32;&#32;<link linkend="_class_t_m_x_abstract_scoring">TMXAbstractScoring</link>(parameter)
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00029"/>00029 {
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00030"/>00030 &#32;&#32;&#32;&#32;m_mapPVSurface.clear();
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00031"/>00031 &#32;&#32;&#32;&#32;m_mapPVOrientation.clear();
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00032"/>00032 }
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00033"/>00033 
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00034"/>00034 TMXAbstractScoringSurface::~TMXAbstractScoringSurface()
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00035"/>00035 {}
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00036"/>00036 
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00037"/>00037 <emphasis role="comment">//------------------------------------------------------------------------------*</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00038"/>00038 <emphasis role="comment">//&#32;Builder</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00039"/>00039 
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00040"/>00040 <emphasis role="keywordtype">void</emphasis>&#32;TMXAbstractScoringSurface::buildMapPVSurface()&#32;{
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00041"/>00041 &#32;&#32;&#32;&#32;G4PhysicalVolumeStore*&#32;PVStore&#32;=&#32;G4PhysicalVolumeStore::GetInstance();
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00042"/>00042 &#32;&#32;&#32;&#32;G4VPhysicalVolume*&#32;PV;
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00043"/>00043 &#32;&#32;&#32;&#32;G4LogicalVolume*&#32;LV;
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00044"/>00044 &#32;&#32;&#32;&#32;G4VSolid*&#32;solid;
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00045"/>00045 &#32;&#32;&#32;&#32;std::string&#32;PVname;
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00046"/>00046 
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00047"/>00047 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keyword">auto</emphasis>&#32;mapIndex&#32;=&#32;m_mapPVParticle.begin();&#32;mapIndex&#32;!=&#32;m_mapPVParticle.end();&#32;mapIndex++)&#32;{
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;std::string&gt;&#32;PVNames&#32;=&#32;getPVUnionNames(getPVScorer(mapIndex-&gt;first));
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_mapPVSurface[mapIndex-&gt;first]&#32;=&#32;0;
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00050"/>00050 
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">size_t</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;PVNames.size();&#32;i++)&#32;{
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keyword">auto</emphasis>&#32;it_PV&#32;=&#32;PVStore-&gt;begin();&#32;it_PV&#32;!=&#32;PVStore-&gt;end();&#32;it_PV++)&#32;{&#32;<emphasis role="comment">//&#32;Read&#32;the&#32;logical&#32;volume&#32;store</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PV&#32;=&#32;*it_PV;&#32;<emphasis role="comment">//&#32;Define&#32;the&#32;physical&#32;volume</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PVname&#32;=&#32;PV-&gt;GetName();
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00055"/>00055 
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(PVNames[i]&#32;==&#32;PVname)&#32;{
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(PV-&gt;GetLogicalVolume())&#32;{
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;LV&#32;=&#32;PV-&gt;GetLogicalVolume();
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;solid&#32;=&#32;LV-&gt;GetSolid();
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;std::cout&#32;&lt;&lt;&#32;solid-&gt;GetSurfaceArea()/cm2&#32;&lt;&lt;&#32;&quot;&#32;cm2\n&quot;;</emphasis>
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_mapPVSurface[mapIndex-&gt;first]&#32;+=&#32;solid-&gt;GetSurfaceArea()/cm2;
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00067"/>00067 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00068"/>00068 
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00069"/>00069 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(m_p-&gt;Verbose&#32;&gt;=&#32;1&#32;&amp;&amp;&#32;m_mapPVSurface.size()&#32;&gt;=&#32;1)&#32;{
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Surface&#32;Estimation:&quot;</emphasis>&#32;&lt;&lt;&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>;
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keyword">auto</emphasis>&#32;it_PV&#32;=&#32;m_mapPVSurface.begin();&#32;it_PV&#32;!=&#32;m_mapPVSurface.end();&#32;it_PV++)&#32;{
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;*&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;it_PV-&gt;first&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;it_PV-&gt;second&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;cm2\n&quot;</emphasis>;
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00074"/>00074 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__benchmark-2_2src_2scoring_2_t_m_x_abstract_scoring_surface_8cc_source_1l00075"/>00075 }
+</programlisting></section>

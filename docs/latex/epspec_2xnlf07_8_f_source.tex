@@ -1,0 +1,44 @@
+\hypertarget{epspec_2xnlf07_8_f_source}{}\doxysection{xnlf07.\+F}
+\label{epspec_2xnlf07_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/epspec/xnlf07.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/epspec/xnlf07.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 05/06/96  12.39.37  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnlf07(ENS,PB,NEN,PE,THETA,ENERGY,U)}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00006}00006 \textcolor{comment}{*     Calculate probability for Simple fission spectrum (Maxwellian)   *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00007}00007 \textcolor{comment}{*     on an array of outgoing energy values                            *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00008}00008 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00009}00009 \textcolor{comment}{*     ENS       (input) array of energy values of outgoing neutron     *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00010}00010 \textcolor{comment}{*               in eV                                                  *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00011}00011 \textcolor{comment}{*     PB        (output) array of probabilities corresponding to       *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00012}00012 \textcolor{comment}{*               the values in ENS                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00013}00013 \textcolor{comment}{*     NEN       (input) number of energy values in ENS                 *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00014}00014 \textcolor{comment}{*     PE        (input) weight of the section                          *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00015}00015 \textcolor{comment}{*     THETA     (input) nuclear temperature in eV                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00016}00016 \textcolor{comment}{*     ENERGY    (input) incoming neutron energy in eV                  *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00017}00017 \textcolor{comment}{*     U         (input) -\/Q value of the reaction in eV                 *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00018}00018 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00019}00019 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00020}00020 \textcolor{preprocessor}{\#include "{}xctab1.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00021}00021 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xc5dat.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00022}00022 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcenes.inc"{}}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00023}00023 \textcolor{preprocessor}{}      parameter(sqrpih=0.8862269)}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00024}00024       dimension ens(nen), pb(nen)}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00025}00025 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00027}00027 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00028}00028 \textcolor{comment}{*     WRITE(6,10000)}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00029}00029 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' Simple fission spectrum (Maxwellian)'})}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Now add Pb distribution to grid}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00031}00031       rede=(energy-\/u)/theta}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00032}00032       hnorm=theta**1.5*(sqrpih*erf(sqrt(rede))-\/sqrt(rede)*exp(-\/rede))}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00033}00033       \textcolor{keywordflow}{DO} 10 jen=1,nen}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00034}00034          ppp=sqrt(ens(jen))*exp(-\/ens(jen)/theta)/hnorm}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00035}00035          pb(jen)=pb(jen)+pe*ppp}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00036}00036    10 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00037}00037 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{epspec_2xnlf07_8_f_source_l00038}00038       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

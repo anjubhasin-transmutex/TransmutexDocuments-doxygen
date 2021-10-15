@@ -1,0 +1,72 @@
+\hypertarget{xngetd_8_f_source}{}\doxysection{xngetd.\+F}
+\label{xngetd_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xngetd.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xngetd.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  12.15.41  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   17/01/94}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xngetd(IDPOI,IMATE,IREAC)}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00006}00006 \textcolor{comment}{*     Read data for a reaction from Cross Section database             *}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00008}00008 \textcolor{comment}{*     IDPOI     (input) pointer to the reaction to be read in the      *}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00009}00009 \textcolor{comment}{*               disk database index LINDEX                             *}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00010}00010 \textcolor{comment}{*     IMATE     (input) pointer to the material "{}row"{} in the memory    *}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00011}00011 \textcolor{comment}{*               index IMTABL                                           *}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00012}00012 \textcolor{comment}{*     IMATE     (input) pointer to the reaction "{}column"{} in the        *}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00013}00013 \textcolor{comment}{*               memory index IMTABL                                    *}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00014}00014 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00015}00015 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00016}00016 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00017}00017 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00018}00018 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00019}00019 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcdbas.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00020}00020 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcutil.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00021}00021 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00022}00022 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00023}00023 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00024}00024 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00025}00025 \textcolor{comment}{* -\/-\/-\/> Number of words to read}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00026}00026       ntodo=lindex(4,idpoi)}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00027}00027 \textcolor{comment}{* -\/-\/-\/> Record pointer in disk}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00028}00028       nrecr=lindex(3,idpoi)}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> Last used position in memory}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00030}00030       ipos =ihgwmk}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00031}00031 \textcolor{comment}{* -\/-\/-\/> Now read}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00032}00032 \textcolor{preprocessor}{\#ifdef XSASCII}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00033}00033 \textcolor{preprocessor}{}\textcolor{comment}{* -\/-\/-\/> Number of words per line}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00034}00034       nwplin=6}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Read header}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00036}00036       \textcolor{keyword}{READ}(itape,rec=nrecr,fmt=10000) (hmtabl(1+nreinf*(ireac-\/1)+2+}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00037}00037      +l,imate),l=1,nadinf)}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00038}00038       nrecr=nrecr+1}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> Read data}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00040}00040    10 \textcolor{keyword}{READ}(itape,rec=nrecr,fmt=10000) (xstore(ipos+l),l=1,min(nwplin,}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00041}00041      +ntodo))}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00042}00042 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00043}00043 \textcolor{preprocessor}{}\textcolor{comment}{* -\/-\/-\/> Number of words per line}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00044}00044       nwplin=20}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00045}00045 \textcolor{comment}{* -\/-\/-\/> Read header}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00046}00046       \textcolor{keyword}{READ}(itape,rec=nrecr) (hmtabl(1+nreinf*(ireac-\/1)+2+}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00047}00047      +l,imate),l=1,nadinf)}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00048}00048       nrecr=nrecr+1}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Read data}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00050}00050    10 \textcolor{keyword}{READ}(itape,rec=nrecr) (xstore(ipos+l),l=1,min(nwplin,ntodo))}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00051}00051 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00052}00052 \textcolor{preprocessor}{}\textcolor{comment}{* -\/-\/-\/> Update counters}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00053}00053       nrecr=nrecr+1}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00054}00054       ntodo=ntodo-\/nwplin}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00055}00055       ipos=ipos+nwplin}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00056}00056 \textcolor{comment}{* -\/-\/-\/> If not finished read again}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00057}00057       \textcolor{keywordflow}{IF}(ntodo.GT.0) \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00058}00058 \textcolor{comment}{C      WRITE(6,'('' *** XNGETD: '',I5,'' words loaded for Z='',}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00059}00059 \textcolor{comment}{C     +   I2,'', A='',I3,'', MF '',I3,'', MT='',I3)' ) LINDEX(4,}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00060}00060 \textcolor{comment}{C     +   IDPOI), LINDEX(1,IDPOI)/1000, MOD(LINDEX(1,IDPOI),1000),}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00061}00061 \textcolor{comment}{C     +   LINDEX(2,IDPOI)/1000, MOD(LINDEX(2,IDPOI),1000)}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00062}00062 \textcolor{comment}{C      WRITE(6,'('' *** XNGETD: '',F5.1,''\% of the space used'')')}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00063}00063 \textcolor{comment}{C     +100.* (IHGWMK+LINDEX(4,IDPOI))/NBSIZE}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00064}00064 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00065}00065 10000 \textcolor{keyword}{FORMAT}(6e11.4,i4,i2,i3,i5)}
+\DoxyCodeLine{\Hypertarget{xngetd_8_f_source_l00066}00066       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

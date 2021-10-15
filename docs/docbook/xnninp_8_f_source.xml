@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_xnninp_8_f_source" xml:lang="en-US">
+<title>xnninp.F</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/xnsect/src/xnninp.F</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_xnninp_8_f_source_1l00001"/>00001 <emphasis role="comment">*CMZ&#32;:&#32;&#32;2.00/02&#32;03/06/96&#32;&#32;18.59.20&#32;&#32;by&#32;&#32;Federico&#32;Carminati</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00002"/>00002 <emphasis role="comment">*--&#32;Author&#32;:&#32;&#32;&#32;&#32;Federico&#32;Carminati&#32;&#32;&#32;18/01/94</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00003"/>00003 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">SUBROUTINE&#32;</emphasis>xnninp(IPMAT,E,SECN,N,EP)
+<anchor xml:id="_xnninp_8_f_source_1l00004"/>00004 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00005"/>00005 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00006"/>00006 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;Samples&#32;secondary&#32;energy&#32;for&#32;inelastic&#32;(n,n&apos;)&#32;reaction&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00007"/>00007 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;This&#32;version&#32;makes&#32;use&#32;of&#32;the&#32;pointer&#32;to&#32;the&#32;isomer&#32;in&#32;the&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00008"/>00008 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IMTABL&#32;index&#32;table&#32;and&#32;it&#32;is&#32;therefore&#32;faster&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00009"/>00009 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00010"/>00010 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;IPMAT&#32;&#32;&#32;&#32;&#32;(input)&#32;pointer&#32;to&#32;isomer&#32;in&#32;the&#32;IMTABL&#32;table&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00011"/>00011 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;E&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(input)&#32;incoming&#32;neutron&#32;energy&#32;in&#32;eV&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00012"/>00012 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;SECN&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;cross&#32;section&#32;of&#32;partial&#32;channel&#32;chosen&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00013"/>00013 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;in&#32;barns&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00014"/>00014 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;N&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;channel&#32;chosen&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00015"/>00015 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;EP&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(output)&#32;energy&#32;of&#32;outcoming&#32;neutron&#32;in&#32;eV&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00016"/>00016 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00017"/>00017 <emphasis role="comment">************************************************************************</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00018"/>00018 <emphasis role="preprocessor">#include&#32;&quot;xcmxse.inc&quot;</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00019"/>00019 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcstor.inc&quot;</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00020"/>00020 <emphasis role="preprocessor"></emphasis><emphasis role="preprocessor">#include&#32;&quot;xcpoin.inc&quot;</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00021"/>00021 <emphasis role="preprocessor"></emphasis><emphasis role="comment">*&#32;---&gt;&#32;Pointer&#32;to&#32;first&#32;partial&#32;inelastic&#32;channel&#32;and&#32;to&#32;(n,n&apos;)</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00022"/>00022 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&quot;columns&quot;&#32;in&#32;IMTABL&#32;index&#32;table</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00023"/>00023 &#32;&#32;&#32;&#32;&#32;&#32;parameter(ninp=1+nreinf*5+1,nine=1+nreinf*2+1)
+<anchor xml:id="_xnninp_8_f_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;dimension&#32;hinfo(nadinf),&#32;vr(2)
+<anchor xml:id="_xnninp_8_f_source_1l00025"/>00025 &#32;&#32;&#32;&#32;&#32;&#32;equivalence(vr(1),&#32;freje)
+<anchor xml:id="_xnninp_8_f_source_1l00026"/>00026 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">CHARACTER*11</emphasis>&#32;XNELNA,&#32;CHELNA
+<anchor xml:id="_xnninp_8_f_source_1l00027"/>00027 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00028"/>00028 <emphasis role="comment">*-----------------------------------------------------------------------</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00029"/>00029 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00030"/>00030 <emphasis role="comment">*&#32;---&gt;&#32;Prepare&#32;for&#32;failure</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;ep&#32;=&#32;e
+<anchor xml:id="_xnninp_8_f_source_1l00032"/>00032 &#32;&#32;&#32;&#32;&#32;&#32;secn&#32;=&#32;0.
+<anchor xml:id="_xnninp_8_f_source_1l00033"/>00033 &#32;&#32;&#32;&#32;&#32;&#32;n&#32;=&#32;0
+<anchor xml:id="_xnninp_8_f_source_1l00034"/>00034 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;normalisation&#32;cross&#32;section</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;istart=imtabl(nine,ipmat)
+<anchor xml:id="_xnninp_8_f_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;ilengt=imtabl(nine+1,ipmat)
+<anchor xml:id="_xnninp_8_f_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ilengt.LE.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00038"/>00038 <emphasis role="comment">*&#32;---&gt;&#32;Something&#32;wrong,&#32;no&#32;cross&#32;section</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chelna=xnelna(imtabl(1,ipmat))
+<anchor xml:id="_xnninp_8_f_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10000)
+<anchor xml:id="_xnninp_8_f_source_1l00041"/>00041 10000&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;****&#32;XNNINP:&#32;(n,n&apos;</emphasis><emphasis role="stringliteral">&apos;)&#32;not&#32;present&#32;for&#32;&apos;</emphasis>,a)
+<anchor xml:id="_xnninp_8_f_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnninp_8_f_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>&#32;<emphasis role="keywordflow">IF</emphasis>(e.LE.xstore(istart+1))&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00044"/>00044 <emphasis role="comment">*&#32;---&gt;&#32;Below&#32;threshold&#32;for&#32;(n,n&apos;)&#32;(?)</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;chelna=xnelna(imtabl(1,ipmat))
+<anchor xml:id="_xnninp_8_f_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,10100)&#32;e,&#32;chelna,&#32;xstore(istart+1)
+<anchor xml:id="_xnninp_8_f_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnninp_8_f_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00049"/>00049 <emphasis role="comment">*&#32;---&gt;&#32;Interpolate&#32;total&#32;(n,n&apos;)&#32;Cross&#32;Section</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnbint(istart,ilengt,e,secine)
+<anchor xml:id="_xnninp_8_f_source_1l00051"/>00051 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00052"/>00052 <emphasis role="comment">*&#32;---&gt;&#32;Here&#32;do&#32;sampling</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00053"/>00053 &#32;&#32;&#32;10&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnrand(vr,1)
+<anchor xml:id="_xnninp_8_f_source_1l00054"/>00054 <emphasis role="comment">*&#32;---&gt;&#32;Test&#32;value</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;freje=freje*secine
+<anchor xml:id="_xnninp_8_f_source_1l00056"/>00056 <emphasis role="comment">*&#32;---&gt;&#32;Running&#32;sum</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;sectot=0.0
+<anchor xml:id="_xnninp_8_f_source_1l00058"/>00058 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;pointer&#32;to&#32;discrete&#32;inelastic&#32;channels</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;irpoin=ninp
+<anchor xml:id="_xnninp_8_f_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">DO</emphasis>&#32;20&#32;jexcit=1,40
+<anchor xml:id="_xnninp_8_f_source_1l00061"/>00061 <emphasis role="comment">*&#32;---&gt;&#32;Move&#32;pointer&#32;to&#32;next&#32;inelastic&#32;channel</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;irpoin=irpoin+3
+<anchor xml:id="_xnninp_8_f_source_1l00063"/>00063 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;start&#32;and&#32;length&#32;of&#32;data</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;istart=imtabl(irpoin&#32;&#32;,ipmat)
+<anchor xml:id="_xnninp_8_f_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ilengt=imtabl(irpoin+1,ipmat)
+<anchor xml:id="_xnninp_8_f_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ilengt.GT.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00067"/>00067 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;channel&#32;is&#32;there&#32;do&#32;interpolation</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnbint(istart,ilengt,e,sec)
+<anchor xml:id="_xnninp_8_f_source_1l00069"/>00069 <emphasis role="comment">*&#32;---&gt;&#32;Update&#32;running&#32;sum</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sectot=sectot+sec
+<anchor xml:id="_xnninp_8_f_source_1l00071"/>00071 <emphasis role="comment">*&#32;---&gt;&#32;Test&#32;again&#32;rejection&#32;value</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(sectot.GE.freje)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00073"/>00073 <emphasis role="comment">*&#32;---&gt;&#32;This&#32;channel&#32;is&#32;sampled,&#32;load&#32;variables&#32;and&#32;return</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;n=jexcit
+<anchor xml:id="_xnninp_8_f_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;secn=sec
+<anchor xml:id="_xnninp_8_f_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ep=e+hmtabl(irpoin+2,ipmat)
+<anchor xml:id="_xnninp_8_f_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;999
+<anchor xml:id="_xnninp_8_f_source_1l00078"/>00078 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00079"/>00079 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00080"/>00080 &#32;&#32;&#32;20&#32;<emphasis role="keywordflow">CONTINUE</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00081"/>00081 <emphasis role="comment">*&#32;---&gt;&#32;No&#32;channel&#32;sampled,&#32;chose&#32;continuum</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;irpoin=irpoin+3
+<anchor xml:id="_xnninp_8_f_source_1l00083"/>00083 <emphasis role="comment">*&#32;---&gt;&#32;Get&#32;start&#32;and&#32;length&#32;of&#32;data</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;istart=imtabl(irpoin&#32;&#32;,ipmat)
+<anchor xml:id="_xnninp_8_f_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;ilengt=imtabl(irpoin+1,ipmat)
+<anchor xml:id="_xnninp_8_f_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnbint(istart,ilengt,e,secn)
+<anchor xml:id="_xnninp_8_f_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;n=41
+<anchor xml:id="_xnninp_8_f_source_1l00088"/>00088 <emphasis role="comment">*&#32;---&gt;&#32;Try&#32;to&#32;sample&#32;from&#32;the&#32;energy&#32;distributio&#32;in&#32;the&#32;database</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xne2ep(imtabl(1,ipmat),5,e,ep,1,ilen)
+<anchor xml:id="_xnninp_8_f_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ilen.LE.0)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00091"/>00091 <emphasis role="comment">*&#32;---&gt;&#32;No&#32;energy&#32;distribution&#32;in&#32;the&#32;database,&#32;sample&#32;with&#32;an&#32;evaporation</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00092"/>00092 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;spectrum&#32;with&#32;average&#32;at&#32;1/2&#32;of&#32;the&#32;available&#32;energy</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ncount=0
+<anchor xml:id="_xnninp_8_f_source_1l00094"/>00094 &#32;&#32;&#32;30&#32;&#32;&#32;&#32;<emphasis role="keyword">CALL&#32;</emphasis>xnrand(vr,2)
+<anchor xml:id="_xnninp_8_f_source_1l00095"/>00095 <emphasis role="comment">*&#32;---&gt;&#32;Sample&#32;evaporation&#32;spectrum</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ep=-0.25*(e+hmtabl(irpoin+2,ipmat))*log(vr(1)*vr(2))
+<anchor xml:id="_xnninp_8_f_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ncount=ncount+1
+<anchor xml:id="_xnninp_8_f_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ncount.LE.20)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ep.GT.e+hmtabl(irpoin+2,ipmat))&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;30
+<anchor xml:id="_xnninp_8_f_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">ELSE</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00101"/>00101 <emphasis role="comment">*&#32;---&gt;&#32;Could&#32;not&#32;conserve&#32;energy&#32;in&#32;20&#32;trials,</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00102"/>00102 <emphasis role="comment">*&#32;&#32;&#32;&#32;&#32;&#32;sample&#32;from&#32;an&#32;uniform&#32;distribution</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ep=vr(1)*(e+hmtabl(irpoin+2,ipmat))
+<anchor xml:id="_xnninp_8_f_source_1l00104"/>00104 <emphasis role="comment">*&#32;---&gt;&#32;If&#32;everything&#32;else&#32;fails,&#32;output&#32;a&#32;thermal&#32;neutron</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00105"/>00105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ep.LE.0.)&#32;ep=0.025
+<anchor xml:id="_xnninp_8_f_source_1l00106"/>00106 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00107"/>00107 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00108"/>00108 <emphasis role="comment">*&#32;---&gt;&#32;Sanity&#32;check&#32;on&#32;EP</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">IF</emphasis>(ep.LE.0.)&#32;<emphasis role="keywordflow">THEN</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">WRITE</emphasis>(6,<emphasis role="stringliteral">&apos;(&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;***&#32;XNNINP:&#32;EP&#32;=&#32;&apos;</emphasis><emphasis role="stringliteral">&apos;,G10.3,&apos;</emphasis><emphasis role="stringliteral">&apos;&#32;from&#32;XNE2EP&apos;</emphasis><emphasis role="stringliteral">&apos;)&apos;</emphasis>)&#32;ep
+<anchor xml:id="_xnninp_8_f_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">GOTO</emphasis>&#32;10
+<anchor xml:id="_xnninp_8_f_source_1l00112"/>00112 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;ENDIF</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00113"/>00113 <emphasis role="comment">*&#32;---&gt;&#32;Load&#32;cross&#32;section&#32;for&#32;output</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;secn=sec
+<anchor xml:id="_xnninp_8_f_source_1l00115"/>00115 <emphasis role="comment">*</emphasis>
+<anchor xml:id="_xnninp_8_f_source_1l00116"/>00116 10100&#32;<emphasis role="keyword">FORMAT</emphasis>(<emphasis role="stringliteral">&apos;&#32;***&#32;XNNINP:&#32;Energy&#32;&apos;</emphasis>,e10.3,<emphasis role="stringliteral">&apos;&#32;is&#32;below&#32;threshold&#32;for&apos;</emphasis>,
+<anchor xml:id="_xnninp_8_f_source_1l00117"/>00117 &#32;&#32;&#32;&#32;&#32;+<emphasis role="stringliteral">&apos;&#32;(n,n&apos;</emphasis><emphasis role="stringliteral">&apos;)&#32;on&#32;&apos;</emphasis>,a,<emphasis role="stringliteral">&apos;&#32;=&#32;&apos;</emphasis>,e10.3)
+<anchor xml:id="_xnninp_8_f_source_1l00118"/>00118 &#32;&#32;999&#32;<emphasis role="keyword">END</emphasis>
+</programlisting></section>

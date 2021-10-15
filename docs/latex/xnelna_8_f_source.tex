@@ -1,0 +1,68 @@
+\hypertarget{xnelna_8_f_source}{}\doxysection{xnelna.\+F}
+\label{xnelna_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnelna.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnelna.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  12.15.41  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   08/09/95}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00003}00003       \textcolor{keyword}{FUNCTION }xnelna(IZAEXT)}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00006}00006 \textcolor{comment}{*     Returns isomer name and level code                               *}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00008}00008 \textcolor{comment}{*     IZAEXT    (input) isomer code                                    *}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00009}00009 \textcolor{comment}{*     XNELNA    (output CHARACTER*11) element name                     *}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00010}00010 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00011}00011 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00012}00012 \textcolor{preprocessor}{\#include "{}xcelna.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00013}00013 \textcolor{preprocessor}{}      parameter(maxiso=6)}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00014}00014       \textcolor{keywordtype}{CHARACTER*11} XNELNA}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00015}00015       \textcolor{keywordtype}{CHARACTER*(*)} CHZUNK,CHIUNK}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00016}00016       \textcolor{keywordtype}{CHARACTER*1} CHISOM(0:MAXISO)}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00017}00017       \textcolor{keyword}{DATA} chisom / \textcolor{stringliteral}{' '},\textcolor{stringliteral}{'m'},\textcolor{stringliteral}{'n'},\textcolor{stringliteral}{'p'},\textcolor{stringliteral}{'q'},\textcolor{stringliteral}{'r'},\textcolor{stringliteral}{'s'} /}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00018}00018       parameter(chzunk=\textcolor{stringliteral}{'??-\/??-\/'},chiunk=\textcolor{stringliteral}{'?'})}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00019}00019 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00021}00021 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00022}00022 \textcolor{comment}{* -\/-\/-\/> Get rid of temperature code}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00023}00023       \textcolor{keyword}{CALL }xngtmp(izaext,izamat,itpos)}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00024}00024       \textcolor{keywordflow}{IF}(izamat.EQ.10) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00025}00025 \textcolor{comment}{* -\/-\/-\/> ENDF-\/6 special code for neutrons}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00026}00026          xnelna=\textcolor{stringliteral}{'    neutron'}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00027}00027          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00028}00028       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(izamat.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00029}00029 \textcolor{comment}{* -\/-\/-\/> ENDF-\/6 special code for photons}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00030}00030          xnelna=\textcolor{stringliteral}{'     photon'}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00031}00031          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00032}00032 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00033}00033       iz=izamat/10000}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00034}00034       \textcolor{keywordflow}{IF}(iz.LE.0.OR.iz.GT.mxelna) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00035}00035 \textcolor{comment}{* -\/-\/-\/> Z smaller than 1 or greater tham MXELNA}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00036}00036          xnelna=chzunk}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00037}00037       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Encode Z and element symbol}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00039}00039          \textcolor{keyword}{WRITE}(xnelna(1:7),10000) iz,chelna(iz)}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00040}00040 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Decode A}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00042}00042       ia=mod(izamat/10,1000)}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00043}00043       \textcolor{keywordflow}{IF}(ia.EQ.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00044}00044 \textcolor{comment}{* -\/-\/-\/> ENDF-\/6 convention A=0 => natural isotope mixture}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00045}00045          xnelna(8:10)=\textcolor{stringliteral}{'Nat'}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00046}00046       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00047}00047 \textcolor{comment}{* -\/-\/-\/> Encode A}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00048}00048          \textcolor{keyword}{WRITE}(xnelna(8:10),10100) ia}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00049}00049 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00050}00050 \textcolor{comment}{* -\/-\/-\/> Decode isomer code}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00051}00051       is=mod(izamat,10)}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00052}00052       \textcolor{keywordflow}{IF}(is.LT.0.OR.is.GT.maxiso) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00053}00053 \textcolor{comment}{* -\/-\/-\/> Invalid isomer code}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00054}00054          xnelna(11:11)=chiunk}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00055}00055       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00056}00056 \textcolor{comment}{* -\/-\/-\/> Decode isomer code}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00057}00057          xnelna(11:11)=chisom(is)}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00058}00058 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00059}00059 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00060}00060 10000 \textcolor{keyword}{FORMAT}(i3,\textcolor{stringliteral}{'-\/'},a2,\textcolor{stringliteral}{'-\/'})}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00061}00061 10100 \textcolor{keyword}{FORMAT}(i3.3)}
+\DoxyCodeLine{\Hypertarget{xnelna_8_f_source_l00062}00062  999  \textcolor{keyword}{END}}
+
+\end{DoxyCode}

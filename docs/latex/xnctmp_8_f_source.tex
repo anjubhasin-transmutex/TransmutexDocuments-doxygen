@@ -1,0 +1,46 @@
+\hypertarget{xnctmp_8_f_source}{}\doxysection{xnctmp.\+F}
+\label{xnctmp_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnctmp.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnctmp.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  10.48.09  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnctmp(KTEMP,ICODE)}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00006}00006 \textcolor{comment}{*     Associates an integer code to the a material temperature         *}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00008}00008 \textcolor{comment}{*     KTEMP     (input) temperature in K                               *}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00009}00009 \textcolor{comment}{*     ICODE     (output) code associated to this temperature. After    *}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00010}00010 \textcolor{comment}{*               the call the cross section of an isomer with code      *}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00011}00011 \textcolor{comment}{*               10000000*ICODE+10000*IZ+10*IA+ISO will be taken from   *}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00012}00012 \textcolor{comment}{*               the Cross Section database broadened at temperature    *}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00013}00013 \textcolor{comment}{*               KTEMP Kelvin.                                          *}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00014}00014 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00015}00015 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00016}00016 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00017}00017 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00018}00018 \textcolor{preprocessor}{}\textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00019}00019 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00020}00020 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00021}00021 \textcolor{comment}{* -\/-\/-\/> See whether this temperature has already an index associated}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00022}00022       \textcolor{keywordflow}{DO} 10 jt=1,nctemp}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00023}00023          \textcolor{keywordflow}{IF}(ltemp(jt).EQ.ktemp) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00024}00024             icode=jt-\/1}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00025}00025             \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00026}00026 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00027}00027   10  \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00028}00028 \textcolor{comment}{* -\/-\/-\/> New index needed}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00029}00029       \textcolor{keywordflow}{IF}(nctemp.GE.mxtemp) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Not enough space to store temperature}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00031}00031          \textcolor{keyword}{WRITE}(6,10000) mxtemp}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00032}00032       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00033}00033 \textcolor{comment}{* -\/-\/-\/> Store temperature and return new index}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00034}00034          icode = nctemp}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00035}00035          nctemp=nctemp+1}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00036}00036          ltemp(nctemp)=ktemp}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00037}00037 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00038}00038 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00039}00039 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' XNCTMP: Only '},i5,\textcolor{stringliteral}{' temperatures allowed!'})}
+\DoxyCodeLine{\Hypertarget{xnctmp_8_f_source_l00040}00040  999  \textcolor{keyword}{END}}
+
+\end{DoxyCode}

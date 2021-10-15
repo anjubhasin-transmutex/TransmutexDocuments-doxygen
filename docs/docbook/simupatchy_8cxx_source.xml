@@ -1,0 +1,637 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_simupatchy_8cxx_source" xml:lang="en-US">
+<title>simupatchy.cxx</title>
+<indexterm><primary>/Users/Transmutex/Simulation/ADS_SimulationCode/xnsect/simupatchy.cxx</primary></indexterm>
+<programlisting linenumbering="unnumbered"><anchor xml:id="_simupatchy_8cxx_source_1l00001"/>00001 <emphasis role="preprocessor">#include&#32;&lt;iostream&gt;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00002"/>00002 <emphasis role="preprocessor">#include&#32;&lt;fstream&gt;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00003"/>00003 <emphasis role="preprocessor">#include&#32;&lt;string&gt;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00004"/>00004 <emphasis role="preprocessor">#include&#32;&lt;map&gt;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00005"/>00005 <emphasis role="preprocessor">#include&#32;&lt;vector&gt;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00006"/>00006 
+<anchor xml:id="_simupatchy_8cxx_source_1l00007"/>00007 <emphasis role="keyword">using</emphasis>&#32;std::cout;
+<anchor xml:id="_simupatchy_8cxx_source_1l00008"/>00008 <emphasis role="keyword">using</emphasis>&#32;std::endl;
+<anchor xml:id="_simupatchy_8cxx_source_1l00009"/>00009 <emphasis role="keyword">using</emphasis>&#32;std::ifstream;
+<anchor xml:id="_simupatchy_8cxx_source_1l00010"/>00010 <emphasis role="keyword">using</emphasis>&#32;std::ofstream;
+<anchor xml:id="_simupatchy_8cxx_source_1l00011"/>00011 <emphasis role="keyword">using</emphasis>&#32;std::string;
+<anchor xml:id="_simupatchy_8cxx_source_1l00012"/>00012 <emphasis role="keyword">using</emphasis>&#32;std::map;
+<anchor xml:id="_simupatchy_8cxx_source_1l00013"/>00013 <emphasis role="keyword">using</emphasis>&#32;std::vector;
+<anchor xml:id="_simupatchy_8cxx_source_1l00014"/>00014 
+<anchor xml:id="_simupatchy_8cxx_source_1l00015"/>00015 <emphasis role="keywordtype">string</emphasis>&#32;bonify(<emphasis role="keywordtype">string</emphasis>&#32;sl)&#32;{
+<anchor xml:id="_simupatchy_8cxx_source_1l00016"/>00016 &#32;&#32;transform(sl.begin(),&#32;sl.end(),&#32;sl.begin(),&#32;::tolower);
+<anchor xml:id="_simupatchy_8cxx_source_1l00017"/>00017 &#32;&#32;sl.erase(std::remove_if(sl.begin(),&#32;sl.end(),&#32;::isspace),&#32;sl.end());
+<anchor xml:id="_simupatchy_8cxx_source_1l00018"/>00018 &#32;&#32;<emphasis role="keywordflow">if</emphasis>(sl.substr(sl.length()-1,1)&#32;==&#32;<emphasis role="stringliteral">&quot;.&quot;</emphasis>)&#32;sl.pop_back();
+<anchor xml:id="_simupatchy_8cxx_source_1l00019"/>00019 &#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;sl;
+<anchor xml:id="_simupatchy_8cxx_source_1l00020"/>00020 }
+<anchor xml:id="_simupatchy_8cxx_source_1l00021"/>00021 
+<anchor xml:id="_simupatchy_8cxx_source_1l00022"/>00022 
+<anchor xml:id="_simupatchy_8cxx_source_1l00023"/>00023 <emphasis role="keywordtype">int</emphasis>&#32;main()&#32;{
+<anchor xml:id="_simupatchy_8cxx_source_1l00024"/>00024 &#32;&#32;ifstream&#32;carfile;
+<anchor xml:id="_simupatchy_8cxx_source_1l00025"/>00025 &#32;&#32;ofstream&#32;outfile;
+<anchor xml:id="_simupatchy_8cxx_source_1l00026"/>00026 &#32;&#32;<emphasis role="keywordtype">string</emphasis>&#32;line;
+<anchor xml:id="_simupatchy_8cxx_source_1l00027"/>00027 &#32;&#32;<emphasis role="keywordtype">string</emphasis>&#32;patch;
+<anchor xml:id="_simupatchy_8cxx_source_1l00028"/>00028 &#32;&#32;<emphasis role="keywordtype">string</emphasis>&#32;deck;
+<anchor xml:id="_simupatchy_8cxx_source_1l00029"/>00029 &#32;&#32;<emphasis role="keywordtype">string</emphasis>&#32;keep;
+<anchor xml:id="_simupatchy_8cxx_source_1l00030"/>00030 &#32;&#32;<emphasis role="keywordtype">string</emphasis>&#32;seq;
+<anchor xml:id="_simupatchy_8cxx_source_1l00031"/>00031 &#32;&#32;
+<anchor xml:id="_simupatchy_8cxx_source_1l00032"/>00032 &#32;&#32;carfile.open(<emphasis role="stringliteral">&quot;xnsect.car&quot;</emphasis>,std::ios_base::in);
+<anchor xml:id="_simupatchy_8cxx_source_1l00033"/>00033 &#32;&#32;<emphasis role="keywordflow">while</emphasis>(getline(carfile,&#32;line))&#32;{
+<anchor xml:id="_simupatchy_8cxx_source_1l00034"/>00034 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(line.substr(0,6)&#32;==&#32;<emphasis role="stringliteral">&quot;+TITLE&quot;</emphasis>)&#32;{
+<anchor xml:id="_simupatchy_8cxx_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;getline(carfile,line);
+<anchor xml:id="_simupatchy_8cxx_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Title&#32;is&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;line&#32;&lt;&lt;&#32;endl;
+<anchor xml:id="_simupatchy_8cxx_source_1l00037"/>00037 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(line.substr(0,6)&#32;==&#32;<emphasis role="stringliteral">&quot;+PATCH&quot;</emphasis>)&#32;{
+<anchor xml:id="_simupatchy_8cxx_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;patch&#32;=&#32;bonify(line.substr(7,line.length()-7));
+<anchor xml:id="_simupatchy_8cxx_source_1l00039"/>00039 &#32;&#32;&#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;New&#32;Patch&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;patch&#32;&lt;&lt;&#32;endl;
+<anchor xml:id="_simupatchy_8cxx_source_1l00040"/>00040 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(line.substr(0,5)&#32;==&#32;<emphasis role="stringliteral">&quot;+DECK&quot;</emphasis>)&#32;{
+<anchor xml:id="_simupatchy_8cxx_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;deck&#32;=&#32;bonify(line.substr(6,line.length()-6));
+<anchor xml:id="_simupatchy_8cxx_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;outfile.close();
+<anchor xml:id="_simupatchy_8cxx_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;outfile.open(patch+<emphasis role="stringliteral">&quot;_&quot;</emphasis>+deck+<emphasis role="stringliteral">&quot;.F&quot;</emphasis>,std::ios_base::out);
+<anchor xml:id="_simupatchy_8cxx_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="_simupatchy_8cxx_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;New&#32;Deck&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;deck&#32;&lt;&lt;&#32;endl;
+<anchor xml:id="_simupatchy_8cxx_source_1l00046"/>00046 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(line.substr(0,5)&#32;==&#32;<emphasis role="stringliteral">&quot;+KEEP&quot;</emphasis>)&#32;{
+<anchor xml:id="_simupatchy_8cxx_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;keep&#32;=&#32;bonify(line.substr(6,line.length()-6));
+<anchor xml:id="_simupatchy_8cxx_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;outfile.close();
+<anchor xml:id="_simupatchy_8cxx_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;outfile.open(patch+<emphasis role="stringliteral">&quot;_&quot;</emphasis>+keep+<emphasis role="stringliteral">&quot;.inc&quot;</emphasis>,std::ios_base::out);
+<anchor xml:id="_simupatchy_8cxx_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="_simupatchy_8cxx_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;New&#32;Keep&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;keep&#32;&lt;&lt;&#32;endl;
+<anchor xml:id="_simupatchy_8cxx_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="_simupatchy_8cxx_source_1l00053"/>00053 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(line.substr(0,4)&#32;==&#32;<emphasis role="stringliteral">&quot;+SEQ&quot;</emphasis>)&#32;{
+<anchor xml:id="_simupatchy_8cxx_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;seq&#32;=&#32;bonify(line.substr(5,line.length()-5));
+<anchor xml:id="_simupatchy_8cxx_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;outfile&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;#include&#32;\&quot;&quot;</emphasis>+seq+<emphasis role="stringliteral">&quot;.inc\&quot;&quot;</emphasis>&#32;&lt;&lt;&#32;endl;
+<anchor xml:id="_simupatchy_8cxx_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Dumping&#32;seq&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;seq&#32;&lt;&lt;&#32;endl;
+<anchor xml:id="_simupatchy_8cxx_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="_simupatchy_8cxx_source_1l00058"/>00058 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_simupatchy_8cxx_source_1l00059"/>00059 &#32;&#32;&#32;&#32;outfile&#32;&lt;&lt;&#32;line&#32;&lt;&lt;&#32;endl;
+<anchor xml:id="_simupatchy_8cxx_source_1l00060"/>00060 &#32;&#32;}
+<anchor xml:id="_simupatchy_8cxx_source_1l00061"/>00061 &#32;&#32;outfile.close();
+<anchor xml:id="_simupatchy_8cxx_source_1l00062"/>00062 &#32;&#32;carfile.close();
+<anchor xml:id="_simupatchy_8cxx_source_1l00063"/>00063 <emphasis role="keywordflow">return</emphasis>&#32;0;
+<anchor xml:id="_simupatchy_8cxx_source_1l00064"/>00064 }
+<anchor xml:id="_simupatchy_8cxx_source_1l00065"/>00065 
+<anchor xml:id="_simupatchy_8cxx_source_1l00066"/>00066 
+<anchor xml:id="_simupatchy_8cxx_source_1l00067"/>00067 <emphasis role="comment">//#include&#32;&lt;map&gt;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00068"/>00068 <emphasis role="comment">//#include&#32;&lt;vector&gt;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00069"/>00069 <emphasis role="comment">//#include&#32;&lt;sstream&gt;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00070"/>00070 <emphasis role="comment">//#include&#32;&lt;cctype&gt;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00071"/>00071 <emphasis role="comment">//#include&#32;&lt;cmath&gt;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00072"/>00072 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00073"/>00073 <emphasis role="comment">//#include&#32;&quot;TMXElements.hh&quot;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00074"/>00074 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00075"/>00075 <emphasis role="comment">//void&#32;TMXElementStore::BuildElementDB()&#32;{}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00076"/>00076 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00077"/>00077 <emphasis role="comment">//using&#32;std::string;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00078"/>00078 <emphasis role="comment">//using&#32;std::map;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00079"/>00079 <emphasis role="comment">//using&#32;std::endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00080"/>00080 <emphasis role="comment">//using&#32;std::cout;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00081"/>00081 <emphasis role="comment">//using&#32;std::vector;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00082"/>00082 <emphasis role="comment">//using&#32;std::ostringstream;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00083"/>00083 <emphasis role="comment">//using&#32;std::ofstream;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00084"/>00084 <emphasis role="comment">//using&#32;std::ifstream;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00085"/>00085 <emphasis role="comment">//using&#32;std::stringstream;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00086"/>00086 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00087"/>00087 <emphasis role="comment">//inline&#32;int&#32;IZA(int&#32;jz,&#32;int&#32;ja,&#32;int&#32;jso)&#32;{return&#32;jz*10000+ja*10+jso;};</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00088"/>00088 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00089"/>00089 <emphasis role="comment">//void&#32;getele(string&#32;line,&#32;int&#32;&amp;ia,&#32;int&#32;&amp;iz,&#32;string&#32;&amp;ele,&#32;int&#32;&amp;iso,&#32;int&#32;&amp;dis,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00090"/>00090 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;float&#32;&amp;eex,&#32;float&#32;&amp;mex,&#32;float&#32;&amp;thalf,&#32;string&#32;&amp;spin,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00091"/>00091 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;string&#32;&amp;decay,&#32;float&#32;&amp;brat,&#32;float&#32;&amp;qdec,&#32;float&#32;&amp;abund);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00092"/>00092 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00093"/>00093 <emphasis role="comment">//void&#32;getDecayProduct(int&#32;ia,&#32;int&#32;iz,&#32;int&#32;iso,&#32;int&#32;dis,&#32;string&#32;decay,&#32;int&#32;&amp;IZAd,&#32;vector&lt;int&gt;*&#32;IZAp);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00094"/>00094 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00095"/>00095 <emphasis role="comment">//void&#32;AddElementFile(ofstream&#32;&amp;file,&#32;int&#32;ia,&#32;int&#32;iz,&#32;string&#32;ele,&#32;int&#32;iso,&#32;float&#32;eex,&#32;float&#32;mex,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00096"/>00096 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;float&#32;thalf,&#32;string&#32;spin,&#32;float&#32;abund);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00097"/>00097 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00098"/>00098 <emphasis role="comment">//void&#32;AddDecayFile(ofstream&#32;&amp;codefile,&#32;int&#32;IZAd,&#32;string&#32;decay,&#32;float&#32;brat,&#32;float&#32;qdec,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00099"/>00099 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vector&lt;int&gt;*&#32;IZAp);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00100"/>00100 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00101"/>00101 <emphasis role="comment">//void&#32;WriteFile();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00102"/>00102 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00103"/>00103 <emphasis role="comment">//int&#32;findZ(string&#32;sym)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00104"/>00104 <emphasis role="comment">//&#32;&#32;const&#32;string&#32;symbol[118]&#32;=&#32;{&quot;H&quot;,&quot;He&quot;,&quot;Li&quot;,&quot;Be&quot;,&quot;B&quot;,&quot;C&quot;,&quot;N&quot;,&quot;O&quot;,&quot;F&quot;,&quot;Ne&quot;,&quot;Na&quot;,&quot;Mg&quot;,&quot;Al&quot;,&quot;Si&quot;,&quot;P&quot;,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00105"/>00105 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&quot;S&quot;,&quot;Cl&quot;,&quot;Ar&quot;,&quot;K&quot;,&quot;Ca&quot;,&quot;Sc&quot;,&quot;Ti&quot;,&quot;V&quot;,&quot;Cr&quot;,&quot;Mn&quot;,&quot;Fe&quot;,&quot;Co&quot;,&quot;Ni&quot;,&quot;Cu&quot;,&quot;Zn&quot;,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00106"/>00106 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&quot;Ga&quot;,&quot;Ge&quot;,&quot;As&quot;,&quot;Se&quot;,&quot;Br&quot;,&quot;Kr&quot;,&quot;Rb&quot;,&quot;Sr&quot;,&quot;Y&quot;,&quot;Zr&quot;,&quot;Nb&quot;,&quot;Mo&quot;,&quot;Tc&quot;,&quot;Ru&quot;,&quot;Rh&quot;,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00107"/>00107 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&quot;Pd&quot;,&quot;Ag&quot;,&quot;Cd&quot;,&quot;In&quot;,&quot;Sn&quot;,&quot;Sb&quot;,&quot;Te&quot;,&quot;I&quot;,&quot;Xe&quot;,&quot;Cs&quot;,&quot;Ba&quot;,&quot;La&quot;,&quot;Ce&quot;,&quot;Pr&quot;,&quot;Nd&quot;,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00108"/>00108 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&quot;Pm&quot;,&quot;Sm&quot;,&quot;Eu&quot;,&quot;Gd&quot;,&quot;Tb&quot;,&quot;Dy&quot;,&quot;Ho&quot;,&quot;Er&quot;,&quot;Tm&quot;,&quot;Yb&quot;,&quot;Lu&quot;,&quot;Hf&quot;,&quot;Ta&quot;,&quot;W&quot;,&quot;Re&quot;,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00109"/>00109 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&quot;Os&quot;,&quot;Ir&quot;,&quot;Pt&quot;,&quot;Au&quot;,&quot;Hg&quot;,&quot;Tl&quot;,&quot;Pb&quot;,&quot;Bi&quot;,&quot;Po&quot;,&quot;At&quot;,&quot;Rn&quot;,&quot;Fr&quot;,&quot;Ra&quot;,&quot;Ac&quot;,&quot;Th&quot;,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00110"/>00110 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&quot;Pa&quot;,&quot;U&quot;,&quot;Np&quot;,&quot;Pu&quot;,&quot;Am&quot;,&quot;Cm&quot;,&quot;Bk&quot;,&quot;Cf&quot;,&quot;Es&quot;,&quot;Fm&quot;,&quot;Md&quot;,&quot;No&quot;,&quot;Lr&quot;,&quot;Rf&quot;,&quot;Db&quot;,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00111"/>00111 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&quot;Sg&quot;,&quot;Bh&quot;,&quot;Hs&quot;,&quot;Mt&quot;,&quot;Ds&quot;,&quot;Rg&quot;,&quot;Cn&quot;,&quot;Ed&quot;,&quot;Fl&quot;,&quot;Ef&quot;,&quot;Lv&quot;,&quot;Eh&quot;,&quot;Ei&quot;};</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00112"/>00112 <emphasis role="comment">//&#32;&#32;for(int&#32;i=0;&#32;i&lt;118;&#32;++i)</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00113"/>00113 <emphasis role="comment">//&#32;&#32;&#32;&#32;if(sym&#32;==&#32;symbol[i])&#32;return&#32;i+1;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00114"/>00114 <emphasis role="comment">//&#32;&#32;return&#32;-1;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00115"/>00115 <emphasis role="comment">//}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00116"/>00116 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00117"/>00117 <emphasis role="comment">//int&#32;linecnt&#32;=&#32;0;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00118"/>00118 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00119"/>00119 <emphasis role="comment">//int&#32;main&#32;()&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00121"/>00121 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;int&#32;ia;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00122"/>00122 <emphasis role="comment">//&#32;&#32;int&#32;iz;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00123"/>00123 <emphasis role="comment">//&#32;&#32;string&#32;ele;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00124"/>00124 <emphasis role="comment">//&#32;&#32;int&#32;iso;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00125"/>00125 <emphasis role="comment">//&#32;&#32;int&#32;dis;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00126"/>00126 <emphasis role="comment">//&#32;&#32;float&#32;eex;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00127"/>00127 <emphasis role="comment">//&#32;&#32;float&#32;mex;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00128"/>00128 <emphasis role="comment">//&#32;&#32;float&#32;thalf;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00129"/>00129 <emphasis role="comment">//&#32;&#32;string&#32;spin;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00130"/>00130 <emphasis role="comment">//&#32;&#32;string&#32;decay;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00131"/>00131 <emphasis role="comment">//&#32;&#32;float&#32;brat;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00132"/>00132 <emphasis role="comment">//&#32;&#32;float&#32;qdec;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00133"/>00133 <emphasis role="comment">//&#32;&#32;float&#32;abund;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00134"/>00134 <emphasis role="comment">//&#32;&#32;const&#32;double&#32;t1o2tave&#32;=&#32;-1./log(0.5);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00136"/>00136 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;string&#32;line;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00137"/>00137 <emphasis role="comment">//&#32;&#32;ifstream&#32;myfile;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00138"/>00138 <emphasis role="comment">//&#32;&#32;TMXElement&#32;*curele;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00140"/>00140 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;getline(myfile,&#32;line);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00141"/>00141 <emphasis role="comment">//&#32;&#32;int&#32;iaold&#32;=&#32;-1;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00142"/>00142 <emphasis role="comment">//&#32;&#32;int&#32;izold&#32;=&#32;-1;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00143"/>00143 <emphasis role="comment">//&#32;&#32;int&#32;isold&#32;=&#32;-1;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00144"/>00144 <emphasis role="comment">//&#32;&#32;while(getline(myfile,&#32;line))&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00145"/>00145 <emphasis role="comment">//&#32;&#32;&#32;&#32;if(line.substr(0,1)&#32;==&#32;&quot;#&quot;)&#32;continue;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00146"/>00146 <emphasis role="comment">//&#32;&#32;&#32;&#32;getele(line,ia,iz,ele,iso,dis,eex,mex,thalf,spin,decay,brat,qdec,abund);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00147"/>00147 <emphasis role="comment">//&#32;&#32;&#32;&#32;if(iz&#32;==&#32;0)&#32;continue;&#32;//&#32;skip&#32;neutron</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00148"/>00148 <emphasis role="comment">//&#32;&#32;&#32;&#32;if(iaold&#32;!=&#32;ia&#32;||&#32;izold&#32;!=&#32;iz&#32;||&#32;iso&#32;!=&#32;isold)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00150"/>00150 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;float&#32;tave;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00151"/>00151 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;if(thalf&#32;&gt;=&#32;0.5e37)&#32;tave&#32;=&#32;thalf;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00152"/>00152 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;else&#32;tave&#32;=&#32;fmax(thalf&#32;*&#32;t1o2tave,std::numeric_limits&lt;float&gt;::min());</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00153"/>00153 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;TMXElementStore::AddElement(curele=new&#32;TMXElement(ia,&#32;iz,&#32;ele,&#32;iso,&#32;eex,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00154"/>00154 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mex,&#32;tave,&#32;spin,&#32;abund));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00155"/>00155 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;iaold&#32;=&#32;ia;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00156"/>00156 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;izold&#32;=&#32;iz;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00157"/>00157 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;isold&#32;=&#32;iso;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00158"/>00158 <emphasis role="comment">//&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00159"/>00159 <emphasis role="comment">//&#32;&#32;&#32;&#32;if(!decay.empty())&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00161"/>00161 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;int&#32;IZAd;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00162"/>00162 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;vector&lt;int&gt;&#32;*IZAp&#32;=&#32;new&#32;vector&lt;int&gt;;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00163"/>00163 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;if(thalf&gt;0.9e38&#32;&amp;&amp;&#32;decay&#32;!=&#32;&quot;&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00164"/>00164 <emphasis role="comment">//&#32;&#32;cout&#32;&lt;&lt;&#32;&quot;Stable&#32;element&#32;&quot;&lt;&lt;&#32;curele-&gt;Name()&#32;&lt;&lt;&#32;&quot;&#32;and&#32;decay&#32;channel:&#32;ignoring!!&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00165"/>00165 <emphasis role="comment">//&#32;&#32;continue;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00166"/>00166 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00167"/>00167 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;getDecayProduct(ia,iz,iso,dis,decay,IZAd,IZAp);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00168"/>00168 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;curele-&gt;AddDecayChannel(IZAd,decay,brat*0.01,qdec,IZAp);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00169"/>00169 <emphasis role="comment">//&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00170"/>00170 <emphasis role="comment">//&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00171"/>00171 <emphasis role="comment">//&#32;&#32;myfile.close();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00173"/>00173 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;map&lt;int,&#32;TMXElement*&gt;::iterator&#32;it;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00174"/>00174 <emphasis role="comment">//&#32;&#32;for(it&#32;=&#32;TMXElementStore::Store().begin();&#32;it&#32;!=&#32;TMXElementStore::Store().end();&#32;++it)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00175"/>00175 <emphasis role="comment">//&#32;&#32;&#32;&#32;curele&#32;=&#32;it-&gt;second;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00176"/>00176 <emphasis role="comment">//&#32;&#32;&#32;&#32;if(!curele-&gt;Stable())&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00177"/>00177 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;vector&lt;TMXDecayChannel*&gt;&#32;decays&#32;=&#32;curele-&gt;DecayChannels();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00178"/>00178 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;vector&lt;TMXDecayChannel*&gt;::iterator&#32;id;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00179"/>00179 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;double&#32;totrat&#32;=&#32;0.;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00180"/>00180 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;for(id=decays.begin();&#32;id&#32;!=&#32;decays.end();&#32;++id)&#32;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00181"/>00181 <emphasis role="comment">//&#32;&#32;totrat&#32;+=&#32;(*id)-&gt;BranchingRatio();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00182"/>00182 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;if(fabs(totrat-1.)&#32;&gt;&#32;1.e-6)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00183"/>00183 <emphasis role="comment">//&#32;&#32;cout&#32;&lt;&lt;&#32;curele-&gt;Name()&#32;&lt;&lt;&#32;&quot;&#32;br&#32;total&#32;&quot;&#32;&lt;&lt;&#32;totrat&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00184"/>00184 <emphasis role="comment">//&#32;&#32;for(id=decays.begin();&#32;id&#32;!=&#32;decays.end();&#32;++id)</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00185"/>00185 <emphasis role="comment">//&#32;&#32;&#32;&#32;(*id)-&gt;SetBranchingRatio((*id)-&gt;BranchingRatio()/totrat);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00186"/>00186 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00187"/>00187 <emphasis role="comment">//&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00188"/>00188 <emphasis role="comment">//&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00190"/>00190 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;for(it&#32;=&#32;TMXElementStore::Store().begin();&#32;it&#32;!=&#32;TMXElementStore::Store().end();&#32;++it)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00191"/>00191 <emphasis role="comment">//&#32;&#32;&#32;&#32;curele&#32;=&#32;it-&gt;second;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00192"/>00192 <emphasis role="comment">//&#32;&#32;&#32;&#32;if(!curele-&gt;Stable())&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00193"/>00193 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;vector&lt;TMXDecayChannel*&gt;&#32;decays&#32;=&#32;curele-&gt;DecayChannels();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00194"/>00194 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;vector&lt;TMXDecayChannel*&gt;::iterator&#32;id;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00195"/>00195 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;for(id=decays.begin();&#32;id&#32;!=&#32;decays.end();&#32;++id)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00196"/>00196 <emphasis role="comment">//&#32;&#32;int&#32;IZAd&#32;=&#32;(*id)-&gt;IZA();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00197"/>00197 <emphasis role="comment">//&#32;&#32;if(IZAd&#32;!=&#32;-10000)</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00198"/>00198 <emphasis role="comment">//&#32;&#32;&#32;&#32;if(!TMXElementStore::GetElement(IZAd))</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00199"/>00199 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;curele-&gt;Name()&#32;&lt;&lt;&#32;&quot;&#32;(&quot;&#32;&lt;&lt;&#32;curele-&gt;IZA()&#32;&lt;&lt;&#32;&quot;)&#32;decays&#32;&quot;&#32;&lt;&lt;&#32;(*id)-&gt;Decay()</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00200"/>00200 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;&#32;into&#32;non&#32;existent&#32;&quot;&#32;&lt;&lt;&#32;Name(IZAd)&#32;&lt;&lt;&#32;&quot;&#32;(&quot;&#32;&lt;&lt;&#32;IZAd&#32;&lt;&lt;&#32;&quot;)&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00201"/>00201 <emphasis role="comment">//&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00202"/>00202 <emphasis role="comment">//&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00203"/>00203 <emphasis role="comment">//&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00204"/>00204 <emphasis role="comment">//&#32;&#32;myfile.close();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00206"/>00206 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;string&#32;newsymb,&#32;cursymb;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00207"/>00207 <emphasis role="comment">//&#32;&#32;int&#32;pdash;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00208"/>00208 <emphasis role="comment">//&#32;&#32;float&#32;tox;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00209"/>00209 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00210"/>00210 <emphasis role="comment">//&#32;&#32;cout&#32;&lt;&lt;&#32;&quot;===============================&#32;Inhalation&#32;==========================&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00211"/>00211 <emphasis role="comment">//&#32;&#32;myfile.open(&quot;TableG_1.csv&quot;,std::ios_base::in);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00212"/>00212 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00213"/>00213 <emphasis role="comment">//&#32;&#32;while(getline(myfile,line))&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00214"/>00214 <emphasis role="comment">//&#32;&#32;&#32;&#32;stringstream&#32;sline(line);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00215"/>00215 <emphasis role="comment">//&#32;&#32;&#32;&#32;string&#32;nuclide;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00216"/>00216 <emphasis role="comment">//&#32;&#32;&#32;&#32;getline(sline,nuclide,&apos;,&apos;);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00217"/>00217 <emphasis role="comment">//&#32;&#32;&#32;&#32;if(nuclide&#32;==&#32;&quot;Nuclide&quot;)&#32;break;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00218"/>00218 <emphasis role="comment">//&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00219"/>00219 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00220"/>00220 <emphasis role="comment">//&#32;&#32;while(getline(myfile,line))&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00221"/>00221 <emphasis role="comment">//&#32;&#32;&#32;&#32;string&#32;word;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00222"/>00222 <emphasis role="comment">//&#32;&#32;&#32;&#32;line.erase(std::remove_if(line.begin(),&#32;line.end(),&#32;::isspace),&#32;line.end());</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00223"/>00223 <emphasis role="comment">//&#32;&#32;&#32;&#32;stringstream&#32;sline(line);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00224"/>00224 <emphasis role="comment">//&#32;&#32;&#32;&#32;getline(sline,newsymb,&apos;,&apos;);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00225"/>00225 <emphasis role="comment">//&#32;&#32;&#32;&#32;if(newsymb&#32;==&#32;&quot;&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00226"/>00226 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;for(int&#32;i=0;&#32;i&lt;9;&#32;++i)&#32;getline(sline,word,&apos;,&apos;);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00227"/>00227 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;tox&#32;=&#32;std::stof(word);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00228"/>00228 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;if(tox&#32;&gt;&#32;curele-&gt;InhToxicity())&#32;curele-&gt;SetInhToxicity(tox);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00229"/>00229 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;&quot;Continuation&#32;of&#32;&quot;&#32;&lt;&lt;&#32;cursymb&#32;&lt;&lt;&#32;&quot;&#32;&quot;&#32;&lt;&lt;&#32;std::stof(word)&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00230"/>00230 <emphasis role="comment">//&#32;&#32;&#32;&#32;}&#32;else&#32;if((pdash=newsymb.find(&apos;-&apos;))&#32;!=&#32;string::npos&#32;&amp;&amp;&#32;newsymb&#32;!=&#32;cursymb)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00231"/>00231 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;cursymb&#32;=&#32;newsymb;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00232"/>00232 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;int&#32;z&#32;=&#32;findZ(cursymb.substr(0,pdash));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00233"/>00233 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;int&#32;iso&#32;=&#32;0;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00234"/>00234 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;int&#32;a&#32;=&#32;0;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00235"/>00235 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;if(cursymb.substr(cursymb.length()-1,1)&#32;==&#32;&quot;m&quot;)</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00236"/>00236 <emphasis role="comment">//&#32;&#32;iso&#32;=&#32;1;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00237"/>00237 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;a&#32;=&#32;stoi(cursymb.substr(pdash+1,cursymb.length()-pdash-1-iso));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00238"/>00238 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;int&#32;iza&#32;=&#32;10000*z&#32;+&#32;10*a&#32;+&#32;iso;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00239"/>00239 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;for(int&#32;i=0;&#32;i&lt;9;&#32;++i)&#32;getline(sline,word,&apos;,&apos;);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00240"/>00240 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;tox&#32;=&#32;std::stof(word);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00241"/>00241 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;curele&#32;=&#32;const_cast&lt;TMXElement*&gt;(TMXElementStore::GetElement(iza));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00242"/>00242 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;curele-&gt;SetInhToxicity(tox);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00243"/>00243 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;&quot;Start&#32;of&#32;&quot;&#32;&lt;&lt;&#32;cursymb&#32;&lt;&lt;&#32;&quot;&#32;&quot;&#32;&lt;&lt;&#32;curele-&gt;Name()&#32;&lt;&lt;&#32;&quot;&#32;tox&#32;&quot;&#32;&lt;&lt;&#32;std::stof(word)&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00244"/>00244 <emphasis role="comment">//&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00245"/>00245 <emphasis role="comment">//&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00246"/>00246 <emphasis role="comment">//&#32;&#32;myfile.close();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00247"/>00247 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00248"/>00248 <emphasis role="comment">//&#32;&#32;cout&#32;&lt;&lt;&#32;&quot;===============================&#32;Ingestion&#32;==========================&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00250"/>00250 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;myfile.open(&quot;TableF_1.csv&quot;,std::ios_base::in);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00251"/>00251 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00252"/>00252 <emphasis role="comment">//&#32;&#32;while(getline(myfile,line))&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00253"/>00253 <emphasis role="comment">//&#32;&#32;&#32;&#32;line.erase(std::remove_if(line.begin(),&#32;line.end(),&#32;::isspace),&#32;line.end());</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00254"/>00254 <emphasis role="comment">//&#32;&#32;&#32;&#32;stringstream&#32;sline(line);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00255"/>00255 <emphasis role="comment">//&#32;&#32;&#32;&#32;string&#32;nuclide;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00256"/>00256 <emphasis role="comment">//&#32;&#32;&#32;&#32;getline(sline,nuclide,&apos;,&apos;);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00257"/>00257 <emphasis role="comment">//&#32;&#32;&#32;&#32;if(nuclide&#32;==&#32;&quot;Nuclide&quot;)&#32;break;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00258"/>00258 <emphasis role="comment">//&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00259"/>00259 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00260"/>00260 <emphasis role="comment">//&#32;&#32;while(getline(myfile,line))&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00261"/>00261 <emphasis role="comment">//&#32;&#32;&#32;&#32;string&#32;word;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00262"/>00262 <emphasis role="comment">//&#32;&#32;&#32;&#32;line.erase(std::remove_if(line.begin(),&#32;line.end(),&#32;::isspace),&#32;line.end());</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00263"/>00263 <emphasis role="comment">//&#32;&#32;&#32;&#32;stringstream&#32;sline(line);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00264"/>00264 <emphasis role="comment">//&#32;&#32;&#32;&#32;getline(sline,newsymb,&apos;,&apos;);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00265"/>00265 <emphasis role="comment">//&#32;&#32;&#32;&#32;if(newsymb&#32;==&#32;&quot;&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00266"/>00266 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;for(int&#32;i=0;&#32;i&lt;9;&#32;++i)&#32;getline(sline,word,&apos;,&apos;);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00267"/>00267 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;tox&#32;=&#32;std::stof(word);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00268"/>00268 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;if(tox&#32;&gt;&#32;curele-&gt;IngToxicity())&#32;curele-&gt;SetIngToxicity(tox);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00269"/>00269 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;&quot;Continuation&#32;of&#32;&quot;&#32;&lt;&lt;&#32;cursymb&#32;&lt;&lt;&#32;&quot;&#32;&quot;&#32;&lt;&lt;&#32;std::stof(word)&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00270"/>00270 <emphasis role="comment">//&#32;&#32;&#32;&#32;}&#32;else&#32;if((pdash=newsymb.find(&apos;-&apos;))&#32;!=&#32;string::npos&#32;&amp;&amp;&#32;newsymb&#32;!=&#32;cursymb)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00271"/>00271 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;cursymb&#32;=&#32;newsymb;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00272"/>00272 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;int&#32;z&#32;=&#32;findZ(cursymb.substr(0,pdash));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00273"/>00273 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;int&#32;iso&#32;=&#32;0;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00274"/>00274 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;int&#32;a&#32;=&#32;0;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00275"/>00275 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;if(cursymb.substr(cursymb.length()-1,1)&#32;==&#32;&quot;m&quot;)</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00276"/>00276 <emphasis role="comment">//&#32;&#32;iso&#32;=&#32;1;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00277"/>00277 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;a&#32;=&#32;stoi(cursymb.substr(pdash+1,cursymb.length()-pdash-1-iso));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00278"/>00278 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;int&#32;iza&#32;=&#32;10000*z&#32;+&#32;10*a&#32;+&#32;iso;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00279"/>00279 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;for(int&#32;i=0;&#32;i&lt;9;&#32;++i)&#32;getline(sline,word,&apos;,&apos;);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00280"/>00280 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;tox&#32;=&#32;std::stof(word);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00281"/>00281 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;curele&#32;=&#32;const_cast&lt;TMXElement*&gt;(TMXElementStore::GetElement(iza));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00282"/>00282 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;curele-&gt;SetIngToxicity(tox);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00283"/>00283 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;&quot;Start&#32;of&#32;&quot;&#32;&lt;&lt;&#32;cursymb&#32;&lt;&lt;&#32;&quot;&#32;&quot;&#32;&lt;&lt;&#32;curele-&gt;Name()&#32;&lt;&lt;&#32;&quot;&#32;tox&#32;&quot;&#32;&lt;&lt;&#32;std::stof(word)&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00284"/>00284 <emphasis role="comment">//&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00285"/>00285 <emphasis role="comment">//&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00286"/>00286 <emphasis role="comment">//&#32;&#32;myfile.close();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00287"/>00287 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00288"/>00288 <emphasis role="comment">//&#32;&#32;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00289"/>00289 <emphasis role="comment">//&#32;&#32;WriteFile();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00290"/>00290 <emphasis role="comment">//&#32;&#32;return&#32;0;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00291"/>00291 <emphasis role="comment">//}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00292"/>00292 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00293"/>00293 <emphasis role="comment">//void&#32;getele(string&#32;line,&#32;int&#32;&amp;ia,&#32;int&#32;&amp;iz,&#32;string&#32;&amp;ele,&#32;int&#32;&amp;iso,&#32;int&#32;&amp;dis,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00294"/>00294 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;float&#32;&amp;eex,&#32;float&#32;&amp;mex,&#32;float&#32;&amp;thalf,&#32;string&#32;&amp;spin,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00295"/>00295 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;string&#32;&amp;decay,&#32;float&#32;&amp;brat,&#32;float&#32;&amp;qdec,&#32;float&#32;&amp;abund)</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00296"/>00296 <emphasis role="comment">//{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00297"/>00297 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00298"/>00298 <emphasis role="comment">//&#32;&#32;ia&#32;=&#32;std::stoi(line.substr(0,3));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00299"/>00299 <emphasis role="comment">//&#32;&#32;iz&#32;=&#32;std::stoi(line.substr(3,4));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00300"/>00300 <emphasis role="comment">//&#32;&#32;ele&#32;=&#32;line.substr(7,4);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00301"/>00301 <emphasis role="comment">//&#32;&#32;ele.erase(std::remove_if(ele.begin(),&#32;ele.end(),&#32;::isspace),&#32;ele.end());</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00302"/>00302 <emphasis role="comment">//&#32;&#32;iso&#32;=&#32;std::stoi(line.substr(11,4));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00303"/>00303 <emphasis role="comment">//&#32;&#32;dis&#32;=&#32;std::stoi(line.substr(15,4));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00304"/>00304 <emphasis role="comment">//&#32;&#32;eex&#32;=&#32;std::stof(line.substr(19,11));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00305"/>00305 <emphasis role="comment">//&#32;&#32;mex&#32;=&#32;std::stof(line.substr(30,14));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00306"/>00306 <emphasis role="comment">//&#32;&#32;thalf&#32;=&#32;std::stof(line.substr(44,15));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00307"/>00307 <emphasis role="comment">//&#32;&#32;spin&#32;=&#32;line.substr(59,19);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00308"/>00308 <emphasis role="comment">//&#32;&#32;spin.erase(std::remove_if(spin.begin(),&#32;spin.end(),&#32;::isspace),&#32;spin.end());</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00309"/>00309 <emphasis role="comment">//&#32;&#32;decay&#32;=&#32;line.substr(78,12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00310"/>00310 <emphasis role="comment">//&#32;&#32;decay.erase(std::remove_if(decay.begin(),&#32;decay.end(),&#32;::isspace),&#32;decay.end());</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00311"/>00311 <emphasis role="comment">//&#32;&#32;brat&#32;=&#32;std::stof(line.substr(90,14));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00312"/>00312 <emphasis role="comment">//&#32;&#32;qdec&#32;=&#32;std::stof(line.substr(104,12));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00313"/>00313 <emphasis role="comment">//&#32;&#32;abund&#32;=&#32;std::stof(line.substr(116,12));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00314"/>00314 <emphasis role="comment">//}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00315"/>00315 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00316"/>00316 <emphasis role="comment">//void&#32;getDecayProduct(int&#32;ia,&#32;int&#32;iz,&#32;int&#32;iso,&#32;int&#32;dis,&#32;string&#32;decay,&#32;int&#32;&amp;IZAd,&#32;vector&lt;int&gt;&#32;*IZAp)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00317"/>00317 <emphasis role="comment">//&#32;&#32;IZAp-&gt;clear();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00318"/>00318 <emphasis role="comment">//&#32;&#32;if(decay&#32;==&#32;&quot;IT&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00320"/>00320 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz,ia,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00321"/>00321 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;A&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00323"/>00323 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-2,ia-4,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00324"/>00324 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(20040);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00325"/>00325 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if&#32;(decay&#32;==&#32;&quot;N&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00327"/>00327 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz,ia-1,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00328"/>00328 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2112);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00329"/>00329 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;P&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00331"/>00331 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-1,ia-1,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00332"/>00332 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00333"/>00333 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;2P&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00335"/>00335 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-2,ia-2,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00336"/>00336 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00337"/>00337 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00338"/>00338 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;12C&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00340"/>00340 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-6,ia-12,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00341"/>00341 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(60120);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00342"/>00342 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;14C&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00344"/>00344 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-6,ia-14,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00345"/>00345 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(60140);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00346"/>00346 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B+&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00348"/>00348 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-1,ia,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00349"/>00349 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00350"/>00350 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00351"/>00351 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B+P&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00353"/>00353 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-2,ia-1,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00354"/>00354 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00355"/>00355 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00356"/>00356 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00357"/>00357 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B+A&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00359"/>00359 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-3,ia-4,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00360"/>00360 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00361"/>00361 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00362"/>00362 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(20040);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00363"/>00363 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B+2P&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00365"/>00365 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-3,ia-2,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00366"/>00366 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00367"/>00367 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00368"/>00368 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00369"/>00369 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00370"/>00370 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B+2A&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00372"/>00372 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-5,ia-8,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00373"/>00373 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00374"/>00374 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00375"/>00375 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(20040);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00376"/>00376 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(20040);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00377"/>00377 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B+3P&quot;){</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00379"/>00379 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-4,ia-3,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00380"/>00380 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00381"/>00381 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00382"/>00382 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00383"/>00383 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00384"/>00384 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00385"/>00385 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B+F&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00387"/>00387 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;-10000;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00388"/>00388 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00389"/>00389 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00390"/>00390 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;EC&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00392"/>00392 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-1,ia,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00393"/>00393 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00394"/>00394 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;ECP&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00396"/>00396 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-2,ia-1,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00397"/>00397 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00398"/>00398 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00399"/>00399 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;ECA&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00401"/>00401 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-3,ia-4,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00402"/>00402 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00403"/>00403 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(20040);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00404"/>00404 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;EC2P&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00406"/>00406 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-3,ia-2,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00407"/>00407 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00408"/>00408 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00409"/>00409 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00410"/>00410 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;EC2A&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00412"/>00412 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-5,ia-8,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00413"/>00413 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00414"/>00414 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(20040);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00415"/>00415 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(20040);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00416"/>00416 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;EC2P&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00418"/>00418 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-4,ia-3,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00419"/>00419 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00420"/>00420 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00421"/>00421 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00422"/>00422 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00423"/>00423 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;ECF&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00425"/>00425 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;-10000;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00426"/>00426 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00427"/>00427 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B-&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00429"/>00429 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz+1,ia,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00430"/>00430 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00431"/>00431 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00432"/>00432 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B-N&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00434"/>00434 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz+1,ia-1,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00435"/>00435 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00436"/>00436 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00437"/>00437 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2112);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00438"/>00438 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B-P&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00440"/>00440 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz,ia-1,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00441"/>00441 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00442"/>00442 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00443"/>00443 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00444"/>00444 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B-D&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00446"/>00446 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz,ia-2,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00447"/>00447 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00448"/>00448 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00449"/>00449 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(10020);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00450"/>00450 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B-T&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00452"/>00452 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz,ia-3,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00453"/>00453 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00454"/>00454 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00455"/>00455 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(10030);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00456"/>00456 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B-A&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00458"/>00458 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-1,ia-4,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00459"/>00459 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00460"/>00460 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00461"/>00461 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(20040);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00462"/>00462 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B-2N&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00464"/>00464 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz+1,ia-2,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00465"/>00465 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00466"/>00466 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00467"/>00467 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2112);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00468"/>00468 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2112);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00469"/>00469 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B-3N&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00471"/>00471 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz+1,ia-3,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00472"/>00472 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00473"/>00473 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00474"/>00474 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2112);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00475"/>00475 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2112);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00476"/>00476 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2112);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00477"/>00477 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B-NA&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00479"/>00479 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-1,ia-5,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00480"/>00480 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00481"/>00481 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00482"/>00482 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2112);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00483"/>00483 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(20040);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00484"/>00484 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B-2A&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00486"/>00486 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-3,ia-8,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00487"/>00487 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00488"/>00488 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00489"/>00489 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(20040);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00490"/>00490 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(20040);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00491"/>00491 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B-B-&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00493"/>00493 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz+2,ia,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00494"/>00494 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00495"/>00495 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00496"/>00496 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00497"/>00497 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00498"/>00498 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;3HE&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00500"/>00500 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-2,ia-3,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00501"/>00501 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(20030);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00502"/>00502 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;T&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00504"/>00504 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-1,ia-3,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00505"/>00505 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(10030);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00506"/>00506 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;D&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00508"/>00508 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-1,ia-2,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00509"/>00509 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(10020);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00510"/>00510 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;2N&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00512"/>00512 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz,ia-2,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00513"/>00513 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2112);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00514"/>00514 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2112);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00515"/>00515 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;2A&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00517"/>00517 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-4,ia-8,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00518"/>00518 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2004);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00519"/>00519 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2004);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00520"/>00520 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;SF&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00522"/>00522 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;-10000;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00523"/>00523 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;ITm&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00525"/>00525 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz,ia,iso+1);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00526"/>00526 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;Am&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00528"/>00528 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-2,ia-4,iso+1);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00529"/>00529 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(20040);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00530"/>00530 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;Pm&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00532"/>00532 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-1,ia-1,iso+1);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00533"/>00533 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00534"/>00534 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B+m&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00536"/>00536 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-1,ia,iso+1);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00537"/>00537 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00538"/>00538 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00539"/>00539 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;ECm&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00541"/>00541 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-1,ia,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00542"/>00542 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00543"/>00543 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B-m&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00545"/>00545 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz+1,ia,1);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00546"/>00546 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00547"/>00547 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00548"/>00548 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B+Pm&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00550"/>00550 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-2,ia-1,iso+1);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00551"/>00551 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00552"/>00552 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00553"/>00553 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00554"/>00554 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;ECPm&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00556"/>00556 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-2,ia-1,iso+1);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00557"/>00557 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00558"/>00558 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00559"/>00559 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;IT2m&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00561"/>00561 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz,ia,iso+2);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00562"/>00562 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;A2m&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00564"/>00564 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-2,ia-4,iso+2);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00565"/>00565 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(20040);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00566"/>00566 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B+2m&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00568"/>00568 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-1,ia,iso+2);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00569"/>00569 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00570"/>00570 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00571"/>00571 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;EC2m&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00573"/>00573 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-1,ia,iso+2);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00574"/>00574 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00575"/>00575 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;B-2m&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00577"/>00577 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz+1,ia,iso+2);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00578"/>00578 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00579"/>00579 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00580"/>00580 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;2B-&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00582"/>00582 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz+2,ia,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00583"/>00583 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00584"/>00584 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00585"/>00585 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(11);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00586"/>00586 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(-12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00587"/>00587 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;2EC&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00589"/>00589 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-2,ia,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00590"/>00590 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00591"/>00591 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00592"/>00592 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;if(decay&#32;==&#32;&quot;EC3P&quot;)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00594"/>00594 <emphasis role="comment"></emphasis><emphasis role="comment">//&#32;&#32;&#32;&#32;IZAd&#32;=&#32;IZA(iz-4,ia-3,iso+dis);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00595"/>00595 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(12);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00596"/>00596 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00597"/>00597 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00598"/>00598 <emphasis role="comment">//&#32;&#32;&#32;&#32;IZAp-&gt;push_back(2212);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00599"/>00599 <emphasis role="comment">//&#32;&#32;}&#32;else&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00600"/>00600 <emphasis role="comment">//&#32;&#32;&#32;&#32;cout&#32;&lt;&lt;&#32;&quot;Not&#32;handled&#32;decay&#32;&quot;&#32;&lt;&lt;&#32;decay&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00601"/>00601 <emphasis role="comment">//&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00602"/>00602 <emphasis role="comment">//}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00603"/>00603 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00604"/>00604 <emphasis role="comment">//void&#32;AddElementFile(ofstream&#32;&amp;file,&#32;int&#32;ia,&#32;int&#32;iz,&#32;string&#32;ele,&#32;int&#32;iso,&#32;float&#32;eex,&#32;float&#32;mex,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00605"/>00605 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;float&#32;thalf,&#32;string&#32;spin,&#32;float&#32;abund,&#32;float&#32;inhtox,&#32;float&#32;ingtox)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00606"/>00606 <emphasis role="comment">//&#32;&#32;char&#32;line[1000];</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00607"/>00607 <emphasis role="comment">//&#32;&#32;file&#32;&lt;&lt;&#32;&quot;//&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00608"/>00608 <emphasis role="comment">//&#32;&#32;file&#32;&lt;&lt;&#32;&quot;//======================================================&#32;&quot;&#32;&lt;&lt;&#32;iz&#32;&lt;&lt;&#32;&quot;-&quot;&#32;&lt;&lt;&#32;ele&#32;&lt;&lt;&#32;&quot;-&quot;&#32;&lt;&lt;&#32;ia&#32;&lt;&lt;&#32;&quot;-&quot;&#32;&lt;&lt;&#32;iso&#32;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00609"/>00609 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;&#32;======================================================&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00610"/>00610 <emphasis role="comment">//&#32;&#32;sprintf(line,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00611"/>00611 <emphasis role="comment">//&#32;&#32;&#32;&#32;&quot;&#32;&#32;&#32;TMXElementStore::AddElement(curele=new&#32;TMXElement(%d,%d,\&quot;%s\&quot;,%d,%g,%g,%g,\&quot;%s\&quot;,%g,%g,%g));\n&quot;,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00612"/>00612 <emphasis role="comment">//&#32;&#32;&#32;&#32;ia,&#32;iz,&#32;ele.c_str(),&#32;iso,&#32;eex,&#32;mex,&#32;thalf,&#32;spin.c_str(),&#32;abund,&#32;inhtox,&#32;ingtox);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00613"/>00613 <emphasis role="comment">//&#32;&#32;file&#32;&lt;&lt;&#32;line;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00614"/>00614 <emphasis role="comment">//&#32;&#32;++linecnt;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00615"/>00615 <emphasis role="comment">//}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00616"/>00616 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00617"/>00617 <emphasis role="comment">//void&#32;AddDecayFile(ofstream&#32;&amp;file,&#32;int&#32;IZAd,&#32;string&#32;decay,&#32;float&#32;brat,&#32;float&#32;qdec,</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00618"/>00618 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vector&lt;int&gt;*&#32;IZAp)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00619"/>00619 <emphasis role="comment">//&#32;&#32;char&#32;line[1000];</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00620"/>00620 <emphasis role="comment">//&#32;&#32;sprintf(line,&quot;&#32;&#32;&#32;IZAp=new&#32;vector&lt;int&gt;;\n&quot;);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00621"/>00621 <emphasis role="comment">//&#32;&#32;file&#32;&lt;&lt;&#32;line;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00622"/>00622 <emphasis role="comment">//&#32;&#32;vector&lt;int&gt;::iterator&#32;id;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00623"/>00623 <emphasis role="comment">//&#32;&#32;for(id=IZAp-&gt;begin();&#32;id&#32;!=&#32;IZAp-&gt;end();&#32;++id)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00624"/>00624 <emphasis role="comment">//&#32;&#32;&#32;&#32;sprintf(line,&quot;&#32;&#32;&#32;IZAp-&gt;push_back(%d);\n&quot;,(*id));</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00625"/>00625 <emphasis role="comment">//&#32;&#32;&#32;&#32;file&#32;&lt;&lt;&#32;line;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00626"/>00626 <emphasis role="comment">//&#32;&#32;&#32;&#32;++linecnt;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00627"/>00627 <emphasis role="comment">//&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00628"/>00628 <emphasis role="comment">//&#32;&#32;sprintf(line,&quot;&#32;&#32;&#32;curele-&gt;AddDecayChannel(%d,\&quot;%s\&quot;,%g,%g,IZAp);\n&quot;,IZAd,decay.c_str(),brat,qdec);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00629"/>00629 <emphasis role="comment">//&#32;&#32;file&#32;&lt;&lt;&#32;line;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00630"/>00630 <emphasis role="comment">//&#32;&#32;linecnt&#32;+=&#32;2;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00631"/>00631 <emphasis role="comment">//}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00632"/>00632 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00633"/>00633 <emphasis role="comment">//void&#32;WriteFile()&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00634"/>00634 <emphasis role="comment">//&#32;&#32;ofstream&#32;codefile;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00635"/>00635 <emphasis role="comment">//&#32;&#32;ofstream&#32;callfile;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00636"/>00636 <emphasis role="comment">//&#32;&#32;char&#32;filename[50];</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00637"/>00637 <emphasis role="comment">//&#32;&#32;char&#32;methname[50];</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00638"/>00638 <emphasis role="comment">//&#32;&#32;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00639"/>00639 <emphasis role="comment">//&#32;&#32;callfile.open(&quot;TMXElementsDB.cc&quot;,std::ios_base::out);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00640"/>00640 <emphasis role="comment">//&#32;&#32;callfile&#32;&lt;&lt;&#32;&quot;#include&#32;\&quot;TMXElements.hh\&quot;&quot;&#32;&lt;&lt;&#32;endl&#32;&lt;&lt;&#32;endl</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00641"/>00641 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;void&#32;TMXElementStore::BuildElementDB()&#32;{&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00642"/>00642 <emphasis role="comment">//&#32;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00643"/>00643 <emphasis role="comment">//&#32;&#32;int&#32;fileseq&#32;=&#32;0;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00644"/>00644 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00645"/>00645 <emphasis role="comment">//&#32;&#32;sprintf(filename,&quot;TMXElementsDB%2.2d.cc&quot;,fileseq);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00646"/>00646 <emphasis role="comment">//&#32;&#32;codefile.open(filename,std::ios_base::out);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00647"/>00647 <emphasis role="comment">//&#32;&#32;sprintf(methname,&quot;BuildElement%2.2d()&quot;,fileseq);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00648"/>00648 <emphasis role="comment">//&#32;&#32;callfile&#32;&lt;&lt;&#32;&quot;&#32;&#32;&#32;&quot;&#32;&lt;&lt;&#32;methname&#32;&lt;&lt;&#32;&quot;;&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00649"/>00649 <emphasis role="comment">//&#32;&#32;codefile&#32;&lt;&lt;&#32;&quot;#include&#32;\&quot;TMXElements.hh\&quot;&quot;&#32;&lt;&lt;&#32;endl&#32;&lt;&lt;&#32;endl</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00650"/>00650 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;void&#32;TMXElementStore::&quot;&#32;&lt;&lt;&#32;methname&#32;&lt;&lt;&#32;&quot;&#32;{&quot;&#32;&lt;&lt;&#32;endl</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00651"/>00651 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;&#32;&#32;&#32;vector&lt;int&gt;&#32;*IZAp;&quot;&#32;&lt;&lt;&#32;endl</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00652"/>00652 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;&#32;&#32;&#32;TMXElement&#32;*curele;&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00653"/>00653 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00654"/>00654 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00655"/>00655 <emphasis role="comment">//&#32;&#32;map&lt;int,&#32;TMXElement*&gt;::iterator&#32;it;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00656"/>00656 <emphasis role="comment">//&#32;&#32;TMXElement&#32;*curele;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00657"/>00657 <emphasis role="comment">//&#32;&#32;for(it&#32;=&#32;TMXElementStore::Store().begin();&#32;it&#32;!=&#32;TMXElementStore::Store().end();&#32;++it)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00658"/>00658 <emphasis role="comment">//&#32;&#32;&#32;&#32;curele&#32;=&#32;it-&gt;second;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00659"/>00659 <emphasis role="comment">//&#32;&#32;&#32;&#32;AddElementFile(codefile,&#32;curele-&gt;A(),&#32;curele-&gt;Z(),&#32;curele-&gt;Sym(),&#32;curele-&gt;ISO(),</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00660"/>00660 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;curele-&gt;Eex(),&#32;curele-&gt;Mex(),&#32;curele-&gt;Tave(),&#32;curele-&gt;Spin(),</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00661"/>00661 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;curele-&gt;Abund(),curele-&gt;InhToxicity(),curele-&gt;IngToxicity());</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00662"/>00662 <emphasis role="comment">//&#32;&#32;&#32;&#32;linecnt&#32;+=&#32;2;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00663"/>00663 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00664"/>00664 <emphasis role="comment">//&#32;&#32;&#32;&#32;if(!curele-&gt;Stable())&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00665"/>00665 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;vector&lt;TMXDecayChannel*&gt;&#32;decays&#32;=&#32;curele-&gt;DecayChannels();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00666"/>00666 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;vector&lt;TMXDecayChannel*&gt;::iterator&#32;id;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00667"/>00667 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;for(id=decays.begin();&#32;id&#32;!=&#32;decays.end();&#32;++id)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00668"/>00668 <emphasis role="comment">//&#32;&#32;AddDecayFile(codefile,(*id)-&gt;IZA(),(*id)-&gt;Decay(),&#32;(*id)-&gt;BranchingRatio(),</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00669"/>00669 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(*id)-&gt;Qdec(),&#32;(*id)-&gt;Products());</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00670"/>00670 <emphasis role="comment">//&#32;&#32;linecnt&#32;+=&#32;1;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00671"/>00671 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00672"/>00672 <emphasis role="comment">//&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00673"/>00673 <emphasis role="comment">//&#32;&#32;&#32;&#32;if(linecnt&#32;&gt;&#32;7000)&#32;{</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00674"/>00674 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;codefile&#32;&lt;&lt;&#32;&quot;}&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00675"/>00675 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;codefile.close();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00676"/>00676 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;linecnt&#32;=&#32;0;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00677"/>00677 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;++fileseq;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00678"/>00678 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;sprintf(filename,&quot;TMXElementsDB%2.2d.cc&quot;,fileseq);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00679"/>00679 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;codefile.open(filename,std::ios_base::out);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00680"/>00680 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;sprintf(methname,&quot;BuildElement%2.2d()&quot;,fileseq);</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00681"/>00681 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;callfile&#32;&lt;&lt;&#32;&quot;&#32;&#32;&#32;&quot;&#32;&lt;&lt;&#32;methname&#32;&lt;&lt;&#32;&quot;;&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00682"/>00682 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;codefile&#32;&lt;&lt;&#32;&quot;#include&#32;\&quot;TMXElements.hh\&quot;&quot;&#32;&lt;&lt;&#32;endl&#32;&lt;&lt;&#32;endl</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00683"/>00683 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;void&#32;TMXElementStore::&quot;&#32;&lt;&lt;&#32;methname&#32;&lt;&lt;&#32;&quot;&#32;{&quot;&#32;&lt;&lt;&#32;endl</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00684"/>00684 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;&#32;&#32;&#32;vector&lt;int&gt;&#32;*IZAp;&quot;&#32;&lt;&lt;&#32;endl</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00685"/>00685 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;&lt;&#32;&quot;&#32;&#32;&#32;TMXElement&#32;*curele;&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00686"/>00686 <emphasis role="comment">//&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00687"/>00687 <emphasis role="comment">//&#32;&#32;}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00688"/>00688 <emphasis role="comment">//&#32;&#32;codefile&#32;&lt;&lt;&#32;&quot;}&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00689"/>00689 <emphasis role="comment">//&#32;&#32;codefile.close();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00690"/>00690 <emphasis role="comment">//</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00691"/>00691 <emphasis role="comment">//&#32;&#32;callfile&#32;&lt;&lt;&#32;&quot;}&quot;&#32;&lt;&lt;&#32;endl;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00692"/>00692 <emphasis role="comment">//&#32;&#32;callfile.close();</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00693"/>00693 <emphasis role="comment">//}</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00694"/>00694 <emphasis role="comment">//&#32;&#32;</emphasis>
+<anchor xml:id="_simupatchy_8cxx_source_1l00695"/>00695 <emphasis role="comment">//</emphasis>
+</programlisting></section>

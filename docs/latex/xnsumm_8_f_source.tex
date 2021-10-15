@@ -1,0 +1,61 @@
+\hypertarget{xnsumm_8_f_source}{}\doxysection{xnsumm.\+F}
+\label{xnsumm_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnsumm.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnmake/xnsumm.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 31/05/96  17.19.00  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   04/02/94}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnsumm}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00006}00006 \textcolor{comment}{*     Write file summary information                                   *}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00007}00007 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00008}00008 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00009}00009 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00010}00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcindx.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00011}00011 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcnamf.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00012}00012 \textcolor{preprocessor}{}      parameter(ninrea=35)}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00013}00013       dimension lreac(ninrea), nponts(ninrea+1,mxmate)}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00014}00014       \textcolor{keyword}{DATA} lreac/ 1,  2,  3,  4,  5,  6, 48, 49, 50, 51, 52, 53, 54, 55,}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00015}00015      +           56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69,}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00016}00016      +           70, 71, 72, 73, 74, 75, 76 /}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00017}00017 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00018}00018 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00019}00019       nmat=0}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00020}00020 \textcolor{comment}{* -\/-\/-\/> For all entries in file index}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00021}00021       \textcolor{keywordflow}{DO} 50 jindex=1,nindex}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00022}00022          mate = lindex(1,jindex)}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00023}00023          \textcolor{keywordflow}{DO} 10 lmat=1,nmat}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00024}00024 \textcolor{comment}{* -\/-\/-\/> Mate already has an entry in summary table}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00025}00025             \textcolor{keywordflow}{IF}(nponts(1,lmat).EQ.mate) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00026}00026                imat=lmat}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00027}00027                \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00028}00028 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00029}00029    10    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> New mate in summary table}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00031}00031          nmat=nmat+1}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00032}00032          \textcolor{keywordflow}{IF}(nmat.GT.mxmate) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00033}00033             stop \textcolor{stringliteral}{'Increas MXMATE'}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00034}00034 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00035}00035          nponts(1,nmat)=mate}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00036}00036          \textcolor{keywordflow}{DO} 20 nn=1,ninrea}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00037}00037             nponts(nn+1,nmat)=0}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00038}00038    20    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00039}00039          imat=nmat}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00040}00040    30    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00041}00041 \textcolor{comment}{* -\/-\/-\/> Load number of points for cross section}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00042}00042          \textcolor{keywordflow}{DO} 40 inrea=1,ninrea}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00043}00043             \textcolor{keywordflow}{IF}(lindex(2,jindex)-\/3000.EQ.nbmft(lreac(inrea))) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00044}00044                nponts(inrea+1,imat)=lindex(4,jindex)/2}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00045}00045 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00046}00046    40    \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00047}00047    50 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00048}00048 \textcolor{comment}{* -\/-\/-\/> Write table}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00049}00049       \textcolor{keyword}{WRITE}(15,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{'   Z    A     '}\textcolor{stringliteral}{',18A,/14X,17A)'})}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00050}00050      +              (chname(lreac(inr)),inr=1,ninrea)}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00051}00051       \textcolor{keyword}{WRITE}(15,\textcolor{stringliteral}{'((/1X,I3,2X,I3,1X,18(I7,1X),/10X,17(I7,1X)))'})}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00052}00052      +            (nponts(1,jj)/10/1000,mod(nponts(1,jj)/10,1000),}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00053}00053      +            (nponts(ii,jj),ii=2,ninrea+1),jj=1,nmat)}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00054}00054       \textcolor{keyword}{END}}
+\DoxyCodeLine{\Hypertarget{xnsumm_8_f_source_l00055}00055 +patch,eetutil.}
+
+\end{DoxyCode}

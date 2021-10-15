@@ -1,0 +1,50 @@
+\hypertarget{xncont_8_f_source}{}\doxysection{xncont.\+F}
+\label{xncont_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xncont.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xncont.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  09.41.48  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   18/01/94}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xncont(IZAMAT,QVAL,E,EP)}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00006}00006 \textcolor{comment}{*     Samples energy for the neutron emerging from a (n,n') reaction   *}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00007}00007 \textcolor{comment}{*     in the "{}continuum"{} case, that is when the compound nucleus is    *}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00008}00008 \textcolor{comment}{*     excited to a level which is not described by the discrete        *}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00009}00009 \textcolor{comment}{*     cross sections in the evaluation                                 *}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00010}00010 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00011}00011 \textcolor{comment}{*     IZAMAT    (input) isomer code IZ*10000+IA*10+ISO                 *}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00012}00012 \textcolor{comment}{*     QVAL      (input) Q-\/value in eV                                  *}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00013}00013 \textcolor{comment}{*     E         (input) incoming neutron energy in eV                  *}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00014}00014 \textcolor{comment}{*     EP        (outout) outgoing neutron energy in eV                 *}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00015}00015 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00016}00016 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00017}00017 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00018}00018 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00019}00019 \textcolor{preprocessor}{}      dimension vr(2)}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00020}00020 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00021}00021 \textcolor{comment}{* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00022}00022 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00023}00023 \textcolor{comment}{* -\/-\/-\/> Try to sample with the energy distribution in the evaluation}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00024}00024       \textcolor{keyword}{CALL }xne2ep(izamat,5,e,ep,1,ilen)}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00025}00025       \textcolor{keywordflow}{IF}(ilen.LE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00026}00026 \textcolor{comment}{* -\/-\/-\/> The energy distribution is not present in the evaluation,}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00027}00027 \textcolor{comment}{*      sample with an evaporation spectrum with an average energy}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00028}00028 \textcolor{comment}{*      =1/2 of the available energy}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00029}00029          ncount=0}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00030}00030    10    \textcolor{keyword}{CALL }xnrand(vr,2)}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00031}00031          ep=-\/0.25*(e+qval)*log(vr(1)*vr(2))}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00032}00032          ncount=ncount+1}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00033}00033          \textcolor{keywordflow}{IF}(ncount.LE.20) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00034}00034             \textcolor{keywordflow}{IF}(ep.GT.e+qval) \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00035}00035          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00036}00036 \textcolor{comment}{* -\/-\/-\/> After 20 trials the resulting energy is still greater than the}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00037}00037 \textcolor{comment}{*      available energy, sample with a square box}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00038}00038             ep=vr(1)*(e+qval)}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00039}00039 \textcolor{comment}{* -\/-\/-\/> If everything fails, output a thermal neutron}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00040}00040             \textcolor{keywordflow}{IF}(ep.LE.0.) ep=0.025}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00041}00041 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00042}00042 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00043}00043 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xncont_8_f_source_l00044}00044       \textcolor{keyword}{END}}
+
+\end{DoxyCode}

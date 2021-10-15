@@ -1,0 +1,124 @@
+\hypertarget{xnninp_8_f_source}{}\doxysection{xnninp.\+F}
+\label{xnninp_8_f_source}\index{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnninp.F@{/Users/Transmutex/Simulation/ADS\_SimulationCode/xnsect/xnsect/src/xnninp.F}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00001}00001 \textcolor{comment}{*CMZ :  2.00/02 03/06/96  18.59.20  by  Federico Carminati}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00002}00002 \textcolor{comment}{*-\/-\/ Author :    Federico Carminati   18/01/94}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00003}00003       \textcolor{keyword}{SUBROUTINE }xnninp(IPMAT,E,SECN,N,EP)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00004}00004 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00005}00005 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00006}00006 \textcolor{comment}{*     Samples secondary energy for inelastic (n,n') reaction           *}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00007}00007 \textcolor{comment}{*     This version makes use of the pointer to the isomer in the       *}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00008}00008 \textcolor{comment}{*     IMTABL index table and it is therefore faster                    *}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00009}00009 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00010}00010 \textcolor{comment}{*     IPMAT     (input) pointer to isomer in the IMTABL table          *}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00011}00011 \textcolor{comment}{*     E         (input) incoming neutron energy in eV                  *}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00012}00012 \textcolor{comment}{*     SECN      (output) cross section of partial channel chosen       *}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00013}00013 \textcolor{comment}{*               in barns                                               *}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00014}00014 \textcolor{comment}{*     N         (output) channel chosen                                *}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00015}00015 \textcolor{comment}{*     EP        (output) energy of outcoming neutron in eV             *}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00016}00016 \textcolor{comment}{*                                                                      *}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00017}00017 \textcolor{comment}{************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00018}00018 \textcolor{preprocessor}{\#include "{}xcmxse.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00019}00019 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcstor.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00020}00020 \textcolor{preprocessor}{}\textcolor{preprocessor}{\#include "{}xcpoin.inc"{}}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00021}00021 \textcolor{preprocessor}{}\textcolor{comment}{* -\/-\/-\/> Pointer to first partial inelastic channel and to (n,n')}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00022}00022 \textcolor{comment}{*      "{}columns"{} in IMTABL index table}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00023}00023       parameter(ninp=1+nreinf*5+1,nine=1+nreinf*2+1)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00024}00024       dimension hinfo(nadinf), vr(2)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00025}00025       equivalence(vr(1), freje)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00026}00026       \textcolor{keywordtype}{CHARACTER*11} XNELNA, CHELNA}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00027}00027 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00028}00028 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00029}00029 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00030}00030 \textcolor{comment}{* -\/-\/-\/> Prepare for failure}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00031}00031       ep = e}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00032}00032       secn = 0.}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00033}00033       n = 0}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00034}00034 \textcolor{comment}{* -\/-\/-\/> Get normalisation cross section}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00035}00035       istart=imtabl(nine,ipmat)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00036}00036       ilengt=imtabl(nine+1,ipmat)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00037}00037       \textcolor{keywordflow}{IF}(ilengt.LE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00038}00038 \textcolor{comment}{* -\/-\/-\/> Something wrong, no cross section}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00039}00039          chelna=xnelna(imtabl(1,ipmat))}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00040}00040          \textcolor{keyword}{WRITE}(6,10000)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00041}00041 10000 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' **** XNNINP: (n,n'}\textcolor{stringliteral}{') not present for '},a)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00042}00042          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00043}00043       \textcolor{keywordflow}{ELSE} \textcolor{keywordflow}{IF}(e.LE.xstore(istart+1)) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00044}00044 \textcolor{comment}{* -\/-\/-\/> Below threshold for (n,n') (?)}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00045}00045          chelna=xnelna(imtabl(1,ipmat))}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00046}00046          \textcolor{keyword}{WRITE}(6,10100) e, chelna, xstore(istart+1)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00047}00047          \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00048}00048       \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00049}00049 \textcolor{comment}{* -\/-\/-\/> Interpolate total (n,n') Cross Section}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00050}00050          \textcolor{keyword}{CALL }xnbint(istart,ilengt,e,secine)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00051}00051 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00052}00052 \textcolor{comment}{* -\/-\/-\/> Here do sampling}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00053}00053    10 \textcolor{keyword}{CALL }xnrand(vr,1)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00054}00054 \textcolor{comment}{* -\/-\/-\/> Test value}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00055}00055       freje=freje*secine}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00056}00056 \textcolor{comment}{* -\/-\/-\/> Running sum}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00057}00057       sectot=0.0}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00058}00058 \textcolor{comment}{* -\/-\/-\/> Load pointer to discrete inelastic channels}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00059}00059       irpoin=ninp}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00060}00060       \textcolor{keywordflow}{DO} 20 jexcit=1,40}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00061}00061 \textcolor{comment}{* -\/-\/-\/> Move pointer to next inelastic channel}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00062}00062          irpoin=irpoin+3}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00063}00063 \textcolor{comment}{* -\/-\/-\/> Get start and length of data}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00064}00064          istart=imtabl(irpoin  ,ipmat)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00065}00065          ilengt=imtabl(irpoin+1,ipmat)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00066}00066          \textcolor{keywordflow}{IF}(ilengt.GT.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00067}00067 \textcolor{comment}{* -\/-\/-\/> If channel is there do interpolation}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00068}00068             \textcolor{keyword}{CALL }xnbint(istart,ilengt,e,sec)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00069}00069 \textcolor{comment}{* -\/-\/-\/> Update running sum}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00070}00070             sectot=sectot+sec}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00071}00071 \textcolor{comment}{* -\/-\/-\/> Test again rejection value}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00072}00072             \textcolor{keywordflow}{IF}(sectot.GE.freje) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00073}00073 \textcolor{comment}{* -\/-\/-\/> This channel is sampled, load variables and return}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00074}00074                n=jexcit}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00075}00075                secn=sec}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00076}00076                ep=e+hmtabl(irpoin+2,ipmat)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00077}00077                \textcolor{keywordflow}{GOTO} 999}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00078}00078 \textcolor{keywordflow}{            ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00079}00079 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00080}00080    20 \textcolor{keywordflow}{CONTINUE}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00081}00081 \textcolor{comment}{* -\/-\/-\/> No channel sampled, chose continuum}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00082}00082       irpoin=irpoin+3}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00083}00083 \textcolor{comment}{* -\/-\/-\/> Get start and length of data}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00084}00084       istart=imtabl(irpoin  ,ipmat)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00085}00085       ilengt=imtabl(irpoin+1,ipmat)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00086}00086       \textcolor{keyword}{CALL }xnbint(istart,ilengt,e,secn)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00087}00087       n=41}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00088}00088 \textcolor{comment}{* -\/-\/-\/> Try to sample from the energy distributio in the database}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00089}00089       \textcolor{keyword}{CALL }xne2ep(imtabl(1,ipmat),5,e,ep,1,ilen)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00090}00090       \textcolor{keywordflow}{IF}(ilen.LE.0) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00091}00091 \textcolor{comment}{* -\/-\/-\/> No energy distribution in the database, sample with an evaporation}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00092}00092 \textcolor{comment}{*      spectrum with average at 1/2 of the available energy}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00093}00093          ncount=0}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00094}00094    30    \textcolor{keyword}{CALL }xnrand(vr,2)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00095}00095 \textcolor{comment}{* -\/-\/-\/> Sample evaporation spectrum}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00096}00096          ep=-\/0.25*(e+hmtabl(irpoin+2,ipmat))*log(vr(1)*vr(2))}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00097}00097          ncount=ncount+1}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00098}00098          \textcolor{keywordflow}{IF}(ncount.LE.20) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00099}00099             \textcolor{keywordflow}{IF}(ep.GT.e+hmtabl(irpoin+2,ipmat)) \textcolor{keywordflow}{GOTO} 30}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00100}00100          \textcolor{keywordflow}{ELSE}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00101}00101 \textcolor{comment}{* -\/-\/-\/> Could not conserve energy in 20 trials,}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00102}00102 \textcolor{comment}{*      sample from an uniform distribution}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00103}00103             ep=vr(1)*(e+hmtabl(irpoin+2,ipmat))}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00104}00104 \textcolor{comment}{* -\/-\/-\/> If everything else fails, output a thermal neutron}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00105}00105             \textcolor{keywordflow}{IF}(ep.LE.0.) ep=0.025}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00106}00106 \textcolor{keywordflow}{         ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00107}00107 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00108}00108 \textcolor{comment}{* -\/-\/-\/> Sanity check on EP}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00109}00109       \textcolor{keywordflow}{IF}(ep.LE.0.) \textcolor{keywordflow}{THEN}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00110}00110          \textcolor{keyword}{WRITE}(6,\textcolor{stringliteral}{'('}\textcolor{stringliteral}{' *** XNNINP: EP = '}\textcolor{stringliteral}{',G10.3,'}\textcolor{stringliteral}{' from XNE2EP'}\textcolor{stringliteral}{')'}) ep}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00111}00111          \textcolor{keywordflow}{GOTO} 10}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00112}00112 \textcolor{keywordflow}{      ENDIF}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00113}00113 \textcolor{comment}{* -\/-\/-\/> Load cross section for output}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00114}00114       secn=sec}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00115}00115 \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00116}00116 10100 \textcolor{keyword}{FORMAT}(\textcolor{stringliteral}{' *** XNNINP: Energy '},e10.3,\textcolor{stringliteral}{' is below threshold for'},}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00117}00117      +\textcolor{stringliteral}{' (n,n'}\textcolor{stringliteral}{') on '},a,\textcolor{stringliteral}{' = '},e10.3)}
+\DoxyCodeLine{\Hypertarget{xnninp_8_f_source_l00118}00118   999 \textcolor{keyword}{END}}
+
+\end{DoxyCode}
